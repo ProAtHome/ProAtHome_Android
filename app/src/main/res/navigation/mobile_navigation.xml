@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_inicio">
+
+    <fragment
+        android:id="@+id/nav_inicio"
+        android:name="com.proathome.ui.inicio.InicioFragment"
+        android:label="@string/menu_inicio"
+        tools:layout="@layout/fragment_inicio" />
+    <fragment
+        android:id="@+id/nav_editarPerfil"
+        android:name="com.proathome.ui.editarPerfil.EditarPerfilFragment"
+        android:label="@string/menu_editarPerfil"
+        tools:layout="@layout/fragment_editar_perfil" />
+
+    <fragment
+        android:id="@+id/nav_sesiones"
+        android:name="com.proathome.ui.sesiones.SesionesFragment"
+        android:label="@string/menu_sesiones"
+        tools:layout="@layout/fragment_sesiones" />
+
+    <fragment
+        android:id="@+id/nav_ruta"
+        android:name="com.proathome.ui.ruta.RutaFragment"
+        android:label="@string/menu_ruta"
+        tools:layout="@layout/fragment_ruta" />
+
+    <fragment
+        android:id="@+id/nav_cerrarSesion"
+        android:name="com.proathome.ui.cerrarSesion.CerrarSesionFragment"
+        android:label="@string/menu_cerrarSesion"
+        tools:layout="@layout/fragment_cerrar_sesion" />
+
+</navigation>
