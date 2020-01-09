@@ -14,6 +14,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.proathome.adapters.ComponentAdapter;
 import com.proathome.controladores.AdminSQLiteOpenHelper;
+import com.proathome.utils.Constants;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -32,7 +33,7 @@ public class inicioEstudiante extends AppCompatActivity{
     private TextView correoTV, contraTV;
     private Bitmap loadedImage;
     private ImageView foto;
-    private String imageHttpAddress = "http://192.168.100.24/ProAtHome/assets/img/fotoPerfil/";
+    private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
 
     private ComponentAdapter myAdapter;
 

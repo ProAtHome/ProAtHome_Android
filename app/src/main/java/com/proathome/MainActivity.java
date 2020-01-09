@@ -5,17 +5,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.ConditionVariable;
 import android.view.View;
 import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.controladores.AdminSQLiteOpenHelper;
 import com.proathome.controladores.ServicioTaskLoginEstudiante;
+import com.proathome.utils.Constants;
 
 public class MainActivity extends AppCompatActivity {
 
     private Intent intent;
     private TextInputEditText correoET, contraET;
-    private final String iniciarSesionREST = "http://192.168.100.24:8080/ProAtHome/apiProAtHome/cliente/sesionCliente";
+    private final String iniciarSesionREST = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/sesionCliente";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

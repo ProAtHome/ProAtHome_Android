@@ -28,7 +28,7 @@ public class StaticActivity extends AppCompatActivity {
         if(savedInstanceState == null){
 
             nameFragment = getIntent().getStringExtra(Constants.ARG_NAME);
-            CommonUtils.setFragment(this, nameFragment, R.id.content_static);
+            CommonUtils.setFragment(this, nameFragment, R.id.content_static, "1", "1", "1", "1", "1", "1", "1", "1", "1", "1");
 
         }
 

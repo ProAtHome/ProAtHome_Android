@@ -1,32 +1,22 @@
 package com.proathome.controladores;
 
 import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.JsonReader;
 import android.widget.Toast;
-
-import com.proathome.fragments.ButtonFragment;
+import com.proathome.fragments.DetallesFragment;
 import com.proathome.ui.inicio.InicioFragment;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String> {
@@ -157,19 +147,9 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
                     for (int i = 0; i < jsonArray.length(); i++){
 
                         JSONObject object = jsonArray.getJSONObject(i);
-
-
-                        InicioFragment.myAdapter.add(ButtonFragment.getmInstance(String.valueOf(object.get("nivel")), String.valueOf(object.get("tipoClase")), String.valueOf(object.get("horario"))));
-
-                        /*
-                        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(httpContext, "sesion", null, 1);
-                        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-                        ContentValues registro = new ContentValues();
-                        registro.put("id", i);
-                        registro.put("idGeneral", "1");
-                        registro.put("nivel", String.valueOf(object.get("nivel")));
-                        baseDeDatos.insert("clases", null, registro);
-                        baseDeDatos.close();*/
+                        InicioFragment.myAdapter.add(DetallesFragment.getmInstance(String.valueOf(object.getInt("idsesiones")), object.getString("nivel"), object.getString("tipoClase"), object.getString("horario"),
+                                object.getString("profesor"), object.getString("lugar"), object.getString("tiempo"), object.getString("extras"), String.valueOf(object.getDouble("latitud")),
+                                String.valueOf(object.getDouble("longitud"))));
 
                     }
 
@@ -188,4 +168,5 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
         }
 
     }
+
 }

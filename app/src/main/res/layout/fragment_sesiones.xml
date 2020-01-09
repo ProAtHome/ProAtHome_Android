@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/fondois"
+    android:id="@+id/scrollMap"
     android:fillViewport="true">
 
     <RelativeLayout
@@ -19,7 +20,7 @@
                 xmlns:map="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/maps"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
+                class="com.proathome.controladores.WorkaroundMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
                 android:layout_marginTop="40dp"
@@ -202,5 +203,4 @@
 
 
 </ScrollView>
-
 

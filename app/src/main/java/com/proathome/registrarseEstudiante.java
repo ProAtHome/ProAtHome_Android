@@ -11,6 +11,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.proathome.controladores.ServicioTaskRegistroEstudiante;
+import com.proathome.utils.Constants;
+
 import java.util.Calendar;
 
 public class registrarseEstudiante extends AppCompatActivity {
@@ -21,7 +23,7 @@ public class registrarseEstudiante extends AppCompatActivity {
     public Calendar calendar = Calendar.getInstance();
     private EditText nombreET, fechaET, edadET, correoET, contraET;
     private ServicioTaskRegistroEstudiante servicioTaskRegistroEstudiante;
-    private final String registrarEstudianteREST = "http://192.168.100.24:8080/ProAtHome/apiProAtHome/cliente/agregarCliente";
+    private final String registrarEstudianteREST = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/agregarCliente";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

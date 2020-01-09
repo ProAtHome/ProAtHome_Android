@@ -1,14 +1,31 @@
 package com.proathome.utils;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.proathome.fragments.ButtonFragment;
+import com.proathome.fragments.DetallesFragment;
 
 public class CommonUtils {
 
-    public static void setFragment(AppCompatActivity activity, String nameFragment, int contentRes){
+    private static String nivelS = "", tipoClaseS = "", horarioS = "", profesorS = "", lugarS = "",  tiempoS = "", observacionesS = "";
+    private static String idClaseS;
+    private static String latitudS, longitudS;
 
+    public static void setFragment(AppCompatActivity activity, String nameFragment, int contentRes, String idClase, String nivel, String tipoClase, String horario, String profesor,
+                                   String lugar, String tiempo, String observaciones,  String latitud,  String longitud){
+
+        idClaseS = idClase;
+        tipoClaseS = tipoClase;
+        horarioS = horario;
+        profesorS = profesor;
+        lugarS = lugar;
+        tiempoS = tiempo;
+        nivelS = nivel;
+        observacionesS = observaciones;
+        latitudS = latitud;
+        longitudS = longitud;
         Fragment fragment = getFragmentById(nameFragment);
         activity.getSupportFragmentManager().beginTransaction().add(contentRes, fragment).commit();
 
@@ -16,12 +33,24 @@ public class CommonUtils {
 
     private static Fragment getFragmentById(String nameFragment) {
 
-        Fragment fragment = null;
+        DetallesFragment fragment = null;
 
         switch (nameFragment) {
 
-            case ButtonFragment.TAG:
-                fragment = new ButtonFragment();
+            case DetallesFragment.TAG:
+                fragment = new DetallesFragment();
+                Bundle bun = new Bundle();
+                bun.putString("idClase", idClaseS);
+                bun.putString("tipoClase", tipoClaseS);
+                bun.putString("horario", horarioS);
+                bun.putString("profesor", profesorS);
+                bun.putString("lugar", lugarS);
+                bun.putString("tiempo", tiempoS);
+                bun.putString("nivel", nivelS);
+                bun.putString("observaciones", observacionesS);
+                bun.putString("latitud", latitudS);
+                bun.putString("longitud", longitudS);
+                fragment.setArguments(bun);
                 break;
 
         }

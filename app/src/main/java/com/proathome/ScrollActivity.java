@@ -27,8 +27,17 @@ public class ScrollActivity extends AppCompatActivity {
         if(savedInstanceState == null){
 
             nameFragment = getIntent().getStringExtra(Constants.ARG_NAME);
-            System.out.println(nameFragment);
-            CommonUtils.setFragment(this, nameFragment, R.id.content_scroll);
+            String nivel= getIntent().getStringExtra("nivel");
+            String idClase= getIntent().getStringExtra("idClase");
+            String profesor = getIntent().getStringExtra("profesor");
+            String lugar = getIntent().getStringExtra("lugar");
+            String tiempo = getIntent().getStringExtra("tiempo");
+            String observaciones = getIntent().getStringExtra("observaciones");
+            String tipoClase = getIntent().getStringExtra("tipoClase");
+            String horario = getIntent().getStringExtra("horario");
+            String latitud = getIntent().getStringExtra("latitud");
+            String longitud = getIntent().getStringExtra("longitud");
+            CommonUtils.setFragment(this, nameFragment, R.id.content_scroll, idClase, nivel, tipoClase, horario, profesor, lugar, tiempo, observaciones, latitud, longitud);
 
         }
 
@@ -41,6 +50,7 @@ public class ScrollActivity extends AppCompatActivity {
         }
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
