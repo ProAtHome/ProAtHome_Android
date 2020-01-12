@@ -26,16 +26,11 @@ public class registrarseProfesor extends AppCompatActivity {
     private int mDayIni, mMonthIni, mYearIni, sDayIni, sMonthIni, sYearIni;
     public static final int DATE_ID = 0;
     public Calendar calendar = Calendar.getInstance();
-    @BindView(R.id.nombreET_RP)
-    private EditText nombreET;
-    @BindView(R.id.fechaET_RP)
-    private EditText fechaET;
-    @BindView(R.id.edadET_RP)
-    private EditText edadET;
-    @BindView(R.id.correoET_RP)
-    private EditText correoET;
-    @BindView(R.id.contraET_RP)
-    private EditText contraET;
+    EditText nombreET;
+    EditText fechaET;
+    EditText edadET;
+    EditText correoET;
+    EditText contraET;
     private ServicioTaskRegistroProfesor servicioTaskRegistroProfesor;
     private final String registrarProfesorREST = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/agregarProfesor";
 
@@ -43,10 +38,15 @@ public class registrarseProfesor extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registrarse_estudiante);
+        setContentView(R.layout.activity_registrarse_profesor);
         sDayIni = calendar.get(Calendar.DAY_OF_MONTH);
         sMonthIni = calendar.get(Calendar.MONTH);
         sYearIni = calendar.get(Calendar.YEAR);
+        nombreET = (EditText)findViewById(R.id.nombreET_RP);
+        fechaET = (EditText)findViewById(R.id.fechaET_RP);
+        edadET = (EditText)findViewById(R.id.edadET_RP);
+        correoET = (EditText)findViewById(R.id.correoET_RP);
+        contraET = (EditText)findViewById(R.id.contraET_RP);
 
     }
 
@@ -109,7 +109,7 @@ public class registrarseProfesor extends AppCompatActivity {
 
     }
 
-    public void verDatePicker(View view){
+    public void verDatePickerP(View view){
 
         showDialog(DATE_ID);
 
@@ -137,7 +137,7 @@ public class registrarseProfesor extends AppCompatActivity {
             servicioTaskRegistroProfesor = new ServicioTaskRegistroProfesor(this, registrarProfesorREST, nombre, fecha, edad, correo, contrasena);
             servicioTaskRegistroProfesor.execute();
 
-            intent = new Intent(this, MainActivity.class);
+            intent = new Intent(this, loginProfesor.class);
             startActivity(intent);
             finish();
 

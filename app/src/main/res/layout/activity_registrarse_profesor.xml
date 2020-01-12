@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/fondoregis"
-    tools:context=".registrarseEstudiante">
+    tools:context=".registrarseProfesor">
 
     <TextView
         android:id="@+id/registrarsePTV"
@@ -15,7 +15,7 @@
         android:textSize="20dp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
-        android:text="Registrarse (Estudiante)"
+        android:text="Registrarse (Profesor)"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,7 +72,7 @@
                 android:id="@+id/btnFechaP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="verDatePicker"
+                android:onClick="verDatePickerP"
                 android:text="Fecha de Nacimiento"
                 android:textColor="@android:color/black"/>
 

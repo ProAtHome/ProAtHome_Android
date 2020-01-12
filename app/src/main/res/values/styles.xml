@@ -20,4 +20,13 @@
 
     <color name="colorPersonal">#006064</color>
     <color name="colorPersonalDark">#00838F</color>
+
+    <style name="MyTheme.DayNight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="MyTheme.DayNight.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="MyTheme.DayNight.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

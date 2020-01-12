@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-
     }
 
     public void soyProfesor(View view){
