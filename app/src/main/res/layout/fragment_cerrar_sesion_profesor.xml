@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/text_cerrarSesion"
+        android:id="@+id/text_cerrarSesionP"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -27,5 +27,5 @@
         android:text="Cerrar Sesión"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_cerrarSesion" />
+        app:layout_constraintTop_toBottomOf="@+id/text_cerrarSesionP" />
 </androidx.constraintlayout.widget.ConstraintLayout>

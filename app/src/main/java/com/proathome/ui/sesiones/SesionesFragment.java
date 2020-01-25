@@ -82,7 +82,6 @@ public class SesionesFragment extends Fragment implements OnMapReadyCallback {
 
                     }else{
 
-                        System.out.println("No hay sesión.");
                         baseDeDatos.close();
 
                     }

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.controladores.AdminSQLiteOpenHelper;
+import com.proathome.controladores.AdminSQLiteOpenHelperProfesor;
 import com.proathome.controladores.ServicioTaskLoginEstudiante;
 import com.proathome.controladores.ServicioTaskLoginProfesor;
 import com.proathome.utils.Constants;
@@ -29,9 +30,9 @@ public class loginProfesor extends AppCompatActivity {
         correoET =  findViewById(R.id.correoET_ISP);
         contraET =  findViewById(R.id.contraET_ISP);
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesion", null, 1);
+        AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(this, "sesionProfesor", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT nombre, correo, foto FROM sesion WHERE id = " + "1", null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT nombre, correo, foto FROM sesionProfesor WHERE id = " + "1", null);
 
         if(fila.moveToFirst()){
 

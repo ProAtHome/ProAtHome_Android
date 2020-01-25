@@ -14,6 +14,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.proathome.adapters.ComponentAdapter;
 import com.proathome.controladores.AdminSQLiteOpenHelper;
+import com.proathome.controladores.ServicioTaskPerfilEstudiante;
 import com.proathome.utils.Constants;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,8 +35,9 @@ public class inicioEstudiante extends AppCompatActivity{
     private Bitmap loadedImage;
     private ImageView foto;
     private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
-
+    private String linkRESTCargarPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/perfilCliente";
     private ComponentAdapter myAdapter;
+    private ServicioTaskPerfilEstudiante perfilEstudiante;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,17 +83,20 @@ public class inicioEstudiante extends AppCompatActivity{
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT nombre, correo, foto FROM sesion WHERE id = " + "1", null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante, nombre, correo, foto FROM sesion WHERE id = " + "1", null);
 
         if(fila.moveToFirst()){
 
-            contraTV.setText(fila.getString(0));
-            correoTV.setText(fila.getString(1));
+            int idEstudiante = fila.getInt(0);
+
+
+            contraTV.setText(fila.getString(1));
+            correoTV.setText(fila.getString(2));
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
 
-                    downloadFile(imageHttpAddress + fila.getString(2));
+                    downloadFile(imageHttpAddress + fila.getString(3));
 
                 }
             });

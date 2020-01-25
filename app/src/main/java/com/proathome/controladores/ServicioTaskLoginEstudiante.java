@@ -162,7 +162,6 @@ public class ServicioTaskLoginEstudiante extends AsyncTask<Void, Void, String> {
 
                 Intent intent = new Intent(httpContext, inicioEstudiante.class);
                 httpContext.startActivity(intent);
-                System.out.println(resultadoapi);
 
             }else{
 

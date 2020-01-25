@@ -180,5 +180,6 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="menu_material">Material</string>
+    <string name="cambiar_foto">Cambiar foto</string>
 
 </resources>

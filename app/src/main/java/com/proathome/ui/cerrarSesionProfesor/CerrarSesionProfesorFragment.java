@@ -23,7 +23,7 @@ public class CerrarSesionProfesorFragment extends Fragment {
         cerrarSesionProfesorViewModel =
                 ViewModelProviders.of(this).get(CerrarSesionProfesorViewModel.class);
         View root = inflater.inflate(R.layout.fragment_cerrar_sesion_profesor, container, false);
-        final TextView textView = root.findViewById(R.id.text_cerrarSesion);
+        final TextView textView = root.findViewById(R.id.text_cerrarSesionP);
         cerrarSesionProfesorViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

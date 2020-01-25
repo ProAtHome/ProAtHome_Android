@@ -49,7 +49,6 @@ public class InicioFragment extends Fragment {
 
         } else {
 
-            System.out.println("No hay sesión.");
             baseDeDatos.close();
 
         }

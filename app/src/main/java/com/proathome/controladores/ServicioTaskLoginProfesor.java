@@ -8,9 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.JsonReader;
 import android.widget.Toast;
-
-import com.proathome.inicioEstudiante;
-
+import com.proathome.inicioProfesor;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +28,7 @@ public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
     public String correo = "";
     public String foto = "";
     public String nombre = "";
-    public int idEstudiante;
+    public int idProfesor;
 
     public ServicioTaskLoginProfesor(Context ctx, String linkAPI, String correo, String contrasena){
 
@@ -40,6 +38,7 @@ public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
         this.linkrequestAPI=linkAPI + "/" + correo + "/" + contrasena;
 
     }
+
     @Override
     protected void onPreExecute() {
 
@@ -85,9 +84,9 @@ public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
 
                         nombre = jsonReader.nextString();
 
-                    }else if(key.equals("idCliente")){
+                    }else if(key.equals("idProfesor")){
 
-                        idEstudiante = jsonReader.nextInt();
+                        idProfesor = jsonReader.nextInt();
 
                     }else {
 
@@ -148,21 +147,21 @@ public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
 
             if(!resultadoapi.equals("null")){
 
-                AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(httpContext, "sesion", null, 1);
+                AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(httpContext, "sesionProfesor", null, 1);
                 SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
                 String correoS = correo;
                 String fotoS = foto;
                 String nombreS = nombre;
                 ContentValues registro = new ContentValues();
                 registro.put("id", "1");
-                registro.put("idEstudiante", idEstudiante);
+                registro.put("idProfesor", idProfesor);
                 registro.put("nombre", nombreS);
                 registro.put("correo" , correoS);
                 registro.put("foto", fotoS);
-                baseDeDatos.insert("sesion", null, registro);
+                baseDeDatos.insert("sesionProfesor", null, registro);
                 baseDeDatos.close();
 
-                Intent intent = new Intent(httpContext, inicioEstudiante.class);
+                Intent intent = new Intent(httpContext, inicioProfesor.class);
                 httpContext.startActivity(intent);
                 System.out.println(resultadoapi);
 
