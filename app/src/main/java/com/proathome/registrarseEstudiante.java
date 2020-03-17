@@ -10,10 +10,16 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.controladores.ServicioTaskRegistroEstudiante;
 import com.proathome.utils.Constants;
 
 import java.util.Calendar;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class registrarseEstudiante extends AppCompatActivity {
 
@@ -21,23 +27,29 @@ public class registrarseEstudiante extends AppCompatActivity {
     private int mDayIni, mMonthIni, mYearIni, sDayIni, sMonthIni, sYearIni;
     public static final int DATE_ID = 0;
     public Calendar calendar = Calendar.getInstance();
-    private EditText nombreET, fechaET, edadET, correoET, contraET;
     private ServicioTaskRegistroEstudiante servicioTaskRegistroEstudiante;
     private final String registrarEstudianteREST = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/agregarCliente";
+    @BindView(R.id.nombreET_R)
+    TextInputEditText nombreET;
+    @BindView(R.id.fechaET_R)
+    TextInputEditText fechaET;
+    @BindView(R.id.edadET_R)
+    TextInputEditText edadET;
+    @BindView(R.id.correoET_R)
+    TextInputEditText correoET;
+    @BindView(R.id.contraET_R)
+    TextInputEditText contrasenaET;
+    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrarse_estudiante);
+        mUnbinder = ButterKnife.bind(this);
         sDayIni = calendar.get(Calendar.DAY_OF_MONTH);
         sMonthIni = calendar.get(Calendar.MONTH);
         sYearIni = calendar.get(Calendar.YEAR);
-        nombreET = (EditText)findViewById(R.id.nombreET_R);
-        fechaET = (EditText)findViewById(R.id.fechaET_R);
-        edadET = (EditText)findViewById(R.id.edadET_R);
-        correoET = (EditText)findViewById(R.id.correoET_R);
-        contraET = (EditText)findViewById(R.id.contraET_R);
 
     }
 
@@ -120,13 +132,13 @@ public class registrarseEstudiante extends AppCompatActivity {
 
         if(!nombreET.getText().toString().trim().equalsIgnoreCase("") && !fechaET.getText().toString().trim().equalsIgnoreCase("")
            && !edadET.getText().toString().trim().equalsIgnoreCase("") && !correoET.getText().toString().trim().equalsIgnoreCase("")
-           && !contraET.getText().toString().trim().equalsIgnoreCase("")){
+           && !contrasenaET.getText().toString().trim().equalsIgnoreCase("")){
 
             String nombre = String.valueOf(nombreET.getText());
             String fecha = String.valueOf(fechaET.getText());
             int edad = Integer.parseInt(String.valueOf(edadET.getText()));
             String correo = String.valueOf(correoET.getText());
-            String contrasena = String.valueOf(contraET.getText());
+            String contrasena = String.valueOf(contrasenaET.getText());
             servicioTaskRegistroEstudiante = new ServicioTaskRegistroEstudiante(this, registrarEstudianteREST, nombre, fecha, edad, correo, contrasena);
             servicioTaskRegistroEstudiante.execute();
 
@@ -142,4 +154,11 @@ public class registrarseEstudiante extends AppCompatActivity {
 
     }//Fin método registrar.
 
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+        mUnbinder.unbind();
+
+    }
 }

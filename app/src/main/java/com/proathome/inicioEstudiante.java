@@ -3,18 +3,14 @@ package com.proathome;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
-import com.proathome.adapters.ComponentAdapter;
 import com.proathome.controladores.AdminSQLiteOpenHelper;
-import com.proathome.controladores.ServicioTaskPerfilEstudiante;
+import com.proathome.controladores.CargarImagenTask;
 import com.proathome.utils.Constants;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,39 +19,28 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class inicioEstudiante extends AppCompatActivity{
 
     private AppBarConfiguration mAppBarConfiguration;
     private Intent intent;
-    private TextView correoTV, contraTV;
-    private Bitmap loadedImage;
-    private ImageView foto;
     private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
-    private String linkRESTCargarPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/perfilCliente";
-    private ComponentAdapter myAdapter;
-    private ServicioTaskPerfilEstudiante perfilEstudiante;
+    private TextView correoTV, nombreTV;
+    public static ImageView foto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_estudiante);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         View view = navigationView.getHeaderView(0);
-        correoTV = (TextView)view.findViewById(R.id.correoEstudianteTV);
-        contraTV = (TextView)view.findViewById(R.id.nombreEstudianteTV);
-        foto = (ImageView) view.findViewById(R.id.fotoIV);
-                // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        nombreTV = view.findViewById(R.id.nombreEstudianteTV);
+        correoTV = view.findViewById(R.id.correoEstudianteTV);
+        foto = view.findViewById(R.id.fotoIV);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_inicio, R.id.nav_editarPerfil, R.id.nav_sesiones,
                 R.id.nav_ruta, R.id.nav_cerrarSesion)
@@ -87,21 +72,10 @@ public class inicioEstudiante extends AppCompatActivity{
 
         if(fila.moveToFirst()){
 
-            int idEstudiante = fila.getInt(0);
-
-
-            contraTV.setText(fila.getString(1));
+            nombreTV.setText(fila.getString(1));
             correoTV.setText(fila.getString(2));
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-
-                    downloadFile(imageHttpAddress + fila.getString(3));
-
-                }
-            });
-
-            baseDeDatos.close();
+            CargarImagenTask cargarImagenTask = new CargarImagenTask(imageHttpAddress, fila.getString(3), Constants.FOTO_PERFIL);
+            cargarImagenTask.execute();
 
         }else{
 
@@ -109,19 +83,8 @@ public class inicioEstudiante extends AppCompatActivity{
 
         }
 
-    }
+        baseDeDatos.close();
 
-    public void downloadFile(String imageHttpAddress) {
-        URL imageUrl = null;
-        try {
-            imageUrl = new URL(imageHttpAddress);
-            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
-            conn.connect();
-            loadedImage = BitmapFactory.decodeStream(conn.getInputStream());
-            foto.setImageBitmap(loadedImage);
-        } catch (IOException e) {
-           e.printStackTrace();
-        }
     }
 
     @Override
@@ -146,12 +109,5 @@ public class inicioEstudiante extends AppCompatActivity{
         finish();
 
     }//Fin método cerrarSesion.
-
-    public void mapa(View view){
-
-        Intent intent = new Intent(this, MapsFragment.class);
-        startActivity(intent);
-
-    }
 
 }

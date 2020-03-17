@@ -1,20 +1,18 @@
 package com.proathome.utils;
 
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
 import com.proathome.fragments.DetallesFragment;
 
 public class CommonUtils {
 
     private static String nivelS = "", tipoClaseS = "", horarioS = "", profesorS = "", lugarS = "",  tiempoS = "", observacionesS = "";
-    private static String idClaseS;
-    private static String latitudS, longitudS;
+    private static int idClaseS;
+    private static double latitudS, longitudS;
 
-    public static void setFragment(AppCompatActivity activity, String nameFragment, int contentRes, String idClase, String nivel, String tipoClase, String horario, String profesor,
-                                   String lugar, String tiempo, String observaciones,  String latitud,  String longitud){
+    public static void setFragment(AppCompatActivity activity, String nameFragment, int contentRes, int idClase, String nivel, String tipoClase, String horario, String profesor,
+                                   String lugar, String tiempo, String observaciones,  double latitud,  double longitud){
 
         idClaseS = idClase;
         tipoClaseS = tipoClase;
@@ -40,7 +38,7 @@ public class CommonUtils {
             case DetallesFragment.TAG:
                 fragment = new DetallesFragment();
                 Bundle bun = new Bundle();
-                bun.putString("idClase", idClaseS);
+                bun.putInt("idClase", idClaseS);
                 bun.putString("tipoClase", tipoClaseS);
                 bun.putString("horario", horarioS);
                 bun.putString("profesor", profesorS);
@@ -48,8 +46,8 @@ public class CommonUtils {
                 bun.putString("tiempo", tiempoS);
                 bun.putString("nivel", nivelS);
                 bun.putString("observaciones", observacionesS);
-                bun.putString("latitud", latitudS);
-                bun.putString("longitud", longitudS);
+                bun.putDouble("latitud", latitudS);
+                bun.putDouble("longitud", longitudS);
                 fragment.setArguments(bun);
                 break;
 

@@ -1,34 +1,35 @@
 package com.proathome;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
 import com.google.android.material.textfield.TextInputEditText;
-import com.proathome.controladores.AdminSQLiteOpenHelper;
 import com.proathome.controladores.AdminSQLiteOpenHelperProfesor;
-import com.proathome.controladores.ServicioTaskLoginEstudiante;
 import com.proathome.controladores.ServicioTaskLoginProfesor;
 import com.proathome.utils.Constants;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class loginProfesor extends AppCompatActivity {
 
     private Intent intent;
-    private TextInputEditText correoET, contraET;
     private final String iniciarSesionProfesorREST = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/sesionProfesor";
-
+    @BindView(R.id.correoET_ISP)
+    TextInputEditText correoET;
+    @BindView(R.id.contraET_ISP)
+    TextInputEditText contrasenaET;
+    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_profesor);
-        correoET =  findViewById(R.id.correoET_ISP);
-        contraET =  findViewById(R.id.contraET_ISP);
+        mUnbinder = ButterKnife.bind(this);
 
         AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(this, "sesionProfesor", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
@@ -67,10 +68,10 @@ public class loginProfesor extends AppCompatActivity {
 
     public void entrar(View view){
 
-        if(!correoET.getText().toString().trim().equalsIgnoreCase("") && !contraET.getText().toString().trim().equalsIgnoreCase("")){
+        if(!correoET.getText().toString().trim().equalsIgnoreCase("") && !contrasenaET.getText().toString().trim().equalsIgnoreCase("")){
 
             String correo = String.valueOf(correoET.getText());
-            String contrasena = String.valueOf(contraET.getText());
+            String contrasena = String.valueOf(contrasenaET.getText());
 
             if(correo.equals("admin") && contrasena.equals("admin")){
 
@@ -92,4 +93,11 @@ public class loginProfesor extends AppCompatActivity {
 
     }//Fin método entrar.
 
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+        mUnbinder.unbind();
+
+    }
 }

@@ -7,18 +7,15 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.proathome.controladores.ServicioTaskRegistroEstudiante;
+import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.controladores.ServicioTaskRegistroProfesor;
 import com.proathome.utils.Constants;
-
 import java.util.Calendar;
-
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class registrarseProfesor extends AppCompatActivity {
 
@@ -26,27 +23,29 @@ public class registrarseProfesor extends AppCompatActivity {
     private int mDayIni, mMonthIni, mYearIni, sDayIni, sMonthIni, sYearIni;
     public static final int DATE_ID = 0;
     public Calendar calendar = Calendar.getInstance();
-    EditText nombreET;
-    EditText fechaET;
-    EditText edadET;
-    EditText correoET;
-    EditText contraET;
     private ServicioTaskRegistroProfesor servicioTaskRegistroProfesor;
     private final String registrarProfesorREST = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/agregarProfesor";
+    @BindView(R.id.nombreET_RP)
+    TextInputEditText nombreET;
+    @BindView(R.id.fechaET_RP)
+    TextInputEditText fechaET;
+    @BindView(R.id.edadET_RP)
+    TextInputEditText edadET;
+    @BindView(R.id.correoET_RP)
+    TextInputEditText correoET;
+    @BindView(R.id.contraET_RP)
+    TextInputEditText contrasenaET;
+    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrarse_profesor);
+        mUnbinder = ButterKnife.bind(this);
         sDayIni = calendar.get(Calendar.DAY_OF_MONTH);
         sMonthIni = calendar.get(Calendar.MONTH);
         sYearIni = calendar.get(Calendar.YEAR);
-        nombreET = (EditText)findViewById(R.id.nombreET_RP);
-        fechaET = (EditText)findViewById(R.id.fechaET_RP);
-        edadET = (EditText)findViewById(R.id.edadET_RP);
-        correoET = (EditText)findViewById(R.id.correoET_RP);
-        contraET = (EditText)findViewById(R.id.contraET_RP);
 
     }
 
@@ -127,13 +126,13 @@ public class registrarseProfesor extends AppCompatActivity {
 
         if(!nombreET.getText().toString().trim().equalsIgnoreCase("") && !fechaET.getText().toString().trim().equalsIgnoreCase("")
                 && !edadET.getText().toString().trim().equalsIgnoreCase("") && !correoET.getText().toString().trim().equalsIgnoreCase("")
-                && !contraET.getText().toString().trim().equalsIgnoreCase("")){
+                && !contrasenaET.getText().toString().trim().equalsIgnoreCase("")){
 
             String nombre = String.valueOf(nombreET.getText());
             String fecha = String.valueOf(fechaET.getText());
             int edad = Integer.parseInt(String.valueOf(edadET.getText()));
             String correo = String.valueOf(correoET.getText());
-            String contrasena = String.valueOf(contraET.getText());
+            String contrasena = String.valueOf(contrasenaET.getText());
             servicioTaskRegistroProfesor = new ServicioTaskRegistroProfesor(this, registrarProfesorREST, nombre, fecha, edad, correo, contrasena);
             servicioTaskRegistroProfesor.execute();
 
@@ -148,4 +147,12 @@ public class registrarseProfesor extends AppCompatActivity {
         }
 
     }//Fin método registrar.
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+        mUnbinder.unbind();
+
+    }
 }

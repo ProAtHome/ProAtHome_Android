@@ -18,20 +18,22 @@ import com.proathome.utils.Constants;
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class InicioFragment extends Fragment {
 
     private InicioViewModel inicioViewModel;
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
     public static ComponentAdapter myAdapter;
     private String clasesHttpAddress = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerSesiones/";
     private ServicioTaskSesionesEstudiante sesionesTask;
+    private Unbinder mUnbinder;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         inicioViewModel = ViewModelProviders.of(this).get(InicioViewModel.class);
         View root = inflater.inflate(R.layout.fragment_inicio, container, false);
-        ButterKnife.bind(this, root);
+        mUnbinder = ButterKnife.bind(this, root);
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(),"sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
@@ -69,4 +71,11 @@ public class InicioFragment extends Fragment {
 
     }
 
+    @Override
+    public void onDestroyView() {
+
+        super.onDestroyView();
+        mUnbinder.unbind();
+
+    }
 }

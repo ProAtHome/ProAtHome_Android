@@ -127,7 +127,7 @@ public class ServicioTaskBancoEstudiante extends AsyncTask<Void, Void, String>{
 
             } else {
 
-                Toast.makeText(httpContext, "Error en el perfil.", Toast.LENGTH_LONG).show();
+                Toast.makeText(httpContext, "Sin datos bancarios.", Toast.LENGTH_LONG).show();
 
             }
 

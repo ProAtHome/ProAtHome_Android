@@ -95,6 +95,7 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
                 StringBuffer sb= new StringBuffer("");
                 String linea="";
                 while ((linea=in.readLine())!= null){
+
                     sb.append(linea);
                     break;
 
@@ -129,8 +130,6 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
         progressDialog.dismiss();
         resultadoapi=s;
 
-        System.out.println(resultadoapi);
-
         if(resultadoapi == null){
 
             Toast.makeText(httpContext, "Error del servidor.", Toast.LENGTH_LONG).show();
@@ -139,7 +138,6 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
 
             if(!resultadoapi.equals("null")){
 
-                System.out.println("Se muestran...");
                 try{
 
                     JSONObject jsonObject = new JSONObject(resultadoapi);
@@ -147,9 +145,9 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
                     for (int i = 0; i < jsonArray.length(); i++){
 
                         JSONObject object = jsonArray.getJSONObject(i);
-                        InicioFragment.myAdapter.add(DetallesFragment.getmInstance(String.valueOf(object.getInt("idsesiones")), object.getString("nivel"), object.getString("tipoClase"), object.getString("horario"),
-                                object.getString("profesor"), object.getString("lugar"), object.getString("tiempo"), object.getString("extras"), String.valueOf(object.getDouble("latitud")),
-                                String.valueOf(object.getDouble("longitud"))));
+                        InicioFragment.myAdapter.add(DetallesFragment.getmInstance(object.getInt("idsesiones"), object.getString("nivel"), object.getString("tipoClase"), object.getString("horario"),
+                                object.getString("profesor"), object.getString("lugar"), object.getString("tiempo"), object.getString("extras"), object.getDouble("latitud"),
+                                object.getDouble("longitud")));
 
                     }
 

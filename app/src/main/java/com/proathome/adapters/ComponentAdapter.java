@@ -77,8 +77,8 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
         Context context;
 
         String nivel = "", profesor = "", lugar = "", tiempo = "", observaciones = "", tipoClase = "", horario = "";
-        String idClase;
-        String latitud, longitud;
+        int idClase;
+        double latitud, longitud;
 
         View view;
 
@@ -91,8 +91,8 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
 
         }
 
-        void setOnClickListeners(String idClase, String nivel, String profesor, String lugar, String tiempo, String observaciones,
-                                 String tipoClase, String horario, String latitud, String longitud){
+        void setOnClickListeners(int idClase, String nivel, String profesor, String lugar, String tiempo, String observaciones,
+                                 String tipoClase, String horario, double latitud, double longitud){
 
             this.idClase = idClase;
             this.nivel = nivel;

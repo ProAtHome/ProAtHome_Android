@@ -194,7 +194,6 @@
                     app:itemIconTint="@drawable/states_colors_bottom_navigation"
                     app:itemTextColor="@drawable/states_colors_bottom_navigation"
                     app:menu="@menu/menu_bottom_nav" />
-                <!--style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"-->
 
             </FrameLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,11 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -29,11 +26,16 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.controladores.AdminSQLiteOpenHelper;
 import com.proathome.controladores.STRegistroSesionesEstudiante;
 import com.proathome.controladores.WorkaroundMapFragment;
 import com.proathome.utils.Constants;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class SesionesFragment extends Fragment implements OnMapReadyCallback {
 
@@ -41,25 +43,31 @@ public class SesionesFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private Marker perth;
     private ScrollView mScrollView;
-    private Button btnSolicitar;
-    private EditText direccionET, horarioET, tiempoET, tipoET, nivelET, observacionesET;
     private double latitud, longitud;
     private String registrarSesionREST = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/agregarSesion";
+    private Unbinder mUnbinder;
+    @BindView(R.id.text_direccionET)
+    TextInputEditText direccionET;
+    @BindView(R.id.text_horarioET)
+    TextInputEditText horarioET;
+    @BindView(R.id.text_tiempoET)
+    TextInputEditText tiempoET;
+    @BindView(R.id.text_tipoET)
+    TextInputEditText tipoET;
+    @BindView(R.id.text_nivelET)
+    TextInputEditText nivelET;
+    @BindView(R.id.text_observacionesET)
+    TextInputEditText observacionesET;
+    @BindView(R.id.btn_solicitar)
+    MaterialButton btnSolicitar;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         sesionesViewModel = ViewModelProviders.of(this).get(SesionesViewModel.class);
         View root = inflater.inflate(R.layout.fragment_sesiones, container, false);
-        direccionET = (EditText)root.findViewById(R.id.text_direccionET);
-        horarioET = (EditText)root.findViewById(R.id.text_horarioET);
-        tiempoET = (EditText)root.findViewById(R.id.text_tiempoET);
-        tipoET = (EditText)root.findViewById(R.id.text_tipoET);
-        nivelET = (EditText)root.findViewById(R.id.text_nivelET);
-        observacionesET = (EditText)root.findViewById(R.id.text_observacionesET);
-        btnSolicitar = (Button)root.findViewById(R.id.btn_solicitar);
-        btnSolicitar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mUnbinder = ButterKnife.bind(this, root);
+
+        btnSolicitar.setOnClickListener(view -> {
 
                 if(!direccionET.getText().toString().trim().equalsIgnoreCase("") && !horarioET.getText().toString().trim().equalsIgnoreCase("") && !tiempoET.getText().toString().trim().equalsIgnoreCase("")
                     && !tipoET.getText().toString().trim().equalsIgnoreCase("") && !nivelET.getText().toString().trim().equalsIgnoreCase("") && !observacionesET.getText().toString().trim().equalsIgnoreCase("")){
@@ -102,7 +110,6 @@ public class SesionesFragment extends Fragment implements OnMapReadyCallback {
 
                 }
 
-            }
 
         });
 
@@ -191,5 +198,11 @@ public class SesionesFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
+    @Override
+    public void onDestroyView() {
 
+        super.onDestroyView();
+        mUnbinder.unbind();
+
+    }
 }

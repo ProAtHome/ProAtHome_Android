@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.Toast;
 import com.proathome.ui.editarPerfil.EditarPerfilFragment;
-import com.proathome.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -26,7 +25,6 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
     private String respuesta;
     private int idEstudiante;
     private Bitmap loadedImage;
-    private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
 
     public ServicioTaskPerfilEstudiante(Context ctx, String linkAPI, int idEstudiante){
 
@@ -106,7 +104,7 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
 
         super.onPostExecute(s);
         progressDialog.dismiss();
-        resultadoApi=s;
+        resultadoApi = s;
 
         if(resultadoApi == null){
 
@@ -122,18 +120,6 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
                     EditarPerfilFragment.etNombre.setText(jsonObject.getString("nombre"));
                     EditarPerfilFragment.etEdad.setText(jsonObject.getString("edad"));
                     EditarPerfilFragment.etDesc.setText(jsonObject.getString("descripcion"));
-                    AsyncTask.execute(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            try {
-                                downloadFile(imageHttpAddress + jsonObject.getString("foto"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    });
 
                 }catch(JSONException ex){
 
@@ -147,21 +133,6 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
 
             }
 
-        }
-
-    }
-
-    public void downloadFile(String imageHttpAddress) {
-
-        URL imageUrl = null;
-        try {
-            imageUrl = new URL(imageHttpAddress);
-            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
-            conn.connect();
-            loadedImage = BitmapFactory.decodeStream(conn.getInputStream());
-            EditarPerfilFragment.ivFoto.setImageBitmap(loadedImage);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
     }

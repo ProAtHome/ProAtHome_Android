@@ -29,9 +29,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
     private static Component mInstance;
@@ -56,19 +53,19 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     private double longitud = -99.13320799999, latitud = 19.4326077;
 
     public DetallesFragment() {
-        // Required empty public constructor
+
     }
 
-    public static Component getmInstance(String idClase, String nivel, String tipoClase, String horario, String profesor, String lugar, String tiempo, String obs, String lat, String longi){
+    public static Component getmInstance(int idClase, String nivel, String tipoClase, String horario, String profesor, String lugar, String tiempo, String observaciones, double latitud, double longitud){
 
         mInstance = new Component();
         mInstance.setIdClase(idClase);
         mInstance.setProfesor("Profesor Asignado: " + profesor);
         mInstance.setLugar("Lugar - Dirección: " + lugar);
         mInstance.setTiempo("Tiempo de la clase: " + tiempo);
-        mInstance.setObservaciones("Observaciones: " + obs);
-        mInstance.setLatitud(lat);
-        mInstance.setLongitud(longi);
+        mInstance.setObservaciones("Observaciones: " + observaciones);
+        mInstance.setLatitud(latitud);
+        mInstance.setLongitud(longitud);
         mInstance.setNivel("Nivel: " + nivel);
         mInstance.setTipoClase("Tipo de Clase: " + tipoClase);
         mInstance.setHorario("Horario: " + horario);
@@ -85,8 +82,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         View view = inflater.inflate(R.layout.fragment_detalles, container, false);
         mUnbinder = ButterKnife.bind(this, view);
         Bundle bun = getArguments();
-        latitud = Double.parseDouble(bun.getString("latitud"));
-        longitud = Double.parseDouble(bun.getString("longitud"));
+        latitud = bun.getDouble("latitud");
+        longitud = bun.getDouble("longitud");
         profesor.setText(bun.getString("profesor"));
         lugar.setText(bun.getString("lugar"));
         tiempo.setText(bun.getString("tiempo"));

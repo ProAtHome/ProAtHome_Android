@@ -4,36 +4,36 @@ import java.util.Objects;
 
 public class Component {
 
-    private String nivel, tipoClase, horario, profesor, lugar, tiempo, observaciones, idClase;
-    private int photoRes;
-    private String latitud, longitud;
+    private String nivel, tipoClase, horario, profesor, lugar, tiempo, observaciones;
+    private int photoRes, idClase;
+    private double latitud, longitud;
     private int type;
 
     public Component(){
 
     }
 
-    public String getIdClase() {
+    public int getIdClase() {
         return idClase;
     }
 
-    public void setIdClase(String idClase) {
+    public void setIdClase(int idClase) {
         this.idClase = idClase;
     }
 
-    public String getLatitud() {
+    public double getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(String latitud) {
+    public void setLatitud(double latitud) {
         this.latitud = latitud;
     }
 
-    public String getLongitud() {
+    public double getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(String longitud) {
+    public void setLongitud(double longitud) {
         this.longitud = longitud;
     }
 

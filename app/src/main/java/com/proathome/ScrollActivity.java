@@ -28,15 +28,15 @@ public class ScrollActivity extends AppCompatActivity {
 
             nameFragment = getIntent().getStringExtra(Constants.ARG_NAME);
             String nivel= getIntent().getStringExtra("nivel");
-            String idClase= getIntent().getStringExtra("idClase");
+            int idClase = getIntent().getIntExtra("idClase" , 0);
             String profesor = getIntent().getStringExtra("profesor");
             String lugar = getIntent().getStringExtra("lugar");
             String tiempo = getIntent().getStringExtra("tiempo");
             String observaciones = getIntent().getStringExtra("observaciones");
             String tipoClase = getIntent().getStringExtra("tipoClase");
             String horario = getIntent().getStringExtra("horario");
-            String latitud = getIntent().getStringExtra("latitud");
-            String longitud = getIntent().getStringExtra("longitud");
+            double latitud = getIntent().getDoubleExtra("latitud", 0.0);
+            double longitud = getIntent().getDoubleExtra("longitud", 0.0);
             CommonUtils.setFragment(this, nameFragment, R.id.content_scroll, idClase, nivel, tipoClase, horario, profesor, lugar, tiempo, observaciones, latitud, longitud);
 
         }

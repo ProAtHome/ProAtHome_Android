@@ -84,8 +84,8 @@ public class ServicioTaskRegistroEstudiante extends AsyncTask<Void, Void, String
             writer.close();
             os.close();
 
-            int responseCode=urlConnection.getResponseCode();
-            if(responseCode== HttpURLConnection.HTTP_OK){
+            int responseCode = urlConnection.getResponseCode();
+            if(responseCode == HttpURLConnection.HTTP_OK){
 
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 

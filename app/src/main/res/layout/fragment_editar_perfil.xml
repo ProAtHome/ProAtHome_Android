@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_width="match_parent"
+<ScrollView
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@mipmap/fondoinicio"
+    android:padding="@dimen/common_padding_default"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
@@ -14,21 +16,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#D9ECECEC"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:padding="10dp">
 
             <ImageView
-                android:layout_marginTop="60dp"
                 android:id="@+id/ivFoto"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="60dp"
                 android:gravity="center"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:src="@mipmap/defaultfoto">
+                android:src="@mipmap/defaultfoto"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
             </ImageView>
 
             <com.google.android.material.button.MaterialButton
@@ -132,7 +131,7 @@
                     android:id="@+id/etDesc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
+                    android:inputType="textMultiLine"
                     android:textColor="@android:color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -330,7 +329,6 @@
                     app:itemIconTint="@drawable/states_colors_bottom_navigation"
                     app:itemTextColor="@drawable/states_colors_bottom_navigation"
                     app:menu="@menu/menu_bottom_nav_estudiante" />
-                <!--style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"-->
 
             </FrameLayout>
 

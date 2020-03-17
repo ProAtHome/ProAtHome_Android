@@ -1,7 +1,6 @@
 package com.proathome;
 
 import android.os.Bundle;
-
 import com.proathome.utils.CommonUtils;
 import com.proathome.utils.Constants;
 import androidx.annotation.NonNull;
@@ -28,7 +27,7 @@ public class StaticActivity extends AppCompatActivity {
         if(savedInstanceState == null){
 
             nameFragment = getIntent().getStringExtra(Constants.ARG_NAME);
-            CommonUtils.setFragment(this, nameFragment, R.id.content_static, "1", "1", "1", "1", "1", "1", "1", "1", "1", "1");
+            CommonUtils.setFragment(this, nameFragment, R.id.content_static, 1, "1", "1", "1", "1", "1", "1", "1", 1.0, 1.0);
 
         }
 
