@@ -1,5 +1,6 @@
 package com.proathome.ui.editarPerfil;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,8 +24,13 @@ import com.proathome.controladores.AdminSQLiteOpenHelper;
 import com.proathome.controladores.CargarImagenTask;
 import com.proathome.controladores.ServicioTaskBancoEstudiante;
 import com.proathome.controladores.ServicioTaskPerfilEstudiante;
+import com.proathome.controladores.ServicioTaskUpCuentaEstudiante;
+import com.proathome.controladores.ServicioTaskUpFotoPerfil;
 import com.proathome.controladores.ServicioTaskUpPerfilEstudiante;
 import com.proathome.utils.Constants;
+
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,11 +42,14 @@ public class EditarPerfilFragment extends Fragment {
     private String linkRESTCargarPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/perfilCliente";
     private String linkRESTDatosBancarios = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
     private String linkRESTActualizarPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/informacionPerfil";
+    private String linkRESTActualizarBanco = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/actualizarCuentaCliente";
     private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
+    private String linkFoto = "http://" + Constants.IP +":8080/ProAtHome/FotoPerfil";
     private Unbinder mUnbinder;
     private ServicioTaskPerfilEstudiante perfilEstudiante;
     private ServicioTaskBancoEstudiante bancoEstudiante;
     private ServicioTaskUpPerfilEstudiante actualizarPerfil;
+    private ServicioTaskUpCuentaEstudiante actualizarBanco;
     public static TextInputEditText etNombre;
     public static TextInputEditText etEdad;
     public static TextInputEditText etDesc;
@@ -51,6 +60,8 @@ public class EditarPerfilFragment extends Fragment {
     public static ImageView ivFoto;
     private static final int PICK_IMAGE = 100;
     public static final int RESULT_OK = -1;
+    private int idEstudiante;
+    private String correo;
     private Uri imageUri;
     @BindView(R.id.bottomNavigationPerfil)
     BottomNavigationView bottomNavigationPerfil;
@@ -83,25 +94,31 @@ public class EditarPerfilFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_editar_perfil, container, false);
         mUnbinder = ButterKnife.bind(this, root);
 
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
+        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante, correo FROM sesion WHERE id = " + 1, null);
+
+        if(fila.moveToFirst()){
+
+            this.idEstudiante = fila.getInt(0);
+            this.correo = fila.getString(1);
+
+        }else{
+
+            baseDeDatos.close();
+
+        }
         btnActualizarInfo.setOnClickListener(view -> {
 
+            actualizarPerfil = new ServicioTaskUpPerfilEstudiante(getContext(), linkRESTActualizarPerfil, this.idEstudiante, etNombre.getText().toString(), this.correo, Integer.valueOf(etEdad.getText().toString()), etDesc.getText().toString());
+            actualizarPerfil.execute();
 
-                AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
-                SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-                Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante, correo FROM sesion WHERE id = " + 1, null);
+        });
 
-                if(fila.moveToFirst()){
+        btnActualizarInfoBancaria.setOnClickListener(view -> {
 
-                    int idEstudiante = fila.getInt(0);
-                    String correo = fila.getString(1);
-                    actualizarPerfil = new ServicioTaskUpPerfilEstudiante(getContext(), linkRESTActualizarPerfil, idEstudiante, etNombre.getText().toString(), correo, Integer.valueOf(etEdad.getText().toString()), etDesc.getText().toString());
-                    actualizarPerfil.execute();
-
-                }else{
-
-                    baseDeDatos.close();
-
-                }
+            actualizarBanco = new ServicioTaskUpCuentaEstudiante(getContext(), linkRESTActualizarBanco, this.idEstudiante, etTipoDePago.getText().toString(), etBanco.getText().toString(), etCuenta.getText().toString(), etDireccion.getText().toString());
+            actualizarBanco.execute();
 
         });
 
@@ -221,6 +238,10 @@ public class EditarPerfilFragment extends Fragment {
         if(resultCode == RESULT_OK && requestCode == PICK_IMAGE){
             imageUri = data.getData();
             ivFoto.setImageURI(imageUri);
+            File file = new File(imageUri.toString());
+            ServicioTaskUpFotoPerfil servicioTaskUpFotoPerfil = new ServicioTaskUpFotoPerfil(getContext(), linkFoto, file);
+            servicioTaskUpFotoPerfil.execute();
+
         }
     }
 
