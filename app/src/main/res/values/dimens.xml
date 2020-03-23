@@ -11,4 +11,7 @@
     <dimen name="common_padding_default">16dp</dimen>
     <dimen name="common_padding_nano">2dp</dimen>
     <dimen name="common_padding_min">8dp</dimen>
+    <dimen name="common_padding_middle">24dp</dimen>
+    <dimen name="common_padding_min_min">2dp</dimen>
+    <dimen name="common_padding_min_text">12sp</dimen>
 </resources>

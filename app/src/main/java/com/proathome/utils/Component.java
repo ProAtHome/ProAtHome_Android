@@ -4,13 +4,21 @@ import java.util.Objects;
 
 public class Component {
 
-    private String nivel, tipoClase, horario, profesor, lugar, tiempo, observaciones;
+    private String nivel, tipoClase, horario, profesor, lugar, tiempo, observaciones, actualizado;
     private int photoRes, idClase;
     private double latitud, longitud;
     private int type;
 
     public Component(){
 
+    }
+
+    public String getActualizado() {
+        return actualizado;
+    }
+
+    public void setActualizado(String actualizado) {
+        this.actualizado = actualizado;
     }
 
     public int getIdClase() {

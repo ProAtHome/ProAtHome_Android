@@ -75,15 +75,7 @@ public class ServicioTaskLoginEstudiante extends AsyncTask<Void, Void, String> {
 
                     String key = jsonReader.nextName();
 
-                    if (key.equals("foto")) {
-
-                        foto = jsonReader.nextString();
-
-                    }else if(key.equals("nombre")) {
-
-                        nombre = jsonReader.nextString();
-
-                    }else if(key.equals("idCliente")){
+                    if(key.equals("idCliente")){
 
                         idEstudiante = jsonReader.nextInt();
 
@@ -148,15 +140,10 @@ public class ServicioTaskLoginEstudiante extends AsyncTask<Void, Void, String> {
 
                 AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(httpContext, "sesion", null, 1);
                 SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-                String correoS = correo;
-                String fotoS = foto;
-                String nombreS = nombre;
                 ContentValues registro = new ContentValues();
-                registro.put("id", "1");
+                registro.put("id", 1);
                 registro.put("idEstudiante", idEstudiante);
-                registro.put("nombre", nombreS);
-                registro.put("correo" , correoS);
-                registro.put("foto", fotoS);
+                registro.put("correo", correo);
                 baseDeDatos.insert("sesion", null, registro);
                 baseDeDatos.close();
 

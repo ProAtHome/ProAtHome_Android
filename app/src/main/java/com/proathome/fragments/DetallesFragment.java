@@ -91,6 +91,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         nivel.setText(bun.getString("nivel"));
         tipoClase.setText(bun.getString("tipoClase"));
         horario.setText(bun.getString("horario"));
+
         return view;
 
     }

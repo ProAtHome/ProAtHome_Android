@@ -11,11 +11,11 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.proathome.controladores.AdminSQLiteOpenHelper;
 import com.proathome.controladores.CargarImagenTask;
+import com.proathome.controladores.ServicioTaskPerfilEstudiante;
 import com.proathome.utils.Constants;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,8 +24,11 @@ public class inicioEstudiante extends AppCompatActivity{
 
     private AppBarConfiguration mAppBarConfiguration;
     private Intent intent;
+    private String linkRESTCargarPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/perfilCliente";
     private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
-    private TextView correoTV, nombreTV;
+    public static TextView correoTV, nombreTV;
+    private int idEstudiante = 0;
+    public static String fotoStatic = "";
     public static ImageView foto;
 
     @Override
@@ -54,28 +57,17 @@ public class inicioEstudiante extends AppCompatActivity{
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.inicio_estudiante, menu);
-        return true;
-
-    }
-
-
     public void cargarPerfil(){
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante, nombre, correo, foto FROM sesion WHERE id = " + "1", null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
 
         if(fila.moveToFirst()){
 
-            nombreTV.setText(fila.getString(1));
-            correoTV.setText(fila.getString(2));
-            CargarImagenTask cargarImagenTask = new CargarImagenTask(imageHttpAddress, fila.getString(3), Constants.FOTO_PERFIL);
-            cargarImagenTask.execute();
+            this.idEstudiante = fila.getInt(0);
+            ServicioTaskPerfilEstudiante perfilEstudiante = new ServicioTaskPerfilEstudiante(this, linkRESTCargarPerfil, this.imageHttpAddress, this.idEstudiante, Constants.INFO_PERFIL);
+            perfilEstudiante.execute();
 
         }else{
 
@@ -91,8 +83,8 @@ public class inicioEstudiante extends AppCompatActivity{
     public boolean onSupportNavigateUp() {
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+        cargarPerfil();
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
 
     }
 
@@ -101,7 +93,6 @@ public class inicioEstudiante extends AppCompatActivity{
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
         baseDeDatos.delete("sesion", "id=1", null);
-        baseDeDatos.delete("clases", "idGeneral=1", null);
         baseDeDatos.close();
 
         intent = new Intent(this, MainActivity.class);

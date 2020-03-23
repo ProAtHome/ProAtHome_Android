@@ -6,7 +6,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.Toast;
+
+import com.proathome.inicioEstudiante;
+import com.proathome.inicioProfesor;
 import com.proathome.ui.editarPerfil.EditarPerfilFragment;
+import com.proathome.utils.Constants;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -19,18 +24,19 @@ import java.net.URL;
 public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> {
 
     private Context httpContext;
-    private ProgressDialog progressDialog;
-    private String resultadoApi = "";
+    private String resultadoApi = "", linkFoto;
     private String linkrequestAPI;
     private String respuesta;
-    private int idEstudiante;
+    private int idEstudiante, tipo;
     private Bitmap loadedImage;
 
-    public ServicioTaskPerfilEstudiante(Context ctx, String linkAPI, int idEstudiante){
+    public ServicioTaskPerfilEstudiante(Context ctx, String linkAPI, String linkFoto, int idEstudiante, int tipo){
 
         this.httpContext=ctx;
         this.idEstudiante = idEstudiante;
         this.linkrequestAPI=linkAPI + "/" + this.idEstudiante;
+        this.tipo = tipo;
+        this.linkFoto = linkFoto;
 
     }
 
@@ -38,8 +44,6 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
     protected void onPreExecute() {
 
         super.onPreExecute();
-        progressDialog = ProgressDialog.show(httpContext, "Cargando Perfil.", "Por favor, espere...");
-
     }
 
     @Override
@@ -86,12 +90,23 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
 
             }
 
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        URL imageUrl = null;
+        try {
+            JSONObject json = new JSONObject(result);
+            imageUrl = new URL(this.linkFoto + json.getString("foto"));
+            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
+            conn.connect();
+            loadedImage = BitmapFactory.decodeStream(conn.getInputStream());
+
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
@@ -103,7 +118,6 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
     protected void onPostExecute(String s) {
 
         super.onPostExecute(s);
-        progressDialog.dismiss();
         resultadoApi = s;
 
         if(resultadoApi == null){
@@ -117,9 +131,28 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
                 try{
 
                     JSONObject jsonObject = new JSONObject(resultadoApi);
-                    EditarPerfilFragment.etNombre.setText(jsonObject.getString("nombre"));
-                    EditarPerfilFragment.etEdad.setText(jsonObject.getString("edad"));
-                    EditarPerfilFragment.etDesc.setText(jsonObject.getString("descripcion"));
+                    System.out.println(jsonObject);
+                    if(this.tipo == Constants.FOTO_EDITAR_PERFIL)
+                        EditarPerfilFragment.ivFoto.setImageBitmap(loadedImage);
+                    else if (this.tipo == Constants.FOTO_PERFIL)
+                        inicioEstudiante.foto.setImageBitmap(loadedImage);
+                    else if(this.tipo == Constants.FOTO_PERFIL_PROFESOR)
+                        inicioProfesor.foto.setImageBitmap(loadedImage);
+
+                    if(this.tipo == Constants.INFO_PERFIl_EDITAR){
+
+                        EditarPerfilFragment.etNombre.setText(jsonObject.getString("nombre"));
+                        EditarPerfilFragment.etEdad.setText(jsonObject.getString("edad"));
+                        EditarPerfilFragment.etDesc.setText(jsonObject.getString("descripcion"));
+
+                    }else if(this.tipo == Constants.INFO_PERFIL){
+
+                        inicioEstudiante.nombreTV.setText(jsonObject.getString("nombre"));
+                        inicioEstudiante.correoTV.setText(jsonObject.getString("correo"));
+
+                    }
+
+
 
                 }catch(JSONException ex){
 

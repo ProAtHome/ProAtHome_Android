@@ -128,7 +128,6 @@ public class ServicioTaskRegistroEstudiante extends AsyncTask<Void, Void, String
         super.onPostExecute(s);
         progressDialog.dismiss();
         resultadoapi=s;
-        System.out.println(resultadoapi);
         Toast.makeText(httpContext,resultadoapi,Toast.LENGTH_LONG).show();
 
     }

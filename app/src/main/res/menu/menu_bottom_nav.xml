@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/action_start"
+        android:id="@+id/nuevaSesion"
         android:title="@string/menu_start"
         android:icon="@drawable/ic_add"/>
 
     <item
-        android:id="@+id/action_favorites"
+        android:id="@+id/gestionarSesiones"
         android:title="@string/menu_favorites"
         android:icon="@drawable/ic_build"/>
 

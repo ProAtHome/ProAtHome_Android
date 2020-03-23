@@ -20,11 +20,11 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
     private Context httpContext;
     private ProgressDialog progressDialog;
     public int idCliente;
-    public String linkrequestAPI, horario, lugar, tiempo, nivel, extras, tipoClase;
+    public String linkrequestAPI, horario, lugar, tiempo, nivel, extras, tipoClase, actualizado;
     public double latitud,longitud;
 
     public STRegistroSesionesEstudiante(Context ctx, String linkAPI, int idCliente, String horario, String lugar,
-                                        String tiempo, String nivel, String extras, String tipoClase, double latitud, double longitud){
+                                        String tiempo, String nivel, String extras, String tipoClase, double latitud, double longitud, String actualizado){
 
         this.linkrequestAPI = linkAPI;
         this.idCliente = idCliente;
@@ -36,6 +36,7 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
         this.tipoClase = tipoClase;
         this.longitud = longitud;
         this.latitud = latitud;
+        this.actualizado = actualizado;
 
     }
 
@@ -66,6 +67,7 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
             parametrosPOST.put("tipoClase", tipoClase);
             parametrosPOST.put("latitud", latitud);
             parametrosPOST.put("longitud", longitud);
+            parametrosPOST.put("actualizado", this.actualizado);
 
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);

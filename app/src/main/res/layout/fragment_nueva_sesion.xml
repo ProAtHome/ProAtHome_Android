@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.NuevaSesionFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="@android:color/white">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSolicitar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/solicitar"
+                android:layout_gravity="end"
+                android:textColor="@android:color/white"
+                style="@style/Widget.MaterialComponents.Button.TextButton">
+
+            </com.google.android.material.button.MaterialButton>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:id="@+id/scrollMap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/fondois"
+        android:fillViewport="true"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <fragment
+                    xmlns:map="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/maps"
+                    class="com.proathome.controladores.WorkaroundMapFragmentGestionar"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    map:layout_constraintEnd_toEndOf="parent"
+                    map:layout_constraintStart_toStartOf="parent"
+                    map:layout_constraintTop_toTopOf="parent"
+                    tools:context=".MapsFragment" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_direccion"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="15dp"
+                    android:hint="Dirección"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toEndOf="@id/maps"
+                    app:layout_constraintStart_toStartOf="@id/maps"
+                    app:layout_constraintTop_toBottomOf="@id/maps">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/text_direccionET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </com.google.android.material.textfield.TextInputEditText>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_horario"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:hint="Horario"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toEndOf="@id/maps"
+                    app:layout_constraintStart_toStartOf="@id/maps"
+                    app:layout_constraintTop_toBottomOf="@id/text_direccion">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/text_horarioET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </com.google.android.material.textfield.TextInputEditText>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_tiempo"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:hint="Tiempo de la Sesión"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toEndOf="@id/maps"
+                    app:layout_constraintStart_toStartOf="@id/maps"
+                    app:layout_constraintTop_toBottomOf="@id/text_horario">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/text_tiempoET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </com.google.android.material.textfield.TextInputEditText>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_tipo"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:hint="Tipo de Clase"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toEndOf="@id/maps"
+                    app:layout_constraintStart_toStartOf="@id/maps"
+                    app:layout_constraintTop_toBottomOf="@id/text_tiempo">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/text_tipoET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </com.google.android.material.textfield.TextInputEditText>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_nivel"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:hint="Nivel"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toEndOf="@id/maps"
+                    app:layout_constraintStart_toStartOf="@id/maps"
+                    app:layout_constraintTop_toBottomOf="@id/text_tipo">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/text_nivelET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </com.google.android.material.textfield.TextInputEditText>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_observaciones"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:hint="Observaciones "
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toEndOf="@id/maps"
+                    app:layout_constraintStart_toStartOf="@id/maps"
+                    app:layout_constraintTop_toBottomOf="@id/text_nivel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/text_observacionesET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </com.google.android.material.textfield.TextInputEditText>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    app:layout_constraintTop_toBottomOf="@id/text_observaciones" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -181,5 +181,15 @@
     <string name="menu_send">Send</string>
     <string name="menu_material">Material</string>
     <string name="cambiar_foto">Cambiar foto</string>
+    <string name="profesor_asignado">Profesor Asignado</string>
+    <string name="horario">Horario</string>
+    <string name="lugar">lugar (Dirección)</string>
+    <string name="tiempo">Tiempo</string>
+    <string name="nivel">Nivel</string>
+    <string name="tipo">Tipo de Clase</string>
+    <string name="observaciones">Observaciones</string>
+    <string name="solicitar">Solicitar</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="eliminar">Eliminar</string>
 
 </resources>

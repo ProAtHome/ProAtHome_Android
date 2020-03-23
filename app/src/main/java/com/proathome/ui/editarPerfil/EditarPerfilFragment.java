@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,14 @@ import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
@@ -25,12 +35,12 @@ import com.proathome.controladores.CargarImagenTask;
 import com.proathome.controladores.ServicioTaskBancoEstudiante;
 import com.proathome.controladores.ServicioTaskPerfilEstudiante;
 import com.proathome.controladores.ServicioTaskUpCuentaEstudiante;
-import com.proathome.controladores.ServicioTaskUpFotoPerfil;
 import com.proathome.controladores.ServicioTaskUpPerfilEstudiante;
 import com.proathome.utils.Constants;
-
-import java.io.File;
-
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Hashtable;
+import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -44,7 +54,7 @@ public class EditarPerfilFragment extends Fragment {
     private String linkRESTActualizarPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/informacionPerfil";
     private String linkRESTActualizarBanco = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/actualizarCuentaCliente";
     private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
-    private String linkFoto = "http://" + Constants.IP +":8080/ProAtHome/FotoPerfil";
+    private String linkFoto = "http://" + Constants.IP + "/ProAtHome/assets/lib/ActualizarFotoAndroid.php";
     private Unbinder mUnbinder;
     private ServicioTaskPerfilEstudiante perfilEstudiante;
     private ServicioTaskBancoEstudiante bancoEstudiante;
@@ -60,9 +70,8 @@ public class EditarPerfilFragment extends Fragment {
     public static ImageView ivFoto;
     private static final int PICK_IMAGE = 100;
     public static final int RESULT_OK = -1;
-    private int idEstudiante;
+    public int idEstudiante;
     private String correo;
-    private Uri imageUri;
     @BindView(R.id.bottomNavigationPerfil)
     BottomNavigationView bottomNavigationPerfil;
     @BindView(R.id.btnFoto)
@@ -87,6 +96,11 @@ public class EditarPerfilFragment extends Fragment {
     TextView tvDireccion;
     @BindView(R.id.btnActualizarInfoBancaria)
     Button btnActualizarInfoBancaria;
+    private Bitmap bitmap;
+    private int PICK_IMAGE_REQUEST = 1;
+    private String KEY_IMAGEN = "foto";
+    private String KEY_NOMBRE = "nombre";
+    private String ID_ESTUDIANTE = "";
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -101,6 +115,7 @@ public class EditarPerfilFragment extends Fragment {
         if(fila.moveToFirst()){
 
             this.idEstudiante = fila.getInt(0);
+            this.ID_ESTUDIANTE = String.valueOf(fila.getInt(0));
             this.correo = fila.getString(1);
 
         }else{
@@ -112,6 +127,7 @@ public class EditarPerfilFragment extends Fragment {
 
             actualizarPerfil = new ServicioTaskUpPerfilEstudiante(getContext(), linkRESTActualizarPerfil, this.idEstudiante, etNombre.getText().toString(), this.correo, Integer.valueOf(etEdad.getText().toString()), etDesc.getText().toString());
             actualizarPerfil.execute();
+            uploadImage();
 
         });
 
@@ -195,18 +211,15 @@ public class EditarPerfilFragment extends Fragment {
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante, foto FROM sesion WHERE id = " + 1, null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
 
         if(fila.moveToFirst()){
 
-            int idEstudiante = 0;
-            idEstudiante = fila.getInt(0);
-            perfilEstudiante = new ServicioTaskPerfilEstudiante(getContext(), linkRESTCargarPerfil, idEstudiante);
+            this.idEstudiante = fila.getInt(0);
+            perfilEstudiante = new ServicioTaskPerfilEstudiante(getContext(), linkRESTCargarPerfil, this.imageHttpAddress, this.idEstudiante, Constants.INFO_PERFIl_EDITAR);
             perfilEstudiante.execute();
             bancoEstudiante = new ServicioTaskBancoEstudiante(getContext(), linkRESTDatosBancarios, idEstudiante);
             bancoEstudiante.execute();
-            CargarImagenTask cargarImagenTask = new CargarImagenTask(imageHttpAddress, fila.getString(1), Constants.FOTO_EDITAR_PERFIL);
-            cargarImagenTask.execute();
 
         }else{
 
@@ -219,29 +232,86 @@ public class EditarPerfilFragment extends Fragment {
 
     }
 
-    public void abrirGaleria(){
-
-        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(gallery, PICK_IMAGE);
-
-    }
-
     @OnClick(R.id.btnFoto)
     public void onClickFoto(View view){
 
-        abrirGaleria();
+        showFileChooser();
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(resultCode == RESULT_OK && requestCode == PICK_IMAGE){
-            imageUri = data.getData();
-            ivFoto.setImageURI(imageUri);
-            File file = new File(imageUri.toString());
-            ServicioTaskUpFotoPerfil servicioTaskUpFotoPerfil = new ServicioTaskUpFotoPerfil(getContext(), linkFoto, file);
-            servicioTaskUpFotoPerfil.execute();
+    public String getStringImagen(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
 
+    private void uploadImage(){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, linkFoto,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Convertir bits a cadena
+                String imagen = getStringImagen(bitmap);
+
+                //Obtener el nombre de la imagen
+                String nombre = ID_ESTUDIANTE + "_perfil";
+
+                //Creación de parámetros
+                Map<String,String> params = new Hashtable<>();
+
+                //Agregando de parámetros
+                params.put(KEY_IMAGEN, imagen);
+                params.put(KEY_NOMBRE, nombre);
+                params.put("idCliente", ID_ESTUDIANTE);
+
+                //Parámetros de retorno
+                return params;
+            }
+        };
+
+        //Creación de una cola de solicitudes
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+
+        //Agregar solicitud a la cola
+        requestQueue.add(stringRequest);
+    }
+
+    private void showFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Imagen"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                //Cómo obtener el mapa de bits de la Galería
+                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
+                //Configuración del mapa de bits en ImageView
+                ivFoto.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

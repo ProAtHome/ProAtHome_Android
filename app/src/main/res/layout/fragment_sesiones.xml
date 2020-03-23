@@ -1,205 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/fondois"
-    android:id="@+id/scrollMap"
-    android:fillViewport="true">
+    android:layout_width="match_parent"
+    android:background="@mipmap/fondoinicio">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerGestionar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/item_component_gestionar"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabActualizar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/common_padding_default"
+        android:src="@drawable/ic_reload"
+        app:tint="@android:color/white"
+        android:backgroundTint="@color/colorPrimaryDark"
 
-            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:map="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/maps"
-                class="com.proathome.controladores.WorkaroundMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:layout_marginTop="40dp"
-                map:layout_constraintEnd_toEndOf="parent"
-                map:layout_constraintStart_toStartOf="parent"
-                map:layout_constraintTop_toTopOf="parent"
-                tools:context=".MapsFragment" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/fabNuevaSesion"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_direccion"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="15dp"
-                android:hint="Dirección"
-                app:endIconMode="clear_text"
-                app:layout_constraintEnd_toEndOf="@id/maps"
-                app:layout_constraintStart_toStartOf="@id/maps"
-                app:layout_constraintTop_toBottomOf="@id/maps">
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabNuevaSesion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/common_padding_default"
+        android:src="@drawable/ic_add_location"
+        app:tint="@android:color/white"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/text_direccionET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </com.google.android.material.textfield.TextInputEditText>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_horario"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:hint="Horario"
-                app:endIconMode="clear_text"
-                app:layout_constraintEnd_toEndOf="@id/maps"
-                app:layout_constraintStart_toStartOf="@id/maps"
-                app:layout_constraintTop_toBottomOf="@id/text_direccion">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/text_horarioET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </com.google.android.material.textfield.TextInputEditText>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_tiempo"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:hint="Tiempo de la Sesión"
-                app:endIconMode="clear_text"
-                app:layout_constraintEnd_toEndOf="@id/maps"
-                app:layout_constraintStart_toStartOf="@id/maps"
-                app:layout_constraintTop_toBottomOf="@id/text_horario">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/text_tiempoET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </com.google.android.material.textfield.TextInputEditText>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_tipo"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:hint="Tipo de Clase"
-                app:endIconMode="clear_text"
-                app:layout_constraintEnd_toEndOf="@id/maps"
-                app:layout_constraintStart_toStartOf="@id/maps"
-                app:layout_constraintTop_toBottomOf="@id/text_tiempo">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/text_tipoET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </com.google.android.material.textfield.TextInputEditText>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_nivel"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:hint="Nivel"
-                app:endIconMode="clear_text"
-                app:layout_constraintEnd_toEndOf="@id/maps"
-                app:layout_constraintStart_toStartOf="@id/maps"
-                app:layout_constraintTop_toBottomOf="@id/text_tipo">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/text_nivelET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </com.google.android.material.textfield.TextInputEditText>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_observaciones"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:hint="Observaciones "
-                app:endIconMode="clear_text"
-                app:layout_constraintEnd_toEndOf="@id/maps"
-                app:layout_constraintStart_toStartOf="@id/maps"
-                app:layout_constraintTop_toBottomOf="@id/text_nivel">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/text_observacionesET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </com.google.android.material.textfield.TextInputEditText>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_solicitar"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="100dp"
-                android:text="Solicitar Clase"
-                app:layout_constraintStart_toStartOf="@id/text_observaciones"
-                app:layout_constraintTop_toBottomOf="@id/text_observaciones">
-
-            </com.google.android.material.button.MaterialButton>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"
-                app:layout_constraintTop_toBottomOf="@id/btn_solicitar" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".fragments.BottomNavigationBarFragment"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="0dp">
-
-                <com.google.android.material.bottomnavigation.BottomNavigationView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/bottomNavigation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:background="@color/colorPrimary"
-                    app:itemIconTint="@drawable/states_colors_bottom_navigation"
-                    app:itemTextColor="@drawable/states_colors_bottom_navigation"
-                    app:menu="@menu/menu_bottom_nav" />
-
-            </FrameLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </RelativeLayout>
-
-
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
 

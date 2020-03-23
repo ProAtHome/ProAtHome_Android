@@ -26,6 +26,7 @@ public class InicioFragment extends Fragment {
     public static ComponentAdapter myAdapter;
     private String clasesHttpAddress = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerSesiones/";
     private ServicioTaskSesionesEstudiante sesionesTask;
+    private int idCliente = 0;
     private Unbinder mUnbinder;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -43,7 +44,7 @@ public class InicioFragment extends Fragment {
         if (fila.moveToFirst()) {
 
             idCliente = fila.getInt(0);
-            sesionesTask = new ServicioTaskSesionesEstudiante(getContext(), clasesHttpAddress, idCliente);
+            sesionesTask = new ServicioTaskSesionesEstudiante(getContext(), clasesHttpAddress, idCliente, Constants.SESIONES_INICIO);
             sesionesTask.execute();
             configAdapter();
             configRecyclerView();

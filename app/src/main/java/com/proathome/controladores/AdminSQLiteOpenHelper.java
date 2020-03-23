@@ -16,8 +16,7 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("CREATE TABLE sesion(id int PRIMARY KEY, idEstudiante int, nombre text, correo text, foto text)");
-        db.execSQL("CREATE TABLE clases(id int PRIMARY KEY, idGeneral int, nivel text)");
+        db.execSQL("CREATE TABLE sesion(id int PRIMARY KEY, idEstudiante int, correo text)");
 
     }
 

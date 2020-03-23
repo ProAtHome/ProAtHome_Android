@@ -4,6 +4,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.proathome.fragments.DetallesFragment;
+import com.proathome.fragments.DetallesGestionarFragment;
 
 public class CommonUtils {
 
@@ -32,6 +33,8 @@ public class CommonUtils {
     private static Fragment getFragmentById(String nameFragment) {
 
         DetallesFragment fragment = null;
+        DetallesGestionarFragment fragmentGestionar = null;
+        boolean fragmentBool = false;
 
         switch (nameFragment) {
 
@@ -49,11 +52,31 @@ public class CommonUtils {
                 bun.putDouble("latitud", latitudS);
                 bun.putDouble("longitud", longitudS);
                 fragment.setArguments(bun);
+                fragmentBool = true;
+                break;
+            case DetallesGestionarFragment.TAG:
+                fragmentGestionar = new DetallesGestionarFragment();
+                Bundle bunG = new Bundle();
+                bunG.putInt("idClase", idClaseS);
+                bunG.putString("tipoClase", tipoClaseS);
+                bunG.putString("horario", horarioS);
+                bunG.putString("profesor", profesorS);
+                bunG.putString("lugar", lugarS);
+                bunG.putString("tiempo", tiempoS);
+                bunG.putString("nivel", nivelS);
+                bunG.putString("observaciones", observacionesS);
+                bunG.putDouble("latitud", latitudS);
+                bunG.putDouble("longitud", longitudS);
+                fragmentGestionar.setArguments(bunG);
+                fragmentBool = false;
                 break;
 
         }
 
-        return fragment;
+        if(fragmentBool)
+            return fragment;
+        else
+            return fragmentGestionar;
 
     }
 

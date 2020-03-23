@@ -6,7 +6,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 import com.proathome.fragments.DetallesFragment;
+import com.proathome.fragments.DetallesGestionarFragment;
 import com.proathome.ui.inicio.InicioFragment;
+import com.proathome.ui.sesiones.SesionesFragment;
+import com.proathome.utils.Constants;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,13 +31,14 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
     public String linkrequestAPI="";
     public String respuesta;
     public int idCliente;
+    public int tipo;
 
-    public ServicioTaskSesionesEstudiante(Context context, String linkAPI, int idCliente){
+    public ServicioTaskSesionesEstudiante(Context context, String linkAPI, int idCliente, int tipo){
 
         this.httpContext = context;
         this.idCliente = idCliente;
-        this.linkrequestAPI = linkAPI + String.valueOf(idCliente);
-        System.out.println(linkrequestAPI);
+        this.linkrequestAPI = linkAPI + idCliente;
+        this.tipo = tipo;
 
     }
 
@@ -43,30 +48,6 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
         super.onPreExecute();
         progressDialog = ProgressDialog.show(httpContext, "Cargando tus Clases.", "Por favor, espere...");
 
-    }
-
-    //FUNCIONES----------------------------------------------------------------------
-    //Transformar JSON Obejct a String *******************************************
-    public String getPostDataString(JSONObject params) throws Exception {
-
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-        Iterator<String> itr = params.keys();
-        while(itr.hasNext()){
-
-            String key= itr.next();
-            Object value = params.get(key);
-
-            if (first)
-                first = false;
-            else
-                result.append("&");
-
-            result.append(URLEncoder.encode(key, "UTF-8"));
-            result.append("=");
-            result.append(URLEncoder.encode(value.toString(), "UTF-8"));
-        }
-        return result.toString();
     }
 
     @Override
@@ -145,9 +126,15 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
                     for (int i = 0; i < jsonArray.length(); i++){
 
                         JSONObject object = jsonArray.getJSONObject(i);
-                        InicioFragment.myAdapter.add(DetallesFragment.getmInstance(object.getInt("idsesiones"), object.getString("nivel"), object.getString("tipoClase"), object.getString("horario"),
-                                object.getString("profesor"), object.getString("lugar"), object.getString("tiempo"), object.getString("extras"), object.getDouble("latitud"),
-                                object.getDouble("longitud")));
+                        if(tipo == 1) {
+                            InicioFragment.myAdapter.add(DetallesFragment.getmInstance(object.getInt("idsesiones"), object.getString("nivel"), object.getString("tipoClase"), object.getString("horario"),
+                                    object.getString("profesor").equals("null") ? "Sin profesor Asignado" : object.getString("profesor"), object.getString("lugar"), object.getString("tiempo"), object.getString("extras"), object.getDouble("latitud"),
+                                    object.getDouble("longitud")));
+                        }else if(tipo == 2){
+                            SesionesFragment.myAdapter.add(DetallesGestionarFragment.getmInstance(object.getInt("idsesiones"), object.getString("nivel"), object.getString("tipoClase"), object.getString("horario"),
+                                    object.getString("profesor").equals("null") ? "Sin profesor Asignado" : object.getString("profesor") , object.getString("lugar"), object.getString("tiempo"), object.getString("extras"), object.getDouble("latitud"),
+                                    object.getDouble("longitud"), object.getString("actualizado")));
+                        }
 
                     }
 
