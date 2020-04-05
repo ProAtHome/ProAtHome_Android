@@ -1,21 +1,29 @@
 package com.proathome.ui.sesiones;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterGestionar;
-import com.proathome.controladores.AdminSQLiteOpenHelper;
-import com.proathome.controladores.ServicioTaskSesionesEstudiante;
+import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.controladores.estudiante.ServicioTaskSesionesEstudiante;
 import com.proathome.fragments.NuevaSesionFragment;
 import com.proathome.utils.Constants;
 import java.util.ArrayList;
@@ -85,15 +93,38 @@ public class SesionesFragment extends Fragment {
 
     }
 
+    private void showAlert() {
+        new MaterialAlertDialogBuilder(getActivity(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
+                .setTitle("Permisos de Ubicación")
+                .setMessage("Necesitamos tu permiso :)")
+                .setPositiveButton("Dar permiso", (dialog, which) -> {
+
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(myIntent);
+
+                })
+                .setNegativeButton("Cancelar", (dialog, which) -> {
+                    Toast.makeText(getContext(), "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
+                })
+                .setOnCancelListener(dialog -> {
+                    Toast.makeText(getContext(), "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
+                })
+                .show();
+    }
+
     @OnClick({R.id.fabNuevaSesion, R.id.fabActualizar})
     public void onClicked(View view){
 
         switch (view.getId()){
 
             case R.id.fabNuevaSesion:
-                NuevaSesionFragment nueva = new NuevaSesionFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                nueva.show(transaction, NuevaSesionFragment.TAG);
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    showAlert();
+                } else {
+                    NuevaSesionFragment nueva = new NuevaSesionFragment();
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    nueva.show(transaction, NuevaSesionFragment.TAG);
+                }
                 break;
             case R.id.fabActualizar:
                 getFragmentManager().beginTransaction().detach(this).attach(this).commit();

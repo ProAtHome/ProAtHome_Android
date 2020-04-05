@@ -1,6 +1,18 @@
 <resources>
 
     <!-- Base application theme. -->
+    <style name="AppThemeProfesor" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPersonal</item>
+        <item name="colorPrimaryDark">#EB7404</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppThemeProfesor.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPersonal</item>
@@ -19,6 +31,7 @@
 
 
     <color name="colorPersonal">#006064</color>
+    <color name="colorProfesor">#FE7B00</color>
     <color name="colorPersonalDark">#00838F</color>
 
     <style name="MyTheme.DayNight.NoActionBar">

@@ -1,6 +1,5 @@
 package com.proathome.ui.editarPerfil;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,7 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -30,12 +28,11 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
-import com.proathome.controladores.AdminSQLiteOpenHelper;
-import com.proathome.controladores.CargarImagenTask;
-import com.proathome.controladores.ServicioTaskBancoEstudiante;
-import com.proathome.controladores.ServicioTaskPerfilEstudiante;
-import com.proathome.controladores.ServicioTaskUpCuentaEstudiante;
-import com.proathome.controladores.ServicioTaskUpPerfilEstudiante;
+import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.controladores.estudiante.ServicioTaskBancoEstudiante;
+import com.proathome.controladores.estudiante.ServicioTaskPerfilEstudiante;
+import com.proathome.controladores.estudiante.ServicioTaskUpCuentaEstudiante;
+import com.proathome.controladores.estudiante.ServicioTaskUpPerfilEstudiante;
 import com.proathome.utils.Constants;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -123,6 +120,7 @@ public class EditarPerfilFragment extends Fragment {
             baseDeDatos.close();
 
         }
+
         btnActualizarInfo.setOnClickListener(view -> {
 
             actualizarPerfil = new ServicioTaskUpPerfilEstudiante(getContext(), linkRESTActualizarPerfil, this.idEstudiante, etNombre.getText().toString(), this.correo, Integer.valueOf(etEdad.getText().toString()), etDesc.getText().toString());
@@ -218,7 +216,7 @@ public class EditarPerfilFragment extends Fragment {
             this.idEstudiante = fila.getInt(0);
             perfilEstudiante = new ServicioTaskPerfilEstudiante(getContext(), linkRESTCargarPerfil, this.imageHttpAddress, this.idEstudiante, Constants.INFO_PERFIl_EDITAR);
             perfilEstudiante.execute();
-            bancoEstudiante = new ServicioTaskBancoEstudiante(getContext(), linkRESTDatosBancarios, idEstudiante);
+            bancoEstudiante = new ServicioTaskBancoEstudiante(getContext(), linkRESTDatosBancarios, this.idEstudiante);
             bancoEstudiante.execute();
 
         }else{
@@ -315,7 +313,6 @@ public class EditarPerfilFragment extends Fragment {
         }
     }
 
-
     @Override
     public void onDestroyView() {
 
@@ -323,4 +320,5 @@ public class EditarPerfilFragment extends Fragment {
         mUnbinder.unbind();
 
     }
+
 }

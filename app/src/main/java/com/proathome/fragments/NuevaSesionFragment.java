@@ -1,20 +1,12 @@
 package com.proathome.fragments;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,14 +22,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
-import com.proathome.controladores.AdminSQLiteOpenHelper;
-import com.proathome.controladores.STRegistroSesionesEstudiante;
-import com.proathome.controladores.WorkaroundMapFragmentGestionar;
+import com.proathome.controladores.WorkaroundMapFragment;
+import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.controladores.estudiante.STRegistroSesionesEstudiante;
 import com.proathome.utils.Constants;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -87,7 +77,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
         if (mMap == null) {
 
-            SupportMapFragment mapFragment = (WorkaroundMapFragmentGestionar) getActivity().getSupportFragmentManager().findFragmentById(R.id.maps);
+            SupportMapFragment mapFragment = (WorkaroundMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
 
         }
@@ -166,30 +156,16 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
 
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            //Requiere permisos para Android 6.0
-            Log.e("Location", "No se tienen permisos necesarios!, se requieren.");
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 225);
-            return;
+        mScrollView = getView().findViewById(R.id.scrollMap); //parent scrollview in xml, give your scrollview id value
+        ((WorkaroundMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map))
+                .setListener(() -> mScrollView.requestDisallowInterceptTouchEvent(true));
 
-        }else{
+        mMap.setMyLocationEnabled(true);
 
-            Log.i("Location", "Permisos necesarios OK!.");
-            LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            mMap.getUiSettings().setZoomControlsEnabled(true);
-
-            mScrollView = getView().findViewById(R.id.scrollMap); //parent scrollview in xml, give your scrollview id value
-            ((WorkaroundMapFragmentGestionar) getActivity().getSupportFragmentManager().findFragmentById(R.id.maps))
-                    .setListener(() -> mScrollView.requestDisallowInterceptTouchEvent(true));
-
-            mMap.setMyLocationEnabled(true);
-
-            agregarMarca(googleMap, 19.4326077, -99.13320799999);
-        }
+        agregarMarca(googleMap, 19.4326077, -99.13320799999);
 
     }
 
@@ -227,7 +203,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
         super.onDestroyView();
         mUnbinder.unbind();
-        Fragment fragment = (getFragmentManager().findFragmentById(R.id.maps));
+        Fragment fragment = (getFragmentManager().findFragmentById(R.id.map));
         if (fragment != null){
             getActivity().getSupportFragmentManager().beginTransaction()
                     .remove(fragment)

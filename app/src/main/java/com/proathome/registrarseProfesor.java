@@ -10,7 +10,7 @@ import android.widget.DatePicker;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
-import com.proathome.controladores.ServicioTaskRegistroProfesor;
+import com.proathome.controladores.profesor.ServicioTaskRegistroProfesor;
 import com.proathome.utils.Constants;
 import java.util.Calendar;
 import butterknife.BindView;
@@ -135,10 +135,6 @@ public class registrarseProfesor extends AppCompatActivity {
             String contrasena = String.valueOf(contrasenaET.getText());
             servicioTaskRegistroProfesor = new ServicioTaskRegistroProfesor(this, registrarProfesorREST, nombre, fecha, edad, correo, contrasena);
             servicioTaskRegistroProfesor.execute();
-
-            intent = new Intent(this, loginProfesor.class);
-            startActivity(intent);
-            finish();
 
         }else{
 

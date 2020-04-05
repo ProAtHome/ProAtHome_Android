@@ -1,4 +1,4 @@
-package com.proathome.controladores;
+package com.proathome.controladores.profesor;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -18,25 +18,22 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ServicioTaskUpPerfilEstudiante extends AsyncTask<Void, Void, String> {
+public class ServicioTaskUpCuentaProfesor extends AsyncTask<Void, Void, String> {
 
-    private Context httpContext;
+    private Context contexto;
     private ProgressDialog progressDialog;
-    private String respuesta;
-    private String resultadoApi = "";
-    private String linkRequestApi;
-    private int idEstudiante, edad;
-    private String nombre, descripcion, correo;
+    private String linkAPI, tipoDePago, banco, numeroCuenta, direccionFacturacion, respuesta, resultadoAPI;
+    private int idProfesor;
 
-    public ServicioTaskUpPerfilEstudiante(Context httpContext, String linkRequestApi, int idEstudiante, String nombre, String correo, int edad, String descripcion){
+    public ServicioTaskUpCuentaProfesor(Context contexto, String linkAPI, int idProfesor, String tipoDePago, String banco, String numeroCuenta, String direccionFacturacion){
 
-        this.httpContext = httpContext;
-        this.linkRequestApi = linkRequestApi;
-        this.idEstudiante = idEstudiante;
-        this.nombre = nombre;
-        this.edad = edad;
-        this.descripcion = descripcion;
-        this.correo = correo;
+        this.contexto = contexto;
+        this.linkAPI = linkAPI;
+        this.idProfesor = idProfesor;
+        this.tipoDePago = tipoDePago;
+        this.banco = banco;
+        this.numeroCuenta = numeroCuenta;
+        this.direccionFacturacion = direccionFacturacion;
 
     }
 
@@ -44,7 +41,7 @@ public class ServicioTaskUpPerfilEstudiante extends AsyncTask<Void, Void, String
     protected void onPreExecute() {
 
         super.onPreExecute();
-        progressDialog = ProgressDialog.show(httpContext, "Actualizando.", "Por favor, espere...");
+        progressDialog = ProgressDialog.show(this.contexto, "Actualizando Datos", "Por favor, espere...");
 
     }
 
@@ -53,19 +50,18 @@ public class ServicioTaskUpPerfilEstudiante extends AsyncTask<Void, Void, String
 
         String result = null;
 
-        String wsURL = linkRequestApi;
-        URL url = null;
-
         try{
 
-            url = new URL(wsURL);
+            String urlREST = this.linkAPI;
+            URL url = new URL(urlREST);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             JSONObject parametrosPOST = new JSONObject();
-            parametrosPOST.put("idCliente", this.idEstudiante);
-            parametrosPOST.put("nombre", this.nombre);
-            parametrosPOST.put("correo", this.correo);
-            parametrosPOST.put("descripcion", this.descripcion);
+            parametrosPOST.put("idProfesor", this.idProfesor);
+            parametrosPOST.put("tipoDePago", this.tipoDePago);
+            parametrosPOST.put("banco", this.banco);
+            parametrosPOST.put("numeroCuenta", this.numeroCuenta);
+            parametrosPOST.put("direccionFacturacion", this.direccionFacturacion);
 
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
@@ -104,9 +100,9 @@ public class ServicioTaskUpPerfilEstudiante extends AsyncTask<Void, Void, String
 
             }
 
-        }catch(MalformedURLException ex){
+        }catch (MalformedURLException ex){
             ex.printStackTrace();
-        }catch(IOException ex){
+        }catch (IOException ex){
             ex.printStackTrace();
         }catch (JSONException ex){
             ex.printStackTrace();
@@ -123,8 +119,8 @@ public class ServicioTaskUpPerfilEstudiante extends AsyncTask<Void, Void, String
 
         super.onPostExecute(s);
         progressDialog.dismiss();
-        resultadoApi = s;
-        Toast.makeText(httpContext, resultadoApi, Toast.LENGTH_LONG).show();
+        this.resultadoAPI = s;
+        Toast.makeText(this.contexto, this.resultadoAPI, Toast.LENGTH_LONG).show();
 
     }
 

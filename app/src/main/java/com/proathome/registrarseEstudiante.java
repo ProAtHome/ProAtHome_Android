@@ -8,11 +8,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.proathome.controladores.ServicioTaskRegistroEstudiante;
+import com.proathome.controladores.estudiante.ServicioTaskRegistroEstudiante;
 import com.proathome.utils.Constants;
 
 import java.util.Calendar;
@@ -141,10 +140,6 @@ public class registrarseEstudiante extends AppCompatActivity {
             String contrasena = String.valueOf(contrasenaET.getText());
             servicioTaskRegistroEstudiante = new ServicioTaskRegistroEstudiante(this, registrarEstudianteREST, nombre, fecha, edad, correo, contrasena);
             servicioTaskRegistroEstudiante.execute();
-
-            intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
 
         }else{
 

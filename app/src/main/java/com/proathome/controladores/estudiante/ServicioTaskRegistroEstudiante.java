@@ -1,9 +1,11 @@
-package com.proathome.controladores;
+package com.proathome.controladores.estudiante;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
+import com.proathome.MainActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -16,7 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> {
+public class ServicioTaskRegistroEstudiante extends AsyncTask<Void, Void, String> {
 
     private Context httpContext;
     ProgressDialog progressDialog;
@@ -28,7 +30,7 @@ public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> 
     public String contrasena ="";
     public String correo="";
 
-    public ServicioTaskRegistroProfesor(Context ctx, String linkAPI, String nombre, String fecha, int edad, String correo, String contrasena){
+    public ServicioTaskRegistroEstudiante(Context ctx, String linkAPI, String nombre, String fecha, int edad, String correo, String contrasena){
 
         this.httpContext=ctx;
         this.linkrequestAPI=linkAPI;
@@ -39,12 +41,11 @@ public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> 
         this.correo = correo;
 
     }
-
     @Override
     protected void onPreExecute() {
 
         super.onPreExecute();
-        progressDialog = ProgressDialog.show(httpContext, "Registrando Profesor.", "Por favor, espere...");
+        progressDialog = ProgressDialog.show(httpContext, "Registrando Estudiante.", "Por favor, espere...");
 
     }
 
@@ -85,8 +86,8 @@ public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> 
             writer.close();
             os.close();
 
-            int responseCode=urlConnection.getResponseCode();
-            if(responseCode== HttpURLConnection.HTTP_OK){
+            int responseCode = urlConnection.getResponseCode();
+            if(responseCode == HttpURLConnection.HTTP_OK){
 
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 
@@ -129,8 +130,9 @@ public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> 
         super.onPostExecute(s);
         progressDialog.dismiss();
         resultadoapi=s;
-        System.out.println(resultadoapi);
         Toast.makeText(httpContext,resultadoapi,Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this.httpContext, MainActivity.class);
+        this.httpContext.startActivity(intent);
 
     }
 

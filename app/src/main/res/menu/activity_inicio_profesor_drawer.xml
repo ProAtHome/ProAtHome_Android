@@ -27,7 +27,11 @@
             <item
                 android:id="@+id/nav_cerrarSesion_Profesor"
                 android:icon="@drawable/ic_close_black_24dp"
-                android:title="@string/menu_cerrarSesion" />
+                android:title="@string/menu_cerrarSesion"/>
+            <item
+                android:id="@+id/nav_ayudaProfesor"
+                android:icon="@drawable/ic_help_black_24dp"
+                android:title="@string/menu_ayuda"/>
         </menu>
     </item>
 

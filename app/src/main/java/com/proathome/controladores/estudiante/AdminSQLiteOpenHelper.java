@@ -1,13 +1,13 @@
-package com.proathome.controladores;
+package com.proathome.controladores.estudiante;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
-public class AdminSQLiteOpenHelperProfesor extends SQLiteOpenHelper {
+public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
 
-    public AdminSQLiteOpenHelperProfesor(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+    public AdminSQLiteOpenHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
 
         super(context, name, factory, version);
 
@@ -16,7 +16,7 @@ public class AdminSQLiteOpenHelperProfesor extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("CREATE TABLE sesionProfesor(id int PRIMARY KEY, idProfesor int, nombre text, correo text, foto text)");
+        db.execSQL("CREATE TABLE sesion(id int PRIMARY KEY, idEstudiante int, correo text)");
 
     }
 

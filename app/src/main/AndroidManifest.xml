@@ -19,10 +19,16 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme.DayNight"
         android:usesCleartextTraffic="true">
+        <activity android:name=".MatchSesionEstudiante"></activity>
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
         <activity
             android:name=".inicioProfesor"
             android:label="@string/title_activity_inicio_profesor"
-            android:theme="@style/MyTheme.DayNight.NoActionBar"></activity>
+            android:theme="@style/AppThemeProfesor.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

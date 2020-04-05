@@ -1,10 +1,13 @@
-package com.proathome.controladores;
+package com.proathome.controladores.profesor;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
+
 import com.proathome.ui.editarPerfil.EditarPerfilFragment;
+import com.proathome.ui.editarPerfilProfesor.EditarPerfilProfesorFragment;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,20 +18,20 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ServicioTaskBancoEstudiante extends AsyncTask<Void, Void, String>{
+public class ServicioTaskBancoProfesor extends AsyncTask<Void, Void, String>{
 
     private Context httpContext;
     ProgressDialog progressDialog;
     public String resultadoapi = "";
     public String linkrequestAPI = "";
     public String respuesta;
-    public int idEstudiante;
+    public int idProfesor;
 
-    public ServicioTaskBancoEstudiante(Context ctx, String linkAPI, int idEstudiante) {
+    public ServicioTaskBancoProfesor(Context ctx, String linkAPI, int idProfesor) {
 
         this.httpContext = ctx;
-        this.idEstudiante = idEstudiante;
-        this.linkrequestAPI = linkAPI + "/" + this.idEstudiante;
+        this.idProfesor = idProfesor;
+        this.linkrequestAPI = linkAPI + "/" + this.idProfesor;
 
     }
 
@@ -114,10 +117,10 @@ public class ServicioTaskBancoEstudiante extends AsyncTask<Void, Void, String>{
                 try {
 
                     JSONObject jsonObject = new JSONObject(resultadoapi);
-                    EditarPerfilFragment.etTipoDePago.setText(jsonObject.getString("tipoPago"));
-                    EditarPerfilFragment.etBanco.setText(jsonObject.getString("banco"));
-                    EditarPerfilFragment.etCuenta.setText(jsonObject.getString("numeroCuenta"));
-                    EditarPerfilFragment.etDireccion.setText(jsonObject.getString("direccionFacturacion"));
+                    EditarPerfilProfesorFragment.etTipoDePago.setText(jsonObject.getString("tipoPago"));
+                    EditarPerfilProfesorFragment.etBanco.setText(jsonObject.getString("banco"));
+                    EditarPerfilProfesorFragment.etCuenta.setText(jsonObject.getString("numeroCuenta"));
+                    EditarPerfilProfesorFragment.etDireccion.setText(jsonObject.getString("direccionFacturacion"));
 
                 } catch (JSONException ex) {
 

@@ -9,9 +9,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
-import com.proathome.controladores.AdminSQLiteOpenHelper;
-import com.proathome.controladores.CargarImagenTask;
-import com.proathome.controladores.ServicioTaskPerfilEstudiante;
+import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.controladores.estudiante.ServicioTaskPerfilEstudiante;
 import com.proathome.utils.Constants;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +27,6 @@ public class inicioEstudiante extends AppCompatActivity{
     private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
     public static TextView correoTV, nombreTV;
     private int idEstudiante = 0;
-    public static String fotoStatic = "";
     public static ImageView foto;
 
     @Override
@@ -46,7 +44,7 @@ public class inicioEstudiante extends AppCompatActivity{
         foto = view.findViewById(R.id.fotoIV);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_inicio, R.id.nav_editarPerfil, R.id.nav_sesiones,
-                R.id.nav_ruta, R.id.nav_cerrarSesion)
+                R.id.nav_ruta, R.id.nav_cerrarSesion, R.id.nav_ayuda)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

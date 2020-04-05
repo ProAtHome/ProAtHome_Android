@@ -1,10 +1,13 @@
-package com.proathome.controladores;
+package com.proathome.controladores.estudiante;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -15,63 +18,58 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> {
+public class ServicioTaskUpPerfilEstudiante extends AsyncTask<Void, Void, String> {
 
     private Context httpContext;
     private ProgressDialog progressDialog;
-    public int idCliente;
-    public String linkrequestAPI, horario, lugar, tiempo, nivel, extras, tipoClase, actualizado;
-    public double latitud,longitud;
+    private String respuesta;
+    private String resultadoApi = "";
+    private String linkRequestApi;
+    private int idEstudiante, edad;
+    private String nombre, descripcion, correo;
 
-    public STRegistroSesionesEstudiante(Context ctx, String linkAPI, int idCliente, String horario, String lugar,
-                                        String tiempo, String nivel, String extras, String tipoClase, double latitud, double longitud, String actualizado){
+    public ServicioTaskUpPerfilEstudiante(Context httpContext, String linkRequestApi, int idEstudiante, String nombre, String correo, int edad, String descripcion){
 
-        this.linkrequestAPI = linkAPI;
-        this.idCliente = idCliente;
-        this.horario = horario;
-        this.lugar = lugar;
-        this.tiempo = tiempo;
-        this.nivel = nivel;
-        this.extras = extras;
-        this.tipoClase = tipoClase;
-        this.longitud = longitud;
-        this.latitud = latitud;
-        this.actualizado = actualizado;
+        this.httpContext = httpContext;
+        this.linkRequestApi = linkRequestApi;
+        this.idEstudiante = idEstudiante;
+        this.nombre = nombre;
+        this.edad = edad;
+        this.descripcion = descripcion;
+        this.correo = correo;
 
     }
 
     @Override
     protected void onPreExecute() {
+
         super.onPreExecute();
+        progressDialog = ProgressDialog.show(httpContext, "Actualizando.", "Por favor, espere...");
+
     }
 
     @Override
     protected String doInBackground(Void... voids) {
+
         String result = null;
 
-        String wsURl = linkrequestAPI;
-
+        String wsURL = linkRequestApi;
         URL url = null;
+
         try{
 
-            url = new URL(wsURl);
-            HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
+            url = new URL(wsURL);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             JSONObject parametrosPOST = new JSONObject();
-            parametrosPOST.put("idCliente", idCliente);
-            parametrosPOST.put("horario", horario);
-            parametrosPOST.put("lugar", lugar);
-            parametrosPOST.put("tiempo", tiempo);
-            parametrosPOST.put("nivel", nivel);
-            parametrosPOST.put("extras", extras);
-            parametrosPOST.put("tipoClase", tipoClase);
-            parametrosPOST.put("latitud", latitud);
-            parametrosPOST.put("longitud", longitud);
-            parametrosPOST.put("actualizado", this.actualizado);
+            parametrosPOST.put("idCliente", this.idEstudiante);
+            parametrosPOST.put("nombre", this.nombre);
+            parametrosPOST.put("correo", this.correo);
+            parametrosPOST.put("descripcion", this.descripcion);
 
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestMethod("PUT");
             urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
             urlConnection.setDoInput(true);
             urlConnection.setDoOutput(true);
@@ -87,9 +85,9 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
             if(responseCode == HttpURLConnection.HTTP_OK){
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
                 StringBuffer sb = new StringBuffer("");
-                String linea ="";
+                String linea = "";
+
                 while ((linea = in.readLine()) != null){
 
                     sb.append(linea);
@@ -102,13 +100,13 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
 
             }else{
 
-                result = new String("Error: " + responseCode);
+                result = new String("Error: " +responseCode);
 
             }
 
         }catch(MalformedURLException ex){
             ex.printStackTrace();
-        }catch (IOException ex){
+        }catch(IOException ex){
             ex.printStackTrace();
         }catch (JSONException ex){
             ex.printStackTrace();
@@ -117,14 +115,20 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
         }
 
         return result;
+
     }
 
     @Override
     protected void onPostExecute(String s) {
+
         super.onPostExecute(s);
+        progressDialog.dismiss();
+        resultadoApi = s;
+        Toast.makeText(httpContext, resultadoApi, Toast.LENGTH_LONG).show();
+
     }
 
-    public String getPostDataString(JSONObject params) throws Exception{
+    public String getPostDataString(JSONObject params) throws Exception {
 
         return params.toString();
 

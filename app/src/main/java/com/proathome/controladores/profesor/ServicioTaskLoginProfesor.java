@@ -1,4 +1,4 @@
-package com.proathome.controladores;
+package com.proathome.controladores.profesor;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -6,8 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.provider.Settings;
 import android.util.JsonReader;
 import android.widget.Toast;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.proathome.R;
 import com.proathome.inicioProfesor;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,23 +23,18 @@ import java.net.URL;
 
 public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
 
-    private Context httpContext;
-    ProgressDialog progressDialog;
-    public String resultadoapi="";
-    public String linkrequestAPI="";
-    public String respuesta;
-    public String contra = "";
-    public String correo = "";
-    public String foto = "";
-    public String nombre = "";
-    public int idProfesor;
+    private Context contexto;
+    private ProgressDialog progressDialog;
+    private String contrasena, correo, nombre, respuesta, linkAPI, resultadoapi;
+    private int idProfesor;
+    private boolean estado;
 
-    public ServicioTaskLoginProfesor(Context ctx, String linkAPI, String correo, String contrasena){
+    public ServicioTaskLoginProfesor(Context contexto, String linkAPI, String correo, String contrasena){
 
-        this.httpContext=ctx;
+        this.contexto = contexto;
         this.correo = correo;
-        this.contra = contrasena;
-        this.linkrequestAPI=linkAPI + "/" + correo + "/" + contrasena;
+        this.contrasena = contrasena;
+        this.linkAPI = linkAPI + "/" + correo + "/" + contrasena;
 
     }
 
@@ -43,7 +42,7 @@ public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
     protected void onPreExecute() {
 
         super.onPreExecute();
-        progressDialog = ProgressDialog.show(httpContext, "Iniciando Sesión.", "Por favor, espere...");
+        progressDialog = ProgressDialog.show(this.contexto, "Iniciando Sesión.", "Por favor, espere...");
 
     }
 
@@ -52,7 +51,7 @@ public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
 
         String result= null;
 
-        String wsURL = linkrequestAPI;
+        String wsURL = this.linkAPI;
         URL url = null;
         try {
 
@@ -76,17 +75,13 @@ public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
 
                     String key = jsonReader.nextName();
 
-                    if (key.equals("foto")) {
+                    if(key.equals("idProfesor")){
 
-                        foto = jsonReader.nextString();
+                        this.idProfesor = jsonReader.nextInt();
 
-                    }else if(key.equals("nombre")) {
+                    }else if(key.equals("estado")){
 
-                        nombre = jsonReader.nextString();
-
-                    }else if(key.equals("idProfesor")){
-
-                        idProfesor = jsonReader.nextInt();
+                        this.estado = jsonReader.nextBoolean();
 
                     }else {
 
@@ -141,33 +136,43 @@ public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
 
         if(resultadoapi == null){
 
-            Toast.makeText(httpContext, "Error del servidor.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.contexto, "Error del servidor.", Toast.LENGTH_LONG).show();
 
         }else {
 
             if(!resultadoapi.equals("null")){
 
-                AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(httpContext, "sesionProfesor", null, 1);
-                SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-                String correoS = correo;
-                String fotoS = foto;
-                String nombreS = nombre;
-                ContentValues registro = new ContentValues();
-                registro.put("id", "1");
-                registro.put("idProfesor", idProfesor);
-                registro.put("nombre", nombreS);
-                registro.put("correo" , correoS);
-                registro.put("foto", fotoS);
-                baseDeDatos.insert("sesionProfesor", null, registro);
-                baseDeDatos.close();
+                if(this.estado){
 
-                Intent intent = new Intent(httpContext, inicioProfesor.class);
-                httpContext.startActivity(intent);
-                System.out.println(resultadoapi);
+                    AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(this.contexto, "sesionProfesor", null, 1);
+                    SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+                    ContentValues registro = new ContentValues();
+                    registro.put("id", 1);
+                    registro.put("idProfesor", this.idProfesor);
+                    registro.put("correo" , this.correo);
+                    baseDeDatos.insert("sesionProfesor", null, registro);
+                    baseDeDatos.close();
+
+                    Intent intent = new Intent(this.contexto, inicioProfesor.class);
+                    this.contexto.startActivity(intent);
+
+                }else{
+
+                    new MaterialAlertDialogBuilder(this.contexto, R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
+                            .setTitle("AVISO")
+                            .setMessage("No tienes permiso para iniciar sesión.")
+                            .setNegativeButton("Entendido", (dialog, which) -> {
+                                Toast.makeText(this.contexto, "Ponte en contacto con soporte técnico.", Toast.LENGTH_LONG).show();
+                            })
+                            .setOnCancelListener(dialog -> {
+                                Toast.makeText(this.contexto, "Ponte en contacto con soporte técnico.", Toast.LENGTH_LONG).show();
+                            })
+                            .show();
+                }
 
             }else{
 
-                Toast.makeText(httpContext, "Usuario no registrado.",Toast.LENGTH_LONG).show();
+                Toast.makeText(this.contexto, "Usuario no registrado.",Toast.LENGTH_LONG).show();
 
             }
 

@@ -28,6 +28,10 @@
                 android:id="@+id/nav_cerrarSesion"
                 android:icon="@drawable/ic_close_black_24dp"
                 android:title="@string/menu_cerrarSesion" />
+            <item
+                android:id="@+id/nav_ayuda"
+                android:icon="@drawable/ic_help_black_24dp"
+                android:title="@string/menu_ayuda"/>
         </menu>
     </item>
 

@@ -1,4 +1,4 @@
-package com.proathome.controladores;
+package com.proathome.controladores.estudiante;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -42,7 +42,6 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
 
     @Override
     protected void onPreExecute() {
-
         super.onPreExecute();
     }
 
@@ -131,13 +130,11 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
                 try{
 
                     JSONObject jsonObject = new JSONObject(resultadoApi);
-                    System.out.println(jsonObject);
+
                     if(this.tipo == Constants.FOTO_EDITAR_PERFIL)
                         EditarPerfilFragment.ivFoto.setImageBitmap(loadedImage);
                     else if (this.tipo == Constants.FOTO_PERFIL)
                         inicioEstudiante.foto.setImageBitmap(loadedImage);
-                    else if(this.tipo == Constants.FOTO_PERFIL_PROFESOR)
-                        inicioProfesor.foto.setImageBitmap(loadedImage);
 
                     if(this.tipo == Constants.INFO_PERFIl_EDITAR){
 

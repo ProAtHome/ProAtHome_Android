@@ -50,8 +50,8 @@
 
                 <fragment
                     xmlns:map="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/maps"
-                    class="com.proathome.controladores.WorkaroundMapFragmentGestionar"
+                    android:id="@+id/map"
+                    class="com.proathome.controladores.WorkaroundMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="500dp"
                     map:layout_constraintEnd_toEndOf="parent"
@@ -68,9 +68,9 @@
                     android:layout_marginBottom="15dp"
                     android:hint="Dirección"
                     app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="@id/maps"
-                    app:layout_constraintStart_toStartOf="@id/maps"
-                    app:layout_constraintTop_toBottomOf="@id/maps">
+                    app:layout_constraintEnd_toEndOf="@id/map"
+                    app:layout_constraintStart_toStartOf="@id/map"
+                    app:layout_constraintTop_toBottomOf="@id/map">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/text_direccionET"
@@ -90,8 +90,8 @@
                     android:layout_marginBottom="10dp"
                     android:hint="Horario"
                     app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="@id/maps"
-                    app:layout_constraintStart_toStartOf="@id/maps"
+                    app:layout_constraintEnd_toEndOf="@id/map"
+                    app:layout_constraintStart_toStartOf="@id/map"
                     app:layout_constraintTop_toBottomOf="@id/text_direccion">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -112,8 +112,8 @@
                     android:layout_marginBottom="10dp"
                     android:hint="Tiempo de la Sesión"
                     app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="@id/maps"
-                    app:layout_constraintStart_toStartOf="@id/maps"
+                    app:layout_constraintEnd_toEndOf="@id/map"
+                    app:layout_constraintStart_toStartOf="@id/map"
                     app:layout_constraintTop_toBottomOf="@id/text_horario">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -134,8 +134,8 @@
                     android:layout_marginBottom="10dp"
                     android:hint="Tipo de Clase"
                     app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="@id/maps"
-                    app:layout_constraintStart_toStartOf="@id/maps"
+                    app:layout_constraintEnd_toEndOf="@id/map"
+                    app:layout_constraintStart_toStartOf="@id/map"
                     app:layout_constraintTop_toBottomOf="@id/text_tiempo">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -156,8 +156,8 @@
                     android:layout_marginBottom="10dp"
                     android:hint="Nivel"
                     app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="@id/maps"
-                    app:layout_constraintStart_toStartOf="@id/maps"
+                    app:layout_constraintEnd_toEndOf="@id/map"
+                    app:layout_constraintStart_toStartOf="@id/map"
                     app:layout_constraintTop_toBottomOf="@id/text_tipo">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -178,8 +178,8 @@
                     android:layout_marginBottom="10dp"
                     android:hint="Observaciones "
                     app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="@id/maps"
-                    app:layout_constraintStart_toStartOf="@id/maps"
+                    app:layout_constraintEnd_toEndOf="@id/map"
+                    app:layout_constraintStart_toStartOf="@id/map"
                     app:layout_constraintTop_toBottomOf="@id/text_nivel">
 
                     <com.google.android.material.textfield.TextInputEditText

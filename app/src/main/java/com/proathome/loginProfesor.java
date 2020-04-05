@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
-import com.proathome.controladores.AdminSQLiteOpenHelperProfesor;
-import com.proathome.controladores.ServicioTaskLoginProfesor;
+import com.proathome.controladores.profesor.AdminSQLiteOpenHelperProfesor;
+import com.proathome.controladores.profesor.ServicioTaskLoginProfesor;
 import com.proathome.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +33,7 @@ public class loginProfesor extends AppCompatActivity {
 
         AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(this, "sesionProfesor", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT nombre, correo, foto FROM sesionProfesor WHERE id = " + "1", null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);
 
         if(fila.moveToFirst()){
 

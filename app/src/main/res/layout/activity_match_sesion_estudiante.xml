@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/fondoprof"
+    tools:context=".MatchSesionEstudiante">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/barLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorProfesor">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_padding_min"
+        android:layout_marginStart="@dimen/common_padding_min"
+        android:layout_marginEnd="@dimen/common_padding_min"
+        android:backgroundTint="@android:color/white"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/common_padding_default">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/fotoEstudiante"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@mipmap/defaultfoto"/>
+
+            <TextView
+                android:id="@+id/nombreTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estudiante: Nombre de Estudiante"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:layout_constraintTop_toBottomOf="@id/fotoEstudiante"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/descripcionTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Descripción: Descripción de Estudiante"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/nombreTV"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/correoTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Correo: Correo de Estudiante"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="@dimen/common_padding_min"
+                app:layout_constraintTop_toBottomOf="@id/descripcionTV"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

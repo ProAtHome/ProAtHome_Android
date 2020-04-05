@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/fondoinicio">
+    android:background="@mipmap/fondoprof">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

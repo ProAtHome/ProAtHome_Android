@@ -1,19 +1,340 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@mipmap/fondoprof"
+    android:padding="@dimen/common_padding_default"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/text_home"
+    <RelativeLayout
+        android:id="@+id/ctFoto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#D9ECECEC"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/ivFoto"
+                android:layout_marginTop="60dp"
+                android:gravity="center"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@mipmap/defaultfoto"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </ImageView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFoto"
+                android:text="@string/cambiar_foto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorProfesor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivFoto">
+
+            </com.google.android.material.button.MaterialButton>
+
+            <TextView
+                android:id="@+id/tvNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre:"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/btnFoto">
+
+            </TextView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/itNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/tvNombre"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:textColor="@android:color/black">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvEdad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Edad:"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/itNombre">
+
+            </TextView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/itEdad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/tvEdad"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEdad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textColor="@android:color/black">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/tvDescripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Descripcion:"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/itEdad">
+
+            </TextView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/itDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/tvDescripcion"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:textColor="@android:color/black">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnActualizarInfo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/colorProfesor"
+                app:layout_constraintTop_toBottomOf="@id/itDesc"
+                android:text="Actualizar Información">
+
+            </com.google.android.material.button.MaterialButton>
+
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/tvInfoBancaria"
+                android:layout_marginTop="80dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="55px"
+                android:text="Información Bancaria">
+
+            </TextView>
+
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/tvTipoDePago"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/tvInfoBancaria"
+                android:text="Tipo de Pago:"
+                android:textStyle="bold"
+                android:textColor="@android:color/black">
+
+            </TextView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/itTipoDePago"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/tvTipoDePago"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:visibility="invisible"
+                    android:id="@+id/etTipoDePago"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:textColor="@android:color/black">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/tvBanco"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/itTipoDePago"
+                android:text="Banco:"
+                android:textStyle="bold"
+                android:textColor="@android:color/black">
+
+            </TextView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/itBanco"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@+id/tvBanco"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:visibility="invisible"
+                    android:id="@+id/etBanco"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:textColor="@android:color/black">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/tvCuenta"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/itBanco"
+                android:text="Número de Cuenta:"
+                android:textStyle="bold"
+                android:textColor="@android:color/black">
+
+            </TextView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/itCuenta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/tvCuenta"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:visibility="invisible"
+                    android:id="@+id/etCuenta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:textColor="@android:color/black">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/tvDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/itCuenta"
+                android:text="Dirección de Facturación:"
+                android:textStyle="bold"
+                android:textColor="@android:color/black">
+
+            </TextView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/itDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/tvDireccion"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:visibility="invisible"
+                    android:id="@+id/etDireccion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:textColor="@android:color/black">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnActualizarInfoBancaria"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/colorProfesor"
+                android:text="Actualizar Datos Bancarios"
+                android:visibility="invisible"
+                app:layout_constraintTop_toBottomOf="@id/itDireccion">
+
+            </com.google.android.material.button.MaterialButton>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".fragments.BottomNavigationBarFragment"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="0dp">
+
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/bottomNavigationPerfil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:background="@color/colorProfesor"
+                    app:itemIconTint="@drawable/states_colors_bottom_navigation"
+                    app:itemTextColor="@drawable/states_colors_bottom_navigation"
+                    app:menu="@menu/menu_bottom_nav_estudiante" />
+
+            </FrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+
+</ScrollView>
