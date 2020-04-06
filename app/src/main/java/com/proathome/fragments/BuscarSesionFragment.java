@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
-import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -38,7 +37,6 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
 
     public static final String TAG = "Nueva Sesión";
     private String linkAPISesiones = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/obtenerSesionesMovil";
-    private String registrarSesionREST = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/agregarSesion";
     public final int RANGO_BUSQUEDA = 2000;
     private double latitud, longitud;
     public static GoogleMap mMap;
@@ -114,6 +112,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
                 .strokeColor(Color.BLUE)
                 .fillColor(R.color.color_ubicacion));
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+
             @Override
             public void onMarkerDragStart(Marker marker) {
 
@@ -144,6 +143,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
             }
 
         });
+
         ServicioTaskObtenerSesiones obtenerSesiones = new ServicioTaskObtenerSesiones(getContext(), this.linkAPISesiones, googleMap);
         obtenerSesiones.execute();
 
@@ -166,6 +166,8 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
                         .setPositiveButton("Ver detalles", ((dialog, which) -> {
                             Intent intent = new Intent(getContext(), MatchSesionEstudiante.class);
                             intent.putExtra("idSesion", marker.getSnippet());
+                            intent.putExtra("latitud", marker.getPosition().latitude);
+                            intent.putExtra("longitud", marker.getPosition().longitude);
                             startActivity(intent);
                         }))
                         .show();

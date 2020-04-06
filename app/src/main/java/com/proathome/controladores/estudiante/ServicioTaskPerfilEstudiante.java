@@ -8,10 +8,8 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.proathome.inicioEstudiante;
-import com.proathome.inicioProfesor;
 import com.proathome.ui.editarPerfil.EditarPerfilFragment;
 import com.proathome.utils.Constants;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;

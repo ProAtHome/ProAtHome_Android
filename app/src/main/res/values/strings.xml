@@ -192,5 +192,7 @@
     <string name="actualizar">Actualizar</string>
     <string name="eliminar">Eliminar</string>
     <string name="menu_ayuda">Ayuda</string>
+    <string name="match">Tomar Clase</string>
+    <string name="seguir_buscando">Seguir Buscando</string>
 
 </resources>
