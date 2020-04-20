@@ -2,6 +2,7 @@ package com.proathome;
 
 import android.os.Bundle;
 import com.proathome.utils.CommonUtils;
+import com.proathome.utils.CommonUtilsSesionesProfesor;
 import com.proathome.utils.Constants;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -26,8 +27,21 @@ public class StaticActivity extends AppCompatActivity {
         String nameFragment = null;
         if(savedInstanceState == null){
 
-            nameFragment = getIntent().getStringExtra(Constants.ARG_NAME);
-            CommonUtils.setFragment(this, nameFragment, R.id.content_static, 1, "1", "1", "1", "1", "1", "1", "1", 1.0, 1.0);
+            nameFragment = getIntent().getStringExtra(Constants.ARG_NAME);String nivel= getIntent().getStringExtra("nivel");
+            int idClase = getIntent().getIntExtra("idClase" , 0);
+            String profesor = getIntent().getStringExtra("profesor");
+            String nombreEstudiante = getIntent().getStringExtra("nombreEstudiante");
+            String correo = getIntent().getStringExtra("correo");
+            String descripcion = getIntent().getStringExtra("descripcion");
+            String foto = getIntent().getStringExtra("foto");
+            String lugar = getIntent().getStringExtra("lugar");
+            String tiempo = getIntent().getStringExtra("tiempo");
+            String observaciones = getIntent().getStringExtra("observaciones");
+            String tipoClase = getIntent().getStringExtra("tipoClase");
+            String horario = getIntent().getStringExtra("horario");
+            double latitud = getIntent().getDoubleExtra("latitud", 0.0);
+            double longitud = getIntent().getDoubleExtra("longitud", 0.0);
+            CommonUtilsSesionesProfesor.setFragment(this, nameFragment, R.id.content_static, idClase, nombreEstudiante, descripcion, correo, foto, nivel, tipoClase, horario, profesor, lugar, tiempo, observaciones, latitud, longitud);
 
         }
 

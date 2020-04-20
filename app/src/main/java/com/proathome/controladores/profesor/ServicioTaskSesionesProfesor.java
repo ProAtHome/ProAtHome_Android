@@ -1,13 +1,11 @@
-package com.proathome.controladores.estudiante;
+package com.proathome.controladores.profesor;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
-import com.proathome.fragments.DetallesFragment;
-import com.proathome.fragments.DetallesGestionarFragment;
-import com.proathome.ui.inicio.InicioFragment;
-import com.proathome.ui.sesiones.SesionesFragment;
+import com.proathome.fragments.DetallesSesionProfesorFragment;
+import com.proathome.ui.inicioProfesor.InicioProfesorFragment;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,21 +16,18 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String> {
+public class ServicioTaskSesionesProfesor extends AsyncTask<Void, Void, String> {
 
-    private Context httpContext;
     private ProgressDialog progressDialog;
-    public String resultadoapi="";
-    public String linkrequestAPI="";
-    public String respuesta;
-    public int idCliente;
-    public int tipo;
+    private String linkAPI, respuestaAPI;
+    private int idProfesor, tipo;
+    private Context contexto;
 
-    public ServicioTaskSesionesEstudiante(Context context, String linkAPI, int idCliente, int tipo){
+    public ServicioTaskSesionesProfesor(Context contexto, String linkAPI, int idProfesor, int tipo){
 
-        this.httpContext = context;
-        this.idCliente = idCliente;
-        this.linkrequestAPI = linkAPI + idCliente;
+        this.contexto = contexto;
+        this.linkAPI = linkAPI + idProfesor;
+        this.idProfesor = idProfesor;
         this.tipo = tipo;
 
     }
@@ -41,7 +36,7 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
     protected void onPreExecute() {
 
         super.onPreExecute();
-        progressDialog = ProgressDialog.show(httpContext, "Cargando tus Clases.", "Por favor, espere...");
+        progressDialog = ProgressDialog.show(this.contexto, "Cargando Sesiones", "Por favor, espere...");
 
     }
 
@@ -49,7 +44,7 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
     protected String doInBackground(Void... voids) {
 
         String result =  null;
-        String wsURL = linkrequestAPI;
+        String wsURL = this.linkAPI;
         URL url = null;
 
         try{
@@ -78,12 +73,12 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
                 }
                 in.close();
                 result= sb.toString();
-                respuesta = result;
+                this.respuestaAPI = result;
 
             }else{
 
                 result = new String("Error: "+ responseCode);
-                respuesta = null;
+                this.respuestaAPI = null;
 
             }
 
@@ -103,32 +98,29 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
     protected void onPostExecute(String s) {
 
         super.onPostExecute(s);
+        this.respuestaAPI = s;
         progressDialog.dismiss();
-        resultadoapi=s;
 
-        if(resultadoapi == null){
+        if(this.respuestaAPI == null){
 
-            Toast.makeText(httpContext, "Error del servidor.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.contexto, "Error del servidor.", Toast.LENGTH_LONG).show();
 
         }else{
 
-            if(!resultadoapi.equals("null")){
+            if(!this.respuestaAPI.equals("null")){
 
                 try{
-
-                    JSONObject jsonObject = new JSONObject(resultadoapi);
-                    JSONArray jsonArray = jsonObject.getJSONArray("sesiones");
+                    System.out.println(this.respuestaAPI);
+                    JSONArray jsonArray = new JSONArray(this.respuestaAPI);
                     for (int i = 0; i < jsonArray.length(); i++){
 
                         JSONObject object = jsonArray.getJSONObject(i);
                         if(tipo == 1) {
-                            InicioFragment.myAdapter.add(DetallesFragment.getmInstance(object.getInt("idsesiones"), object.getString("nivel"), object.getString("tipoClase"), object.getString("horario"),
-                                    object.getString("profesor").equals("null") ? "Sin profesor Asignado" : object.getString("profesor"), object.getString("lugar"), object.getString("tiempo"), object.getString("extras"), object.getDouble("latitud"),
+                            InicioProfesorFragment.myAdapter.add(DetallesSesionProfesorFragment.getmInstance(object.getInt("idsesiones"), object.getString("nombreEstudiante"), object.getString("descripcion"), object.getString("correo"), object.getString("foto"), object.getString("nivel"), object.getString("tipoClase"), object.getString("horario"),
+                                    "Soy yo", object.getString("lugar"), object.getString("tiempo"), object.getString("extras"), object.getDouble("latitud"),
                                     object.getDouble("longitud")));
                         }else if(tipo == 2){
-                            SesionesFragment.myAdapter.add(DetallesGestionarFragment.getmInstance(object.getInt("idsesiones"), object.getString("nivel"), object.getString("tipoClase"), object.getString("horario"),
-                                    object.getString("profesor").equals("null") ? "Sin profesor Asignado" : object.getString("profesor") , object.getString("lugar"), object.getString("tiempo"), object.getString("extras"), object.getDouble("latitud"),
-                                    object.getDouble("longitud"), object.getString("actualizado")));
+                            //SesionesProfesorFragment.myAdapter.add();
                         }
 
                     }
@@ -141,7 +133,7 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
 
             }else{
 
-                Toast.makeText(httpContext, "Usuario sin Sesiones.",Toast.LENGTH_LONG).show();
+                Toast.makeText(this.contexto, "Usuario sin Sesiones.",Toast.LENGTH_LONG).show();
 
             }
 

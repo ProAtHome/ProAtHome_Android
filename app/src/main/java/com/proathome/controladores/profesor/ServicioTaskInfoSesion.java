@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.JsonReader;
+import android.view.View;
 import android.widget.Toast;
 import com.proathome.MatchSesionEstudiante;
 import java.io.BufferedReader;
@@ -22,7 +23,7 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
     private ProgressDialog progressDialog;
     private String linkAPI, linkFoto, respuestaAPI, nombre, descripcion, correo, direccion, tiempo, nivel, tipo, horario, observaciones, foto;
     private double latitud, longitud;
-    private int idSesion;
+    private int idSesion, idProfesor;
     private Bitmap loadedImage;
 
     public ServicioTaskInfoSesion(Context contexto, String linkAPI, String linkFoto, int idSesion){
@@ -70,6 +71,8 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
 
                     if (key.equals("nombre"))
                         this.nombre = jsonReader.nextString();
+                    else if(key.equals("idProfesor"))
+                        this.idProfesor = jsonReader.nextInt();
                     else if (key.equals("descripcion"))
                         this.descripcion = jsonReader.nextString();
                     else if (key.equals("correo"))
@@ -80,7 +83,7 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
                         this.latitud = jsonReader.nextDouble();
                     else if (key.equals("longitud"))
                         this.longitud = jsonReader.nextDouble();
-                    else if (key.equals("direccion"))
+                    else if (key.equals("lugar"))
                         this.direccion = jsonReader.nextString();
                     else if (key.equals("tiempo"))
                         this.tiempo = jsonReader.nextString();
@@ -156,10 +159,21 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
 
             if(!this.respuestaAPI.equals("null")){
 
+                if(MatchSesionEstudiante.idProfesorSesion == this.idProfesor || this.idProfesor != 0){
+                    MatchSesionEstudiante.matchBTN.setVisibility(View.INVISIBLE);
+                }else{
+                    MatchSesionEstudiante.matchBTN.setVisibility(View.VISIBLE);
+                }
                 MatchSesionEstudiante.imageView.setImageBitmap(loadedImage);
                 MatchSesionEstudiante.nombreTV.setText(this.nombre);
                 MatchSesionEstudiante.correoTV.setText(this.correo);
                 MatchSesionEstudiante.descripcionTV.setText(this.descripcion);
+                MatchSesionEstudiante.direccionTV.setText("Dirección: " + this.direccion);
+                MatchSesionEstudiante.tiempoTV.setText("Tiempo de la Sesión: " + this.tiempo);
+                MatchSesionEstudiante.nivelTV.setText("Nivel: " + this.nivel);
+                MatchSesionEstudiante.tipoClaseTV.setText("Tipo de clase: " + this.tipo);
+                MatchSesionEstudiante.observacionesTV.setText("Observaciones: " + this.observaciones);
+                MatchSesionEstudiante.horarioTV.setText("Horario: " + this.horario);
 
             }else{
 

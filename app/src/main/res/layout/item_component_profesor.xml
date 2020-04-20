@@ -10,57 +10,54 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/common_padding_default">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgPhoto"
-            android:layout_width="0dp"
-            android:layout_height="110dp"
-            android:scaleType="centerCrop"
+            android:layout_width="80dp"
+            android:layout_height="90dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/tvNivel"
-            android:layout_width="match_parent"
+            android:id="@+id/tvNombreEstudiante"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAppearance="?attr/textAppearanceListItem"
-            android:padding="@dimen/common_padding_min"
-            android:background="@drawable/background_item"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/common_padding_min"
+            android:text="Sesion con: Nombre de Estudiante"
+            app:layout_constraintStart_toEndOf="@id/imgPhoto"
             app:layout_constraintTop_toTopOf="@id/imgPhoto"
             android:textColor="@android:color/black"/>
 
         <TextView
-            android:id="@+id/tvTipo"
-            android:layout_width="match_parent"
+            android:id="@+id/tvNivel"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Text2" android:textStyle="bold"
+            android:text="Nivel: Nivel de la Sesión"
+            android:textStyle="bold"
             android:textAppearance="?attr/textAppearanceListItem"
-            android:padding="@dimen/common_padding_min"
+            android:layout_marginStart="@dimen/common_padding_min"
             android:background="@drawable/background_item"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvNivel"
+            app:layout_constraintTop_toTopOf="@id/imgPhoto"
+            app:layout_constraintStart_toEndOf="@id/imgPhoto"
+            app:layout_constraintBottom_toBottomOf="@id/imgPhoto"
             android:textColor="@android:color/black"/>
 
         <TextView
             android:id="@+id/tvHorario"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Text2" android:textStyle="bold"
+            android:text="Horario: Horario de la Sesión"
+            android:textStyle="bold"
+            android:layout_marginStart="@dimen/common_padding_min"
             android:textAppearance="?attr/textAppearanceListItem"
-            android:padding="@dimen/common_padding_min"
-            android:background="@drawable/background_item"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTipo"
+            app:layout_constraintStart_toEndOf="@id/imgPhoto"
+            app:layout_constraintBottom_toBottomOf="@id/imgPhoto"
             android:textColor="@android:color/black"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </com.google.android.material.card.MaterialCardView>

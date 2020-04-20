@@ -28,13 +28,11 @@ public class ServicioTaskObtenerSesiones extends AsyncTask<Void, Void, String> {
     private ProgressDialog progressDialog;
     private String linkAPI, respuestaAPI, nombre;
     private Context contexto;
-    private GoogleMap googleMap;
 
-    public ServicioTaskObtenerSesiones(Context contexto, String linkAPI, GoogleMap googleMap){
+    public ServicioTaskObtenerSesiones(Context contexto, String linkAPI){
 
         this.contexto = contexto;
         this.linkAPI = linkAPI;
-        this.googleMap = googleMap;
 
     }
 
@@ -115,9 +113,14 @@ public class ServicioTaskObtenerSesiones extends AsyncTask<Void, Void, String> {
 
                         JSONObject object = jsonArray.getJSONObject(i);
                         LatLng ubicacion = new LatLng(object.getDouble("latitud"), object.getDouble("longitud"));
-                        Marker marker = BuscarSesionFragment.mMap.addMarker(new MarkerOptions().position(ubicacion).title("Sesion de: " + object.getString("nombre") + "\n" + "Nivel: " + object.getString("nivel")).snippet(String.valueOf(object.getInt("idSesion"))).visible(true));
+                        Marker marker = BuscarSesionFragment.mMap.addMarker(new MarkerOptions().position(ubicacion).title("Sesion de: " + object.getString("nombre") + "\n" + "Nivel: " + object.getString("nivel")).snippet(String.valueOf(object.getInt("idSesion"))));
                         BuscarSesionFragment.perth.add(marker);
 
+                    }
+                    LatLng ubicacion = new LatLng(19.4326077, -99.13320799999);
+                    for(Marker marcador: BuscarSesionFragment.perth){
+                        LatLng latLng = marcador.getPosition();
+                        BuscarSesionFragment.mostrarMarcadores(ubicacion, latLng, marcador);
                     }
 
                 }catch(JSONException ex){

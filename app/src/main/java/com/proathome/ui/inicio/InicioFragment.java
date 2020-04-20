@@ -22,7 +22,6 @@ import butterknife.Unbinder;
 
 public class InicioFragment extends Fragment {
 
-    private InicioViewModel inicioViewModel;
     public static ComponentAdapter myAdapter;
     private String clasesHttpAddress = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerSesiones/";
     private ServicioTaskSesionesEstudiante sesionesTask;
@@ -32,7 +31,7 @@ public class InicioFragment extends Fragment {
     RecyclerView recyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        inicioViewModel = ViewModelProviders.of(this).get(InicioViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_inicio, container, false);
         mUnbinder = ButterKnife.bind(this, root);
 

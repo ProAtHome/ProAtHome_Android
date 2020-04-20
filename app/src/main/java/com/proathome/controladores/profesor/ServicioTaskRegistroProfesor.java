@@ -17,6 +17,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> {
 
@@ -68,7 +70,11 @@ public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> 
             parametrosPost.put("edad",edad);
             parametrosPost.put("contrasena", contrasena);
             parametrosPost.put("fechaNacimiento", fecha);
-            parametrosPost.put("fechaRegistro", "2019-04-13");
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd"); //SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
+            String strDate =  mdformat.format(calendar.getTime());
+            System.out.println(strDate);
+            parametrosPost.put("fechaRegistro", strDate);
 
             //DEFINIR PARAMETROS DE CONEXION
             urlConnection.setReadTimeout(15000);

@@ -4,4 +4,6 @@ public interface OnClickListener {
 
     void onClick(Component component);
 
+    void onClickProfesor(ComponentSesionesProfesor component);
+
 }

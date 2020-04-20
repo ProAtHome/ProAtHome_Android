@@ -37,7 +37,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
 
     public static final String TAG = "Nueva Sesión";
     private String linkAPISesiones = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/obtenerSesionesMovil";
-    public final int RANGO_BUSQUEDA = 2000;
+    public static int RANGO_BUSQUEDA = 4000;
     private double latitud, longitud;
     public static GoogleMap mMap;
     public static List<Marker> perth = new ArrayList<>();
@@ -111,6 +111,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
                 .radius(RANGO_BUSQUEDA)
                 .strokeColor(Color.BLUE)
                 .fillColor(R.color.color_ubicacion));
+
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
 
             @Override
@@ -144,7 +145,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
 
         });
 
-        ServicioTaskObtenerSesiones obtenerSesiones = new ServicioTaskObtenerSesiones(getContext(), this.linkAPISesiones, googleMap);
+        ServicioTaskObtenerSesiones obtenerSesiones = new ServicioTaskObtenerSesiones(getContext(), this.linkAPISesiones);
         obtenerSesiones.execute();
 
         BuscarSesionFragment.mMap.setOnMarkerClickListener(marker -> {
@@ -179,7 +180,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
 
     }
 
-    public void mostrarMarcadores(LatLng profesor, LatLng marcador, Marker marker){
+    public static void mostrarMarcadores(LatLng profesor, LatLng marcador, Marker marker){
 
         double latProfesor = profesor.latitude;
         double longProfesor = profesor.longitude;
@@ -195,7 +196,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
 
     }
 
-    public double distanciaEntre(double latProfesor, double longProfesor, double latMarcador, double longMarcador) {
+    public static double distanciaEntre(double latProfesor, double longProfesor, double latMarcador, double longMarcador) {
 
         double earthRadius = 6371000; //meters
         double dLat = Math.toRadians(latMarcador - latProfesor);
