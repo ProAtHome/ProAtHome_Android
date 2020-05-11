@@ -40,7 +40,6 @@
             android:textStyle="bold"
             android:textAppearance="?attr/textAppearanceListItem"
             android:layout_marginStart="@dimen/common_padding_min"
-            android:background="@drawable/background_item"
             app:layout_constraintTop_toTopOf="@id/imgPhoto"
             app:layout_constraintStart_toEndOf="@id/imgPhoto"
             app:layout_constraintBottom_toBottomOf="@id/imgPhoto"

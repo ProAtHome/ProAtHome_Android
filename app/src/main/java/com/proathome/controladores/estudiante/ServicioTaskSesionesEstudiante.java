@@ -123,11 +123,11 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
                         JSONObject object = jsonArray.getJSONObject(i);
                         if(tipo == 1) {
                             InicioFragment.myAdapter.add(DetallesFragment.getmInstance(object.getInt("idsesiones"), object.getString("nivel"), object.getString("tipoClase"), object.getString("horario"),
-                                    object.getString("profesor").equals("null") ? "Sin profesor Asignado" : object.getString("profesor"), object.getString("lugar"), object.getString("tiempo"), object.getString("extras"), object.getDouble("latitud"),
+                                    object.getString("profesor"), object.getString("lugar"), object.getString("tiempo"), object.getString("extras"), object.getDouble("latitud"),
                                     object.getDouble("longitud")));
                         }else if(tipo == 2){
                             SesionesFragment.myAdapter.add(DetallesGestionarFragment.getmInstance(object.getInt("idsesiones"), object.getString("nivel"), object.getString("tipoClase"), object.getString("horario"),
-                                    object.getString("profesor").equals("null") ? "Sin profesor Asignado" : object.getString("profesor") , object.getString("lugar"), object.getString("tiempo"), object.getString("extras"), object.getDouble("latitud"),
+                                    object.getString("profesor"), object.getString("lugar"), object.getString("tiempo"), object.getString("extras"), object.getDouble("latitud"),
                                     object.getDouble("longitud"), object.getString("actualizado")));
                         }
 

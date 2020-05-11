@@ -136,7 +136,7 @@ public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
 
         if(resultadoapi == null){
 
-            Toast.makeText(this.contexto, "Error del servidor.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.contexto, "No estás registrado.", Toast.LENGTH_LONG).show();
 
         }else {
 

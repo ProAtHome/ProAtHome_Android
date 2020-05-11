@@ -1,26 +1,28 @@
 package com.proathome.fragments;
 
 import android.Manifest;
-import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import android.util.Log;
+
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
 import com.proathome.controladores.WorkaroundMapFragment;
 import com.proathome.utils.Component;
@@ -76,9 +78,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_detalles, container, false);
         mUnbinder = ButterKnife.bind(this, view);
         Bundle bun = getArguments();
@@ -103,11 +104,36 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
         if (mMap == null) {
 
-            SupportMapFragment mapFragment = (WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetalles);
-            mapFragment.getMapAsync(this);
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                showAlert();
+            }else{
+                SupportMapFragment mapFragment = (WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetalles);
+                mapFragment.getMapAsync(this);
+            }
 
         }
 
+    }
+
+    private void showAlert() {
+        new MaterialAlertDialogBuilder(getActivity(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
+                .setTitle("Permisos de Ubicación")
+                .setMessage("Necesitamos tu permiso :)")
+                .setPositiveButton("Dar permiso", (dialog, which) -> {
+
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(myIntent);
+
+                })
+                .setNegativeButton("Cancelar", (dialog, which) -> {
+                    Toast.makeText(getContext(), "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
+                    getFragmentManager().beginTransaction().detach(this).commit();
+                })
+                .setOnCancelListener(dialog -> {
+                    Toast.makeText(getContext(), "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
+                    getFragmentManager().beginTransaction().detach(this).commit();
+                })
+                .show();
     }
 
     @Override
@@ -123,36 +149,16 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
         mMap = googleMap;
 
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            //Requiere permisos para Android 6.0
-            Log.e("Location", "No se tienen permisos necesarios!, se requieren.");
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 225);
-            return;
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
 
-        }else{
+        mScrollView = getView().findViewById(R.id.scrollMapDetalles); //parent scrollview in xml, give your scrollview id value
+        ((WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetalles))
+                .setListener(() -> mScrollView.requestDisallowInterceptTouchEvent(true));
 
-            Log.i("Location", "Permisos necesarios OK!.");
-            LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        mMap.setMyLocationEnabled(true);
 
-            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            mMap.getUiSettings().setZoomControlsEnabled(true);
-
-            mScrollView = getView().findViewById(R.id.scrollMapDetalles); //parent scrollview in xml, give your scrollview id value
-            ((WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetalles))
-                    .setListener(new WorkaroundMapFragment.OnTouchListener() {
-                        @Override
-                        public void onTouch()
-                        {
-                            mScrollView.requestDisallowInterceptTouchEvent(true);
-                        }
-                    });
-
-            mMap.setMyLocationEnabled(true);
-
-
-            agregarMarca(googleMap, latitud, longitud);
-        }
+        agregarMarca(googleMap, latitud, longitud);
 
     }
 

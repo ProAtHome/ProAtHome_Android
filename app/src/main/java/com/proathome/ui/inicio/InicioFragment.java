@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioTaskSesionesEstudiante;
@@ -25,7 +24,6 @@ public class InicioFragment extends Fragment {
     public static ComponentAdapter myAdapter;
     private String clasesHttpAddress = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerSesiones/";
     private ServicioTaskSesionesEstudiante sesionesTask;
-    private int idCliente = 0;
     private Unbinder mUnbinder;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -78,4 +76,5 @@ public class InicioFragment extends Fragment {
         mUnbinder.unbind();
 
     }
+
 }

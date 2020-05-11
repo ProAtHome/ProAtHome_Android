@@ -134,7 +134,7 @@ public class ServicioTaskLoginEstudiante extends AsyncTask<Void, Void, String> {
 
         if(resultadoapi == null){
 
-            Toast.makeText(httpContext, "Error del servidor.", Toast.LENGTH_LONG).show();
+            Toast.makeText(httpContext, "No estás registrado.", Toast.LENGTH_LONG).show();
 
         }else {
 

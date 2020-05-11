@@ -2,6 +2,7 @@ package com.proathome.fragments;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -10,13 +11,16 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,6 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.controladores.estudiante.ServicioTaskEliminarSesion;
@@ -68,7 +73,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     MaterialButton btnActualizar;
     @BindView(R.id.btnEliminarSesion)
     MaterialButton btnEliminar;
-    public ScrollView mScrollView;
+    public NestedScrollView mScrollView;
     private Unbinder mUnbinder;
     private int idClase = 0;
     private double longitud = -99.13320799999, latitud = 19.4326077;
@@ -104,11 +109,38 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
 
         if (mMap == null) {
 
-            SupportMapFragment mapFragment = (WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetallesG);
-            mapFragment.getMapAsync(this);
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                showAlert();
+            }else{
+
+                SupportMapFragment mapFragment = (WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetallesG);
+                mapFragment.getMapAsync(this);
+
+            }
 
         }
 
+    }
+
+    private void showAlert() {
+        new MaterialAlertDialogBuilder(getActivity(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
+                .setTitle("Permisos de Ubicación")
+                .setMessage("Necesitamos tu permiso :)")
+                .setPositiveButton("Dar permiso", (dialog, which) -> {
+
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(myIntent);
+
+                })
+                .setNegativeButton("Cancelar", (dialog, which) -> {
+                    Toast.makeText(getContext(), "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
+                    getFragmentManager().beginTransaction().detach(this).commit();
+                })
+                .setOnCancelListener(dialog -> {
+                    Toast.makeText(getContext(), "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
+                    getFragmentManager().beginTransaction().detach(this).commit();
+                })
+                .show();
     }
 
     public static Component getmInstance(int idClase, String nivel, String tipoClase, String horario, String profesor, String lugar, String tiempo, String observaciones, double latitud, double longitud, String actualizado){
@@ -136,30 +168,16 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
 
         mMap = googleMap;
 
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            //Requiere permisos para Android 6.0
-            Log.e("Location", "No se tienen permisos necesarios!, se requieren.");
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 225);
-            return;
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
 
-        }else{
+        mScrollView = getActivity().findViewById(R.id.content_scroll); //parent scrollview in xml, give your scrollview id value
+        ((WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetallesG))
+                .setListener(() -> mScrollView.requestDisallowInterceptTouchEvent(true));
 
-            Log.i("Location", "Permisos necesarios OK!.");
-            LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        mMap.setMyLocationEnabled(true);
 
-            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            mMap.getUiSettings().setZoomControlsEnabled(true);
-
-            mScrollView = getView().findViewById(R.id.scrollMapGestionar); //parent scrollview in xml, give your scrollview id value
-            ((WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetallesG))
-                    .setListener(() -> mScrollView.requestDisallowInterceptTouchEvent(true));
-
-            mMap.setMyLocationEnabled(true);
-
-
-            agregarMarca(googleMap, latitud, longitud);
-        }
+        agregarMarca(googleMap, latitud, longitud);
 
     }
 

@@ -1,16 +1,23 @@
 package com.proathome.fragments;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -115,11 +122,6 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
 
             @Override
-            public void onMarkerDragStart(Marker marker) {
-
-            }
-
-            @Override
             public void onMarkerDrag(Marker marker) {
                 latitud = profesorPerth.getPosition().latitude;
                 longitud = profesorPerth.getPosition().longitude;
@@ -129,6 +131,11 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
                     LatLng latLng = marcador.getPosition();
                     mostrarMarcadores(ubicacion, latLng, marcador);
                 }
+            }
+
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+
             }
 
             @Override
@@ -165,11 +172,15 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
 
                         })
                         .setPositiveButton("Ver detalles", ((dialog, which) -> {
-                            Intent intent = new Intent(getContext(), MatchSesionEstudiante.class);
-                            intent.putExtra("idSesion", marker.getSnippet());
-                            intent.putExtra("latitud", marker.getPosition().latitude);
-                            intent.putExtra("longitud", marker.getPosition().longitude);
-                            startActivity(intent);
+                            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                showAlert();
+                            }else{
+                                Intent intent = new Intent(getContext(), MatchSesionEstudiante.class);
+                                intent.putExtra("idSesion", marker.getSnippet());
+                                intent.putExtra("latitud", marker.getPosition().latitude);
+                                intent.putExtra("longitud", marker.getPosition().longitude);
+                                startActivity(intent);
+                            }
                         }))
                         .show();
             }
@@ -178,6 +189,25 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
         });
         BuscarSesionFragment.mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion,15));
 
+    }
+
+    private void showAlert() {
+        new MaterialAlertDialogBuilder(getActivity(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
+                .setTitle("Permisos de Ubicación")
+                .setMessage("Necesitamos tu permiso :)")
+                .setPositiveButton("Dar permiso", (dialog, which) -> {
+
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(myIntent);
+
+                })
+                .setNegativeButton("Cancelar", (dialog, which) -> {
+                    Toast.makeText(getContext(), "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
+                })
+                .setOnCancelListener(dialog -> {
+                    Toast.makeText(getContext(), "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
+                })
+                .show();
     }
 
     public static void mostrarMarcadores(LatLng profesor, LatLng marcador, Marker marker){

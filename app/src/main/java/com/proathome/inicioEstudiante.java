@@ -31,6 +31,7 @@ public class inicioEstudiante extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_estudiante);
         Toolbar toolbar = findViewById(R.id.toolbar);
