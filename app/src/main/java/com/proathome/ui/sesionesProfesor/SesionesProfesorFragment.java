@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.proathome.R;
@@ -27,6 +29,7 @@ public class SesionesProfesorFragment extends Fragment {
 
     private String linkAPISesiones = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/obtenerSesionesMovil";
     private Unbinder mUnbinder;
+    public static LottieAnimationView lottieAnimationView;
     @BindView(R.id.fabNuevaSesion)
     FloatingActionButton fabNuevaSesion;
     @BindView(R.id.fabActualizar)
@@ -36,6 +39,7 @@ public class SesionesProfesorFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_sesiones_profesor, container, false);
         mUnbinder = ButterKnife.bind(this, root);
+        lottieAnimationView = root.findViewById(R.id.animation_view);
 
         return root;
     }

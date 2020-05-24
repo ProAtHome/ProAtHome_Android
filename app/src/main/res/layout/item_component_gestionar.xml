@@ -13,16 +13,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/imgGestionar"
-            android:layout_width="80dp"
+            android:layout_width="100dp"
             android:layout_height="180dp"
-            android:src="@mipmap/mapsges"
+            android:visibility="visible"
             android:layout_marginStart="@dimen/common_padding_min"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-        </androidx.appcompat.widget.AppCompatImageView>
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_rawRes="@raw/location_g"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"/>
 
         <TextView
             android:id="@+id/actualizado"

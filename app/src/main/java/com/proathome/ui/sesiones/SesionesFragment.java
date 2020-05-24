@@ -13,11 +13,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.proathome.R;
@@ -39,12 +41,18 @@ public class SesionesFragment extends Fragment {
     private ServicioTaskSesionesEstudiante sesionesTask;
     private Unbinder mUnbinder;
     private int idCliente = 0;
+    public static LottieAnimationView lottieAnimationView;
     @BindView(R.id.recyclerGestionar)
     RecyclerView recyclerView;
     @BindView(R.id.fabNuevaSesion)
     FloatingActionButton fabNuevaSesion;
     @BindView(R.id.fabActualizar)
     FloatingActionButton fabActualizar;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public void onResume() {
@@ -60,8 +68,8 @@ public class SesionesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_sesiones, container, false);
+        lottieAnimationView = root.findViewById(R.id.animation_viewSesiones);
         mUnbinder = ButterKnife.bind(this, root);
-
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(),"sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
 

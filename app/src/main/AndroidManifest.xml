@@ -19,7 +19,14 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme.DayNight"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MatchSesionEstudiante"></activity>
+        <activity android:name=".RutaAvanzado"
+            android:theme="@style/AppTheme.NoActionBar" ></activity>
+        <activity android:name=".RutaIntermedio"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RutaBasico"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MatchSesionEstudiante" />
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -53,8 +60,7 @@
         <activity
             android:name=".ScrollActivity"
             android:label="@string/title_activity_scroll"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".inicioEstudiante"
             android:label="@string/title_activity_inicio_estudiante"

@@ -1,0 +1,43 @@
+package com.proathome;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import android.os.Bundle;
+import android.view.View;
+
+import com.google.android.material.button.MaterialButton;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+
+public class RutaAvanzado extends AppCompatActivity {
+
+    private Unbinder mUnbinder;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.cerrar)
+    MaterialButton btnCerrar;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_ruta_avanzado);
+    }
+
+    @OnClick(R.id.cerrar)
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.cerrar:
+                finish();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mUnbinder.unbind();
+    }
+
+}

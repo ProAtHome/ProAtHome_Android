@@ -7,6 +7,18 @@
     android:layout_width="match_parent"
     android:background="@mipmap/fondoinicio">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_viewSesiones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_rawRes="@raw/empty"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerGestionar"
         android:layout_width="0dp"

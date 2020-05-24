@@ -3,9 +3,12 @@ package com.proathome.controladores.profesor;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.Toast;
 import com.proathome.fragments.DetallesSesionProfesorFragment;
 import com.proathome.ui.inicioProfesor.InicioProfesorFragment;
+import com.proathome.ui.sesionesProfesor.SesionesProfesorFragment;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -112,6 +115,13 @@ public class ServicioTaskSesionesProfesor extends AsyncTask<Void, Void, String> 
                 try{
                     System.out.println(this.respuestaAPI);
                     JSONArray jsonArray = new JSONArray(this.respuestaAPI);
+
+                    if(jsonArray.length() == 0 && tipo == 1){
+                        InicioProfesorFragment.lottieAnimationView.setVisibility(View.VISIBLE);
+                    } else if(jsonArray.length() == 0 && tipo == 2){
+                        SesionesProfesorFragment.lottieAnimationView.setVisibility(View.VISIBLE);
+                    }
+
                     for (int i = 0; i < jsonArray.length(); i++){
 
                         JSONObject object = jsonArray.getJSONObject(i);

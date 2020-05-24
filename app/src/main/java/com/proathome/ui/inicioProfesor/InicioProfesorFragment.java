@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.airbnb.lottie.LottieAnimationView;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterSesionesProfesor;
 import com.proathome.controladores.profesor.AdminSQLiteOpenHelperProfesor;
@@ -25,6 +27,7 @@ public class InicioProfesorFragment extends Fragment {
     private String clasesHttpAddress = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/obtenerSesionesProfesorMatch/";
     private ServicioTaskSesionesProfesor sesionesTask;
     private Unbinder mUnbinder;
+    public static LottieAnimationView lottieAnimationView;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
@@ -32,7 +35,7 @@ public class InicioProfesorFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_inicio_profesor, container, false);
         mUnbinder = ButterKnife.bind(this, root);
-
+        lottieAnimationView = root.findViewById(R.id.animation_view);
         AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(getContext(),"sesionProfesor", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
 

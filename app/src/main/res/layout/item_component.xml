@@ -24,13 +24,13 @@
         <TextView
             android:id="@+id/tvNivel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textStyle="bold"
             android:textAppearance="?attr/textAppearanceListItem"
             android:padding="@dimen/common_padding_min"
             android:background="@drawable/background_item"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/animation_view"
             app:layout_constraintTop_toTopOf="@id/imgPhoto"
             android:textColor="@android:color/black"/>
 
@@ -59,6 +59,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTipo"
             android:textColor="@android:color/black"/>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
+            android:layout_width="100dp"
+            android:layout_height="110dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:lottie_rawRes="@raw/location"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

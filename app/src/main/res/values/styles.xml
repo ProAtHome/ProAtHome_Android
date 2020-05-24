@@ -8,6 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MyTheme.DayNight.Add" parent="Base.MyTheme">
+
+        <item name="android:windowEnterTransition">@transition/explode</item>
+
+    </style>
+
     <style name="AppThemeProfesor.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

@@ -194,5 +194,21 @@
     <string name="menu_ayuda">Ayuda</string>
     <string name="match">Tomar Clase</string>
     <string name="seguir_buscando">Seguir Buscando</string>
+    <string name="basico1">Básico 1</string>
+    <string name="basico2">Básico 2</string>
+    <string name="basico3">Básico 3</string>
+    <string name="basico4">Básico 4</string>
+    <string name="basico5">Básico 5</string>
+    <string name="Inermedio1">Intermedio 1</string>
+    <string name="Intermedio1">Intermedio 1</string>
+    <string name="intermedio2">Intermedio 2</string>
+    <string name="intermedio3">Intermedio 3</string>
+    <string name="intermedio4">Intermedio 4</string>
+    <string name="intermedio5">Intermedio 5</string>
+    <string name="avanzado1">Avanzado 1</string>
+    <string name="avanzado2">Avanzado 2</string>
+    <string name="avanzado3">Avanzado 3</string>
+    <string name="avanzado4">Avanzado 4</string>
+    <string name="avanzado5">Avanzado 5</string>
 
 </resources>

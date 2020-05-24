@@ -3,6 +3,7 @@ package com.proathome.controladores.estudiante;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.Toast;
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.DetallesGestionarFragment;
@@ -118,6 +119,13 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
 
                     JSONObject jsonObject = new JSONObject(resultadoapi);
                     JSONArray jsonArray = jsonObject.getJSONArray("sesiones");
+
+                    if(jsonArray.length() == 0 && tipo == 1){
+                        InicioFragment.lottieAnimationView.setVisibility(View.VISIBLE);
+                    }else if(jsonArray.length() == 0 && tipo == 2){
+                        SesionesFragment.lottieAnimationView.setVisibility(View.VISIBLE);
+                    }
+
                     for (int i = 0; i < jsonArray.length(); i++){
 
                         JSONObject object = jsonArray.getJSONObject(i);
