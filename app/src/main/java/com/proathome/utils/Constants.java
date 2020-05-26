@@ -11,6 +11,6 @@ public class Constants {
     public static final int SESIONES_GESTIONAR = 2;
     public static final int INFO_PERFIL = 1;
     public static final int INFO_PERFIl_EDITAR = 2;
-    public static final String IP = "192.168.100.184";
+    public static final String IP = "192.168.100.189";
 
 }
