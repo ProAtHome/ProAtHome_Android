@@ -19,9 +19,16 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme.DayNight"
         android:usesCleartextTraffic="true">
-        <activity android:name=".RutaAvanzado"
-            android:theme="@style/AppTheme.NoActionBar" ></activity>
-        <activity android:name=".RutaIntermedio"
+        <activity android:name=".examen.Diagnostico2"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".examen.Diagnostico1"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RutaAvanzado"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RutaIntermedio"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RutaBasico"

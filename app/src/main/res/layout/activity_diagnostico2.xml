@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".examen.Diagnostico1">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/diagnostico2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/common_padding_min"
+                android:textColor="@android:color/black"
+                android:text="@string/diagnostico2"/>
+
+            <!--Pregunta 1-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/darker_gray"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/part1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="11- He is"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/under1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="withdraw"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/part1"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/part2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="/"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/under1"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/under2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="withdrew"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/part2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/part3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="/"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/under2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/under3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="withdrawing"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/part3"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/part5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="money from the bank."
+                        android:textColor="@android:color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/part1" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--Pregunta 2-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/part1_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="12- She is"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/under1_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="bring"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/part1_2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/part2_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="/"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/under1_2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/under2_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="brought"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/part2_2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/part3_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="/"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/under2_2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/under3_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="bringing"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/part3_2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/part4_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="some"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintStart_toEndOf="@id/under3_2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/part5_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="snacks to share."
+                        android:textColor="@android:color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/part1_2" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--Pregunta 3-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/darker_gray"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/part1_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="13-"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/under1_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="Do"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/part1_3"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/part2_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="/"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/under1_3"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/under2_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="Are"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/part2_3"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/part3_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="/"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/under2_3"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/under3_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="Is"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/part3_3"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/part4_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="they studying for their"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintStart_toEndOf="@id/under3_3"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/part5_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="English test?"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/part1_3" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--Pregunta 4-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/part1_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="14- The technician"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/under1_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="is"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/part1_4"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/part2_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="/"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/under1_4"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/under2_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="am"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/part2_4"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/part3_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="/"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/under2_4"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/under3_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="are"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/part3_4"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/part4_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="revising the"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintStart_toEndOf="@id/under3_4"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/part5_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="laptop."
+                        android:textColor="@android:color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/part1_4" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--Pregunta 5-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/darker_gray"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/part1_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="15- I am"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/under1_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="draw"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/part1_5"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/part2_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="/"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/under1_5"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/under2_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="drew"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/part2_5"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/part3_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="/"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/under2_5"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/under3_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="drawing"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toEndOf="@id/part3_5"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/part4_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="the face of"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintStart_toEndOf="@id/under3_5"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/part5_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="my lassie."
+                        android:textColor="@android:color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/part1_5" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_cancel"
+        android:layout_margin="@dimen/common_padding_default"
+        android:backgroundTint="@color/colorPersonalDark"
+        android:layout_gravity="bottom|end"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -15,6 +15,7 @@ import com.proathome.RutaAvanzado;
 import com.proathome.RutaBasico;
 import com.proathome.R;
 import com.proathome.RutaIntermedio;
+import com.proathome.examen.Diagnostico1;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,15 +25,14 @@ import butterknife.Unbinder;
 public class RutaFragment extends Fragment {
 
     private RutaViewModel rutaViewModel;
-    @BindView(R.id.btnBasico)
-    MaterialButton btnBasico;
     private Unbinder mUnbinder;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rutaViewModel = ViewModelProviders.of(this).get(RutaViewModel.class);
         View root = inflater.inflate(R.layout.fragment_ruta, container, false);
         mUnbinder = ButterKnife.bind(this, root);
-
+        Intent intent = new Intent(getContext(), Diagnostico1.class);
+        startActivity(intent);
         return root;
     }
 

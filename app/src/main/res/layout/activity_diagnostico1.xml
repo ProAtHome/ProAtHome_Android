@@ -1,0 +1,1135 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".examen.Diagnostico1">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/Seccion1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/seccion1"
+                android:layout_margin="@dimen/common_padding_min"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/darker_gray"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/pre1"
+                        android:text="1"
+                        android:textStyle="bold"
+                        android:layout_margin="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/pregunta1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:enabled="true"
+                        app:endIconMode="clear_text"
+                        android:textColorHint="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pre1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pregunta1_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/black"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p1_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+
+                        android:text="like"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta1"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p1_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="you"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p1_1"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta1"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p1_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="do"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p1_2"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta1"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p1_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="What"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p1_3"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta1"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p1_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="\?"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p1_4"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta1"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p1_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="reading"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p1_5"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta1"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/pre2"
+                        android:text="2"
+                        android:textStyle="bold"
+                        android:layout_margin="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/pregunta2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:enabled="true"
+                        app:endIconMode="clear_text"
+                        android:textColorHint="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pre2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pregunta2_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/black"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p2_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="do"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta2"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p2_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="you"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p2_1"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta2"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p2_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="on"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p2_2"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta2"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p2_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="go"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p2_3"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta2"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p2_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Where"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p2_4"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta2"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p2_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="\?"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p2_5"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta2"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p2_7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="holidays"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p2_6"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta2"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/darker_gray"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/pre3"
+                        android:text="3"
+                        android:textStyle="bold"
+                        android:layout_margin="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/pregunta3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:enabled="true"
+                        app:endIconMode="clear_text"
+                        android:textColorHint="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pre3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pregunta3_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/black"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p3_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="She"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta3"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p3_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="aunt"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p3_1"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta3"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p3_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="favourite"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p3_2"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta3"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p3_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="my"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p3_3"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta3"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p3_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="is"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p3_4"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta3"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/pre4"
+                        android:text="4"
+                        android:textStyle="bold"
+                        android:layout_margin="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/pregunta4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:enabled="true"
+                        app:endIconMode="clear_text"
+                        android:textColorHint="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pre4"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pregunta4_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/black"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p4_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="often"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta4"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p4_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="do"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p4_1"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta4"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p4_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="you"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p4_2"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta4"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p4_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="How"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p4_3"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta4"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p4_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="practice"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p4_4"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta4"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p4_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="English"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p4_5"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta4"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p4_7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="your"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/chip_p4_1"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p4_8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="\?"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p4_7"
+                        app:layout_constraintTop_toBottomOf="@id/chip_p4_1"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/darker_gray"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/pre5"
+                        android:text="5"
+                        android:textStyle="bold"
+                        android:layout_margin="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/pregunta5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:enabled="true"
+                        app:endIconMode="clear_text"
+                        android:textColorHint="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pre5"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pregunta5_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/black"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p5_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="I"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta5"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p5_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="eat"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p5_1"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta5"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p5_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="never"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p5_2"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta5"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p5_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="expensive"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p5_3"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta5"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p5_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="on"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p5_4"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta5"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p5_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="restaurants"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p5_5"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta5"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/pre6"
+                        android:text="6"
+                        android:textStyle="bold"
+                        android:layout_margin="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/pregunta6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:enabled="true"
+                        app:endIconMode="clear_text"
+                        android:textColorHint="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pre6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pregunta6_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/black"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p6_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Which"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta6"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p6_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="do"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p6_1"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta6"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p6_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="you"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p6_2"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta6"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p6_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="prefer"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p6_3"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta6"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p6_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="one"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p6_4"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta6"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p6_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="\?"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p6_5"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta6"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/darker_gray"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/pre7"
+                        android:text="7"
+                        android:textStyle="bold"
+                        android:layout_margin="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/pregunta7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:enabled="true"
+                        app:endIconMode="clear_text"
+                        android:textColorHint="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pre7"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pregunta7_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/black"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p7_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="does"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta7"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p7_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="He"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p7_1"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta7"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p7_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="study"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p7_2"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta7"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p7_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="not"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p7_3"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta7"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p7_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="tests"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p7_4"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta7"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p7_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="for"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p7_5"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta7"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p7_7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="his"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p7_6"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta7"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Pregunta 8 -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/pre8"
+                        android:text="8"
+                        android:textStyle="bold"
+                        android:layout_margin="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/pregunta8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:enabled="true"
+                        app:endIconMode="clear_text"
+                        android:textColorHint="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pre8"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pregunta8_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/black"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p8_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Anatomy"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta8"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p8_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="rarely"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p8_1"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta8"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p8_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="study"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p8_2"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta8"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p8_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Engineers"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p8_3"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta8"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--Pregunta 9 -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/darker_gray"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/pre9"
+                        android:text="9"
+                        android:textStyle="bold"
+                        android:layout_margin="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/pregunta9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:enabled="true"
+                        app:endIconMode="clear_text"
+                        android:textColorHint="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pre9"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pregunta9_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/black"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p9_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="NY"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta9"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p9_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="in"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p9_1"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta9"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p9_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="place"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p9_2"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta9"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p9_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="same"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p9_3"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta9"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p9_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="the"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p9_4"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta9"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p9_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="visit"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p9_5"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta9"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p9_7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="always"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p9_6"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta9"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p9_8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="They"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p9_7"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta9"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--Pregunta 10-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/pre10"
+                        android:text="10"
+                        android:textStyle="bold"
+                        android:layout_margin="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/pregunta10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:enabled="true"
+                        app:endIconMode="clear_text"
+                        android:textColorHint="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pre10"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pregunta10_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/black"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p10_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="are"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta10"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p10_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="on"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p10_1"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta10"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p10_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="time"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p10_2"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta10"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p10_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="always"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p10_3"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta10"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_p10_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="They"
+                        android:layout_marginStart="2dp"
+                        app:layout_constraintStart_toEndOf="@id/chip_p10_4"
+                        app:layout_constraintTop_toBottomOf="@id/pregunta10"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnContinuar"
+                android:text="Continuar"
+                android:layout_marginTop="@dimen/common_padding_min"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_cancel"
+        android:layout_margin="@dimen/common_padding_default"
+        android:backgroundTint="@color/colorPersonalDark"
+        android:layout_gravity="bottom|end"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
