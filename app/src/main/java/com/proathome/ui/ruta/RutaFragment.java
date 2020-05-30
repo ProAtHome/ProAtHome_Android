@@ -32,7 +32,7 @@ public class RutaFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_ruta, container, false);
         mUnbinder = ButterKnife.bind(this, root);
         Intent intent = new Intent(getContext(), Diagnostico1.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
         return root;
     }
 

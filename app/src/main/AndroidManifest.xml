@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.proathome">
+    package="com.proathome" >
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -18,12 +18,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyTheme.DayNight"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".examen.Diagnostico2"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".examen.Diagnostico1"
-            android:theme="@style/AppTheme.NoActionBar" />
+        android:usesCleartextTraffic="true" >
+        <activity android:name=".examen.Diagnostico4" >
+        </activity>
+        <activity android:name=".examen.Diagnostico3" />
+        <activity android:name=".examen.Diagnostico2" />
+        <activity android:name=".examen.Diagnostico1" />
         <activity
             android:name=".RutaAvanzado"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -75,7 +75,7 @@
         <activity android:name=".registrarseEstudiante" />
         <activity android:name=".registrarseProfesor" />
         <activity android:name=".loginProfesor" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

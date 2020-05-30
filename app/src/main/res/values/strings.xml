@@ -212,5 +212,10 @@
     <string name="avanzado5">Avanzado 5</string>
     <string name="seccion1">I. Collocate the words in their correct order to form coherent sentences in Present simple To be and Present simple Do.</string>
     <string name="diagnostico2">II. Underline the correct option to create sentences in Present progressive.</string>
+    <string name="diagnostico3">" III. Underline the correct comparative or superlative adjective."</string>
+    <string name="diagnostico4">IV. Select the correct option used to or didn’t use to.</string>
+    <string name="diagnostico5">V. Match the sentences 26-30 with the phrases a-f. First conditional.</string>
+    <string name="diagnostico6">VI. Match the sentences 31-35 with the phrases a-f. Second conditional.</string>
+    <string name="diagnostico7">VII. Underline the correct verb to create coherent passive voice sentences.</string>
 
 </resources>

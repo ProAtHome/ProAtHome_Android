@@ -10,7 +10,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".examen.Diagnostico1">
+        tools:context=".examen.Diagnostico4">
 
         <LinearLayout
             android:orientation="vertical"
@@ -18,12 +18,388 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/diagnostico6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/common_padding_min"
+                android:textColor="@android:color/black"
+                android:text="@string/diagnostico6"/>
+
+            <!--Pregunta 1-->
+            <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/darker_gray"
+            android:layout_marginStart="@dimen/common_padding_min"
+            android:layout_marginEnd="@dimen/common_padding_min"
+            android:layout_marginTop="@dimen/common_padding_min">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/p1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/common_padding_min"
+                    android:text="0- If I had money,"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:layout_margin="@dimen/common_padding_min"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/p1"
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLength="1"
+                            android:textColor="@color/colorPersonalDark"
+                            android:text="b"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--Pregunta 2-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/darker_gray"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/p2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="31- I’d travel around the world,"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:layout_margin="@dimen/common_padding_min"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/p2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLength="1"
+                            android:textColor="@color/colorPersonalDark"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--Pregunta 3-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/darker_gray"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/p3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="32- She’d study music,"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:layout_margin="@dimen/common_padding_min"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/p3"
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLength="1"
+                            android:textColor="@color/colorPersonalDark"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--Pregunta 4-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/darker_gray"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/p4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="33- If he failed the university,"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:layout_margin="@dimen/common_padding_min"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/p4"
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLength="1"
+                            android:textColor="@color/colorPersonalDark" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--Pregunta 5-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/darker_gray"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/p5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="34- If an unknown man tried to kiss me,"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:layout_margin="@dimen/common_padding_min"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/p5"
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLength="1"
+                            android:textColor="@color/colorPersonalDark"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--Pregunta 6-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/darker_gray"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/p6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="35- If I didn’t like my job,"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:layout_margin="@dimen/common_padding_min"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/p6"
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLength="1"
+                            android:textColor="@color/colorPersonalDark"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/frases"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/common_padding_min"
+                android:textColor="@color/colorPersonalDark"
+                android:textStyle="italic|bold"
+                android:text="Phrases"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_f1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="a) If I was very rich."
+                        android:textColor="@color/colorPersonalDark"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_f2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="b) I would buy a mansion."
+                        android:textColor="@color/colorPersonalDark"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        app:layout_constraintTop_toBottomOf="@id/chip_f1"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_f3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="c) I wouldn’t let him."
+                        android:textColor="@color/colorPersonalDark"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        app:layout_constraintTop_toBottomOf="@id/chip_f2"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_f4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="d) I’d get a new one."
+                        android:textColor="@color/colorPersonalDark"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        app:layout_constraintTop_toBottomOf="@id/chip_f3"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_f5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="e) he would start working."
+                        android:textColor="@color/colorPersonalDark"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        app:layout_constraintTop_toBottomOf="@id/chip_f4"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_f6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="f) If she was supported by her parents."
+                        android:textColor="@color/colorPersonalDark"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        app:layout_constraintTop_toBottomOf="@id/chip_f5"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
                 android:id="@+id/diagnostico2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/common_padding_min"
                 android:textColor="@android:color/black"
-                android:text="@string/diagnostico2"/>
+                android:text="@string/diagnostico7"/>
 
             <!--Pregunta 1-->
             <com.google.android.material.card.MaterialCardView
@@ -43,7 +419,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="11- He is"
+                        android:text="36- Star Wars episode VIII was"
                         android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +429,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="withdraw"
+                        android:text="premiere"
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part1"
@@ -75,11 +451,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="withdrew"
+                        android:text="premieres"
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
-                        app:layout_constraintStart_toEndOf="@id/part2"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/part1" />
 
                     <TextView
                         android:id="@+id/part3"
@@ -90,29 +466,39 @@
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under2"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/part1" />
 
                     <TextView
                         android:id="@+id/under3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="withdrawing"
+                        android:text="premiered"
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part3"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/part1" />
 
                     <TextView
                         android:id="@+id/part5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="money from the bank."
+                        android:text="in Mexico on"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintStart_toEndOf="@+id/under3"
+                        app:layout_constraintTop_toBottomOf="@id/part1" />
+
+                    <TextView
+                        android:id="@+id/part6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="December 15th 2017."
                         android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part1" />
+                        app:layout_constraintTop_toBottomOf="@id/under2" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -135,7 +521,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="12- She is"
+                        android:text="37- The Holy Bible was"
                         android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -145,7 +531,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="bring"
+                        android:text="write"
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part1_2"
@@ -167,7 +553,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="brought"
+                        android:text="written"
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part2_2"
@@ -189,7 +575,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="bringing"
+                        android:text="wrote"
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part3_2"
@@ -201,17 +587,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="some"
-                        android:textColor="@android:color/black"
-                        app:layout_constraintStart_toEndOf="@id/under3_2"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/part5_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="snacks to share."
+                        android:text="by forty men. "
                         android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -239,7 +615,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="13-"
+                        android:text="38- The best avocados in the world are"
                         android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -249,7 +625,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="Do"
+                        android:text="cultivate"
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part1_3"
@@ -271,11 +647,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="Are"
+                        android:text="cultivated"
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
-                        app:layout_constraintStart_toEndOf="@id/part2_3"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/part1_3" />
 
                     <TextView
                         android:id="@+id/part3_3"
@@ -286,18 +663,20 @@
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under2_3"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/part1_3"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
                     <TextView
                         android:id="@+id/under3_3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="Is"
+                        android:text="cultivates "
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/part3_3"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/part1_3"/>
 
 
                     <TextView
@@ -305,21 +684,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="they studying for their"
+                        android:text="in Mexico."
                         android:textColor="@android:color/black"
                         app:layout_constraintStart_toEndOf="@id/under3_3"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/part5_3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="English test?"
-                        android:textColor="@android:color/black"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part1_3" />
+                        app:layout_constraintTop_toBottomOf="@id/part1_3"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -342,7 +711,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="14- The technician"
+                        android:text="39- The original Vodka is always"
                         android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -352,7 +721,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="is"
+                        android:text="produced"
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part1_4"
@@ -374,11 +743,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="am"
+                        android:text="producer"
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
-                        app:layout_constraintStart_toEndOf="@id/part2_4"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/part1_4" />
 
                     <TextView
                         android:id="@+id/part3_4"
@@ -388,40 +758,32 @@
                         android:text="/"
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/under2_4"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/part1_4"/>
 
                     <TextView
                         android:id="@+id/under3_4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="are"
+                        android:text="produces"
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/part3_4"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/part1_4"/>
 
                     <TextView
                         android:id="@+id/part4_4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="revising the"
-                        android:textColor="@android:color/black"
-                        app:layout_constraintStart_toEndOf="@id/under3_4"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/part5_4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="laptop."
+                        android:text="in Russia. "
                         android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part1_4" />
+                        app:layout_constraintStart_toEndOf="@id/under3_4"
+                        app:layout_constraintTop_toBottomOf="@id/part1_4"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -446,7 +808,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="15- I am"
+                        android:text="40- The pork and chicken"
                         android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -456,7 +818,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="draw"
+                        android:text="was"
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part1_5"
@@ -478,7 +840,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="drew"
+                        android:text="were"
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part2_5"
@@ -500,7 +862,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="drawing"
+                        android:text="were not"
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part3_5"
@@ -511,458 +873,47 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="the face of"
-                        android:textColor="@android:color/black"
+                        android:text="/"
+                        android:textColor="@color/colorPersonalDark"
                         app:layout_constraintStart_toEndOf="@id/under3_5"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/under4_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="are not"
+                        android:textColor="@color/colorPersonalDark"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/part1_5" />
 
                     <TextView
                         android:id="@+id/part5_5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="my lassie."
+                        android:text="originally raised here, they come"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintStart_toEndOf="@id/under4_5"
+                        app:layout_constraintTop_toBottomOf="@id/part1_5"/>
+
+                    <TextView
+                        android:id="@+id/part6_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="from Europe."
                         android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part1_5" />
+                        app:layout_constraintTop_toBottomOf="@id/under4_5"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <TextView
-                android:id="@+id/diagnostico3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/common_padding_min"
-                android:textColor="@android:color/black"
-                android:text="@string/diagnostico3"/>
-
-            <!--Pregunta 1-->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/darker_gray"
-                android:layout_marginStart="@dimen/common_padding_min"
-                android:layout_marginEnd="@dimen/common_padding_min"
-                android:layout_marginTop="@dimen/common_padding_min">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/part1_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="16- In my opinion, Cantinflas is"
-                        android:textColor="@android:color/black"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/under1_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="funnier"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintStart_toEndOf="@id/part1_secc3"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/part2_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="/"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintStart_toEndOf="@id/under1_secc3"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/under2_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="funniest"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part1_secc3" />
-
-                    <TextView
-                        android:id="@+id/part3_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="than Mr Bean."
-                        android:textColor="@android:color/black"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/under2_secc3"
-                        app:layout_constraintTop_toBottomOf="@id/part1_secc3" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <!--Pregunta 2-->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_padding_min"
-                android:layout_marginEnd="@dimen/common_padding_min"
-                android:layout_marginTop="@dimen/common_padding_min">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/part1_2_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="17- Going from Nezahualcoyotl to Pantitlan is a"
-                        android:textColor="@android:color/black"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/under1_2_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="shortest"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part1_2_secc3"/>
-
-                    <TextView
-                        android:id="@+id/part2_2_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="/"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/under1_2_secc3"
-                        app:layout_constraintTop_toBottomOf="@id/part1_2_secc3" />
-
-                    <TextView
-                        android:id="@+id/under2_2_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="shorter"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/part2_2_secc3"
-                        app:layout_constraintTop_toBottomOf="@id/part1_2_secc3"/>
-
-                    <TextView
-                        android:id="@+id/part3_2_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="distance than going to Taxqueña."
-                        android:textColor="@android:color/black"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/under2_2_secc3"
-                        app:layout_constraintTop_toBottomOf="@id/part1_2_secc3" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <!--Pregunta 3-->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/darker_gray"
-                android:layout_marginStart="@dimen/common_padding_min"
-                android:layout_marginEnd="@dimen/common_padding_min"
-                android:layout_marginTop="@dimen/common_padding_min">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                    android:id="@+id/part1_3_secc3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/common_padding_min"
-                    android:text="18- Americans consider that the current U.S.A"
-                    android:textColor="@android:color/black"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/part2_3_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="president is"
-                        android:textColor="@android:color/black"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part1_3_secc3" />
-
-                    <TextView
-                        android:id="@+id/under1_3_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="the baddest"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintStart_toEndOf="@id/part2_3_secc3"
-                        app:layout_constraintTop_toBottomOf="@id/part1_3_secc3" />
-
-                    <TextView
-                        android:id="@+id/part3_3_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="/"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintStart_toEndOf="@id/under1_3_secc3"
-                        app:layout_constraintTop_toBottomOf="@id/part1_3_secc3" />
-
-                    <TextView
-                        android:id="@+id/under2_3_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="the worst"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintStart_toEndOf="@id/part3_3_secc3"
-                        app:layout_constraintTop_toBottomOf="@id/part1_3_secc3" />
-
-                    <TextView
-                        android:id="@+id/part4_3_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="in the"
-                        android:textColor="@android:color/black"
-                        app:layout_constraintStart_toEndOf="@id/under2_3_secc3"
-                        app:layout_constraintTop_toBottomOf="@id/part1_3_secc3" />
-
-                    <TextView
-                        android:id="@+id/part5_3_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="history of that nation."
-                        android:textColor="@android:color/black"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part2_3_secc3" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <!--Pregunta 4-->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_padding_min"
-                android:layout_marginEnd="@dimen/common_padding_min"
-                android:layout_marginTop="@dimen/common_padding_min">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/part1_4_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:text="19- DJ Psy is"
-                        android:textColor="@android:color/black"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/under1_4_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="the famousest"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintStart_toEndOf="@id/part1_4_secc3"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/part2_4_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="/"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintStart_toEndOf="@id/under1_4_secc3"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/under2_4_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="the most famous"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintStart_toEndOf="@id/part2_4_secc3"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/part3_4_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="/"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintStart_toEndOf="@id/under2_4_secc3"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/under3_4_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="the more famous"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part1_4_secc3" />
-
-                    <TextView
-                        android:id="@+id/part4_4_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="Korean artist in the world."
-                        android:textColor="@android:color/black"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/under3_4_secc3"
-                        app:layout_constraintTop_toBottomOf="@id/part1_4_secc3" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <!--Pregunta 5-->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/darker_gray"
-                android:layout_marginStart="@dimen/common_padding_min"
-                android:layout_marginEnd="@dimen/common_padding_min"
-                android:layout_marginTop="@dimen/common_padding_min">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/part1_5_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="20- For many people Maths is"
-                        android:textColor="@android:color/black"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/under1_5_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="harder"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintStart_toEndOf="@id/part1_5_secc3"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/part2_5_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="/"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintStart_toEndOf="@id/under1_5_secc3"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/under2_5_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="harderer"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintStart_toEndOf="@id/part2_5_secc3"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/part3_5_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="/"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintStart_toEndOf="@id/under2_5_secc3"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/under3_5_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="hardest"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part1_5_secc3" />
-
-                    <TextView
-                        android:id="@+id/part4_5_secc3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:text="than learning a lenguage."
-                        android:textColor="@android:color/black"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/under3_5_secc3"
-                        app:layout_constraintTop_toBottomOf="@id/part1_5_secc3" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnContinuar"

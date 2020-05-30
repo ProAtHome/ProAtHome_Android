@@ -2,6 +2,8 @@ package com.proathome.examen;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -9,6 +11,7 @@ import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
 import com.proathome.R;
 
 import butterknife.BindView;
@@ -25,12 +28,19 @@ public class Diagnostico2 extends AppCompatActivity {
     TextView under2;
     @BindView(R.id.under3)
     TextView under3;
+    @BindView(R.id.btnContinuar)
+    MaterialButton btnContinuar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diagnostico2);
         mUnbinder = ButterKnife.bind(this);
+        btnContinuar.setOnClickListener(v ->{
+            Intent intent = new Intent(this, Diagnostico3.class);
+            startActivityForResult(intent, 1, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+            finish();
+        });
     }
 
     private void configRespuesta(String principal, TextView tvPrincipal, String secundario, TextView tvSecundario, String terciario, TextView tvTerciario){
