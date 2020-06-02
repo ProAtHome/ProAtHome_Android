@@ -13,7 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class Diagnostico4 extends AppCompatActivity {
+public class Diagnostico5 extends AppCompatActivity {
 
     private Unbinder mUnbinder;
     @BindView(R.id.btnContinuar)
@@ -22,7 +22,7 @@ public class Diagnostico4 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diagnostico4);
+        setContentView(R.layout.activity_diagnostico5);
         mUnbinder = ButterKnife.bind(this);
 
         btnContinuar.setOnClickListener(v ->{
