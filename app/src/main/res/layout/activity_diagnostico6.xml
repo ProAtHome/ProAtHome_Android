@@ -25,6 +25,460 @@
                 android:textColor="@android:color/black"
                 android:text="@string/diagnostico10"/>
 
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/darker_gray"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/common_padding_min">
+
+                    <TextView
+                        android:id="@+id/texto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:textColor="@android:color/black"
+                        android:text="@string/preguntasEnLectura2"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_padding_min"
+                android:layout_marginEnd="@dimen/common_padding_min"
+                android:layout_marginTop="@dimen/common_padding_min">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/common_padding_min">
+
+                    <TextView
+                        android:id="@+id/p1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@android:color/black"
+                        android:text="0- The circus is from Nevada."
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r1_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p1"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r1_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="F"
+                        android:checked="true"
+                        android:checkable="true"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p1"
+                        app:layout_constraintStart_toEndOf="@id/chip_r1_1"/>
+
+                    <View
+                        android:id="@+id/divider1"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/chip_r1_1" />
+
+                    <TextView
+                        android:id="@+id/p2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@android:color/black"
+                        android:text="51- The circus is from Nevada."
+                        app:layout_constraintTop_toBottomOf="@id/divider1"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r2_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p2"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r2_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="F"
+                        android:checked="true"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p2"
+                        app:layout_constraintStart_toEndOf="@id/chip_r2_1"/>
+
+                    <View
+                        android:id="@+id/divider2"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/chip_r2_1" />
+
+                    <TextView
+                        android:id="@+id/p3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@android:color/black"
+                        android:text="52- The circus is from Nevada."
+                        app:layout_constraintTop_toBottomOf="@id/divider2"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r3_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p3"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r3_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="F"
+                        android:checked="true"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p3"
+                        app:layout_constraintStart_toEndOf="@id/chip_r3_1"/>
+
+                    <View
+                        android:id="@+id/divide3"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/chip_r3_1" />
+
+                    <TextView
+                        android:id="@+id/p4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@android:color/black"
+                        android:text="53- The circus is from Nevada."
+                        app:layout_constraintTop_toBottomOf="@id/divide3"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r4_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p4"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r4_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="F"
+                        android:checked="true"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p4"
+                        app:layout_constraintStart_toEndOf="@id/chip_r4_1"/>
+
+                    <View
+                        android:id="@+id/divider4"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/chip_r4_1" />
+
+                    <TextView
+                        android:id="@+id/p5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@android:color/black"
+                        android:text="54- The circus is from Nevada."
+                        app:layout_constraintTop_toBottomOf="@id/divider4"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r5_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p5"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r5_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="F"
+                        android:checked="true"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p5"
+                        app:layout_constraintStart_toEndOf="@id/chip_r5_1"/>
+
+                    <View
+                        android:id="@+id/divide5"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/chip_r5_1" />
+
+                    <TextView
+                        android:id="@+id/p6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@android:color/black"
+                        android:text="55- The circus is from Nevada."
+                        app:layout_constraintTop_toBottomOf="@id/divide5"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r6_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p6"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r6_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="F"
+                        android:checked="true"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p6"
+                        app:layout_constraintStart_toEndOf="@id/chip_r6_1"/>
+
+                    <View
+                        android:id="@+id/divider6"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/chip_r6_1" />
+
+                    <TextView
+                        android:id="@+id/p7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@android:color/black"
+                        android:text="56- The circus is from Nevada."
+                        app:layout_constraintTop_toBottomOf="@id/divider6"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r7_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p7"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r7_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="F"
+                        android:checked="true"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p7"
+                        app:layout_constraintStart_toEndOf="@id/chip_r7_1"/>
+
+                    <View
+                        android:id="@+id/divider7"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/chip_r7_1" />
+
+                    <TextView
+                        android:id="@+id/p8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@android:color/black"
+                        android:text="57- The circus is from Nevada."
+                        app:layout_constraintTop_toBottomOf="@id/divider7"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r8_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p8"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r8_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="F"
+                        android:checked="true"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p8"
+                        app:layout_constraintStart_toEndOf="@id/chip_r8_1"/>
+
+                    <View
+                        android:id="@+id/divider8"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/chip_r8_1" />
+
+                    <TextView
+                        android:id="@+id/p9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@android:color/black"
+                        android:text="58- The circus is from Nevada."
+                        app:layout_constraintTop_toBottomOf="@id/divider8"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r9_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p9"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r9_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="F"
+                        android:checked="true"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p9"
+                        app:layout_constraintStart_toEndOf="@id/chip_r9_1"/>
+
+                    <View
+                        android:id="@+id/divider9"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/chip_r9_1" />
+
+                    <TextView
+                        android:id="@+id/p10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@android:color/black"
+                        android:text="59- The circus is from Nevada."
+                        app:layout_constraintTop_toBottomOf="@id/divider9"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r10_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p10"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r10_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="F"
+                        android:checked="true"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p10"
+                        app:layout_constraintStart_toEndOf="@id/chip_r10_1"/>
+
+                    <View
+                        android:id="@+id/divider10"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/chip_r10_1" />
+
+                    <TextView
+                        android:id="@+id/p11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@android:color/black"
+                        android:text="60- The circus is from Nevada."
+                        app:layout_constraintTop_toBottomOf="@id/divider10"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r11_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p11"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_r11_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="F"
+                        android:checked="true"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:textColor="@color/colorPersonalDark"
+                        app:layout_constraintTop_toBottomOf="@id/p11"
+                        app:layout_constraintStart_toEndOf="@id/chip_r11_1"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnContinuar"
                 android:text="Continuar"

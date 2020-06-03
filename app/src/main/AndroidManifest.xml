@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme.DayNight"
         android:usesCleartextTraffic="true">
-        <activity android:name=".examen.Diagnostico6"></activity>
+        <activity android:name=".examen.Diagnostico7"></activity>
+        <activity android:name=".examen.Diagnostico6" />
         <activity android:name=".examen.Diagnostico5" />
         <activity android:name=".examen.Diagnostico4" />
         <activity android:name=".examen.Diagnostico3" />

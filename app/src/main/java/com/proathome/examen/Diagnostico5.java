@@ -26,7 +26,7 @@ public class Diagnostico5 extends AppCompatActivity {
         mUnbinder = ButterKnife.bind(this);
 
         btnContinuar.setOnClickListener(v ->{
-            Intent intent = new Intent(this, Diagnostico5.class);
+            Intent intent = new Intent(this, Diagnostico6.class);
             startActivityForResult(intent, 1, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
             finish();
         });
