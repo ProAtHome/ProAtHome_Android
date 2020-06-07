@@ -100,7 +100,6 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:enabled="false"
                         android:layout_marginStart="@dimen/common_padding_min"
                         android:layout_margin="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -109,6 +108,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/r1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="1"
@@ -147,7 +147,6 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:enabled="false"
                         android:layout_marginStart="@dimen/common_padding_min"
                         android:layout_margin="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -156,6 +155,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/r2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="1"
@@ -194,7 +194,6 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:enabled="false"
                         android:layout_marginStart="@dimen/common_padding_min"
                         android:layout_margin="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -203,6 +202,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/r3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="1"
@@ -241,7 +241,6 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:enabled="false"
                         android:layout_marginStart="@dimen/common_padding_min"
                         android:layout_margin="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -250,6 +249,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/r4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="1"
@@ -288,7 +288,6 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:enabled="false"
                         android:layout_marginStart="@dimen/common_padding_min"
                         android:layout_margin="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -297,6 +296,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/r5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="1"
@@ -671,7 +671,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:text="cultivates "
+                        android:text="cultivates"
                         android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -929,6 +929,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/cerrarExamen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_cancel"

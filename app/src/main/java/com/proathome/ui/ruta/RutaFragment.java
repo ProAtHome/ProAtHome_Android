@@ -2,20 +2,28 @@ package com.proathome.ui.ruta;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.RutaAvanzado;
 import com.proathome.RutaBasico;
 import com.proathome.R;
 import com.proathome.RutaIntermedio;
+import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.controladores.estudiante.ServicioExamenDiagnostico;
 import com.proathome.examen.Diagnostico1;
+import com.proathome.utils.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,8 +39,22 @@ public class RutaFragment extends Fragment {
         rutaViewModel = ViewModelProviders.of(this).get(RutaViewModel.class);
         View root = inflater.inflate(R.layout.fragment_ruta, container, false);
         mUnbinder = ButterKnife.bind(this, root);
-        Intent intent = new Intent(getContext(), Diagnostico1.class);
-        startActivityForResult(intent, 1, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(),"sesion", null, 1);
+        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+
+        int idCliente = 0;
+        if (fila.moveToFirst()) {
+            idCliente = fila.getInt(0);
+            ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(getContext(), idCliente, Constants.ESTATUS_EXAMEN);
+            examen.execute();
+        }else{
+            baseDeDatos.close();
+        }
+
+        baseDeDatos.close();
+
         return root;
     }
 

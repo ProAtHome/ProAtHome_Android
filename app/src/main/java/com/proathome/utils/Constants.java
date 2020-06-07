@@ -11,6 +11,10 @@ public class Constants {
     public static final int SESIONES_GESTIONAR = 2;
     public static final int INFO_PERFIL = 1;
     public static final int INFO_PERFIl_EDITAR = 2;
+    public static final int INICIO_EXAMEN  = 1;
+    public static final int ENCURSO_EXAMEN  = 2;
+    public static final int CANCELADO_EXAMEN  = 3;
+    public static final int ESTATUS_EXAMEN = 4;
     public static final String IP = "192.168.100.190";
 
 }

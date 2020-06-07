@@ -77,7 +77,6 @@ public class ServicioTaskRegistroEstudiante extends AsyncTask<Void, Void, String
             urlConnection.setDoInput(true);
             urlConnection.setDoOutput(true);
 
-
             //OBTENER EL RESULTADO DEL REQUEST
             OutputStream os = urlConnection.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));

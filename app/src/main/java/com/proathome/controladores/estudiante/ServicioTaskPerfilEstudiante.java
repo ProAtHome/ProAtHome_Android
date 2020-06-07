@@ -61,8 +61,8 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
             urlConnection.setRequestMethod("GET");
             urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
-            int responseCode=urlConnection.getResponseCode();
-            if(responseCode== HttpURLConnection.HTTP_OK){
+            int responseCode = urlConnection.getResponseCode();
+            if(responseCode == HttpURLConnection.HTTP_OK){
 
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 
@@ -87,23 +87,24 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
 
             }
 
+            URL imageUrl = null;
+            try {
+
+                JSONObject json = new JSONObject(result);
+                imageUrl = new URL(this.linkFoto + json.getString("foto"));
+                HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
+                conn.connect();
+                loadedImage = BitmapFactory.decodeStream(conn.getInputStream());
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        URL imageUrl = null;
-        try {
-            JSONObject json = new JSONObject(result);
-            imageUrl = new URL(this.linkFoto + json.getString("foto"));
-            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
-            conn.connect();
-            loadedImage = BitmapFactory.decodeStream(conn.getInputStream());
-
-        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
