@@ -1,5 +1,6 @@
 package com.proathome.controladores.estudiante;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -32,13 +33,33 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
     private String linkAPIestatus = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/estatusExamenDiagnostico/";
     private String linkAPIinicio_cancelar = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/examenDiagnostico";
     private String linkAPIenCurso = "";
+    private String linkAPIinfoExamenFinal = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/infoExamenDiagnosticoFinal/";
     private int idEstudiante;
+    private int puntacionAsumar;
+    private int preguntaActual;
     private ProgressDialog progressDialog;
+    private Intent intent;
 
     public ServicioExamenDiagnostico(Context contexto, int idEstudiante, int estatus){
         this.contexto = contexto;
         this.idEstudiante = idEstudiante;
         this.estatus = estatus;
+    }
+
+    public ServicioExamenDiagnostico(Context contexto, int idEstudiante, int estatus, int puntuacionAsumar){
+        this.contexto = contexto;
+        this.idEstudiante = idEstudiante;
+        this.estatus = estatus;
+        this.puntacionAsumar = puntuacionAsumar;
+    }
+
+    public ServicioExamenDiagnostico(Context contexto, int idEstudiante, int estatus, int puntuacionAsumar, int preguntaActual){
+        this.contexto = contexto;
+        this.idEstudiante = idEstudiante;
+        this.estatus = estatus;
+        this.puntacionAsumar = puntuacionAsumar;
+        this.preguntaActual = preguntaActual;
+        this.intent = intent;
     }
 
     @Override
@@ -145,6 +166,100 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }else if(this.estatus == Constants.INFO_EXAMEN_FINAL){
+            String wsURL = this.linkAPIinfoExamenFinal + this.idEstudiante;
+            try{
+                URL url = new URL(wsURL);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+                urlConnection.setReadTimeout(15000);
+                urlConnection.setConnectTimeout(15000);
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
+
+                int responseCode = urlConnection.getResponseCode();
+                if(responseCode == HttpURLConnection.HTTP_OK){
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    StringBuffer stringBuffer = new StringBuffer("");
+                    String linea = "";
+
+                    while ((linea = bufferedReader.readLine()) != null){
+                        stringBuffer.append(linea);
+                        break;
+                    }
+
+                    bufferedReader.close();
+                    result= stringBuffer.toString();
+                    this.respuesta = result;
+                }else{
+                    result = new String("Error: "+ responseCode);
+                    this.respuesta = null;
+                }
+
+            }catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else if(this.estatus == Constants.INICIO_EXAMEN){
+            String wsURL = this.linkAPIinicio_cancelar;
+            try{
+                URL url = new URL(wsURL);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+                JSONObject cancelar = new JSONObject();
+                cancelar.put("idEstudiante", this.idEstudiante);
+                cancelar.put("aciertos", this.puntacionAsumar);
+                cancelar.put("preguntaActual", this.preguntaActual);
+                cancelar.put("estatus", Constants.INICIO_EXAMEN);
+
+                urlConnection.setReadTimeout(15000);
+                urlConnection.setConnectTimeout(15000);
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
+                urlConnection.setDoInput(true);
+                urlConnection.setDoOutput(true);
+
+                //OBTENER EL RESULTADO DEL REQUEST
+                OutputStream outputStream = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                writer.write(getPostDataString(cancelar));
+                writer.flush();
+                writer.close();
+                outputStream.close();
+
+                int responseCode = urlConnection.getResponseCode();
+                if(responseCode == HttpURLConnection.HTTP_OK){
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    StringBuffer stringBuffer = new StringBuffer("");
+                    String linea = "";
+
+                    while ((linea = bufferedReader.readLine()) != null){
+                        stringBuffer.append(linea);
+                        break;
+                    }
+
+                    bufferedReader.close();
+                    result= stringBuffer.toString();
+                    this.respuesta = result;
+                }else{
+                    result = new String("Error: "+ responseCode);
+                    this.respuesta = null;
+                }
+
+            }catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return result;
@@ -175,11 +290,19 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
 
                         })
                         .show();
+            }else if(estatus == Constants.ENCURSO_EXAMEN){
+
             }else if(estatus == Constants.CANCELADO_EXAMEN){
                 Toast.makeText(this.contexto, "Exámen cancelado...", Toast.LENGTH_LONG).show();
+            }else if(estatus == Constants.INFO_EXAMEN_FINAL){
+                int aciertos = jsonObject.getInt("aciertos");
+                int puntuacionTotal = this.puntacionAsumar + aciertos;
+                Toast.makeText(this.contexto, "Puntuación Total: " + puntuacionTotal, Toast.LENGTH_LONG).show();
+            }else if(estatus == Constants.EXAMEN_GUARDADO){
+                Toast.makeText(this.contexto, "Puntuación guardada.", Toast.LENGTH_LONG).show();
             }
 
-            Toast.makeText(this.contexto, "Estado: " + jsonObject.getString("estatus"), Toast.LENGTH_LONG).show();
+            //Toast.makeText(this.contexto, "Estado: " + jsonObject.getString("estatus"), Toast.LENGTH_LONG).show();
 
         }catch(JSONException ex){
             ex.printStackTrace();

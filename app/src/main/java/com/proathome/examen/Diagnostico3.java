@@ -98,7 +98,6 @@ public class Diagnostico3 extends AppCompatActivity {
                         Toast.makeText(this, "¡No te rindas!", Toast.LENGTH_LONG);
                     })
                     .show();
-            finish();
         });
 
         btnContinuar.setOnClickListener(v ->{
@@ -151,12 +150,6 @@ public class Diagnostico3 extends AppCompatActivity {
 
     public void chekeableChips(Chip principal, Chip secundario, Chip terciario){
         principal.setOnClickListener(v -> {
-            if(principal.getId() == R.id.chip_p1_1)
-                respuesta1 = 1;
-            else if(principal.getId() == R.id.chip_p1_2)
-                respuesta1 = 0;
-            else if(principal.getId() == R.id.chip_p1_3)
-                respuesta1 = 0;
 
             if(principal.getId() == R.id.chip_p1_1)
                 respuesta1 = 1;

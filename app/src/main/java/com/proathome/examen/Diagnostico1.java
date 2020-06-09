@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.proathome.R;
+import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioExamenDiagnostico;
 import com.proathome.utils.Constants;
 
@@ -217,7 +220,6 @@ public class Diagnostico1 extends AppCompatActivity {
                         Toast.makeText(this, "¡No te rindas!", Toast.LENGTH_LONG);
                     })
                     .show();
-            finish();
         });
 
         btnContinuar.setOnClickListener(v ->{
@@ -253,7 +255,22 @@ public class Diagnostico1 extends AppCompatActivity {
                 puntuacion++;
             }
             Toast.makeText(this, "Puntuación:" + puntuacion, Toast.LENGTH_LONG).show();
-            System.out.println(respuesta1);
+
+            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"sesion", null, 1);
+            SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+            Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+
+            int idCliente = 0;
+            if (fila.moveToFirst()) {
+                idCliente = fila.getInt(0);
+                ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(this, idCliente, Constants.INICIO_EXAMEN, puntuacion, 10);
+                examen.execute();
+            }else{
+                baseDeDatos.close();
+            }
+
+            baseDeDatos.close();
+
             Intent intent = new Intent(this, Diagnostico2.class);
             startActivityForResult(intent, 1, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
             finish();

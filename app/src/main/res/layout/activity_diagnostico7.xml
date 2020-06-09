@@ -172,6 +172,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/resp1"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textColor="@color/colorPersonal"
@@ -209,6 +210,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/resp2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textColor="@color/colorPersonal"
@@ -246,6 +248,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/resp3"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textColor="@color/colorPersonal"
@@ -283,6 +286,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/resp4"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textColor="@color/colorPersonal"
@@ -320,6 +324,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/resp5"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textColor="@color/colorPersonal"

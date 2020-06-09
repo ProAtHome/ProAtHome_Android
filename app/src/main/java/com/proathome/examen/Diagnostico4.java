@@ -103,7 +103,6 @@ public class Diagnostico4 extends AppCompatActivity {
                         Toast.makeText(this, "¡No te rindas!", Toast.LENGTH_LONG);
                     })
                     .show();
-            finish();
         });
 
         btnContinuar.setOnClickListener(v ->{

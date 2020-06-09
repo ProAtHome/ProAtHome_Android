@@ -127,9 +127,10 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/resp1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:maxLength="5"
+                            android:maxLength="9"
                             android:textColor="@color/colorPersonalDark"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -156,9 +157,10 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/resp2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:maxLength="5"
+                            android:maxLength="6"
                             android:textColor="@color/colorPersonalDark"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -177,18 +179,20 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/r3"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@id/p3"
                         app:layout_constraintStart_toEndOf="@+id/p3"
                         app:layout_constraintTop_toTopOf="@+id/p3"
-                        app:layout_constraintBottom_toBottomOf="@id/p3"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                        app:layout_constraintVertical_bias="0.307">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/resp3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:maxLength="5"
-                            android:textColor="@color/colorPersonalDark"/>
+                            android:maxLength="8"
+                            android:textColor="@color/colorPersonalDark" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -214,6 +218,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/resp4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="5"
@@ -243,6 +248,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/resp5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="5"
@@ -290,6 +296,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:ellipsize="end"
+                        android:checkable="true"
                         android:text="a)She said she visited that museum many times."
                         android:textColor="@color/colorPersonalDark"
                         app:layout_constraintTop_toBottomOf="@id/p1_2"
@@ -301,6 +308,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:ellipsize="end"
+                        android:checkable="true"
                         android:text="b)She said she’d visited that museum many times."
                         android:textColor="@color/colorPersonalDark"
                         app:layout_constraintTop_toBottomOf="@id/chip_p1_1"
@@ -338,6 +346,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:ellipsize="end"
+                        android:checkable="true"
                         android:text="a)He told he was studying for my English test."
                         android:textColor="@color/colorPersonalDark"
                         app:layout_constraintTop_toBottomOf="@id/p2_2"
@@ -349,6 +358,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:ellipsize="end"
+                        android:checkable="true"
                         android:text="b)He told he was studying for his English test."
                         android:textColor="@color/colorPersonalDark"
                         app:layout_constraintTop_toBottomOf="@id/chip_p2_1"
@@ -386,6 +396,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:ellipsize="end"
+                        android:checkable="true"
                         android:text="a)She told she had breaken her leg the year before."
                         android:textColor="@color/colorPersonalDark"
                         app:layout_constraintTop_toBottomOf="@id/p3_2"
@@ -397,6 +408,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:ellipsize="end"
+                        android:checkable="true"
                         android:text="b)She told she had broken her leg the year before."
                         android:textColor="@color/colorPersonalDark"
                         app:layout_constraintTop_toBottomOf="@id/chip_p3_1"
@@ -434,6 +446,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:ellipsize="end"
+                        android:checkable="true"
                         android:text="a)They said they would change the world"
                         android:textColor="@color/colorPersonalDark"
                         app:layout_constraintTop_toBottomOf="@id/p4_2"
@@ -445,6 +458,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:ellipsize="end"
+                        android:checkable="true"
                         android:text="b)They said they would not change the world."
                         android:textColor="@color/colorPersonalDark"
                         app:layout_constraintTop_toBottomOf="@id/chip_p4_1"
@@ -483,6 +497,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:ellipsize="end"
+                        android:checkable="true"
                         android:text="a)He said he couldn’t play any musical instrument."
                         android:textColor="@color/colorPersonalDark"
                         app:layout_constraintTop_toBottomOf="@id/p5_2"
@@ -495,6 +510,7 @@
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:textSize="8sp"
+                        android:checkable="true"
                         android:text="b)He said he could play any musical instrument."
                         android:textColor="@color/colorPersonalDark"
                         app:layout_constraintTop_toBottomOf="@id/chip_p5_1"
