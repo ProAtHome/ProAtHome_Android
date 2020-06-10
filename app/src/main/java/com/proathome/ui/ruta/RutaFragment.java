@@ -8,24 +8,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.RutaAvanzado;
 import com.proathome.RutaBasico;
 import com.proathome.R;
 import com.proathome.RutaIntermedio;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioExamenDiagnostico;
-import com.proathome.examen.Diagnostico1;
 import com.proathome.utils.Constants;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;

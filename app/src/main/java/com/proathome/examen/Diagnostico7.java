@@ -1,6 +1,7 @@
 package com.proathome.examen;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,6 +15,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioExamenDiagnostico;
+import com.proathome.fragments.DetallesBloque;
+import com.proathome.fragments.FragmentRutaGenerada;
 import com.proathome.utils.Constants;
 
 import butterknife.BindView;
@@ -23,6 +26,7 @@ import butterknife.Unbinder;
 public class Diagnostico7 extends AppCompatActivity {
 
     private Unbinder mUnbinder;
+    private boolean finalizado = false;
     @BindView(R.id.resp1)
     TextInputEditText resp1;
     @BindView(R.id.resp2)
@@ -45,22 +49,39 @@ public class Diagnostico7 extends AppCompatActivity {
         mUnbinder = ButterKnife.bind(this);
 
         cerrarExamen.setOnClickListener(v ->{
-            new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
-                    .setTitle("EXÁMEN DIAGNÓSTICO")
-                    .setMessage("Al salir durante el examen perderás el progreso de ésta sección.")
-                    .setNegativeButton("Salir", (dialog, which) -> {
-                        finish();
-                    })
-                    .setPositiveButton("Cancelar", ((dialog, which) -> {
-                        Toast.makeText(this, "¡No te rindas!", Toast.LENGTH_LONG);
-                    }))
-                    .setOnCancelListener(dialog -> {
-                        Toast.makeText(this, "¡No te rindas!", Toast.LENGTH_LONG);
-                    })
-                    .show();
+            if(finalizado){
+                finish();
+            }else{
+                new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
+                        .setTitle("EXÁMEN DIAGNÓSTICO")
+                        .setMessage("Al salir durante el examen perderás el progreso de ésta sección.")
+                        .setNegativeButton("Salir", (dialog, which) -> {
+                            finish();
+                        })
+                        .setPositiveButton("Cancelar", ((dialog, which) -> {
+                            Toast.makeText(this, "¡No te rindas!", Toast.LENGTH_LONG);
+                        }))
+                        .setOnCancelListener(dialog -> {
+                            Toast.makeText(this, "¡No te rindas!", Toast.LENGTH_LONG);
+                        })
+                        .show();
+            }
         });
 
         btnFinalizar.setOnClickListener(v ->{
+
+            resp1.setEnabled(false);
+            resp2.setEnabled(false);
+            resp3.setEnabled(false);
+            resp4.setEnabled(false);
+            resp5.setEnabled(false);
+            btnFinalizar.setEnabled(false);
+            finalizado = true;
+
+            FragmentRutaGenerada rutaGenerada = new FragmentRutaGenerada();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            rutaGenerada.show(fragmentTransaction, "Ruta");
+
             AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"sesion", null, 1);
             SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
             Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
@@ -70,6 +91,8 @@ public class Diagnostico7 extends AppCompatActivity {
                 idCliente = fila.getInt(0);
                 ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(this, idCliente, Constants.INFO_EXAMEN_FINAL, validarRespuestas());
                 examen.execute();
+                ServicioExamenDiagnostico examenGuardar = new ServicioExamenDiagnostico(this, idCliente, Constants.ENCURSO_EXAMEN, validarRespuestas(), 65);
+                examenGuardar.execute();
             }else{
                 baseDeDatos.close();
             }
@@ -77,7 +100,7 @@ public class Diagnostico7 extends AppCompatActivity {
             baseDeDatos.close();
 
             Toast.makeText(this, "Puntuación: " + validarRespuestas(), Toast.LENGTH_LONG).show();
-            finish();
+
         });
 
     }

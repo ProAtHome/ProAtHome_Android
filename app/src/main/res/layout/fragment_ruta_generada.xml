@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp"
+    tools:context=".fragments.FragmentRutaGenerada">
+
+    <TextView
+        android:id="@+id/enohora"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="¡Enhorabuena!"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="@color/colorPersonalDark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/TextAppearance.MaterialComponents.Headline4"/>
+
+    <TextView
+        android:id="@+id/puntuacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="@android:color/background_dark"
+        android:text="Hemos analizado tus respuestas y creemos que podrías comenzar en:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/enohora"/>
+
+    <TextView
+        android:id="@+id/nivel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="NIVEL"
+        android:textStyle="bold|italic"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:textColor="@color/color_primary"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/puntuacion"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/nivel"
+        app:lottie_rawRes="@raw/congrats"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/rutainicio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Emprezar de 0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/animation_view"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/ruta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comenzar en NIVEL"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/animation_view"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -16,6 +18,9 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.proathome.R;
+import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.controladores.estudiante.ServicioExamenDiagnostico;
+import com.proathome.utils.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -129,6 +134,22 @@ public class Diagnostico2 extends AppCompatActivity {
         btnContinuar.setOnClickListener(v ->{
             int puntuacion = respuesta1 + respuesta2 + respuesta3 + respuesta4 + respuesta5 + respuesta6 + respuesta7 + respuesta8 + respuesta9 + respuesta10;
             Toast.makeText(this, "Puntuacion: " + puntuacion, Toast.LENGTH_LONG).show();
+
+            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"sesion", null, 1);
+            SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+            Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+
+            int idCliente = 0;
+            if (fila.moveToFirst()) {
+                idCliente = fila.getInt(0);
+                ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(this, idCliente, Constants.ENCURSO_EXAMEN, puntuacion, 20);
+                examen.execute();
+            }else{
+                baseDeDatos.close();
+            }
+
+            baseDeDatos.close();
+
             Intent intent = new Intent(this, Diagnostico3.class);
             startActivityForResult(intent, 1, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
             finish();
