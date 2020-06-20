@@ -8,15 +8,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.RutaAvanzado;
 import com.proathome.RutaBasico;
 import com.proathome.R;
 import com.proathome.RutaIntermedio;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioExamenDiagnostico;
+import com.proathome.examen.Diagnostico1;
 import com.proathome.utils.Constants;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -26,17 +31,19 @@ public class RutaFragment extends Fragment {
 
     private RutaViewModel rutaViewModel;
     private Unbinder mUnbinder;
+    public static ImageButton imgExamen;
+    private int idCliente = 0;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rutaViewModel = ViewModelProviders.of(this).get(RutaViewModel.class);
         View root = inflater.inflate(R.layout.fragment_ruta, container, false);
         mUnbinder = ButterKnife.bind(this, root);
+        imgExamen = root.findViewById(R.id.imgButtonExamen);
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(),"sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
         Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
 
-        int idCliente = 0;
         if (fila.moveToFirst()) {
             idCliente = fila.getInt(0);
             ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(getContext(), idCliente, Constants.ESTATUS_EXAMEN);
@@ -46,6 +53,26 @@ public class RutaFragment extends Fragment {
         }
 
         baseDeDatos.close();
+
+        imgExamen.setOnClickListener(v ->{
+            new MaterialAlertDialogBuilder(getContext(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
+                    .setTitle("EXÁMEN DIAGNÓSTICO")
+                    .setMessage("Tenemos un exámen para evaluar tus habilidades y colocarte en la ruta de aprendizaje de" +
+                            " acuerdo a tus conocimientos, si no deseas realizar el exámen sigue tu camino desde un inicio.")
+                    .setNegativeButton("Cerrar", (dialog, which) -> {
+
+                    })
+                    .setPositiveButton("EVALUAR", ((dialog, which) -> {
+                        ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(getContext(), idCliente, Constants.REINICIAR_EXAMEN);
+                        examen.execute();
+                        Intent intent = new Intent(getContext(), Diagnostico1.class);
+                        startActivity(intent);
+                    }))
+                    .setOnCancelListener(dialog -> {
+
+                    })
+                    .show();
+        });
 
         return root;
     }

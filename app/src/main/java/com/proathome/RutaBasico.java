@@ -89,7 +89,7 @@ public class RutaBasico extends AppCompatActivity {
     public void OnClickB2(View view){
         switch (view.getId()){
             case R.id.bloque_1_b2:
-                verBloque("Frequency adverbs\nPresent simple Wh-questions/Daily routines and times.\nDays and times.\nPrepositions whit time expressions/Word stress: days of the week.", "1", "11HRS");
+                verBloque("Frequency adverbs.\nPresent simple Wh-questions/Daily routines and times.\nDays and times.\nPrepositions whit time expressions/Word stress: days of the week.", "1", "11HRS");
                 break;
             case R.id.bloque2_b2:
                 verBloque("Can, can`t, Questions whit can.\nReview of questions/Verbs:things you do.\nParts of the body/Sounds: can and can`t.\nWord stress: parts of the body.", "2", "10HRS");

@@ -86,7 +86,7 @@ public class RutaAvanzado extends AppCompatActivity {
     public void OnClickB4(View view){
         switch (view.getId()){
             case R.id.bloque_1_a4:
-                verBloque("Adding emphasis with auxiliaries and inversion adverbs/Desciptive adjectives Fashion wordspot: look.\nsound and feel/Emphasis whit auxiliaries and inversion.", "1", "12HRS");
+                verBloque("Adding emphasis with auxiliaries and inversion adverbs/Desciptive adjectives Fashion wordspot: look.\nSound and feel/Emphasis whit auxiliaries and inversion.", "1", "12HRS");
                 break;
             case R.id.bloque2_a4:
                 verBloque("Describing typical habits infinitives and -ingforms.\nCompounds phrases/Characteristics and behaviour wordspot: just/Stress in compound phrases.", "2", "13HRS");

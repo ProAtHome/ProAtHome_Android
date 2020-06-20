@@ -91,7 +91,7 @@ public class Diagnostico7 extends AppCompatActivity {
                 idCliente = fila.getInt(0);
                 ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(this, idCliente, Constants.INFO_EXAMEN_FINAL, validarRespuestas());
                 examen.execute();
-                ServicioExamenDiagnostico examenGuardar = new ServicioExamenDiagnostico(this, idCliente, Constants.ENCURSO_EXAMEN, validarRespuestas(), 65);
+                ServicioExamenDiagnostico examenGuardar = new ServicioExamenDiagnostico(this, idCliente, Constants.EXAMEN_FINALIZADO, validarRespuestas(), 65);
                 examenGuardar.execute();
             }else{
                 baseDeDatos.close();
