@@ -1,5 +1,7 @@
 package com.proathome.ui.materialProfesor;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,26 +10,38 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.proathome.R;
+import com.proathome.fragments.MaterialFragment;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class MaterialProfesorFragment extends Fragment {
 
-    private MaterialProfesorViewModel materialProfesorViewModel;
+    private Unbinder mUnbinder;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        materialProfesorViewModel =
-                ViewModelProviders.of(this).get(MaterialProfesorViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_material_profesor, container, false);
-        final TextView textView = root.findViewById(R.id.text_material);
-        materialProfesorViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        mUnbinder = ButterKnife.bind(this, root);
+
         return root;
     }
+
+    @OnClick(R.id.abrir)
+    public void onClick(View view){
+        MaterialFragment materialFragment = new MaterialFragment();
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        materialFragment.show(fragmentTransaction, "Material");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mUnbinder.unbind();
+    }
+
 }

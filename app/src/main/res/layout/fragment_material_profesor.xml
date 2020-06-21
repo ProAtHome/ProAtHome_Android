@@ -4,19 +4,76 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/common_padding_default"
     android:background="@mipmap/fondoprof">
 
     <TextView
-        android:id="@+id/text_material"
+        android:id="@+id/disponibles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Material Disponible"
+        android:textColor="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/common_padding_default"
+        android:layout_marginTop="@dimen/common_padding_min"
+        app:layout_constraintTop_toBottomOf="@id/disponibles"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/common_padding_default">
+
+            <TextView
+                android:id="@+id/pruebaArchivo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Prueba de Archivo BÁSICO 1"
+                android:textColor="@color/colorPersonalDark"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintStart_toStartOf="@id/pruebaArchivo"
+                app:layout_constraintEnd_toEndOf="@id/pruebaArchivo"
+                app:layout_constraintTop_toBottomOf="@id/pruebaArchivo"
+                android:layout_marginTop="@dimen/common_padding_min"
+                />
+
+            <TextView
+                android:id="@+id/bloque"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="I, you and my,your a, an whit jobs/Jobs, Alphabet, Numbers 0-20/Short forms, Word stress: jobs and numbers."
+                android:textColor="@android:color/black"
+                android:layout_marginTop="@dimen/common_padding_min"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/abrir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abrir"
+                android:backgroundTint="@color/color_secondary"
+                android:layout_marginTop="@dimen/common_padding_min"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bloque"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

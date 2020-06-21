@@ -42,7 +42,6 @@ public class ComponentAdapterSesionesProfesor extends RecyclerView.Adapter<Compo
 
         ComponentSesionesProfesor component = mComponents.get(position);
         holder.setClickListener(mListener, component);
-        holder.imgPhoto.setImageResource(component.getPhotoRes());
         holder.tvNombreEstudiante.setText(component.getNombreEstudiante());
         holder.tvNivel.setText(component.getNivel());
         holder.tvHorario.setText(component.getHorario());
@@ -72,8 +71,6 @@ public class ComponentAdapterSesionesProfesor extends RecyclerView.Adapter<Compo
         TextView tvNivel;
         @BindView(R.id.tvHorario)
         TextView tvHorario;
-        @BindView(R.id.imgPhoto)
-        AppCompatImageView imgPhoto;
         Context context;
         View view;
 

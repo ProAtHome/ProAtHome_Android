@@ -21,6 +21,8 @@ public class Constants {
     public static final int CONTINUAR_EXAMEN = 8;
     public static final int EXAMEN_FINALIZADO = 10;
     public static final int REINICIAR_EXAMEN = 11;
-    public static final String IP = "192.168.100.210";
+    public static final int TIPO_ESTUDIANTE = 1;
+    public static final int TIPO_PROFESOR = 2;
+    public static final String IP = "192.168.100.214";
 
 }

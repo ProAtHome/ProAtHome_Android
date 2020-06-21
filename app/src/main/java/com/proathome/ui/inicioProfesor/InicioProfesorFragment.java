@@ -72,10 +72,8 @@ public class InicioProfesorFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         mUnbinder.unbind();
-
     }
 }

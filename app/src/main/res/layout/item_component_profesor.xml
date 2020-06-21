@@ -13,12 +13,17 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/common_padding_default">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgPhoto"
-            android:layout_width="80dp"
-            android:layout_height="90dp"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/imgGestionar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:visibility="visible"
+            android:layout_marginStart="@dimen/common_padding_min"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_rawRes="@raw/location_g"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"/>
 
         <TextView
             android:id="@+id/tvNombreEstudiante"
@@ -28,8 +33,8 @@
             android:textAppearance="?attr/textAppearanceListItem"
             android:layout_marginStart="@dimen/common_padding_min"
             android:text="Sesion con: Nombre de Estudiante"
-            app:layout_constraintStart_toEndOf="@id/imgPhoto"
-            app:layout_constraintTop_toTopOf="@id/imgPhoto"
+            app:layout_constraintStart_toEndOf="@id/imgGestionar"
+            app:layout_constraintTop_toTopOf="parent"
             android:textColor="@android:color/black"/>
 
         <TextView
@@ -40,9 +45,9 @@
             android:textStyle="bold"
             android:textAppearance="?attr/textAppearanceListItem"
             android:layout_marginStart="@dimen/common_padding_min"
-            app:layout_constraintTop_toTopOf="@id/imgPhoto"
-            app:layout_constraintStart_toEndOf="@id/imgPhoto"
-            app:layout_constraintBottom_toBottomOf="@id/imgPhoto"
+            app:layout_constraintStart_toEndOf="@id/imgGestionar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/imgGestionar"
             android:textColor="@android:color/black"/>
 
         <TextView
@@ -53,8 +58,8 @@
             android:textStyle="bold"
             android:layout_marginStart="@dimen/common_padding_min"
             android:textAppearance="?attr/textAppearanceListItem"
-            app:layout_constraintStart_toEndOf="@id/imgPhoto"
-            app:layout_constraintBottom_toBottomOf="@id/imgPhoto"
+            app:layout_constraintStart_toEndOf="@id/imgGestionar"
+            app:layout_constraintBottom_toBottomOf="@id/imgGestionar"
             android:textColor="@android:color/black"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
