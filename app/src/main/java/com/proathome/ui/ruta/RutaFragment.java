@@ -9,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.RutaAvanzado;
 import com.proathome.RutaBasico;
@@ -21,6 +23,7 @@ import com.proathome.R;
 import com.proathome.RutaIntermedio;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioExamenDiagnostico;
+import com.proathome.controladores.estudiante.ServicioTaskRuta;
 import com.proathome.examen.Diagnostico1;
 import com.proathome.utils.Constants;
 import butterknife.ButterKnife;
@@ -33,12 +36,20 @@ public class RutaFragment extends Fragment {
     private Unbinder mUnbinder;
     public static ImageButton imgExamen;
     private int idCliente = 0;
+    public static MaterialButton btnBasico;
+    public static MaterialButton btnIntermedio;
+    public static MaterialButton btnAvanzado;
+    public static TextView textBasico;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rutaViewModel = ViewModelProviders.of(this).get(RutaViewModel.class);
         View root = inflater.inflate(R.layout.fragment_ruta, container, false);
         mUnbinder = ButterKnife.bind(this, root);
         imgExamen = root.findViewById(R.id.imgButtonExamen);
+        btnBasico = root.findViewById(R.id.btnBasico);
+        btnIntermedio = root.findViewById(R.id.btnIntermedio);
+        btnAvanzado = root.findViewById(R.id.btnAvanzado);
+        textBasico = root.findViewById(R.id.textBasico);
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(),"sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
@@ -48,6 +59,8 @@ public class RutaFragment extends Fragment {
             idCliente = fila.getInt(0);
             ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(getContext(), idCliente, Constants.ESTATUS_EXAMEN);
             examen.execute();
+            ServicioTaskRuta ruta = new ServicioTaskRuta(getContext(), idCliente, Constants.ESTADO_RUTA);
+            ruta.execute();
         }else{
             baseDeDatos.close();
         }

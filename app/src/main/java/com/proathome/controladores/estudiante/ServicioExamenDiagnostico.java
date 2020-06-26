@@ -547,9 +547,9 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
                     this.contexto.startActivity(intent);
                 }
             }else if(estatus == Constants.EXAMEN_FINALIZADO)
-                Toast.makeText(this.contexto, "Ya fuiste evaluado ;)", Toast.LENGTH_LONG).show();
+                Toast.makeText(this.contexto, "Ya fuiste evaluado ;)", Toast.LENGTH_LONG);
             else if(estatus == Constants.REINICIAR_EXAMEN)
-                Toast.makeText(this.contexto, "Examen reiniciado...", Toast.LENGTH_LONG).show();
+                Toast.makeText(this.contexto, "Examen reiniciado...", Toast.LENGTH_LONG);
 
             //Toast.makeText(this.contexto, "Estado: " + jsonObject.getString("estatus"), Toast.LENGTH_LONG).show();
 
