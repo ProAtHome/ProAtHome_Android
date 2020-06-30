@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.proathome.RutaBasico;
+import com.proathome.ui.ruta.RutaFragment;
 import com.proathome.utils.Constants;
 
 import org.json.JSONException;
@@ -24,12 +26,13 @@ public class ServicioTaskRuta extends AsyncTask <Void, Void, String> {
     private String respuesta;
     private String linkAPIEstadoRuta = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/estadoRutaAprendizaje/";
     private ProgressDialog progressDialog;
-    private int idEstudiante, estado;
+    private int idEstudiante, estado, lugarRuta;
 
-    public ServicioTaskRuta(Context contexto, int idEstudiante, int estado){
+    public ServicioTaskRuta(Context contexto, int idEstudiante, int estado, int lugarRuta){
         this.contexto = contexto;
         this.idEstudiante = idEstudiante;
         this.estado = estado;
+        this.lugarRuta = lugarRuta;
     }
 
     @Override
@@ -100,8 +103,13 @@ public class ServicioTaskRuta extends AsyncTask <Void, Void, String> {
                 int idBloque = rutaJSON.getInt("idBloque");
                 int idNivel = rutaJSON.getInt("idNivel");
                 int idSeccion = rutaJSON.getInt("idSeccion");
-                ControladorRutaAprendizaje rutaAprendizaje = new ControladorRutaAprendizaje(this.contexto, idBloque, idNivel, idSeccion);
-                rutaAprendizaje.evaluarRuta();
+                if(this.lugarRuta == RutaFragment.SECCIONES){
+                    ControladorRutaAprendizaje rutaAprendizaje = new ControladorRutaAprendizaje(this.contexto, idBloque, idNivel, idSeccion);
+                    rutaAprendizaje.evaluarRuta();
+                }else if(this.lugarRuta == RutaBasico.NIVEL_BASICO){
+                    ControladorRutaAprendizaje rutaAprendizaje = new ControladorRutaAprendizaje(this.contexto, idBloque, idNivel, idSeccion);
+                    rutaAprendizaje.evaluarNivelBasico();
+                }
             }
         }catch(JSONException ex){
             ex.printStackTrace();

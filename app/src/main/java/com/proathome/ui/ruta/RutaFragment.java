@@ -36,6 +36,7 @@ public class RutaFragment extends Fragment {
     private Unbinder mUnbinder;
     public static ImageButton imgExamen;
     private int idCliente = 0;
+    public static final int SECCIONES = 1;
     public static MaterialButton btnBasico;
     public static MaterialButton btnIntermedio;
     public static MaterialButton btnAvanzado;
@@ -59,7 +60,7 @@ public class RutaFragment extends Fragment {
             idCliente = fila.getInt(0);
             ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(getContext(), idCliente, Constants.ESTATUS_EXAMEN);
             examen.execute();
-            ServicioTaskRuta ruta = new ServicioTaskRuta(getContext(), idCliente, Constants.ESTADO_RUTA);
+            ServicioTaskRuta ruta = new ServicioTaskRuta(getContext(), idCliente, Constants.ESTADO_RUTA, SECCIONES);
             ruta.execute();
         }else{
             baseDeDatos.close();

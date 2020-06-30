@@ -6,12 +6,18 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.button.MaterialButton;
+import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.controladores.estudiante.ServicioExamenDiagnostico;
+import com.proathome.controladores.estudiante.ServicioTaskRuta;
 import com.proathome.fragments.DetallesBloque;
+import com.proathome.utils.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,28 +27,108 @@ import butterknife.Unbinder;
 public class RutaBasico extends AppCompatActivity {
 
     private Unbinder mUnbinder;
+    private int idCliente = 0;
+    public static final int NIVEL_BASICO = 2;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.cerrar)
     MaterialButton btnCerrar;
-    @BindView(R.id.bloque1)
-    MaterialButton btnBloque1;
-    @BindView(R.id.bloque2)
-    MaterialButton btnBloque2;
-    @BindView(R.id.bloque3)
-    MaterialButton btnBloque3;
-    @BindView(R.id.bloque4)
-    MaterialButton btnBloque4;
-    @BindView(R.id.bloque5)
-    MaterialButton btnBloque5;
-    @BindView(R.id.bloque6)
-    MaterialButton btnBloque6;
+
+    public static MaterialButton btnB1_Bloque1;
+    public static MaterialButton btnB1_Bloque2;
+    public static MaterialButton btnB1_Bloque3;
+    public static MaterialButton btnB1_Bloque4;
+    public static MaterialButton btnB1_Bloque5;
+    public static MaterialButton btnB1_Bloque6;
+
+    public static MaterialButton btnB2_Bloque1;
+    public static MaterialButton btnB2_Bloque2;
+    public static MaterialButton btnB2_Bloque3;
+    public static MaterialButton btnB2_Bloque4;
+    public static MaterialButton btnB2_Bloque5;
+    public static MaterialButton btnB2_Bloque6;
+
+    public static MaterialButton btnB3_Bloque1;
+    public static MaterialButton btnB3_Bloque2;
+    public static MaterialButton btnB3_Bloque3;
+    public static MaterialButton btnB3_Bloque4;
+    public static MaterialButton btnB3_Bloque5;
+    public static MaterialButton btnB3_Bloque6;
+    public static MaterialButton btnB3_Bloque7;
+
+    public static MaterialButton btnB4_Bloque1;
+    public static MaterialButton btnB4_Bloque2;
+    public static MaterialButton btnB4_Bloque3;
+    public static MaterialButton btnB4_Bloque4;
+    public static MaterialButton btnB4_Bloque5;
+    public static MaterialButton btnB4_Bloque6;
+    public static MaterialButton btnB4_Bloque7;
+
+    public static MaterialButton btnB5_Bloque1;
+    public static MaterialButton btnB5_Bloque2;
+    public static MaterialButton btnB5_Bloque3;
+    public static MaterialButton btnB5_Bloque4;
+    public static MaterialButton btnB5_Bloque5;
+    public static MaterialButton btnB5_Bloque6;
+    public static MaterialButton btnB5_Bloque7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ruta_basico);
         mUnbinder = ButterKnife.bind(this);
+
+        btnB1_Bloque1 = findViewById(R.id.bloque1);
+        btnB1_Bloque2 = findViewById(R.id.bloque2);
+        btnB1_Bloque3 = findViewById(R.id.bloque3);
+        btnB1_Bloque4 = findViewById(R.id.bloque4);
+        btnB1_Bloque5 = findViewById(R.id.bloque5);
+        btnB1_Bloque6 = findViewById(R.id.bloque6);
+
+        btnB2_Bloque1 = findViewById(R.id.bloque_1_b2);
+        btnB2_Bloque2 = findViewById(R.id.bloque2_b2);
+        btnB2_Bloque3 = findViewById(R.id.bloque3_b2);
+        btnB2_Bloque4 = findViewById(R.id.bloque4_b2);
+        btnB2_Bloque5 = findViewById(R.id.bloque5_b2);
+        btnB2_Bloque6 = findViewById(R.id.bloque6_b2);
+
+        btnB3_Bloque1 = findViewById(R.id.bloque_1_b3);
+        btnB3_Bloque2 = findViewById(R.id.bloque2_b3);
+        btnB3_Bloque3 = findViewById(R.id.bloque3_b3);
+        btnB3_Bloque4 = findViewById(R.id.bloque4_b3);
+        btnB3_Bloque5 = findViewById(R.id.bloque5_b3);
+        btnB3_Bloque6 = findViewById(R.id.bloque6_b3);
+        btnB3_Bloque7 = findViewById(R.id.bloque7_b3);
+
+        btnB4_Bloque1 = findViewById(R.id.bloque_1_b4);
+        btnB4_Bloque2 = findViewById(R.id.bloque2_b4);
+        btnB4_Bloque3 = findViewById(R.id.bloque3_b4);
+        btnB4_Bloque4 = findViewById(R.id.bloque4_b4);
+        btnB4_Bloque5 = findViewById(R.id.bloque5_b4);
+        btnB4_Bloque6 = findViewById(R.id.bloque6_b4);
+        btnB4_Bloque7 = findViewById(R.id.bloque7_b4);
+
+        btnB5_Bloque1 = findViewById(R.id.bloque_1_b5);
+        btnB5_Bloque2 = findViewById(R.id.bloque2_b5);
+        btnB5_Bloque3 = findViewById(R.id.bloque3_b5);
+        btnB5_Bloque4 = findViewById(R.id.bloque4_b5);
+        btnB5_Bloque5 = findViewById(R.id.bloque5_b5);
+        btnB5_Bloque6 = findViewById(R.id.bloque6_b5);
+        btnB5_Bloque7 = findViewById(R.id.bloque7_b5);
+
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"sesion", null, 1);
+        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+
+        if (fila.moveToFirst()) {
+            idCliente = fila.getInt(0);
+            ServicioTaskRuta ruta = new ServicioTaskRuta(this, idCliente, Constants.ESTADO_RUTA, NIVEL_BASICO);
+            ruta.execute();
+        }else{
+            baseDeDatos.close();
+        }
+
+        baseDeDatos.close();
     }
 
     private void verBloque(String contenido, String bloque, String horas){
