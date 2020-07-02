@@ -41,6 +41,7 @@ public class RutaFragment extends Fragment {
     public static MaterialButton btnIntermedio;
     public static MaterialButton btnAvanzado;
     public static TextView textBasico;
+    public static TextView textIntermedio;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rutaViewModel = ViewModelProviders.of(this).get(RutaViewModel.class);
@@ -51,6 +52,7 @@ public class RutaFragment extends Fragment {
         btnIntermedio = root.findViewById(R.id.btnIntermedio);
         btnAvanzado = root.findViewById(R.id.btnAvanzado);
         textBasico = root.findViewById(R.id.textBasico);
+        textIntermedio = root.findViewById(R.id.textIntermedio);
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(),"sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();

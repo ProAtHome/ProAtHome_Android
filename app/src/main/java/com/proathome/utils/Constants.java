@@ -84,6 +84,37 @@ public class Constants {
     public static final  int BLOQUE5_BASICO5 = 5;
     public static final  int BLOQUE6_BASICO5 = 6;
     public static final  int BLOQUE7_BASICO5 = 7;
+    public static final  int BLOQUE1_INTERMEDIO1= 1;
+    public static final  int BLOQUE2_INTERMEDIO1= 2;
+    public static final  int BLOQUE3_INTERMEDIO1= 3;
+    public static final  int BLOQUE4_INTERMEDIO1= 4;
+    public static final  int BLOQUE5_INTERMEDIO1= 5;
+    public static final  int BLOQUE6_INTERMEDIO1= 6;
+    public static final  int BLOQUE7_INTERMEDIO1= 7;
+    public static final  int BLOQUE1_INTERMEDIO2= 1;
+    public static final  int BLOQUE2_INTERMEDIO2= 2;
+    public static final  int BLOQUE3_INTERMEDIO2= 3;
+    public static final  int BLOQUE4_INTERMEDIO2= 4;
+    public static final  int BLOQUE5_INTERMEDIO2= 5;
+    public static final  int BLOQUE6_INTERMEDIO2= 6;
+    public static final  int BLOQUE1_INTERMEDIO3= 1;
+    public static final  int BLOQUE2_INTERMEDIO3= 2;
+    public static final  int BLOQUE3_INTERMEDIO3= 3;
+    public static final  int BLOQUE4_INTERMEDIO3= 4;
+    public static final  int BLOQUE5_INTERMEDIO3= 5;
+    public static final  int BLOQUE6_INTERMEDIO3= 6;
+    public static final  int BLOQUE1_INTERMEDIO4= 1;
+    public static final  int BLOQUE2_INTERMEDIO4= 2;
+    public static final  int BLOQUE3_INTERMEDIO4= 3;
+    public static final  int BLOQUE4_INTERMEDIO4= 4;
+    public static final  int BLOQUE5_INTERMEDIO4= 5;
+    public static final  int BLOQUE6_INTERMEDIO4= 6;
+    public static final  int BLOQUE1_INTERMEDIO5= 1;
+    public static final  int BLOQUE2_INTERMEDIO5= 2;
+    public static final  int BLOQUE3_INTERMEDIO5= 3;
+    public static final  int BLOQUE4_INTERMEDIO5= 4;
+    public static final  int BLOQUE5_INTERMEDIO5= 5;
+    public static final  int BLOQUE6_INTERMEDIO5= 6;
     /*FIN RUTA NIVELES*/
     public static final String IP = "192.168.100.223";
 

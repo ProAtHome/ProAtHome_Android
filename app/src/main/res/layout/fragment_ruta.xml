@@ -23,7 +23,6 @@
             android:id="@+id/textBasico"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bloque 1"
             android:textStyle="italic|bold"
             android:elevation="10dp"
             android:textColor="@android:color/darker_gray"
@@ -65,6 +64,21 @@
                 app:lottie_rawRes="@raw/flecharuta"
                 app:lottie_loop="true"
                 app:lottie_autoPlay="true"/>
+
+        <TextView
+            android:id="@+id/textIntermedio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic|bold"
+            android:elevation="10dp"
+            android:textColor="@android:color/darker_gray"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintStart_toStartOf="@id/btnIntermedio"
+            android:layout_marginTop="75dp"
+            app:layout_constraintEnd_toEndOf="@id/btnIntermedio"
+            app:layout_constraintTop_toTopOf="@id/btnIntermedio"
+            app:layout_constraintBottom_toBottomOf="@id/btnIntermedio"
+            />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnIntermedio"

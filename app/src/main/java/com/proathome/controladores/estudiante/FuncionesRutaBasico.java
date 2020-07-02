@@ -5,11 +5,11 @@ import android.content.Context;
 import com.proathome.R;
 import com.proathome.RutaBasico;
 
-public class FuncionesRutaAprendizaje {
+public class FuncionesRutaBasico {
 
     private Context contexto;
 
-    public FuncionesRutaAprendizaje(Context contexto){
+    public FuncionesRutaBasico(Context contexto){
         this.contexto = contexto;
     }
 
@@ -97,6 +97,29 @@ public class FuncionesRutaAprendizaje {
 
         RutaBasico.btnB4_Bloque7.setIcon(this.contexto.getDrawable(R.drawable.ok));
         RutaBasico.btnB4_Bloque7.setIconSize(50);
+    }
+
+    public void desbloquearB5(){
+        RutaBasico.btnB5_Bloque1.setIcon(this.contexto.getDrawable(R.drawable.ok));
+        RutaBasico.btnB5_Bloque1.setIconSize(50);
+
+        RutaBasico.btnB5_Bloque2.setIcon(this.contexto.getDrawable(R.drawable.ok));
+        RutaBasico.btnB5_Bloque2.setIconSize(50);
+
+        RutaBasico.btnB5_Bloque3.setIcon(this.contexto.getDrawable(R.drawable.ok));
+        RutaBasico.btnB5_Bloque3.setIconSize(50);
+
+        RutaBasico.btnB5_Bloque4.setIcon(this.contexto.getDrawable(R.drawable.ok));
+        RutaBasico.btnB5_Bloque4.setIconSize(50);
+
+        RutaBasico.btnB5_Bloque5.setIcon(this.contexto.getDrawable(R.drawable.ok));
+        RutaBasico.btnB5_Bloque5.setIconSize(50);
+
+        RutaBasico.btnB5_Bloque6.setIcon(this.contexto.getDrawable(R.drawable.ok));
+        RutaBasico.btnB5_Bloque6.setIconSize(50);
+
+        RutaBasico.btnB5_Bloque7.setIcon(this.contexto.getDrawable(R.drawable.ok));
+        RutaBasico.btnB5_Bloque7.setIconSize(50);
     }
 
     public void bloquearB2_B5(){
