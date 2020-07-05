@@ -1,17 +1,25 @@
 package com.proathome.fragments;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,8 +34,10 @@ import com.proathome.controladores.WorkaroundMapFragment;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.STRegistroSesionesEstudiante;
 import com.proathome.utils.Constants;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -45,16 +55,18 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     TextInputEditText direccionET;
     @BindView(R.id.text_horarioET)
     TextInputEditText horarioET;
-    @BindView(R.id.text_tiempoET)
-    TextInputEditText tiempoET;
-    @BindView(R.id.text_tipoET)
-    TextInputEditText tipoET;
     @BindView(R.id.text_nivelET)
     TextInputEditText nivelET;
     @BindView(R.id.text_observacionesET)
     TextInputEditText observacionesET;
     @BindView(R.id.btnSolicitar)
     MaterialButton btnSolicitar;
+    @BindView(R.id.horas)
+    Spinner horas;
+    @BindView(R.id.minutos)
+    Spinner minutos;
+    @BindView(R.id.tipo)
+    Spinner tipo;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -76,10 +88,8 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         super.onViewCreated(view, savedInstanceState);
 
         if (mMap == null) {
-
             SupportMapFragment mapFragment = (WorkaroundMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
-
         }
 
     }
@@ -90,15 +100,26 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         View view = inflater.inflate(R.layout.fragment_nueva_sesion, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
+        String[] datosHoras = new String[]{"0 HRS", "1 HRS", "2 HRS", "3 HRS"};
+        ArrayAdapter<String> adapterHoras = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, datosHoras);
+        String[] datosMinutos = new String[]{"0 min", "5 min", "10 min", "15 min", "20 min", "25 min", "30 min", "35 min", "40 min", "45 min", "50 min", "55 min"};
+        ArrayAdapter<String> adapterMinutos = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, datosMinutos);
+        String[] datosTipo = new String[]{"Personal", "Grupal"};
+        ArrayAdapter<String> adapterTipo = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, datosTipo);
+        horas.setAdapter(adapterHoras);
+        minutos.setAdapter(adapterMinutos);
+        tipo.setAdapter(adapterTipo);
+
+        horarioET.setKeyListener(null);
+        horarioET.setText("13:00 HRS");
+
         btnSolicitar.setOnClickListener(v -> {
 
-            if(!direccionET.getText().toString().trim().equalsIgnoreCase("") && !horarioET.getText().toString().trim().equalsIgnoreCase("") && !tiempoET.getText().toString().trim().equalsIgnoreCase("")
-                    && !tipoET.getText().toString().trim().equalsIgnoreCase("") && !nivelET.getText().toString().trim().equalsIgnoreCase("") && !observacionesET.getText().toString().trim().equalsIgnoreCase("")){
+            if (!direccionET.getText().toString().trim().equalsIgnoreCase("") && !horarioET.getText().toString().trim().equalsIgnoreCase("")
+                     && !nivelET.getText().toString().trim().equalsIgnoreCase("") && !observacionesET.getText().toString().trim().equalsIgnoreCase("")) {
 
                 String direccion = direccionET.getText().toString();
                 String horario = horarioET.getText().toString();
-                String tiempo = tiempoET.getText().toString();
-                String tipo = tipoET.getText().toString();
                 String nivel = nivelET.getText().toString();
                 String extras = observacionesET.getText().toString();
                 int idCliente = 0;
@@ -107,31 +128,25 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                 SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
                 Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
 
-                if(fila.moveToFirst()){
-
+                if (fila.moveToFirst()) {
                     idCliente = fila.getInt(0);
-
-                }else{
-
+                } else {
                     baseDeDatos.close();
-
                 }
 
                 Calendar calendar = Calendar.getInstance();
                 SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss "); //SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
-                String strDate =  mdformat.format(calendar.getTime());
-                STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horario, direccion, tiempo, nivel, extras, tipo, latitud, longitud, strDate);
+                String strDate = mdformat.format(calendar.getTime());
+                STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horario, direccion, "tiempo", nivel, extras, "tipo", latitud, longitud, strDate);
                 registro.execute();
                 direccionET.setText("");
                 horarioET.setText("");
-                tiempoET.setText("");
-                tipoET.setText("");
                 nivelET.setText("");
                 observacionesET.setText("");
                 Toast.makeText(getContext(), "Revisa tu nueva clase en Inicio o en Gestión.", Toast.LENGTH_LONG).show();
                 dismiss();
 
-            }else{
+            } else {
 
                 Toast.makeText(getContext(), "Llena todos los campos.", Toast.LENGTH_LONG).show();
 

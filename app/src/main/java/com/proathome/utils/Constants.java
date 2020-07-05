@@ -115,6 +115,16 @@ public class Constants {
     public static final  int BLOQUE4_INTERMEDIO5= 4;
     public static final  int BLOQUE5_INTERMEDIO5= 5;
     public static final  int BLOQUE6_INTERMEDIO5= 6;
+    public static final  int BLOQUE1_AVANZADO1= 1;
+    public static final  int BLOQUE2_AVANZADO1= 2;
+    public static final  int BLOQUE1_AVANZADO2= 1;
+    public static final  int BLOQUE2_AVANZADO2= 2;
+    public static final  int BLOQUE1_AVANZADO3= 1;
+    public static final  int BLOQUE2_AVANZADO3= 2;
+    public static final  int BLOQUE1_AVANZADO4= 1;
+    public static final  int BLOQUE2_AVANZADO4= 2;
+    public static final  int BLOQUE1_AVANZADO5= 1;
+    public static final  int BLOQUE2_AVANZADO5= 2;
     /*FIN RUTA NIVELES*/
     public static final String IP = "192.168.100.223";
 

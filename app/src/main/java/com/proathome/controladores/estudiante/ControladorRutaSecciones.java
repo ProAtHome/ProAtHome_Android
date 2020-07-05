@@ -43,39 +43,18 @@ public class ControladorRutaSecciones {
             RutaFragment.btnAvanzado.setEnabled(false);
             System.out.println("Activar burbuja intermedio....");
         }else if(this.idSeccion == Constants.AVANZADO){
+            Animation shake = AnimationUtils.loadAnimation(this.contexto, R.anim.shake);
+            RutaFragment.btnBasico.setBackgroundColor(Color.parseColor("#9a0807"));
+            RutaFragment.btnBasico.setEnabled(true);
+            RutaFragment.btnBasico.setIcon(this.contexto.getDrawable(R.drawable.ok));
+            RutaFragment.btnIntermedio.setBackgroundColor(Color.parseColor("#cbccfd"));
+            RutaFragment.btnIntermedio.setEnabled(true);
+            RutaFragment.btnIntermedio.setIcon(this.contexto.getDrawable(R.drawable.ok));
+            RutaFragment.btnAvanzado.startAnimation(shake);
+            RutaFragment.btnAvanzado.setBackgroundColor(Color.parseColor("#6d5d60"));
+            RutaFragment.btnAvanzado.setIcon(this.contexto.getDrawable(R.drawable.unlock));
             System.out.println("Activar burbuja activado....");
         }
-    }
-
-
-    public void evaluarNivelAvanzado(){
-        if(this.idNivel == Constants.AVANZADO_1){
-
-        }else if(this.idNivel == Constants.AVANZADO_2){
-
-        }else if(this.idNivel == Constants.AVANZADO_3){
-
-        }
-    }
-
-    public void evaluarBloqueAvanzado1(){
-
-    }
-
-    public void evaluarBloqueAvanzado2(){
-
-    }
-
-    public void evaluarBloqueAvanzado3(){
-
-    }
-
-    public void evaluarBloqueAvanzado4(){
-
-    }
-
-    public void evaluarBloqueAvanzado5(){
-
     }
 
 }

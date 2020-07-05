@@ -19,12 +19,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSolicitar"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/solicitar"
                 android:layout_gravity="end"
-                android:textColor="@android:color/white"
-                style="@style/Widget.MaterialComponents.Button.TextButton">
+                android:text="@string/solicitar"
+                android:textColor="@android:color/white">
 
             </com.google.android.material.button.MaterialButton>
 
@@ -59,6 +59,17 @@
                     map:layout_constraintTop_toTopOf="parent"
                     tools:context=".MapsFragment" />
 
+                <TextView
+                    android:id="@+id/direccionTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:text="Escribe la dirección de la sesión:"
+                    android:layout_margin="@dimen/common_padding_min"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/map"/>
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/text_direccion"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -68,9 +79,10 @@
                     android:layout_marginBottom="15dp"
                     android:hint="Dirección"
                     app:endIconMode="clear_text"
+                    android:layout_margin="@dimen/common_padding_min"
                     app:layout_constraintEnd_toEndOf="@id/map"
                     app:layout_constraintStart_toStartOf="@id/map"
-                    app:layout_constraintTop_toBottomOf="@id/map">
+                    app:layout_constraintTop_toBottomOf="@id/direccionTV">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/text_direccionET"
@@ -81,93 +93,192 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    android:id="@+id/text_elegirHorario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Elige el horario para comenzar:"
+                    android:layout_margin="@dimen/common_padding_min"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_direccion"
+                    style="@style/TextAppearance.MaterialComponents.Body1"/>
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/text_horario"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                    android:layout_width="match_parent"
+                    android:layout_width="230dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
-                    android:hint="Horario"
-                    app:endIconMode="clear_text"
+                    android:hint="Horario Elegido"
                     app:layout_constraintEnd_toEndOf="@id/map"
-                    app:layout_constraintStart_toStartOf="@id/map"
-                    app:layout_constraintTop_toBottomOf="@id/text_direccion">
+                    app:layout_constraintStart_toEndOf="@id/elegirHorario"
+                    app:layout_constraintTop_toBottomOf="@id/text_elegirHorario">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/text_horarioET"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:inputType="none">
 
                     </com.google.android.material.textfield.TextInputEditText>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_tiempo"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/elegirHorario"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Horario"
+                    android:layout_marginStart="@dimen/common_padding_min"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/text_horario"
+                    app:layout_constraintBottom_toBottomOf="@id/text_horario"/>
+
+                <TextView
+                    android:id="@+id/text_eligeTiempo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:hint="Tiempo de la Sesión"
-                    app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="@id/map"
-                    app:layout_constraintStart_toStartOf="@id/map"
-                    app:layout_constraintTop_toBottomOf="@id/text_horario">
+                    android:layout_marginTop="@dimen/common_padding_min"
+                    android:text="Elige el tiempo de la sesión:"
+                    android:layout_margin="@dimen/common_padding_min"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/elegirHorario"
+                    style="@style/TextAppearance.MaterialComponents.Body1"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/text_tiempoET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textHoras"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Horas:"
+                    android:layout_margin="@dimen/common_padding_min"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
 
-                    </com.google.android.material.textfield.TextInputEditText>
+                <Spinner
+                    android:id="@+id/horas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:overlapAnchor="false"
+                    android:layout_marginTop="@dimen/common_padding_min"
+                    android:spinnerMode="dropdown"
+                    android:backgroundTint="@color/colorPersonalDark"
+                    style="@style/AppTheme.AppBarOverlay"
+                    app:layout_constraintStart_toEndOf="@id/textHoras"
+                    app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
 
-                </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:id="@+id/textMinutos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Minutos:"
+                    android:layout_margin="@dimen/common_padding_min"
+                    app:layout_constraintStart_toEndOf="@id/horas"
+                    app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_tipo"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                <Spinner
+                    android:id="@+id/minutos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:overlapAnchor="false"
+                    android:layout_marginTop="@dimen/common_padding_min"
+                    android:spinnerMode="dropdown"
+                    android:backgroundTint="@color/colorPersonalDark"
+                    style="@style/AppTheme.AppBarOverlay"
+                    app:layout_constraintStart_toEndOf="@id/textMinutos"
+                    app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
+
+                <TextView
+                    android:id="@+id/textTipoTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Elige el tipo de sesión:"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:layout_margin="@dimen/common_padding_min"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/minutos"/>
+
+
+                <TextView
+                    android:id="@+id/textTipo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tipo:"
+                    android:layout_margin="@dimen/common_padding_min"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textTipoTV"/>
+
+                <Spinner
+                    android:id="@+id/tipo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:overlapAnchor="false"
+                    android:layout_marginTop="@dimen/common_padding_min"
+                    android:spinnerMode="dropdown"
+                    android:backgroundTint="@color/colorPersonalDark"
+                    style="@style/AppTheme.AppBarOverlay"
+                    app:layout_constraintStart_toEndOf="@id/textTipo"
+                    app:layout_constraintTop_toBottomOf="@id/textTipoTV"/>
+
+                <TextView
+                    android:id="@+id/nivelTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:hint="Tipo de Clase"
-                    app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="@id/map"
-                    app:layout_constraintStart_toStartOf="@id/map"
-                    app:layout_constraintTop_toBottomOf="@id/text_tiempo">
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:text="Sesión en curso (RECOMENDADO):"
+                    android:layout_margin="@dimen/common_padding_min"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tipo"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/text_tipoET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                <Spinner
+                    android:id="@+id/secciones"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:overlapAnchor="false"
+                    android:layout_marginTop="@dimen/common_padding_min"
+                    android:spinnerMode="dropdown"
+                    android:backgroundTint="@color/colorPersonalDark"
+                    style="@style/AppTheme.AppBarOverlay"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/nivelTV"/>
 
-                    </com.google.android.material.textfield.TextInputEditText>
+                <Spinner
+                    android:id="@+id/niveles"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:overlapAnchor="false"
+                    android:layout_marginTop="@dimen/common_padding_min"
+                    android:spinnerMode="dropdown"
+                    android:backgroundTint="@color/colorPersonalDark"
+                    style="@style/AppTheme.AppBarOverlay"
+                    app:layout_constraintStart_toEndOf="@id/secciones"
+                    app:layout_constraintTop_toBottomOf="@id/nivelTV"/>
 
-                </com.google.android.material.textfield.TextInputLayout>
+                <Spinner
+                    android:id="@+id/bloques"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:overlapAnchor="false"
+                    android:layout_marginTop="@dimen/common_padding_min"
+                    android:spinnerMode="dropdown"
+                    android:backgroundTint="@color/colorPersonalDark"
+                    style="@style/AppTheme.AppBarOverlay"
+                    app:layout_constraintStart_toEndOf="@id/niveles"
+                    app:layout_constraintTop_toBottomOf="@id/nivelTV"/>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_nivel"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                <TextView
+                    android:id="@+id/observacionesTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:hint="Nivel"
-                    app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="@id/map"
-                    app:layout_constraintStart_toStartOf="@id/map"
-                    app:layout_constraintTop_toBottomOf="@id/text_tipo">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/text_nivelET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                    </com.google.android.material.textfield.TextInputEditText>
-
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:text="Escribe alguna observación a tomar en cuenta:"
+                    android:layout_margin="@dimen/common_padding_min"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/secciones"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/text_observaciones"
@@ -177,10 +288,11 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
                     android:hint="Observaciones "
+                    android:layout_margin="@dimen/common_padding_min"
                     app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="@id/map"
                     app:layout_constraintStart_toStartOf="@id/map"
-                    app:layout_constraintTop_toBottomOf="@id/text_nivel">
+                    app:layout_constraintTop_toBottomOf="@id/observacionesTV">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/text_observacionesET"

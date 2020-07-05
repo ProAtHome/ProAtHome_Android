@@ -106,6 +106,21 @@
                 app:lottie_loop="true"
                 app:lottie_autoPlay="true"/>
 
+        <TextView
+            android:id="@+id/textAvanzado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic|bold"
+            android:elevation="10dp"
+            android:textColor="@android:color/darker_gray"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintStart_toStartOf="@id/btnAvanzado"
+            android:layout_marginTop="75dp"
+            app:layout_constraintEnd_toEndOf="@id/btnAvanzado"
+            app:layout_constraintTop_toTopOf="@id/btnAvanzado"
+            app:layout_constraintBottom_toBottomOf="@id/btnAvanzado"
+            />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAvanzado"
                 android:layout_width="180dp"

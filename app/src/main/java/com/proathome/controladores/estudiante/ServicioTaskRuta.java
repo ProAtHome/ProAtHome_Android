@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.proathome.RutaAvanzado;
 import com.proathome.RutaBasico;
 import com.proathome.RutaIntermedio;
 import com.proathome.ui.ruta.RutaFragment;
@@ -157,6 +158,43 @@ public class ServicioTaskRuta extends AsyncTask <Void, Void, String> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }else if(this.estado == Constants.ESTADO_RUTA && this.lugarRuta == RutaAvanzado.NIVEL_AVANZADO){
+            String wsURL = this.linkAPIEstadoRuta + this.idEstudiante + "/" + RutaAvanzado.NIVEL_AVANZADO;
+            try{
+                URL url = new URL(wsURL);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+                urlConnection.setReadTimeout(15000);
+                urlConnection.setConnectTimeout(15000);
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
+
+                int responseCode = urlConnection.getResponseCode();
+                if(responseCode == HttpURLConnection.HTTP_OK){
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    StringBuffer stringBuffer = new StringBuffer("");
+                    String linea = "";
+
+                    while ((linea = bufferedReader.readLine()) != null){
+                        stringBuffer.append(linea);
+                        break;
+                    }
+
+                    bufferedReader.close();
+                    result= stringBuffer.toString();
+                    this.respuesta = result;
+                }else{
+                    result = new String("Error: "+ responseCode);
+                    this.respuesta = null;
+                }
+
+            }catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return result;
@@ -187,6 +225,9 @@ public class ServicioTaskRuta extends AsyncTask <Void, Void, String> {
                 }else if(this.lugarRuta == RutaIntermedio.NIVEL_INTERMEDIO){
                     ControladorRutaIntermedio rutaAprendizaje = new ControladorRutaIntermedio(this.contexto, idBloque, idNivel, idSeccion);
                     rutaAprendizaje.evaluarNivelIntermedio();
+                }else if(this.lugarRuta == RutaAvanzado.NIVEL_AVANZADO){
+                    ControladorRutaAvanzado rutaAvanzado = new ControladorRutaAvanzado(this.contexto, idBloque, idNivel, idSeccion);
+                    rutaAvanzado.evaluarNivelAvanzado();
                 }
             }
         }catch(JSONException ex){
