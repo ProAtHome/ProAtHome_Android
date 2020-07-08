@@ -181,6 +181,214 @@ public class ControladorTomarSesion {
         return  resultado;
     }
 
+    public String minutosAHRS(int minutos){
+        int horas = minutos / 60;
+        int partHoras = minutos % 60;
+        String partHorasTexto = "";
+
+        if(partHoras < 10)
+            partHorasTexto = "0" + String.valueOf(partHoras);
+        else
+            partHorasTexto = String.valueOf(partHoras);
+
+        String horasTexto =  String.valueOf(horas) + ":" + partHorasTexto + " HRS";
+
+        return horasTexto;
+    }
+
+    public int validarHorasRestantes(int seccion, int nivel, int bloque){
+
+        int minutos = 0;
+
+        if(seccion == Constants.BASICO){
+            if(nivel == Constants.BASICO_1){
+                if(bloque == Constants.BLOQUE1_BASICO1){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE2_BASICO1){
+                    minutos = 660;
+                }else if(bloque == Constants.BLOQUE3_BASICO1){
+                    minutos = 660;
+                }else if(bloque == Constants.BLOQUE4_BASICO1){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE5_BASICO1){
+                    minutos = 660;
+                }else if(bloque == Constants.BLOQUE6_BASICO1){
+                    minutos = 660;
+                }
+            }else if(nivel == Constants.BASICO_2){
+                if(bloque == Constants.BLOQUE1_BASICO2){
+                    minutos = 660;
+                }else if(bloque == Constants.BLOQUE2_BASICO2){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE3_BASICO2){
+                    minutos = 660;
+                }else if(bloque == Constants.BLOQUE4_BASICO2){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE5_BASICO2){
+                    minutos = 660;
+                }else if(bloque == Constants.BLOQUE6_BASICO2){
+                    minutos = 660;
+                }
+            }else if(nivel == Constants.BASICO_3){
+                if(bloque == Constants.BLOQUE1_BASICO3){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE2_BASICO3){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE3_BASICO3){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE4_BASICO3){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE5_BASICO3){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE6_BASICO3){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE7_BASICO3){
+                    minutos = 540;
+                }
+            }else if(nivel == Constants.BASICO_4){
+                if(bloque == Constants.BLOQUE1_BASICO4){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE2_BASICO4){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE3_BASICO4){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE4_BASICO4){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE5_BASICO4){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE6_BASICO4){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE7_BASICO4){
+                    minutos = 600;
+                }
+            }else if(nivel == Constants.BASICO_5){
+                if(bloque == Constants.BLOQUE1_BASICO5){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE2_BASICO5){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE3_BASICO5){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE4_BASICO5){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE5_BASICO5){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE6_BASICO5){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE7_BASICO5){
+                    minutos = 540;
+                }
+            }
+        }else if(seccion == Constants.INTERMEDIO){
+            if(nivel == Constants.INTERMEDIO_1){
+                if(bloque == Constants.BLOQUE1_INTERMEDIO1){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE2_INTERMEDIO1){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE3_INTERMEDIO1){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE4_INTERMEDIO1){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE5_INTERMEDIO1){
+                    minutos = 540;
+                }else if(bloque == Constants.BLOQUE6_INTERMEDIO1){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE7_INTERMEDIO1){
+                    minutos = 540;
+                }
+            }else if(nivel == Constants.INTERMEDIO_2){
+                if(bloque == Constants.BLOQUE1_INTERMEDIO2){
+                    minutos = 660;
+                }else if(bloque == Constants.BLOQUE2_INTERMEDIO2){
+                    minutos = 660;
+                }else if(bloque == Constants.BLOQUE3_INTERMEDIO2){
+                    minutos = 660;
+                }else if(bloque == Constants.BLOQUE4_INTERMEDIO2){
+                    minutos = 660;
+                }else if(bloque == Constants.BLOQUE5_INTERMEDIO2){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE6_INTERMEDIO2){
+                    minutos = 600;
+                }
+            }else if(nivel == Constants.INTERMEDIO_3){
+                if(bloque == Constants.BLOQUE1_INTERMEDIO1){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE2_INTERMEDIO3){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE3_INTERMEDIO3){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE4_INTERMEDIO3){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE5_INTERMEDIO3){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE6_INTERMEDIO3){
+                    minutos = 600;
+                }
+            }else if(nivel == Constants.INTERMEDIO_4){
+                if(bloque == Constants.BLOQUE1_INTERMEDIO4){
+                    minutos = 660;
+                }else if(bloque == Constants.BLOQUE2_INTERMEDIO4){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE3_INTERMEDIO4){
+                    minutos = 660;
+                }else if(bloque == Constants.BLOQUE4_INTERMEDIO4){
+                    minutos = 660;
+                }else if(bloque == Constants.BLOQUE5_INTERMEDIO4){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE6_INTERMEDIO4){
+                    minutos = 660;
+                }
+            }else if(nivel == Constants.INTERMEDIO_5){
+                if(bloque == Constants.BLOQUE1_INTERMEDIO5){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE2_INTERMEDIO5){
+                    minutos = 600;
+                }else if(bloque == Constants.BLOQUE3_INTERMEDIO5){
+                    minutos = 660;
+                }else if(bloque == Constants.BLOQUE4_INTERMEDIO5){
+                    minutos = 660;
+                }else if(bloque == Constants.BLOQUE5_INTERMEDIO5){
+                    minutos = 660;
+                }else if(bloque == Constants.BLOQUE6_INTERMEDIO5){
+                    minutos = 660;
+                }
+            }
+        }else if(seccion == Constants.AVANZADO){
+            if(nivel == Constants.AVANZADO_1){
+                if(bloque == Constants.BLOQUE1_AVANZADO1){
+                    minutos = 780;
+                }else if(bloque == Constants.BLOQUE2_AVANZADO1){
+                    minutos = 720;
+                }
+            }else if(nivel == Constants.AVANZADO_2){
+                if(bloque == Constants.BLOQUE1_AVANZADO2){
+                    minutos = 720;
+                }else if(bloque == Constants.BLOQUE2_AVANZADO2){
+                    minutos = 780;
+                }
+            }else if(nivel == Constants.AVANZADO_3){
+                if(bloque == Constants.BLOQUE1_AVANZADO3){
+                    minutos = 780;
+                }else if(bloque == Constants.BLOQUE2_AVANZADO3){
+                    minutos = 720;
+                }
+            }else if(nivel == Constants.AVANZADO_4){
+                if(bloque == Constants.BLOQUE1_AVANZADO4){
+                    minutos = 720;
+                }else if(bloque == Constants.BLOQUE2_AVANZADO4){
+                    minutos = 780;
+                }
+            }else if(nivel == Constants.AVANZADO_5){
+                if(bloque == Constants.BLOQUE1_AVANZADO5){
+                    minutos = 720;
+                }else if(bloque == Constants.BLOQUE2_AVANZADO5){
+                    minutos = 780;
+                }
+            }
+        }
+
+        return minutos;
+    }
+
     public int getSeccion() {
         return seccion;
     }

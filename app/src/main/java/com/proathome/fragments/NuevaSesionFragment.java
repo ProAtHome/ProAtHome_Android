@@ -31,6 +31,7 @@ import com.proathome.controladores.WorkaroundMapFragment;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ControladorTomarSesion;
 import com.proathome.controladores.estudiante.STRegistroSesionesEstudiante;
+import com.proathome.controladores.estudiante.ServicioTaskSesionActual;
 import com.proathome.utils.Constants;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,13 +43,15 @@ import butterknife.Unbinder;
 public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCallback {
 
     public static final String TAG = "Nueva Sesión";
-    private boolean basicoVisto, intermedioVisto, avanzadoVisto;
+    public static boolean basicoVisto, intermedioVisto, avanzadoVisto;
+    private int idCliente = 0;
     private GoogleMap mMap;
     private Marker perth;
     private ScrollView mScrollView;
     private double latitud, longitud;
     private String registrarSesionREST = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/agregarSesion";
     private Unbinder mUnbinder;
+    public static ControladorTomarSesion tomarSesion;
     @BindView(R.id.text_direccionET)
     TextInputEditText direccionET;
     @BindView(R.id.text_horarioET)
@@ -63,16 +66,12 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     Spinner minutos;
     @BindView(R.id.tipo)
     Spinner tipo;
-    @BindView(R.id.secciones)
-    Spinner secciones;
-    @BindView(R.id.niveles)
-    Spinner niveles;
-    @BindView(R.id.bloques)
-    Spinner bloques;
+    public static Spinner secciones;
+    public static Spinner niveles;
+    public static Spinner bloques;
+    public static TextView horasDisponiblesTV;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.horasDisponibles)
-    TextView horasDisponiblesTV;
 
     public NuevaSesionFragment() {
 
@@ -104,7 +103,24 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         View view = inflater.inflate(R.layout.fragment_nueva_sesion, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
-        ControladorTomarSesion tomarSesion = new ControladorTomarSesion(getContext(), Constants.INTERMEDIO, Constants.INTERMEDIO_5, Constants.BLOQUE6_INTERMEDIO5);
+        secciones = view.findViewById(R.id.secciones);
+        niveles = view.findViewById(R.id.niveles);
+        bloques = view.findViewById(R.id.bloques);
+        horasDisponiblesTV = view.findViewById(R.id.horasDisponibles);
+
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
+        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+
+        if (fila.moveToFirst()) {
+            idCliente = fila.getInt(0);
+            ServicioTaskSesionActual servicioTaskSesionActual = new ServicioTaskSesionActual(getContext(), idCliente);
+            servicioTaskSesionActual.execute();
+        } else {
+            baseDeDatos.close();
+        }
+
+        baseDeDatos.close();
 
         String[] datosHoras = new String[]{"0 HRS", "1 HRS", "2 HRS", "3 HRS"};
         ArrayAdapter<String> adapterHoras = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, datosHoras);
@@ -112,75 +128,11 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         ArrayAdapter<String> adapterMinutos = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, datosMinutos);
         String[] datosTipo = new String[]{"Personal", "Grupal"};
         ArrayAdapter<String> adapterTipo = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, datosTipo);
-        String[] datosSecciones = new String[]{"Básico", "Intermedio", "Avanzado"};
+
         horas.setAdapter(adapterHoras);
         minutos.setAdapter(adapterMinutos);
         tipo.setAdapter(adapterTipo);
-        secciones.setAdapter(tomarSesion.obtenerSecciones());
-        secciones.setSelection(2-1);
-        niveles.setAdapter(tomarSesion.obtenerNiveles());
-        niveles.setSelection(5-1);
-        bloques.setAdapter(tomarSesion.obtenerBloques());
-        bloques.setSelection(6-1);
-
-        secciones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(tomarSesion.getSeccion() == Constants.BASICO){
-                    if(secciones.getSelectedItem().toString().equalsIgnoreCase("Básico")){
-                        if(!basicoVisto){
-                            Toast.makeText(getContext(), "Valores de REST", Toast.LENGTH_LONG).show();
-                            basicoVisto = true;
-                        }else{
-                            niveles.setAdapter(tomarSesion.obtenerNiveles(Constants.BASICO));
-                        }
-                    }else if(secciones.getSelectedItem().toString().equalsIgnoreCase("Intermedio")){
-                        niveles.setAdapter(tomarSesion.obtenerNiveles(Constants.INTERMEDIO));
-                        horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                    }else if(secciones.getSelectedItem().toString().equalsIgnoreCase("Avanzado")){
-                        niveles.setAdapter(tomarSesion.obtenerNiveles(Constants.AVANZADO));
-                        horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                    }
-                }else if(tomarSesion.getSeccion() == Constants.INTERMEDIO){
-                    if(secciones.getSelectedItem().toString().equalsIgnoreCase("Básico")){
-                        niveles.setAdapter(tomarSesion.obtenerNiveles(Constants.BASICO));
-                        horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                    }else if(secciones.getSelectedItem().toString().equalsIgnoreCase("Intermedio")){
-                        if(!intermedioVisto){
-                            Toast.makeText(getContext(), "Valores de REST", Toast.LENGTH_LONG).show();
-                            intermedioVisto = true;
-                        }else{
-                            niveles.setAdapter(tomarSesion.obtenerNiveles(Constants.INTERMEDIO));
-                        }
-                    }else if(secciones.getSelectedItem().toString().equalsIgnoreCase("Avanzado")){
-                        niveles.setAdapter(tomarSesion.obtenerNiveles(Constants.AVANZADO));
-                        horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                    }
-                }else if(tomarSesion.getSeccion() == Constants.AVANZADO){
-                    if(secciones.getSelectedItem().toString().equalsIgnoreCase("Básico")){
-                        niveles.setAdapter(tomarSesion.obtenerNiveles(Constants.BASICO));
-                        horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                    }else if(secciones.getSelectedItem().toString().equalsIgnoreCase("Intermedio")){
-                        niveles.setAdapter(tomarSesion.obtenerNiveles(Constants.INTERMEDIO));
-                        horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                    }else if(secciones.getSelectedItem().toString().equalsIgnoreCase("Avanzado")){
-                        if(!avanzadoVisto){
-                            Toast.makeText(getContext(), "Valores de REST", Toast.LENGTH_LONG).show();
-                            avanzadoVisto = true;
-                        }else{
-                            niveles.setAdapter(tomarSesion.obtenerNiveles(Constants.AVANZADO));
-                        }
-                    }
-                }
-
-                if(tomarSesion.validarSesionCorrecta(Constants.INTERMEDIO, Constants.INTERMEDIO_5, Constants.BLOQUE6_INTERMEDIO5, secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1)){
-                    horasDisponiblesTV.setText("*Tienes 0 HRS / 11HRS de avance en el actual bloque*");
-                }
-            }
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                return;
-            }
-        });
-
+/*
         niveles.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -367,7 +319,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
         horarioET.setKeyListener(null);
         horarioET.setText("13:00 HRS");
@@ -380,17 +332,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                 String direccion = direccionET.getText().toString();
                 String horario = horarioET.getText().toString();
                 String extras = observacionesET.getText().toString();
-                int idCliente = 0;
-
-                AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
-                SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-                Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
-
-                if (fila.moveToFirst()) {
-                    idCliente = fila.getInt(0);
-                } else {
-                    baseDeDatos.close();
-                }
 
                 Calendar calendar = Calendar.getInstance();
                 SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss "); //SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
@@ -513,6 +454,16 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
         super.onDestroyView();
         mUnbinder.unbind();
+        tomarSesion = null;
+        secciones.setOnItemSelectedListener(null);
+        secciones.setAdapter(null);
+        niveles.setOnItemSelectedListener(null);
+        niveles.setAdapter(null);
+        bloques.setOnItemSelectedListener(null);
+        bloques.setAdapter(null);
+        avanzadoVisto = false;
+        intermedioVisto = false;
+        basicoVisto = false;
         Fragment fragment = (getFragmentManager().findFragmentById(R.id.map));
         if (fragment != null){
             getActivity().getSupportFragmentManager().beginTransaction()
