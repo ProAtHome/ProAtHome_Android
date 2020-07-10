@@ -1,189 +1,457 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/common_padding_min"
+    android:layout_marginBottom="@dimen/common_padding_default"
+    tools:context=".fragments.DetallesGestionarFragment">
+
+    <fragment
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/mapsDetallesG"
+        class="com.proathome.controladores.WorkaroundMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        tools:context=".MapsFragment" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilProfesor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:hint="@string/profesor_asignado"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mapsDetallesG"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietProfesor"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:padding="@dimen/common_padding_min"
-            android:layout_marginBottom="@dimen/common_padding_default"
-            tools:context=".fragments.DetallesGestionarFragment">
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName">
 
-            <fragment
-                xmlns:map="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/mapsDetallesG"
-                class="com.proathome.controladores.WorkaroundMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                map:layout_constraintEnd_toEndOf="parent"
-                map:layout_constraintStart_toStartOf="parent"
-                map:layout_constraintTop_toTopOf="parent"
-                tools:context=".MapsFragment" />
+        </com.google.android.material.textfield.TextInputEditText>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilProfesor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:hint="@string/profesor_asignado"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mapsDetallesG"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+    </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietProfesor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName">
+    <TextView
+        android:id="@+id/text_elegirFecha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:text="Elige la fecha de la sesión:"
+        android:layout_margin="@dimen/common_padding_min"
+        android:drawableLeft="@drawable/direccion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tilProfesor"/>
 
-                </com.google.android.material.textfield.TextInputEditText>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/elegirFecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fecha"
+        android:layout_marginStart="@dimen/common_padding_min"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/text_fecha"
+        app:layout_constraintBottom_toBottomOf="@id/text_fecha"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_fecha"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:hint="Fecha Elegida"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/elegirFecha"
+        app:layout_constraintTop_toBottomOf="@id/text_elegirFecha">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilHorario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/horario"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tilProfesor"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietFecha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietHorario"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName">
+        </com.google.android.material.textfield.TextInputEditText>
 
-                </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
+    <View
+        android:id="@+id/divider0"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/colorPersonalDark"
+        android:layout_margin="@dimen/common_padding_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_fecha"
+        android:layout_marginTop="@dimen/common_padding_middle"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilLugar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/lugar"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tilHorario"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+    <TextView
+        android:id="@+id/direccionTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:text="Escribe la dirección de la sesión:"
+        android:layout_margin="@dimen/common_padding_min"
+        android:drawableLeft="@drawable/direccion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider0"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietLugar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName">
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_direccion"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp"
+        android:hint="Dirección"
+        app:endIconMode="clear_text"
+        android:layout_margin="@dimen/common_padding_min"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/direccionTV">
 
-                </com.google.android.material.textfield.TextInputEditText>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietLugar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputEditText>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilTiempo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/tiempo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tilLugar"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+    </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietTiempo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName">
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/colorPersonalDark"
+        android:layout_margin="@dimen/common_padding_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_direccion"
+        android:layout_marginTop="@dimen/common_padding_middle"/>
 
-                </com.google.android.material.textfield.TextInputEditText>
+    <TextView
+        android:id="@+id/text_elegirHorario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Elige el horario para comenzar:"
+        android:layout_margin="@dimen/common_padding_min"
+        android:textStyle="bold"
+        android:drawableLeft="@drawable/horario"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        style="@style/TextAppearance.MaterialComponents.Body1"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_horario"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:hint="Horario Elegido"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/elegirHorario"
+        app:layout_constraintTop_toBottomOf="@id/text_elegirHorario">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilNivel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/nivel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tilTiempo"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietHorario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietNivel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName">
+        </com.google.android.material.textfield.TextInputEditText>
 
-                </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/elegirHorario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Horario"
+        android:layout_marginStart="@dimen/common_padding_min"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/text_horario"
+        app:layout_constraintBottom_toBottomOf="@id/text_horario"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilTipo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/tipo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tilNivel"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+    <TextView
+        android:id="@+id/text_eligeTiempo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_padding_default"
+        android:text="Elige el tiempo de la sesión:"
+        android:layout_margin="@dimen/common_padding_min"
+        android:textStyle="bold"
+        android:drawableLeft="@drawable/tiempo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/elegirHorario"
+        style="@style/TextAppearance.MaterialComponents.Body1"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietTipo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName">
+    <TextView
+        android:id="@+id/textHoras"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Horas:"
+        android:layout_margin="@dimen/common_padding_min"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
 
-                </com.google.android.material.textfield.TextInputEditText>
+    <Spinner
+        android:id="@+id/horas"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:overlapAnchor="false"
+        android:layout_marginTop="@dimen/common_padding_min"
+        android:spinnerMode="dropdown"
+        android:backgroundTint="@color/colorPersonalDark"
+        style="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintStart_toEndOf="@id/textHoras"
+        app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/textMinutos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Minutos:"
+        android:layout_margin="@dimen/common_padding_min"
+        app:layout_constraintStart_toEndOf="@id/horas"
+        app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilObservaciones"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/observaciones"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tilTipo"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+    <Spinner
+        android:id="@+id/minutos"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:overlapAnchor="false"
+        android:layout_marginTop="@dimen/common_padding_min"
+        android:spinnerMode="dropdown"
+        android:backgroundTint="@color/colorPersonalDark"
+        style="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintStart_toEndOf="@id/textMinutos"
+        app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietObservaciones"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName">
+    <TextView
+        android:id="@+id/textTipoTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Elige el tipo de sesión:"
+        android:layout_marginTop="@dimen/common_padding_default"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_margin="@dimen/common_padding_min"
+        android:textStyle="bold"
+        android:drawableLeft="@drawable/tipo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/minutos"/>
 
-                </com.google.android.material.textfield.TextInputEditText>
 
-            </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/textTipo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tipo:"
+        android:layout_margin="@dimen/common_padding_min"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textTipoTV"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnActualizarSesion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/actualizar"
-                android:layout_marginTop="@dimen/common_padding_min"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tilObservaciones">
+    <Spinner
+        android:id="@+id/tipo"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:overlapAnchor="false"
+        android:layout_marginTop="@dimen/common_padding_min"
+        android:spinnerMode="dropdown"
+        android:backgroundTint="@color/colorPersonalDark"
+        style="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintStart_toEndOf="@id/textTipo"
+        app:layout_constraintTop_toBottomOf="@id/textTipoTV"/>
 
-            </com.google.android.material.button.MaterialButton>
+    <TextView
+        android:id="@+id/nivelTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:text="Sesión en curso (RECOMENDADO):"
+        android:layout_margin="@dimen/common_padding_min"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/common_padding_default"
+        android:drawableLeft="@drawable/nivel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tipo"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnEliminarSesion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/common_padding_min"
-                android:layout_marginStart="@dimen/common_padding_default"
-                android:text="@string/eliminar"
-                android:backgroundTint="@android:color/holo_red_dark"
-                app:layout_constraintStart_toEndOf="@+id/btnActualizarSesion"
-                app:layout_constraintTop_toBottomOf="@id/tilObservaciones">
+    <TextView
+        android:id="@+id/seccionesTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:text="Sección:"
+        android:textColor="@color/colorPersonalDark"
+        android:layout_margin="@dimen/common_padding_min"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/common_padding_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nivelTV"/>
 
-            </com.google.android.material.button.MaterialButton>
+    <Spinner
+        android:id="@+id/secciones"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:overlapAnchor="false"
+        android:layout_marginTop="@dimen/common_padding_min"
+        android:spinnerMode="dropdown"
+        android:textSize="12sp"
+        android:backgroundTint="@color/colorPersonalDark"
+        style="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintStart_toEndOf="@id/seccionesTV"
+        app:layout_constraintTop_toBottomOf="@id/nivelTV"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/nivelesTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:text="Nivel:"
+        android:textColor="@color/colorPersonalDark"
+        android:layout_margin="@dimen/common_padding_min"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/common_padding_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/secciones"/>
+
+    <Spinner
+        android:id="@+id/niveles"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:overlapAnchor="false"
+        android:layout_marginTop="@dimen/common_padding_min"
+        android:spinnerMode="dropdown"
+        android:backgroundTint="@color/colorPersonalDark"
+        style="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintStart_toEndOf="@id/nivelesTV"
+        app:layout_constraintTop_toBottomOf="@id/secciones"/>
+
+    <TextView
+        android:id="@+id/bloquesTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:text="Bloque:"
+        android:textColor="@color/colorPersonalDark"
+        android:layout_margin="@dimen/common_padding_min"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/common_padding_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/niveles"/>
+
+    <Spinner
+        android:id="@+id/bloques"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:overlapAnchor="false"
+        android:layout_marginTop="@dimen/common_padding_min"
+        android:spinnerMode="dropdown"
+        android:backgroundTint="@color/colorPersonalDark"
+        style="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintStart_toEndOf="@id/bloquesTV"
+        app:layout_constraintTop_toBottomOf="@id/niveles"/>
+
+    <TextView
+        android:id="@+id/horasDisponibles"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textColor="@android:color/holo_red_dark"
+        android:textStyle="italic|bold"
+        android:textSize="12sp"
+        android:layout_margin="@dimen/common_padding_min"
+        android:text="*Tienes 0 HRS / 11HRS de avance en el actual bloque*"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bloques"/>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/colorPersonalDark"
+        android:layout_margin="@dimen/common_padding_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/horasDisponibles"
+        android:layout_marginTop="@dimen/common_padding_middle"/>
+
+    <TextView
+        android:id="@+id/observacionesTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:text="Escribe alguna observación a tomar en cuenta:"
+        android:layout_margin="@dimen/common_padding_min"
+        android:textStyle="bold"
+        android:drawableLeft="@drawable/observacion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilObservaciones"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:hint="Observaciones "
+        android:layout_margin="@dimen/common_padding_min"
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/observacionesTV">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietObservaciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnActualizarSesion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/actualizar"
+        android:layout_marginTop="@dimen/common_padding_min"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tilObservaciones">
+
+    </com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnEliminarSesion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_padding_min"
+        android:layout_marginStart="@dimen/common_padding_default"
+        android:text="@string/eliminar"
+        android:backgroundTint="@android:color/holo_red_dark"
+        app:layout_constraintStart_toEndOf="@+id/btnActualizarSesion"
+        app:layout_constraintTop_toBottomOf="@id/tilObservaciones">
+
+    </com.google.android.material.button.MaterialButton>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

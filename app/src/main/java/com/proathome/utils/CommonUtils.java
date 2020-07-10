@@ -8,12 +8,12 @@ import com.proathome.fragments.DetallesGestionarFragment;
 
 public class CommonUtils {
 
-    private static String nivelS = "", tipoClaseS = "", horarioS = "", profesorS = "", lugarS = "",  tiempoS = "", observacionesS = "";
-    private static int idClaseS;
+    private static String tipoClaseS = "", horarioS = "", profesorS = "", lugarS = "", observacionesS = "", fechaS = "";
+    private static int idClaseS, tiempoS, idSeccionS, idNivelS, idBloqueS;
     private static double latitudS, longitudS;
 
-    public static void setFragment(AppCompatActivity activity, String nameFragment, int contentRes, int idClase, String nivel, String tipoClase, String horario, String profesor,
-                                   String lugar, String tiempo, String observaciones,  double latitud,  double longitud){
+    public static void setFragment(AppCompatActivity activity, String nameFragment, int contentRes, int idClase, String tipoClase, String horario, String profesor,
+                                   String lugar, int tiempo, String observaciones,  double latitud,  double longitud, int idSeccion, int idNivel, int idBloque, String fecha){
 
         idClaseS = idClase;
         tipoClaseS = tipoClase;
@@ -21,7 +21,11 @@ public class CommonUtils {
         profesorS = profesor;
         lugarS = lugar;
         tiempoS = tiempo;
-        nivelS = nivel;
+        tiempoS = tiempo;
+        fechaS = fecha;
+        idSeccionS = idSeccion;
+        idNivelS = idNivel;
+        idBloqueS = idBloque;
         observacionesS = observaciones;
         latitudS = latitud;
         longitudS = longitud;
@@ -46,11 +50,14 @@ public class CommonUtils {
                 bun.putString("horario", horarioS);
                 bun.putString("profesor", profesorS);
                 bun.putString("lugar", lugarS);
-                bun.putString("tiempo", tiempoS);
-                bun.putString("nivel", nivelS);
+                bun.putInt("tiempo", tiempoS);
                 bun.putString("observaciones", observacionesS);
                 bun.putDouble("latitud", latitudS);
                 bun.putDouble("longitud", longitudS);
+                bun.putInt("idSeccion", idSeccionS);
+                bun.putInt("idNivel", idNivelS);
+                bun.putInt("idBloque", idBloqueS);
+                bun.putString("fecha", fechaS);
                 fragment.setArguments(bun);
                 fragmentBool = true;
                 break;
@@ -62,11 +69,14 @@ public class CommonUtils {
                 bunG.putString("horario", horarioS);
                 bunG.putString("profesor", profesorS);
                 bunG.putString("lugar", lugarS);
-                bunG.putString("tiempo", tiempoS);
-                bunG.putString("nivel", nivelS);
+                bunG.putInt("tiempo", tiempoS);
                 bunG.putString("observaciones", observacionesS);
                 bunG.putDouble("latitud", latitudS);
                 bunG.putDouble("longitud", longitudS);
+                bunG.putInt("idSeccion", idSeccionS);
+                bunG.putInt("idNivel", idNivelS);
+                bunG.putInt("idBloque", idBloqueS);
+                bunG.putString("fecha", fechaS);
                 fragmentGestionar.setArguments(bunG);
                 fragmentBool = false;
                 break;

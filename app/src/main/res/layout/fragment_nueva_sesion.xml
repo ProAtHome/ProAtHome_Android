@@ -60,6 +60,62 @@
                     tools:context=".MapsFragment" />
 
                 <TextView
+                    android:id="@+id/text_elegirFecha"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:text="Elige la fecha de la sesión:"
+                    android:layout_margin="@dimen/common_padding_min"
+                    android:drawableLeft="@drawable/direccion"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/map"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/elegirFecha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fecha"
+                    android:layout_marginStart="@dimen/common_padding_min"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/text_fecha"
+                    app:layout_constraintBottom_toBottomOf="@id/text_fecha"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_fecha"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="230dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:hint="Fecha Elegida"
+                    app:layout_constraintEnd_toEndOf="@id/map"
+                    app:layout_constraintStart_toEndOf="@id/elegirFecha"
+                    app:layout_constraintTop_toBottomOf="@id/text_elegirFecha">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/text_fechaET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none">
+
+                    </com.google.android.material.textfield.TextInputEditText>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <View
+                    android:id="@+id/divider0"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPersonalDark"
+                    android:layout_margin="@dimen/common_padding_default"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_fecha"
+                    android:layout_marginTop="@dimen/common_padding_middle"/>
+
+                <TextView
                     android:id="@+id/direccionTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -70,7 +126,7 @@
                     android:drawableLeft="@drawable/direccion"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/map"/>
+                    app:layout_constraintTop_toBottomOf="@+id/divider0"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/text_direccion"

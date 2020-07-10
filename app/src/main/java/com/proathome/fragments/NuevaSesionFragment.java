@@ -1,5 +1,7 @@
 package com.proathome.fragments;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -10,8 +12,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,6 +37,7 @@ import com.proathome.controladores.estudiante.ServicioTaskSesionActual;
 import com.proathome.utils.Constants;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -56,6 +59,8 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     TextInputEditText direccionET;
     @BindView(R.id.text_horarioET)
     TextInputEditText horarioET;
+    @BindView(R.id.text_fechaET)
+    TextInputEditText fechaET;
     @BindView(R.id.text_observacionesET)
     TextInputEditText observacionesET;
     @BindView(R.id.btnSolicitar)
@@ -132,211 +137,23 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         horas.setAdapter(adapterHoras);
         minutos.setAdapter(adapterMinutos);
         tipo.setAdapter(adapterTipo);
-/*
-        niveles.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(secciones.getSelectedItem().toString().equalsIgnoreCase("Básico")) {
-                    if(niveles.getSelectedItem().toString().equalsIgnoreCase("Básico 1")){
-                        if(tomarSesion.getNivel() == Constants.BASICO_1){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                        }else {
-                            horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                            bloques.setAdapter(tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_1));
-                        }
-                    }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Básico 2")){
-                        if(tomarSesion.getNivel() == Constants.BASICO_2){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                        }else {
-                            horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                            bloques.setAdapter(tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_2));
-                        }
-                    }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Básico 3")){
-                        if(tomarSesion.getNivel() == Constants.BASICO_3){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                        }else {
-                            horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                            bloques.setAdapter(tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_3));
-                        }
-                    }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Básico 4")){
-                        if(tomarSesion.getNivel() == Constants.BASICO_4){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                        }else {
-                            horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                            bloques.setAdapter(tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_4));
-                        }
-                    }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Básico 5")){
-                        if(tomarSesion.getNivel() == Constants.BASICO_5){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                        }else {
-                            horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                            bloques.setAdapter(tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_5));
-                        }
-                    }
-                }else if(secciones.getSelectedItem().toString().equalsIgnoreCase("Intermedio")){
-                    if(niveles.getSelectedItem().toString().equalsIgnoreCase("Intermedio 1")){
-                        if(tomarSesion.getNivel() == Constants.INTERMEDIO_1){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                        }else {
-                            horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                            bloques.setAdapter(tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_1));
-                        }
-                    }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Intermedio 2")){
-                        if(tomarSesion.getNivel() == Constants.INTERMEDIO_2){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                        }else {
-                            horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                            bloques.setAdapter(tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_2));
-                        }
-                    }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Intermedio 3")){
-                        if(tomarSesion.getNivel() == Constants.INTERMEDIO_3){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                        }else {
-                            horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                            bloques.setAdapter(tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_3));
-                        }
-                    }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Intermedio 4")){
-                        if(tomarSesion.getNivel() == Constants.INTERMEDIO_4){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                        }else {
-                            horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                            bloques.setAdapter(tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_4));
-                        }
-                    }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Intermedio 5")){
-                        if(tomarSesion.getNivel() == Constants.INTERMEDIO_5){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                        }else {
-                            horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                            bloques.setAdapter(tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_5));
-                        }
-                    }
-                }else if(secciones.getSelectedItem().toString().equalsIgnoreCase("Avanzado")){
-                    if(niveles.getSelectedItem().toString().equalsIgnoreCase("Avanzado 1")){
-                        if(tomarSesion.getNivel() == Constants.AVANZADO_1){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                        }else {
-                            horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                            bloques.setAdapter(tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_1));
-                        }
-                    }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Avanzado 2")){
-                        if(tomarSesion.getNivel() == Constants.AVANZADO_1){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                        }else {
-                            horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                            bloques.setAdapter(tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_2));
-                        }
-                    }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Avanzado 3")){
-                        if(tomarSesion.getNivel() == Constants.AVANZADO_1){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                        }else {
-                            horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                            bloques.setAdapter(tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_3));
-                        }
-                    }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Avanzado 4")){
-                        if(tomarSesion.getNivel() == Constants.AVANZADO_1){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                        }else {
-                            horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                            bloques.setAdapter(tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_4));
-                        }
-                    }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Avanzado 5")){
-                        if(tomarSesion.getNivel() == Constants.AVANZADO_1){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                        }else {
-                            horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                            bloques.setAdapter(tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_5));
-                        }
-                    }
-                }
-
-                if(tomarSesion.validarSesionCorrecta(Constants.INTERMEDIO, Constants.INTERMEDIO_5, Constants.BLOQUE6_INTERMEDIO5, secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1)){
-                    horasDisponiblesTV.setText("*Tienes 0 HRS / 11HRS de avance en el actual bloque*");
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        bloques.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(bloques.getSelectedItem().toString().equalsIgnoreCase("Bloque 1")){
-                    if(tomarSesion.getBloque() == 1){
-                        Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                    }else{
-                        horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                    }
-                }else if(bloques.getSelectedItem().toString().equalsIgnoreCase("Bloque 2")){
-                    if(tomarSesion.getBloque() == 2){
-                        Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                    }else{
-                        horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                    }
-                }else if(bloques.getSelectedItem().toString().equalsIgnoreCase("Bloque 3")){
-                    if(tomarSesion.getBloque() == 3){
-                        Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                    }else{
-                        horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                    }
-                }else if(bloques.getSelectedItem().toString().equalsIgnoreCase("Bloque 4")){
-                    if(tomarSesion.getBloque() == 4){
-                        Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                    }else{
-                        horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                    }
-                }else if(bloques.getSelectedItem().toString().equalsIgnoreCase("Bloque 5")){
-                    if(tomarSesion.getBloque() == 5){
-                        Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                    }else{
-                        horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                    }
-                }else if(bloques.getSelectedItem().toString().equalsIgnoreCase("Bloque 6")){
-                    if(tomarSesion.getBloque() == 6){
-                        Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                    }else{
-                        horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                    }
-                }else if(bloques.getSelectedItem().toString().equalsIgnoreCase("Bloque 7")){
-                    if(tomarSesion.getBloque() == 7){
-                        Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
-                    }else{
-                        horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
-                    }
-                }
-
-                System.out.println(bloques.getSelectedItemPosition());
-                if(tomarSesion.validarSesionCorrecta(Constants.INTERMEDIO, Constants.INTERMEDIO_5, Constants.BLOQUE6_INTERMEDIO5, secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1)){
-                    horasDisponiblesTV.setText("*Tienes 0 HRS / 11HRS de avance en el actual bloque*");
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
 
         horarioET.setKeyListener(null);
         horarioET.setText("13:00 HRS");
+        fechaET.setKeyListener(null);
+        fechaET.setText("");
 
         btnSolicitar.setOnClickListener(v -> {
 
-            if (!direccionET.getText().toString().trim().equalsIgnoreCase("") && !horarioET.getText().toString().trim().equalsIgnoreCase("")
-                      && !observacionesET.getText().toString().trim().equalsIgnoreCase("")) {
+            if (!direccionET.getText().toString().trim().equalsIgnoreCase("") && !observacionesET.getText().toString().trim().equalsIgnoreCase("") && !fechaET.getText().toString().trim().equalsIgnoreCase("")) {
 
                 String direccion = direccionET.getText().toString();
-                String horario = horarioET.getText().toString();
                 String extras = observacionesET.getText().toString();
 
                 Calendar calendar = Calendar.getInstance();
                 SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss "); //SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
                 String strDate = mdformat.format(calendar.getTime());
-                STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horario, direccion, "tiempo", "nivel", extras, "tipo", latitud, longitud, strDate);
+                STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1, extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString());
                 registro.execute();
                 direccionET.setText("");
                 horarioET.setText("");
@@ -363,6 +180,47 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
         return view;
 
+    }
+
+    public int obtenerMinutosHorario(){
+        int horasInt = 0;
+        int minutosInt = 0;
+
+        if(horas.getSelectedItem().toString().equalsIgnoreCase("0 HRS"))
+            horasInt = 0;
+        else if(horas.getSelectedItem().toString().equalsIgnoreCase("1 HRS"))
+            horasInt = 60;
+        else if(horas.getSelectedItem().toString().equalsIgnoreCase("2 HRS"))
+            horasInt = 120;
+        else if(horas.getSelectedItem().toString().equalsIgnoreCase("3 HRS"))
+            horasInt = 180;
+
+        if(minutos.getSelectedItem().toString().equalsIgnoreCase("0 min"))
+            minutosInt = 0;
+        else if(minutos.getSelectedItem().toString().equalsIgnoreCase("5 min"))
+            minutosInt = 5;
+        else if(minutos.getSelectedItem().toString().equalsIgnoreCase("10 min"))
+            minutosInt = 10;
+        else if(minutos.getSelectedItem().toString().equalsIgnoreCase("15 min"))
+            minutosInt = 15;
+        else if(minutos.getSelectedItem().toString().equalsIgnoreCase("20 min"))
+            minutosInt = 20;
+        else if(minutos.getSelectedItem().toString().equalsIgnoreCase("25 min"))
+            minutosInt = 25;
+        else if(minutos.getSelectedItem().toString().equalsIgnoreCase("30 min"))
+            minutosInt = 30;
+        else if(minutos.getSelectedItem().toString().equalsIgnoreCase("35 min"))
+            minutosInt = 35;
+        else if(minutos.getSelectedItem().toString().equalsIgnoreCase("40 min"))
+            minutosInt = 40;
+        else if(minutos.getSelectedItem().toString().equalsIgnoreCase("45 min"))
+            minutosInt = 45;
+        else if(minutos.getSelectedItem().toString().equalsIgnoreCase("50 min"))
+            minutosInt = 50;
+        else if(minutos.getSelectedItem().toString().equalsIgnoreCase("55 min"))
+            minutosInt = 55;
+
+        return horasInt + minutosInt;
     }
 
     @Override
@@ -408,6 +266,27 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
             }
 
         });
+
+    }
+
+    @OnClick(R.id.elegirFecha)
+    public void elegirFecha(){
+
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog dialog = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_DARK, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker arg0, int year, int month, int day_of_month) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, (month));
+                calendar.set(Calendar.DAY_OF_MONTH, day_of_month);
+                String myFormat = "yyyy-MM-dd";
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
+                fechaET.setText(sdf.format(calendar.getTime()));
+            }
+        },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());// TODO: used to hide previous date,month and year
+        calendar.add(Calendar.YEAR, 0);
+        dialog.show();
 
     }
 

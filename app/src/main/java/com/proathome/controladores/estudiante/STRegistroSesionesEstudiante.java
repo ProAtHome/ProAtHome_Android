@@ -17,32 +17,37 @@ import java.net.URL;
 
 public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> {
 
-    private Context httpContext;
+    private Context contexto;
     private ProgressDialog progressDialog;
-    public int idCliente;
-    public String linkrequestAPI, horario, lugar, tiempo, nivel, extras, tipoClase, actualizado;
+    public int idCliente, tiempo, idSeccion, idNivel, idBloque;
+    public String linkrequestAPI, horario, lugar, extras, tipoClase, actualizado, fecha;
     public double latitud,longitud;
 
-    public STRegistroSesionesEstudiante(Context ctx, String linkAPI, int idCliente, String horario, String lugar,
-                                        String tiempo, String nivel, String extras, String tipoClase, double latitud, double longitud, String actualizado){
+    public STRegistroSesionesEstudiante(Context contexto, String linkAPI, int idCliente, String horario, String lugar,
+                                        int tiempo, int idSeccion, int idNivel, int idBloque, String extras, String tipoClase, double latitud, double longitud, String actualizado, String fecha){
 
+        this.contexto = contexto;
         this.linkrequestAPI = linkAPI;
         this.idCliente = idCliente;
         this.horario = horario;
         this.lugar = lugar;
         this.tiempo = tiempo;
-        this.nivel = nivel;
+        this.idSeccion = idSeccion;
+        this.idNivel = idNivel;
+        this.idBloque = idBloque;
         this.extras = extras;
         this.tipoClase = tipoClase;
         this.longitud = longitud;
         this.latitud = latitud;
         this.actualizado = actualizado;
+        this.fecha = fecha;
 
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        progressDialog = ProgressDialog.show(this.contexto, "Creando sesión", "Por favor, espere...");
     }
 
     @Override
@@ -58,16 +63,19 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
             HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
 
             JSONObject parametrosPOST = new JSONObject();
-            parametrosPOST.put("idCliente", idCliente);
-            parametrosPOST.put("horario", horario);
-            parametrosPOST.put("lugar", lugar);
-            parametrosPOST.put("tiempo", tiempo);
-            parametrosPOST.put("nivel", nivel);
-            parametrosPOST.put("extras", extras);
-            parametrosPOST.put("tipoClase", tipoClase);
-            parametrosPOST.put("latitud", latitud);
-            parametrosPOST.put("longitud", longitud);
+            parametrosPOST.put("idCliente", this.idCliente);
+            parametrosPOST.put("horario", this.horario);
+            parametrosPOST.put("lugar", this.lugar);
+            parametrosPOST.put("tiempo", this.tiempo);
+            parametrosPOST.put("idSeccion", this.idSeccion);
+            parametrosPOST.put("idNivel", this.idNivel);
+            parametrosPOST.put("idBloque", this.idBloque);
+            parametrosPOST.put("extras", this.extras);
+            parametrosPOST.put("tipoClase", this.tipoClase);
+            parametrosPOST.put("latitud", this.latitud);
+            parametrosPOST.put("longitud", this.longitud);
             parametrosPOST.put("actualizado", this.actualizado);
+            parametrosPOST.put("fecha", this.fecha);
 
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
@@ -122,6 +130,7 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        progressDialog.dismiss();
     }
 
     public String getPostDataString(JSONObject params) throws Exception{

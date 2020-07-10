@@ -58,17 +58,20 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    public static Component getmInstance(int idClase, String nivel, String tipoClase, String horario, String profesor, String lugar, String tiempo, String observaciones, double latitud, double longitud){
+    public static Component getmInstance(int idClase, String tipoClase, String horario, String profesor, String lugar, int tiempo, String observaciones, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, String fecha){
 
         mInstance = new Component();
         mInstance.setIdClase(idClase);
         mInstance.setProfesor("Profesor Asignado: " + profesor);
         mInstance.setLugar("Lugar - Dirección: " + lugar);
-        mInstance.setTiempo("Tiempo de la clase: " + tiempo);
+        mInstance.setTiempo(tiempo);
         mInstance.setObservaciones("Observaciones: " + observaciones);
         mInstance.setLatitud(latitud);
         mInstance.setLongitud(longitud);
-        mInstance.setNivel("Nivel: " + nivel);
+        mInstance.setIdSeccion(idSeccion);
+        mInstance.setIdNivel(idNivel);
+        mInstance.setIdBloque(idBloque);
+        mInstance.setFecha(fecha);
         mInstance.setTipoClase("Tipo de Clase: " + tipoClase);
         mInstance.setHorario("Horario: " + horario);
         mInstance.setPhotoRes(R.drawable.img_button);
@@ -81,6 +84,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_detalles, container, false);
+        Component component = new Component();
         mUnbinder = ButterKnife.bind(this, view);
         Bundle bun = getArguments();
         latitud = bun.getDouble("latitud");
@@ -89,7 +93,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         lugar.setText(bun.getString("lugar"));
         tiempo.setText(bun.getString("tiempo"));
         observaciones.setText(bun.getString("observaciones"));
-        nivel.setText(bun.getString("nivel"));
+        nivel.setText(component.obtenerNivel(bun.getInt("idSeccion"), bun.getInt("idNivel"), bun.getInt("idBloque")));
         tipoClase.setText(bun.getString("tipoClase"));
         horario.setText(bun.getString("horario"));
 

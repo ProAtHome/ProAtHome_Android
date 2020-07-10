@@ -42,13 +42,13 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
 
         Component component = mComponents.get(position);
         holder.setClickListener(mListener, component);
-        holder.tvNivel.setText(component.getNivel());
+        holder.tvNivel.setText(component.obtenerNivel(component.getIdSeccion(), component.getIdNivel(), component.getIdBloque()));
         holder.tvTipo.setText(component.getTipoClase());
         holder.tvHorario.setText(component.getHorario());
         holder.imgPhoto.setImageResource(component.getPhotoRes());
-        holder.setOnClickListeners(component.getIdClase(), component.getNivel(), component.getProfesor(), component.getLugar(),
+        holder.setOnClickListeners(component.getIdClase(), component.getProfesor(), component.getLugar(),
                 component.getTiempo(), component.getObservaciones(), component.getTipoClase(), component.getHorario(), component.getLatitud(),
-                component.getLongitud());
+                component.getLongitud(), component.getIdSeccion(), component.getIdNivel(), component.getIdBloque(), component.getFecha());
 
     }
 
@@ -76,8 +76,8 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
         TextView tvHorario;
         Context context;
 
-        String nivel = "", profesor = "", lugar = "", tiempo = "", observaciones = "", tipoClase = "", horario = "";
-        int idClase;
+        String profesor = "", lugar = "", observaciones = "", tipoClase = "", horario = "", fecha = "";
+        int idClase, idSeccion, idNivel, idBloque, tiempo;
         double latitud, longitud;
 
         View view;
@@ -91,11 +91,10 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
 
         }
 
-        void setOnClickListeners(int idClase, String nivel, String profesor, String lugar, String tiempo, String observaciones,
-                                 String tipoClase, String horario, double latitud, double longitud){
+        void setOnClickListeners(int idClase, String profesor, String lugar, int tiempo, String observaciones,
+                                 String tipoClase, String horario, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, String fecha){
 
             this.idClase = idClase;
-            this.nivel = nivel;
             this.profesor = profesor;
             this.lugar = lugar;
             this.tiempo = tiempo;
@@ -104,6 +103,10 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
             this.horario = horario;
             this.latitud = latitud;
             this.longitud = longitud;
+            this.idSeccion = idSeccion;
+            this.idNivel = idNivel;
+            this.idBloque = idBloque;
+            this.fecha = fecha;
             view.setOnClickListener(this);
 
         }
@@ -128,7 +131,10 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
             intent.putExtra("horario", this.horario);
             intent.putExtra("latitud", this.latitud);
             intent.putExtra("longitud", this.longitud);
-            intent.putExtra("nivel", this.nivel);
+            intent.putExtra("idSeccion", this.idSeccion);
+            intent.putExtra("idNivel", this.idNivel);
+            intent.putExtra("idBloque", this.idBloque);
+            intent.putExtra("fecha", this.fecha);
             context.startActivity(intent);
 
         }

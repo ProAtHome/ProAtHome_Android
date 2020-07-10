@@ -339,7 +339,6 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
                         }
                     }
 
-                    System.out.println(NuevaSesionFragment.bloques.getSelectedItemPosition());
                     if(NuevaSesionFragment.tomarSesion.validarSesionCorrecta(seccion, nivel, bloque, NuevaSesionFragment.secciones.getSelectedItemPosition()+1, NuevaSesionFragment.niveles.getSelectedItemPosition()+1, NuevaSesionFragment.bloques.getSelectedItemPosition()+1)){
                         NuevaSesionFragment.horasDisponiblesTV.setText("*Tienes " + NuevaSesionFragment.tomarSesion.minutosAHRS(minutos_horas) + " / " +  NuevaSesionFragment.tomarSesion.minutosAHRS(NuevaSesionFragment.tomarSesion.validarHorasRestantes(seccion, nivel, bloque)) + " de avance en el actual bloque*");
                     }

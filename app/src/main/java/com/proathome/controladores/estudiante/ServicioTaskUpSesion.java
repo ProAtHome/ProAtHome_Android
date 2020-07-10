@@ -20,11 +20,12 @@ public class ServicioTaskUpSesion extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
     private ProgressDialog progressDialog;
-    private String linkAPI, resultadoAPI, horario, lugar, tiempo, nivel, tipo, observaciones, actualizado;
-    private int idSesion;
+    private String linkAPI, resultadoAPI, horario, lugar, tipo, observaciones, actualizado, fecha;
+    private int idSesion, tiempo, idSeccion, idNivel, idBloque;
     private double latitud, longitud;
+    private boolean cambioFecha;
 
-    public ServicioTaskUpSesion(Context contexto, String linkAPI, int idSesion, String horario, String lugar, String tiempo, String nivel, String tipo, String observaciones, double latitud, double longitud, String actualizado){
+    public ServicioTaskUpSesion(Context contexto, String linkAPI, int idSesion, String horario, String lugar, int tiempo, String tipo, String observaciones, double latitud, double longitud, String actualizado, int idSeccion, int idNivel, int idBloque, String fecha, boolean cambioFecha){
 
         this.contexto = contexto;
         this.linkAPI = linkAPI;
@@ -32,12 +33,16 @@ public class ServicioTaskUpSesion extends AsyncTask<Void, Void, String> {
         this.horario = horario;
         this.lugar = lugar;
         this.tiempo = tiempo;
-        this.nivel = nivel;
         this.tipo = tipo;
         this.observaciones = observaciones;
         this.latitud = latitud;
         this.longitud = longitud;
         this.actualizado = actualizado;
+        this.idSeccion = idSeccion;
+        this.idNivel = idNivel;
+        this.idBloque = idBloque;
+        this.fecha = fecha;
+        this.cambioFecha = cambioFecha;
 
     }
 
@@ -65,12 +70,16 @@ public class ServicioTaskUpSesion extends AsyncTask<Void, Void, String> {
             jsonDatos.put("horario", this.horario);
             jsonDatos.put("lugar", this.lugar);
             jsonDatos.put("tiempo", this.tiempo);
-            jsonDatos.put("nivel", this.nivel);
             jsonDatos.put("tipoClase", this.tipo);
             jsonDatos.put("observaciones", this.observaciones);
             jsonDatos.put("latitud", this.latitud);
             jsonDatos.put("longitud", this.longitud);
             jsonDatos.put("actualizado", this.actualizado);
+            jsonDatos.put("fecha", this.fecha);
+            jsonDatos.put("cambioFecha", this.cambioFecha);
+            jsonDatos.put("idSeccion", this.idSeccion);
+            jsonDatos.put("idNivel", this.idNivel);
+            jsonDatos.put("idBloque", this.idBloque);
 
             //PARAMETROS DE CONEXIÓN.
             httpURLConnection.setReadTimeout(15000);
