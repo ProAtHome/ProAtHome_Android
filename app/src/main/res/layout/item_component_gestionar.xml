@@ -4,14 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/darker_gray"
     android:layout_marginTop="@dimen/mtrl_card_spacing"
     android:layout_marginStart="@dimen/mtrl_card_spacing"
     android:layout_marginEnd="@dimen/mtrl_card_spacing">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/img_button">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/imgGestionar"
@@ -32,6 +32,7 @@
             android:text="Fecha actualizada"
             android:textSize="@dimen/common_padding_min_text"
             android:padding="@dimen/common_padding_min_min"
+            android:background="@drawable/background_item"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -45,6 +46,7 @@
             android:text="Text1"
             android:textAppearance="?attr/textAppearanceListItem"
             android:padding="@dimen/common_padding_min"
+            android:background="@drawable/background_item"
             android:textColor="@android:color/black"
             android:layout_marginTop="@dimen/common_padding_default"
             android:layout_marginStart="@dimen/common_padding_min"
@@ -60,6 +62,7 @@
             android:textStyle="bold"
             android:textAppearance="?attr/textAppearanceListItem"
             android:padding="@dimen/common_padding_min"
+            android:background="@drawable/background_item"
             android:layout_marginStart="@dimen/common_padding_min"
             android:textColor="@android:color/black"
             app:layout_constraintStart_toEndOf="@id/imgGestionar"
@@ -74,6 +77,7 @@
             android:textStyle="bold"
             android:textAppearance="?attr/textAppearanceListItem"
             android:padding="@dimen/common_padding_min"
+            android:background="@drawable/background_item"
             android:textColor="@android:color/black"
             android:layout_marginStart="@dimen/common_padding_min"
             app:layout_constraintStart_toEndOf="@id/imgGestionar"
@@ -90,6 +94,7 @@
             android:padding="@dimen/common_padding_min"
             android:textColor="@android:color/black"
             android:layout_marginStart="@dimen/common_padding_min"
+            android:background="@drawable/background_item"
             app:layout_constraintStart_toEndOf="@id/imgGestionar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvHorario" />

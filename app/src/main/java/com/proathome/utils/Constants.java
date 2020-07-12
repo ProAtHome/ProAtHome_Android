@@ -11,6 +11,12 @@ public class Constants {
     public static final int SESIONES_GESTIONAR = 2;
     public static final int INFO_PERFIL = 1;
     public static final int INFO_PERFIl_EDITAR = 2;
+    /*Sincronizar Clases*/
+    public static final int VERIFICAR_DISPONIBLIDAD = 1;
+    public static final int CAMBIAR_DISPONIBILIDAD = 2;
+    /*5518818331
+    Nombre*/
+    /*Fin Sincronizar*/
     /*Examen*/
     public static final int INICIO_EXAMEN  = 1;
     public static final int ENCURSO_EXAMEN  = 2;
@@ -126,6 +132,6 @@ public class Constants {
     public static final  int BLOQUE1_AVANZADO5= 1;
     public static final  int BLOQUE2_AVANZADO5= 2;
     /*FIN RUTA NIVELES*/
-    public static final String IP = "192.168.100.223";
+    public static final String IP = "192.168.100.230";
 
 }

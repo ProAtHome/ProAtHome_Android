@@ -3,15 +3,19 @@ package com.proathome.fragments;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,13 +26,23 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
+import com.proathome.SincronizarClase;
+import com.proathome.controladores.ServicioTaskSincronizarClases;
 import com.proathome.controladores.WorkaroundMapFragment;
+import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.controladores.estudiante.ServicioTaskPerfilEstudiante;
+import com.proathome.controladores.profesor.ServicioTaskFotoDetalles;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
+
+import org.w3c.dom.Text;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class DetallesFragment extends Fragment implements OnMapReadyCallback {
@@ -36,6 +50,10 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     private static Component mInstance;
     private GoogleMap mMap;
     public static final String TAG = "Detalles";
+    public static int ESTUDIANTE = 1;
+    private String fotoNombre;
+    private int idSesion = 0;
+    public static ImageView foto;
     @BindView(R.id.profesor)
     public TextView profesor;
     @BindView(R.id.horario)
@@ -50,6 +68,12 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     public TextView observaciones;
     @BindView(R.id.tipoClase)
     public TextView tipoClase;
+    @BindView(R.id.descripcionTV)
+    TextView descripcionProfesor;
+    @BindView(R.id.correoTV)
+    TextView correoProfesor;
+    @BindView(R.id.iniciar)
+    MaterialButton iniciar;
     private ScrollView mScrollView;
     private Unbinder mUnbinder;
     private double longitud = -99.13320799999, latitud = 19.4326077;
@@ -58,22 +82,25 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    public static Component getmInstance(int idClase, String tipoClase, String horario, String profesor, String lugar, int tiempo, String observaciones, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, String fecha){
+    public static Component getmInstance(int idClase, String tipoClase, String horario, String profesor, String lugar, int tiempo, String observaciones, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, String fecha, String fotoProfesor, String descripcionProfesor, String correoProfesor){
 
         mInstance = new Component();
         mInstance.setIdClase(idClase);
-        mInstance.setProfesor("Profesor Asignado: " + profesor);
-        mInstance.setLugar("Lugar - Dirección: " + lugar);
+        mInstance.setProfesor(profesor);
+        mInstance.setLugar(lugar);
         mInstance.setTiempo(tiempo);
-        mInstance.setObservaciones("Observaciones: " + observaciones);
+        mInstance.setObservaciones(observaciones);
         mInstance.setLatitud(latitud);
         mInstance.setLongitud(longitud);
         mInstance.setIdSeccion(idSeccion);
         mInstance.setIdNivel(idNivel);
         mInstance.setIdBloque(idBloque);
         mInstance.setFecha(fecha);
-        mInstance.setTipoClase("Tipo de Clase: " + tipoClase);
-        mInstance.setHorario("Horario: " + horario);
+        mInstance.setTipoClase(tipoClase);
+        mInstance.setHorario(horario);
+        mInstance.setFotoProfesor(fotoProfesor);
+        mInstance.setDescripcionProfesor(descripcionProfesor);
+        mInstance.setCorreoProfesor(correoProfesor);
         mInstance.setPhotoRes(R.drawable.img_button);
         mInstance.setType(Constants.SCROLL);
         return mInstance;
@@ -87,15 +114,37 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         Component component = new Component();
         mUnbinder = ButterKnife.bind(this, view);
         Bundle bun = getArguments();
+        foto = view.findViewById(R.id.foto);
+
+        if(bun.getString("fotoProfesor").equalsIgnoreCase("Sin profesor")) {
+            foto.setVisibility(View.INVISIBLE);
+            iniciar.setVisibility(View.INVISIBLE);
+        }else {
+            foto.setVisibility(View.VISIBLE);
+            iniciar.setVisibility(View.VISIBLE);
+        }
+        if(bun.getString("descripcionProfesor").equalsIgnoreCase("Sin descripcion"))
+            descripcionProfesor.setVisibility(View.INVISIBLE);
+        else
+            descripcionProfesor.setVisibility(View.VISIBLE);
+        if(bun.getString("correoProfesor").equalsIgnoreCase("Sin correo"))
+            correoProfesor.setVisibility(View.INVISIBLE);
+        else
+            correoProfesor.setVisibility(View.VISIBLE);
+
+        idSesion = bun.getInt("idClase");
         latitud = bun.getDouble("latitud");
         longitud = bun.getDouble("longitud");
         profesor.setText(bun.getString("profesor"));
-        lugar.setText(bun.getString("lugar"));
-        tiempo.setText(bun.getString("tiempo"));
-        observaciones.setText(bun.getString("observaciones"));
-        nivel.setText(component.obtenerNivel(bun.getInt("idSeccion"), bun.getInt("idNivel"), bun.getInt("idBloque")));
-        tipoClase.setText(bun.getString("tipoClase"));
-        horario.setText(bun.getString("horario"));
+        lugar.setText("Dirección: " + bun.getString("lugar"));
+        tiempo.setText("Tiempo: " + obtenerHorario(bun.getInt("tiempo")));
+        observaciones.setText("Observaciones: " + bun.getString("observaciones"));
+        nivel.setText("Nivel: " + component.obtenerNivel(bun.getInt("idSeccion"), bun.getInt("idNivel"), bun.getInt("idBloque")));
+        tipoClase.setText("Tipo de Clase: " + bun.getString("tipoClase"));
+        horario.setText("Horario: " + bun.getString("horario"));
+        descripcionProfesor.setText(bun.getString("descripcionProfesor"));
+        correoProfesor.setText(bun.getString("correoProfesor"));
+        fotoNombre = bun.getString("fotoProfesor");
 
         return view;
 
@@ -116,6 +165,10 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
             }
 
         }
+
+        ServicioTaskFotoDetalles fotoDetalles = new ServicioTaskFotoDetalles(getContext(), this.fotoNombre, ESTUDIANTE);
+        if(!fotoNombre.equalsIgnoreCase("Sin foto"))
+            fotoDetalles.execute();
 
     }
 
@@ -164,6 +217,40 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
         agregarMarca(googleMap, latitud, longitud);
 
+    }
+
+    @OnClick(R.id.iniciar)
+    public void onClicked(){
+
+        int idEstudiante = 0;
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
+        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+
+        if(fila.moveToFirst()){
+            idEstudiante = fila.getInt(0);
+        }else{
+            baseDeDatos.close();
+        }
+
+        baseDeDatos.close();
+
+        ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
+        sincronizarClases.execute();
+
+        Intent intent = new Intent(getContext(), SincronizarClase.class);
+        intent.putExtra("perfil", ESTUDIANTE);
+        intent.putExtra("idSesion", idSesion);
+        intent.putExtra("idPerfil", idEstudiante);
+        startActivity(intent);
+
+    }
+
+    public String obtenerHorario(int tiempo){
+        String horas = String.valueOf(tiempo/60) + " HRS ";
+        String minutos = String.valueOf(tiempo%60) + " min";
+
+        return horas + minutos;
     }
 
     public void agregarMarca(GoogleMap googleMap, double lat, double longi){

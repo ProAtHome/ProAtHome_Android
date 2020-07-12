@@ -104,6 +104,7 @@
                 android:layout_marginTop="@dimen/common_padding_min"/>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/infoClase"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/divider"
@@ -224,6 +225,17 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/iniciar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_padding_min"
+                android:layout_margin="@dimen/common_padding_min"
+                android:backgroundTint="@color/color_secondary"
+                android:text="Iniciar Clase"
+                app:layout_constraintTop_toBottomOf="@+id/infoClase"
+                app:layout_constraintStart_toStartOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

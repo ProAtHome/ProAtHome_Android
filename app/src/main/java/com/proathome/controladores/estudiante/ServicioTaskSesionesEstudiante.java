@@ -4,7 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.common.internal.Objects;
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.DetallesGestionarFragment;
 import com.proathome.ui.inicio.InicioFragment;
@@ -132,7 +135,8 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
                         if(tipo == 1) {
                             InicioFragment.myAdapter.add(DetallesFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoClase"), object.getString("horario"),
                                     object.getString("profesor"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
-                                    object.getDouble("longitud"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getString("fecha")));
+                                    object.getDouble("longitud"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getString("fecha"), object.getString("fotoProfesor"), object.getString("descripcionProfesor"), object.getString("correoProfesor")));
+                            System.out.println(object.toString());
                         }else if(tipo == 2){
                             SesionesFragment.myAdapter.add(DetallesGestionarFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoClase"), object.getString("horario"),
                                     object.getString("profesor"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),

@@ -3,6 +3,8 @@ package com.proathome.fragments;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -25,18 +27,24 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
+import com.proathome.SincronizarClase;
+import com.proathome.controladores.ServicioTaskSincronizarClases;
 import com.proathome.controladores.WorkaroundMapFragment;
+import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.profesor.ServicioTaskFotoDetalles;
 import com.proathome.utils.ComponentSesionesProfesor;
 import com.proathome.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class DetallesSesionProfesorFragment extends Fragment implements OnMapReadyCallback {
 
     private static ComponentSesionesProfesor mInstance;
     public static final String TAG = "Detalles de Clase";
+    public static int PROFESOR = 2;
+    private int idSesion = 0;
     private GoogleMap mMap;
     private ScrollView mScrollView;
     private Unbinder mUnbinder;
@@ -96,6 +104,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         mUnbinder = ButterKnife.bind(this, view);
         Bundle bun = getArguments();
         foto = view.findViewById(R.id.foto);
+        idSesion = bun.getInt("idClase");
         this.fotoNombre = bun.getString("foto");
         latitud = bun.getDouble("latitud");
         longitud = bun.getDouble("longitud");
@@ -128,7 +137,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
 
         }
 
-        ServicioTaskFotoDetalles fotoDetalles = new ServicioTaskFotoDetalles(getContext(), this.fotoNombre);
+        ServicioTaskFotoDetalles fotoDetalles = new ServicioTaskFotoDetalles(getContext(), this.fotoNombre, PROFESOR);
         fotoDetalles.execute();
 
     }
@@ -176,6 +185,33 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         mMap.addMarker(new MarkerOptions().position(ubicacion).title("Aquí será tu clase."));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion,15));
 
+    }
+
+    @OnClick(R.id.iniciar)
+    public void onClick(){
+
+        int idProfesor = 0;
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesionProfesor", null, 1);
+        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+        Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);
+
+        if(fila.moveToFirst()){
+            idProfesor = fila.getInt(0);
+        }else{
+            baseDeDatos.close();
+        }
+
+        baseDeDatos.close();
+
+
+        ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idProfesor, DetallesSesionProfesorFragment.PROFESOR, Constants.CAMBIAR_DISPONIBILIDAD, true);
+        sincronizarClases.execute();
+
+        Intent intent = new Intent(getContext(), SincronizarClase.class);
+        intent.putExtra("perfil", PROFESOR);
+        intent.putExtra("idSesion", idSesion);
+        intent.putExtra("idPerfil", idProfesor);
+        startActivity(intent);
     }
 
     @Override

@@ -27,7 +27,6 @@ import butterknife.Unbinder;
 
 public class SesionesProfesorFragment extends Fragment {
 
-    private String linkAPISesiones = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/obtenerSesionesMovil";
     private Unbinder mUnbinder;
     public static LottieAnimationView lottieAnimationView;
     @BindView(R.id.fabNuevaSesion)

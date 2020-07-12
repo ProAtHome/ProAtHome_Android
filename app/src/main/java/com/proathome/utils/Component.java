@@ -4,13 +4,37 @@ import java.util.Objects;
 
 public class Component {
 
-    private String fecha, tipoClase, horario, profesor, lugar, observaciones, actualizado;
+    private String fecha, tipoClase, horario, profesor, lugar, observaciones, actualizado, fotoProfesor, descripcionProfesor, correoProfesor;
     private int photoRes, idClase, idSeccion, idNivel, idBloque, tiempo;
     private double latitud, longitud;
     private int type;
 
     public Component(){
 
+    }
+
+    public String getFotoProfesor() {
+        return fotoProfesor;
+    }
+
+    public void setFotoProfesor(String fotoProfesor) {
+        this.fotoProfesor = fotoProfesor;
+    }
+
+    public String getDescripcionProfesor() {
+        return descripcionProfesor;
+    }
+
+    public void setDescripcionProfesor(String descripcionProfesor) {
+        this.descripcionProfesor = descripcionProfesor;
+    }
+
+    public String getCorreoProfesor() {
+        return correoProfesor;
+    }
+
+    public void setCorreoProfesor(String correoProfesor) {
+        this.correoProfesor = correoProfesor;
     }
 
     public String getActualizado() {

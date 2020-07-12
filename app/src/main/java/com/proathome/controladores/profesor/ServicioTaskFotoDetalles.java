@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+
+import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.DetallesSesionProfesorFragment;
 import com.proathome.utils.Constants;
 import java.io.IOException;
@@ -16,11 +18,13 @@ public class ServicioTaskFotoDetalles extends AsyncTask<Void, Void, String> {
     private String foto;
     private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
     private Bitmap loadedImage;
+    private  int tipo;
 
-    public ServicioTaskFotoDetalles(Context contexto, String foto){
+    public ServicioTaskFotoDetalles(Context contexto, String foto, int tipo){
 
         this.contexto = contexto;
         this.foto = foto;
+        this.tipo = tipo;
 
     }
 
@@ -51,7 +55,10 @@ public class ServicioTaskFotoDetalles extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        DetallesSesionProfesorFragment.foto.setImageBitmap(this.loadedImage);
+        if(this.tipo == DetallesSesionProfesorFragment.PROFESOR)
+            DetallesSesionProfesorFragment.foto.setImageBitmap(this.loadedImage);
+        else if(this.tipo == DetallesFragment.ESTUDIANTE)
+            DetallesFragment.foto.setImageBitmap(this.loadedImage);
     }
 
 }

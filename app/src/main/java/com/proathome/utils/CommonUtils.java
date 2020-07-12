@@ -8,12 +8,12 @@ import com.proathome.fragments.DetallesGestionarFragment;
 
 public class CommonUtils {
 
-    private static String tipoClaseS = "", horarioS = "", profesorS = "", lugarS = "", observacionesS = "", fechaS = "";
+    private static String tipoClaseS = "", horarioS = "", profesorS = "", lugarS = "", observacionesS = "", fechaS = "", fotoProfesorS = "", descripcionProfesorS = "", correoProfesorS = "";
     private static int idClaseS, tiempoS, idSeccionS, idNivelS, idBloqueS;
     private static double latitudS, longitudS;
 
     public static void setFragment(AppCompatActivity activity, String nameFragment, int contentRes, int idClase, String tipoClase, String horario, String profesor,
-                                   String lugar, int tiempo, String observaciones,  double latitud,  double longitud, int idSeccion, int idNivel, int idBloque, String fecha){
+                                   String lugar, int tiempo, String observaciones,  double latitud,  double longitud, int idSeccion, int idNivel, int idBloque, String fecha, String fotoProfesor, String descripcionProfesor, String correoProfesor){
 
         idClaseS = idClase;
         tipoClaseS = tipoClase;
@@ -29,6 +29,9 @@ public class CommonUtils {
         observacionesS = observaciones;
         latitudS = latitud;
         longitudS = longitud;
+        fotoProfesorS = fotoProfesor;
+        descripcionProfesorS = descripcionProfesor;
+        correoProfesorS = correoProfesor;
         Fragment fragment = getFragmentById(nameFragment);
         activity.getSupportFragmentManager().beginTransaction().add(contentRes, fragment).commit();
 
@@ -58,6 +61,9 @@ public class CommonUtils {
                 bun.putInt("idNivel", idNivelS);
                 bun.putInt("idBloque", idBloqueS);
                 bun.putString("fecha", fechaS);
+                bun.putString("fotoProfesor", fotoProfesorS);
+                bun.putString("descripcionProfesor", descripcionProfesorS);
+                bun.putString("correoProfesor", correoProfesorS);
                 fragment.setArguments(bun);
                 fragmentBool = true;
                 break;
