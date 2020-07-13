@@ -30,6 +30,9 @@ public class SincronizarClase extends AppCompatActivity {
     @BindView(R.id.esperando)
     TextView esperando;
     Timer timer;
+    private int tipoPerfil = 0;
+    private int idSesion = 0;
+    private int idPerfil = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +40,9 @@ public class SincronizarClase extends AppCompatActivity {
         setContentView(R.layout.activity_sincronizar_clase);
         mUnbinder = ButterKnife.bind(this);
 
-        int tipoPerfil = getIntent().getIntExtra("perfil", 0);
-        int idSesion = getIntent().getIntExtra("idSesion", 0);
-        int idPerfil = getIntent().getIntExtra("idPerfil", 0);
+        tipoPerfil = getIntent().getIntExtra("perfil", 0);
+        idSesion = getIntent().getIntExtra("idSesion", 0);
+        idPerfil = getIntent().getIntExtra("idPerfil", 0);
 
         if(tipoPerfil == DetallesFragment.ESTUDIANTE){
             cancelar.setBackgroundColor(getResources().getColor(R.color.colorPersonalDark));
@@ -75,15 +78,23 @@ public class SincronizarClase extends AppCompatActivity {
             }
         };
 
-        timer.schedule(task, 0, 3000);
+        timer.schedule(task, 0, 2000);
         //PETICION CADA X SEGUNDOS.
     }
 
     @OnClick(R.id.cancelar)
     public void onClick(){
         finish();
+        if (tipoPerfil == DetallesFragment.ESTUDIANTE){
+            ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idPerfil, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
+            sincronizarClases.execute();
+        }else if(tipoPerfil == DetallesSesionProfesorFragment.PROFESOR){
+            ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idPerfil, DetallesSesionProfesorFragment.PROFESOR, Constants.VERIFICAR_DISPONIBLIDAD, false);
+            sincronizarClases.execute();
+        }
         //CAMBIAR A FALSE EN BD.
     }
+    
 
     @Override
     protected void onDestroy() {

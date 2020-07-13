@@ -53,6 +53,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     public static int ESTUDIANTE = 1;
     private String fotoNombre;
     private int idSesion = 0;
+    private int idEstudiante = 0;
     public static ImageView foto;
     @BindView(R.id.profesor)
     public TextView profesor;
@@ -108,6 +109,13 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
+        sincronizarClases.execute();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_detalles, container, false);
@@ -116,11 +124,23 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         Bundle bun = getArguments();
         foto = view.findViewById(R.id.foto);
 
-        if(bun.getString("fotoProfesor").equalsIgnoreCase("Sin profesor")) {
-            foto.setVisibility(View.INVISIBLE);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
+        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+
+        if(fila.moveToFirst()){
+            idEstudiante = fila.getInt(0);
+        }else{
+            baseDeDatos.close();
+        }
+
+        baseDeDatos.close();
+
+
+        System.out.println(bun.getString("fotoProfesor"));
+        if(bun.getString("fotoProfesor").equalsIgnoreCase("Sin foto")) {
             iniciar.setVisibility(View.INVISIBLE);
         }else {
-            foto.setVisibility(View.VISIBLE);
             iniciar.setVisibility(View.VISIBLE);
         }
         if(bun.getString("descripcionProfesor").equalsIgnoreCase("Sin descripcion"))
@@ -221,19 +241,6 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
     @OnClick(R.id.iniciar)
     public void onClicked(){
-
-        int idEstudiante = 0;
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
-
-        if(fila.moveToFirst()){
-            idEstudiante = fila.getInt(0);
-        }else{
-            baseDeDatos.close();
-        }
-
-        baseDeDatos.close();
 
         ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
         sincronizarClases.execute();
