@@ -54,6 +54,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     private String fotoNombre;
     private int idSesion = 0;
     private int idEstudiante = 0;
+    private int tiempoPasar = 0;
     public static ImageView foto;
     @BindView(R.id.profesor)
     public TextView profesor;
@@ -158,6 +159,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         profesor.setText(bun.getString("profesor"));
         lugar.setText("Dirección: " + bun.getString("lugar"));
         tiempo.setText("Tiempo: " + obtenerHorario(bun.getInt("tiempo")));
+        tiempoPasar = bun.getInt("tiempo");
         observaciones.setText("Observaciones: " + bun.getString("observaciones"));
         nivel.setText("Nivel: " + component.obtenerNivel(bun.getInt("idSeccion"), bun.getInt("idNivel"), bun.getInt("idBloque")));
         tipoClase.setText("Tipo de Clase: " + bun.getString("tipoClase"));
@@ -249,6 +251,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         intent.putExtra("perfil", ESTUDIANTE);
         intent.putExtra("idSesion", idSesion);
         intent.putExtra("idPerfil", idEstudiante);
+        intent.putExtra("tiempo", tiempoPasar);
         startActivity(intent);
 
     }

@@ -45,6 +45,8 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
     public static final String TAG = "Detalles de Clase";
     public static int PROFESOR = 2;
     private int idSesion = 0;
+    private int idProfesor = 0;
+    private int tiempoPasar = 0;
     private GoogleMap mMap;
     private ScrollView mScrollView;
     private Unbinder mUnbinder;
@@ -84,7 +86,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         mInstance.setFoto(foto);
         mInstance.setProfesor("Profesor Asignado: " + profesor);
         mInstance.setLugar("Lugar - Dirección: " + lugar);
-        mInstance.setTiempo("Tiempo de la clase: " + tiempo);
+        mInstance.setTiempo(tiempo);
         mInstance.setObservaciones("Observaciones: " + observaciones);
         mInstance.setLatitud(latitud);
         mInstance.setLongitud(longitud);
@@ -96,6 +98,14 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         return mInstance;
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idProfesor, DetallesSesionProfesorFragment.PROFESOR, Constants.CAMBIAR_DISPONIBILIDAD, false);
+        sincronizarClases.execute();
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -112,11 +122,25 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         descripcionTV.setText(bun.getString("descripcion"));
         correoTV.setText(bun.getString("correo"));
         direccionTV.setText(bun.getString("lugar"));
+        tiempoPasar = Integer.parseInt(bun.getString("tiempo"));
+        System.out.println(tiempoPasar);
         tiempoTV.setText(bun.getString("tiempo"));
         nivelTV.setText(bun.getString("nivel"));
         tipoTV.setText(bun.getString("tipoClase"));
         horarioTV.setText(bun.getString("horario"));
         observacionesTV.setText(bun.getString("observaciones"));
+
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesionProfesor", null, 1);
+        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+        Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);
+
+        if(fila.moveToFirst()){
+            idProfesor = fila.getInt(0);
+        }else{
+            baseDeDatos.close();
+        }
+
+        baseDeDatos.close();
 
         return view;
 
@@ -190,20 +214,6 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
     @OnClick(R.id.iniciar)
     public void onClick(){
 
-        int idProfesor = 0;
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesionProfesor", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);
-
-        if(fila.moveToFirst()){
-            idProfesor = fila.getInt(0);
-        }else{
-            baseDeDatos.close();
-        }
-
-        baseDeDatos.close();
-
-
         ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idProfesor, DetallesSesionProfesorFragment.PROFESOR, Constants.CAMBIAR_DISPONIBILIDAD, true);
         sincronizarClases.execute();
 
@@ -211,6 +221,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         intent.putExtra("perfil", PROFESOR);
         intent.putExtra("idSesion", idSesion);
         intent.putExtra("idPerfil", idProfesor);
+        intent.putExtra("tiempo", tiempoPasar);
         startActivity(intent);
     }
 

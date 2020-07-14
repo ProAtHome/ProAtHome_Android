@@ -2,6 +2,7 @@ package com.proathome;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -29,10 +30,11 @@ public class SincronizarClase extends AppCompatActivity {
     MaterialButton cancelar;
     @BindView(R.id.esperando)
     TextView esperando;
-    Timer timer;
+    public static Timer timer;
     private int tipoPerfil = 0;
     private int idSesion = 0;
     private int idPerfil = 0;
+    public static int tiempo = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class SincronizarClase extends AppCompatActivity {
         tipoPerfil = getIntent().getIntExtra("perfil", 0);
         idSesion = getIntent().getIntExtra("idSesion", 0);
         idPerfil = getIntent().getIntExtra("idPerfil", 0);
+        tiempo = getIntent().getIntExtra("tiempo", 0);
 
         if(tipoPerfil == DetallesFragment.ESTUDIANTE){
             cancelar.setBackgroundColor(getResources().getColor(R.color.colorPersonalDark));
@@ -89,17 +92,28 @@ public class SincronizarClase extends AppCompatActivity {
             ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idPerfil, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
             sincronizarClases.execute();
         }else if(tipoPerfil == DetallesSesionProfesorFragment.PROFESOR){
-            ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idPerfil, DetallesSesionProfesorFragment.PROFESOR, Constants.VERIFICAR_DISPONIBLIDAD, false);
+            ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idPerfil, DetallesSesionProfesorFragment.PROFESOR, Constants.CAMBIAR_DISPONIBILIDAD, false);
             sincronizarClases.execute();
         }
         //CAMBIAR A FALSE EN BD.
     }
-    
+
+    public void terminarSincronizar(){
+        finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "Terminado", Toast.LENGTH_LONG).show();
+        finish();
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
         timer.cancel();
+
     }
 }

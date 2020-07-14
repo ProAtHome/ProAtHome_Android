@@ -1,9 +1,13 @@
 package com.proathome.controladores;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.proathome.ClaseEstudiante;
+import com.proathome.ClaseProfesor;
+import com.proathome.SincronizarClase;
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.DetallesSesionProfesorFragment;
 import com.proathome.utils.Constants;
@@ -168,15 +172,24 @@ public class ServicioTaskSincronizarClases extends AsyncTask<Void, Void, String>
                 JSONObject resultado = new JSONObject(s);
                 if(this.tipoPerfil == DetallesFragment.ESTUDIANTE){
                     boolean disponibilidad = resultado.getBoolean("dispProfesor");
-                    if(disponibilidad)
+                    if(disponibilidad) {
+                        SincronizarClase.timer.cancel();
+                        Intent intent = new Intent(this.contexto, ClaseEstudiante.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        this.contexto.startActivity(intent);
                         Toast.makeText(this.contexto, "Conexión establecida, a clases.", Toast.LENGTH_LONG).show();
+                    }
                     else
                         Toast.makeText(this.contexto, "Seguimos esperando al profesor...", Toast.LENGTH_SHORT).show();
                 }else if(this.tipoPerfil == DetallesSesionProfesorFragment.PROFESOR){
                     boolean disponibilidad = resultado.getBoolean("dispEstudiante");
-                    if(disponibilidad)
+                    if(disponibilidad) {
+                        SincronizarClase.timer.cancel();
+                        Intent intent = new Intent(this.contexto, ClaseProfesor.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        this.contexto.startActivity(intent);
                         Toast.makeText(this.contexto, "Conexión establecida, a clases.", Toast.LENGTH_LONG).show();
-                    else
+                    }else
                         Toast.makeText(this.contexto, "Seguimos esperando a el estudiante...", Toast.LENGTH_SHORT).show();
                 }
             }
