@@ -14,8 +14,9 @@ public class Constants {
     /*Sincronizar Clases*/
     public static final int VERIFICAR_DISPONIBLIDAD = 1;
     public static final int CAMBIAR_DISPONIBILIDAD = 2;
-    /*5518818331
-    Nombre*/
+    public static final int CAMBIAR_ESTATUS_CLASE = 3;
+    public static final int GUARDAR_PROGRESO = 4;
+    public static final int OBTENER_PROGRESO_INFO = 5;
     /*Fin Sincronizar*/
     /*Examen*/
     public static final int INICIO_EXAMEN  = 1;

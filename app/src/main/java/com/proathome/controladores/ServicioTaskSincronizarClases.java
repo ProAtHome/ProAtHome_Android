@@ -4,23 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
-
 import com.proathome.ClaseEstudiante;
 import com.proathome.ClaseProfesor;
 import com.proathome.SincronizarClase;
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.DetallesSesionProfesorFragment;
 import com.proathome.utils.Constants;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -174,7 +168,11 @@ public class ServicioTaskSincronizarClases extends AsyncTask<Void, Void, String>
                     boolean disponibilidad = resultado.getBoolean("dispProfesor");
                     if(disponibilidad) {
                         SincronizarClase.timer.cancel();
+                        ServicioTaskClase servicioTaskClase = new ServicioTaskClase(this.contexto, idSesion, this.idPerfil, DetallesFragment.ESTUDIANTE, Constants.OBTENER_PROGRESO_INFO, 0);
+                        servicioTaskClase.execute();
                         Intent intent = new Intent(this.contexto, ClaseEstudiante.class);
+                        intent.putExtra("idSesion", this.idSesion);
+                        intent.putExtra("idEstudiante", this.idPerfil);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         this.contexto.startActivity(intent);
                         Toast.makeText(this.contexto, "Conexión establecida, a clases.", Toast.LENGTH_LONG).show();
@@ -185,7 +183,11 @@ public class ServicioTaskSincronizarClases extends AsyncTask<Void, Void, String>
                     boolean disponibilidad = resultado.getBoolean("dispEstudiante");
                     if(disponibilidad) {
                         SincronizarClase.timer.cancel();
+                        ServicioTaskClase servicioTaskClase = new ServicioTaskClase(this.contexto, idSesion, idPerfil, DetallesSesionProfesorFragment.PROFESOR, Constants.OBTENER_PROGRESO_INFO, 0);
+                        servicioTaskClase.execute();
                         Intent intent = new Intent(this.contexto, ClaseProfesor.class);
+                        intent.putExtra("idSesion", this.idSesion);
+                        intent.putExtra("idProfesor", this.idPerfil);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         this.contexto.startActivity(intent);
                         Toast.makeText(this.contexto, "Conexión establecida, a clases.", Toast.LENGTH_LONG).show();
