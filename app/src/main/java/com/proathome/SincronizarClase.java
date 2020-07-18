@@ -64,9 +64,11 @@ public class SincronizarClase extends AppCompatActivity {
                             if (tipoPerfil == DetallesFragment.ESTUDIANTE){
                                 ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idPerfil, DetallesFragment.ESTUDIANTE, Constants.VERIFICAR_DISPONIBLIDAD, true);
                                 sincronizarClases.execute();
+                                sincronizarClases = null;
                             }else if(tipoPerfil == DetallesSesionProfesorFragment.PROFESOR){
                                 ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idPerfil, DetallesSesionProfesorFragment.PROFESOR, Constants.VERIFICAR_DISPONIBLIDAD, true);
                                 sincronizarClases.execute();
+                                sincronizarClases = null;
                             }
                         } catch (Exception e) {
                             Log.e("error", e.getMessage());
@@ -100,7 +102,11 @@ public class SincronizarClase extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Toast.makeText(this, "Terminado", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Terminado", Toast.LENGTH_LONG).show();
+        ClaseEstudiante.enpausa = true;
+        ClaseEstudiante.encurso = true;
+        ClaseProfesor.enpausa = true;
+        ClaseProfesor.encurso = true;
         finish();
     }
 

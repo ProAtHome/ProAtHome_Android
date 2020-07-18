@@ -1,14 +1,22 @@
 package com.proathome;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
-import com.proathome.controladores.ServicioTaskClase;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.proathome.controladores.ServicioTaskCambiarEstatusClase;
+import com.proathome.controladores.ServicioTaskClaseDisponible;
+import com.proathome.controladores.ServicioTaskSincronizarClases;
 import com.proathome.fragments.DetallesFragment;
+import com.proathome.fragments.MaterialFragment;
+import com.proathome.fragments.NuevaSesionFragment;
 import com.proathome.utils.Constants;
 import java.util.Locale;
 import java.util.Timer;
@@ -17,18 +25,27 @@ import java.util.TimerTask;
 public class ClaseEstudiante extends AppCompatActivity {
 
     private int idSesion = 0, idEstudiante = 0;
-    private CountDownTimer countDownTimer;
-    private boolean mTimerRunning;
-    public static int START_TIME_IN_MILLIS = 0;
-    private long mTimeLeftMillis = START_TIME_IN_MILLIS;
-    TextView temporizador;
+    public static CountDownTimer countDownTimer;
+    public static boolean mTimerRunning, encurso = true, enpausa = true, inicio = true;
+    public static long mTimeLeftMillis = 0;
+    public static TextView temporizador;
     public static Timer timer;
+    public static MaterialButton pausa_start;
+    private FloatingActionButton material;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clase_estudiante);
         temporizador = findViewById(R.id.temporizador);
+        pausa_start = findViewById(R.id.pausar);
+        material = findViewById(R.id.material);
+
+        material.setOnClickListener(v -> {
+            MaterialFragment nueva = new MaterialFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            nueva.show(transaction, "Material Didáctico");
+        });
 
         idEstudiante = getIntent().getIntExtra("idEstudiante", 0);
         idSesion = getIntent().getIntExtra("idSesion", 0);
@@ -42,8 +59,8 @@ public class ClaseEstudiante extends AppCompatActivity {
                 handler.post(new Runnable() {
                     public void run() {
                         try {
-                            ServicioTaskClase servicioTaskClase = new ServicioTaskClase(getApplicationContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.VERIFICAR_DISPONIBLIDAD, 0);
-                            servicioTaskClase.execute();
+                            ServicioTaskClaseDisponible servicioTaskClaseDisponible = new ServicioTaskClaseDisponible(getApplicationContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, ClaseEstudiante.this);
+                            servicioTaskClaseDisponible.execute();
                         } catch (Exception e) {
                             Log.e("error", e.getMessage());
                         }
@@ -52,7 +69,7 @@ public class ClaseEstudiante extends AppCompatActivity {
             }
         };
 
-        timer.schedule(task, 0, 2000);
+        timer.schedule(task, 0, 3000);
         //PETICION CADA X SEGUNDOS.
 
         //TODO Verificamos que sigan con disponibilidad
@@ -61,12 +78,12 @@ public class ClaseEstudiante extends AppCompatActivity {
         //TODO TIMER TASK CON LO ANTERIOR
 
         //TODO Cambiamos a ENCURSO
-        startTimer();
-        updateCountDownText();
+        //startTimer();
+        //updateCountDownText();
 
     }
 
-    public void startTimer(){
+    public static void startTimer(){
         countDownTimer = new CountDownTimer(mTimeLeftMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -83,17 +100,19 @@ public class ClaseEstudiante extends AppCompatActivity {
         mTimerRunning = true;
     }
 
-    public void updateCountDownText(){
+    public static void updateCountDownText(){
         int horas = (int) mTimeLeftMillis / (60 * 60 * 1000) % 24;
         int minutos = (int) mTimeLeftMillis / (60 * 1000) % 60;
         int segundos = (int) (mTimeLeftMillis / 1000) % 60;
         String time = String.format(Locale.getDefault(),"%02d:%02d:%02d", horas, minutos, segundos);
-
-        System.out.println(time);
+        //Toast.makeText(this, "Progreso en reloj: " + minutos + " " + segundos, Toast.LENGTH_LONG).show();
+        //System.out.println(time);
         temporizador.setText(time);
     }
 
-    public void pauseTimer(){
+    public static void pauseTimer(){
+        if(countDownTimer != null)
+            countDownTimer.cancel();
         //TODO Cambiamos a ENPAUSA
         //TODO GUARDAMOS PROGRESO
     }
@@ -106,14 +125,16 @@ public class ClaseEstudiante extends AppCompatActivity {
         //TODO Cambiar disponibilidad a FALSE
         //TODO finish()
         finish();
-        timer.cancel();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        countDownTimer.cancel();
+        if(countDownTimer != null)
+            countDownTimer.cancel();
         timer.cancel();
+        ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
+        sincronizarClases.execute();
         //TODO Cambiamos a ENPAUSA
         //TODO GUARDAMOS PROGRESO
         //TODO Cambiar disponibilidad a FALSE

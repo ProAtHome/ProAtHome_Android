@@ -124,7 +124,6 @@ public class SesionesFragment extends Fragment {
     public void onClicked(View view){
 
         switch (view.getId()){
-
             case R.id.fabNuevaSesion:
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     showAlert();
@@ -140,14 +139,18 @@ public class SesionesFragment extends Fragment {
 
         }
 
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        Toast.makeText(getContext(), "onpause", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onDestroyView() {
-
         super.onDestroyView();
         mUnbinder.unbind();
-
     }
+
 }

@@ -110,7 +110,7 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
                     if(NuevaSesionFragment.tomarSesion.getSeccion() == Constants.BASICO){
                         if(NuevaSesionFragment.secciones.getSelectedItem().toString().equalsIgnoreCase("Básico")){
                             if(!NuevaSesionFragment.basicoVisto){
-                                Toast.makeText(contexto, "Valores de REST", Toast.LENGTH_LONG).show();
+
                                 NuevaSesionFragment.basicoVisto = true;
                             }else{
                                 NuevaSesionFragment.niveles.setAdapter(NuevaSesionFragment.tomarSesion.obtenerNiveles(Constants.BASICO));
@@ -128,7 +128,7 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
                             NuevaSesionFragment.horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                         }else if(NuevaSesionFragment.secciones.getSelectedItem().toString().equalsIgnoreCase("Intermedio")){
                             if(!NuevaSesionFragment.intermedioVisto){
-                                Toast.makeText(contexto, "Valores de REST", Toast.LENGTH_LONG).show();
+
                                 NuevaSesionFragment.intermedioVisto = true;
                             }else{
                                 NuevaSesionFragment.niveles.setAdapter(NuevaSesionFragment.tomarSesion.obtenerNiveles(Constants.INTERMEDIO));
@@ -146,7 +146,7 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
                             NuevaSesionFragment.horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                         }else if(NuevaSesionFragment.secciones.getSelectedItem().toString().equalsIgnoreCase("Avanzado")){
                             if(!NuevaSesionFragment.avanzadoVisto){
-                                Toast.makeText(contexto, "Valores de REST", Toast.LENGTH_LONG).show();
+
                                 NuevaSesionFragment.avanzadoVisto = true;
                             }else{
                                 NuevaSesionFragment.niveles.setAdapter(NuevaSesionFragment.tomarSesion.obtenerNiveles(Constants.AVANZADO));

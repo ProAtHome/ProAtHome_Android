@@ -3,7 +3,6 @@ package com.proathome.controladores;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.Toast;
 import com.proathome.ClaseEstudiante;
 import com.proathome.ClaseProfesor;
 import com.proathome.SincronizarClase;
@@ -168,31 +167,31 @@ public class ServicioTaskSincronizarClases extends AsyncTask<Void, Void, String>
                     boolean disponibilidad = resultado.getBoolean("dispProfesor");
                     if(disponibilidad) {
                         SincronizarClase.timer.cancel();
-                        ServicioTaskClase servicioTaskClase = new ServicioTaskClase(this.contexto, idSesion, this.idPerfil, DetallesFragment.ESTUDIANTE, Constants.OBTENER_PROGRESO_INFO, 0);
-                        servicioTaskClase.execute();
+                        ServicioTaskObtenerProgreso servicioTaskObtenerProgreso = new ServicioTaskObtenerProgreso(this.contexto, this.idSesion, this.idPerfil, DetallesFragment.ESTUDIANTE);
+                        servicioTaskObtenerProgreso.execute();
                         Intent intent = new Intent(this.contexto, ClaseEstudiante.class);
                         intent.putExtra("idSesion", this.idSesion);
                         intent.putExtra("idEstudiante", this.idPerfil);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         this.contexto.startActivity(intent);
-                        Toast.makeText(this.contexto, "Conexión establecida, a clases.", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(this.contexto, "Conexión establecida, a clases.", Toast.LENGTH_LONG).show();
                     }
-                    else
-                        Toast.makeText(this.contexto, "Seguimos esperando al profesor...", Toast.LENGTH_SHORT).show();
+
+                        //Toast.makeText(this.contexto, "Seguimos esperando al profesor...", Toast.LENGTH_SHORT).show();
                 }else if(this.tipoPerfil == DetallesSesionProfesorFragment.PROFESOR){
                     boolean disponibilidad = resultado.getBoolean("dispEstudiante");
                     if(disponibilidad) {
                         SincronizarClase.timer.cancel();
-                        ServicioTaskClase servicioTaskClase = new ServicioTaskClase(this.contexto, idSesion, idPerfil, DetallesSesionProfesorFragment.PROFESOR, Constants.OBTENER_PROGRESO_INFO, 0);
-                        servicioTaskClase.execute();
+                        ServicioTaskObtenerProgreso servicioTaskObtenerProgreso = new ServicioTaskObtenerProgreso(this.contexto, this.idSesion, this.idPerfil, DetallesSesionProfesorFragment.PROFESOR);
+                        servicioTaskObtenerProgreso.execute();
                         Intent intent = new Intent(this.contexto, ClaseProfesor.class);
                         intent.putExtra("idSesion", this.idSesion);
                         intent.putExtra("idProfesor", this.idPerfil);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         this.contexto.startActivity(intent);
-                        Toast.makeText(this.contexto, "Conexión establecida, a clases.", Toast.LENGTH_LONG).show();
-                    }else
-                        Toast.makeText(this.contexto, "Seguimos esperando a el estudiante...", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this.contexto, "Conexión establecida, a clases.", Toast.LENGTH_LONG).show();
+                    }
+                        //Toast.makeText(this.contexto, "Seguimos esperando a el estudiante...", Toast.LENGTH_SHORT).show();
                 }
             }
 
