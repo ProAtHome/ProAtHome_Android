@@ -1,13 +1,18 @@
-package com.proathome.controladores;
+package com.proathome.controladores.clase;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.View;
+
+import androidx.fragment.app.FragmentActivity;
+
 import com.proathome.ClaseEstudiante;
 import com.proathome.ClaseProfesor;
 import com.proathome.R;
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.DetallesSesionProfesorFragment;
+import com.proathome.fragments.MasTiempo;
 import com.proathome.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,12 +25,12 @@ import java.net.MalformedURLException;
 
 public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
 
-    public ServicioTaskClaseDisponible(Context contexto, int idSesion, int idPerfil, int tipoPerfil, Activity activity){
+    public ServicioTaskClaseDisponible(Context contexto, int idSesion, int idPerfil, int tipoPerfil, FragmentActivity activity){
         Constants.contexto_DISPONIBILIDAD_PROGRESO = contexto;
         Constants.idPerfil_DISPONIBILIDAD_PROGRESO = idPerfil;
         Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO = tipoPerfil;
         Constants.idSesion_DISPONIBILIDAD_PROGRESO = idSesion;
-        Constants.activity = activity;
+        Constants.fragmentActivity = activity;
     }
 
     @Override
@@ -126,9 +131,20 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                 ClaseEstudiante.inicio = true;
                              }
 
+                        }else if(Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO){
+                            if(ClaseEstudiante.terminado){
+                                ClaseEstudiante.terminado = false;
+                                ClaseEstudiante.timer.cancel();
+                                MasTiempo masTiempo = new MasTiempo();
+                                Bundle bundle = new Bundle();
+                                bundle.putInt("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
+                                bundle.putInt("idEstudiante", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
+                                masTiempo.setArguments(bundle);
+                                masTiempo.show(ClaseEstudiante.obtenerFargment(Constants.fragmentActivity), "Tiempo Extra");
+                            }
                         }
                     }else{
-                        Constants.activity.finish();
+                        Constants.fragmentActivity.finish();
                     }
 
                 } else if (Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO == DetallesSesionProfesorFragment.PROFESOR) {//PROFESOOOOOOOOOOOOOOOOOOOOOOOOR
@@ -137,6 +153,13 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                     Constants.progreso_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progreso");
                     Constants.estatus_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("estatus");
                     Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progresoSegundos");
+
+                    if(Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO <= 1 && Constants.progreso_DISPONIBILIDAD_PROGRESO < 1){
+                        ServicioTaskCambiarEstatusClase cambiarEstatusClase = new ServicioTaskCambiarEstatusClase(Constants.contexto_DISPONIBILIDAD_PROGRESO, Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO, Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO, Constants.ESTATUS_TERMINADO);
+                        cambiarEstatusClase.execute();
+                        ClaseProfesor.pausa_start.setVisibility(View.INVISIBLE); //TODO CAMBIAR A TERMINADO PARAR TIMERS.
+                        ClaseProfesor.terminar.setVisibility(View.VISIBLE);
+                    }
 
                     if(Constants.dispEstudiante_DISPONIBILIDAD_PROGRESO){
                         if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENPAUSA) {
@@ -162,9 +185,15 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                 ClaseProfesor.inicio = true;
                             }
 
+                        }else if(Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO){
+                            if(ClaseProfesor.terminado){
+                                ClaseProfesor.terminado = false;
+                                ClaseProfesor.timer.cancel();
+                                ClaseProfesor.timer2.cancel();
+                            }
                         }
                     }else{
-                        Constants.activity.finish();
+                        Constants.fragmentActivity.finish();
                     }
 
 

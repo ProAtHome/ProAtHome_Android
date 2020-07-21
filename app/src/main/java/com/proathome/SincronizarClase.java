@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.google.android.material.button.MaterialButton;
-import com.proathome.controladores.ServicioTaskSincronizarClases;
+import com.proathome.controladores.clase.ServicioTaskSincronizarClases;
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.DetallesSesionProfesorFragment;
 import com.proathome.utils.Constants;
@@ -105,8 +105,10 @@ public class SincronizarClase extends AppCompatActivity {
         //Toast.makeText(this, "Terminado", Toast.LENGTH_LONG).show();
         ClaseEstudiante.enpausa = true;
         ClaseEstudiante.encurso = true;
+        ClaseEstudiante.terminado = true;
         ClaseProfesor.enpausa = true;
         ClaseProfesor.encurso = true;
+        ClaseProfesor.terminado = true;
         finish();
     }
 

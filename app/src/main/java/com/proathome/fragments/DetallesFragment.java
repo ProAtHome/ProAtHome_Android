@@ -9,7 +9,6 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.Settings;
 import android.view.LayoutInflater;
@@ -30,15 +29,13 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
 import com.proathome.SincronizarClase;
-import com.proathome.controladores.ServicioTaskSincronizarClases;
+import com.proathome.controladores.clase.ServicioTaskFinalizarClase;
+import com.proathome.controladores.clase.ServicioTaskSincronizarClases;
 import com.proathome.controladores.WorkaroundMapFragment;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
-import com.proathome.controladores.estudiante.ServicioTaskPerfilEstudiante;
 import com.proathome.controladores.profesor.ServicioTaskFotoDetalles;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
-
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,8 +71,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     TextView descripcionProfesor;
     @BindView(R.id.correoTV)
     TextView correoProfesor;
-    @BindView(R.id.iniciar)
-    MaterialButton iniciar;
+    public static MaterialButton iniciar;
     private ScrollView mScrollView;
     private Unbinder mUnbinder;
     private double longitud = -99.13320799999, latitud = 19.4326077;
@@ -114,6 +110,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         super.onResume();
         ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
         sincronizarClases.execute();
+        ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(getContext(), idSesion, idEstudiante, Constants.VALIDAR_CLASE_FINALIZADA_AMBOS_PERFILES, DetallesFragment.ESTUDIANTE);
+        finalizarClase.execute();
     }
 
     @Override
@@ -124,6 +122,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         mUnbinder = ButterKnife.bind(this, view);
         Bundle bun = getArguments();
         foto = view.findViewById(R.id.foto);
+        iniciar = view.findViewById(R.id.iniciar);
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
@@ -167,6 +166,18 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         descripcionProfesor.setText(bun.getString("descripcionProfesor"));
         correoProfesor.setText(bun.getString("correoProfesor"));
         fotoNombre = bun.getString("fotoProfesor");
+
+        iniciar.setOnClickListener(v ->{
+            ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
+            sincronizarClases.execute();
+
+            Intent intent = new Intent(getContext(), SincronizarClase.class);
+            intent.putExtra("perfil", ESTUDIANTE);
+            intent.putExtra("idSesion", idSesion);
+            intent.putExtra("idPerfil", idEstudiante);
+            intent.putExtra("tiempo", tiempoPasar);
+            startActivity(intent);
+        });
 
         return view;
 
@@ -238,21 +249,6 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         mMap.setMyLocationEnabled(true);
 
         agregarMarca(googleMap, latitud, longitud);
-
-    }
-
-    @OnClick(R.id.iniciar)
-    public void onClicked(){
-
-        ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
-        sincronizarClases.execute();
-
-        Intent intent = new Intent(getContext(), SincronizarClase.class);
-        intent.putExtra("perfil", ESTUDIANTE);
-        intent.putExtra("idSesion", idSesion);
-        intent.putExtra("idPerfil", idEstudiante);
-        intent.putExtra("tiempo", tiempoPasar);
-        startActivity(intent);
 
     }
 

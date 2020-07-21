@@ -1,6 +1,6 @@
 package com.proathome;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
@@ -11,22 +11,21 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.proathome.controladores.ServicioTaskCambiarEstatusClase;
-import com.proathome.controladores.ServicioTaskClaseDisponible;
-import com.proathome.controladores.ServicioTaskSincronizarClases;
+import com.proathome.controladores.clase.ServicioTaskClaseDisponible;
+import com.proathome.controladores.clase.ServicioTaskSincronizarClases;
+import com.proathome.fragments.DetallesBloque;
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.MaterialFragment;
-import com.proathome.fragments.NuevaSesionFragment;
 import com.proathome.utils.Constants;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ClaseEstudiante extends AppCompatActivity {
+public class ClaseEstudiante extends FragmentActivity {
 
     private int idSesion = 0, idEstudiante = 0;
     public static CountDownTimer countDownTimer;
-    public static boolean mTimerRunning, encurso = true, enpausa = true, inicio = true;
+    public static boolean mTimerRunning, encurso = true, enpausa = true, inicio = true, terminado = true;
     public static long mTimeLeftMillis = 0;
     public static TextView temporizador;
     public static Timer timer;
@@ -83,6 +82,12 @@ public class ClaseEstudiante extends AppCompatActivity {
 
     }
 
+    public static FragmentTransaction obtenerFargment(FragmentActivity activity){
+        FragmentTransaction fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
+
+        return fragmentTransaction;
+    }
+
     public static void startTimer(){
         countDownTimer = new CountDownTimer(mTimeLeftMillis, 1000) {
             @Override
@@ -108,6 +113,12 @@ public class ClaseEstudiante extends AppCompatActivity {
         //Toast.makeText(this, "Progreso en reloj: " + minutos + " " + segundos, Toast.LENGTH_LONG).show();
         //System.out.println(time);
         temporizador.setText(time);
+    }
+
+    public void masTiempo(){
+        DetallesBloque detallesBloque = new DetallesBloque();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        detallesBloque.show(fragmentTransaction, "Tiempo extra");
     }
 
     public static void pauseTimer(){

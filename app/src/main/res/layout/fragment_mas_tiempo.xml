@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:padding="@dimen/common_padding_default">
+
+    <TextView
+        android:id="@+id/masTiempo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        android:text="¿Deseas agregar más tiempo a la sesión?"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cincoMin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="5 Minutos"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:layout_marginTop="@dimen/common_padding_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/masTiempo"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/diezMin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="10 Minutos"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cincoMin"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/quinceMin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="15 Minutos"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/diezMin"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/veinteMin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="20 Minutos"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/quinceMin"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/veinticincoMin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="25 Minutos"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/veinteMin"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/treintaMin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="30 Minutos"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/veinticincoMin"/>
+
+    <TextView
+        android:id="@+id/aviso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_padding_min"
+        android:textColor="@color/color_error"
+        android:textStyle="bold"
+        android:text="Este tiempo será extra y no se tomará en cuenta para la Ruta de Aprendizaje."
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/treintaMin"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancelar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancelar"
+        android:backgroundTint="@android:color/darker_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/aviso"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

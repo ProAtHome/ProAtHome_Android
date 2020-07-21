@@ -8,14 +8,14 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.proathome.controladores.ServicioTaskCambiarEstatusClase;
-import com.proathome.controladores.ServicioTaskClaseDisponible;
-import com.proathome.controladores.ServicioTaskGuardarProgreso;
-import com.proathome.controladores.ServicioTaskSincronizarClases;
+import com.proathome.controladores.clase.ServicioTaskCambiarEstatusClase;
+import com.proathome.controladores.clase.ServicioTaskClaseDisponible;
+import com.proathome.controladores.clase.ServicioTaskFinalizarClase;
+import com.proathome.controladores.clase.ServicioTaskGuardarProgreso;
+import com.proathome.controladores.clase.ServicioTaskSincronizarClases;
 import com.proathome.fragments.DetallesSesionProfesorFragment;
 import com.proathome.fragments.MaterialFragment;
 import com.proathome.utils.Constants;
@@ -27,11 +27,11 @@ public class ClaseProfesor extends AppCompatActivity {
 
     private int idSesion = 0, idProfesor = 0;
     public static CountDownTimer countDownTimer;
-    public static boolean mTimerRunning, encurso = true, enpausa = true, inicio = true;
+    public static boolean mTimerRunning, encurso = true, enpausa = true, inicio = true, terminado = true;
     public static long mTimeLeftMillis = 0, progresoSegundos = 0, progreso = 0;
     public static TextView temporizador;
     public static Timer timer, timer2;
-    public static MaterialButton pausa_start;
+    public static MaterialButton pausa_start, terminar;
     private FloatingActionButton material;
 
     @Override
@@ -41,6 +41,16 @@ public class ClaseProfesor extends AppCompatActivity {
         temporizador = findViewById(R.id.temporizador);
         pausa_start = findViewById(R.id.pausar);
         material = findViewById(R.id.material);
+        terminar = findViewById(R.id.terminar);
+
+        idProfesor = getIntent().getIntExtra("idProfesor", 0);
+        idSesion = getIntent().getIntExtra("idSesion", 0);
+
+        terminar.setOnClickListener(v ->{
+            System.out.println("terminar clase");
+            ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(this, idSesion, idProfesor, Constants.VALIDAR_CLASE_FINALIZADA, DetallesSesionProfesorFragment.PROFESOR);
+            finalizarClase.execute();
+        });
 
         material.setOnClickListener(v -> {
             MaterialFragment nueva = new MaterialFragment();
@@ -48,8 +58,6 @@ public class ClaseProfesor extends AppCompatActivity {
             nueva.show(transaction, "Material Didáctico");
         });
 
-        idProfesor = getIntent().getIntExtra("idProfesor", 0);
-        idSesion = getIntent().getIntExtra("idSesion", 0);
 
         ServicioTaskCambiarEstatusClase servicioTaskCambiarEstatusClase1 = new ServicioTaskCambiarEstatusClase(getApplicationContext(), idSesion, idProfesor, DetallesSesionProfesorFragment.PROFESOR, Constants.ESTATUS_ENCURSO);
         servicioTaskCambiarEstatusClase1.execute();
@@ -75,7 +83,6 @@ public class ClaseProfesor extends AppCompatActivity {
         final Handler handler2 = new Handler();
         timer = new Timer();
         timer2 = new Timer();
-
 
         TimerTask task = new TimerTask() {
             @Override

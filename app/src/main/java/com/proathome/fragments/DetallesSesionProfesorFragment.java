@@ -25,10 +25,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
 import com.proathome.SincronizarClase;
-import com.proathome.controladores.ServicioTaskSincronizarClases;
+import com.proathome.controladores.clase.ServicioTaskFinalizarClase;
+import com.proathome.controladores.clase.ServicioTaskSincronizarClases;
 import com.proathome.controladores.WorkaroundMapFragment;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.profesor.ServicioTaskFotoDetalles;
@@ -71,6 +73,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
     TextView horarioTV;
     @BindView(R.id.observacionesTV)
     TextView observacionesTV;
+    public static MaterialButton iniciar;
 
     public DetallesSesionProfesorFragment() {
 
@@ -104,6 +107,8 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         super.onResume();
         ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idProfesor, DetallesSesionProfesorFragment.PROFESOR, Constants.CAMBIAR_DISPONIBILIDAD, false);
         sincronizarClases.execute();
+        ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(getContext(), idSesion, idProfesor, Constants.VALIDAR_CLASE_FINALIZADA_AMBOS_PERFILES, DetallesSesionProfesorFragment.PROFESOR);
+        finalizarClase.execute();
     }
 
 
@@ -114,6 +119,8 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         mUnbinder = ButterKnife.bind(this, view);
         Bundle bun = getArguments();
         foto = view.findViewById(R.id.foto);
+        iniciar = view.findViewById(R.id.iniciar);
+
         idSesion = bun.getInt("idClase");
         this.fotoNombre = bun.getString("foto");
         latitud = bun.getDouble("latitud");
@@ -141,6 +148,18 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         }
 
         baseDeDatos.close();
+
+        iniciar.setOnClickListener(v ->{
+            ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idProfesor, DetallesSesionProfesorFragment.PROFESOR, Constants.CAMBIAR_DISPONIBILIDAD, true);
+            sincronizarClases.execute();
+
+            Intent intent = new Intent(getContext(), SincronizarClase.class);
+            intent.putExtra("perfil", PROFESOR);
+            intent.putExtra("idSesion", idSesion);
+            intent.putExtra("idPerfil", idProfesor);
+            intent.putExtra("tiempo", tiempoPasar);
+            startActivity(intent);
+        });
 
         return view;
 
@@ -209,20 +228,6 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         mMap.addMarker(new MarkerOptions().position(ubicacion).title("Aquí será tu clase."));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion,15));
 
-    }
-
-    @OnClick(R.id.iniciar)
-    public void onClick(){
-
-        ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idProfesor, DetallesSesionProfesorFragment.PROFESOR, Constants.CAMBIAR_DISPONIBILIDAD, true);
-        sincronizarClases.execute();
-
-        Intent intent = new Intent(getContext(), SincronizarClase.class);
-        intent.putExtra("perfil", PROFESOR);
-        intent.putExtra("idSesion", idSesion);
-        intent.putExtra("idPerfil", idProfesor);
-        intent.putExtra("tiempo", tiempoPasar);
-        startActivity(intent);
     }
 
     @Override

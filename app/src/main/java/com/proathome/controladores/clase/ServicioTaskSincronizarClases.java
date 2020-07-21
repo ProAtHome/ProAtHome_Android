@@ -1,4 +1,4 @@
-package com.proathome.controladores;
+package com.proathome.controladores.clase;
 
 import android.content.Context;
 import android.content.Intent;
