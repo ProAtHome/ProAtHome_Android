@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,13 +27,14 @@ import java.util.TimerTask;
 public class ClaseProfesor extends AppCompatActivity {
 
     private int idSesion = 0, idProfesor = 0;
-    public static CountDownTimer countDownTimer;
-    public static boolean mTimerRunning, encurso = true, enpausa = true, inicio = true, terminado = true;
+    public static CountDownTimer countDownTimer, countDownTimerTE;
+    public static boolean mTimerRunning, encurso = true, enpausa = true, inicio = true, terminado = true, encurso_TE = true, enpausa_TE = true, inicio_TE = true, terminado_TE = true, schedule = true, primeraVez;
     public static long mTimeLeftMillis = 0, progresoSegundos = 0, progreso = 0;
     public static TextView temporizador;
-    public static Timer timer, timer2;
+    public static Timer timer, timer2, timerSchedule;
     public static MaterialButton pausa_start, terminar;
     private FloatingActionButton material;
+    public static TimerTask taskSchedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +48,7 @@ public class ClaseProfesor extends AppCompatActivity {
         idProfesor = getIntent().getIntExtra("idProfesor", 0);
         idSesion = getIntent().getIntExtra("idSesion", 0);
 
-        terminar.setOnClickListener(v ->{
-            System.out.println("terminar clase");
+        terminar.setOnClickListener(v -> {
             ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(this, idSesion, idProfesor, Constants.VALIDAR_CLASE_FINALIZADA, DetallesSesionProfesorFragment.PROFESOR);
             finalizarClase.execute();
         });
@@ -62,15 +63,15 @@ public class ClaseProfesor extends AppCompatActivity {
         ServicioTaskCambiarEstatusClase servicioTaskCambiarEstatusClase1 = new ServicioTaskCambiarEstatusClase(getApplicationContext(), idSesion, idProfesor, DetallesSesionProfesorFragment.PROFESOR, Constants.ESTATUS_ENCURSO);
         servicioTaskCambiarEstatusClase1.execute();
 
-        pausa_start.setOnClickListener(v ->{
-            if(mTimerRunning) {
-                ServicioTaskCambiarEstatusClase servicioTaskCambiarEstatus = new ServicioTaskCambiarEstatusClase(getApplicationContext(), idSesion, idProfesor, DetallesSesionProfesorFragment.PROFESOR,  Constants.ESTATUS_ENPAUSA);
+        pausa_start.setOnClickListener(v -> {
+            if (mTimerRunning) {
+                ServicioTaskCambiarEstatusClase servicioTaskCambiarEstatus = new ServicioTaskCambiarEstatusClase(getApplicationContext(), idSesion, idProfesor, DetallesSesionProfesorFragment.PROFESOR, Constants.ESTATUS_ENPAUSA);
                 servicioTaskCambiarEstatus.execute();
                 pauseTimer();
                 mTimerRunning = false;
                 pausa_start.setText("Start");
                 pausa_start.setIcon(this.getDrawable(R.drawable.play));
-            }else{
+            } else {
                 ServicioTaskCambiarEstatusClase servicioTaskCambiarEstatusClase = new ServicioTaskCambiarEstatusClase(getApplicationContext(), idSesion, idProfesor, DetallesSesionProfesorFragment.PROFESOR, Constants.ESTATUS_ENCURSO);
                 servicioTaskCambiarEstatusClase.execute();
                 startTimer();
@@ -81,8 +82,26 @@ public class ClaseProfesor extends AppCompatActivity {
 
         final Handler handler = new Handler();
         final Handler handler2 = new Handler();
+        final Handler handler3 = new Handler();
         timer = new Timer();
         timer2 = new Timer();
+        timerSchedule = new Timer();
+
+        taskSchedule = new TimerTask() {
+            @Override
+            public void run() {
+                handler3.post(new Runnable() {
+                    public void run() {
+                        try {
+                            ServicioTaskGuardarProgreso servicioTaskGuardarProgreso = new ServicioTaskGuardarProgreso(getApplicationContext(), idSesion, idProfesor, (int) (ClaseProfesor.mTimeLeftMillis / 1000 / 60), (int) (ClaseProfesor.mTimeLeftMillis / 1000 % 60), 2);
+                            servicioTaskGuardarProgreso.execute();
+                        } catch (Exception e) {
+                            Log.e("error", e.getMessage());
+                        }
+                    }
+                });
+            }
+        };
 
         TimerTask task = new TimerTask() {
             @Override
@@ -90,7 +109,7 @@ public class ClaseProfesor extends AppCompatActivity {
                 handler.post(new Runnable() {
                     public void run() {
                         try {
-                            ServicioTaskGuardarProgreso servicioTaskGuardarProgreso = new ServicioTaskGuardarProgreso(getApplicationContext(), idSesion, idProfesor, (int) (ClaseProfesor.mTimeLeftMillis / 1000 / 60), (int) (ClaseProfesor.mTimeLeftMillis / 1000 % 60));
+                            ServicioTaskGuardarProgreso servicioTaskGuardarProgreso = new ServicioTaskGuardarProgreso(getApplicationContext(), idSesion, idProfesor, (int) (ClaseProfesor.mTimeLeftMillis / 1000 / 60), (int) (ClaseProfesor.mTimeLeftMillis / 1000 % 60), 1);
                             servicioTaskGuardarProgreso.execute();
                         } catch (Exception e) {
                             Log.e("error", e.getMessage());
@@ -122,7 +141,12 @@ public class ClaseProfesor extends AppCompatActivity {
 
         startTimer();
         updateCountDownText();
+        primeraVez = true;
 
+    }
+
+    public static void startSchedule(){
+        timerSchedule.schedule(taskSchedule, 0, 3000);
     }
 
     public static void startTimer(){
@@ -134,8 +158,29 @@ public class ClaseProfesor extends AppCompatActivity {
             }
 
             @Override
-            public void onFinish() {
+            public void onFinish()
+            {
                 mTimerRunning = false;
+                System.out.println("PARADIOOOOOOOOOOOOOOOOOOOOOOOO");
+            }
+        }.start();
+
+        mTimerRunning = true;
+    }
+
+    public static void startTimerTE(){
+        countDownTimer = new CountDownTimer(mTimeLeftMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeftMillis = millisUntilFinished;
+                updateCountDownText();
+            }
+
+            @Override
+            public void onFinish()
+            {
+                mTimerRunning = false;
+                System.out.println("PARADIOOOOOOOOOOOOOOOOOOOOOOOO");
             }
         }.start();
 
@@ -178,6 +223,7 @@ public class ClaseProfesor extends AppCompatActivity {
             countDownTimer.cancel();
         timer.cancel();
         timer2.cancel();
+        timerSchedule.cancel();
         ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idProfesor, DetallesSesionProfesorFragment.PROFESOR, Constants.CAMBIAR_DISPONIBILIDAD, false);
         sincronizarClases.execute();
     }

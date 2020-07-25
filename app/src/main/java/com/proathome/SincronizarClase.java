@@ -109,6 +109,13 @@ public class SincronizarClase extends AppCompatActivity {
         ClaseProfesor.enpausa = true;
         ClaseProfesor.encurso = true;
         ClaseProfesor.terminado = true;
+        ClaseEstudiante.enpausa_TE= true;
+        ClaseEstudiante.encurso_TE = true;
+        ClaseEstudiante.terminado_TE = true;
+        ClaseProfesor.enpausa_TE = true;
+        ClaseProfesor.encurso_TE = true;
+        ClaseProfesor.terminado_TE = true;
+        ClaseProfesor.schedule = true;
         finish();
     }
 

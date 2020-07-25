@@ -2,22 +2,29 @@ package com.proathome.controladores.clase;
 
 import android.content.Context;
 import android.os.AsyncTask;
+
 import com.proathome.utils.Constants;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URI;
+import java.net.URL;
 
-public class ServicioTaskGuardarProgreso extends AsyncTask<Void, Void, String> {
+public class ServicioTaskMasTiempo extends AsyncTask<Void, Void, String> {
 
-    public ServicioTaskGuardarProgreso(Context contexto, int idSesion, int idPerfil, int progreso, int progresoSegundos, int tipoDeTiempo){
-        Constants.contexto_GUARDAR_PROGRESO = contexto;
-        Constants.idSesion_GUARDAR_PROGRESO = idSesion;
-        Constants.idPerfil_GUARDAR_PROGRESO = idPerfil;
-        Constants.progreso_GUARDAR_PROGRESO = progreso;
-        Constants.progresoSegundos_GUARDAR_PROGRESO = progresoSegundos;
-        Constants.tipoDeTiempo_GUARDAR_PROGRESO = tipoDeTiempo;
+    private Context contexto;
+    private int idSesion, idEstudiante, progresoTotal;
+    private String linkActivarTE = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/activarTE/";
+
+    public ServicioTaskMasTiempo(Context contexto, int idSesion, int idEstudiante, int progresoTotal){
+        this.contexto = contexto;
+        this.idSesion = idSesion;
+        this.idEstudiante = idEstudiante;
+        this.progresoTotal = progresoTotal;
     }
 
     @Override
@@ -27,11 +34,13 @@ public class ServicioTaskGuardarProgreso extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... voids) {
+        String result = null;
 
-        Constants.wsURL_GUARDAR_PROGRESO = Constants.linkActualizarProgreso_GUARDAR_PROGRESO + Constants.idSesion_GUARDAR_PROGRESO + "/" + Constants.idPerfil_GUARDAR_PROGRESO + "/" + Constants.progreso_GUARDAR_PROGRESO + "/" + Constants.progresoSegundos_GUARDAR_PROGRESO + "/" + Constants.tipoDeTiempo_GUARDAR_PROGRESO;
         try{
 
-            HttpURLConnection urlConnection = (HttpURLConnection) Constants.obtenerURL_GUARDAR_PROGRESO().openConnection();
+            URL url = new URL(this.linkActivarTE + this.idSesion + "/" + this.idEstudiante + "/" + this.progresoTotal);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
             urlConnection.setRequestMethod("PUT");
@@ -40,6 +49,7 @@ public class ServicioTaskGuardarProgreso extends AsyncTask<Void, Void, String> {
             urlConnection.setDoOutput(true);
 
             int responseCode = urlConnection.getResponseCode();
+
             if(responseCode == HttpURLConnection.HTTP_OK){
 
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -54,30 +64,30 @@ public class ServicioTaskGuardarProgreso extends AsyncTask<Void, Void, String> {
                 }
                 in.close();
 
-                Constants.result_GUARDAR_PROGRESO = sb.toString();
+                result = sb.toString();
                 in = null;
                 sb = null;
 
             }else{
-                Constants.result_GUARDAR_PROGRESO = new String("Error: " +responseCode);
+                result = new String("Error: "+ responseCode);
             }
 
             urlConnection = null;
 
-        }catch(MalformedURLException ex){
-            ex.printStackTrace();
-        }catch(IOException ex){
-            ex.printStackTrace();
-        }catch (Exception ex){
-            ex.printStackTrace();
+        }catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        return Constants.result_GUARDAR_PROGRESO;
-
+        return  result;
     }
 
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
     }
+
 }

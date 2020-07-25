@@ -10,8 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.proathome.ClaseEstudiante;
+import com.proathome.ClaseProfesor;
 import com.proathome.R;
 import com.proathome.controladores.clase.ServicioTaskFinalizarClase;
+import com.proathome.controladores.clase.ServicioTaskMasTiempo;
 import com.proathome.utils.Constants;
 
 import butterknife.ButterKnife;
@@ -46,6 +49,44 @@ public class MasTiempo extends DialogFragment {
         this.idEstudiante = bundle.getInt("idEstudiante", 0);
 
         return view;
+    }
+
+    @OnClick({R.id.cincoMin, R.id.diezMin, R.id.quinceMin, R.id.veinteMin, R.id.veinticincoMin, R.id.treintaMin})
+    public void OnClickTiempo(View view){
+        ServicioTaskMasTiempo masTiempo;
+        switch (view.getId()){
+            case R.id.cincoMin:
+                masTiempo = new ServicioTaskMasTiempo(getContext(), this.idSesion, this.idEstudiante, 5);
+                masTiempo.execute();
+                dismiss();
+                break;
+            case R.id.diezMin:
+                masTiempo = new ServicioTaskMasTiempo(getContext(), this.idSesion, this.idEstudiante, 10);
+                masTiempo.execute();
+                dismiss();
+                break;
+            case R.id.quinceMin:
+                masTiempo = new ServicioTaskMasTiempo(getContext(), this.idSesion, this.idEstudiante, 15);
+                masTiempo.execute();
+                dismiss();
+                break;
+            case R.id.veinteMin:
+                masTiempo = new ServicioTaskMasTiempo(getContext(), this.idSesion, this.idEstudiante, 20);
+                masTiempo.execute();
+                dismiss();
+                break;
+            case R.id.veinticincoMin:
+                masTiempo = new ServicioTaskMasTiempo(getContext(), this.idSesion, this.idEstudiante, 25);
+                masTiempo.execute();
+                dismiss();
+                break;
+            case R.id.treintaMin:
+                masTiempo = new ServicioTaskMasTiempo(getContext(), this.idSesion, this.idEstudiante, 30);
+                masTiempo.execute();
+                dismiss();
+                break;
+        }
+
     }
 
     @OnClick(R.id.cancelar)

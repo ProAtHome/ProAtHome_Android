@@ -91,13 +91,25 @@ public class ServicioTaskObtenerProgreso extends AsyncTask<Void, Void, String> {
         try {
             JSONObject jsonObject = new JSONObject(s);
             if (Constants.tipoPerfil_PROGRESO == DetallesFragment.ESTUDIANTE) {
-                Constants.progresoS_PROGRESO = jsonObject.getInt("progreso");
-                Constants.progresoSegundosS_PROGRESO = jsonObject.getInt("progresoSegundos");
-                ClaseEstudiante.mTimeLeftMillis = (Constants.progresoS_PROGRESO * 60 * 1000) + (Constants.progresoSegundosS_PROGRESO * 1000);
+                if(jsonObject.getBoolean("TE")){
+                    Constants.progresoS_PROGRESO = jsonObject.getInt("progresoTE");
+                    Constants.progresoSegundosS_PROGRESO = jsonObject.getInt("progresoSegundosTE");
+                    ClaseEstudiante.mTimeLeftMillis = (Constants.progresoS_PROGRESO * 60 * 1000) + (Constants.progresoSegundosS_PROGRESO * 1000);
+                }else{
+                    Constants.progresoS_PROGRESO = jsonObject.getInt("progreso");
+                    Constants.progresoSegundosS_PROGRESO = jsonObject.getInt("progresoSegundos");
+                    ClaseEstudiante.mTimeLeftMillis = (Constants.progresoS_PROGRESO * 60 * 1000) + (Constants.progresoSegundosS_PROGRESO * 1000);
+                }
             } else if (Constants.tipoPerfil_PROGRESO == DetallesSesionProfesorFragment.PROFESOR) {
-                Constants.progresoS_PROGRESO = jsonObject.getInt("progreso");
-                Constants.progresoSegundosS_PROGRESO = jsonObject.getInt("progresoSegundos");
-                ClaseProfesor.mTimeLeftMillis = (Constants.progresoS_PROGRESO * 60 * 1000) + (Constants.progresoSegundosS_PROGRESO * 1000);
+                if(jsonObject.getBoolean("TE")){
+                    Constants.progresoS_PROGRESO = jsonObject.getInt("progresoTE");
+                    Constants.progresoSegundosS_PROGRESO = jsonObject.getInt("progresoSegundosTE");
+                    ClaseProfesor.mTimeLeftMillis = (Constants.progresoS_PROGRESO * 60 * 1000) + (Constants.progresoSegundosS_PROGRESO * 1000);
+                }else{
+                    Constants.progresoS_PROGRESO = jsonObject.getInt("progreso");
+                    Constants.progresoSegundosS_PROGRESO = jsonObject.getInt("progresoSegundos");
+                    ClaseProfesor.mTimeLeftMillis = (Constants.progresoS_PROGRESO * 60 * 1000) + (Constants.progresoSegundosS_PROGRESO * 1000);
+                }
             }
             jsonObject = null;
         } catch (JSONException e) {

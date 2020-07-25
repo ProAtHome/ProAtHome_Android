@@ -25,11 +25,11 @@ public class ClaseEstudiante extends FragmentActivity {
 
     private int idSesion = 0, idEstudiante = 0;
     public static CountDownTimer countDownTimer;
-    public static boolean mTimerRunning, encurso = true, enpausa = true, inicio = true, terminado = true;
+    public static boolean mTimerRunning, encurso = true, enpausa = true, inicio = true, terminado = true, encurso_TE = true, enpausa_TE = true, inicio_TE = true, terminado_TE = true;
     public static long mTimeLeftMillis = 0;
     public static TextView temporizador;
     public static Timer timer;
-    public static MaterialButton pausa_start;
+    public static MaterialButton terminar;
     private FloatingActionButton material;
 
     @Override
@@ -37,8 +37,12 @@ public class ClaseEstudiante extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clase_estudiante);
         temporizador = findViewById(R.id.temporizador);
-        pausa_start = findViewById(R.id.pausar);
+        terminar = findViewById(R.id.terminar);
         material = findViewById(R.id.material);
+
+        terminar.setOnClickListener(v ->{
+            finish();
+        });
 
         material.setOnClickListener(v -> {
             MaterialFragment nueva = new MaterialFragment();
@@ -113,12 +117,6 @@ public class ClaseEstudiante extends FragmentActivity {
         //Toast.makeText(this, "Progreso en reloj: " + minutos + " " + segundos, Toast.LENGTH_LONG).show();
         //System.out.println(time);
         temporizador.setText(time);
-    }
-
-    public void masTiempo(){
-        DetallesBloque detallesBloque = new DetallesBloque();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        detallesBloque.show(fragmentTransaction, "Tiempo extra");
     }
 
     public static void pauseTimer(){

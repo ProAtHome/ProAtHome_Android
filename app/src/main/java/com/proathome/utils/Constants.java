@@ -33,6 +33,9 @@ public class Constants {
     public static final int ESTATUS_ENCURSO = 11;
     public static final int ESTATUS_ENPAUSA = 12;
     public static final int ESTATUS_TERMINADO = 13;
+    public static final int ESTATUS_ENCURSO_TE = 14;
+    public static final int ESTATUS_ENPAUSA_TE = 15;
+    public static final int ESTATUS_TERMINADO_TE = 16;
     public static final int FINALIZAR_CLASE = 1;
     public static final int VALIDAR_CLASE_FINALIZADA = 2;
     public static final int VALIDAR_CLASE_FINALIZADA_AMBOS_PERFILES = 3;
@@ -161,6 +164,9 @@ public class Constants {
     /*ASYNCTASK SERVICIO OBTENER DISPONIBILIDAD Y PROGRESO*/
     public static Activity activity;
     public static FragmentActivity fragmentActivity;
+    public static boolean TE_activado_DISPONIBILIDAD_PROGRESO;
+    public static int progresoSegundosTE_DISPONIBILIDAD_PROGRESO;
+    public static int progresoTE_DISPONIBILIDAD_PROGRESO;
     public static String linkSincronizarEstudiante_DISPONIBILIDAD_PROGRESO = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/validarEstatusClase/";
     public static String linkSincronizarProfesor_DISPONIBILIDAD_PROGRESO = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/validarEstatusClase/";
     public static int idPerfil_DISPONIBILIDAD_PROGRESO, tipoPerfil_DISPONIBILIDAD_PROGRESO, idSesion_DISPONIBILIDAD_PROGRESO;
@@ -192,7 +198,7 @@ public class Constants {
     public static String linkActualizarProgreso_GUARDAR_PROGRESO = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/actualizarProgresoClase/";
     public static String wsURL_GUARDAR_PROGRESO;
     public static Context contexto_GUARDAR_PROGRESO;
-    public static int idPerfil_GUARDAR_PROGRESO, idSesion_GUARDAR_PROGRESO, progreso_GUARDAR_PROGRESO, progresoSegundos_GUARDAR_PROGRESO;
+    public static int idPerfil_GUARDAR_PROGRESO, tipoDeTiempo_GUARDAR_PROGRESO, idSesion_GUARDAR_PROGRESO, progreso_GUARDAR_PROGRESO, progresoSegundos_GUARDAR_PROGRESO;
     public static String result_GUARDAR_PROGRESO;
     public static URL obtenerURL_GUARDAR_PROGRESO() throws MalformedURLException {
         URL url = new URL(Constants.wsURL_GUARDAR_PROGRESO);
