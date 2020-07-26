@@ -28,6 +28,9 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
     private String linkAPISesionActual = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerSesionActual/", respuesta;
     private int idEstudiante;
     private ProgressDialog progressDialog;
+    private boolean primeraVezI1 = true, primeraVezI2 = true, primeraVezI3 = true, primeraVezI4 = true, primeraVezI5 = true;
+    private boolean primeraVezA1 = true, primeraVezA2 = true, primeraVezA3 = true, primeraVezA4 = true, primeraVezA5 = true;
+    private boolean primeraVezB1 = true, primeraVezB2 = true, primeraVezB3 = true, primeraVezB4 = true, primeraVezB5 = true;
 
     public  ServicioTaskSesionActual(Context contexto, int idEstudiante){
         this.contexto = contexto;
@@ -171,6 +174,9 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
                         if(NuevaSesionFragment.niveles.getSelectedItem().toString().equalsIgnoreCase("Básico 1")){
                             if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.BASICO_1){
                                 Toast.makeText(contexto, "Valores Normales", Toast.LENGTH_LONG);
+                                if(!primeraVezB1)
+                                    NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_1));
+                                primeraVezB1 = false;
                             }else {
                                 NuevaSesionFragment.horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                                 NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_1));
@@ -178,6 +184,9 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
                         }else if(NuevaSesionFragment.niveles.getSelectedItem().toString().equalsIgnoreCase("Básico 2")){
                             if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.BASICO_2){
                                 Toast.makeText(contexto, "Valores Normales", Toast.LENGTH_LONG);
+                                if(!primeraVezB2)
+                                    NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_2));
+                                primeraVezB2 = false;
                             }else {
                                 NuevaSesionFragment.horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                                 NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_2));
@@ -185,6 +194,9 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
                         }else if(NuevaSesionFragment.niveles.getSelectedItem().toString().equalsIgnoreCase("Básico 3")){
                             if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.BASICO_3){
                                 Toast.makeText(contexto, "Valores Normales", Toast.LENGTH_LONG);
+                                if(!primeraVezB3)
+                                    NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_3));
+                                primeraVezB3 = false;
                             }else {
                                 NuevaSesionFragment.horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                                 NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_3));
@@ -192,6 +204,9 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
                         }else if(NuevaSesionFragment.niveles.getSelectedItem().toString().equalsIgnoreCase("Básico 4")){
                             if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.BASICO_4){
                                 Toast.makeText(contexto, "Valores Normales", Toast.LENGTH_LONG);
+                                if(!primeraVezB4)
+                                    NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_4));
+                                primeraVezB4 = false;
                             }else {
                                 NuevaSesionFragment.horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                                 NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_4));
@@ -199,6 +214,9 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
                         }else if(NuevaSesionFragment.niveles.getSelectedItem().toString().equalsIgnoreCase("Básico 5")){
                             if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.BASICO_5){
                                 Toast.makeText(contexto, "Valores Normales", Toast.LENGTH_LONG);
+                                if(!primeraVezB5)
+                                    NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_5));
+                                primeraVezB5 = false;
                             }else {
                                 NuevaSesionFragment.horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                                 NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_5));
@@ -208,6 +226,9 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
                         if(NuevaSesionFragment.niveles.getSelectedItem().toString().equalsIgnoreCase("Intermedio 1")){
                             if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.INTERMEDIO_1){
                                 Toast.makeText(contexto, "Valores Normales", Toast.LENGTH_LONG);
+                                if(!primeraVezI1)
+                                    NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_1));
+                                primeraVezI1 = false;
                             }else {
                                 NuevaSesionFragment.horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                                 NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_1));
@@ -215,6 +236,9 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
                         }else if(NuevaSesionFragment.niveles.getSelectedItem().toString().equalsIgnoreCase("Intermedio 2")){
                             if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.INTERMEDIO_2){
                                 Toast.makeText(contexto, "Valores Normales", Toast.LENGTH_LONG);
+                                if(!primeraVezI2)
+                                    NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_2));
+                                primeraVezI2 = false;
                             }else {
                                 NuevaSesionFragment.horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                                 NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_2));
@@ -222,6 +246,9 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
                         }else if(NuevaSesionFragment.niveles.getSelectedItem().toString().equalsIgnoreCase("Intermedio 3")){
                             if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.INTERMEDIO_3){
                                 Toast.makeText(contexto, "Valores Normales", Toast.LENGTH_LONG);
+                                if(!primeraVezI3)
+                                    NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_3));
+                                primeraVezI3 = false;
                             }else {
                                 NuevaSesionFragment.horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                                 NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_3));
@@ -229,6 +256,9 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
                         }else if(NuevaSesionFragment.niveles.getSelectedItem().toString().equalsIgnoreCase("Intermedio 4")){
                             if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.INTERMEDIO_4){
                                 Toast.makeText(contexto, "Valores Normales", Toast.LENGTH_LONG);
+                                if(!primeraVezI4)
+                                    NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_4));
+                                primeraVezI4 = false;
                             }else {
                                 NuevaSesionFragment.horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                                 NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_4));
@@ -236,6 +266,9 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
                         }else if(NuevaSesionFragment.niveles.getSelectedItem().toString().equalsIgnoreCase("Intermedio 5")){
                             if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.INTERMEDIO_5){
                                 Toast.makeText(contexto, "Valores Normales", Toast.LENGTH_LONG);
+                                if(!primeraVezI5)
+                                    NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_5));
+                                primeraVezI5 = false;
                             }else {
                                 NuevaSesionFragment.horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                                 NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_5));
@@ -245,34 +278,49 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
                         if(NuevaSesionFragment.niveles.getSelectedItem().toString().equalsIgnoreCase("Avanzado 1")){
                             if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.AVANZADO_1){
                                 Toast.makeText(contexto, "Valores Normales", Toast.LENGTH_LONG);
+                                if(!primeraVezA1)
+                                    NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_1));
+                                primeraVezA1 = false;
                             }else {
                                 NuevaSesionFragment.horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                                 NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_1));
                             }
                         }else if(NuevaSesionFragment.niveles.getSelectedItem().toString().equalsIgnoreCase("Avanzado 2")){
-                            if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.AVANZADO_1){
+                            if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.AVANZADO_2){
                                 Toast.makeText(contexto, "Valores Normales", Toast.LENGTH_LONG);
+                                if(!primeraVezA2)
+                                    NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_2));
+                                primeraVezA2 = false;
                             }else {
                                 NuevaSesionFragment.horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                                 NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_2));
                             }
                         }else if(NuevaSesionFragment.niveles.getSelectedItem().toString().equalsIgnoreCase("Avanzado 3")){
-                            if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.AVANZADO_1){
+                            if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.AVANZADO_3){
                                 Toast.makeText(contexto, "Valores Normales", Toast.LENGTH_LONG);
+                                if(!primeraVezA3)
+                                    NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_3));
+                                primeraVezA3 = false;
                             }else {
                                 NuevaSesionFragment.horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                                 NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_3));
                             }
                         }else if(NuevaSesionFragment.niveles.getSelectedItem().toString().equalsIgnoreCase("Avanzado 4")){
-                            if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.AVANZADO_1){
+                            if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.AVANZADO_4){
                                 Toast.makeText(contexto, "Valores Normales", Toast.LENGTH_LONG);
+                                if(!primeraVezA4)
+                                    NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_4));
+                                primeraVezA4 = false;
                             }else {
                                 NuevaSesionFragment.horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                                 NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_4));
                             }
                         }else if(NuevaSesionFragment.niveles.getSelectedItem().toString().equalsIgnoreCase("Avanzado 5")){
-                            if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.AVANZADO_1){
+                            if(NuevaSesionFragment.tomarSesion.getNivel() == Constants.AVANZADO_5){
                                 Toast.makeText(contexto, "Valores Normales", Toast.LENGTH_LONG);
+                                if(!primeraVezA5)
+                                    NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_5));
+                                primeraVezA5 = false;
                             }else {
                                 NuevaSesionFragment.horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                                 NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_5));
