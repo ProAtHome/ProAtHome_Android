@@ -9,6 +9,8 @@ import android.util.JsonReader;
 import android.view.View;
 import android.widget.Toast;
 import com.proathome.MatchSesionEstudiante;
+import com.proathome.utils.Component;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,9 +23,9 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
     private ProgressDialog progressDialog;
-    private String linkAPI, linkFoto, respuestaAPI, nombre, descripcion, correo, direccion, tiempo, nivel, tipo, horario, observaciones, foto;
+    private String linkAPI, linkFoto, respuestaAPI, nombre, descripcion, correo, direccion, tipo, horario, observaciones, foto;
     private double latitud, longitud;
-    private int idSesion, idProfesor;
+    private int idSesion, idProfesor, tiempo, idSeccion, idNivel, idBloque;
     private Bitmap loadedImage;
 
     public ServicioTaskInfoSesion(Context contexto, String linkAPI, String linkFoto, int idSesion){
@@ -86,9 +88,13 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
                     else if (key.equals("lugar"))
                         this.direccion = jsonReader.nextString();
                     else if (key.equals("tiempo"))
-                        this.tiempo = jsonReader.nextString();
-                    else if (key.equals("nivel"))
-                        this.nivel = jsonReader.nextString();
+                        this.tiempo = jsonReader.nextInt();
+                    else if (key.equals("idSeccion"))
+                        this.idSeccion = jsonReader.nextInt();
+                    else if(key.equals("idNivel"))
+                        this.idNivel = jsonReader.nextInt();
+                    else if(key.equals("idBloque"))
+                        this.idBloque = jsonReader.nextInt();
                     else if (key.equals("tipoClase"))
                         this.tipo = jsonReader.nextString();
                     else if (key.equals("extras"))
@@ -144,6 +150,13 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
 
     }
 
+    public String obtenerHorario(int tiempo){
+        String horas = String.valueOf(tiempo/60) + " HRS ";
+        String minutos = String.valueOf(tiempo%60) + " min";
+
+        return horas + minutos;
+    }
+
     @Override
     protected void onPostExecute(String s) {
 
@@ -169,8 +182,8 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
                 MatchSesionEstudiante.correoTV.setText(this.correo);
                 MatchSesionEstudiante.descripcionTV.setText(this.descripcion);
                 MatchSesionEstudiante.direccionTV.setText("Dirección: " + this.direccion);
-                MatchSesionEstudiante.tiempoTV.setText("Tiempo de la Sesión: " + this.tiempo);
-                MatchSesionEstudiante.nivelTV.setText("Nivel: " + this.nivel);
+                MatchSesionEstudiante.tiempoTV.setText("Tiempo de la Sesión: " + obtenerHorario(this.tiempo));
+                MatchSesionEstudiante.nivelTV.setText("Nivel: " + Component.getSeccion(this.idSeccion) + "/" + Component.getNivel(this.idSeccion, this.idNivel) + "/" + Component.getBloque(this.idBloque));
                 MatchSesionEstudiante.tipoClaseTV.setText("Tipo de clase: " + this.tipo);
                 MatchSesionEstudiante.observacionesTV.setText("Observaciones: " + this.observaciones);
                 MatchSesionEstudiante.horarioTV.setText("Horario: " + this.horario);

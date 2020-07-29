@@ -71,12 +71,15 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     Spinner minutos;
     @BindView(R.id.tipo)
     Spinner tipo;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     public static Spinner secciones;
     public static Spinner niveles;
     public static Spinner bloques;
     public static TextView horasDisponiblesTV;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    public static int minutosAnteriores = 0;
+    public static int minutosEstablecidos = 0;
+    public static boolean rutaRecomendada = false;
 
     public NuevaSesionFragment() {
 
@@ -147,19 +150,44 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
             if (!direccionET.getText().toString().trim().equalsIgnoreCase("") && !observacionesET.getText().toString().trim().equalsIgnoreCase("") && !fechaET.getText().toString().trim().equalsIgnoreCase("")) {
 
-                String direccion = direccionET.getText().toString();
-                String extras = observacionesET.getText().toString();
+                if(obtenerMinutosHorario() == 0){
+                    Toast.makeText(getContext(), "Elige el tiempo de la sesión.", Toast.LENGTH_LONG).show();
+                }else{
+                    if(rutaRecomendada){
+                        int minutosRestantes = minutosEstablecidos - minutosAnteriores;
+                        if(obtenerMinutosHorario() <= minutosRestantes){
+                            String direccion = direccionET.getText().toString();
+                            String extras = observacionesET.getText().toString();
 
-                Calendar calendar = Calendar.getInstance();
-                SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss "); //SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
-                String strDate = mdformat.format(calendar.getTime());
-                STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1, extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString());
-                registro.execute();
-                direccionET.setText("");
-                horarioET.setText("");
-                observacionesET.setText("");
-                Toast.makeText(getContext(), "Revisa tu nueva clase en Inicio o en Gestión.", Toast.LENGTH_LONG).show();
-                dismiss();
+                            Calendar calendar = Calendar.getInstance();
+                            SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss "); //SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
+                            String strDate = mdformat.format(calendar.getTime());
+                            STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1, extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), true);
+                            registro.execute();
+                            direccionET.setText("");
+                            horarioET.setText("");
+                            observacionesET.setText("");
+                            Toast.makeText(getContext(), "Revisa tu nueva clase en Inicio o en Gestión.", Toast.LENGTH_LONG).show();
+                            dismiss();
+                        }else{
+                            Toast.makeText(getContext(), "Elige un tiempo de sesión a corde a el tiempo faltante.", Toast.LENGTH_LONG).show();
+                        }
+                    }else{
+                        String direccion = direccionET.getText().toString();
+                        String extras = observacionesET.getText().toString();
+
+                        Calendar calendar = Calendar.getInstance();
+                        SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss "); //SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
+                        String strDate = mdformat.format(calendar.getTime());
+                        STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1, extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), false);
+                        registro.execute();
+                        direccionET.setText("");
+                        horarioET.setText("");
+                        observacionesET.setText("");
+                        Toast.makeText(getContext(), "Revisa tu nueva clase en Inicio o en Gestión.", Toast.LENGTH_LONG).show();
+                        dismiss();
+                    }
+                }
 
             } else {
 

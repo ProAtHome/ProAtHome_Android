@@ -49,6 +49,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     public static final String TAG = "Detalles";
     public static int ESTUDIANTE = 1;
     private String fotoNombre;
+    private boolean sumar;
     private int idSesion = 0;
     private int idEstudiante = 0;
     private int tiempoPasar = 0;
@@ -80,7 +81,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    public static Component getmInstance(int idClase, String tipoClase, String horario, String profesor, String lugar, int tiempo, String observaciones, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, String fecha, String fotoProfesor, String descripcionProfesor, String correoProfesor){
+    public static Component getmInstance(int idClase, String tipoClase, String horario, String profesor, String lugar, int tiempo, String observaciones, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, String fecha, String fotoProfesor, String descripcionProfesor, String correoProfesor, boolean sumar){
 
         mInstance = new Component();
         mInstance.setIdClase(idClase);
@@ -99,6 +100,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         mInstance.setFotoProfesor(fotoProfesor);
         mInstance.setDescripcionProfesor(descripcionProfesor);
         mInstance.setCorreoProfesor(correoProfesor);
+        mInstance.setSumar(sumar);
         mInstance.setPhotoRes(R.drawable.img_button);
         mInstance.setType(Constants.SCROLL);
         return mInstance;
@@ -166,6 +168,9 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         descripcionProfesor.setText(bun.getString("descripcionProfesor"));
         correoProfesor.setText(bun.getString("correoProfesor"));
         fotoNombre = bun.getString("fotoProfesor");
+        sumar = bun.getBoolean("sumar");
+
+        System.out.println("Sumar : " + sumar);
 
         iniciar.setOnClickListener(v ->{
             ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
@@ -176,6 +181,10 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
             intent.putExtra("idSesion", idSesion);
             intent.putExtra("idPerfil", idEstudiante);
             intent.putExtra("tiempo", tiempoPasar);
+            intent.putExtra("idSeccion", bun.getInt("idSeccion"));
+            intent.putExtra("idNivel", bun.getInt("idNivel"));
+            intent.putExtra("idBloque", bun.getInt("idBloque"));
+            intent.putExtra("sumar", sumar);
             startActivity(intent);
         });
 

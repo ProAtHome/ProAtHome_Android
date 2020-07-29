@@ -12,6 +12,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
 import com.proathome.fragments.BuscarSesionFragment;
+import com.proathome.utils.Component;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -113,7 +115,7 @@ public class ServicioTaskObtenerSesiones extends AsyncTask<Void, Void, String> {
 
                         JSONObject object = jsonArray.getJSONObject(i);
                         LatLng ubicacion = new LatLng(object.getDouble("latitud"), object.getDouble("longitud"));
-                        Marker marker = BuscarSesionFragment.mMap.addMarker(new MarkerOptions().position(ubicacion).title("Sesion de: " + object.getString("nombre") + "\n" + "Nivel: " + object.getString("nivel")).snippet(String.valueOf(object.getInt("idSesion"))));
+                        Marker marker = BuscarSesionFragment.mMap.addMarker(new MarkerOptions().position(ubicacion).title("Sesion de: " + object.getString("nombre") + "\n" + "Nivel: " + Component.getSeccion(object.getInt("idSeccion")) + "/" + Component.getNivel(object.getInt("idSeccion"), object.getInt("idNivel"))).snippet(String.valueOf(object.getInt("idSesion"))));
                         BuscarSesionFragment.perth.add(marker);
 
                     }

@@ -15,6 +15,7 @@ import com.proathome.ClaseProfesor;
 import com.proathome.R;
 import com.proathome.controladores.clase.ServicioTaskFinalizarClase;
 import com.proathome.controladores.clase.ServicioTaskMasTiempo;
+import com.proathome.controladores.clase.ServicioTaskSumarClaseRuta;
 import com.proathome.utils.Constants;
 
 import butterknife.ButterKnife;
@@ -93,6 +94,8 @@ public class MasTiempo extends DialogFragment {
     public void onClick(View view){
         ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(getContext(), this.idSesion, this.idEstudiante, Constants.FINALIZAR_CLASE, DetallesFragment.ESTUDIANTE);
         finalizarClase.execute();
+        ServicioTaskSumarClaseRuta sumarClaseRuta = new ServicioTaskSumarClaseRuta(getContext(), this.idSesion, this.idEstudiante, ClaseEstudiante.idSeccion, ClaseEstudiante.idNivel, ClaseEstudiante.idBloque, ClaseEstudiante.tiempo, ClaseEstudiante.sumar);
+        sumarClaseRuta.execute();
         dismiss();
         Constants.fragmentActivity.finish();
     }

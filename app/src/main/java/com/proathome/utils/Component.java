@@ -8,9 +8,18 @@ public class Component {
     private int photoRes, idClase, idSeccion, idNivel, idBloque, tiempo;
     private double latitud, longitud;
     private int type;
+    private boolean sumar;
 
     public Component(){
 
+    }
+
+    public boolean getSumar() {
+        return sumar;
+    }
+
+    public void setSumar(boolean sumar) {
+        this.sumar = sumar;
     }
 
     public String getFotoProfesor() {
@@ -163,6 +172,79 @@ public class Component {
 
     public void setIdBloque(int idBloque) {
         this.idBloque = idBloque;
+    }
+
+    public static String getSeccion(int idSeccion){
+        String seccion = "";
+        if(idSeccion == Constants.BASICO){
+            seccion = "Básico";
+        }else if(idSeccion == Constants.INTERMEDIO){
+            seccion = "Intermedio";
+        }else if(idSeccion == Constants.AVANZADO){
+            seccion = "Avanzado";
+        }
+
+        return seccion;
+    }
+
+    public static String getNivel(int idSeccion, int idNivel){
+        String nivel = "";
+        if(idSeccion == Constants.BASICO){
+            if(idNivel == Constants.BASICO_1)
+                nivel = "Básico 1";
+            else if(idNivel == Constants.BASICO_2)
+                nivel = "Básico 2";
+            else if(idNivel == Constants.BASICO_3)
+                nivel = "Básico 3";
+            else if(idNivel == Constants.BASICO_4)
+                nivel = "Básico 4";
+            else if(idNivel == Constants.BASICO_5)
+                nivel = "Básico 5";
+        }else if(idSeccion == Constants.INTERMEDIO){
+            if(idNivel == Constants.INTERMEDIO_1)
+                nivel = "Intermedio 1";
+            else if(idNivel == Constants.INTERMEDIO_2)
+                nivel = "Intermedio 2";
+            else if(idNivel == Constants.INTERMEDIO_3)
+                nivel = "Intermedio 3";
+            else if(idNivel == Constants.INTERMEDIO_4)
+                nivel = "Intermedio 4";
+            else if(idNivel == Constants.INTERMEDIO_5)
+                nivel = "Intermedio 5";
+        }else if(idSeccion == Constants.AVANZADO){
+            if(idNivel == Constants.AVANZADO_1)
+                nivel = "Avanzado 1";
+            else if(idNivel == Constants.AVANZADO_2)
+                nivel = "Avanzado 2";
+            else if(idNivel == Constants.AVANZADO_3)
+                nivel = "Avanzado 3";
+            else if(idNivel == Constants.AVANZADO_4)
+                nivel = "Avanzado 4";
+            else if(idNivel == Constants.AVANZADO_5)
+                nivel = "Avnazado 5";
+        }
+
+        return nivel;
+    }
+
+    public static String getBloque(int idBloque){
+        String bloque = "";
+        if(idBloque == 1)
+            bloque = "Bloque 1";
+        else if(idBloque == 2)
+            bloque = "Bloque 2";
+        else if(idBloque == 3)
+            bloque = "Bloque 3";
+        else if(idBloque == 4)
+            bloque = "Bloque 4";
+        else if(idBloque == 5)
+            bloque = "Bloque 5";
+        else if(idBloque == 6)
+            bloque = "Bloque 6";
+        else if(idBloque == 7)
+            bloque = "Bloque 7";
+
+        return bloque;
     }
 
     public String obtenerNivel(int seccion, int nivel, int bloque){

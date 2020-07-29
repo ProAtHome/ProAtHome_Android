@@ -172,6 +172,11 @@ public class ServicioTaskSincronizarClases extends AsyncTask<Void, Void, String>
                         Intent intent = new Intent(this.contexto, ClaseEstudiante.class);
                         intent.putExtra("idSesion", this.idSesion);
                         intent.putExtra("idEstudiante", this.idPerfil);
+                        intent.putExtra("idSeccion", SincronizarClase.idSeccion);
+                        intent.putExtra("idNivel", SincronizarClase.idNivel);
+                        intent.putExtra("idBloque", SincronizarClase.idBloque);
+                        intent.putExtra("sumar", SincronizarClase.sumar);
+                        intent.putExtra("tiempo", SincronizarClase.tiempo);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         this.contexto.startActivity(intent);
                         //Toast.makeText(this.contexto, "Conexión establecida, a clases.", Toast.LENGTH_LONG).show();
@@ -187,6 +192,9 @@ public class ServicioTaskSincronizarClases extends AsyncTask<Void, Void, String>
                         Intent intent = new Intent(this.contexto, ClaseProfesor.class);
                         intent.putExtra("idSesion", this.idSesion);
                         intent.putExtra("idProfesor", this.idPerfil);
+                        intent.putExtra("idSeccion", SincronizarClase.idSeccion);
+                        intent.putExtra("idNivel", SincronizarClase.idNivel);
+                        intent.putExtra("idBloque", SincronizarClase.idBloque);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         this.contexto.startActivity(intent);
                         //Toast.makeText(this.contexto, "Conexión establecida, a clases.", Toast.LENGTH_LONG).show();

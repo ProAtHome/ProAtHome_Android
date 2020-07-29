@@ -48,7 +48,7 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
         holder.imgPhoto.setImageResource(component.getPhotoRes());
         holder.setOnClickListeners(component.getIdClase(), component.getProfesor(), component.getLugar(),
                 component.getTiempo(), component.getObservaciones(), component.getTipoClase(), component.getHorario(), component.getLatitud(),
-                component.getLongitud(), component.getIdSeccion(), component.getIdNivel(), component.getIdBloque(), component.getFecha(), component.getFotoProfesor(), component.getDescripcionProfesor(), component.getCorreoProfesor());
+                component.getLongitud(), component.getIdSeccion(), component.getIdNivel(), component.getIdBloque(), component.getFecha(), component.getFotoProfesor(), component.getDescripcionProfesor(), component.getCorreoProfesor(), component.getSumar());
 
     }
 
@@ -79,6 +79,7 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
         String profesor = "", lugar = "", observaciones = "", tipoClase = "", horario = "", fecha = "", fotoProfesor = "", descripcionProfesor ="", correoProfesor = "";
         int idClase, idSeccion, idNivel, idBloque, tiempo;
         double latitud, longitud;
+        boolean sumar;
 
         View view;
 
@@ -92,7 +93,7 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
         }
 
         void setOnClickListeners(int idClase, String profesor, String lugar, int tiempo, String observaciones,
-                                 String tipoClase, String horario, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, String fecha, String fotoProfesor, String descripcionProfesor, String correoProfesor){
+                                 String tipoClase, String horario, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, String fecha, String fotoProfesor, String descripcionProfesor, String correoProfesor, boolean sumar){
 
             this.idClase = idClase;
             this.profesor = profesor;
@@ -110,6 +111,7 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
             this.fotoProfesor = fotoProfesor;
             this.descripcionProfesor = descripcionProfesor;
             this.correoProfesor = correoProfesor;
+            this.sumar = sumar;
             view.setOnClickListener(this);
 
         }
@@ -141,6 +143,7 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
             intent.putExtra("fotoProfesor", this.fotoProfesor);
             intent.putExtra("descripcionProfesor", this.descripcionProfesor);
             intent.putExtra("correoProfesor", this.correoProfesor);
+            intent.putExtra("sumar", this.sumar);
             context.startActivity(intent);
 
         }

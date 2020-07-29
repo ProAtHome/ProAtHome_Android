@@ -34,8 +34,12 @@ import com.proathome.controladores.clase.ServicioTaskSincronizarClases;
 import com.proathome.controladores.WorkaroundMapFragment;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.profesor.ServicioTaskFotoDetalles;
+import com.proathome.utils.Component;
 import com.proathome.utils.ComponentSesionesProfesor;
 import com.proathome.utils.Constants;
+
+import java.sql.SQLOutput;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -79,7 +83,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
 
     }
 
-    public static ComponentSesionesProfesor getmInstance(int idClase, String nombreEstudiante, String descripcion, String correo, String foto, String nivel, String tipoClase, String horario, String profesor, String lugar, String tiempo, String observaciones, double latitud, double longitud){
+    public static ComponentSesionesProfesor getmInstance(int idClase, String nombreEstudiante, String descripcion, String correo, String foto, String tipoClase, String horario, String profesor, String lugar, int tiempo, String observaciones, double latitud, double longitud, int idSeccion, int idNivel, int idBloque){
 
         mInstance = new ComponentSesionesProfesor();
         mInstance.setIdClase(idClase);
@@ -93,9 +97,11 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         mInstance.setObservaciones("Observaciones: " + observaciones);
         mInstance.setLatitud(latitud);
         mInstance.setLongitud(longitud);
-        mInstance.setNivel("Nivel: " + nivel);
         mInstance.setTipoClase("Tipo de Clase: " + tipoClase);
         mInstance.setHorario("Horario: " + horario);
+        mInstance.setIdSeccion(idSeccion);
+        mInstance.setIdNivel(idNivel);
+        mInstance.setIdBloque(idBloque);
         mInstance.setPhotoRes(R.drawable.img_button);
         mInstance.setType(Constants.STATIC);
         return mInstance;
@@ -118,6 +124,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         View view = inflater.inflate(R.layout.fragment_detalles_sesion_profesor, container, false);
         mUnbinder = ButterKnife.bind(this, view);
         Bundle bun = getArguments();
+        ComponentSesionesProfesor componentSesionesProfesor = new ComponentSesionesProfesor();
         foto = view.findViewById(R.id.foto);
         iniciar = view.findViewById(R.id.iniciar);
 
@@ -129,10 +136,10 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         descripcionTV.setText(bun.getString("descripcion"));
         correoTV.setText(bun.getString("correo"));
         direccionTV.setText(bun.getString("lugar"));
-        tiempoPasar = Integer.parseInt(bun.getString("tiempo"));
-        System.out.println(tiempoPasar);
-        tiempoTV.setText(bun.getString("tiempo"));
-        nivelTV.setText(bun.getString("nivel"));
+        tiempoPasar = bun.getInt("tiempo");
+        tiempoTV.setText("Tiempo: " + obtenerHorario(bun.getInt("tiempo")));
+        System.out.println("Nivel: " + bun.getInt("idSeccion"));
+        nivelTV.setText("Nivel: " + componentSesionesProfesor.obtenerNivel(bun.getInt("idSeccion"), bun.getInt("idNivel"), bun.getInt("idBloque")));
         tipoTV.setText(bun.getString("tipoClase"));
         horarioTV.setText(bun.getString("horario"));
         observacionesTV.setText(bun.getString("observaciones"));
@@ -158,6 +165,9 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
             intent.putExtra("idSesion", idSesion);
             intent.putExtra("idPerfil", idProfesor);
             intent.putExtra("tiempo", tiempoPasar);
+            intent.putExtra("idSeccion", bun.getInt("idSeccion"));
+            intent.putExtra("idNivel", bun.getInt("idNivel"));
+            intent.putExtra("idBloque", bun.getInt("idBloque"));
             startActivity(intent);
         });
 
@@ -228,6 +238,13 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         mMap.addMarker(new MarkerOptions().position(ubicacion).title("Aquí será tu clase."));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion,15));
 
+    }
+
+    public String obtenerHorario(int tiempo){
+        String horas = String.valueOf(tiempo/60) + " HRS ";
+        String minutos = String.valueOf(tiempo%60) + " min";
+
+        return horas + minutos;
     }
 
     @Override

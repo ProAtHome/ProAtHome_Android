@@ -43,11 +43,11 @@ public class ComponentAdapterSesionesProfesor extends RecyclerView.Adapter<Compo
         ComponentSesionesProfesor component = mComponents.get(position);
         holder.setClickListener(mListener, component);
         holder.tvNombreEstudiante.setText(component.getNombreEstudiante());
-        holder.tvNivel.setText(component.getNivel());
+        holder.tvNivel.setText(component.obtenerNivel(component.getIdSeccion(), component.getIdNivel(), component.getIdBloque()));
         holder.tvHorario.setText(component.getHorario());
-        holder.setOnClickListeners(component.getIdClase(), component.getNombreEstudiante(), component.getDescripcion(), component.getCorreo(), component.getFoto(), component.getNivel(), component.getProfesor(), component.getLugar(),
+        holder.setOnClickListeners(component.getIdClase(), component.getNombreEstudiante(), component.getDescripcion(), component.getCorreo(), component.getFoto(), component.getProfesor(), component.getLugar(),
                 component.getTiempo(), component.getObservaciones(), component.getTipoClase(), component.getHorario(), component.getLatitud(),
-                component.getLongitud());
+                component.getLongitud(), component.getIdSeccion(), component.getIdNivel(), component.getIdBloque());
 
     }
 
@@ -74,8 +74,8 @@ public class ComponentAdapterSesionesProfesor extends RecyclerView.Adapter<Compo
         Context context;
         View view;
 
-        String nombreEstudiante = "", descripcion = "", correo = "", foto = "", nivel = "", profesor = "", lugar = "", tiempo = "", observaciones = "", tipoClase = "", horario = "";
-        int idClase;
+        String nombreEstudiante = "", descripcion = "", correo = "", foto = "", nivel = "", profesor = "", lugar = "", observaciones = "", tipoClase = "", horario = "";
+        int idSeccion, idNivel, idBloque, idClase, tiempo;
         double latitud, longitud;
 
         public ViewHolderSesionesProfesor(@NonNull View itemView){
@@ -87,8 +87,8 @@ public class ComponentAdapterSesionesProfesor extends RecyclerView.Adapter<Compo
 
         }
 
-        void setOnClickListeners(int idClase, String nombreEstudiante, String descripcion, String correo, String foto, String nivel, String profesor, String lugar, String tiempo, String observaciones,
-                                 String tipoClase, String horario, double latitud, double longitud){
+        void setOnClickListeners(int idClase, String nombreEstudiante, String descripcion, String correo, String foto, String profesor, String lugar, int tiempo, String observaciones,
+                                 String tipoClase, String horario, double latitud, double longitud, int idSeccion, int idNivel, int idBloque){
 
             this.idClase = idClase;
             this.nombreEstudiante = nombreEstudiante;
@@ -104,6 +104,9 @@ public class ComponentAdapterSesionesProfesor extends RecyclerView.Adapter<Compo
             this.horario = horario;
             this.latitud = latitud;
             this.longitud = longitud;
+            this.idSeccion = idSeccion;
+            this.idNivel = idNivel;
+            this.idBloque = idBloque;
             view.setOnClickListener(this);
 
         }
@@ -132,7 +135,9 @@ public class ComponentAdapterSesionesProfesor extends RecyclerView.Adapter<Compo
             intent.putExtra("horario", this.horario);
             intent.putExtra("latitud", this.latitud);
             intent.putExtra("longitud", this.longitud);
-            intent.putExtra("nivel", this.nivel);
+            intent.putExtra("idSeccion", this.idSeccion);
+            intent.putExtra("idNivel", this.idNivel);
+            intent.putExtra("idBloque", this.idBloque);
             context.startActivity(intent);
 
         }

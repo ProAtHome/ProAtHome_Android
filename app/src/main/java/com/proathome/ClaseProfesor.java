@@ -19,6 +19,7 @@ import com.proathome.controladores.clase.ServicioTaskGuardarProgreso;
 import com.proathome.controladores.clase.ServicioTaskSincronizarClases;
 import com.proathome.fragments.DetallesSesionProfesorFragment;
 import com.proathome.fragments.MaterialFragment;
+import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 import java.util.Locale;
 import java.util.Timer;
@@ -35,6 +36,8 @@ public class ClaseProfesor extends AppCompatActivity {
     public static MaterialButton pausa_start, terminar;
     private FloatingActionButton material;
     public static TimerTask taskSchedule;
+    public static int idSeccion, idNivel, idBloque;
+    public TextView seccionTV, nivelTV, bloqueTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +47,19 @@ public class ClaseProfesor extends AppCompatActivity {
         pausa_start = findViewById(R.id.pausar);
         material = findViewById(R.id.material);
         terminar = findViewById(R.id.terminar);
+        seccionTV = findViewById(R.id.seccion);
+        nivelTV = findViewById(R.id.nivel);
+        bloqueTV = findViewById(R.id.bloque);
 
         idProfesor = getIntent().getIntExtra("idProfesor", 0);
         idSesion = getIntent().getIntExtra("idSesion", 0);
+        idSeccion = getIntent().getIntExtra("idSeccion", 0);
+        idNivel = getIntent().getIntExtra("idNivel", 0);
+        idBloque = getIntent().getIntExtra("idBloque", 0);
+
+        seccionTV.setText("Clase - " + Component.getSeccion(idSeccion));
+        nivelTV.setText(Component.getNivel(idSeccion, idNivel));
+        bloqueTV.setText(Component.getBloque(idBloque));
 
         terminar.setOnClickListener(v -> {
             ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(this, idSesion, idProfesor, Constants.VALIDAR_CLASE_FINALIZADA, DetallesSesionProfesorFragment.PROFESOR);

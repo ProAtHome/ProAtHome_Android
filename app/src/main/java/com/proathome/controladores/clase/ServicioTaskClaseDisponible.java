@@ -146,8 +146,11 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
 
                                 Toast.makeText(Constants.contexto_DISPONIBILIDAD_PROGRESO, "Terminado TE.", Toast.LENGTH_LONG).show();
                                 if(ClaseEstudiante.terminado_TE){
+                                    //TODO Sumar a Ruta
                                     ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(Constants.contexto_DISPONIBILIDAD_PROGRESO, Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO, Constants.FINALIZAR_CLASE, DetallesFragment.ESTUDIANTE);
                                     finalizarClase.execute();
+                                    ServicioTaskSumarClaseRuta sumarClaseRuta = new ServicioTaskSumarClaseRuta(Constants.contexto_DISPONIBILIDAD_PROGRESO, Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO, ClaseEstudiante.idSeccion, ClaseEstudiante.idNivel, ClaseEstudiante.idBloque, ClaseEstudiante.tiempo, ClaseEstudiante.sumar);
+                                    sumarClaseRuta.execute();
                                     ClaseEstudiante.terminado_TE = false;
                                     ClaseEstudiante.timer.cancel();
                                     ClaseEstudiante.terminar.setVisibility(View.VISIBLE);

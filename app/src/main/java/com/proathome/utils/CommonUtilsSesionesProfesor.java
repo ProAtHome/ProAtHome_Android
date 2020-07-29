@@ -7,12 +7,12 @@ import com.proathome.fragments.DetallesSesionProfesorFragment;
 
 public class CommonUtilsSesionesProfesor {
 
-    private static String nombreEstudianteS = "", descripcionS = "", correoS = "", fotoS ="", nivelS = "", tipoClaseS = "", horarioS = "", profesorS = "", lugarS = "",  tiempoS = "", observacionesS = "";
-    private static int idClaseS;
+    private static String nombreEstudianteS = "", descripcionS = "", correoS = "", fotoS ="", tipoClaseS = "", horarioS = "", profesorS = "", lugarS = "", observacionesS = "";
+    private static int idClaseS, tiempoS, idSeccionS, idNivelS, idBloqueS;
     private static double latitudS, longitudS;
 
-    public static void setFragment(AppCompatActivity activity, String nameFragment, int contentRes, int idClase, String nombreEstudiante, String descripcion, String correo, String foto, String nivel, String tipoClase, String horario, String profesor,
-                                   String lugar, String tiempo, String observaciones,  double latitud,  double longitud){
+    public static void setFragment(AppCompatActivity activity, String nameFragment, int contentRes, int idClase, String nombreEstudiante, String descripcion, String correo, String foto, String tipoClase, String horario, String profesor,
+                                   String lugar, int tiempo, String observaciones,  double latitud,  double longitud, int idSeccion, int idNivel, int idBloque){
 
         idClaseS = idClase;
         nombreEstudianteS = nombreEstudiante;
@@ -24,10 +24,12 @@ public class CommonUtilsSesionesProfesor {
         profesorS = profesor;
         lugarS = lugar;
         tiempoS = tiempo;
-        nivelS = nivel;
         observacionesS = observaciones;
         latitudS = latitud;
         longitudS = longitud;
+        idSeccionS = idSeccion;
+        idNivelS = idNivel;
+        idBloqueS = idBloque;
         Fragment fragment = getFragmentById(nameFragment);
         activity.getSupportFragmentManager().beginTransaction().add(contentRes, fragment).commit();
 
@@ -50,11 +52,13 @@ public class CommonUtilsSesionesProfesor {
                 bun.putString("horario", horarioS);
                 bun.putString("profesor", profesorS);
                 bun.putString("lugar", lugarS);
-                bun.putString("tiempo", tiempoS);
-                bun.putString("nivel", nivelS);
+                bun.putInt("tiempo", tiempoS);
                 bun.putString("observaciones", observacionesS);
                 bun.putDouble("latitud", latitudS);
                 bun.putDouble("longitud", longitudS);
+                bun.putInt("idSeccion", idSeccionS);
+                bun.putInt("idNivel", idNivelS);
+                bun.putInt("idBloque", idBloqueS);
                 fragment.setArguments(bun);
                 break;
 

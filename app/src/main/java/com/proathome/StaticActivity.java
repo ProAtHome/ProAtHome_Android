@@ -26,7 +26,7 @@ public class StaticActivity extends AppCompatActivity {
         String nameFragment = null;
         if(savedInstanceState == null){
 
-            nameFragment = getIntent().getStringExtra(Constants.ARG_NAME);String nivel= getIntent().getStringExtra("nivel");
+            nameFragment = getIntent().getStringExtra(Constants.ARG_NAME);
             int idClase = getIntent().getIntExtra("idClase" , 0);
             String profesor = getIntent().getStringExtra("profesor");
             String nombreEstudiante = getIntent().getStringExtra("nombreEstudiante");
@@ -34,13 +34,16 @@ public class StaticActivity extends AppCompatActivity {
             String descripcion = getIntent().getStringExtra("descripcion");
             String foto = getIntent().getStringExtra("foto");
             String lugar = getIntent().getStringExtra("lugar");
-            String tiempo = getIntent().getStringExtra("tiempo");
+            int tiempo = getIntent().getIntExtra("tiempo", 0);
             String observaciones = getIntent().getStringExtra("observaciones");
             String tipoClase = getIntent().getStringExtra("tipoClase");
             String horario = getIntent().getStringExtra("horario");
             double latitud = getIntent().getDoubleExtra("latitud", 0.0);
             double longitud = getIntent().getDoubleExtra("longitud", 0.0);
-            CommonUtilsSesionesProfesor.setFragment(this, nameFragment, R.id.content_static, idClase, nombreEstudiante, descripcion, correo, foto, nivel, tipoClase, horario, profesor, lugar, tiempo, observaciones, latitud, longitud);
+            int idSeccion = getIntent().getIntExtra("idSeccion",0);
+            int idNivel = getIntent().getIntExtra("idNivel", 0);
+            int idBloque = getIntent().getIntExtra("idBloque", 0);
+            CommonUtilsSesionesProfesor.setFragment(this, nameFragment, R.id.content_static, idClase, nombreEstudiante, descripcion, correo, foto, tipoClase, horario, profesor, lugar, tiempo, observaciones, latitud, longitud, idSeccion, idNivel, idBloque);
 
         }
 

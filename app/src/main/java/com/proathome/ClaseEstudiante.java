@@ -16,6 +16,7 @@ import com.proathome.controladores.clase.ServicioTaskSincronizarClases;
 import com.proathome.fragments.DetallesBloque;
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.MaterialFragment;
+import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 import java.util.Locale;
 import java.util.Timer;
@@ -25,12 +26,14 @@ public class ClaseEstudiante extends FragmentActivity {
 
     private int idSesion = 0, idEstudiante = 0;
     public static CountDownTimer countDownTimer;
-    public static boolean mTimerRunning, encurso = true, enpausa = true, inicio = true, terminado = true, encurso_TE = true, enpausa_TE = true, inicio_TE = true, terminado_TE = true;
+    public static boolean mTimerRunning, sumar, encurso = true, enpausa = true, inicio = true, terminado = true, encurso_TE = true, enpausa_TE = true, inicio_TE = true, terminado_TE = true;
     public static long mTimeLeftMillis = 0;
     public static TextView temporizador;
     public static Timer timer;
     public static MaterialButton terminar;
     private FloatingActionButton material;
+    public static int idSeccion, idNivel, idBloque, tiempo;
+    public TextView seccionTV, nivelTV, bloqueTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,9 @@ public class ClaseEstudiante extends FragmentActivity {
         temporizador = findViewById(R.id.temporizador);
         terminar = findViewById(R.id.terminar);
         material = findViewById(R.id.material);
+        seccionTV = findViewById(R.id.seccion);
+        nivelTV = findViewById(R.id.nivel);
+        bloqueTV = findViewById(R.id.bloque);
 
         terminar.setOnClickListener(v ->{
             finish();
@@ -52,6 +58,15 @@ public class ClaseEstudiante extends FragmentActivity {
 
         idEstudiante = getIntent().getIntExtra("idEstudiante", 0);
         idSesion = getIntent().getIntExtra("idSesion", 0);
+        idSeccion = getIntent().getIntExtra("idSeccion", 0);
+        idNivel = getIntent().getIntExtra("idNivel", 0);
+        idBloque = getIntent().getIntExtra("idBloque", 0);
+        sumar = getIntent().getBooleanExtra("sumar", true);
+        tiempo = getIntent().getIntExtra("tiempo", 0);
+
+        seccionTV.setText("Clase - " + Component.getSeccion(idSeccion));
+        nivelTV.setText(Component.getNivel(idSeccion, idNivel));
+        bloqueTV.setText(Component.getBloque(idBloque));
 
         final Handler handler = new Handler();
         timer = new Timer();

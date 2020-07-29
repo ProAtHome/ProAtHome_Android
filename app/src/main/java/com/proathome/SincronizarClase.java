@@ -30,6 +30,10 @@ public class SincronizarClase extends AppCompatActivity {
     private int idSesion = 0;
     private int idPerfil = 0;
     public static int tiempo = 0;
+    public static int idSeccion = 0;
+    public static int idNivel = 0;
+    public static int idBloque = 0;
+    public static boolean sumar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,10 @@ public class SincronizarClase extends AppCompatActivity {
         idSesion = getIntent().getIntExtra("idSesion", 0);
         idPerfil = getIntent().getIntExtra("idPerfil", 0);
         tiempo = getIntent().getIntExtra("tiempo", 0);
+        idSeccion = getIntent().getIntExtra("idSeccion", 0);
+        idNivel = getIntent().getIntExtra("idNivel", 0);
+        idBloque = getIntent().getIntExtra("idBloque", 0);
+        sumar = getIntent().getBooleanExtra("sumar", true);
 
         if(tipoPerfil == DetallesFragment.ESTUDIANTE){
             cancelar.setBackgroundColor(getResources().getColor(R.color.colorPersonalDark));

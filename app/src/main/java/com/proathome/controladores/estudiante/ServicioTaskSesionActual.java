@@ -99,7 +99,9 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
             int bloque = rutaJSON.getInt("idBloque");
             int minutos_horas = rutaJSON.getInt("horas");
 
+            NuevaSesionFragment.minutosAnteriores = minutos_horas;
             NuevaSesionFragment.tomarSesion = new ControladorTomarSesion(this.contexto, seccion, nivel, bloque);
+            NuevaSesionFragment.minutosEstablecidos = NuevaSesionFragment.tomarSesion.validarHorasRestantes(seccion, nivel, bloque);
             NuevaSesionFragment.secciones.setAdapter(NuevaSesionFragment.tomarSesion.obtenerSecciones());
             NuevaSesionFragment.secciones.setSelection(seccion-1);
             NuevaSesionFragment.niveles.setAdapter(NuevaSesionFragment.tomarSesion.obtenerNiveles());
@@ -159,6 +161,9 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
 
                     if(NuevaSesionFragment.tomarSesion.validarSesionCorrecta(seccion, nivel, bloque, NuevaSesionFragment.secciones.getSelectedItemPosition()+1, NuevaSesionFragment.niveles.getSelectedItemPosition()+1, NuevaSesionFragment.bloques.getSelectedItemPosition()+1)){
                         NuevaSesionFragment.horasDisponiblesTV.setText("*Tienes " + NuevaSesionFragment.tomarSesion.minutosAHRS(minutos_horas) + " / " +  NuevaSesionFragment.tomarSesion.minutosAHRS(NuevaSesionFragment.tomarSesion.validarHorasRestantes(seccion, nivel, bloque)) + " de avance en el actual bloque*");
+                        NuevaSesionFragment.rutaRecomendada = true;
+                    }else{
+                        NuevaSesionFragment.rutaRecomendada = false;
                     }
                 }
                 public void onNothingSelected(AdapterView<?> adapterView) {
@@ -330,6 +335,9 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
 
                     if(NuevaSesionFragment.tomarSesion.validarSesionCorrecta(seccion, nivel, bloque, NuevaSesionFragment.secciones.getSelectedItemPosition()+1, NuevaSesionFragment.niveles.getSelectedItemPosition()+1, NuevaSesionFragment.bloques.getSelectedItemPosition()+1)){
                         NuevaSesionFragment.horasDisponiblesTV.setText("*Tienes " + NuevaSesionFragment.tomarSesion.minutosAHRS(minutos_horas) + " / " +  NuevaSesionFragment.tomarSesion.minutosAHRS(NuevaSesionFragment.tomarSesion.validarHorasRestantes(seccion, nivel, bloque)) + " de avance en el actual bloque*");
+                        NuevaSesionFragment.rutaRecomendada = true;
+                    }else{
+                        NuevaSesionFragment.rutaRecomendada = false;
                     }
                 }
 
@@ -389,6 +397,9 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
 
                     if(NuevaSesionFragment.tomarSesion.validarSesionCorrecta(seccion, nivel, bloque, NuevaSesionFragment.secciones.getSelectedItemPosition()+1, NuevaSesionFragment.niveles.getSelectedItemPosition()+1, NuevaSesionFragment.bloques.getSelectedItemPosition()+1)){
                         NuevaSesionFragment.horasDisponiblesTV.setText("*Tienes " + NuevaSesionFragment.tomarSesion.minutosAHRS(minutos_horas) + " / " +  NuevaSesionFragment.tomarSesion.minutosAHRS(NuevaSesionFragment.tomarSesion.validarHorasRestantes(seccion, nivel, bloque)) + " de avance en el actual bloque*");
+                        NuevaSesionFragment.rutaRecomendada = true;
+                    }else{
+                        NuevaSesionFragment.rutaRecomendada = false;
                     }
                 }
 
