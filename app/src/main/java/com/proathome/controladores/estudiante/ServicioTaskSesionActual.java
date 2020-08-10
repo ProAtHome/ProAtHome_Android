@@ -109,7 +109,6 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
             NuevaSesionFragment.bloques.setAdapter(NuevaSesionFragment.tomarSesion.obtenerBloques());
             NuevaSesionFragment.bloques.setSelection(bloque-1);
 
-
             NuevaSesionFragment.secciones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     if(NuevaSesionFragment.tomarSesion.getSeccion() == Constants.BASICO){

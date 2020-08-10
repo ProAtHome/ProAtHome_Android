@@ -25,7 +25,6 @@ public class ControladorRutaAvanzado {
 
             if(this.idNivel == Constants.AVANZADO_1){
                 evaluarBloqueAvanzado1("A1");
-                System.out.println("A1");
             }else if(this.idNivel == Constants.AVANZADO_2){
                 evaluarBloqueAvanzado2("A2");
             }else if(this.idNivel == Constants.AVANZADO_3){

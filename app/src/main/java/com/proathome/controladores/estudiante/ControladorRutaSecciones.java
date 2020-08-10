@@ -31,7 +31,6 @@ public class ControladorRutaSecciones {
             RutaFragment.btnBasico.setIconSize(100);
             RutaFragment.btnIntermedio.setEnabled(false);
             RutaFragment.btnAvanzado.setEnabled(false);
-            System.out.println("Activar burbuja basico....");
         }else if(this.idSeccion == Constants.INTERMEDIO){
             Animation shake = AnimationUtils.loadAnimation(this.contexto, R.anim.shake);
             RutaFragment.btnBasico.setBackgroundColor(Color.parseColor("#9a0807"));
@@ -41,7 +40,6 @@ public class ControladorRutaSecciones {
             RutaFragment.btnIntermedio.setBackgroundColor(Color.parseColor("#cbccfd"));
             RutaFragment.btnIntermedio.setIcon(this.contexto.getDrawable(R.drawable.unlock));
             RutaFragment.btnAvanzado.setEnabled(false);
-            System.out.println("Activar burbuja intermedio....");
         }else if(this.idSeccion == Constants.AVANZADO){
             Animation shake = AnimationUtils.loadAnimation(this.contexto, R.anim.shake);
             RutaFragment.btnBasico.setBackgroundColor(Color.parseColor("#9a0807"));
@@ -53,7 +51,6 @@ public class ControladorRutaSecciones {
             RutaFragment.btnAvanzado.startAnimation(shake);
             RutaFragment.btnAvanzado.setBackgroundColor(Color.parseColor("#6d5d60"));
             RutaFragment.btnAvanzado.setIcon(this.contexto.getDrawable(R.drawable.unlock));
-            System.out.println("Activar burbuja activado....");
         }
     }
 
