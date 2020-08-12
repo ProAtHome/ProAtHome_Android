@@ -31,6 +31,9 @@ public class FuncionesRutaIntermedio {
 
         RutaIntermedio.btnI1_Bloque6.setIcon(this.contexto.getDrawable(R.drawable.ok));
         RutaIntermedio.btnI1_Bloque6.setIconSize(50);
+
+        RutaIntermedio.btnI1_Bloque7.setIcon(this.contexto.getDrawable(R.drawable.ok));
+        RutaIntermedio.btnI1_Bloque7.setIconSize(50);
     }
 
     public void desbloquearI2(){
