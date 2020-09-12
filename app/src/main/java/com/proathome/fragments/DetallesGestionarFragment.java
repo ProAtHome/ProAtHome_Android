@@ -9,13 +9,11 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,7 +26,6 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -47,10 +44,11 @@ import com.proathome.controladores.WorkaroundMapFragment;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -67,22 +65,23 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     private String linkAPIEliminarSesion = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/eliminarSesion";
     private String linkAPIUpSesion = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/actualizarSesion";
     public static final String TAG = "Detalles de la Sesión";
+    private int idSeccion, idNivel, idBloque, tiempo;
     @BindView(R.id.tietProfesor)
     TextInputEditText profesorET;
     @BindView(R.id.tietHorario)
     TextInputEditText horarioET;
     @BindView(R.id.tietLugar)
     TextInputEditText lugarET;
-    @BindView(R.id.horas)
-    Spinner horas;
-    @BindView(R.id.minutos)
-    Spinner minutos;
+    @BindView(R.id.textHoras)
+    TextView horas;
+    //@BindView(R.id.minutos)
+    //Spinner minutos;
     @BindView(R.id.secciones)
-    Spinner secciones;
+    TextView secciones;
     @BindView(R.id.niveles)
-    Spinner niveles;
+    TextView niveles;
     @BindView(R.id.bloques)
-    Spinner bloques;
+    TextView bloques;
     @BindView(R.id.tietObservaciones)
     TextInputEditText observacionesET;
     @BindView(R.id.tipo)
@@ -93,8 +92,8 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     MaterialButton btnActualizar;
     @BindView(R.id.btnEliminarSesion)
     MaterialButton btnEliminar;
-    @BindView(R.id.horasDisponibles)
-    TextView horasDisponiblesTV;
+    //@BindView(R.id.horasDisponibles)
+    //TextView horasDisponiblesTV;
     public NestedScrollView mScrollView;
     private Unbinder mUnbinder;
     private int idClase = 0;
@@ -117,8 +116,8 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         String[] datosTipo = new String[]{"Personal", "Grupal"};
         ArrayAdapter<String> adapterTipo = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, datosTipo);
 
-        horas.setAdapter(adapterHoras);
-        minutos.setAdapter(adapterMinutos);
+//        horas.setAdapter(adapterHoras);
+        //minutos.setAdapter(adapterMinutos);
         tipo.setAdapter(adapterTipo);
 
         horarioET.setKeyListener(null);
@@ -131,25 +130,33 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         longitud = bun.getDouble("longitud");
         profesorET.setText(bun.getString("profesor"));
         lugarET.setText(bun.getString("lugar"));
-        horas.setSelection(posicionHoras(horasTexto(bun.getInt("tiempo"))));
-        minutos.setSelection(posicionMinutos(minutosTexto(bun.getInt("tiempo"))));
+        //horas.setSelection(posicionHoras(horasTexto(bun.getInt("tiempo"))));
+        //minutos.setSelection(posicionMinutos(minutosTexto(bun.getInt("tiempo"))));
         observacionesET.setText(bun.getString("observaciones"));
         fechaET.setText(bun.getString("fecha"));
-        secciones.setSelection(bun.getInt("idSeccion")-1);
-        niveles.setSelection(bun.getInt("idNivel")-1);
-        bloques.setSelection(bun.getInt("idBloque")-1);
+        //secciones.setSelection(bun.getInt("idSeccion")-1);
+        //niveles.setSelection(bun.getInt("idNivel")-1);
+        //bloques.setSelection(bun.getInt("idBloque")-1);
+        horas.setText(horasTexto(bun.getInt("tiempo")) + " " + minutosTexto(bun.getInt("tiempo")));
         tipo.setSelection(posicionTipo(bun.getString("tipoClase")));
         horarioET.setText(bun.getString("horario"));
+        tiempo = bun.getInt("tiempo");
 
         tomarSesion = new ControladorTomarSesion(getContext(), bun.getInt("idSeccion"), bun.getInt("idNivel"), bun.getInt("idBloque"));
-        secciones.setAdapter(tomarSesion.obtenerSecciones());
-        secciones.setSelection(bun.getInt("idSeccion")-1);
-        niveles.setAdapter(tomarSesion.obtenerNiveles());
-        niveles.setSelection(bun.getInt("idNivel")-1);
-        bloques.setAdapter(tomarSesion.obtenerBloques());
-        bloques.setSelection(bun.getInt("idBloque")-1);
+        secciones.setText(Component.getSeccion(bun.getInt("idSeccion")));
+        niveles.setText(Component.getNivel(bun.getInt("idSeccion"), bun.getInt("idNivel")));
+        bloques.setText(Component.getBloque(bun.getInt("idBloque")));
+        idSeccion = bun.getInt("idSeccion");
+        idNivel = bun.getInt("idNivel");
+        idBloque = bun.getInt("idBloque");
+        //secciones.setAdapter(tomarSesion.obtenerSecciones());
+        //secciones.setSelection(bun.getInt("idSeccion")-1);
+        //niveles.setAdapter(tomarSesion.obtenerNiveles());
+        //niveles.setSelection(bun.getInt("idNivel")-1);
+        //bloques.setAdapter(tomarSesion.obtenerBloques());
+        //bloques.setSelection(bun.getInt("idBloque")-1);
         System.out.println(bun.getInt("idSeccion") + " " + bun.getInt("idNivel") + " " + bun.getInt("idBloque"));
-
+/*
         secciones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(tomarSesion.getSeccion() == Constants.BASICO){
@@ -393,7 +400,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
         return view;
 
@@ -647,12 +654,12 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                 String strDate =  mdformat.format(calendar.getTime());
 
                 if(cambioFecha){
-                    ServicioTaskUpSesion upSesion = new ServicioTaskUpSesion(getContext(), this.linkAPIUpSesion, this.idClase, horarioET.getText().toString(), lugarET.getText().toString(), obtenerMinutosHorario(),
-                            tipo.getSelectedItem().toString(), observacionesET.getText().toString(), this.latitud, this.longitud, strDate, secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1, fechaET.getText().toString(), true);
+                    ServicioTaskUpSesion upSesion = new ServicioTaskUpSesion(getContext(), this.linkAPIUpSesion, this.idClase, horarioET.getText().toString(), lugarET.getText().toString(), tiempo,
+                            tipo.getSelectedItem().toString(), observacionesET.getText().toString(), this.latitud, this.longitud, strDate, idSeccion, idNivel, idBloque, fechaET.getText().toString(), true);
                     upSesion.execute();
                 }else{
-                    ServicioTaskUpSesion upSesion = new ServicioTaskUpSesion(getContext(), this.linkAPIUpSesion, this.idClase, horarioET.getText().toString(), lugarET.getText().toString(), obtenerMinutosHorario(),
-                            tipo.getSelectedItem().toString(), observacionesET.getText().toString(), this.latitud, this.longitud, strDate, secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1, fechaET.getText().toString(),false);
+                    ServicioTaskUpSesion upSesion = new ServicioTaskUpSesion(getContext(), this.linkAPIUpSesion, this.idClase, horarioET.getText().toString(), lugarET.getText().toString(), tiempo,
+                            tipo.getSelectedItem().toString(), observacionesET.getText().toString(), this.latitud, this.longitud, strDate, idSeccion, idNivel, idBloque, fechaET.getText().toString(),false);
                     upSesion.execute();
                 }
 
@@ -674,6 +681,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         int horasInt = 0;
         int minutosInt = 0;
 
+        /*
         if(horas.getSelectedItem().toString().equalsIgnoreCase("0 HRS"))
             horasInt = 0;
         else if(horas.getSelectedItem().toString().equalsIgnoreCase("1 HRS"))
@@ -681,8 +689,8 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         else if(horas.getSelectedItem().toString().equalsIgnoreCase("2 HRS"))
             horasInt = 120;
         else if(horas.getSelectedItem().toString().equalsIgnoreCase("3 HRS"))
-            horasInt = 180;
-
+            horasInt = 180;*/
+/*
         if(minutos.getSelectedItem().toString().equalsIgnoreCase("0 min"))
             minutosInt = 0;
         else if(minutos.getSelectedItem().toString().equalsIgnoreCase("5 min"))
@@ -706,7 +714,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         else if(minutos.getSelectedItem().toString().equalsIgnoreCase("50 min"))
             minutosInt = 50;
         else if(minutos.getSelectedItem().toString().equalsIgnoreCase("55 min"))
-            minutosInt = 55;
+            minutosInt = 55;*/
 
         return horasInt + minutosInt;
     }
@@ -717,12 +725,12 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
 
         super.onDestroyView();
         tomarSesion = null;
-        secciones.setOnItemSelectedListener(null);
-        secciones.setAdapter(null);
-        niveles.setOnItemSelectedListener(null);
-        niveles.setAdapter(null);
-        bloques.setOnItemSelectedListener(null);
-        bloques.setAdapter(null);
+        //secciones.setOnItemSelectedListener(null);
+        //secciones.setAdapter(null);
+        //niveles.setOnItemSelectedListener(null);
+        //niveles.setAdapter(null);
+        //bloques.setOnItemSelectedListener(null);
+        //bloques.setAdapter(null);
         avanzadoVisto = false;
         intermedioVisto = false;
         basicoVisto = false;

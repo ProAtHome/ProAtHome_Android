@@ -2,18 +2,15 @@ package com.proathome;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
-
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.proathome.controladores.clase.ServicioTaskClaseDisponible;
 import com.proathome.controladores.clase.ServicioTaskSincronizarClases;
-import com.proathome.fragments.DetallesBloque;
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.MaterialFragment;
 import com.proathome.utils.Component;

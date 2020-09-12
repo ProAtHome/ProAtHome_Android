@@ -1,14 +1,11 @@
 package com.proathome.controladores.estudiante;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.Toast;
-
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
 import com.proathome.examen.Diagnostico1;
@@ -522,6 +519,7 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
                 EvaluarRuta evaluarRuta = new EvaluarRuta(puntuacionTotal);
                 FragmentRutaGenerada.ruta.setText(evaluarRuta.getRutaString(evaluarRuta.getRuta()));
                 FragmentRutaGenerada.nivel.setText("Nivel: " + evaluarRuta.getRutaString(evaluarRuta.getRuta()));
+                FragmentRutaGenerada.aciertos = puntuacionTotal;
             }else if(estatus == Constants.EXAMEN_GUARDADO){
                 Toast.makeText(this.contexto, "Puntuación guardada.", Toast.LENGTH_LONG).show();
             }else if(estatus == Constants.CONTINUAR_EXAMEN){

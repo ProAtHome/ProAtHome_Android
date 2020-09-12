@@ -166,30 +166,30 @@
 
             <TextView
                 android:visibility="invisible"
-                android:id="@+id/tvTipoDePago"
+                android:id="@+id/tvNombreTitular"
                 android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintTop_toBottomOf="@id/tvInfoBancaria"
-                android:text="Tipo de Pago:"
+                android:text="Nombre del titular:"
                 android:textStyle="bold"
                 android:textColor="@android:color/black">
 
             </TextView>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/itTipoDePago"
+                android:id="@+id/itNombreTitular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="@android:color/black"
-                app:layout_constraintTop_toBottomOf="@id/tvTipoDePago"
+                app:layout_constraintTop_toBottomOf="@id/tvNombreTitular"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:visibility="invisible"
-                    android:id="@+id/etTipoDePago"
+                    android:id="@+id/etNombreTitular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
@@ -201,32 +201,32 @@
 
             <TextView
                 android:visibility="invisible"
-                android:id="@+id/tvBanco"
+                android:id="@+id/tvTarjeta"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintTop_toBottomOf="@id/itTipoDePago"
-                android:text="Banco:"
+                app:layout_constraintTop_toBottomOf="@id/itNombreTitular"
+                android:text="Número de Tarjeta:"
                 android:textStyle="bold"
                 android:textColor="@android:color/black">
 
             </TextView>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/itBanco"
+                android:id="@+id/itTarjeta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="@android:color/black"
-                app:layout_constraintTop_toBottomOf="@+id/tvBanco"
+                app:layout_constraintTop_toBottomOf="@+id/tvTarjeta"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:visibility="invisible"
-                    android:id="@+id/etBanco"
+                    android:id="@+id/etTarjeta"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
                     android:textColor="@android:color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -235,32 +235,43 @@
 
             <TextView
                 android:visibility="invisible"
-                android:id="@+id/tvCuenta"
+                android:id="@+id/tvFecha"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/itBanco"
-                android:text="Número de Cuenta:"
+                app:layout_constraintTop_toBottomOf="@+id/itTarjeta"
+                android:text="Fecha de expiración:"
                 android:textStyle="bold"
                 android:textColor="@android:color/black">
 
             </TextView>
 
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/tvMes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mes (MM)"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvFecha"/>
+
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/itCuenta"
-                android:layout_width="match_parent"
+                android:id="@+id/itMes"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:textColorHint="@android:color/black"
-                app:layout_constraintTop_toBottomOf="@id/tvCuenta"
+                app:layout_constraintTop_toBottomOf="@id/tvMes"
+                app:layout_constraintStart_toStartOf="parent"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:visibility="invisible"
-                    android:id="@+id/etCuenta"
+                    android:id="@+id/etMes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
+                    android:maxLength="2"
+                    android:inputType="number"
                     android:textColor="@android:color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -269,32 +280,31 @@
 
             <TextView
                 android:visibility="invisible"
-                android:id="@+id/tvDireccion"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintTop_toBottomOf="@id/itCuenta"
-                android:text="Dirección de Facturación:"
-                android:textStyle="bold"
-                android:textColor="@android:color/black">
-
-            </TextView>
+                android:id="@+id/tvAño"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Año (AA)"
+                app:layout_constraintTop_toBottomOf="@id/itMes"
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/itDireccion"
-                android:layout_width="match_parent"
+                android:id="@+id/itAño"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:textColorHint="@android:color/black"
-                app:layout_constraintTop_toBottomOf="@id/tvDireccion"
+                app:layout_constraintTop_toBottomOf="@id/tvAño"
+                app:layout_constraintStart_toStartOf="parent"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:visibility="invisible"
-                    android:id="@+id/etDireccion"
+                    android:id="@+id/etAño"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
+                    android:maxLength="2"
                     android:textColor="@android:color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -305,7 +315,7 @@
                 android:id="@+id/btnActualizarInfoBancaria"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintTop_toBottomOf="@id/itDireccion"
+                app:layout_constraintTop_toBottomOf="@id/itAño"
                 android:text="Actualizar Datos Bancarios"
                 android:visibility="invisible">
 

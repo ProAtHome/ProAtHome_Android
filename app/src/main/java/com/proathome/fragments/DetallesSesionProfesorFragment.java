@@ -9,7 +9,6 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,15 +32,10 @@ import com.proathome.controladores.clase.ServicioTaskSincronizarClases;
 import com.proathome.controladores.WorkaroundMapFragment;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.profesor.ServicioTaskFotoDetalles;
-import com.proathome.utils.Component;
 import com.proathome.utils.ComponentSesionesProfesor;
 import com.proathome.utils.Constants;
-
-import java.sql.SQLOutput;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class DetallesSesionProfesorFragment extends Fragment implements OnMapReadyCallback {

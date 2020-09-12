@@ -17,7 +17,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -45,7 +44,6 @@ import butterknife.Unbinder;
 
 public class EditarPerfilProfesorFragment extends Fragment {
 
-    private EditarPerfilProfesorViewModel editarPerfilProfesorViewModel;
     private String linkRESTCargarPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/perfilProfesor";
     private String linkRESTDatosBancarios = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/obtenerDatosBancarios";
     private String linkRESTActualizarPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/informacionPerfil";
@@ -101,7 +99,6 @@ public class EditarPerfilProfesorFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        editarPerfilProfesorViewModel = ViewModelProviders.of(this).get(EditarPerfilProfesorViewModel.class);
         View root = inflater.inflate(R.layout.fragment_editar_perfil_profesor, container, false);
         mUnbinder = ButterKnife.bind(this, root);
 

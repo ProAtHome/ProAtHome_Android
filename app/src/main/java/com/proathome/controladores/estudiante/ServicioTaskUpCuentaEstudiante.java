@@ -20,18 +20,18 @@ public class ServicioTaskUpCuentaEstudiante extends AsyncTask<Void, Void, String
 
     private Context contexto;
     private ProgressDialog progressDialog;
-    private String linkAPI, tipoDePago, banco, numeroCuenta, direccionFacturacion, respuesta, resultadoAPI;
+    private String linkAPI, nombreTitular, tarjeta, mes, ano, respuesta, resultadoAPI;
     private int idEstudiante;
 
-    public ServicioTaskUpCuentaEstudiante(Context contexto, String linkAPI, int idEstudiante, String tipoDePago, String banco, String numeroCuenta, String direccionFacturacion){
+    public ServicioTaskUpCuentaEstudiante(Context contexto, String linkAPI, int idEstudiante, String nombreTitular, String tarjeta, String mes, String ano){
 
         this.contexto = contexto;
         this.linkAPI = linkAPI;
         this.idEstudiante = idEstudiante;
-        this.tipoDePago = tipoDePago;
-        this.banco = banco;
-        this.numeroCuenta = numeroCuenta;
-        this.direccionFacturacion = direccionFacturacion;
+        this.nombreTitular = nombreTitular;
+        this.tarjeta = tarjeta;
+        this.mes = mes;
+        this.ano = ano;
 
     }
 
@@ -56,10 +56,10 @@ public class ServicioTaskUpCuentaEstudiante extends AsyncTask<Void, Void, String
 
             JSONObject parametrosPOST = new JSONObject();
             parametrosPOST.put("idCliente", this.idEstudiante);
-            parametrosPOST.put("tipoDePago", this.tipoDePago);
-            parametrosPOST.put("banco", this.banco);
-            parametrosPOST.put("numeroCuenta", this.numeroCuenta);
-            parametrosPOST.put("direccionFacturacion", this.direccionFacturacion);
+            parametrosPOST.put("nombreTitular", this.nombreTitular);
+            parametrosPOST.put("tarjeta", this.tarjeta);
+            parametrosPOST.put("mes", this.mes);
+            parametrosPOST.put("ano", this.ano);
 
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);

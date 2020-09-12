@@ -2,12 +2,9 @@ package com.proathome.controladores.clase;
 
 import android.content.Context;
 import android.os.AsyncTask;
-
 import com.proathome.utils.Constants;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -110,9 +107,7 @@ public class ServicioTaskSumarClaseRuta extends AsyncTask<Void, Void, String> {
     }
 
     public String getPostDataString(JSONObject params) throws Exception{
-
         return params.toString();
-
     }
 
     @Override

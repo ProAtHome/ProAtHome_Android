@@ -2,16 +2,13 @@ package com.proathome.controladores.clase;
 
 import android.content.Context;
 import android.os.AsyncTask;
-
 import com.proathome.utils.Constants;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
-import java.net.URI;
 import java.net.URL;
 
 public class ServicioTaskMasTiempo extends AsyncTask<Void, Void, String> {

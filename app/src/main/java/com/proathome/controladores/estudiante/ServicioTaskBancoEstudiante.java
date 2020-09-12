@@ -7,7 +7,6 @@ import android.widget.Toast;
 import com.proathome.ui.editarPerfil.EditarPerfilFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,7 +17,7 @@ import java.net.URL;
 public class ServicioTaskBancoEstudiante extends AsyncTask<Void, Void, String>{
 
     private Context httpContext;
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
     public String resultadoapi = "";
     public String linkrequestAPI = "";
     public String respuesta;
@@ -114,10 +113,10 @@ public class ServicioTaskBancoEstudiante extends AsyncTask<Void, Void, String>{
                 try {
 
                     JSONObject jsonObject = new JSONObject(resultadoapi);
-                    EditarPerfilFragment.etTipoDePago.setText(jsonObject.getString("tipoPago"));
-                    EditarPerfilFragment.etBanco.setText(jsonObject.getString("banco"));
-                    EditarPerfilFragment.etCuenta.setText(jsonObject.getString("numeroCuenta"));
-                    EditarPerfilFragment.etDireccion.setText(jsonObject.getString("direccionFacturacion"));
+                    EditarPerfilFragment.etNombreTitular.setText(jsonObject.getString("nombreTitular"));
+                    EditarPerfilFragment.etTarjeta.setText(jsonObject.getString("tarjeta"));
+                    EditarPerfilFragment.etMes.setText(jsonObject.getString("mes"));
+                    EditarPerfilFragment.etAño.setText(jsonObject.getString("ano"));
 
                 } catch (JSONException ex) {
 

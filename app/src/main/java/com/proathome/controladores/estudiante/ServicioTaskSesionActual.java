@@ -6,14 +6,10 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
-
-import com.proathome.RutaIntermedio;
 import com.proathome.fragments.NuevaSesionFragment;
 import com.proathome.utils.Constants;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

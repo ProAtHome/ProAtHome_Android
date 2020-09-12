@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.airbnb.lottie.LottieAnimationView;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.controladores.estudiante.ServicioTaskIniciarProcesoRuta;
 import com.proathome.controladores.estudiante.ServicioTaskSesionesEstudiante;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapter;
@@ -44,6 +44,8 @@ public class InicioFragment extends Fragment {
         if (fila.moveToFirst()) {
 
             idCliente = fila.getInt(0);
+            ServicioTaskIniciarProcesoRuta iniciarProcesoRuta = new ServicioTaskIniciarProcesoRuta(getContext(), idCliente);
+            iniciarProcesoRuta.execute();
             sesionesTask = new ServicioTaskSesionesEstudiante(getContext(), clasesHttpAddress, idCliente, Constants.SESIONES_INICIO);
             sesionesTask.execute();
             configAdapter();

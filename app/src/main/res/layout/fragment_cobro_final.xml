@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/common_padding_default"
+            tools:context=".fragments.CobroFinalFragment">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/color_surface"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/common_padding_min">
+
+                    <TextView
+                        android:id="@+id/tvAyuda"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Método de pago"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/tvMetodoRegistrado"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Método registrado:"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:layout_marginTop="@dimen/common_padding_middle"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvAyuda"/>
+
+                    <TextView
+                        android:id="@+id/tarjeta"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black"
+                        android:text="XXXXXXXXXXXX6580"
+                        android:textStyle="bold|italic"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvMetodoRegistrado"/>
+
+                    <View
+                        android:id="@+id/divider"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimaryDark"
+                        app:layout_constraintTop_toBottomOf="@id/tarjeta"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="@dimen/common_padding_middle"/>
+
+                    <TextView
+                        android:id="@+id/tvPreOrden"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Costo Total de la Clase"
+                        android:layout_marginTop="@dimen/common_padding_default"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/divider"/>
+
+                    <TextView
+                        android:id="@+id/tvSesion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_default"
+                        android:text="Clase: Bloque 1 / Básico 1 / Básico"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintTop_toBottomOf="@id/tvPreOrden"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvTiempo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:text="Tiempo: 3 HRS"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintTop_toBottomOf="@id/tvSesion"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvTiempoExtra"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:text="Tiempo Extra: 30 min (+ 25 MXN)"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintTop_toBottomOf="@id/tvTiempo"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvCostoTotal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:text="Total: 0.00 MXN"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvTiempoExtra"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/entendido"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:text="Entendido"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvCostoTotal"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/regresar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:text="Regresar"
+                        android:layout_marginStart="@dimen/common_padding_min"
+                        android:backgroundTint="@android:color/darker_gray"
+                        app:layout_constraintStart_toEndOf="@id/entendido"
+                        app:layout_constraintTop_toBottomOf="@id/tvCostoTotal"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

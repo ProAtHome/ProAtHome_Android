@@ -21,7 +21,7 @@ import java.net.URL;
 public class ServicioTaskRegistroEstudiante extends AsyncTask<Void, Void, String> {
 
     private Context httpContext;
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
     public String resultadoapi="";
     public String linkrequestAPI="";
     public String fecha="";

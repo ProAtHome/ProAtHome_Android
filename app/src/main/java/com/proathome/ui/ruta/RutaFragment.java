@@ -10,11 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.RutaAvanzado;
@@ -32,7 +30,6 @@ import butterknife.Unbinder;
 
 public class RutaFragment extends Fragment {
 
-    private RutaViewModel rutaViewModel;
     private Unbinder mUnbinder;
     public static ImageButton imgExamen;
     private int idCliente = 0;
@@ -45,7 +42,7 @@ public class RutaFragment extends Fragment {
     public static TextView textAvanzado;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rutaViewModel = ViewModelProviders.of(this).get(RutaViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_ruta, container, false);
         mUnbinder = ButterKnife.bind(this, root);
         imgExamen = root.findViewById(R.id.imgButtonExamen);

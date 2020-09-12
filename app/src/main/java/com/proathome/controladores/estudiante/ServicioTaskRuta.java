@@ -4,16 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
-
 import com.proathome.RutaAvanzado;
 import com.proathome.RutaBasico;
 import com.proathome.RutaIntermedio;
 import com.proathome.ui.ruta.RutaFragment;
 import com.proathome.utils.Constants;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

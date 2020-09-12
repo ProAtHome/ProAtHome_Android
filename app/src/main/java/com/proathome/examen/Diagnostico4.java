@@ -1,7 +1,6 @@
 package com.proathome.examen;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.database.Cursor;
@@ -13,7 +12,6 @@ import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,7 +20,6 @@ import com.proathome.R;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioExamenDiagnostico;
 import com.proathome.utils.Constants;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

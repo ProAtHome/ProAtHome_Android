@@ -3,8 +3,6 @@ package com.proathome.controladores.estudiante;
 import android.content.Context;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Toast;
-
 import com.proathome.R;
 import com.proathome.RutaBasico;
 import com.proathome.ui.ruta.RutaFragment;

@@ -1,13 +1,13 @@
 package com.proathome.controladores.clase;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Toast;
-
 import androidx.fragment.app.FragmentActivity;
-
 import com.proathome.ClaseEstudiante;
 import com.proathome.ClaseProfesor;
 import com.proathome.R;
@@ -154,6 +154,7 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                     ClaseEstudiante.terminado_TE = false;
                                     ClaseEstudiante.timer.cancel();
                                     ClaseEstudiante.terminar.setVisibility(View.VISIBLE);
+                                    //TODO Cobro tentativo con OpenPay al terminar el Tiempo Extra.
                                 }
 
                             }
@@ -228,7 +229,6 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                 ClaseProfesor.startTimer();
                             }
                             ClaseProfesor.startSchedule();
-                            System.out.println("Ya entro vale verga");
 
                         }
                         ClaseProfesor.schedule = false;
@@ -239,7 +239,6 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                         if (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO <= 1 && Constants.progresoTE_DISPONIBILIDAD_PROGRESO < 1) {
                             ServicioTaskCambiarEstatusClase cambiarEstatusClase = new ServicioTaskCambiarEstatusClase(Constants.contexto_DISPONIBILIDAD_PROGRESO, Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO, Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO, Constants.ESTATUS_TERMINADO_TE);
                             cambiarEstatusClase.execute();
-                            System.out.println("Terminandooooooooooooooooooooooo");
                             ClaseProfesor.pausa_start.setVisibility(View.INVISIBLE); //TODO CAMBIAR A TERMINADO PARAR TIMERS.
                             ClaseProfesor.terminar.setVisibility(View.VISIBLE);
                         }
@@ -330,6 +329,9 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                             } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO) {
                                 if (ClaseProfesor.terminado) {
                                     ClaseProfesor.terminado = false;
+                                    SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(Constants.contexto_DISPONIBILIDAD_PROGRESO);
+                                    String idCard = myPreferences.getString("idCard", "Sin valor");
+                                    Toast.makeText(Constants.contexto_DISPONIBILIDAD_PROGRESO, "IdCard: " + idCard, Toast.LENGTH_LONG).show();
                                     //ClaseProfesor.timer.cancel();
                                     //ClaseProfesor.timer2.cancel();
                                 }

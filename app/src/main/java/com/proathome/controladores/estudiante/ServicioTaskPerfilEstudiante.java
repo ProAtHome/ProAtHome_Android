@@ -1,12 +1,10 @@
 package com.proathome.controladores.estudiante;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.Toast;
-
 import com.proathome.inicioEstudiante;
 import com.proathome.ui.editarPerfil.EditarPerfilFragment;
 import com.proathome.utils.Constants;

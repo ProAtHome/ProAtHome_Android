@@ -8,7 +8,6 @@ import android.widget.Toast;
 import com.proathome.fragments.DetallesSesionProfesorFragment;
 import com.proathome.ui.inicioProfesor.InicioProfesorFragment;
 import com.proathome.ui.sesionesProfesor.SesionesProfesorFragment;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

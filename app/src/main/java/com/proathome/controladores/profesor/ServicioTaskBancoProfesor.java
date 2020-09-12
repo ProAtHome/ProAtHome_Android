@@ -4,13 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
-
-import com.proathome.ui.editarPerfil.EditarPerfilFragment;
 import com.proathome.ui.editarPerfilProfesor.EditarPerfilProfesorFragment;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

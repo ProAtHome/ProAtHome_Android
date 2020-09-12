@@ -4,16 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.proathome.R;
 import com.proathome.fragments.BuscarSesionFragment;
 import com.proathome.utils.Component;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -14,8 +14,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.annotation.TransitionRes;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import com.android.volley.AuthFailureError;
@@ -33,6 +36,7 @@ import com.proathome.controladores.estudiante.ServicioTaskBancoEstudiante;
 import com.proathome.controladores.estudiante.ServicioTaskPerfilEstudiante;
 import com.proathome.controladores.estudiante.ServicioTaskUpCuentaEstudiante;
 import com.proathome.controladores.estudiante.ServicioTaskUpPerfilEstudiante;
+import com.proathome.ui.inicio.InicioFragment;
 import com.proathome.utils.Constants;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -42,10 +46,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import mx.openpay.android.validation.CardValidator;
 
 public class EditarPerfilFragment extends Fragment {
 
-    private EditarPerfilViewModel editarPerfilViewModel;
     private String linkRESTCargarPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/perfilCliente";
     private String linkRESTDatosBancarios = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
     private String linkRESTActualizarPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/informacionPerfil";
@@ -60,10 +64,10 @@ public class EditarPerfilFragment extends Fragment {
     public static TextInputEditText etNombre;
     public static TextInputEditText etEdad;
     public static TextInputEditText etDesc;
-    public static TextInputEditText etDireccion;
-    public static TextInputEditText etCuenta;
-    public static TextInputEditText etBanco;
-    public static TextInputEditText etTipoDePago;
+    public static TextInputEditText etNombreTitular;
+    public static TextInputEditText etTarjeta;
+    public static TextInputEditText etMes;
+    public static TextInputEditText etAño;
     public static ImageView ivFoto;
     private static final int PICK_IMAGE = 100;
     public static final int RESULT_OK = -1;
@@ -81,16 +85,18 @@ public class EditarPerfilFragment extends Fragment {
     TextView tvDesc;
     @BindView(R.id.btnActualizarInfo)
     Button btnActualizarInfo;
+    @BindView(R.id.tvNombreTitular)
+    TextView tvNombreTitular;
+    @BindView(R.id.tvTarjeta)
+    TextView tvTarjeta;
+    @BindView(R.id.tvFecha)
+    TextView tvFecha;
+    @BindView(R.id.tvMes)
+    TextView tvMes;
+    @BindView(R.id.tvAño)
+    TextView tvAño;
     @BindView(R.id.tvInfoBancaria)
     TextView tvInfoBancaria;
-    @BindView(R.id.tvTipoDePago)
-    TextView tvTipoDePago;
-    @BindView(R.id.tvBanco)
-    TextView tvBanco;
-    @BindView(R.id.tvCuenta)
-    TextView tvCuenta;
-    @BindView(R.id.tvDireccion)
-    TextView tvDireccion;
     @BindView(R.id.btnActualizarInfoBancaria)
     Button btnActualizarInfoBancaria;
     private Bitmap bitmap;
@@ -101,7 +107,6 @@ public class EditarPerfilFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        editarPerfilViewModel = ViewModelProviders.of(this).get(EditarPerfilViewModel.class);
         View root = inflater.inflate(R.layout.fragment_editar_perfil, container, false);
         mUnbinder = ButterKnife.bind(this, root);
 
@@ -131,8 +136,20 @@ public class EditarPerfilFragment extends Fragment {
 
         btnActualizarInfoBancaria.setOnClickListener(view -> {
 
-            actualizarBanco = new ServicioTaskUpCuentaEstudiante(getContext(), linkRESTActualizarBanco, this.idEstudiante, etTipoDePago.getText().toString(), etBanco.getText().toString(), etCuenta.getText().toString(), etDireccion.getText().toString());
-            actualizarBanco.execute();
+            if(CardValidator.validateHolderName(etNombreTitular.getText().toString())){
+                if(CardValidator.validateNumber(etTarjeta.getText().toString())){
+                    if(CardValidator.validateExpiryDate(Integer.parseInt(etMes.getText().toString()), Integer.parseInt(etAño.getText().toString()))){
+                        actualizarBanco = new ServicioTaskUpCuentaEstudiante(getContext(), linkRESTActualizarBanco, this.idEstudiante, etNombreTitular.getText().toString(), etTarjeta.getText().toString(), etMes.getText().toString(), etAño.getText().toString());
+                        actualizarBanco.execute();
+                    }else{
+                        Toast.makeText(getContext(), "Fecha de expiración no válida.", Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(getContext(), "Tarjeta no válida.", Toast.LENGTH_LONG).show();
+                }
+            }else{
+                Toast.makeText(getContext(), "Nombre del titular no válido.", Toast.LENGTH_LONG).show();
+            }
 
         });
 
@@ -150,15 +167,16 @@ public class EditarPerfilFragment extends Fragment {
                     tvDesc.setVisibility(View.VISIBLE);
                     etDesc.setVisibility(View.VISIBLE);
                     btnActualizarInfo.setVisibility(View.VISIBLE);
+                    tvNombreTitular.setVisibility(View.INVISIBLE);
+                    tvTarjeta.setVisibility(View.INVISIBLE);
+                    etAño.setVisibility(View.INVISIBLE);
+                    tvFecha.setVisibility(View.INVISIBLE);
+                    tvAño.setVisibility(View.INVISIBLE);
                     tvInfoBancaria.setVisibility(View.INVISIBLE);
-                    tvTipoDePago.setVisibility(View.INVISIBLE);
-                    etTipoDePago.setVisibility(View.INVISIBLE);
-                    tvBanco.setVisibility(View.INVISIBLE);
-                    etBanco.setVisibility(View.INVISIBLE);
-                    tvCuenta.setVisibility(View.INVISIBLE);
-                    etCuenta.setVisibility(View.INVISIBLE);
-                    tvDireccion.setVisibility(View.INVISIBLE);
-                    etDireccion.setVisibility(View.INVISIBLE);
+                    tvMes.setVisibility(View.INVISIBLE);
+                    etMes.setVisibility(View.INVISIBLE);
+                    etTarjeta.setVisibility(View.INVISIBLE);
+                    etNombreTitular.setVisibility(View.INVISIBLE);
                     btnActualizarInfoBancaria.setVisibility(View.INVISIBLE);
                     return true;
 
@@ -172,15 +190,16 @@ public class EditarPerfilFragment extends Fragment {
                     tvDesc.setVisibility(View.INVISIBLE);
                     etDesc.setVisibility(View.INVISIBLE);
                     btnActualizarInfo.setVisibility(View.INVISIBLE);
+                    tvNombreTitular.setVisibility(View.VISIBLE);
+                    tvTarjeta.setVisibility(View.VISIBLE);
+                    etAño.setVisibility(View.VISIBLE);
+                    tvFecha.setVisibility(View.VISIBLE);
+                    tvAño.setVisibility(View.VISIBLE);
                     tvInfoBancaria.setVisibility(View.VISIBLE);
-                    tvTipoDePago.setVisibility(View.VISIBLE);
-                    etTipoDePago.setVisibility(View.VISIBLE);
-                    tvBanco.setVisibility(View.VISIBLE);
-                    etBanco.setVisibility(View.VISIBLE);
-                    tvCuenta.setVisibility(View.VISIBLE);
-                    etCuenta.setVisibility(View.VISIBLE);
-                    tvDireccion.setVisibility(View.VISIBLE);
-                    etDireccion.setVisibility(View.VISIBLE);
+                    tvMes.setVisibility(View.VISIBLE);
+                    etMes.setVisibility(View.VISIBLE);
+                    etTarjeta.setVisibility(View.VISIBLE);
+                    etNombreTitular.setVisibility(View.VISIBLE);
                     btnActualizarInfoBancaria.setVisibility(View.VISIBLE);
                     return true;
 
@@ -201,10 +220,10 @@ public class EditarPerfilFragment extends Fragment {
         etNombre = getView().findViewById(R.id.etNombre);
         etEdad = getView().findViewById(R.id.etEdad);
         etDesc = getView().findViewById(R.id.etDesc);
-        etTipoDePago = getView().findViewById(R.id.etTipoDePago);
-        etBanco = getView().findViewById(R.id.etBanco);
-        etCuenta = getView().findViewById(R.id.etCuenta);
-        etDireccion = getView().findViewById(R.id.etDireccion);
+        etNombreTitular = getView().findViewById(R.id.etNombreTitular);
+        etTarjeta = getView().findViewById(R.id.etTarjeta);
+        etMes = getView().findViewById(R.id.etMes);
+        etAño = getView().findViewById(R.id.etAño);
         ivFoto = getView().findViewById(R.id.ivFoto);
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);

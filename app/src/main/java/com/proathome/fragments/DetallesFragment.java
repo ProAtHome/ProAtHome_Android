@@ -2,6 +2,7 @@ package com.proathome.fragments;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,7 +10,9 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -33,13 +35,12 @@ import com.proathome.controladores.clase.ServicioTaskFinalizarClase;
 import com.proathome.controladores.clase.ServicioTaskSincronizarClases;
 import com.proathome.controladores.WorkaroundMapFragment;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.controladores.estudiante.ServicioTaskPreOrden;
 import com.proathome.controladores.profesor.ServicioTaskFotoDetalles;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class DetallesFragment extends Fragment implements OnMapReadyCallback {
@@ -49,10 +50,13 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     public static final String TAG = "Detalles";
     public static int ESTUDIANTE = 1;
     private String fotoNombre;
-    private boolean sumar;
-    private int idSesion = 0;
-    private int idEstudiante = 0;
-    private int tiempoPasar = 0;
+    public static boolean sumar;
+    public static int idSesion = 0;
+    public static int idEstudiante = 0;
+    public static int tiempoPasar = 0;
+    public static int idSeccion = 0;
+    public static int idNivel = 0;
+    public static int idBloque = 0;
     public static ImageView foto;
     @BindView(R.id.profesor)
     public TextView profesor;
@@ -139,7 +143,6 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         baseDeDatos.close();
 
 
-        System.out.println(bun.getString("fotoProfesor"));
         if(bun.getString("fotoProfesor").equalsIgnoreCase("Sin foto")) {
             iniciar.setVisibility(View.INVISIBLE);
         }else {
@@ -169,23 +172,45 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         correoProfesor.setText(bun.getString("correoProfesor"));
         fotoNombre = bun.getString("fotoProfesor");
         sumar = bun.getBoolean("sumar");
+        idSeccion = bun.getInt("idSeccion");
+        idNivel = bun.getInt("idNivel");
+        idBloque = bun.getInt("idBloque");
 
-        System.out.println("Sumar : " + sumar);
+        /*Datos de pre Orden listos para ser lanzados :)*/
+        ServicioTaskPreOrden preOrden = new ServicioTaskPreOrden(idEstudiante, idSesion, ServicioTaskPreOrden.PANTALLA_PRE_COBRO);
+        preOrden.execute();
 
         iniciar.setOnClickListener(v ->{
-            ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
-            sincronizarClases.execute();
 
-            Intent intent = new Intent(getContext(), SincronizarClase.class);
-            intent.putExtra("perfil", ESTUDIANTE);
-            intent.putExtra("idSesion", idSesion);
-            intent.putExtra("idPerfil", idEstudiante);
-            intent.putExtra("tiempo", tiempoPasar);
-            intent.putExtra("idSeccion", bun.getInt("idSeccion"));
-            intent.putExtra("idNivel", bun.getInt("idNivel"));
-            intent.putExtra("idBloque", bun.getInt("idBloque"));
-            intent.putExtra("sumar", sumar);
-            startActivity(intent);
+            /*Chechamos en putiza si hay un token guardado en el telefono de el pago de la sesión*/
+            SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            String idCardSesion = "idCard" + idSesion;
+            String idCard = myPreferences.getString(idCardSesion, "Sin valor");
+
+            if(idCard.equalsIgnoreCase("Sin valor")){
+                //Si no hay un token en el phone entonces creamos uno con el diálogo de PreOrden*/
+                PreOrdenClase preOrdenClase = new PreOrdenClase();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                preOrdenClase.show(fragmentTransaction, "PreOrden");
+            }else{
+                /*Si ya tenemos un token entonces no hay pedo e iniciamos la buisqueda de la conexión del
+                profesor.
+                 */
+                ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
+                sincronizarClases.execute();
+
+                Intent intent = new Intent(getContext(), SincronizarClase.class);
+                intent.putExtra("perfil", ESTUDIANTE);
+                intent.putExtra("idSesion", idSesion);
+                intent.putExtra("idPerfil", idEstudiante);
+                intent.putExtra("tiempo", tiempoPasar);
+                intent.putExtra("idSeccion", bun.getInt("idSeccion"));
+                intent.putExtra("idNivel", bun.getInt("idNivel"));
+                intent.putExtra("idBloque", bun.getInt("idBloque"));
+                intent.putExtra("sumar", sumar);
+                startActivity(intent);
+            }
+
         });
 
         return view;

@@ -2,7 +2,6 @@ package com.proathome.controladores.clase;
 
 import android.content.Context;
 import android.os.AsyncTask;
-
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.DetallesSesionProfesorFragment;
 import com.proathome.utils.Constants;

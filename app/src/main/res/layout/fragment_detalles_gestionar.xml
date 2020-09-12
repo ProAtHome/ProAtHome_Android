@@ -195,7 +195,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/common_padding_default"
-        android:text="Elige el tiempo de la sesión:"
+        android:text="Tiempo elegido:"
         android:layout_margin="@dimen/common_padding_min"
         android:textStyle="bold"
         android:drawableLeft="@drawable/tiempo"
@@ -208,11 +208,15 @@
         android:id="@+id/textHoras"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Horas:"
+        android:text="0 HRS"
+        android:textColor="@color/colorPrimaryDark"
         android:layout_margin="@dimen/common_padding_min"
+        android:textStyle="bold"
+        android:layout_marginBottom="@dimen/common_padding_default"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
 
+    <!--
     <Spinner
         android:id="@+id/horas"
         android:layout_width="wrap_content"
@@ -244,20 +248,20 @@
         android:backgroundTint="@color/colorPersonalDark"
         style="@style/AppTheme.AppBarOverlay"
         app:layout_constraintStart_toEndOf="@id/textMinutos"
-        app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
+        app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>-->
 
     <TextView
         android:id="@+id/textTipoTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Elige el tipo de sesión:"
-        android:layout_marginTop="@dimen/common_padding_default"
+        android:layout_marginTop="20dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:layout_margin="@dimen/common_padding_min"
         android:textStyle="bold"
         android:drawableLeft="@drawable/tipo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/minutos"/>
+        app:layout_constraintTop_toBottomOf="@id/textHoras"/>
 
 
     <TextView
@@ -286,7 +290,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:text="Sesión en curso (RECOMENDADO):"
+        android:text="Sesión elegida:"
         android:layout_margin="@dimen/common_padding_min"
         android:textStyle="bold"
         android:layout_marginTop="@dimen/common_padding_default"
@@ -308,16 +312,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nivelTV"/>
 
-    <Spinner
+    <TextView
         android:id="@+id/secciones"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:overlapAnchor="false"
-        android:layout_marginTop="@dimen/common_padding_min"
-        android:spinnerMode="dropdown"
-        android:textSize="12sp"
-        android:backgroundTint="@color/colorPersonalDark"
-        style="@style/AppTheme.AppBarOverlay"
+        android:layout_height="wrap_content"
+        android:text="Seccion"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_margin="@dimen/common_padding_min"
+        android:layout_marginTop="@dimen/common_padding_default"
         app:layout_constraintStart_toEndOf="@id/seccionesTV"
         app:layout_constraintTop_toBottomOf="@id/nivelTV"/>
 
@@ -334,15 +337,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/secciones"/>
 
-    <Spinner
+    <TextView
         android:id="@+id/niveles"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:overlapAnchor="false"
-        android:layout_marginTop="@dimen/common_padding_min"
-        android:spinnerMode="dropdown"
-        android:backgroundTint="@color/colorPersonalDark"
-        style="@style/AppTheme.AppBarOverlay"
+        android:layout_height="wrap_content"
+        android:text="Nivel"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_margin="@dimen/common_padding_min"
+        android:layout_marginTop="@dimen/common_padding_default"
         app:layout_constraintStart_toEndOf="@id/nivelesTV"
         app:layout_constraintTop_toBottomOf="@id/secciones"/>
 
@@ -359,18 +362,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/niveles"/>
 
-    <Spinner
+    <TextView
         android:id="@+id/bloques"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:overlapAnchor="false"
-        android:layout_marginTop="@dimen/common_padding_min"
-        android:spinnerMode="dropdown"
-        android:backgroundTint="@color/colorPersonalDark"
-        style="@style/AppTheme.AppBarOverlay"
+        android:layout_height="wrap_content"
+        android:text="Bloque"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_margin="@dimen/common_padding_min"
+        android:layout_marginTop="@dimen/common_padding_default"
         app:layout_constraintStart_toEndOf="@id/bloquesTV"
         app:layout_constraintTop_toBottomOf="@id/niveles"/>
 
+    <!--
     <TextView
         android:id="@+id/horasDisponibles"
         android:layout_width="wrap_content"
@@ -381,7 +385,7 @@
         android:layout_margin="@dimen/common_padding_min"
         android:text="*Tienes 0 HRS / 11HRS de avance en el actual bloque*"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bloques"/>
+        app:layout_constraintTop_toBottomOf="@id/bloques"/>-->
 
     <View
         android:id="@+id/divider2"
@@ -391,7 +395,7 @@
         android:layout_margin="@dimen/common_padding_default"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/horasDisponibles"
+        app:layout_constraintTop_toBottomOf="@id/bloques"
         android:layout_marginTop="@dimen/common_padding_middle"/>
 
     <TextView

@@ -97,4 +97,80 @@ public class EvaluarRuta {
 
     }
 
+    public int getSeccion(){
+        int seccion = 0;
+        if(this.aciertos >= 1 && this.aciertos <= 4)
+            seccion = 1;
+        else if(this.aciertos >=5 && this.aciertos <= 8)
+            seccion = 1;
+        else if(this.aciertos >=9 && this.aciertos <= 12)
+            seccion = 1;
+        else if(this.aciertos >=13 && this.aciertos <= 16)
+            seccion = 1;
+        else if(this.aciertos >=17 && this.aciertos <= 20)
+            seccion = 1;
+        else if(this.aciertos >= 21 && this.aciertos <= 24)
+            seccion = 2;
+        else if(this.aciertos >= 25 && this.aciertos <= 28)
+            seccion = 2;
+        else if(this.aciertos >= 29 && this.aciertos <= 34)
+            seccion = 2;
+        else if(this.aciertos >= 33 && this.aciertos <= 36)
+            seccion = 2;
+        else if(this.aciertos >= 37 && this.aciertos <= 40)
+            seccion = 2;
+        else if (this.aciertos >= 41 && this.aciertos <= 45)
+            seccion = 3;
+        else if (this.aciertos >= 46 && this.aciertos <= 50)
+            seccion = 3;
+        else if (this.aciertos >= 51 && this.aciertos <= 55)
+            seccion = 3;
+        else if (this.aciertos >= 56 && this.aciertos <= 60)
+            seccion = 3;
+        else if (this.aciertos >= 61 && this.aciertos <= 65)
+            seccion = 3;
+
+        return seccion;
+    }
+
+    public int getNivel(){
+        int nivel = 0;
+        if(this.aciertos >= 1 && this.aciertos <= 4)
+            nivel = 1;
+        else if(this.aciertos >=5 && this.aciertos <= 8)
+            nivel = 2;
+        else if(this.aciertos >=9 && this.aciertos <= 12)
+            nivel = 3;
+        else if(this.aciertos >=13 && this.aciertos <= 16)
+            nivel = 4;
+        else if(this.aciertos >=17 && this.aciertos <= 20)
+            nivel = 5;
+        else if(this.aciertos >= 21 && this.aciertos <= 24)
+            nivel = 1;
+        else if(this.aciertos >= 25 && this.aciertos <= 28)
+            nivel = 2;
+        else if(this.aciertos >= 29 && this.aciertos <= 34)
+            nivel = 3;
+        else if(this.aciertos >= 33 && this.aciertos <= 36)
+            nivel = 4;
+        else if(this.aciertos >= 37 && this.aciertos <= 40)
+            nivel = 5;
+        else if (this.aciertos >= 41 && this.aciertos <= 45)
+            nivel = 1;
+        else if (this.aciertos >= 46 && this.aciertos <= 50)
+            nivel = 2;
+        else if (this.aciertos >= 51 && this.aciertos <= 55)
+            nivel = 3;
+        else if (this.aciertos >= 56 && this.aciertos <= 60)
+            nivel = 4;
+        else if (this.aciertos >= 61 && this.aciertos <= 65)
+            nivel = 5;
+
+        return nivel;
+    }
+
+    public int getBloque(){
+        return 1;
+    }
+
 }

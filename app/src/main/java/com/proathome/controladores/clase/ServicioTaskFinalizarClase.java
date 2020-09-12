@@ -3,14 +3,11 @@ package com.proathome.controladores.clase;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
-
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.DetallesSesionProfesorFragment;
 import com.proathome.utils.Constants;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

@@ -23,7 +23,7 @@ import java.util.Calendar;
 public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> {
 
     private Context httpContext;
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
     public String resultadoapi="";
     public String linkrequestAPI="";
     public String fecha="";

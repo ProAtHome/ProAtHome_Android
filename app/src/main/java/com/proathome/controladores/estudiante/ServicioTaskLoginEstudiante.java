@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.JsonReader;
 import android.widget.Toast;
-
-import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.inicioEstudiante;
 import java.io.BufferedReader;
 import java.io.IOException;
