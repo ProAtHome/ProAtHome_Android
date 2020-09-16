@@ -1,79 +1,1247 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/common_padding_default"
     android:background="@mipmap/fondoprof">
 
-    <TextView
-        android:id="@+id/disponibles"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Material Disponible"
-        android:textColor="@android:color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+        android:layout_height="match_parent"
+        android:padding="@dimen/common_padding_default">
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/common_padding_default"
-        android:layout_marginTop="@dimen/common_padding_min"
-        app:layout_constraintTop_toBottomOf="@id/disponibles"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/basico"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/common_padding_default">
+            android:layout_height="wrap_content"
+            android:text="BÁSICO 1"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginStart="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
 
-            <TextView
-                android:id="@+id/pruebaArchivo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Prueba de Archivo BÁSICO 1"
-                android:textColor="@color/colorPersonalDark"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b1_b1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 1"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/basico"/>
 
-            <View
-                android:id="@+id/divider"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintStart_toStartOf="@id/pruebaArchivo"
-                app:layout_constraintEnd_toEndOf="@id/pruebaArchivo"
-                app:layout_constraintTop_toBottomOf="@id/pruebaArchivo"
-                android:layout_marginTop="@dimen/common_padding_min"
-                />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b1_b2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 2"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/basico"/>
 
-            <TextView
-                android:id="@+id/bloque"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="I, you and my,your a, an whit jobs/Jobs, Alphabet, Numbers 0-20/Short forms, Word stress: jobs and numbers."
-                android:textColor="@android:color/black"
-                android:layout_marginTop="@dimen/common_padding_min"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b1_b3"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 3"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b1_b1"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/abrir"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Abrir"
-                android:backgroundTint="@color/color_secondary"
-                android:layout_marginTop="@dimen/common_padding_min"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/bloque"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b1_b4"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 4"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b1_b2"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b1_b5"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 5"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b1_b3"/>
 
-    </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b1_b6"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 6"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b1_b4"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/basico_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BÁSICO 2"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="@dimen/common_padding_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b1_b6"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b2_b1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 1"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/basico_2"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b2_b2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 2"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/basico_2"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b2_b3"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 3"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b2_b1"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b2_b4"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 4"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b2_b2"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b2_b5"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 5"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b2_b3"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b2_b6"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 6"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b2_b4"/>
+
+        <TextView
+            android:id="@+id/basico_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BÁSICO 3"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="@dimen/common_padding_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b2_b6"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b3_b1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 1"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/basico_3"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b3_b2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 2"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/basico_3"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b3_b3"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 3"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b3_b1"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b3_b4"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 4"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b3_b2"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b3_b5"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 5"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b3_b3"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b3_b6"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 6"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b3_b4"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b3_b7"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 7"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b3_b5"/>
+
+        <TextView
+            android:id="@+id/basico_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BÁSICO 4"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/common_padding_default"
+            android:layout_marginStart="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b3_b7"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b4_b1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 1"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/basico_4"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b4_b2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 2"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/basico_4"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b4_b3"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 3"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b4_b1"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b4_b4"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 4"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b4_b2"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b4_b5"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 5"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b4_b3"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b4_b6"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 6"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b4_b4"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b4_b7"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 7"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b4_b5"/>
+
+        <TextView
+            android:id="@+id/basico_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BÁSICO 5"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/common_padding_default"
+            android:layout_marginStart="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b4_b7"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b5_b1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 1"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/basico_5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b5_b2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 2"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/basico_5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b5_b3"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 3"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b5_b1"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b5_b4"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 4"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b5_b2"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b5_b5"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 5"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b5_b3"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b5_b6"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 6"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b5_b4"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b5_b7"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 7"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b5_b5"/>
+
+        <TextView
+            android:id="@+id/intermedio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="INTERMEDIO 1"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="@dimen/common_padding_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/b5_b7"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i1_b1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 1"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/intermedio"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i1_b2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 2"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/intermedio"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i1_b3"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 3"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i1_b1"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i1_b4"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 4"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i1_b2"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i1_b5"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 5"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i1_b3"/>
+
+        <com.google.android.material.button.MaterialButton
+        android:id="@+id/i1_b6"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_alignParentLeft="true"
+        android:text="Bloque 6"
+        android:backgroundTint="@android:color/transparent"
+        android:drawablePadding="10dp"
+        android:layout_alignParentBottom="true"
+        android:drawableTop="@mipmap/libro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/i1_b4"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i1_b7"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 7"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i1_b5"/>
+
+        <TextView
+            android:id="@+id/intermedio_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="INTERMEDIO 2"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="@dimen/common_padding_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i1_b7"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i2_b1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 1"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/intermedio_2"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i2_b2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 2"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/intermedio_2"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i2_b3"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 3"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i2_b1"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i2_b4"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 4"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i2_b2"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i2_b5"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 5"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i2_b3"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i2_b6"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 6"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i2_b4"/>
+
+        <TextView
+            android:id="@+id/intermedio_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="INTERMEDIO 3"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="@dimen/common_padding_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i2_b6"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i3_b1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 1"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/intermedio_3"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i3_b2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 2"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/intermedio_3"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i3_b3"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 3"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i3_b1"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i3_b4"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 4"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i3_b2"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i3_b5"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 5"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i3_b3"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i3_b6"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 6"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i3_b4"/>
+
+        <TextView
+            android:id="@+id/intermedio_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="INTERMEDIO 4"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/common_padding_default"
+            android:layout_marginStart="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i3_b5"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i4_b1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 1"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/intermedio_4"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i4_b2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 2"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/intermedio_4"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i4_b3"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 3"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i4_b1"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i4_b4"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 4"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i4_b2"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i4_b5"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 5"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i4_b3"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i4_b6"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 6"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i4_b4"/>
+
+        <TextView
+            android:id="@+id/intermedio_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="INTERMEDIO 5"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/common_padding_default"
+            android:layout_marginStart="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i4_b5"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i5_b1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 1"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/intermedio_5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i5_b2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 2"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/intermedio_5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i5_b3"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 3"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i5_b1"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i5_b4"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 4"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i5_b2"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i5_b5"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 5"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i5_b3"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/i5_b6"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 6"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i5_b4"/>
+
+        <TextView
+            android:id="@+id/avanzado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AVANZADO 1"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="@dimen/common_padding_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/i5_b6"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/a1_b1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 1"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avanzado"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/a1_b2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 2"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avanzado"/>
+
+        <TextView
+            android:id="@+id/avanzado_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AVANZADO 2"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="@dimen/common_padding_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/a1_b2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/a2_b1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 1"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avanzado_2"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/a2_b2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 2"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avanzado_2"/>
+
+        <TextView
+            android:id="@+id/avanzado_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AVANZADO 3"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="@dimen/common_padding_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/a2_b2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/a3_b1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 1"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avanzado_3"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/a3_b2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 2"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avanzado_3"/>
+
+        <TextView
+            android:id="@+id/avanzado_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AVANZADO 4"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/common_padding_default"
+            android:layout_marginStart="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/a3_b2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/a4_b1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 1"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avanzado_4"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/a4_b2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 2"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avanzado_4"/>
+
+        <TextView
+            android:id="@+id/avanzado_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AVANZADO 5"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/common_padding_default"
+            android:layout_marginStart="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/a4_b2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/a5_b1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 1"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avanzado_5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/a5_b2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentLeft="true"
+            android:text="Bloque 2"
+            android:backgroundTint="@android:color/transparent"
+            android:drawablePadding="10dp"
+            android:layout_alignParentBottom="true"
+            android:drawableTop="@mipmap/libro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avanzado_5"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

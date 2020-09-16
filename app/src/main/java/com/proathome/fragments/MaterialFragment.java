@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.github.barteksc.pdfviewer.PDFView;
 import com.proathome.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,6 +21,7 @@ public class MaterialFragment extends DialogFragment {
     private Unbinder mUnbinder;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    PDFView pdfView;
 
     public MaterialFragment() {
 
@@ -35,35 +38,15 @@ public class MaterialFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_material, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
-        WebView webView = view.findViewById(R.id.webView);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon){
-                super.onPageStarted(view, url, favicon);
+        Bundle bundle = getArguments();
 
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-
-            }
-        });
-
-        //Url Ejemplo:
-        String pdf = "https://catedra.ing.unlp.edu.ar/electrotecnia/electronicos2/download/Herramientas/Resistores.pdf";
-
-        //Carga url de .PDF en WebView  mediante Google Drive Viewer.
-        webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf);
+        pdfView = view.findViewById(R.id.pdfv);
+        pdfView.fromAsset(bundle.getString("idPDF")).load();
 
         toolbar.setTitle("Material Didáctico");
         toolbar.setNavigationIcon(R.drawable.ic_close);
         toolbar.setNavigationOnClickListener(v -> {
-
             dismiss();
-            webView.clearFormData();
-
         });
 
         return view;

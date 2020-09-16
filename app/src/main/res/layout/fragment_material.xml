@@ -24,10 +24,10 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <WebView
-        android:id="@+id/webView"
+    <com.github.barteksc.pdfviewer.PDFView
+        android:id="@+id/pdfv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+        android:layout_height="match_parent">
+    </com.github.barteksc.pdfviewer.PDFView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

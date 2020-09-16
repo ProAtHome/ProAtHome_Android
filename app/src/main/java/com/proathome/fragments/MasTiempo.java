@@ -92,6 +92,7 @@ public class MasTiempo extends DialogFragment {
                 bundle.putInt("progresoTotal", 15);
                 cobroFinalFragment.setArguments(bundle);
                 cobroFinalFragment.show(fragmentTransaction, "PreOrden");
+                dismiss();
                 break;
             case R.id.veinteMin:
                 bundle.putInt("Pantalla", 2);
