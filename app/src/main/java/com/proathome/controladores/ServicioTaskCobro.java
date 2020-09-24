@@ -77,11 +77,9 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
                 separadoresPersonalizados.setDecimalSeparator('.');
                 DecimalFormat formato1 = new DecimalFormat("#.00", separadoresPersonalizados);
                 JSONObject parametrosPost= new JSONObject();
-                System.out.println("Enviando_ " + this.idCard);
                 parametrosPost.put("idCard", this.idCard);
                 parametrosPost.put("nombreEstudiante", CobroFinalFragment.nombreEstudiante);
                 parametrosPost.put("correo", CobroFinalFragment.correo);
-                System.out.println(formato1.format(this.cobro));
                 parametrosPost.put("cobro", formato1.format(this.cobro));
                 parametrosPost.put("descripcion", "Cargo ProAtHome - " + CobroFinalFragment.sesion);
                 parametrosPost.put("deviceId", this.deviceId);
@@ -177,6 +175,8 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
             if(this.tipo_boton == ServicioTaskCobro.ENTENDIDO_CANCELAR){
                 if(s.equalsIgnoreCase("")){
                     //TODO Actualizar la orden de pago con estatusPago = Pagado.
+                    ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo, TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR));
+                    ordenPago.execute();
                     //Finalizamos la clase, sumamos la ruta y obtenemos el token de el celular para realizar el cobro.
                     ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(this.contexto, this.idSesion, this.idEstudiante, Constants.FINALIZAR_CLASE, DetallesFragment.ESTUDIANTE);
                     finalizarClase.execute();
@@ -190,6 +190,8 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
             }else if(this.tipo_boton == ServicioTaskCobro.ENTENDIDO_TE){
                 if(s.equalsIgnoreCase("")){
                     //TODO Actualizar la orden de pago con estatusPago = Pagado.
+                    ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo, TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR));
+                    ordenPago.execute();
                     //Generamos el tiempo extra y la vida sigue.
                     ServicioTaskMasTiempo masTiempo = new ServicioTaskMasTiempo(this.contexto, this.idSesion, this.idEstudiante, CobroFinalFragment.progresoTotal);
                     masTiempo.execute();

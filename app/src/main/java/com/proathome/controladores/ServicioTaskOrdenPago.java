@@ -49,7 +49,7 @@ public class ServicioTaskOrdenPago extends AsyncTask<Void, Void, String> {
             jsonDatos.put("costoTE", this.costoTE);
             jsonDatos.put("idEstudiante", this.idEstudiante);
             jsonDatos.put("idSesion", this.idSesion);
-
+            jsonDatos.put("estatusPago", "Pagado");
 
             //PARAMETROS DE CONEXIÓN.
             httpURLConnection.setReadTimeout(15000);

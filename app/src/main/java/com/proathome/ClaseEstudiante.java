@@ -48,8 +48,12 @@ public class ClaseEstudiante extends FragmentActivity {
         });
 
         material.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            String idPDF = idSeccion + "_" + idNivel + "_" + idBloque + ".pdf";
+            bundle.putString("idPDF", idPDF);
             MaterialFragment nueva = new MaterialFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            nueva.setArguments(bundle);
             nueva.show(transaction, "Material Didáctico");
         });
 
