@@ -19,6 +19,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioTaskLoginEstudiante;
+import com.proathome.controladores.profesor.AdminSQLiteOpenHelperProfesor;
 import com.proathome.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,14 +42,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mUnbinder = ButterKnife.bind(this);
 
-        SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String idCard = myPreferences.getString("idCard63", "Sin valor");
-        Toast.makeText(this, "Main: " + idCard, Toast.LENGTH_LONG).show();
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesion", null, 1);
+        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+        baseDeDatos.delete("sesion", "id=1", null);
+        baseDeDatos.close();
+
+        AdminSQLiteOpenHelperProfesor admin2 = new AdminSQLiteOpenHelperProfesor(this, "sesionProfesor", null, 1);
+        SQLiteDatabase baseDeDatos2 = admin2.getWritableDatabase();
+        baseDeDatos2.delete("sesionProfesor", "id=1", null);
+        baseDeDatos2.close();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             showAlert();
         }else {
 
+            /*
             AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesion", null, 1);
             SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
             Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
@@ -64,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
                 baseDeDatos.close();
 
-            }
+            }*/
 
         }
 

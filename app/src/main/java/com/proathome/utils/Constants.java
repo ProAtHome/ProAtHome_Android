@@ -6,11 +6,9 @@ import androidx.fragment.app.FragmentActivity;
 import java.net.MalformedURLException;
 import java.net.URL;
 import mx.openpay.android.Openpay;
-import mx.openpay.client.core.OpenpayAPI;
 
 public class Constants {
 
-//    public static final OpenpayAPI openpayAPI =  new  OpenpayAPI ("https://sandbox-api.openpay.mx", "sk_ff91f7cdbb4149149a70aa5af71176ab","medmbxsomtgpwv744wtf");
     public static final Openpay openpay = new Openpay("medmbxsomtgpwv744wtf", "pk_db3401afe85245d3b9bbec82324ba58c", false);
 
     public static final String ARG_NAME = "name";
@@ -154,7 +152,7 @@ public class Constants {
     public static final  int BLOQUE1_AVANZADO5= 1;
     public static final  int BLOQUE2_AVANZADO5= 2;
     /*FIN RUTA NIVELES*/
-    public static final String IP = "192.168.100.18";
+    public static final String IP = "192.168.100.35";
 
 
 

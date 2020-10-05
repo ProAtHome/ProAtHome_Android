@@ -169,37 +169,14 @@ public class ServicioTaskSincronizarClases extends AsyncTask<Void, Void, String>
                         SincronizarClase.timer.cancel();
                         ServicioTaskObtenerProgreso servicioTaskObtenerProgreso = new ServicioTaskObtenerProgreso(this.contexto, this.idSesion, this.idPerfil, DetallesFragment.ESTUDIANTE);
                         servicioTaskObtenerProgreso.execute();
-                        Intent intent = new Intent(this.contexto, ClaseEstudiante.class);
-                        intent.putExtra("idSesion", this.idSesion);
-                        intent.putExtra("idEstudiante", this.idPerfil);
-                        intent.putExtra("idSeccion", SincronizarClase.idSeccion);
-                        intent.putExtra("idNivel", SincronizarClase.idNivel);
-                        intent.putExtra("idBloque", SincronizarClase.idBloque);
-                        intent.putExtra("sumar", SincronizarClase.sumar);
-                        intent.putExtra("tiempo", SincronizarClase.tiempo);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        this.contexto.startActivity(intent);
-                        //Toast.makeText(this.contexto, "Conexión establecida, a clases.", Toast.LENGTH_LONG).show();
                     }
-
-                        //Toast.makeText(this.contexto, "Seguimos esperando al profesor...", Toast.LENGTH_SHORT).show();
                 }else if(this.tipoPerfil == DetallesSesionProfesorFragment.PROFESOR){
                     boolean disponibilidad = resultado.getBoolean("dispEstudiante");
                     if(disponibilidad) {
                         SincronizarClase.timer.cancel();
                         ServicioTaskObtenerProgreso servicioTaskObtenerProgreso = new ServicioTaskObtenerProgreso(this.contexto, this.idSesion, this.idPerfil, DetallesSesionProfesorFragment.PROFESOR);
                         servicioTaskObtenerProgreso.execute();
-                        Intent intent = new Intent(this.contexto, ClaseProfesor.class);
-                        intent.putExtra("idSesion", this.idSesion);
-                        intent.putExtra("idProfesor", this.idPerfil);
-                        intent.putExtra("idSeccion", SincronizarClase.idSeccion);
-                        intent.putExtra("idNivel", SincronizarClase.idNivel);
-                        intent.putExtra("idBloque", SincronizarClase.idBloque);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        this.contexto.startActivity(intent);
-                        //Toast.makeText(this.contexto, "Conexión establecida, a clases.", Toast.LENGTH_LONG).show();
                     }
-                        //Toast.makeText(this.contexto, "Seguimos esperando a el estudiante...", Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -44,6 +44,7 @@ public class InicioFragment extends Fragment {
         if (fila.moveToFirst()) {
 
             idCliente = fila.getInt(0);
+            System.out.println("IdcLiente " +  idCliente);
             ServicioTaskIniciarProcesoRuta iniciarProcesoRuta = new ServicioTaskIniciarProcesoRuta(getContext(), idCliente);
             iniciarProcesoRuta.execute();
             sesionesTask = new ServicioTaskSesionesEstudiante(getContext(), clasesHttpAddress, idCliente, Constants.SESIONES_INICIO);

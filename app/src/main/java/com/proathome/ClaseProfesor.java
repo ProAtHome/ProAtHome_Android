@@ -27,7 +27,7 @@ public class ClaseProfesor extends AppCompatActivity {
     private int idSesion = 0, idProfesor = 0;
     public static CountDownTimer countDownTimer, countDownTimerTE;
     public static boolean mTimerRunning, encurso = true, enpausa = true, inicio = true, terminado = true, encurso_TE = true, enpausa_TE = true, inicio_TE = true, terminado_TE = true, schedule = true, primeraVez;
-    public static long mTimeLeftMillis = 0, progresoSegundos = 0, progreso = 0;
+    public static long mTimeLeftMillis, progresoSegundos, progreso;
     public static TextView temporizador;
     public static Timer timer, timer2, timerSchedule;
     public static MaterialButton pausa_start, terminar;
@@ -175,7 +175,6 @@ public class ClaseProfesor extends AppCompatActivity {
             public void onFinish()
             {
                 mTimerRunning = false;
-                System.out.println("PARADIOOOOOOOOOOOOOOOOOOOOOOOO");
             }
         }.start();
 
@@ -194,7 +193,6 @@ public class ClaseProfesor extends AppCompatActivity {
             public void onFinish()
             {
                 mTimerRunning = false;
-                System.out.println("PARADIOOOOOOOOOOOOOOOOOOOOOOOO");
             }
         }.start();
 
@@ -205,12 +203,9 @@ public class ClaseProfesor extends AppCompatActivity {
         int horas = (int) mTimeLeftMillis / (60 * 60 * 1000) % 24;
         int minutos = (int) mTimeLeftMillis / (60 * 1000) % 60;
         int segundos = (int) (mTimeLeftMillis / 1000) % 60;
-        //System.out.println((mTimeLeftMillis / 1000 / 60) + "" + (mTimeLeftMillis / 1000 % 60));
         progresoSegundos = (mTimeLeftMillis / 1000 % 60);
         progreso = (mTimeLeftMillis / 1000 / 60);
         String time = String.format(Locale.getDefault(),"%02d:%02d:%02d", horas, minutos, segundos);
-
-        //System.out.println(time);
         temporizador.setText(time);
     }
 
@@ -222,10 +217,6 @@ public class ClaseProfesor extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        //TODO Cambiamos a ENPAUSA
-        //TODO GUARDAMOS PROGRESO
-        //TODO Cambiar disponibilidad a FALSE
-        //TODO finish()
         finish();
     }
 

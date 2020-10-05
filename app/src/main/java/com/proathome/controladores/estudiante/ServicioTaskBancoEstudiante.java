@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
+
+import com.proathome.fragments.DetallesFragment;
 import com.proathome.ui.editarPerfil.EditarPerfilFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,14 +23,14 @@ public class ServicioTaskBancoEstudiante extends AsyncTask<Void, Void, String>{
     public String resultadoapi = "";
     public String linkrequestAPI = "";
     public String respuesta;
-    public int idEstudiante;
+    public int idEstudiante, tipoSolicitud;
+    public static int OBTENER_DATOS = 1, VALIDAR_BANCO = 2;
 
-    public ServicioTaskBancoEstudiante(Context ctx, String linkAPI, int idEstudiante) {
-
+    public ServicioTaskBancoEstudiante(Context ctx, String linkAPI, int idEstudiante, int tipoSolicitud) {
         this.httpContext = ctx;
         this.idEstudiante = idEstudiante;
         this.linkrequestAPI = linkAPI + "/" + this.idEstudiante;
-
+        this.tipoSolicitud = tipoSolicitud;
     }
 
     @Override
@@ -103,31 +105,29 @@ public class ServicioTaskBancoEstudiante extends AsyncTask<Void, Void, String>{
         resultadoapi = s;
 
         if (resultadoapi == null) {
-
             Toast.makeText(httpContext, "Error del servidor.", Toast.LENGTH_LONG).show();
-
         } else {
 
-            if (!resultadoapi.equals("null")) {
-
-                try {
-
-                    JSONObject jsonObject = new JSONObject(resultadoapi);
-                    EditarPerfilFragment.etNombreTitular.setText(jsonObject.getString("nombreTitular"));
-                    EditarPerfilFragment.etTarjeta.setText(jsonObject.getString("tarjeta"));
-                    EditarPerfilFragment.etMes.setText(jsonObject.getString("mes"));
-                    EditarPerfilFragment.etAño.setText(jsonObject.getString("ano"));
-
-                } catch (JSONException ex) {
-
-                    ex.printStackTrace();
-
+            if(this.tipoSolicitud == ServicioTaskBancoEstudiante.OBTENER_DATOS){
+                if (!resultadoapi.equals("null")) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(resultadoapi);
+                        EditarPerfilFragment.etNombreTitular.setText(jsonObject.getString("nombreTitular"));
+                        EditarPerfilFragment.etTarjeta.setText(jsonObject.getString("tarjeta"));
+                        EditarPerfilFragment.etMes.setText(jsonObject.getString("mes"));
+                        EditarPerfilFragment.etAño.setText(jsonObject.getString("ano"));
+                    } catch (JSONException ex) {
+                        ex.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(httpContext, "Sin datos bancarios.", Toast.LENGTH_LONG).show();
                 }
-
-            } else {
-
-                Toast.makeText(httpContext, "Sin datos bancarios.", Toast.LENGTH_LONG).show();
-
+            }else if(this.tipoSolicitud == ServicioTaskBancoEstudiante.VALIDAR_BANCO){
+                if(resultadoapi.equals("null")){
+                    DetallesFragment.banco = false;
+                }else{
+                    DetallesFragment.banco = true;
+                }
             }
 
         }

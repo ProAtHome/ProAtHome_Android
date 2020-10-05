@@ -42,8 +42,8 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... voids) {
 
-            //TODO Verificamos que sigan con disponibilidad
-            //TODO Validar el estatus y el progreso, junto con la info de la sesión.
+            /*VALIDAMOS que tipo de perfil, profesor o estudiante está pidiendo ver la disponibilidad de la clase o el progreso de ésta
+             y seleccionamos la URI correspondiente a el perfil.*/
             if(Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO == DetallesFragment.ESTUDIANTE){
                 Constants.wsURL_DISPONIBILIDAD_PROGRESO = Constants.linkSincronizarEstudiante_DISPONIBILIDAD_PROGRESO + Constants.idSesion_DISPONIBILIDAD_PROGRESO + "/" + Constants.idPerfil_DISPONIBILIDAD_PROGRESO;
             }else if(Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO == DetallesSesionProfesorFragment.PROFESOR){
@@ -104,8 +104,9 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
 
             JSONObject jsonObject = new JSONObject(s);
 
-                if (Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO == DetallesFragment.ESTUDIANTE) {
+                if (Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO == DetallesFragment.ESTUDIANTE) {//Si el tipo de PERFIL es = ESTUDIANTE
 
+                    //Iniciamos la variables correspondiente con el profreso de la clase
                     Constants.dispProfesor_DISPONIBILIDAD_PROGRESO = jsonObject.getBoolean("profDisponible");
                     Constants.progreso_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progreso");
                     Constants.estatus_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("estatus");
@@ -114,14 +115,12 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                     Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progresoSegundosTE");
                     Constants.TE_activado_DISPONIBILIDAD_PROGRESO = jsonObject.getBoolean("TE");
 
-                    if(Constants.TE_activado_DISPONIBILIDAD_PROGRESO){//TODO Si tenemos tiempo en TE (Si estamos en tiempo extra)
+                    if(Constants.TE_activado_DISPONIBILIDAD_PROGRESO){// Si tenemos tiempo en TE (Si estamos en tiempo extra)
 
-                        //Toast.makeText(Constants.contexto_DISPONIBILIDAD_PROGRESO, "Prueba de TE.", Toast.LENGTH_LONG).show();
-                        if(Constants.dispProfesor_DISPONIBILIDAD_PROGRESO){
+                        if(Constants.dispProfesor_DISPONIBILIDAD_PROGRESO){//Si el profesor está en conexión.
 
-                            if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENPAUSA_TE) {
+                            if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENPAUSA_TE) {//Si el estatus de la CLASE - TE = PAUSA.
 
-                                Toast.makeText(Constants.contexto_DISPONIBILIDAD_PROGRESO, "En pausa TE.", Toast.LENGTH_LONG).show();
                                 if (ClaseEstudiante.enpausa_TE) {
                                     ClaseEstudiante.mTimeLeftMillis = (Constants.progresoTE_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO * 1000);
                                     ClaseEstudiante.updateCountDownText();
@@ -131,9 +130,8 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                     ClaseEstudiante.inicio_TE = true;
                                 }
 
-                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO_TE) {
+                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO_TE) {//Si el estatus de la CLASE - TE = EN CURSO.
 
-                                Toast.makeText(Constants.contexto_DISPONIBILIDAD_PROGRESO, "En curso TE.", Toast.LENGTH_LONG).show();
                                 if (ClaseEstudiante.encurso_TE) {
                                     ClaseEstudiante.mTimeLeftMillis = (Constants.progresoTE_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO * 1000);
                                     ClaseEstudiante.startTimer();
@@ -142,19 +140,18 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                     ClaseEstudiante.inicio_TE = true;
                                 }
 
-                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO_TE) {
+                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO_TE) {//Si el estatus de la CLASE - TE = FINALLIZADO.
 
-                                Toast.makeText(Constants.contexto_DISPONIBILIDAD_PROGRESO, "Terminado TE.", Toast.LENGTH_LONG).show();
                                 if(ClaseEstudiante.terminado_TE){
-                                    //TODO Sumar a Ruta
+                                    //Finalizamos la Clase.
                                     ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(Constants.contexto_DISPONIBILIDAD_PROGRESO, Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO, Constants.FINALIZAR_CLASE, DetallesFragment.ESTUDIANTE);
                                     finalizarClase.execute();
+                                    //Sumamos la ruta de Aprendizaje.
                                     ServicioTaskSumarClaseRuta sumarClaseRuta = new ServicioTaskSumarClaseRuta(Constants.contexto_DISPONIBILIDAD_PROGRESO, Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO, ClaseEstudiante.idSeccion, ClaseEstudiante.idNivel, ClaseEstudiante.idBloque, ClaseEstudiante.tiempo, ClaseEstudiante.sumar);
                                     sumarClaseRuta.execute();
                                     ClaseEstudiante.terminado_TE = false;
                                     ClaseEstudiante.timer.cancel();
                                     ClaseEstudiante.terminar.setVisibility(View.VISIBLE);
-                                    //TODO Cobro tentativo con OpenPay al terminar el Tiempo Extra.
                                 }
 
                             }
@@ -162,16 +159,11 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                         }else{
                             Constants.fragmentActivity.finish();
                         }
-                        //TODO Validar EN_CURSO_TE
 
-                        //TODO VALIDAR EN_PAUSA_TE
+                    }else{//Si el tiempo es normal en ESTUDIANTE
+                        if(Constants.dispProfesor_DISPONIBILIDAD_PROGRESO){//Si el profesor está en conexión.
 
-                        //TODO VALIDAR TERMINADO_TE
-
-                    }else{//TODO Todo normal en ESTUDIANTE
-                        if(Constants.dispProfesor_DISPONIBILIDAD_PROGRESO){
-
-                            if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO) {
+                            if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO) {//Si el estatus de la CLASE = EN CURSO.
 
                                 if (ClaseEstudiante.encurso) {
                                     ClaseEstudiante.mTimeLeftMillis = (Constants.progreso_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO * 1000);
@@ -181,7 +173,7 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                     ClaseEstudiante.inicio = true;
                                 }
 
-                            }else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENPAUSA) {
+                            }else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENPAUSA) {//Si el estatus de la CLASE = PAUSA.
 
                                 if (ClaseEstudiante.enpausa) {
                                     ClaseEstudiante.mTimeLeftMillis = (Constants.progreso_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO * 1000);
@@ -192,10 +184,10 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                     ClaseEstudiante.inicio = true;
                                 }
 
-                            }else if(Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO){
+                            }else if(Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO){//Si el estatus de la CLASE = FINALIZADO ANTES DE VERIFICAR TE.
                                 if(ClaseEstudiante.terminado){
                                     ClaseEstudiante.terminado = false;
-                                    //ClaseEstudiante.timer.cancel();
+                                    //Preguntamos si desea más tiempo Extra.
                                     MasTiempo masTiempo = new MasTiempo();
                                     Bundle bundle = new Bundle();
                                     bundle.putInt("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
@@ -209,8 +201,9 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                         }
                     }
 
-                } else if (Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO == DetallesSesionProfesorFragment.PROFESOR) {//PROFESOOOOOOOOOOOOOOOOOOOOOOOOR
+                } else if (Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO == DetallesSesionProfesorFragment.PROFESOR) {//Si el tipo de Perfil = PROFESOR.
 
+                    //Iniciamos las variables correspondientes a la info progreso de la clase.
                     Constants.dispEstudiante_DISPONIBILIDAD_PROGRESO = jsonObject.getBoolean("estDisponible");
                     Constants.progreso_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progreso");
                     Constants.estatus_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("estatus");
@@ -219,9 +212,9 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                     Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progresoSegundosTE");
                     Constants.TE_activado_DISPONIBILIDAD_PROGRESO = jsonObject.getBoolean("TE");
 
-                    if(Constants.TE_activado_DISPONIBILIDAD_PROGRESO){//TODO Si tenemos tiempo en TE (Si estamos en tiempo extra)
+                    if(Constants.TE_activado_DISPONIBILIDAD_PROGRESO){//Si tenemos tiempo en TE (Si estamos en tiempo extra)
 
-                        if(ClaseProfesor.schedule) {
+                        if(ClaseProfesor.schedule) {//Banderas para iniciar una sola vez el contador.
                             ClaseProfesor.mTimeLeftMillis = (Constants.progresoTE_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO * 1000);
                             ClaseProfesor.timer.cancel();
                             if(!ClaseProfesor.primeraVez){
@@ -233,22 +226,14 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                         }
                         ClaseProfesor.schedule = false;
 
-                        ClaseProfesor.pausa_start.setVisibility(View.VISIBLE); //TODO CAMBIAR A TERMINADO PARAR TIMERS.
+                        //Cambiamos los botones de Inicio.
+                        ClaseProfesor.pausa_start.setVisibility(View.VISIBLE);
                         ClaseProfesor.terminar.setVisibility(View.INVISIBLE);
 
-                        if (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO <= 1 && Constants.progresoTE_DISPONIBILIDAD_PROGRESO < 1) {
-                            ServicioTaskCambiarEstatusClase cambiarEstatusClase = new ServicioTaskCambiarEstatusClase(Constants.contexto_DISPONIBILIDAD_PROGRESO, Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO, Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO, Constants.ESTATUS_TERMINADO_TE);
-                            cambiarEstatusClase.execute();
-                            ClaseProfesor.pausa_start.setVisibility(View.INVISIBLE); //TODO CAMBIAR A TERMINADO PARAR TIMERS.
-                            ClaseProfesor.terminar.setVisibility(View.VISIBLE);
-                        }
+                        if (Constants.dispEstudiante_DISPONIBILIDAD_PROGRESO) {//Si el estudiante está en conexión.
 
-                        //Toast.makeText(Constants.contexto_DISPONIBILIDAD_PROGRESO, "Prueba de TE.", Toast.LENGTH_LONG).show();
-                        if (Constants.dispEstudiante_DISPONIBILIDAD_PROGRESO) {
+                            if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENPAUSA_TE) {//Si el estatus de la CLASE - TE = PAUSA.
 
-                            if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENPAUSA_TE) {
-
-                                Toast.makeText(Constants.contexto_DISPONIBILIDAD_PROGRESO, "En pausa TE prof.", Toast.LENGTH_LONG).show();
                                 if (ClaseProfesor.enpausa_TE) {
                                     ClaseProfesor.pausa_start.setText("Start");
                                     ClaseProfesor.pausa_start.setIcon(Constants.contexto_DISPONIBILIDAD_PROGRESO.getDrawable(R.drawable.play));
@@ -259,7 +244,7 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                     ClaseProfesor.inicio_TE = true;
                                 }
 
-                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO_TE) {
+                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO_TE) {//Si el estatus de la CLASE - TE = EN CURSO.
 
                                 if (ClaseProfesor.encurso_TE) {
                                     ClaseProfesor.pausa_start.setText("Pausar");
@@ -269,31 +254,33 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                     ClaseProfesor.enpausa_TE = true;
                                     ClaseProfesor.inicio_TE = true;
                                 }
-                                    Toast.makeText(Constants.contexto_DISPONIBILIDAD_PROGRESO, "En curso TE prof.", Toast.LENGTH_LONG).show();
 
-                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO_TE) {
+                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO_TE) {//Si el estatus de la CLASE - TE = FINALIZADO.
 
                                 if (ClaseProfesor.terminado_TE) {
                                     ClaseProfesor.terminado_TE = false;
                                     ClaseProfesor.timerSchedule.cancel();
                                     ClaseProfesor.timer2.cancel();
                                 }
-                                Toast.makeText(Constants.contexto_DISPONIBILIDAD_PROGRESO, "Terminado TE prof.", Toast.LENGTH_LONG).show();
 
                             }
 
                         }else{
                             Constants.fragmentActivity.finish();
                         }
-                        //TODO Validar EN_CURSO_TE
 
-                        //TODO VALIDAR EN_PAUSA_TE
+                        //Vamos a verificar el progreso del Tiempo extra acabó para cambiar el estatus de la clase.
+                        if (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO <= 1 && Constants.progresoTE_DISPONIBILIDAD_PROGRESO < 1) {
+                            ServicioTaskCambiarEstatusClase cambiarEstatusClase = new ServicioTaskCambiarEstatusClase(Constants.contexto_DISPONIBILIDAD_PROGRESO, Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO, Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO, Constants.ESTATUS_TERMINADO_TE);
+                            cambiarEstatusClase.execute();
+                            ClaseProfesor.pausa_start.setVisibility(View.INVISIBLE);
+                            ClaseProfesor.terminar.setVisibility(View.VISIBLE);
+                        }
 
-                        //TODO VALIDAR TERMINADO_TE
-
-                    }else{//TODO Todo normal en PROFESOR
+                    }else{//Tiempo normal en PROFESOR
 
                         ClaseProfesor.primeraVez = false;
+                        //Vamos a verificar el progreso del Tiempo normal para cambiar el estatus de la clase.
                         if (Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO <= 1 && Constants.progreso_DISPONIBILIDAD_PROGRESO < 1) {
                             ServicioTaskCambiarEstatusClase cambiarEstatusClase = new ServicioTaskCambiarEstatusClase(Constants.contexto_DISPONIBILIDAD_PROGRESO, Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO, Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO, Constants.ESTATUS_TERMINADO);
                             cambiarEstatusClase.execute();
@@ -302,8 +289,9 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                             ClaseProfesor.terminar.setVisibility(View.VISIBLE);
                         }
 
-                        if (Constants.dispEstudiante_DISPONIBILIDAD_PROGRESO) {
-                            if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENPAUSA) {
+                        if (Constants.dispEstudiante_DISPONIBILIDAD_PROGRESO) {// Si el estudiante está en conexión.
+
+                            if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENPAUSA) {//Si el estatus de la CLASE = PAUSA.
 
                                 if (ClaseProfesor.enpausa) {
                                     ClaseProfesor.pausa_start.setText("Start");
@@ -315,7 +303,7 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                     ClaseProfesor.inicio = true;
                                 }
 
-                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO) {
+                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO) {//Si el estatus de la CLASE = EN CURSO.
 
                                 if (ClaseProfesor.encurso) {
                                     ClaseProfesor.pausa_start.setText("Pausar");
@@ -326,15 +314,12 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                     ClaseProfesor.inicio = true;
                                 }
 
-                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO) {
+                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO) {//Si el estatus de la CLASE = FINALIZADO.
+
                                 if (ClaseProfesor.terminado) {
                                     ClaseProfesor.terminado = false;
-                                    SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(Constants.contexto_DISPONIBILIDAD_PROGRESO);
-                                    String idCard = myPreferences.getString("idCard", "Sin valor");
-                                    Toast.makeText(Constants.contexto_DISPONIBILIDAD_PROGRESO, "IdCard: " + idCard, Toast.LENGTH_LONG).show();
-                                    //ClaseProfesor.timer.cancel();
-                                    //ClaseProfesor.timer2.cancel();
                                 }
+
                             }
                         } else {
                             Constants.fragmentActivity.finish();

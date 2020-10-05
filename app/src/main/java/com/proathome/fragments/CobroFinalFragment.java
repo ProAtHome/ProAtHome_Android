@@ -10,33 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
 import com.proathome.ClaseEstudiante;
 import com.proathome.R;
 import com.proathome.controladores.ServicioTaskCobro;
 import com.proathome.controladores.TabuladorCosto;
-import com.proathome.controladores.clase.ServicioTaskFinalizarClase;
-import com.proathome.controladores.clase.ServicioTaskMasTiempo;
-import com.proathome.controladores.clase.ServicioTaskSumarClaseRuta;
 import com.proathome.utils.Constants;
-
-import java.util.Hashtable;
-import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import mx.openpay.client.core.OpenpayAPI;
 
 public class CobroFinalFragment extends DialogFragment {
 

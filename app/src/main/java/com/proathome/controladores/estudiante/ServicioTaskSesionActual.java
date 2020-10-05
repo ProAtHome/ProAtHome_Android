@@ -95,6 +95,7 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
             int bloque = rutaJSON.getInt("idBloque");
             int minutos_horas = rutaJSON.getInt("horas");
 
+            //Iniciamos los adaptadores con el nivel actual.
             NuevaSesionFragment.minutosAnteriores = minutos_horas;
             NuevaSesionFragment.tomarSesion = new ControladorTomarSesion(this.contexto, seccion, nivel, bloque);
             NuevaSesionFragment.minutosEstablecidos = NuevaSesionFragment.tomarSesion.validarHorasRestantes(seccion, nivel, bloque);

@@ -235,7 +235,7 @@ public class EditarPerfilFragment extends Fragment {
             this.idEstudiante = fila.getInt(0);
             perfilEstudiante = new ServicioTaskPerfilEstudiante(getContext(), linkRESTCargarPerfil, this.imageHttpAddress, this.idEstudiante, Constants.INFO_PERFIl_EDITAR);
             perfilEstudiante.execute();
-            bancoEstudiante = new ServicioTaskBancoEstudiante(getContext(), linkRESTDatosBancarios, this.idEstudiante);
+            bancoEstudiante = new ServicioTaskBancoEstudiante(getContext(), linkRESTDatosBancarios, this.idEstudiante, ServicioTaskBancoEstudiante.OBTENER_DATOS);
             bancoEstudiante.execute();
 
         }else{

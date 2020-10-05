@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.LayoutInflater;
@@ -35,6 +34,7 @@ import com.proathome.controladores.clase.ServicioTaskFinalizarClase;
 import com.proathome.controladores.clase.ServicioTaskSincronizarClases;
 import com.proathome.controladores.WorkaroundMapFragment;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.controladores.estudiante.ServicioTaskBancoEstudiante;
 import com.proathome.controladores.estudiante.ServicioTaskPreOrden;
 import com.proathome.controladores.profesor.ServicioTaskFotoDetalles;
 import com.proathome.utils.Component;
@@ -57,6 +57,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     public static int idSeccion = 0;
     public static int idNivel = 0;
     public static int idBloque = 0;
+    /*VARIABLE DE EXISTENCIA DE DATOS - BANCO*/
+    public static boolean banco;
     public static ImageView foto;
     @BindView(R.id.profesor)
     public TextView profesor;
@@ -80,6 +82,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     private ScrollView mScrollView;
     private Unbinder mUnbinder;
     private double longitud = -99.13320799999, latitud = 19.4326077;
+    private String linkRESTDatosBancarios = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
 
     public DetallesFragment() {
 
@@ -179,36 +182,42 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         /*Datos de pre Orden listos para ser lanzados :)*/
         ServicioTaskPreOrden preOrden = new ServicioTaskPreOrden(idEstudiante, idSesion, ServicioTaskPreOrden.PANTALLA_PRE_COBRO);
         preOrden.execute();
+        ServicioTaskBancoEstudiante bancoEstudiante = new ServicioTaskBancoEstudiante(getContext(), linkRESTDatosBancarios, idEstudiante, ServicioTaskBancoEstudiante.VALIDAR_BANCO);
+        bancoEstudiante.execute();
 
         iniciar.setOnClickListener(v ->{
 
-            /*Chechamos en putiza si hay un token guardado en el telefono de el pago de la sesión*/
-            SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-            String idCardSesion = "idCard" + idSesion;
-            String idCard = myPreferences.getString(idCardSesion, "Sin valor");
+            if(banco){
+                /*Chechamos en putiza si hay un token guardado en el telefono de el pago de la sesión*/
+                SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                String idCardSesion = "idCard" + idSesion;
+                String idCard = myPreferences.getString(idCardSesion, "Sin valor");
 
-            if(idCard.equalsIgnoreCase("Sin valor")){
-                //Si no hay un token en el phone entonces creamos uno con el diálogo de PreOrden*/
-                PreOrdenClase preOrdenClase = new PreOrdenClase();
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                preOrdenClase.show(fragmentTransaction, "PreOrden");
-            }else{
+                if(idCard.equalsIgnoreCase("Sin valor")){
+                    //Si no hay un token en el phone entonces creamos uno con el diálogo de PreOrden*/
+                    PreOrdenClase preOrdenClase = new PreOrdenClase();
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    preOrdenClase.show(fragmentTransaction, "PreOrden");
+                }else{
                 /*Si ya tenemos un token entonces no hay pedo e iniciamos la buisqueda de la conexión del
                 profesor.
                  */
-                ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
-                sincronizarClases.execute();
+                    ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
+                    sincronizarClases.execute();
 
-                Intent intent = new Intent(getContext(), SincronizarClase.class);
-                intent.putExtra("perfil", ESTUDIANTE);
-                intent.putExtra("idSesion", idSesion);
-                intent.putExtra("idPerfil", idEstudiante);
-                intent.putExtra("tiempo", tiempoPasar);
-                intent.putExtra("idSeccion", bun.getInt("idSeccion"));
-                intent.putExtra("idNivel", bun.getInt("idNivel"));
-                intent.putExtra("idBloque", bun.getInt("idBloque"));
-                intent.putExtra("sumar", sumar);
-                startActivity(intent);
+                    Intent intent = new Intent(getContext(), SincronizarClase.class);
+                    intent.putExtra("perfil", ESTUDIANTE);
+                    intent.putExtra("idSesion", idSesion);
+                    intent.putExtra("idPerfil", idEstudiante);
+                    intent.putExtra("tiempo", tiempoPasar);
+                    intent.putExtra("idSeccion", bun.getInt("idSeccion"));
+                    intent.putExtra("idNivel", bun.getInt("idNivel"));
+                    intent.putExtra("idBloque", bun.getInt("idBloque"));
+                    intent.putExtra("sumar", sumar);
+                    startActivity(intent);
+                }
+            }else{
+                Toast.makeText(getContext(), "Revisa tus datos bancarios antes de continuar.", Toast.LENGTH_LONG).show();
             }
 
         });

@@ -549,8 +549,6 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
             else if(estatus == Constants.REINICIAR_EXAMEN)
                 Toast.makeText(this.contexto, "Examen reiniciado...", Toast.LENGTH_LONG);
 
-            //Toast.makeText(this.contexto, "Estado: " + jsonObject.getString("estatus"), Toast.LENGTH_LONG).show();
-
         }catch(JSONException ex){
             ex.printStackTrace();
         }

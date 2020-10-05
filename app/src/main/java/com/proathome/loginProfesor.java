@@ -31,6 +31,7 @@ public class loginProfesor extends AppCompatActivity {
         setContentView(R.layout.activity_login_profesor);
         mUnbinder = ButterKnife.bind(this);
 
+        /*
         AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(this, "sesionProfesor", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
         Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);
@@ -46,7 +47,7 @@ public class loginProfesor extends AppCompatActivity {
 
             baseDeDatos.close();
 
-        }
+        }*/
 
     }
 

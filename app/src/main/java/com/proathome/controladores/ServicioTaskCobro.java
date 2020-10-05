@@ -1,12 +1,11 @@
 package com.proathome.controladores;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
-
 import androidx.fragment.app.FragmentTransaction;
-
 import com.proathome.ClaseEstudiante;
 import com.proathome.controladores.clase.ServicioTaskFinalizarClase;
 import com.proathome.controladores.clase.ServicioTaskMasTiempo;
@@ -43,6 +42,7 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
     private String idCard, deviceId;
     private double cobro;
     private Context contexto;
+    private ProgressDialog progressDialog;
 
     public ServicioTaskCobro(Context contexto, String deviceId, int idSesion, int idEstudiante, String idCard, double cobro, int tipo_token, int tipo_boton){
         this.contexto = contexto;
@@ -58,6 +58,7 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        progressDialog = ProgressDialog.show(contexto, "Generando Cobro", "Por favor, espere...");
     }
 
     @Override
@@ -170,10 +171,12 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        progressDialog.dismiss();
 
         if(this.tipo_token == ServicioTaskCobro.TOKEN_PHONE){
             if(this.tipo_boton == ServicioTaskCobro.ENTENDIDO_CANCELAR){
                 if(s.equalsIgnoreCase("")){
+                    System.out.println("Entendido cancelar");
                     //TODO Actualizar la orden de pago con estatusPago = Pagado.
                     ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo, TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR));
                     ordenPago.execute();
@@ -189,6 +192,7 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
                 }
             }else if(this.tipo_boton == ServicioTaskCobro.ENTENDIDO_TE){
                 if(s.equalsIgnoreCase("")){
+                    System.out.println("Entendido TE");
                     //TODO Actualizar la orden de pago con estatusPago = Pagado.
                     ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo, TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR));
                     ordenPago.execute();

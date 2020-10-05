@@ -89,16 +89,6 @@ public class ClaseEstudiante extends FragmentActivity {
         };
 
         timer.schedule(task, 0, 3000);
-        //PETICION CADA X SEGUNDOS.
-
-        //TODO Verificamos que sigan con disponibilidad
-        //TODO Validar el estatus y el progreso, junto con la info de la sesión.
-        //TODO GUARDAMOS PROGRESO
-        //TODO TIMER TASK CON LO ANTERIOR
-
-        //TODO Cambiamos a ENCURSO
-        //startTimer();
-        //updateCountDownText();
 
     }
 
@@ -130,25 +120,17 @@ public class ClaseEstudiante extends FragmentActivity {
         int minutos = (int) mTimeLeftMillis / (60 * 1000) % 60;
         int segundos = (int) (mTimeLeftMillis / 1000) % 60;
         String time = String.format(Locale.getDefault(),"%02d:%02d:%02d", horas, minutos, segundos);
-        //Toast.makeText(this, "Progreso en reloj: " + minutos + " " + segundos, Toast.LENGTH_LONG).show();
-        //System.out.println(time);
         temporizador.setText(time);
     }
 
     public static void pauseTimer(){
         if(countDownTimer != null)
             countDownTimer.cancel();
-        //TODO Cambiamos a ENPAUSA
-        //TODO GUARDAMOS PROGRESO
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //TODO Cambiamos a ENPAUSA
-        //TODO GUARDAMOS PROGRESO
-        //TODO Cambiar disponibilidad a FALSE
-        //TODO finish()
         finish();
     }
 
@@ -160,8 +142,5 @@ public class ClaseEstudiante extends FragmentActivity {
         timer.cancel();
         ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
         sincronizarClases.execute();
-        //TODO Cambiamos a ENPAUSA
-        //TODO GUARDAMOS PROGRESO
-        //TODO Cambiar disponibilidad a FALSE
     }
 }
