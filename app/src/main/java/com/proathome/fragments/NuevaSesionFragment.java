@@ -312,7 +312,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                 fechaET.setText(sdf.format(calendar.getTime()));
             }
         },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());// TODO: used to hide previous date,month and year
+        dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());//used to hide previous date,month and year
         calendar.add(Calendar.YEAR, 0);
         dialog.show();
 

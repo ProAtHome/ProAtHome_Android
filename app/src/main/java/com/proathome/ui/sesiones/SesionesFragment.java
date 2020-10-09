@@ -22,9 +22,11 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterGestionar;
+import com.proathome.controladores.clase.ServicioSesionesPagadas;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioTaskSesionesEstudiante;
 import com.proathome.fragments.NuevaSesionFragment;
+import com.proathome.fragments.PlanesFragment;
 import com.proathome.utils.Constants;
 import java.util.ArrayList;
 import butterknife.BindView;
@@ -39,6 +41,7 @@ public class SesionesFragment extends Fragment {
     private ServicioTaskSesionesEstudiante sesionesTask;
     private Unbinder mUnbinder;
     private int idCliente = 0;
+    public static boolean SESIONES_PAGADAS_FINALIZADAS = false, PLAN_ACTIVO = false;
     public static LottieAnimationView lottieAnimationView;
     @BindView(R.id.recyclerGestionar)
     RecyclerView recyclerView;
@@ -73,15 +76,14 @@ public class SesionesFragment extends Fragment {
 
         Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
         if (fila.moveToFirst()) {
-
             this.idCliente = fila.getInt(0);
             baseDeDatos.close();
-
         } else {
-
             baseDeDatos.close();
-
         }
+
+        ServicioSesionesPagadas servicioSesionesPagadas = new ServicioSesionesPagadas(this.idCliente);
+        servicioSesionesPagadas.execute();
 
         return root;
 
@@ -123,12 +125,44 @@ public class SesionesFragment extends Fragment {
 
         switch (view.getId()){
             case R.id.fabNuevaSesion:
+
+                /*TODO FLUJO_PLANES: Verificar que tengamos más de X sesiones PAGADAS Y FINALIZADAS (Antes de dar click) y guardar en Constante.
+                   -> SI, ENTONES, ¿Hay un plan distinto a PARTICULAR activo? -> SI, ENTONCES, No mostramos los planes.
+                                                                              -> NO, ENTONCES, Mostramos MODAL con PLANES.
+                   -> NO, ENTONCES  Creamos Clase con PLAN -> PARTICULAR (Normal). */
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     showAlert();
                 } else {
+                    if(SesionesFragment.SESIONES_PAGADAS_FINALIZADAS){
+                        if(SesionesFragment.PLAN_ACTIVO){
+                            NuevaSesionFragment nueva = new NuevaSesionFragment();
+                            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                            nueva.show(transaction, NuevaSesionFragment.TAG);
+                            Toast.makeText(getContext(), "Con plan disitnto a PARTICULAR.", Toast.LENGTH_LONG).show();
+                        }else{
+                            PlanesFragment planesFragment = new PlanesFragment();
+                            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                            planesFragment.show(transaction, "Planes Disponibles");
+                            Toast.makeText(getContext(), "Mostramos planes.", Toast.LENGTH_LONG).show();
+                        }
+                    }else{
+                        if(SesionesFragment.PLAN_ACTIVO){
+                            NuevaSesionFragment nueva = new NuevaSesionFragment();
+                            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                            nueva.show(transaction, NuevaSesionFragment.TAG);
+                            Toast.makeText(getContext(), "Con plan disitnto a PARTICULAR.", Toast.LENGTH_LONG).show();
+                        }else{
+                            NuevaSesionFragment nueva = new NuevaSesionFragment();
+                            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                            nueva.show(transaction, NuevaSesionFragment.TAG);
+                            Toast.makeText(getContext(), "Con plan PARTICULAR.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    /*
                     NuevaSesionFragment nueva = new NuevaSesionFragment();
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    nueva.show(transaction, NuevaSesionFragment.TAG);
+                    nueva.show(transaction, NuevaSesionFragment.TAG);*/
                 }
                 break;
             case R.id.fabActualizar:
@@ -142,7 +176,6 @@ public class SesionesFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        Toast.makeText(getContext(), "onpause", Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -152,7 +152,6 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
                     Toast.makeText(contexto, idCard, Toast.LENGTH_LONG).show();
 
                     /*Guardamos el token en la perra BD*/
-                    /*TODO Aquí también crearemos la orden de compra*/
                     ServicioTaskCard servicioTaskCard = new ServicioTaskCard(idCard, DetallesFragment.idSesion, DetallesFragment.idEstudiante, ServicioTaskCard.GUARDAR_TOKEN_BD);
                     servicioTaskCard.execute();
                     /*Iniciamos la búsqueda de el profesor*/

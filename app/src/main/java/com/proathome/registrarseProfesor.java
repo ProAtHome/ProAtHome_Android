@@ -51,7 +51,7 @@ public class registrarseProfesor extends AppCompatActivity {
 
     private void colocarFecha(){
 
-        if(mMonthIni > 9 && mDayIni < 9){
+        if(mMonthIni >= 9 && mDayIni <= 9){
 
             fechaET.setText((mYearIni) + "-" + (mMonthIni + 1) + "-" + "0" + mDayIni);
 

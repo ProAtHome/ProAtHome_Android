@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.PlanesFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/common_padding_min"
+        android:layout_marginTop="55dp"
+        android:background="@mipmap/fondoplanes">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/common_padding_min">
+
+                <ImageView
+                    android:id="@+id/imgPlan1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@mipmap/semanal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tituloPlan1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PLAN SEMANAL"
+                    android:textColor="@android:color/black"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                    android:textStyle="bold"
+                    android:layout_marginStart="@dimen/common_padding_min"
+                    app:layout_constraintStart_toEndOf="@id/imgPlan1"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/descPlan1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Plan de 5 horas disponibles \na un precio especial durante \n1 semana."
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_marginStart="@dimen/common_padding_min"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    app:layout_constraintStart_toEndOf="@id/imgPlan1"
+                    app:layout_constraintTop_toBottomOf="@id/tituloPlan1"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card1"
+            android:layout_marginTop="@dimen/common_padding_min">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/common_padding_min">
+
+                <ImageView
+                    android:id="@+id/imgPlan2"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@mipmap/mensual"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tituloPlan2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PLAN MENSUAL"
+                    android:textColor="@android:color/black"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                    android:textStyle="bold"
+                    android:layout_marginStart="@dimen/common_padding_min"
+                    app:layout_constraintStart_toEndOf="@id/imgPlan2"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/descPlan2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Plan de 20 horas disponibles \na un precio especial durante \n1 mes."
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_marginStart="@dimen/common_padding_min"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    app:layout_constraintStart_toEndOf="@id/imgPlan2"
+                    app:layout_constraintTop_toBottomOf="@id/tituloPlan2"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card2"
+            android:layout_marginTop="@dimen/common_padding_min">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/common_padding_min">
+
+                <ImageView
+                    android:id="@+id/imgPlan3"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@mipmap/bim"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tituloPlan3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PLAN BIMESTRAL"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_marginStart="@dimen/common_padding_min"
+                    app:layout_constraintStart_toEndOf="@id/imgPlan3"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/descPlan3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Plan de 40 horas disponibles \na un precio especial durante \n2 meses."
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_marginStart="@dimen/common_padding_min"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    app:layout_constraintStart_toEndOf="@id/imgPlan3"
+                    app:layout_constraintTop_toBottomOf="@id/tituloPlan3"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancelar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No, gracias"
+            android:layout_marginTop="@dimen/common_padding_min"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card3"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

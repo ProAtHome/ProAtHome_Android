@@ -140,28 +140,31 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
                         EditarPerfilFragment.etDesc.setText(jsonObject.getString("descripcion"));
 
                     }else if(this.tipo == Constants.INFO_PERFIL){
-
+                        System.out.println(jsonObject);
                         inicioEstudiante.nombreTV.setText(jsonObject.getString("nombre"));
                         inicioEstudiante.correoTV.setText(jsonObject.getString("correo"));
+                        inicioEstudiante.tipoPlan.setText("PLAN ACTUAL: " + jsonObject.getString("tipoPlan"));
+                        inicioEstudiante.monedero.setText("HORAS DISPONIBLES:                      " + obtenerHorario(jsonObject.getInt("monedero")));
 
                     }
 
-
-
                 }catch(JSONException ex){
-
                     ex.printStackTrace();
-
                 }
 
             }else{
-
                 Toast.makeText(httpContext, "Error en el perfil.",Toast.LENGTH_LONG).show();
-
             }
 
         }
 
+    }
+
+    public String obtenerHorario(int tiempo){
+        String horas = String.valueOf(tiempo/60) + " HRS ";
+        String minutos = String.valueOf(tiempo%60) + " min";
+
+        return horas + minutos;
     }
 
 }

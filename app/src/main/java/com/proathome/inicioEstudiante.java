@@ -25,7 +25,7 @@ public class inicioEstudiante extends AppCompatActivity{
     private Intent intent;
     private String linkRESTCargarPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/perfilCliente";
     private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
-    public static TextView correoTV, nombreTV;
+    public static TextView correoTV, nombreTV, tipoPlan, monedero;
     private int idEstudiante = 0;
     public static ImageView foto;
 
@@ -42,6 +42,8 @@ public class inicioEstudiante extends AppCompatActivity{
         View view = navigationView.getHeaderView(0);
         nombreTV = view.findViewById(R.id.nombreEstudianteTV);
         correoTV = view.findViewById(R.id.correoEstudianteTV);
+        tipoPlan = view.findViewById(R.id.tipoPlan);
+        monedero = view.findViewById(R.id.monedero);
         foto = view.findViewById(R.id.fotoIV);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_inicio, R.id.nav_editarPerfil, R.id.nav_sesiones,
@@ -52,6 +54,9 @@ public class inicioEstudiante extends AppCompatActivity{
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        /*TODO FLUJO_PLANES: Verificar si el perfil debe ser Bloqueado o no.
+            ->Si no está bloqueado entonces obtenemos el PLAN ACTUAL y el Monedero.
+            (Dentro de la función de cargarPerfil)*/
         cargarPerfil();
 
     }
@@ -65,13 +70,12 @@ public class inicioEstudiante extends AppCompatActivity{
         if(fila.moveToFirst()){
 
             this.idEstudiante = fila.getInt(0);
+            /*TODO FLUJO_PANES: Cargamos la info de PLAN, MONEDERO Y PERFIL.*/
             ServicioTaskPerfilEstudiante perfilEstudiante = new ServicioTaskPerfilEstudiante(this, linkRESTCargarPerfil, this.imageHttpAddress, this.idEstudiante, Constants.INFO_PERFIL);
             perfilEstudiante.execute();
 
         }else{
-
             baseDeDatos.close();
-
         }
 
         baseDeDatos.close();

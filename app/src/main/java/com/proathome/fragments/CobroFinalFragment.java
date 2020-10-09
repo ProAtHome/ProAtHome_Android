@@ -97,9 +97,8 @@ public class CobroFinalFragment extends DialogFragment {
                     String idCardSesion = "idCard" + idSesion;
                     idCard = myPreferences.getString(idCardSesion, "Sin valor");
 
-                    //TODO Cobro tentativo con OpenPay al cancelar el tiempo EXTRA.
                     if(idCard.equalsIgnoreCase("Sin valor")){
-                        //TODO obtenerToken de BD.
+                        //obtenerToken de BD.
                         ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idEstudiante, idCard, costoTotal, ServicioTaskCobro.TOKEN_BD, ServicioTaskCobro.ENTENDIDO_CANCELAR);
                         servicioTaskCobro.execute();
                     }else{
@@ -112,9 +111,9 @@ public class CobroFinalFragment extends DialogFragment {
                     String idCardSesion = "idCard" + idSesion;
                     idCard = myPreferences.getString(idCardSesion, "Sin valor");
 
-                    //TODO Cobro tentativo con OpenPay al elegir el tiempo EXTRA.
+                    //Cobro tentativo con OpenPay al elegir el tiempo EXTRA.
                     if(idCard.equalsIgnoreCase("Sin valor")){
-                        //TODO obtenerToken de BD.
+                        //obtenerToken de BD.
                         ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idEstudiante, idCard, costoTotal, ServicioTaskCobro.TOKEN_BD, ServicioTaskCobro.ENTENDIDO_TE);
                         servicioTaskCobro.execute();
                     }else{

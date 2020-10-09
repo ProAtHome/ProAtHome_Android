@@ -134,11 +134,13 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
                                     object.getString("profesor"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
                                     object.getDouble("longitud"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getString("fecha"), object.getString("fotoProfesor"), object.getString("descripcionProfesor"), object.getString("correoProfesor"), object.getBoolean("sumar")));
                             System.out.println(object.toString());
-                        }else if(tipo == 2){
-                            SesionesFragment.myAdapter.add(DetallesGestionarFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoClase"), object.getString("horario"),
-                                    object.getString("profesor"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
-                                    object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getString("fecha")));
-                        }
+                        }else if(tipo == 2){//TODO FLUJO_PLANES: Nota - Si la clase está finalizada no se puede eliminar ni editar (No mostrar en Gestión)
+                            if(!object.getBoolean("finalizado")){
+                                SesionesFragment.myAdapter.add(DetallesGestionarFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoClase"), object.getString("horario"),
+                                        object.getString("profesor"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
+                                        object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getString("fecha")));
+                            }
+                         }
 
                     }
 

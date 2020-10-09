@@ -177,7 +177,7 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
             if(this.tipo_boton == ServicioTaskCobro.ENTENDIDO_CANCELAR){
                 if(s.equalsIgnoreCase("")){
                     System.out.println("Entendido cancelar");
-                    //TODO Actualizar la orden de pago con estatusPago = Pagado.
+                    //Actualizar la orden de pago con estatusPago = Pagado.
                     ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo, TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR));
                     ordenPago.execute();
                     //Finalizamos la clase, sumamos la ruta y obtenemos el token de el celular para realizar el cobro.
@@ -193,7 +193,7 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
             }else if(this.tipo_boton == ServicioTaskCobro.ENTENDIDO_TE){
                 if(s.equalsIgnoreCase("")){
                     System.out.println("Entendido TE");
-                    //TODO Actualizar la orden de pago con estatusPago = Pagado.
+                    //Actualizar la orden de pago con estatusPago = Pagado.
                     ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo, TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR));
                     ordenPago.execute();
                     //Generamos el tiempo extra y la vida sigue.

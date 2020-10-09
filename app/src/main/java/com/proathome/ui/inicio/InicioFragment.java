@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.controladores.estudiante.ServicioTaskIniciarPlan;
 import com.proathome.controladores.estudiante.ServicioTaskIniciarProcesoRuta;
 import com.proathome.controladores.estudiante.ServicioTaskSesionesEstudiante;
 import com.proathome.R;
@@ -44,7 +45,10 @@ public class InicioFragment extends Fragment {
         if (fila.moveToFirst()) {
 
             idCliente = fila.getInt(0);
-            System.out.println("IdcLiente " +  idCliente);
+
+            //TODO FLUJO_PLANES: Crear PLAN al iniciar sesión si no existe registro en la BD.
+            ServicioTaskIniciarPlan iniciarPlan = new ServicioTaskIniciarPlan(idCliente);
+            iniciarPlan.execute();
             ServicioTaskIniciarProcesoRuta iniciarProcesoRuta = new ServicioTaskIniciarProcesoRuta(getContext(), idCliente);
             iniciarProcesoRuta.execute();
             sesionesTask = new ServicioTaskSesionesEstudiante(getContext(), clasesHttpAddress, idCliente, Constants.SESIONES_INICIO);

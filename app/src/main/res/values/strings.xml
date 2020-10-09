@@ -17,9 +17,6 @@
     <string name="large_text">
 
 
-    <!-- TODO: Remove or change this placeholder text -->
-
-
         <string name="card_chip_demo">Chip</string>
     <string name="card_message_demo_large">This is a secondary text for a card with three lines in the message.
         We can show more details about topic like specs.</string>

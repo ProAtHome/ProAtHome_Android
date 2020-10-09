@@ -285,7 +285,7 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                             ServicioTaskCambiarEstatusClase cambiarEstatusClase = new ServicioTaskCambiarEstatusClase(Constants.contexto_DISPONIBILIDAD_PROGRESO, Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO, Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO, Constants.ESTATUS_TERMINADO);
                             cambiarEstatusClase.execute();
                             ClaseProfesor.timer.cancel();
-                            ClaseProfesor.pausa_start.setVisibility(View.INVISIBLE); //TODO CAMBIAR A TERMINADO PARAR TIMERS.
+                            ClaseProfesor.pausa_start.setVisibility(View.INVISIBLE);
                             ClaseProfesor.terminar.setVisibility(View.VISIBLE);
                         }
 
