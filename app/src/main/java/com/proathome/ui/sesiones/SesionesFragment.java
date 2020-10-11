@@ -63,6 +63,9 @@ public class SesionesFragment extends Fragment {
         sesionesTask.execute();
         configAdapter();
         configRecyclerView();
+        System.out.println("En pausaaaaaaaaaaa");
+        ServicioSesionesPagadas servicioSesionesPagadas = new ServicioSesionesPagadas(this.idCliente);
+        servicioSesionesPagadas.execute();
 
     }
 

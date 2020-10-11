@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.Toast;
+
+import com.proathome.fragments.PlanesFragment;
 import com.proathome.inicioEstudiante;
 import com.proathome.ui.editarPerfil.EditarPerfilFragment;
 import com.proathome.utils.Constants;
@@ -140,11 +142,13 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
                         EditarPerfilFragment.etDesc.setText(jsonObject.getString("descripcion"));
 
                     }else if(this.tipo == Constants.INFO_PERFIL){
-                        System.out.println(jsonObject);
+
                         inicioEstudiante.nombreTV.setText(jsonObject.getString("nombre"));
                         inicioEstudiante.correoTV.setText(jsonObject.getString("correo"));
                         inicioEstudiante.tipoPlan.setText("PLAN ACTUAL: " + jsonObject.getString("tipoPlan"));
                         inicioEstudiante.monedero.setText("HORAS DISPONIBLES:                      " + obtenerHorario(jsonObject.getInt("monedero")));
+                        PlanesFragment.nombreEstudiante = jsonObject.getString("nombre");
+                        PlanesFragment.correoEstudiante = jsonObject.getString("correo");
 
                     }
 

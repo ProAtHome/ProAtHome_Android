@@ -72,6 +72,7 @@ public class ServicioSesionesPagadas extends AsyncTask<Void, Void, String> {
             JSONObject jsonObject = new JSONObject(s);
             SesionesFragment.PLAN_ACTIVO = jsonObject.getBoolean("plan_activo");
             SesionesFragment.SESIONES_PAGADAS_FINALIZADAS = jsonObject.getBoolean("sesiones_pagadas_finalizadas");
+            System.out.println(jsonObject);
         }catch(JSONException ex){
             ex.printStackTrace();
         }

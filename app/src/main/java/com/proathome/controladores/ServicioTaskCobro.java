@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -238,6 +237,5 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
     public String getPostDataString(JSONObject params) throws Exception {
         return params.toString();
     }
-
 
 }

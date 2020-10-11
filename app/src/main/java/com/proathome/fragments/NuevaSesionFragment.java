@@ -122,7 +122,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
         if (fila.moveToFirst()) {
             idCliente = fila.getInt(0);
-            ServicioTaskSesionActual servicioTaskSesionActual = new ServicioTaskSesionActual(getContext(), idCliente);
+            ServicioTaskSesionActual servicioTaskSesionActual = new ServicioTaskSesionActual(getContext(), idCliente, ServicioTaskSesionActual.NUEVA_SESION_FRAGMENT);
             servicioTaskSesionActual.execute();
         } else {
             baseDeDatos.close();

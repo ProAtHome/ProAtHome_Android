@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.OrdenCompraPlanFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/common_padding_default">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/color_surface">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/common_padding_min">
+
+                    <TextView
+                        android:id="@+id/titulo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ORDEN DE COMPRA"
+                        android:textColor="@color/colorPrimary"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/plan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:drawableLeft="@drawable/plan"
+                        android:drawableTint="@color/colorPrimaryDark"
+                        android:text="PLAN: PLAN_ELEGIDO"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/titulo" />
+
+                    <TextView
+                        android:id="@+id/fechaInicio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="FECHA DE INICIO: 09/10/2020"
+                        android:textStyle="bold"
+                        android:drawableLeft="@drawable/ic_date"
+                        android:drawableTint="@color/colorPrimaryDark"
+                        android:textColor="@android:color/black"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/plan"/>
+
+                    <TextView
+                        android:id="@+id/fechaFin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="FECHA DE EXPIRACIÓN: 10/10/2020"
+                        android:textStyle="bold"
+                        android:drawableLeft="@drawable/ic_date"
+                        android:drawableTint="@color/colorPrimaryDark"
+                        android:textColor="@android:color/black"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/fechaInicio"/>
+
+                    <TextView
+                        android:id="@+id/horas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="HORAS DISPONIBLES: 5 HRS"
+                        android:textStyle="bold"
+                        android:drawableTint="@color/colorPrimaryDark"
+                        android:drawableLeft="@drawable/horario"
+                        android:textColor="@android:color/black"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/fechaFin"/>
+
+                    <TextView
+                        android:id="@+id/costo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="COSTO TOTAL: 1000 MXN"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_marginTop="@dimen/common_padding_default"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/horas"/>
+
+                    <View
+                        android:id="@+id/divider"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimaryDark"
+                        app:layout_constraintTop_toBottomOf="@id/costo"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="@dimen/common_padding_middle"/>
+
+                    <TextView
+                        android:id="@+id/tvAyuda"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ayudanos a validar tu método de pago."
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/divider"/>
+
+                    <TextView
+                        android:id="@+id/tvMetodoRegistrado"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Método registrado:"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:layout_marginTop="@dimen/common_padding_middle"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvAyuda"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilTitular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:endIconMode="custom"
+                        app:startIconDrawable="@drawable/ic_account"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvMetodoRegistrado"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etTitular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Titular de la tarjeta"
+                            android:inputType="textPersonName"
+                            android:textColor="@color/colorPrimary"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilTarjeta"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilTitular"
+                        app:endIconMode="custom"
+                        app:startIconDrawable="@drawable/ic_card"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etTarjeta"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Número de Tarjeta"
+                            android:inputType="number"
+                            android:textColor="@color/colorPrimary"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilMes"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilTarjeta"
+                        app:endIconMode="custom"
+                        app:startIconDrawable="@drawable/ic_date"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etMes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Mes (MM)"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:textColor="@color/colorPrimary"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilAno"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilMes"
+                        app:endIconMode="custom"
+                        app:startIconDrawable="@drawable/ic_date"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etAno"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Año (AA)"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:textColor="@color/colorPrimary"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilCvv"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilAno"
+                        app:endIconMode="custom"
+                        app:startIconDrawable="@drawable/ic_card"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etCvv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="CVV"
+                            android:inputType="number"
+                            android:maxLength="4"
+                            android:textColor="@color/colorPrimary"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/comprar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Comprar"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilCvv"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/cancelar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cancelar"
+                        android:backgroundTint="@android:color/holo_red_dark"
+                        android:layout_marginStart="@dimen/common_padding_default"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        app:layout_constraintStart_toEndOf="@id/comprar"
+                        app:layout_constraintTop_toBottomOf="@id/tilCvv"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

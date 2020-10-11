@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.proathome.fragments.DetallesFragment;
+import com.proathome.fragments.PlanesFragment;
 import com.proathome.ui.editarPerfil.EditarPerfilFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +25,7 @@ public class ServicioTaskBancoEstudiante extends AsyncTask<Void, Void, String>{
     public String linkrequestAPI = "";
     public String respuesta;
     public int idEstudiante, tipoSolicitud;
-    public static int OBTENER_DATOS = 1, VALIDAR_BANCO = 2;
+    public static int OBTENER_DATOS = 1, VALIDAR_BANCO = 2, DATOS_PLANES = 3;
 
     public ServicioTaskBancoEstudiante(Context ctx, String linkAPI, int idEstudiante, int tipoSolicitud) {
         this.httpContext = ctx;
@@ -127,6 +128,20 @@ public class ServicioTaskBancoEstudiante extends AsyncTask<Void, Void, String>{
                     DetallesFragment.banco = false;
                 }else{
                     DetallesFragment.banco = true;
+                }
+            }else if(this.tipoSolicitud == ServicioTaskBancoEstudiante.DATOS_PLANES){
+                if (!resultadoapi.equals("null")) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(resultadoapi);
+                        PlanesFragment.nombreTitular = jsonObject.getString("nombreTitular");
+                        PlanesFragment.tarjeta = jsonObject.getString("tarjeta");
+                        PlanesFragment.mes = jsonObject.getString("mes");
+                        PlanesFragment.ano = jsonObject.getString("ano");
+                    } catch (JSONException ex) {
+                        ex.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(httpContext, "Sin datos bancarios.", Toast.LENGTH_LONG).show();
                 }
             }
 

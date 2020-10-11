@@ -57,10 +57,6 @@ public class PreOrdenClase extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

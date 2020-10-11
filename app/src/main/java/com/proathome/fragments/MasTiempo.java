@@ -20,7 +20,6 @@ public class MasTiempo extends DialogFragment {
 
     private Unbinder mUnbinder;
     private int idSesion, idEstudiante;
-    private Activity activity;
     public static Context contexto = null;
 
     public MasTiempo() {
