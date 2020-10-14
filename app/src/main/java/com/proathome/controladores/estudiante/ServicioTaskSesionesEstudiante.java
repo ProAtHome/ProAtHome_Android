@@ -113,6 +113,9 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
 
         }else{
 
+            ServicioTaskIniciarProcesoRuta iniciarProcesoRuta = new ServicioTaskIniciarProcesoRuta(this.httpContext, idCliente);
+            iniciarProcesoRuta.execute();
+
             if(!resultadoapi.equals("null")){
 
                 try{

@@ -45,12 +45,6 @@ public class InicioFragment extends Fragment {
         if (fila.moveToFirst()) {
 
             idCliente = fila.getInt(0);
-
-            //TODO FLUJO_PLANES: Crear PLAN al iniciar sesión si no existe registro en la BD.
-            ServicioTaskIniciarPlan iniciarPlan = new ServicioTaskIniciarPlan(idCliente);
-            iniciarPlan.execute();
-            ServicioTaskIniciarProcesoRuta iniciarProcesoRuta = new ServicioTaskIniciarProcesoRuta(getContext(), idCliente);
-            iniciarProcesoRuta.execute();
             sesionesTask = new ServicioTaskSesionesEstudiante(getContext(), clasesHttpAddress, idCliente, Constants.SESIONES_INICIO);
             sesionesTask.execute();
             configAdapter();
@@ -58,9 +52,7 @@ public class InicioFragment extends Fragment {
             baseDeDatos.close();
 
         } else {
-
             baseDeDatos.close();
-
         }
         return root;
 
@@ -68,23 +60,17 @@ public class InicioFragment extends Fragment {
 
 
     public void configAdapter(){
-
         myAdapter = new ComponentAdapter(new ArrayList<>());
-
     }
 
     private void configRecyclerView(){
-
         recyclerView.setAdapter(myAdapter);
-
     }
 
     @Override
     public void onDestroyView() {
-
         super.onDestroyView();
         mUnbinder.unbind();
-
     }
 
 }

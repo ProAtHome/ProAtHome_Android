@@ -186,7 +186,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         bancoEstudiante.execute();
 
         iniciar.setOnClickListener(v ->{
-
+            /*TODO FLUJO_EJECUTAR_PLAN: Clase en modo PLAN activo?
+                    Si, entonces, Al iniciar la clase no mostramos Pre Orden ya que está pagado.*/
             if(banco){
                 /*Chechamos en putiza si hay un token guardado en el telefono de el pago de la sesión*/
                 SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());

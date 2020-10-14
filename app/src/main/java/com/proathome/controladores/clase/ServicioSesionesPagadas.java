@@ -70,9 +70,9 @@ public class ServicioSesionesPagadas extends AsyncTask<Void, Void, String> {
 
         try{
             JSONObject jsonObject = new JSONObject(s);
+            //TODO FLUJO_PLANES_EJECUTAR: Posible cambio de algortimo para obtener plan_activo, verificar la fecha de inicio si es distinto a PARTICULAR.
             SesionesFragment.PLAN_ACTIVO = jsonObject.getBoolean("plan_activo");
             SesionesFragment.SESIONES_PAGADAS_FINALIZADAS = jsonObject.getBoolean("sesiones_pagadas_finalizadas");
-            System.out.println(jsonObject);
         }catch(JSONException ex){
             ex.printStackTrace();
         }

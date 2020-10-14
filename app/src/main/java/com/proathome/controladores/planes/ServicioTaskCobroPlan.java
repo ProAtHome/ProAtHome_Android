@@ -124,7 +124,7 @@ public class ServicioTaskCobroPlan extends AsyncTask<Void, Void, String> {
                 Vamos a NuevaSesionFragment con el PLAN activo.*/
             dialogFragment.dismiss();
             PlanesFragment.planesFragment.dismiss();
-            ServicioTaskGenerarPlan generarPlan = new ServicioTaskGenerarPlan(OrdenCompraPlanFragment.tipoPlan, OrdenCompraPlanFragment.fechaIn, OrdenCompraPlanFragment.fechaFi, OrdenCompraPlanFragment.monedero, OrdenCompraPlanFragment.idEstudiante);
+            ServicioTaskGenerarPlan generarPlan = new ServicioTaskGenerarPlan(this.contexto, OrdenCompraPlanFragment.tipoPlan, OrdenCompraPlanFragment.fechaIn, OrdenCompraPlanFragment.fechaFi, OrdenCompraPlanFragment.monedero, OrdenCompraPlanFragment.idEstudiante);
             generarPlan.execute();
         }else{
             Toast.makeText(this.contexto, "Error en el cobro", Toast.LENGTH_LONG).show();

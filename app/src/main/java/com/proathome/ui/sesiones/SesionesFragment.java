@@ -42,6 +42,8 @@ public class SesionesFragment extends Fragment {
     private Unbinder mUnbinder;
     private int idCliente = 0;
     public static boolean SESIONES_PAGADAS_FINALIZADAS = false, PLAN_ACTIVO = false;
+    public static String PLAN = "";
+    public static int MONEDERO = 0;
     public static LottieAnimationView lottieAnimationView;
     @BindView(R.id.recyclerGestionar)
     RecyclerView recyclerView;
@@ -63,7 +65,6 @@ public class SesionesFragment extends Fragment {
         sesionesTask.execute();
         configAdapter();
         configRecyclerView();
-        System.out.println("En pausaaaaaaaaaaa");
         ServicioSesionesPagadas servicioSesionesPagadas = new ServicioSesionesPagadas(this.idCliente);
         servicioSesionesPagadas.execute();
 
@@ -138,10 +139,11 @@ public class SesionesFragment extends Fragment {
                 } else {
                     if(SesionesFragment.SESIONES_PAGADAS_FINALIZADAS){
                         if(SesionesFragment.PLAN_ACTIVO){
+                            //TODO FLUJO_EJECUTAR_PLAN: Pasar por Bundle el tipo de PLAN en nuevaSesionFragment.
                             NuevaSesionFragment nueva = new NuevaSesionFragment();
                             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                             nueva.show(transaction, NuevaSesionFragment.TAG);
-                            Toast.makeText(getContext(), "Con plan disitnto a PARTICULAR.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Con plan disitnto a PARTICULAR; = " + SesionesFragment.PLAN, Toast.LENGTH_LONG).show();
                         }else{
                             PlanesFragment planesFragment = new PlanesFragment();
                             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -153,19 +155,14 @@ public class SesionesFragment extends Fragment {
                             NuevaSesionFragment nueva = new NuevaSesionFragment();
                             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                             nueva.show(transaction, NuevaSesionFragment.TAG);
-                            Toast.makeText(getContext(), "Con plan disitnto a PARTICULAR.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Con plan disitnto a PARTICULAR; = " + SesionesFragment.PLAN, Toast.LENGTH_LONG).show();
                         }else{
                             NuevaSesionFragment nueva = new NuevaSesionFragment();
                             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                             nueva.show(transaction, NuevaSesionFragment.TAG);
-                            Toast.makeText(getContext(), "Con plan PARTICULAR.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Con plan PARTICULAR; = " + SesionesFragment.PLAN, Toast.LENGTH_LONG).show();
                         }
                     }
-
-                    /*
-                    NuevaSesionFragment nueva = new NuevaSesionFragment();
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    nueva.show(transaction, NuevaSesionFragment.TAG);*/
                 }
                 break;
             case R.id.fabActualizar:

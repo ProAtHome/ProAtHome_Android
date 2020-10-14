@@ -10,6 +10,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -17,7 +19,12 @@ import com.proathome.R;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioTaskBancoEstudiante;
 import com.proathome.controladores.estudiante.ServicioTaskSesionActual;
+import com.proathome.controladores.planes.ServicioTaskFechaServidor;
+import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
+
+import java.util.Calendar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,7 +34,7 @@ public class PlanesFragment extends DialogFragment {
 
     private Unbinder mUnbinder;
     public static final int PLAN_SEMANAL = 1, PLAN_MENSUAL = 2, PLAN_BIMESTRAL = 3;
-    public static String tarjeta, nombreTitular, mes, ano, nombreEstudiante, correoEstudiante;
+    public static String tarjeta, nombreTitular, mes, ano, nombreEstudiante, correoEstudiante, fechaServidor;
     private String linkRESTDatosBancarios = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
     public static int idEstudiante, idSeccion, idNivel, idBloque;
     public static DialogFragment planesFragment;
@@ -51,6 +58,8 @@ public class PlanesFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialog);
         setCancelable(false);
+        ServicioTaskFechaServidor fechaServidor = new ServicioTaskFechaServidor();
+        fechaServidor.execute();
     }
 
     @Override
@@ -74,6 +83,8 @@ public class PlanesFragment extends DialogFragment {
         }
 
         baseDeDatos.close();
+
+        //TODO FLUJO_COMPRAR_PLANES: Obtener fecha de inicio y término del servidor.
 
         ServicioTaskSesionActual servicioTaskSesionActual = new ServicioTaskSesionActual(getContext(), idEstudiante, ServicioTaskSesionActual.PLANES_FRAGMENT);
         servicioTaskSesionActual.execute();
@@ -105,19 +116,25 @@ public class PlanesFragment extends DialogFragment {
                 .setMessage(mensaje)
                 .setPositiveButton("Comprar", (dialog, which) -> {
                     //TODO FLUJO_COMPRAR_PLANES Mostramos Orden de Compra (MODAL con datos Bancarios, PLAN y costo)
-                    if(plan == PlanesFragment.PLAN_SEMANAL){
-                        bundle.putString("PLAN", "SEMANAL");
-                        ordenCompraPlanFragment.setArguments(bundle);
-                    }else if(plan == PlanesFragment.PLAN_MENSUAL){
-                        bundle.putString("PLAN", "MENSUAL");
-                        ordenCompraPlanFragment.setArguments(bundle);
-                    }else if(plan == PlanesFragment.PLAN_BIMESTRAL){
-                        bundle.putString("PLAN", "BIMESTRAL");
-                        ordenCompraPlanFragment.setArguments(bundle);
+                    Calendar calendar = Calendar.getInstance();
+                    String fechaDispositivo = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH)+1) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
+
+                    if(fechaDispositivo.equalsIgnoreCase(PlanesFragment.fechaServidor)){
+                        if(plan == PlanesFragment.PLAN_SEMANAL){
+                            bundle.putString("PLAN", "SEMANAL");
+                            ordenCompraPlanFragment.setArguments(bundle);
+                        }else if(plan == PlanesFragment.PLAN_MENSUAL){
+                            bundle.putString("PLAN", "MENSUAL");
+                            ordenCompraPlanFragment.setArguments(bundle);
+                        }else if(plan == PlanesFragment.PLAN_BIMESTRAL){
+                            bundle.putString("PLAN", "BIMESTRAL");
+                            ordenCompraPlanFragment.setArguments(bundle);
+                        }
+
+                        ordenCompraPlanFragment.show(transaction, "Orden de Compra");
+                    }else{
+                        Toast.makeText(getContext(), "Fecha de dispositivo alterada.", Toast.LENGTH_LONG).show();
                     }
-
-
-                    ordenCompraPlanFragment.show(transaction, "Orden de Compra");
 
                 })
                 .setNegativeButton("Regresar", (dialog, which) -> {
@@ -131,9 +148,11 @@ public class PlanesFragment extends DialogFragment {
     public void OnClick(){
         //TODO FLUJO_PLANES: Aquí iremos por nueva Clase PARTICULAR.
         dismiss();
+        //TODO FLUJO_EJECUTAR_PLAN: Pasar por Bundle el tipo de PLAN en nuevaSesionFragment.
         NuevaSesionFragment nueva = new NuevaSesionFragment();
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         nueva.show(transaction, NuevaSesionFragment.TAG);
+        Toast.makeText(getContext(), "Con plan PARTICULAR; = " + SesionesFragment.PLAN, Toast.LENGTH_LONG).show();
     }
 
     @Override

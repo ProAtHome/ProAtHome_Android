@@ -1,10 +1,6 @@
 package com.proathome.controladores.planes;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import com.proathome.controladores.clase.ServicioSesionesPagadas;
-import com.proathome.controladores.estudiante.ServicioTaskPerfilEstudiante;
-import com.proathome.fragments.OrdenCompraPlanFragment;
 import com.proathome.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,20 +14,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ServicioTaskGenerarPlan extends AsyncTask<Void, Void, String> {
+public class ServicioTaskActualizarMonedero extends AsyncTask<Void, Void, String> {
 
-    private String tipoPlan, fechaInicio, fechaFin;
-    private int monedero, idEstudiante;
-    private Context contexto;
-    private String linkGenerarPlan = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/generarPlan";
+    private int idEstudiante, nuevoMonedero;
+    public String linkActualizarMonedero = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/actualizarMonedero";
 
-    public ServicioTaskGenerarPlan(Context contexto, String tipoPlan, String fechaInicio, String fechaFin, int monedero, int idEstudiante){
-        this.contexto = contexto;
-        this.tipoPlan = tipoPlan;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
-        this.monedero = monedero;
+    public ServicioTaskActualizarMonedero(int idEstudiante, int nuevoMonedero){
         this.idEstudiante = idEstudiante;
+        this.nuevoMonedero = nuevoMonedero;
     }
 
     @Override
@@ -45,20 +35,17 @@ public class ServicioTaskGenerarPlan extends AsyncTask<Void, Void, String> {
 
         try {
 
-            URL url = new URL(this.linkGenerarPlan);
+            URL url = new URL(this.linkActualizarMonedero);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             JSONObject parametrosPost= new JSONObject();
-            parametrosPost.put("tipoPlan", this.tipoPlan);
-            parametrosPost.put("fechaInicio", this.fechaInicio);
-            parametrosPost.put("fechaFin", this.fechaFin);
-            parametrosPost.put("monedero", this.monedero);
             parametrosPost.put("idEstudiante", this.idEstudiante);
+            parametrosPost.put("nuevoMonedero", this.nuevoMonedero);
 
             //DEFINIR PARAMETROS DE CONEXION
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestMethod("PUT");
             urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
             urlConnection.setDoInput(true);
             urlConnection.setDoOutput(true);
@@ -105,10 +92,6 @@ public class ServicioTaskGenerarPlan extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        ServicioSesionesPagadas servicioSesionesPagadas = new ServicioSesionesPagadas(OrdenCompraPlanFragment.idEstudiante);
-        servicioSesionesPagadas.execute();
-        ServicioTaskValidarPlan validarPlan = new ServicioTaskValidarPlan(this.contexto, this.idEstudiante);
-        validarPlan.execute();
     }
 
     public String getPostDataString(JSONObject params) throws Exception {

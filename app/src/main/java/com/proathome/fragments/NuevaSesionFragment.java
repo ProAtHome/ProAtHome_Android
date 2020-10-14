@@ -34,6 +34,9 @@ import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ControladorTomarSesion;
 import com.proathome.controladores.estudiante.STRegistroSesionesEstudiante;
 import com.proathome.controladores.estudiante.ServicioTaskSesionActual;
+import com.proathome.controladores.planes.ServicioTaskActualizarMonedero;
+import com.proathome.controladores.planes.ServicioTaskValidarPlan;
+import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -128,6 +131,9 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
             baseDeDatos.close();
         }
 
+        ServicioTaskValidarPlan validarPlan = new ServicioTaskValidarPlan(getContext(), idCliente);
+        validarPlan.execute();
+
         baseDeDatos.close();
 
         String[] datosHoras = new String[]{"0 HRS", "1 HRS", "2 HRS", "3 HRS"};
@@ -148,38 +154,59 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
         btnSolicitar.setOnClickListener(v -> {
 
+            Toast.makeText(getContext(), "" + SesionesFragment.PLAN + SesionesFragment.MONEDERO,  Toast.LENGTH_LONG).show();
+            System.out.println(SesionesFragment.PLAN + SesionesFragment.MONEDERO);
             if (!direccionET.getText().toString().trim().equalsIgnoreCase("") && !observacionesET.getText().toString().trim().equalsIgnoreCase("") && !fechaET.getText().toString().trim().equalsIgnoreCase("")) {
 
                 if(obtenerMinutosHorario() == 0){
                     Toast.makeText(getContext(), "Elige el tiempo de la sesión.", Toast.LENGTH_LONG).show();
                 }else{
+                    String direccion = direccionET.getText().toString();
+                    String extras = observacionesET.getText().toString();
+                    Calendar calendar = Calendar.getInstance();
+                    SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss "); //SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
+                    String strDate = mdformat.format(calendar.getTime());
                     if(rutaRecomendada){
+                        /*TODO FLUJO_EJECUTAR_PLAN: Validaciones correspondientes en el FragmentNuevaSesion (Verificar que el tiempo sea acorde a las horas diponibles si hay PLAN activo) -> descontamos horas del monedero.
+                            En la tabla sesiones agregar campo tipoPlan.*/
                         int minutosRestantes = minutosEstablecidos - minutosAnteriores;
                         if(obtenerMinutosHorario() <= minutosRestantes){
-                            String direccion = direccionET.getText().toString();
-                            String extras = observacionesET.getText().toString();
 
-                            Calendar calendar = Calendar.getInstance();
-                            SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss "); //SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
-                            String strDate = mdformat.format(calendar.getTime());
-                            STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1, extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), true);
-                            registro.execute();
-                            direccionET.setText("");
-                            horarioET.setText("");
-                            observacionesET.setText("");
-                            Toast.makeText(getContext(), "Revisa tu nueva clase en Inicio o en Gestión.", Toast.LENGTH_LONG).show();
-                            dismiss();
+                            if(SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR")){
+
+                                STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1, extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), true, SesionesFragment.PLAN);
+                                registro.execute();
+                                direccionET.setText("");
+                                horarioET.setText("");
+                                observacionesET.setText("");
+                                Toast.makeText(getContext(), "Revisa tu nueva clase en Inicio o en Gestión.", Toast.LENGTH_LONG).show();
+                                dismiss();
+                            }else {
+                                if(obtenerMinutosHorario() <= SesionesFragment.MONEDERO){//Eliminar horas de monedero
+                                    //TODO FLUJO_EJECUTAR_PLAN: En esta peticion restamos en el moendero el tiempo elegido y verificamos después la vigencia del PLAN en el servidor.
+                                    int nuevoMonedero = SesionesFragment.MONEDERO - obtenerMinutosHorario();
+                                    ServicioTaskActualizarMonedero actualizarMonedero = new ServicioTaskActualizarMonedero(idCliente, nuevoMonedero);
+                                    actualizarMonedero.execute();
+                                    STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1, extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), true, SesionesFragment.PLAN);
+                                    registro.execute();
+                                    direccionET.setText("");
+                                    horarioET.setText("");
+                                    observacionesET.setText("");
+                                    Toast.makeText(getContext(), "Revisa tu nueva clase en Inicio o en Gestión.", Toast.LENGTH_LONG).show();
+                                    dismiss();
+                                }else{
+                                    Toast.makeText(getContext(), "Elige un tiempo de sesión a corde a tus horas disponibles a corde a tu plan.", Toast.LENGTH_LONG).show();
+                                }
+                            }
+
                         }else{
                             Toast.makeText(getContext(), "Elige un tiempo de sesión a corde a el tiempo faltante.", Toast.LENGTH_LONG).show();
                         }
                     }else{
-                        String direccion = direccionET.getText().toString();
-                        String extras = observacionesET.getText().toString();
+                        /*TODO FLUJO_EJECUTAR_PLAN: Validaciones correspondientes en el FragmentNuevaSesion (Verificar que el tiempo sea acorde a las horas diponibles si hay PLAN activo) -> descontamos horas del monedero.
+                            En la tabla sesiones agregar campo tipoPlan.*/
 
-                        Calendar calendar = Calendar.getInstance();
-                        SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss "); //SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
-                        String strDate = mdformat.format(calendar.getTime());
-                        STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1, extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), false);
+                        STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1, extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), false, SesionesFragment.PLAN);
                         registro.execute();
                         direccionET.setText("");
                         horarioET.setText("");

@@ -68,6 +68,8 @@ public class MasTiempo extends DialogFragment {
             case R.id.cincoMin:
                 bundle.putInt("Pantalla", 2);
                 bundle.putInt("progresoTotal", 5);
+                //TODO FLUJO_EJECUTAR_PLAN:  Cobramos sólo el TE elegido, crear otro MODAL Cobro Final MODO PLAN,
+                // y poner las funciones de finalización de clase que están en ServicioTaskCobro, etc.
                 cobroFinalFragment.setArguments(bundle);
                 cobroFinalFragment.show(fragmentTransaction, "PreOrden");
                 dismiss();
@@ -126,6 +128,8 @@ public class MasTiempo extends DialogFragment {
         bundle.putInt("tiempo", ClaseEstudiante.tiempo);
         bundle.putInt("progresoTotal", 0);
         bundle.putBoolean("sumar", ClaseEstudiante.sumar);
+        //TODO FLUJO_EJECUTAR_PLAN:  Cobramos sólo el TE elegido, crear otro MODAL Cobro Final MODO PLAN,
+        // y poner las funciones de finalización de clase que están en ServicioTaskCobro, etc.
         CobroFinalFragment cobroFinalFragment = new CobroFinalFragment();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         cobroFinalFragment.setArguments(bundle);

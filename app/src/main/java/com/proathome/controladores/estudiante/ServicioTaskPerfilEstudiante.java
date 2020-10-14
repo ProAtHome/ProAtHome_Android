@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.proathome.controladores.planes.ServicioTaskValidarPlan;
 import com.proathome.fragments.PlanesFragment;
 import com.proathome.inicioEstudiante;
 import com.proathome.ui.editarPerfil.EditarPerfilFragment;
@@ -29,13 +30,11 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
     private Bitmap loadedImage;
 
     public ServicioTaskPerfilEstudiante(Context ctx, String linkAPI, String linkFoto, int idEstudiante, int tipo){
-
         this.httpContext=ctx;
         this.idEstudiante = idEstudiante;
         this.linkrequestAPI=linkAPI + "/" + this.idEstudiante;
         this.tipo = tipo;
         this.linkFoto = linkFoto;
-
     }
 
     @Override
@@ -145,11 +144,16 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
 
                         inicioEstudiante.nombreTV.setText(jsonObject.getString("nombre"));
                         inicioEstudiante.correoTV.setText(jsonObject.getString("correo"));
-                        inicioEstudiante.tipoPlan.setText("PLAN ACTUAL: " + jsonObject.getString("tipoPlan"));
-                        inicioEstudiante.monedero.setText("HORAS DISPONIBLES:                      " + obtenerHorario(jsonObject.getInt("monedero")));
+                        //inicioEstudiante.tipoPlan.setText("PLAN ACTUAL: " + jsonObject.getString("tipoPlan"));
+                        //inicioEstudiante.monedero.setText("HORAS DISPONIBLES:                      " + obtenerHorario(jsonObject.getInt("monedero")));
                         PlanesFragment.nombreEstudiante = jsonObject.getString("nombre");
                         PlanesFragment.correoEstudiante = jsonObject.getString("correo");
-
+                        /*TODO FLUJO_EJECUTAR_PLAN: Verificar si hay PLAN distinto a PARTICULAR
+                            -Si, entonces, verificar la expiracion y el monedero (En el servidor verificamos el monedero y  la expiración,
+                                y ahí decidimos si finalizamos el plan activo, en cualquier caso regresamos un mensaje validando o avisando que valió verga.
+                            -No, entonces, todo sigue el flujo.*/
+                        ServicioTaskValidarPlan validarPlan = new ServicioTaskValidarPlan(this.httpContext, this.idEstudiante);
+                        validarPlan.execute();
                     }
 
                 }catch(JSONException ex){

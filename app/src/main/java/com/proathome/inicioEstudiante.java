@@ -70,6 +70,7 @@ public class inicioEstudiante extends AppCompatActivity{
         if(fila.moveToFirst()){
 
             this.idEstudiante = fila.getInt(0);
+            //TODO FLUJO_PLANES: Crear PLAN al iniciar sesión si no existe registro en la BD.
             /*TODO FLUJO_PANES: Cargamos la info de PLAN, MONEDERO Y PERFIL.*/
             ServicioTaskPerfilEstudiante perfilEstudiante = new ServicioTaskPerfilEstudiante(this, linkRESTCargarPerfil, this.imageHttpAddress, this.idEstudiante, Constants.INFO_PERFIL);
             perfilEstudiante.execute();
