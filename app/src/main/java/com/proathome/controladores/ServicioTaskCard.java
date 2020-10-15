@@ -149,7 +149,6 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
                     String idCardSesion = "idCard" + DetallesFragment.idSesion;
                     myEditor.putString(idCardSesion, idCard);
                     myEditor.commit();
-                    Toast.makeText(contexto, idCard, Toast.LENGTH_LONG).show();
 
                     /*Guardamos el token en la perra BD*/
                     ServicioTaskCard servicioTaskCard = new ServicioTaskCard(idCard, DetallesFragment.idSesion, DetallesFragment.idEstudiante, ServicioTaskCard.GUARDAR_TOKEN_BD);

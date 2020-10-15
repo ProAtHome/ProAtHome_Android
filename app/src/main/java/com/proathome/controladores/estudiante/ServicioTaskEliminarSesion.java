@@ -20,23 +20,22 @@ public class ServicioTaskEliminarSesion extends AsyncTask<Void, Void, String> {
 
     private ProgressDialog progressDialog;
     private Context contexto;
-    private String linkAPI, respuesta, resultadoAPI;
-    private int idSesion;
+    private String linkAPI, resultadoAPI, tipoPlan;
+    private int idSesion, horas, idEstudiante;
 
-    public ServicioTaskEliminarSesion(Context contexto, String linkAPI, int idSesion){
-
+    public ServicioTaskEliminarSesion(Context contexto, String linkAPI, int idSesion, int idEstudiante, String tipoPlan, int horas){
         this.contexto = contexto;
         this.linkAPI = linkAPI;
         this.idSesion = idSesion;
-
+        this.idEstudiante = idEstudiante;
+        this.tipoPlan = tipoPlan;
+        this.horas = horas;
     }
 
     @Override
     protected void onPreExecute() {
-
         super.onPreExecute();
         progressDialog = ProgressDialog.show(this.contexto, "Eliminando Sesión", "Por favor, espere...");
-
     }
 
     @Override
@@ -52,6 +51,9 @@ public class ServicioTaskEliminarSesion extends AsyncTask<Void, Void, String> {
 
             JSONObject jsonDatos = new JSONObject();
             jsonDatos.put("idSesion", this.idSesion);
+            jsonDatos.put("idEstudiante", this.idEstudiante);
+            jsonDatos.put("tipoPlan", this.tipoPlan);
+            jsonDatos.put("horas", this.horas);
 
             //PARAMETROS DE CONEXIÓN.
             httpURLConnection.setConnectTimeout(15000);

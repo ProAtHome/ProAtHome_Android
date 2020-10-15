@@ -15,6 +15,7 @@ import com.proathome.ClaseEstudiante;
 import com.proathome.R;
 import com.proathome.controladores.ServicioTaskCobro;
 import com.proathome.controladores.TabuladorCosto;
+import com.proathome.controladores.estudiante.ServicioTaskPreOrden;
 import com.proathome.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,11 +39,14 @@ public class CobroFinalFragment extends DialogFragment {
     TextView tvTiempoExtra;
     @BindView(R.id.tvCostoTotal)
     TextView tvCostoTotal;
-    public static String metodoRegistrado, sesion, tiempo, deviceIdString, nombreEstudiante, correo;
+    @BindView(R.id.tvTipoPlan)
+    TextView tvTipoPlan;
+    public static String metodoRegistrado, sesion, tiempo, deviceIdString, nombreEstudiante, correo, tipoPlan;
+    //Datos tarjeta para modo PLAN.
+    public static String nombreTitular, tarjeta, mes, ano;
     public static double costoTotal = 0.0;
     public static int idSesion = 0, idEstudiante = 0, pantalla = 0, progresoTotal = 0;
     public static final int PANTALLA_CANCELAR = 1, PANTALLA_TE = 2;
-    private String linkCobro = "http://" + Constants.IP + "/ProAtHome/assets/lib/Cargo.php";
     public Context context = null;
     public static String idCard = null;
 
@@ -74,9 +78,17 @@ public class CobroFinalFragment extends DialogFragment {
         tvTarjeta.setText(metodoRegistrado);
         tvSesion.setText(sesion);
         tvTiempo.setText(tiempo);
+        tvTipoPlan.setText("PLAN DE CLASE: " + bundle.getString("tipoPlan"));
+        tipoPlan = bundle.getString("tipoPlan");
         tvTiempoExtra.setText("Tiempo Extra: " + obtenerHorario(progresoTotal));
-        costoTotal = (double) TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo, TabuladorCosto.PARTICULAR) + TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, progresoTotal, TabuladorCosto.PARTICULAR);
+        if(bundle.getString("tipoPlan").equalsIgnoreCase("PARTICULAR"))
+            costoTotal = (double) TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo, TabuladorCosto.PARTICULAR) + TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, progresoTotal, TabuladorCosto.PARTICULAR);
+        else
+            costoTotal = (double) TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, progresoTotal, TabuladorCosto.PARTICULAR);
         tvCostoTotal.setText("Total: " + String.format("%.2f", costoTotal) + " MXN");
+
+        ServicioTaskPreOrden preOrden = new ServicioTaskPreOrden(idEstudiante, idSesion, ServicioTaskPreOrden.PANTALLA_COBRO_FINAL);
+        preOrden.execute();
 
         return view;
     }
@@ -112,14 +124,30 @@ public class CobroFinalFragment extends DialogFragment {
                     idCard = myPreferences.getString(idCardSesion, "Sin valor");
 
                     //Cobro tentativo con OpenPay al elegir el tiempo EXTRA.
-                    if(idCard.equalsIgnoreCase("Sin valor")){
-                        //obtenerToken de BD.
-                        ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idEstudiante, idCard, costoTotal, ServicioTaskCobro.TOKEN_BD, ServicioTaskCobro.ENTENDIDO_TE);
-                        servicioTaskCobro.execute();
+                    //Validar si estamos en tipoPlan.
+                    if(tipoPlan.equalsIgnoreCase("PARTICULAR")){
+                        if(idCard.equalsIgnoreCase("Sin valor")){
+                            //obtenerToken de BD.
+                            ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idEstudiante, idCard, costoTotal, ServicioTaskCobro.TOKEN_BD, ServicioTaskCobro.ENTENDIDO_TE);
+                            servicioTaskCobro.execute();
+                        }else{
+                            ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idEstudiante, idCard, costoTotal, ServicioTaskCobro.TOKEN_PHONE, ServicioTaskCobro.ENTENDIDO_TE);
+                            servicioTaskCobro.execute();
+                        }
                     }else{
-                        ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idEstudiante, idCard, costoTotal, ServicioTaskCobro.TOKEN_PHONE, ServicioTaskCobro.ENTENDIDO_TE);
-                        servicioTaskCobro.execute();
+                        //Crear nuevo token de Tarjeta.
+                        //TODO FLUJO_EJECUTAR_PLAN: Validar metodo de pago.
+                        Bundle bundle = new Bundle();
+                        bundle.putString("deviceIdString", deviceIdString);
+                        bundle.putInt("idSesion", idSesion);
+                        bundle.putInt("idEstudiante", idEstudiante);
+                        bundle.putDouble("costoTotal", costoTotal);
+                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                        DatosBancoPlanFragment bancoPlanFragment = new DatosBancoPlanFragment();
+                        bancoPlanFragment.setArguments(bundle);
+                        bancoPlanFragment.show(fragmentTransaction, "Validar datos");
                     }
+
                     dismiss();
                 }
                 break;

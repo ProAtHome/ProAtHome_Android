@@ -119,6 +119,18 @@
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <TextView
+                        android:id="@+id/tvTipoPlan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:text="PLAN DE CLASE: "
+                        android:textStyle="bold|italic"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintTop_toBottomOf="@id/tvTiempoExtra"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
                         android:id="@+id/tvCostoTotal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -128,7 +140,7 @@
                         android:textStyle="bold"
                         android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvTiempoExtra"/>
+                        app:layout_constraintTop_toBottomOf="@id/tvTipoPlan"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/entendido"

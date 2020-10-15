@@ -6,6 +6,8 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -37,8 +39,10 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
+import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ControladorTomarSesion;
 import com.proathome.controladores.estudiante.ServicioTaskEliminarSesion;
+import com.proathome.controladores.estudiante.ServicioTaskSesionActual;
 import com.proathome.controladores.estudiante.ServicioTaskUpSesion;
 import com.proathome.controladores.WorkaroundMapFragment;
 import com.proathome.utils.Component;
@@ -65,7 +69,8 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     private String linkAPIEliminarSesion = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/eliminarSesion";
     private String linkAPIUpSesion = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/actualizarSesion";
     public static final String TAG = "Detalles de la Sesión";
-    private int idSeccion, idNivel, idBloque, tiempo;
+    private int idSeccion, idNivel, idBloque, tiempo, idEstudiante;
+    private String tipoPlanString;
     @BindView(R.id.tietProfesor)
     TextInputEditText profesorET;
     @BindView(R.id.tietHorario)
@@ -92,6 +97,8 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     MaterialButton btnActualizar;
     @BindView(R.id.btnEliminarSesion)
     MaterialButton btnEliminar;
+    @BindView(R.id.tipoPlan)
+    TextView tipoPlan;
     //@BindView(R.id.horasDisponibles)
     //TextView horasDisponiblesTV;
     public NestedScrollView mScrollView;
@@ -108,6 +115,16 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
 
         View view = inflater.inflate(R.layout.fragment_detalles_gestionar, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
+        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+
+        if (fila.moveToFirst()) {
+            idEstudiante = fila.getInt(0);
+        } else {
+            baseDeDatos.close();
+        }
 
         String[] datosHoras = new String[]{"0 HRS", "1 HRS", "2 HRS", "3 HRS"};
         ArrayAdapter<String> adapterHoras = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, datosHoras);
@@ -141,6 +158,8 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         tipo.setSelection(posicionTipo(bun.getString("tipoClase")));
         horarioET.setText(bun.getString("horario"));
         tiempo = bun.getInt("tiempo");
+        tipoPlan.setText("DENTRO DEL PLAN:" + bun.getString("tipoPlan"));
+        tipoPlanString = bun.getString("tipoPlan");
 
         tomarSesion = new ControladorTomarSesion(getContext(), bun.getInt("idSeccion"), bun.getInt("idNivel"), bun.getInt("idBloque"));
         secciones.setText(Component.getSeccion(bun.getInt("idSeccion")));
@@ -155,7 +174,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         //niveles.setSelection(bun.getInt("idNivel")-1);
         //bloques.setAdapter(tomarSesion.obtenerBloques());
         //bloques.setSelection(bun.getInt("idBloque")-1);
-        System.out.println(bun.getInt("idSeccion") + " " + bun.getInt("idNivel") + " " + bun.getInt("idBloque"));
+
 /*
         secciones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -446,7 +465,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                 .show();
     }
 
-    public static Component getmInstance(int idClase, String tipoClase, String horario, String profesor, String lugar, int tiempo, String observaciones, double latitud, double longitud, String actualizado, int idSeccion, int idNivel, int idBloque, String fecha){
+    public static Component getmInstance(int idClase, String tipoClase, String horario, String profesor, String lugar, int tiempo, String observaciones, double latitud, double longitud, String actualizado, int idSeccion, int idNivel, int idBloque, String fecha, String tipoPlan){
 
         mInstance = new Component();
         mInstance.setIdClase(idClase);
@@ -463,6 +482,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         mInstance.setTipoClase(tipoClase);
         mInstance.setHorario(horario);
         mInstance.setActualizado(actualizado);
+        mInstance.setTipoPlan(tipoPlan);
         mInstance.setPhotoRes(R.drawable.img_button);
         mInstance.setType(Constants.SCROLL);
 
@@ -667,7 +687,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                 getActivity().finish();
                 break;
             case R.id.btnEliminarSesion:
-                ServicioTaskEliminarSesion eliminarSesion = new ServicioTaskEliminarSesion(getContext(), this.linkAPIEliminarSesion, this.idClase);
+                ServicioTaskEliminarSesion eliminarSesion = new ServicioTaskEliminarSesion(getContext(), this.linkAPIEliminarSesion, this.idClase, this.idEstudiante, this.tipoPlanString, this.tiempo);
                 eliminarSesion.execute();
                 getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 getActivity().finish();

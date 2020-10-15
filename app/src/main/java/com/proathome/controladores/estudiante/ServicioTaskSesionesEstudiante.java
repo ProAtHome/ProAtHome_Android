@@ -135,13 +135,12 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
                         if(tipo == 1) {
                             InicioFragment.myAdapter.add(DetallesFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoClase"), object.getString("horario"),
                                     object.getString("profesor"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
-                                    object.getDouble("longitud"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getString("fecha"), object.getString("fotoProfesor"), object.getString("descripcionProfesor"), object.getString("correoProfesor"), object.getBoolean("sumar")));
-                            System.out.println(object.toString());
+                                    object.getDouble("longitud"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getString("fecha"), object.getString("fotoProfesor"), object.getString("descripcionProfesor"), object.getString("correoProfesor"), object.getBoolean("sumar"), object.getString("tipoPlan")));
                         }else if(tipo == 2){//TODO FLUJO_PLANES: Nota - Si la clase está finalizada no se puede eliminar ni editar (No mostrar en Gestión)
                             if(!object.getBoolean("finalizado")){
                                 SesionesFragment.myAdapter.add(DetallesGestionarFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoClase"), object.getString("horario"),
                                         object.getString("profesor"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
-                                        object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getString("fecha")));
+                                        object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getString("fecha"), object.getString("tipoPlan")));
                             }
                          }
 

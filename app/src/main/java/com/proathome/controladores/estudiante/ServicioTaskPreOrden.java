@@ -84,7 +84,9 @@ public class ServicioTaskPreOrden extends AsyncTask<Void, Void, String> {
                 PreOrdenClase.sesion = "Sesión: " + Component.getSeccion(jsonObject.getInt("idSeccion")) + " / " + Component.getNivel(jsonObject.getInt("idSeccion"), jsonObject.getInt("idNivel")) + " / " + Component.getBloque(jsonObject.getInt("idBloque"));
                 PreOrdenClase.tiempo = "Tiempo: " + obtenerHorario(jsonObject.getInt("tiempo"));
             }else if(this.pantalla == ServicioTaskPreOrden.PANTALLA_COBRO_FINAL){
-                System.out.println("Cobro final" + jsonObject.getString("tarjeta"));
+                CobroFinalFragment.nombreTitular = jsonObject.getString("nombreTitular");
+                CobroFinalFragment.mes = jsonObject.get("mes").toString();
+                CobroFinalFragment.ano = jsonObject.get("ano").toString();
                 CobroFinalFragment.metodoRegistrado = jsonObject.getString("tarjeta");
                 CobroFinalFragment.sesion = "Sesión: " + Component.getSeccion(jsonObject.getInt("idSeccion")) + " / " + Component.getNivel(jsonObject.getInt("idSeccion"), jsonObject.getInt("idNivel")) + " / " + Component.getBloque(jsonObject.getInt("idBloque"));
                 CobroFinalFragment.tiempo = "Tiempo: " + obtenerHorario(jsonObject.getInt("tiempo"));

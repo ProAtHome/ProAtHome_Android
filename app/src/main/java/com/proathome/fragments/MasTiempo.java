@@ -10,6 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.proathome.ClaseEstudiante;
 import com.proathome.R;
+import com.proathome.controladores.ServicioTaskOrdenPago;
+import com.proathome.controladores.TabuladorCosto;
+import com.proathome.controladores.clase.ServicioTaskFinalizarClase;
+import com.proathome.controladores.clase.ServicioTaskSumarClaseRuta;
 import com.proathome.controladores.estudiante.ServicioTaskPreOrden;
 import com.proathome.utils.Constants;
 import butterknife.ButterKnife;
@@ -68,6 +72,7 @@ public class MasTiempo extends DialogFragment {
             case R.id.cincoMin:
                 bundle.putInt("Pantalla", 2);
                 bundle.putInt("progresoTotal", 5);
+                bundle.putString("tipoPlan", DetallesFragment.planSesion);
                 //TODO FLUJO_EJECUTAR_PLAN:  Cobramos sólo el TE elegido, crear otro MODAL Cobro Final MODO PLAN,
                 // y poner las funciones de finalización de clase que están en ServicioTaskCobro, etc.
                 cobroFinalFragment.setArguments(bundle);
@@ -77,6 +82,7 @@ public class MasTiempo extends DialogFragment {
             case R.id.diezMin:
                 bundle.putInt("Pantalla", 2);
                 bundle.putInt("progresoTotal", 10);
+                bundle.putString("tipoPlan", DetallesFragment.planSesion);
                 cobroFinalFragment.setArguments(bundle);
                 cobroFinalFragment.show(fragmentTransaction, "PreOrden");
                 dismiss();
@@ -84,6 +90,7 @@ public class MasTiempo extends DialogFragment {
             case R.id.quinceMin:
                 bundle.putInt("Pantalla", 2);
                 bundle.putInt("progresoTotal", 15);
+                bundle.putString("tipoPlan", DetallesFragment.planSesion);
                 cobroFinalFragment.setArguments(bundle);
                 cobroFinalFragment.show(fragmentTransaction, "PreOrden");
                 dismiss();
@@ -91,6 +98,7 @@ public class MasTiempo extends DialogFragment {
             case R.id.veinteMin:
                 bundle.putInt("Pantalla", 2);
                 bundle.putInt("progresoTotal", 20);
+                bundle.putString("tipoPlan", DetallesFragment.planSesion);
                 cobroFinalFragment.setArguments(bundle);
                 cobroFinalFragment.show(fragmentTransaction, "PreOrden");
                 dismiss();
@@ -98,6 +106,7 @@ public class MasTiempo extends DialogFragment {
             case R.id.veinticincoMin:
                 bundle.putInt("Pantalla", 2);
                 bundle.putInt("progresoTotal", 25);
+                bundle.putString("tipoPlan", DetallesFragment.planSesion);
                 cobroFinalFragment.setArguments(bundle);
                 cobroFinalFragment.show(fragmentTransaction, "PreOrden");
                 dismiss();
@@ -105,6 +114,7 @@ public class MasTiempo extends DialogFragment {
             case R.id.treintaMin:
                 bundle.putInt("Pantalla", 2);
                 bundle.putInt("progresoTotal", 30);
+                bundle.putString("tipoPlan", DetallesFragment.planSesion);
                 cobroFinalFragment.setArguments(bundle);
                 cobroFinalFragment.show(fragmentTransaction, "PreOrden");
                 dismiss();
@@ -116,24 +126,37 @@ public class MasTiempo extends DialogFragment {
     @OnClick(R.id.cancelar)
     public void onClick(View view){
         /*Vamos a obtene los datos de la pre orden y usarlos para mostrar el cobro final*/
-        Bundle bundle = new Bundle();
-        bundle.putInt("Pantalla", 1);
-        bundle.putInt("idSesion", idSesion);
-        bundle.putInt("idEstudiante", idEstudiante);
-        bundle.putInt("estatus", Constants.FINALIZAR_CLASE);
-        bundle.putInt("fragment", DetallesFragment.ESTUDIANTE);
-        bundle.putInt("idSeccion", ClaseEstudiante.idSeccion);
-        bundle.putInt("idNivel", ClaseEstudiante.idNivel);
-        bundle.putInt("idBloque", ClaseEstudiante.idBloque);
-        bundle.putInt("tiempo", ClaseEstudiante.tiempo);
-        bundle.putInt("progresoTotal", 0);
-        bundle.putBoolean("sumar", ClaseEstudiante.sumar);
         //TODO FLUJO_EJECUTAR_PLAN:  Cobramos sólo el TE elegido, crear otro MODAL Cobro Final MODO PLAN,
         // y poner las funciones de finalización de clase que están en ServicioTaskCobro, etc.
-        CobroFinalFragment cobroFinalFragment = new CobroFinalFragment();
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        cobroFinalFragment.setArguments(bundle);
-        cobroFinalFragment.show(fragmentTransaction, "PreOrden");
+        if(DetallesFragment.planSesion.equalsIgnoreCase("PARTICULAR")){
+            Bundle bundle = new Bundle();
+            bundle.putInt("Pantalla", 1);
+            bundle.putInt("idSesion", idSesion);
+            bundle.putInt("idEstudiante", idEstudiante);
+            bundle.putInt("estatus", Constants.FINALIZAR_CLASE);
+            bundle.putInt("fragment", DetallesFragment.ESTUDIANTE);
+            bundle.putInt("idSeccion", ClaseEstudiante.idSeccion);
+            bundle.putInt("idNivel", ClaseEstudiante.idNivel);
+            bundle.putInt("idBloque", ClaseEstudiante.idBloque);
+            bundle.putInt("tiempo", ClaseEstudiante.tiempo);
+            bundle.putInt("progresoTotal", 0);
+            bundle.putBoolean("sumar", ClaseEstudiante.sumar);
+            CobroFinalFragment cobroFinalFragment = new CobroFinalFragment();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            cobroFinalFragment.setArguments(bundle);
+            cobroFinalFragment.show(fragmentTransaction, "PreOrden");
+        }else{
+            //Actualizar la orden de pago con estatusPago = Pagado.
+            ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, 0, 0, DetallesFragment.planSesion);
+            ordenPago.execute();
+            //Finalizamos la clase, sumamos la ruta y obtenemos el token de el celular para realizar el cobro.
+            ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(this.contexto, this.idSesion, this.idEstudiante, Constants.FINALIZAR_CLASE, DetallesFragment.ESTUDIANTE);
+            finalizarClase.execute();
+            ServicioTaskSumarClaseRuta sumarClaseRuta = new ServicioTaskSumarClaseRuta(this.contexto, this.idSesion, this.idEstudiante, ClaseEstudiante.idSeccion, ClaseEstudiante.idNivel, ClaseEstudiante.idBloque, ClaseEstudiante.tiempo, ClaseEstudiante.sumar);
+            sumarClaseRuta.execute();
+            dismiss();
+        }
+
 
     }
 

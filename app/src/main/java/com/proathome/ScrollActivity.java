@@ -44,7 +44,8 @@ public class ScrollActivity extends AppCompatActivity {
             String correoProfesor = getIntent().getStringExtra("correoProfesor");
             String descripcionProfesor = getIntent().getStringExtra("descripcionProfesor");
             boolean sumar = getIntent().getBooleanExtra("sumar", true);
-            CommonUtils.setFragment(this, nameFragment, R.id.content_scroll, idClase, tipoClase, horario, profesor, lugar, tiempo, observaciones, latitud, longitud, idSeccion, idNivel, idBloque, fecha, fotoProfesor, descripcionProfesor, correoProfesor, sumar);
+            String tipoPlan = getIntent().getStringExtra("tipoPlan");
+            CommonUtils.setFragment(this, nameFragment, R.id.content_scroll, idClase, tipoClase, horario, profesor, lugar, tiempo, observaciones, latitud, longitud, idSeccion, idNivel, idBloque, fecha, fotoProfesor, descripcionProfesor, correoProfesor, sumar, tipoPlan);
 
         }
 

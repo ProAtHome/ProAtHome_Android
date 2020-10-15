@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Component {
 
-    private String fecha, tipoClase, horario, profesor, lugar, observaciones, actualizado, fotoProfesor, descripcionProfesor, correoProfesor;
+    private String tipoPlan, fecha, tipoClase, horario, profesor, lugar, observaciones, actualizado, fotoProfesor, descripcionProfesor, correoProfesor;
     private int photoRes, idClase, idSeccion, idNivel, idBloque, tiempo;
     private double latitud, longitud;
     private int type;
@@ -12,6 +12,14 @@ public class Component {
 
     public Component(){
 
+    }
+
+    public String getTipoPlan() {
+        return tipoPlan;
+    }
+
+    public void setTipoPlan(String tipoPlan) {
+        this.tipoPlan = tipoPlan;
     }
 
     public boolean getSumar() {

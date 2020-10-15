@@ -48,7 +48,7 @@ public class ComponentAdapterGestionar extends RecyclerView.Adapter<ComponentAda
         holder.tvActualizado.setText("Actualización: " + component.getActualizado());
         holder.setOnClickListeners(component.getIdClase(), component.getProfesor(), component.getLugar(),
                 component.getTiempo(), component.getObservaciones(), component.getTipoClase(), component.getHorario(), component.getLatitud(),
-                component.getLongitud(), component.getActualizado(), component.getIdSeccion(), component.getIdNivel(), component.getIdBloque(), component.getFecha());
+                component.getLongitud(), component.getActualizado(), component.getIdSeccion(), component.getIdNivel(), component.getIdBloque(), component.getFecha(), component.getTipoPlan());
 
     }
 
@@ -78,7 +78,7 @@ public class ComponentAdapterGestionar extends RecyclerView.Adapter<ComponentAda
         TextView tvActualizado;
         Context context;
 
-        String  profesor = "", lugar = "", observaciones = "", tipoClase = "", horario = "", actualizado = "", fecha = "";
+        String tipoPlan = "", profesor = "", lugar = "", observaciones = "", tipoClase = "", horario = "", actualizado = "", fecha = "";
         int idClase, idSeccion, idNivel, idBloque, tiempo;
         double latitud, longitud;
 
@@ -94,7 +94,7 @@ public class ComponentAdapterGestionar extends RecyclerView.Adapter<ComponentAda
         }
 
         void setOnClickListeners(int idClase, String profesor, String lugar, int tiempo, String observaciones,
-                                 String tipoClase, String horario, double latitud, double longitud, String actualizado, int idSeccion, int idNivel, int idBloque, String fecha){
+                                 String tipoClase, String horario, double latitud, double longitud, String actualizado, int idSeccion, int idNivel, int idBloque, String fecha, String tipoPlan){
 
             this.idClase = idClase;
             this.profesor = profesor;
@@ -110,6 +110,7 @@ public class ComponentAdapterGestionar extends RecyclerView.Adapter<ComponentAda
             this.idBloque = idBloque;
             this.fecha = fecha;
             this.actualizado = actualizado;
+            this.tipoPlan = tipoPlan;
             view.setOnClickListener(this);
 
         }
@@ -138,6 +139,7 @@ public class ComponentAdapterGestionar extends RecyclerView.Adapter<ComponentAda
             intent.putExtra("idSeccion", this.idSeccion);
             intent.putExtra("idNivel", this.idNivel);
             intent.putExtra("idBloque", this.idBloque);
+            intent.putExtra("tipoPlan", this.tipoPlan);
             context.startActivity(intent);
 
         }

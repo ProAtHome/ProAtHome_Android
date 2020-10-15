@@ -49,7 +49,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     public static final String TAG = "Detalles";
     public static int ESTUDIANTE = 1;
-    private String fotoNombre;
+    public static String fotoNombre, planSesion;
     public static boolean sumar;
     public static int idSesion = 0;
     public static int idEstudiante = 0;
@@ -78,6 +78,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     TextView descripcionProfesor;
     @BindView(R.id.correoTV)
     TextView correoProfesor;
+    @BindView(R.id.tipoPlan)
+    TextView tipoPlan;
     public static MaterialButton iniciar;
     private ScrollView mScrollView;
     private Unbinder mUnbinder;
@@ -88,7 +90,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    public static Component getmInstance(int idClase, String tipoClase, String horario, String profesor, String lugar, int tiempo, String observaciones, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, String fecha, String fotoProfesor, String descripcionProfesor, String correoProfesor, boolean sumar){
+    public static Component getmInstance(int idClase, String tipoClase, String horario, String profesor, String lugar, int tiempo, String observaciones, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, String fecha, String fotoProfesor, String descripcionProfesor, String correoProfesor, boolean sumar, String tipoPlan){
 
         mInstance = new Component();
         mInstance.setIdClase(idClase);
@@ -108,6 +110,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         mInstance.setDescripcionProfesor(descripcionProfesor);
         mInstance.setCorreoProfesor(correoProfesor);
         mInstance.setSumar(sumar);
+        mInstance.setTipoPlan(tipoPlan);
         mInstance.setPhotoRes(R.drawable.img_button);
         mInstance.setType(Constants.SCROLL);
         return mInstance;
@@ -178,6 +181,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         idSeccion = bun.getInt("idSeccion");
         idNivel = bun.getInt("idNivel");
         idBloque = bun.getInt("idBloque");
+        tipoPlan.setText("DENTRO DEL PLAN: " + bun.getString("tipoPlan"));
+        planSesion = bun.getString("tipoPlan");
 
         /*Datos de pre Orden listos para ser lanzados :)*/
         ServicioTaskPreOrden preOrden = new ServicioTaskPreOrden(idEstudiante, idSesion, ServicioTaskPreOrden.PANTALLA_PRE_COBRO);
@@ -188,21 +193,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         iniciar.setOnClickListener(v ->{
             /*TODO FLUJO_EJECUTAR_PLAN: Clase en modo PLAN activo?
                     Si, entonces, Al iniciar la clase no mostramos Pre Orden ya que está pagado.*/
-            if(banco){
-                /*Chechamos en putiza si hay un token guardado en el telefono de el pago de la sesión*/
-                SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                String idCardSesion = "idCard" + idSesion;
-                String idCard = myPreferences.getString(idCardSesion, "Sin valor");
-
-                if(idCard.equalsIgnoreCase("Sin valor")){
-                    //Si no hay un token en el phone entonces creamos uno con el diálogo de PreOrden*/
-                    PreOrdenClase preOrdenClase = new PreOrdenClase();
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    preOrdenClase.show(fragmentTransaction, "PreOrden");
-                }else{
-                /*Si ya tenemos un token entonces no hay pedo e iniciamos la buisqueda de la conexión del
-                profesor.
-                 */
+            if(!this.planSesion.equalsIgnoreCase("PARTICULAR")){
+                if(banco){
                     ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
                     sincronizarClases.execute();
 
@@ -216,9 +208,42 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
                     intent.putExtra("idBloque", bun.getInt("idBloque"));
                     intent.putExtra("sumar", sumar);
                     startActivity(intent);
+                }else{
+                    Toast.makeText(getContext(), "Revisa tus datos bancarios antes de continuar.", Toast.LENGTH_LONG).show();
                 }
             }else{
-                Toast.makeText(getContext(), "Revisa tus datos bancarios antes de continuar.", Toast.LENGTH_LONG).show();
+                if(banco){
+                    /*Chechamos en putiza si hay un token guardado en el telefono de el pago de la sesión*/
+                    SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                    String idCardSesion = "idCard" + idSesion;
+                    String idCard = myPreferences.getString(idCardSesion, "Sin valor");
+
+                    if(idCard.equalsIgnoreCase("Sin valor")){
+                        //Si no hay un token en el phone entonces creamos uno con el diálogo de PreOrden*/
+                        PreOrdenClase preOrdenClase = new PreOrdenClase();
+                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                        preOrdenClase.show(fragmentTransaction, "PreOrden");
+                    }else{
+                /*Si ya tenemos un token entonces no hay pedo e iniciamos la buisqueda de la conexión del
+                profesor.
+                 */
+                        ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
+                        sincronizarClases.execute();
+
+                        Intent intent = new Intent(getContext(), SincronizarClase.class);
+                        intent.putExtra("perfil", ESTUDIANTE);
+                        intent.putExtra("idSesion", idSesion);
+                        intent.putExtra("idPerfil", idEstudiante);
+                        intent.putExtra("tiempo", tiempoPasar);
+                        intent.putExtra("idSeccion", bun.getInt("idSeccion"));
+                        intent.putExtra("idNivel", bun.getInt("idNivel"));
+                        intent.putExtra("idBloque", bun.getInt("idBloque"));
+                        intent.putExtra("sumar", sumar);
+                        startActivity(intent);
+                    }
+                }else{
+                    Toast.makeText(getContext(), "Revisa tus datos bancarios antes de continuar.", Toast.LENGTH_LONG).show();
+                }
             }
 
         });

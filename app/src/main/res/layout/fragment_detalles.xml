@@ -227,6 +227,18 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
 
+                        <TextView
+                            android:id="@+id/tipoPlan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="DENTRO DEL PLAN:"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:layout_marginTop="@dimen/common_padding_min"
+                            android:textStyle="bold|italic"
+                            android:layout_marginStart="@dimen/common_padding_min"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tipoClase"/>
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </com.google.android.material.card.MaterialCardView>

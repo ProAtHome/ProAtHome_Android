@@ -8,13 +8,13 @@ import com.proathome.fragments.DetallesGestionarFragment;
 
 public class CommonUtils {
 
-    private static String tipoClaseS = "", horarioS = "", profesorS = "", lugarS = "", observacionesS = "", fechaS = "", fotoProfesorS = "", descripcionProfesorS = "", correoProfesorS = "";
+    private static String tipoPlanS = "", tipoClaseS = "", horarioS = "", profesorS = "", lugarS = "", observacionesS = "", fechaS = "", fotoProfesorS = "", descripcionProfesorS = "", correoProfesorS = "";
     private static int idClaseS, tiempoS, idSeccionS, idNivelS, idBloqueS;
     private static double latitudS, longitudS;
     private static boolean sumarS;
 
     public static void setFragment(AppCompatActivity activity, String nameFragment, int contentRes, int idClase, String tipoClase, String horario, String profesor,
-                                   String lugar, int tiempo, String observaciones,  double latitud,  double longitud, int idSeccion, int idNivel, int idBloque, String fecha, String fotoProfesor, String descripcionProfesor, String correoProfesor, boolean sumar){
+                                   String lugar, int tiempo, String observaciones,  double latitud,  double longitud, int idSeccion, int idNivel, int idBloque, String fecha, String fotoProfesor, String descripcionProfesor, String correoProfesor, boolean sumar, String tipoPlan){
 
         idClaseS = idClase;
         tipoClaseS = tipoClase;
@@ -34,6 +34,7 @@ public class CommonUtils {
         descripcionProfesorS = descripcionProfesor;
         correoProfesorS = correoProfesor;
         sumarS = sumar;
+        tipoPlanS = tipoPlan;
         Fragment fragment = getFragmentById(nameFragment);
         activity.getSupportFragmentManager().beginTransaction().add(contentRes, fragment).commit();
 
@@ -67,6 +68,7 @@ public class CommonUtils {
                 bun.putString("descripcionProfesor", descripcionProfesorS);
                 bun.putString("correoProfesor", correoProfesorS);
                 bun.putBoolean("sumar", sumarS);
+                bun.putString("tipoPlan", tipoPlanS);
                 fragment.setArguments(bun);
                 fragmentBool = true;
                 break;
@@ -86,6 +88,7 @@ public class CommonUtils {
                 bunG.putInt("idNivel", idNivelS);
                 bunG.putInt("idBloque", idBloqueS);
                 bunG.putString("fecha", fechaS);
+                bunG.putString("tipoPlan", tipoPlanS);
                 fragmentGestionar.setArguments(bunG);
                 fragmentBool = false;
                 break;
