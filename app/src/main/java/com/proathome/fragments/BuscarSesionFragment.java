@@ -58,24 +58,17 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialog);
-
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
         super.onViewCreated(view, savedInstanceState);
-
         if (mMap == null) {
-
             SupportMapFragment mapFragment = (WorkaroundMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
-
         }
-
     }
 
     @Override
@@ -87,9 +80,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
         toolbar.setTitle("Nueva Sesión");
         toolbar.setNavigationIcon(R.drawable.ic_close);
         toolbar.setNavigationOnClickListener(v -> {
-
             dismiss();
-
         });
 
         return view;
@@ -209,7 +200,6 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
     }
 
     public static void mostrarMarcadores(LatLng profesor, LatLng marcador, Marker marker){
-
         double latProfesor = profesor.latitude;
         double longProfesor = profesor.longitude;
         double latMarcador = marcador.latitude;
@@ -221,11 +211,9 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
         }else{
             marker.setVisible(false);
         }
-
     }
 
     public static double distanciaEntre(double latProfesor, double longProfesor, double latMarcador, double longMarcador) {
-
         double earthRadius = 6371000; //meters
         double dLat = Math.toRadians(latMarcador - latProfesor);
         double dLng = Math.toRadians(longMarcador - longProfesor);

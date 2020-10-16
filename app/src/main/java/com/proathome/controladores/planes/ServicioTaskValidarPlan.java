@@ -82,9 +82,10 @@ public class ServicioTaskValidarPlan extends AsyncTask<Void, Void, String> {
             if(jsonDatos == null){
                 Toast.makeText(this.contexto, "Error al obtener la información.", Toast.LENGTH_LONG).show();
             }else{
-                System.out.println(jsonDatos);
                 SesionesFragment.PLAN =  jsonDatos.getString("tipoPlan");
                 SesionesFragment.MONEDERO = jsonDatos.getInt("monedero");
+                SesionesFragment.FECHA_INICIO = jsonDatos.getString("fechaInicio");
+                SesionesFragment.FECHA_FIN = jsonDatos.getString("fechaFin");
                 inicioEstudiante.tipoPlan.setText("PLAN ACTUAL: " + jsonDatos.getString("tipoPlan"));
                 inicioEstudiante.monedero.setText("HORAS DISPONIBLES:                      " + obtenerHorario(jsonDatos.getInt("monedero")));
             }

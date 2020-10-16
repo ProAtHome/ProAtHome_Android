@@ -27,7 +27,6 @@ public class MasTiempo extends DialogFragment {
     public static Context contexto = null;
 
     public MasTiempo() {
-
     }
 
     @Override
@@ -140,6 +139,7 @@ public class MasTiempo extends DialogFragment {
             bundle.putInt("idBloque", ClaseEstudiante.idBloque);
             bundle.putInt("tiempo", ClaseEstudiante.tiempo);
             bundle.putInt("progresoTotal", 0);
+            bundle.putString("tipoPlan", DetallesFragment.planSesion);
             bundle.putBoolean("sumar", ClaseEstudiante.sumar);
             CobroFinalFragment cobroFinalFragment = new CobroFinalFragment();
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
@@ -156,7 +156,6 @@ public class MasTiempo extends DialogFragment {
             sumarClaseRuta.execute();
             dismiss();
         }
-
 
     }
 

@@ -57,10 +57,8 @@ public class MapsFragment extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void agregarMarca(GoogleMap googleMap, double lat, double longi){
-
         LatLng ubicacion = new LatLng(lat, longi);
         mMap.addMarker(new MarkerOptions().position(ubicacion).title("Aquí será mi clase."));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion,15));
-
     }
 }

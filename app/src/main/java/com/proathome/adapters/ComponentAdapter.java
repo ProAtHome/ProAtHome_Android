@@ -31,15 +31,12 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_component, parent, false);
         return new ViewHolder(view);
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         Component component = mComponents.get(position);
         holder.setClickListener(mListener, component);
         holder.tvNivel.setText("Nivel: " + component.obtenerNivel(component.getIdSeccion(), component.getIdNivel(), component.getIdBloque()));
@@ -49,7 +46,6 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
         holder.setOnClickListeners(component.getIdClase(), component.getProfesor(), component.getLugar(),
                 component.getTiempo(), component.getObservaciones(), component.getTipoClase(), component.getHorario(), component.getLatitud(),
                 component.getLongitud(), component.getIdSeccion(), component.getIdNivel(), component.getIdBloque(), component.getFecha(), component.getFotoProfesor(), component.getDescripcionProfesor(), component.getCorreoProfesor(), component.getSumar(), component.getTipoPlan());
-
     }
 
     @Override
@@ -58,10 +54,8 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
     }
 
     public void add(Component component){
-
             mComponents.add(component);
             notifyItemInserted(mComponents.size() - 1);
-
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
@@ -84,17 +78,14 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
         View view;
 
         public ViewHolder(@NonNull View itemView){
-
             super(itemView);
             context = itemView.getContext();
             this.view = itemView;
             ButterKnife.bind(this, itemView);
-
         }
 
         void setOnClickListeners(int idClase, String profesor, String lugar, int tiempo, String observaciones,
                                  String tipoClase, String horario, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, String fecha, String fotoProfesor, String descripcionProfesor, String correoProfesor, boolean sumar, String tipoPlan){
-
             this.idClase = idClase;
             this.profesor = profesor;
             this.lugar = lugar;
@@ -114,18 +105,14 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
             this.sumar = sumar;
             this.tipoPlan = tipoPlan;
             view.setOnClickListener(this);
-
         }
 
         void setClickListener(OnClickListener listener, Component component){
-
             view.setOnClickListener(view -> listener.onClick(component));
-
         }
 
         @Override
         public void onClick(View v) {
-
             Intent intent = new Intent(context, ScrollActivity.class);
             intent.putExtra(Constants.ARG_NAME, "Detalles");
             intent.putExtra("idClase", this.idClase);
@@ -147,7 +134,6 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
             intent.putExtra("sumar", this.sumar);
             intent.putExtra("tipoPlan", this.tipoPlan);
             context.startActivity(intent);
-
         }
 
     }

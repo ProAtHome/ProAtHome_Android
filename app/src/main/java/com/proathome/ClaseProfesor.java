@@ -181,24 +181,6 @@ public class ClaseProfesor extends AppCompatActivity {
         mTimerRunning = true;
     }
 
-    public static void startTimerTE(){
-        countDownTimer = new CountDownTimer(mTimeLeftMillis, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                mTimeLeftMillis = millisUntilFinished;
-                updateCountDownText();
-            }
-
-            @Override
-            public void onFinish()
-            {
-                mTimerRunning = false;
-            }
-        }.start();
-
-        mTimerRunning = true;
-    }
-
     public static void updateCountDownText(){
         int horas = (int) mTimeLeftMillis / (60 * 60 * 1000) % 24;
         int minutos = (int) mTimeLeftMillis / (60 * 1000) % 60;

@@ -41,33 +41,25 @@ public class InicioProfesorFragment extends Fragment {
         Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);
         int idProfesor = 0;
         if (fila.moveToFirst()) {
-
             idProfesor = fila.getInt(0);
             sesionesTask = new ServicioTaskSesionesProfesor(getContext(), clasesHttpAddress, idProfesor, Constants.SESIONES_INICIO);
             sesionesTask.execute();
             configAdapter();
             configRecyclerView();
             baseDeDatos.close();
-
         } else {
-
             baseDeDatos.close();
-
         }
 
         return root;
     }
 
     public void configAdapter(){
-
         myAdapter = new ComponentAdapterSesionesProfesor(new ArrayList<>());
-
     }
 
     private void configRecyclerView(){
-
         recyclerView.setAdapter(myAdapter);
-
     }
 
     @Override

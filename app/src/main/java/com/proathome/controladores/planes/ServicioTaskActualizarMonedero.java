@@ -1,5 +1,6 @@
 package com.proathome.controladores.planes;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import com.proathome.utils.Constants;
 import org.json.JSONException;
@@ -17,11 +18,13 @@ import java.net.URL;
 public class ServicioTaskActualizarMonedero extends AsyncTask<Void, Void, String> {
 
     private int idEstudiante, nuevoMonedero;
+    private Context contexto;
     public String linkActualizarMonedero = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/actualizarMonedero";
 
-    public ServicioTaskActualizarMonedero(int idEstudiante, int nuevoMonedero){
+    public ServicioTaskActualizarMonedero(Context contexto, int idEstudiante, int nuevoMonedero){
         this.idEstudiante = idEstudiante;
         this.nuevoMonedero = nuevoMonedero;
+        this.contexto = contexto;
     }
 
     @Override
@@ -92,6 +95,8 @@ public class ServicioTaskActualizarMonedero extends AsyncTask<Void, Void, String
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        ServicioTaskValidarPlan validarPlan = new ServicioTaskValidarPlan(this.contexto, this.idEstudiante);
+        validarPlan.execute();
     }
 
     public String getPostDataString(JSONObject params) throws Exception {

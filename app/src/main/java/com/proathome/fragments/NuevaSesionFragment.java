@@ -38,8 +38,11 @@ import com.proathome.controladores.planes.ServicioTaskActualizarMonedero;
 import com.proathome.controladores.planes.ServicioTaskValidarPlan;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,30 +85,25 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     public static TextView horasDisponiblesTV;
     public static int minutosAnteriores = 0;
     public static int minutosEstablecidos = 0;
+    public static int nuevoMonedero = 0;
     public static boolean rutaRecomendada = false;
 
     public NuevaSesionFragment() {
-
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialog);
-
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
         super.onViewCreated(view, savedInstanceState);
-
         if (mMap == null) {
             SupportMapFragment mapFragment = (WorkaroundMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
         }
-
     }
 
     @Override
@@ -155,7 +153,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         btnSolicitar.setOnClickListener(v -> {
 
             Toast.makeText(getContext(), "" + SesionesFragment.PLAN + SesionesFragment.MONEDERO,  Toast.LENGTH_LONG).show();
-            System.out.println(SesionesFragment.PLAN + SesionesFragment.MONEDERO);
             if (!direccionET.getText().toString().trim().equalsIgnoreCase("") && !observacionesET.getText().toString().trim().equalsIgnoreCase("") && !fechaET.getText().toString().trim().equalsIgnoreCase("")) {
 
                 if(obtenerMinutosHorario() == 0){
@@ -184,9 +181,8 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                             }else {
                                 if(obtenerMinutosHorario() <= SesionesFragment.MONEDERO){//Eliminar horas de monedero
                                     //TODO FLUJO_EJECUTAR_PLAN: En esta peticion restamos en el moendero el tiempo elegido y verificamos después la vigencia del PLAN en el servidor.
-                                    int nuevoMonedero = SesionesFragment.MONEDERO - obtenerMinutosHorario();
-                                    ServicioTaskActualizarMonedero actualizarMonedero = new ServicioTaskActualizarMonedero(idCliente, nuevoMonedero);
-                                    actualizarMonedero.execute();
+                                    nuevoMonedero = SesionesFragment.MONEDERO - obtenerMinutosHorario();
+
                                     STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1, extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), true, SesionesFragment.PLAN);
                                     registro.execute();
                                     direccionET.setText("");
@@ -325,7 +321,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     }
 
     @OnClick(R.id.elegirFecha)
-    public void elegirFecha(){
+    public void elegirFecha() {
 
         Calendar calendar = Calendar.getInstance();
         DatePickerDialog dialog = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_DARK, new DatePickerDialog.OnDateSetListener() {
@@ -333,13 +329,26 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
             public void onDateSet(DatePicker arg0, int year, int month, int day_of_month) {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, (month));
+                //Un día después.
                 calendar.set(Calendar.DAY_OF_MONTH, day_of_month);
                 String myFormat = "yyyy-MM-dd";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
                 fechaET.setText(sdf.format(calendar.getTime()));
             }
         },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());//used to hide previous date,month and year
+        dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
+        //Si estamos en plan activo, ajustar rango de fecha hasta fin de expiración
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaFin = null;
+        try {
+            fechaFin = sdf.parse(SesionesFragment.FECHA_FIN);
+        }catch (ParseException ex){
+            ex.printStackTrace();
+        }
+        if(!SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR"))
+            dialog.getDatePicker().setMaxDate(fechaFin.getTime());
+
         calendar.add(Calendar.YEAR, 0);
         dialog.show();
 
@@ -349,11 +358,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     public void onChooserClicked(){
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item);
-        adapter.add("01:00 HRS");
-        adapter.add("02:00 HRS");
-        adapter.add("03:00 HRS");
-        adapter.add("04:00 HRS");
-        adapter.add("05:00 HRS");
         adapter.add("06:00 HRS");
         adapter.add("07:00 HRS");
         adapter.add("08:00 HRS");
@@ -371,8 +375,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         adapter.add("20:00 HRS");
         adapter.add("21:00 HRS");
         adapter.add("22:00 HRS");
-        adapter.add("23:00 HRS");
-        adapter.add("00:00 HRS");
 
         new MaterialAlertDialogBuilder(getActivity())
                 .setTitle("Elige el horario de tu preferencia para comenzar.")

@@ -173,14 +173,12 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
 
         super.onViewCreated(view, savedInstanceState);
         if (mMap == null) {
-
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 showAlert();
             }else{
                 SupportMapFragment mapFragment = (WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetallesSesionProfesor);
                 mapFragment.getMapAsync(this);
             }
-
         }
 
         ServicioTaskFotoDetalles fotoDetalles = new ServicioTaskFotoDetalles(getContext(), this.fotoNombre, PROFESOR);
@@ -215,22 +213,18 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-
         mScrollView = getView().findViewById(R.id.scrollMapDetallesProfesor); //parent scrollview in xml, give your scrollview id value
         ((WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetallesSesionProfesor))
                 .setListener(() -> mScrollView.requestDisallowInterceptTouchEvent(true));
-
         mMap.setMyLocationEnabled(true);
         agregarMarca(googleMap, latitud, longitud);
 
     }
 
     public void agregarMarca(GoogleMap googleMap, double lat, double longi){
-
         LatLng ubicacion = new LatLng(lat, longi);
         mMap.addMarker(new MarkerOptions().position(ubicacion).title("Aquí será tu clase."));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion,15));
-
     }
 
     public String obtenerHorario(int tiempo){
@@ -242,10 +236,8 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
 
     @Override
     public void onDestroyView() {
-
         super.onDestroyView();
         mUnbinder.unbind();
-
     }
 
 }

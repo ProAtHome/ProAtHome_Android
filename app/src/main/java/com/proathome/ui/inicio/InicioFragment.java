@@ -11,8 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
-import com.proathome.controladores.estudiante.ServicioTaskIniciarPlan;
-import com.proathome.controladores.estudiante.ServicioTaskIniciarProcesoRuta;
 import com.proathome.controladores.estudiante.ServicioTaskSesionesEstudiante;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapter;
@@ -43,19 +41,17 @@ public class InicioFragment extends Fragment {
         Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
         int idCliente = 0;
         if (fila.moveToFirst()) {
-
             idCliente = fila.getInt(0);
             sesionesTask = new ServicioTaskSesionesEstudiante(getContext(), clasesHttpAddress, idCliente, Constants.SESIONES_INICIO);
             sesionesTask.execute();
             configAdapter();
             configRecyclerView();
             baseDeDatos.close();
-
         } else {
             baseDeDatos.close();
         }
-        return root;
 
+        return root;
     }
 
 

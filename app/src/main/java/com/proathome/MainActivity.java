@@ -5,13 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Toast;
@@ -125,20 +122,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void soyProfesor(View view){
-
         intent = new Intent(this, loginProfesor.class);
         startActivity(intent);
         finish();
-
     }//Fin método soyProfesor.
 
     public void registrarse(View view){
-
         intent = new Intent(this, registrarseEstudiante.class);
         startActivity(intent);
         finish();
-
-
     }//Fin método registrarse.
 
     public void entrar(View view) {
@@ -146,39 +138,21 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             showAlertEntrar();
         }else{
-
             if(!correoET.getText().toString().trim().equalsIgnoreCase("") && !contrasenaET.getText().toString().trim().equalsIgnoreCase("")){
-
                 String correo = String.valueOf(correoET.getText());
                 String contrasena = String.valueOf(contrasenaET.getText());
-
-                if(correo.equals("admin") && contrasena.equals("admin")){
-
-                    intent = new Intent(this, inicioEstudiante.class);
-                    startActivity(intent);
-
-                }else{
-
-                    ServicioTaskLoginEstudiante servicio = new ServicioTaskLoginEstudiante(this, iniciarSesionREST, correo, contrasena);
-                    servicio.execute();
-
-                }
-
+                ServicioTaskLoginEstudiante servicio = new ServicioTaskLoginEstudiante(this, iniciarSesionREST, correo, contrasena);
+                servicio.execute();
             }else{
-
                 Toast.makeText(this, "Llena todos los campos.", Toast.LENGTH_LONG).show();
-
             }
-
         }
 
     }//Fin método entrar.
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
         mUnbinder.unbind();
-
     }
 }

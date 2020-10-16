@@ -56,14 +56,10 @@ public class MatchSesionEstudiante extends AppCompatActivity implements OnMapRea
         Cursor cursor = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);
 
         if(cursor.moveToFirst()){
-
             this.idProfesor = cursor.getInt(0);
             idProfesorSesion = this.idProfesor;
-
         }else{
-
             baseDeDatos.close();
-
         }
 
         baseDeDatos.close();
@@ -73,10 +69,8 @@ public class MatchSesionEstudiante extends AppCompatActivity implements OnMapRea
         longitud = getIntent().getDoubleExtra("longitud", -99.13320799999);
 
         if (mMap == null) {
-
             SupportMapFragment mapFragment = (WorkaroundMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapsDetallesMatch);
             mapFragment.getMapAsync(this);
-
         }
 
         matchBTN = findViewById(R.id.matchBTN);
@@ -90,24 +84,18 @@ public class MatchSesionEstudiante extends AppCompatActivity implements OnMapRea
         tipoClaseTV = findViewById(R.id.tipoTV);
         observacionesTV = findViewById(R.id.observacionesTV);
         horarioTV = findViewById(R.id.horarioTV);
+
         ServicioTaskInfoSesion sesion = new ServicioTaskInfoSesion(this, this.linkInfoSesion, this.linkFoto, this.idSesion);
         sesion.execute();
 
         matchBTN.setOnClickListener(v ->{
-
             if (matchBTN.isEnabled()){
-
                 ServicioTaskMatchSesion match = new ServicioTaskMatchSesion(this, this.linkAPIMatch, this.idSesion, this.idProfesor);
                 match.execute();
                 finish();
-
             }else{
-
                 Toast.makeText(this, "Ya tiene un profesor asigando :(", Toast.LENGTH_LONG).show();
-
             }
-
-
         });
 
     }
@@ -116,7 +104,6 @@ public class MatchSesionEstudiante extends AppCompatActivity implements OnMapRea
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
-
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setMyLocationEnabled(true);
@@ -129,29 +116,22 @@ public class MatchSesionEstudiante extends AppCompatActivity implements OnMapRea
     }
 
     public void agregarMarca(GoogleMap googleMap, double lat, double longi){
-
         LatLng ubicacion = new LatLng(lat, longi);
         mMap.addMarker(new MarkerOptions().position(ubicacion).title("Aquí será la clase con el estudiante."));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion,15));
-
     }
 
     @OnClick(R.id.seguirBuscandoBTN)
     public void onClick(View view){
-
         switch (view.getId()){
-
             case R.id.seguirBuscandoBTN:
                 finish();
                 break;
-
         }
-
     }
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
         mUnbinder.unbind();
         mMap = null;
@@ -161,7 +141,6 @@ public class MatchSesionEstudiante extends AppCompatActivity implements OnMapRea
                     .remove(fragment)
                     .commit();
         }
-
     }
 
 }

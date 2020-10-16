@@ -37,7 +37,7 @@ public class AyudaProfesorFragment extends Fragment {
     }
 
     @OnClick(R.id.enviar)
-    public void onClick(View view){
+    public void onClick(){
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesionProfesor", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
         Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);

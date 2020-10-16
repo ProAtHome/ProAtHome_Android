@@ -45,13 +45,18 @@ import com.proathome.controladores.estudiante.ServicioTaskEliminarSesion;
 import com.proathome.controladores.estudiante.ServicioTaskSesionActual;
 import com.proathome.controladores.estudiante.ServicioTaskUpSesion;
 import com.proathome.controladores.WorkaroundMapFragment;
+import com.proathome.controladores.planes.ServicioTaskFechaServidor;
+import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -105,16 +110,22 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     private Unbinder mUnbinder;
     private int idClase = 0;
     private double longitud = -99.13320799999, latitud = 19.4326077;
+    private String fechaSesion = null;
+    public static String fechaServidor = null;
 
     public DetallesGestionarFragment() {
 
     }
 
+    //TODO DETALLES: Ver si podremos actualizar las cosas y depende de que, si hay profesor asignado, si estamos en plan, etc.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_detalles_gestionar, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+
+        ServicioTaskFechaServidor fechaServidor = new ServicioTaskFechaServidor();
+        fechaServidor.execute();
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
@@ -151,6 +162,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         //minutos.setSelection(posicionMinutos(minutosTexto(bun.getInt("tiempo"))));
         observacionesET.setText(bun.getString("observaciones"));
         fechaET.setText(bun.getString("fecha"));
+        fechaSesion = bun.getString("fecha");
         //secciones.setSelection(bun.getInt("idSeccion")-1);
         //niveles.setSelection(bun.getInt("idNivel")-1);
         //bloques.setSelection(bun.getInt("idBloque")-1);
@@ -428,20 +440,14 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         if (mMap == null) {
-
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 showAlert();
             }else{
-
                 SupportMapFragment mapFragment = (WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetallesG);
                 mapFragment.getMapAsync(this);
-
             }
-
         }
-
     }
 
     private void showAlert() {
@@ -494,16 +500,12 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
-
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-
         mScrollView = getActivity().findViewById(R.id.content_scroll); //parent scrollview in xml, give your scrollview id value
         ((WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetallesG))
                 .setListener(() -> mScrollView.requestDisallowInterceptTouchEvent(true));
-
         mMap.setMyLocationEnabled(true);
-
         agregarMarca(googleMap, latitud, longitud);
 
     }
@@ -552,7 +554,19 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                 cambioFecha = true;
             }
         },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());//used to hide previous date,month and year
+        dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
+        //Si estamos en plan activo, ajustar rango de fecha hasta fin de expiración
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaFin = null;
+        try {
+            fechaFin = sdf.parse(SesionesFragment.FECHA_FIN);
+        }catch (ParseException ex){
+            ex.printStackTrace();
+        }
+        if(!SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR"))
+            dialog.getDatePicker().setMaxDate(fechaFin.getTime());
+
         calendar.add(Calendar.YEAR, 0);
         dialog.show();
 
@@ -562,11 +576,6 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     public void onChooserClicked(){
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item);
-        adapter.add("01:00 HRS");
-        adapter.add("02:00 HRS");
-        adapter.add("03:00 HRS");
-        adapter.add("04:00 HRS");
-        adapter.add("05:00 HRS");
         adapter.add("06:00 HRS");
         adapter.add("07:00 HRS");
         adapter.add("08:00 HRS");
@@ -584,8 +593,6 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         adapter.add("20:00 HRS");
         adapter.add("21:00 HRS");
         adapter.add("22:00 HRS");
-        adapter.add("23:00 HRS");
-        adapter.add("00:00 HRS");
 
         new MaterialAlertDialogBuilder(getActivity())
                 .setTitle("Elige el horario de tu preferencia para comenzar.")
@@ -598,13 +605,11 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
 
     public String horasTexto(int minutos){
         String horas = String.valueOf(minutos/60);
-
         return horas + " HRS";
     }
 
     public String minutosTexto(int minutos){
         String minutosT = String.valueOf(minutos%60);
-
         return minutosT + " min";
     }
 
@@ -687,12 +692,33 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                 getActivity().finish();
                 break;
             case R.id.btnEliminarSesion:
-                ServicioTaskEliminarSesion eliminarSesion = new ServicioTaskEliminarSesion(getContext(), this.linkAPIEliminarSesion, this.idClase, this.idEstudiante, this.tipoPlanString, this.tiempo);
-                eliminarSesion.execute();
-                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-                getActivity().finish();
-                break;
+                //Verificar que sea 24 hrs antes
+//TODO DETALLES: Verificar que no tenga profesor asignado o preguntarle a NERIQUE.
+                Calendar calendarHoy = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String fechaHoy = sdf.format(calendarHoy.getTime());
 
+                try{
+                    Date fechaActual = sdf.parse(fechaHoy);
+                    Date fechaSesionFin = sdf.parse(fechaSesion);
+                    Date fechaServidor = sdf.parse(DetallesGestionarFragment.fechaServidor);
+                    if(fechaActual.equals(fechaServidor)){
+                        if(fechaActual.equals(fechaSesionFin)){
+                            Toast.makeText(getContext(), "La sesión sólo podía ser eliminada el día anterior a la clase.", Toast.LENGTH_LONG).show();
+                        }else if(fechaActual.before(fechaSesionFin)){
+                            ServicioTaskEliminarSesion eliminarSesion = new ServicioTaskEliminarSesion(getContext(), this.linkAPIEliminarSesion, this.idClase, this.idEstudiante, this.tipoPlanString, this.tiempo);
+                            eliminarSesion.execute();
+                            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+                            getActivity().finish();
+                        }
+
+                    }else{
+                        Toast.makeText(getContext(), "Fecha del dispositivo erronea.", Toast.LENGTH_LONG).show();
+                    }
+                }catch(ParseException ex){
+                    ex.printStackTrace();
+                }
+                break;
         }
 
     }

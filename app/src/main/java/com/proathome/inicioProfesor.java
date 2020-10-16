@@ -63,17 +63,12 @@ public class inicioProfesor extends AppCompatActivity {
         Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);
 
         if(fila.moveToFirst()){
-
             this.idProfesor = fila.getInt(0);
             ServicioTaskPerfilProfesor perfilProfesor = new ServicioTaskPerfilProfesor(this, linkRESTCargarPerfil, this.imageHttpAddress, this.idProfesor, Constants.INFO_PERFIL);
             perfilProfesor.execute();
-
             baseDeDatos.close();
-
         }else{
-
             baseDeDatos.close();
-
         }
 
     }
@@ -93,11 +88,9 @@ public class inicioProfesor extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         cargarPerfil();
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
-
     }
 
 }

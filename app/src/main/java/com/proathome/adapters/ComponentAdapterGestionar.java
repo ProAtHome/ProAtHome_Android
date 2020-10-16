@@ -30,15 +30,12 @@ public class ComponentAdapterGestionar extends RecyclerView.Adapter<ComponentAda
     @NonNull
     @Override
     public ViewHolderGestionar onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_component_gestionar, parent, false);
         return new ViewHolderGestionar(view);
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderGestionar holder, int position) {
-
         Component component = mComponents.get(position);
         holder.setClickListener(mListener, component);
         holder.tvNivel.setText("Nivel: " + component.obtenerNivel(component.getIdSeccion(), component.getIdNivel(), component.getIdBloque()));
@@ -49,7 +46,6 @@ public class ComponentAdapterGestionar extends RecyclerView.Adapter<ComponentAda
         holder.setOnClickListeners(component.getIdClase(), component.getProfesor(), component.getLugar(),
                 component.getTiempo(), component.getObservaciones(), component.getTipoClase(), component.getHorario(), component.getLatitud(),
                 component.getLongitud(), component.getActualizado(), component.getIdSeccion(), component.getIdNivel(), component.getIdBloque(), component.getFecha(), component.getTipoPlan());
-
     }
 
     @Override
@@ -58,10 +54,8 @@ public class ComponentAdapterGestionar extends RecyclerView.Adapter<ComponentAda
     }
 
     public void add(Component component){
-
-            mComponents.add(component);
-            notifyItemInserted(mComponents.size() - 1);
-
+        mComponents.add(component);
+        notifyItemInserted(mComponents.size() - 1);
     }
 
     class ViewHolderGestionar extends RecyclerView.ViewHolder implements  View.OnClickListener{
@@ -85,17 +79,14 @@ public class ComponentAdapterGestionar extends RecyclerView.Adapter<ComponentAda
         View view;
 
         public ViewHolderGestionar(@NonNull View itemView){
-
             super(itemView);
             context = itemView.getContext();
             this.view = itemView;
             ButterKnife.bind(this, itemView);
-
         }
 
         void setOnClickListeners(int idClase, String profesor, String lugar, int tiempo, String observaciones,
                                  String tipoClase, String horario, double latitud, double longitud, String actualizado, int idSeccion, int idNivel, int idBloque, String fecha, String tipoPlan){
-
             this.idClase = idClase;
             this.profesor = profesor;
             this.lugar = lugar;
@@ -112,18 +103,14 @@ public class ComponentAdapterGestionar extends RecyclerView.Adapter<ComponentAda
             this.actualizado = actualizado;
             this.tipoPlan = tipoPlan;
             view.setOnClickListener(this);
-
         }
 
         void setClickListener(OnClickListener listener, Component component){
-
             view.setOnClickListener(view -> listener.onClick(component));
-
         }
 
         @Override
         public void onClick(View v) {
-
             Intent intent = new Intent(context, ScrollActivity.class);
             intent.putExtra(Constants.ARG_NAME, "Detalles de la Sesión");
             intent.putExtra("idClase", this.idClase);
@@ -141,7 +128,6 @@ public class ComponentAdapterGestionar extends RecyclerView.Adapter<ComponentAda
             intent.putExtra("idBloque", this.idBloque);
             intent.putExtra("tipoPlan", this.tipoPlan);
             context.startActivity(intent);
-
         }
 
     }

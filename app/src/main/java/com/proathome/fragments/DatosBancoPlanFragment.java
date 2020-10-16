@@ -39,9 +39,7 @@ public class DatosBancoPlanFragment extends DialogFragment {
     public static int idSesion, idEstudiante;
     public static double costoTotal;
 
-
     public DatosBancoPlanFragment() {
-
     }
 
     @Override

@@ -44,7 +44,6 @@ public class PreOrdenClase extends DialogFragment {
     private Unbinder mUnbinder;
 
     public PreOrdenClase() {
-
     }
 
     @Override

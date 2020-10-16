@@ -68,13 +68,11 @@ public class inicioEstudiante extends AppCompatActivity{
         Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
 
         if(fila.moveToFirst()){
-
             this.idEstudiante = fila.getInt(0);
             //TODO FLUJO_PLANES: Crear PLAN al iniciar sesión si no existe registro en la BD.
             /*TODO FLUJO_PANES: Cargamos la info de PLAN, MONEDERO Y PERFIL.*/
             ServicioTaskPerfilEstudiante perfilEstudiante = new ServicioTaskPerfilEstudiante(this, linkRESTCargarPerfil, this.imageHttpAddress, this.idEstudiante, Constants.INFO_PERFIL);
             perfilEstudiante.execute();
-
         }else{
             baseDeDatos.close();
         }
@@ -85,11 +83,9 @@ public class inicioEstudiante extends AppCompatActivity{
 
     @Override
     public boolean onSupportNavigateUp() {
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         cargarPerfil();
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
-
     }
 
     public void cerrarSesion(View view){

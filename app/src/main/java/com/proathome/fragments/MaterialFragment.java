@@ -24,7 +24,6 @@ public class MaterialFragment extends DialogFragment {
     PDFView pdfView;
 
     public MaterialFragment() {
-
     }
 
     @Override

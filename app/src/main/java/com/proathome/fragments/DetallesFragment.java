@@ -225,8 +225,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
                         preOrdenClase.show(fragmentTransaction, "PreOrden");
                     }else{
                 /*Si ya tenemos un token entonces no hay pedo e iniciamos la buisqueda de la conexión del
-                profesor.
-                 */
+                profesor.*/
                         ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
                         sincronizarClases.execute();
 
@@ -254,18 +253,15 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
         super.onViewCreated(view, savedInstanceState);
 
         if (mMap == null) {
-
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 showAlert();
             }else{
                 SupportMapFragment mapFragment = (WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetalles);
                 mapFragment.getMapAsync(this);
             }
-
         }
 
         ServicioTaskFotoDetalles fotoDetalles = new ServicioTaskFotoDetalles(getContext(), this.fotoNombre, ESTUDIANTE);
@@ -296,29 +292,16 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onDestroyView() {
-
-        super.onDestroyView();
-        mUnbinder.unbind();
-
-    }
-
-    @Override
     public void onMapReady(GoogleMap googleMap) {
-
         mMap = googleMap;
-
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-
         mScrollView = getView().findViewById(R.id.scrollMapDetalles); //parent scrollview in xml, give your scrollview id value
         ((WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetalles))
                 .setListener(() -> mScrollView.requestDisallowInterceptTouchEvent(true));
 
         mMap.setMyLocationEnabled(true);
-
         agregarMarca(googleMap, latitud, longitud);
-
     }
 
     public String obtenerHorario(int tiempo){
@@ -329,11 +312,15 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void agregarMarca(GoogleMap googleMap, double lat, double longi){
-
         LatLng ubicacion = new LatLng(lat, longi);
         mMap.addMarker(new MarkerOptions().position(ubicacion).title("Aquí será tu clase."));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion,15));
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
     }
 
 }

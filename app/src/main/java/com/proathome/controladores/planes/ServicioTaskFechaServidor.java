@@ -1,6 +1,8 @@
 package com.proathome.controladores.planes;
 
 import android.os.AsyncTask;
+
+import com.proathome.fragments.DetallesGestionarFragment;
 import com.proathome.fragments.PlanesFragment;
 import com.proathome.utils.Constants;
 import org.json.JSONException;
@@ -74,6 +76,7 @@ public class ServicioTaskFechaServidor extends AsyncTask<Void, Void, String> {
         try{
             JSONObject jsonObject = new JSONObject(s);
             PlanesFragment.fechaServidor = jsonObject.getString("fechaServidor");
+            DetallesGestionarFragment.fechaServidor = jsonObject.getString("fechaServidor");
         }catch(JSONException ex){
             ex.printStackTrace();
         }

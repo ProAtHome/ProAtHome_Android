@@ -94,7 +94,6 @@ public class ClaseEstudiante extends FragmentActivity {
 
     public static FragmentTransaction obtenerFargment(FragmentActivity activity){
         FragmentTransaction fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
-
         return fragmentTransaction;
     }
 

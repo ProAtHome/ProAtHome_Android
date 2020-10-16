@@ -107,36 +107,26 @@ public class EditarPerfilProfesorFragment extends Fragment {
         Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor, correo FROM sesionProfesor WHERE id = " + 1, null);
 
         if(fila.moveToFirst()){
-
             this.idProfesor = fila.getInt(0);
             this.ID_PROFESOR = String.valueOf(fila.getInt(0));
             this.correo = fila.getString(1);
-
         }else{
-
             baseDeDatos.close();
-
         }
 
         btnActualizarInfo.setOnClickListener(view -> {
-
             actualizarPerfil = new ServicioTaskUpPerfilProfesor(getContext(), linkRESTActualizarPerfil, this.idProfesor, etNombre.getText().toString(), this.correo, Integer.valueOf(etEdad.getText().toString()), etDesc.getText().toString());
             actualizarPerfil.execute();
             uploadImage();
-
         });
 
         btnActualizarInfoBancaria.setOnClickListener(view -> {
-
             actualizarBanco = new ServicioTaskUpCuentaProfesor(getContext(), linkRESTActualizarBanco, this.idProfesor, etTipoDePago.getText().toString(), etBanco.getText().toString(), etCuenta.getText().toString(), etDireccion.getText().toString());
             actualizarBanco.execute();
-
         });
 
         bottomNavigationPerfil.setOnNavigationItemSelectedListener(item -> {
-
             switch (item.getItemId()){
-
                 case R.id.action_informacion:
                     ivFoto.setVisibility(View.VISIBLE);
                     btnFoto.setVisibility(View.VISIBLE);
@@ -158,7 +148,6 @@ public class EditarPerfilProfesorFragment extends Fragment {
                     etDireccion.setVisibility(View.INVISIBLE);
                     btnActualizarInfoBancaria.setVisibility(View.INVISIBLE);
                     return true;
-
                 case R.id.action_datos:
                     ivFoto.setVisibility(View.INVISIBLE);
                     btnFoto.setVisibility(View.INVISIBLE);
@@ -180,9 +169,7 @@ public class EditarPerfilProfesorFragment extends Fragment {
                     etDireccion.setVisibility(View.VISIBLE);
                     btnActualizarInfoBancaria.setVisibility(View.VISIBLE);
                     return true;
-
             }
-
             return true;
 
         });
@@ -209,29 +196,22 @@ public class EditarPerfilProfesorFragment extends Fragment {
         Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);
 
         if(fila.moveToFirst()){
-
             this.idProfesor = fila.getInt(0);
             perfilEstudiante = new ServicioTaskPerfilProfesor(getContext(), linkRESTCargarPerfil, this.imageHttpAddress, this.idProfesor, Constants.INFO_PERFIl_EDITAR);
             perfilEstudiante.execute();
             bancoEstudiante = new ServicioTaskBancoProfesor(getContext(), linkRESTDatosBancarios, this.idProfesor);
             bancoEstudiante.execute();
-
         }else{
-
             baseDeDatos.close();
-
         }
 
         baseDeDatos.close();
 
-
     }
 
     @OnClick(R.id.btnFoto)
-    public void onClickFoto(View view){
-
+    public void onClickFoto(){
         showFileChooser();
-
     }
 
     public String getStringImagen(Bitmap bmp){
@@ -243,7 +223,6 @@ public class EditarPerfilProfesorFragment extends Fragment {
     }
 
     private void uploadImage(){
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, linkFoto,
                 new Response.Listener<String>() {
                     @Override
@@ -257,23 +236,18 @@ public class EditarPerfilProfesorFragment extends Fragment {
 
                     }
                 }){
-
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 //Convertir bits a cadena
                 String imagen = getStringImagen(bitmap);
-
                 //Obtener el nombre de la imagen
                 String nombre = ID_PROFESOR + "_perfilProfesor";
-
                 //Creación de parámetros
                 Map<String,String> params = new Hashtable<>();
-
                 //Agregando de parámetros
                 params.put(KEY_IMAGEN, imagen);
                 params.put(KEY_NOMBRE, nombre);
                 params.put("idProfesor", ID_PROFESOR);
-
                 //Parámetros de retorno
                 return params;
             }
@@ -281,7 +255,6 @@ public class EditarPerfilProfesorFragment extends Fragment {
 
         //Creación de una cola de solicitudes
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-
         //Agregar solicitud a la cola
         requestQueue.add(stringRequest);
     }
@@ -312,10 +285,8 @@ public class EditarPerfilProfesorFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-
         super.onDestroyView();
         mUnbinder.unbind();
-
     }
 
 }

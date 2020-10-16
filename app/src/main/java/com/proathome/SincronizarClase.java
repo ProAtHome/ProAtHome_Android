@@ -102,14 +102,9 @@ public class SincronizarClase extends AppCompatActivity {
         //CAMBIAR A FALSE EN BD.
     }
 
-    public void terminarSincronizar(){
-        finish();
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
-        //Toast.makeText(this, "Terminado", Toast.LENGTH_LONG).show();
         ClaseEstudiante.enpausa = true;
         ClaseEstudiante.encurso = true;
         ClaseEstudiante.terminado = true;
@@ -131,6 +126,6 @@ public class SincronizarClase extends AppCompatActivity {
         super.onDestroy();
         mUnbinder.unbind();
         timer.cancel();
-
     }
+
 }

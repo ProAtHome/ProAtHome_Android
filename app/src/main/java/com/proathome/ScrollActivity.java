@@ -29,32 +29,30 @@ public class ScrollActivity extends AppCompatActivity {
             nameFragment = getIntent().getStringExtra(Constants.ARG_NAME);
             int tiempo = getIntent().getIntExtra("tiempo", 0);
             int idClase = getIntent().getIntExtra("idClase" , 0);
+            int idSeccion = getIntent().getIntExtra("idSeccion", 0);
+            int idNivel = getIntent().getIntExtra("idNivel", 0);
+            int idBloque = getIntent().getIntExtra("idBloque", 0);
             String profesor = getIntent().getStringExtra("profesor");
             String lugar = getIntent().getStringExtra("lugar");
             String fecha = getIntent().getStringExtra("fecha");
             String observaciones = getIntent().getStringExtra("observaciones");
             String tipoClase = getIntent().getStringExtra("tipoClase");
             String horario = getIntent().getStringExtra("horario");
-            double latitud = getIntent().getDoubleExtra("latitud", 0.0);
-            double longitud = getIntent().getDoubleExtra("longitud", 0.0);
-            int idSeccion = getIntent().getIntExtra("idSeccion", 0);
-            int idNivel = getIntent().getIntExtra("idNivel", 0);
-            int idBloque = getIntent().getIntExtra("idBloque", 0);
             String fotoProfesor = getIntent().getStringExtra("fotoProfesor");
             String correoProfesor = getIntent().getStringExtra("correoProfesor");
             String descripcionProfesor = getIntent().getStringExtra("descripcionProfesor");
-            boolean sumar = getIntent().getBooleanExtra("sumar", true);
             String tipoPlan = getIntent().getStringExtra("tipoPlan");
+            double latitud = getIntent().getDoubleExtra("latitud", 0.0);
+            double longitud = getIntent().getDoubleExtra("longitud", 0.0);
+            boolean sumar = getIntent().getBooleanExtra("sumar", true);
             CommonUtils.setFragment(this, nameFragment, R.id.content_scroll, idClase, tipoClase, horario, profesor, lugar, tiempo, observaciones, latitud, longitud, idSeccion, idNivel, idBloque, fecha, fotoProfesor, descripcionProfesor, correoProfesor, sumar, tipoPlan);
 
         }
 
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null){
-
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(nameFragment);
-
         }
 
     }
@@ -62,16 +60,12 @@ public class ScrollActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         if(item.getItemId() == android.R.id.home){
-
             finish();
             return true;
-
         }
 
         return super.onOptionsItemSelected(item);
-
     }
 
 }

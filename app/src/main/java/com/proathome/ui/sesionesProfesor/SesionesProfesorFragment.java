@@ -64,7 +64,6 @@ public class SesionesProfesorFragment extends Fragment {
     public void onClicked(View view){
 
         switch (view.getId()){
-
             case R.id.fabNuevaSesion:
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     showAlert();
@@ -85,9 +84,7 @@ public class SesionesProfesorFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-
         super.onDestroy();
         mUnbinder.unbind();
-
     }
 }

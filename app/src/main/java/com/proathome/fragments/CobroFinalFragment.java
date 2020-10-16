@@ -51,7 +51,6 @@ public class CobroFinalFragment extends DialogFragment {
     public static String idCard = null;
 
     public CobroFinalFragment() {
-
     }
 
     @Override
@@ -59,7 +58,6 @@ public class CobroFinalFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_AppCompat_DayNight_Dialog_Alert);
         setCancelable(false);
-
         deviceIdString = Constants.openpay.getDeviceCollectorDefaultImpl().setup(getActivity());
         context = getContext();
     }

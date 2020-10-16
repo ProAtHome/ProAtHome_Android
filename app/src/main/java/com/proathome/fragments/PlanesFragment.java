@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -22,9 +21,7 @@ import com.proathome.controladores.estudiante.ServicioTaskSesionActual;
 import com.proathome.controladores.planes.ServicioTaskFechaServidor;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
-
 import java.util.Calendar;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -50,7 +47,6 @@ public class PlanesFragment extends DialogFragment {
     MaterialCardView card3;
 
     public PlanesFragment() {
-
     }
 
     @Override

@@ -39,47 +39,33 @@ public class registrarseProfesor extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrarse_profesor);
         mUnbinder = ButterKnife.bind(this);
         sDayIni = calendar.get(Calendar.DAY_OF_MONTH);
         sMonthIni = calendar.get(Calendar.MONTH);
         sYearIni = calendar.get(Calendar.YEAR);
-
     }
 
     private void colocarFecha(){
-
         if(mMonthIni >= 9 && mDayIni <= 9){
-
             fechaET.setText((mYearIni) + "-" + (mMonthIni + 1) + "-" + "0" + mDayIni);
-
         }else if(mMonthIni < 9 && mDayIni > 9){
-
             fechaET.setText((mYearIni) + "-" + "0" + (mMonthIni + 1) + "-" + mDayIni);
-
         }else if(mMonthIni > 8 && mDayIni > 9){
-
             fechaET.setText((mYearIni) + "-" + (mMonthIni + 1) + "-" + mDayIni);
-
         }else{
-
             fechaET.setText((mYearIni) + "-" + "0" + (mMonthIni + 1) + "-" + "0" + mDayIni);
-
         }
-
     }
 
     private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
             mYearIni = year;
             mMonthIni = month;
             mDayIni = dayOfMonth;
             colocarFecha();
-
         }
     };
 
@@ -87,7 +73,6 @@ public class registrarseProfesor extends AppCompatActivity {
     protected Dialog onCreateDialog(int id) {
 
         switch (id){
-
             case DATE_ID:
                 DatePickerDialog dialog = new DatePickerDialog(this, android.R.style.Theme_Holo_Dialog, new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -98,7 +83,6 @@ public class registrarseProfesor extends AppCompatActivity {
                         colocarFecha();
                     }
                 }, sYearIni, sMonthIni, sDayIni);
-
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
                 return dialog;
@@ -109,21 +93,16 @@ public class registrarseProfesor extends AppCompatActivity {
     }
 
     public void verDatePickerP(View view){
-
         showDialog(DATE_ID);
-
     }//Fin método verDatePicker.
 
     public void iniciarSesion(View view){
-
         intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
-
     }//Fin método iniciarSesion.
 
     public void registrar(View view){
-
         if(!nombreET.getText().toString().trim().equalsIgnoreCase("") && !fechaET.getText().toString().trim().equalsIgnoreCase("")
                 && !edadET.getText().toString().trim().equalsIgnoreCase("") && !correoET.getText().toString().trim().equalsIgnoreCase("")
                 && !contrasenaET.getText().toString().trim().equalsIgnoreCase("")){
@@ -135,20 +114,14 @@ public class registrarseProfesor extends AppCompatActivity {
             String contrasena = String.valueOf(contrasenaET.getText());
             servicioTaskRegistroProfesor = new ServicioTaskRegistroProfesor(this, registrarProfesorREST, nombre, fecha, edad, correo, contrasena);
             servicioTaskRegistroProfesor.execute();
-
         }else{
-
             Toast.makeText(this, "Llena todos los campos.", Toast.LENGTH_SHORT).show();
-
         }
-
     }//Fin método registrar.
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
         mUnbinder.unbind();
-
     }
 }

@@ -27,7 +27,6 @@ public class DetallesBloque extends DialogFragment {
     LottieAnimationView lottieAnimationView;
 
     public DetallesBloque() {
-
     }
 
     @Override
@@ -55,7 +54,7 @@ public class DetallesBloque extends DialogFragment {
     }
 
     @OnClick(R.id.btnCerrar)
-    public void onClick(View view){
+    public void onClick(){
         dismiss();
     }
 

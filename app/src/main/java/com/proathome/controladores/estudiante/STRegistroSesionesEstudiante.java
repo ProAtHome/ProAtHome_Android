@@ -3,6 +3,11 @@ package com.proathome.controladores.estudiante;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+
+import com.proathome.controladores.planes.ServicioTaskActualizarMonedero;
+import com.proathome.controladores.planes.ServicioTaskValidarPlan;
+import com.proathome.fragments.NuevaSesionFragment;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -136,12 +141,12 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         progressDialog.dismiss();
+        ServicioTaskActualizarMonedero actualizarMonedero = new ServicioTaskActualizarMonedero(this.contexto, idCliente, NuevaSesionFragment.nuevoMonedero);
+        actualizarMonedero.execute();
     }
 
     public String getPostDataString(JSONObject params) throws Exception{
-
         return params.toString();
-
     }
 
 }
