@@ -32,6 +32,7 @@ public class ScrollActivity extends AppCompatActivity {
             int idSeccion = getIntent().getIntExtra("idSeccion", 0);
             int idNivel = getIntent().getIntExtra("idNivel", 0);
             int idBloque = getIntent().getIntExtra("idBloque", 0);
+            int idProfesor = getIntent().getIntExtra("idProfesor", 0);
             String profesor = getIntent().getStringExtra("profesor");
             String lugar = getIntent().getStringExtra("lugar");
             String fecha = getIntent().getStringExtra("fecha");
@@ -45,7 +46,7 @@ public class ScrollActivity extends AppCompatActivity {
             double latitud = getIntent().getDoubleExtra("latitud", 0.0);
             double longitud = getIntent().getDoubleExtra("longitud", 0.0);
             boolean sumar = getIntent().getBooleanExtra("sumar", true);
-            CommonUtils.setFragment(this, nameFragment, R.id.content_scroll, idClase, tipoClase, horario, profesor, lugar, tiempo, observaciones, latitud, longitud, idSeccion, idNivel, idBloque, fecha, fotoProfesor, descripcionProfesor, correoProfesor, sumar, tipoPlan);
+            CommonUtils.setFragment(this, nameFragment, R.id.content_scroll, idClase, tipoClase, horario, profesor, lugar, tiempo, observaciones, latitud, longitud, idSeccion, idNivel, idBloque, fecha, fotoProfesor, descripcionProfesor, correoProfesor, sumar, tipoPlan, idProfesor);
 
         }
 

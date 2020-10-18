@@ -5,12 +5,19 @@ import java.util.Objects;
 public class ComponentSesionesProfesor {
 
     private String nombreEstudiante, descripcion, correo, foto, tipoClase, horario, profesor, lugar, observaciones, actualizado;
-    private int photoRes, idClase, tiempo, idSeccion, idNivel, idBloque;
+    private int photoRes, idClase, tiempo, idSeccion, idNivel, idBloque, idEstudiante;
     private double latitud, longitud;
     private int type;
 
     public ComponentSesionesProfesor(){
+    }
 
+    public int getIdEstudiante() {
+        return idEstudiante;
+    }
+
+    public void setIdEstudiante(int idEstudiante) {
+        this.idEstudiante = idEstudiante;
     }
 
     public String getNombreEstudiante() {

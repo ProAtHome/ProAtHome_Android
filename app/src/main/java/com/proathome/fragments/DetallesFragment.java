@@ -27,6 +27,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
 import com.proathome.SincronizarClase;
@@ -37,10 +38,12 @@ import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioTaskBancoEstudiante;
 import com.proathome.controladores.estudiante.ServicioTaskPreOrden;
 import com.proathome.controladores.profesor.ServicioTaskFotoDetalles;
+import com.proathome.controladores.valoracion.ServicioTaskValoracion;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class DetallesFragment extends Fragment implements OnMapReadyCallback {
@@ -51,12 +54,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     public static int ESTUDIANTE = 1;
     public static String fotoNombre, planSesion;
     public static boolean sumar;
-    public static int idSesion = 0;
-    public static int idEstudiante = 0;
-    public static int tiempoPasar = 0;
-    public static int idSeccion = 0;
-    public static int idNivel = 0;
-    public static int idBloque = 0;
+    public static int idSesion = 0, idEstudiante = 0, idProfesor = 0, tiempoPasar = 0, idSeccion = 0, idNivel = 0, idBloque = 0;
     /*VARIABLE DE EXISTENCIA DE DATOS - BANCO*/
     public static boolean banco;
     public static ImageView foto;
@@ -80,6 +78,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     TextView correoProfesor;
     @BindView(R.id.tipoPlan)
     TextView tipoPlan;
+    @BindView(R.id.perfilEstudianteCard)
+    MaterialCardView perfilEstudianteCard;
     public static MaterialButton iniciar;
     private ScrollView mScrollView;
     private Unbinder mUnbinder;
@@ -90,7 +90,10 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    public static Component getmInstance(int idClase, String tipoClase, String horario, String profesor, String lugar, int tiempo, String observaciones, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, String fecha, String fotoProfesor, String descripcionProfesor, String correoProfesor, boolean sumar, String tipoPlan){
+    public static Component getmInstance(int idClase, String tipoClase, String horario, String profesor, String lugar,
+                                         int tiempo, String observaciones, double latitud, double longitud, int idSeccion,
+                                         int idNivel, int idBloque, String fecha, String fotoProfesor, String descripcionProfesor,
+                                         String correoProfesor, boolean sumar, String tipoPlan, int idProfesor){
 
         mInstance = new Component();
         mInstance.setIdClase(idClase);
@@ -111,6 +114,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         mInstance.setCorreoProfesor(correoProfesor);
         mInstance.setSumar(sumar);
         mInstance.setTipoPlan(tipoPlan);
+        mInstance.setIdProfesor(idProfesor);
         mInstance.setPhotoRes(R.drawable.img_button);
         mInstance.setType(Constants.SCROLL);
         return mInstance;
@@ -151,6 +155,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
         if(bun.getString("fotoProfesor").equalsIgnoreCase("Sin foto")) {
             iniciar.setVisibility(View.INVISIBLE);
+            perfilEstudianteCard.setClickable(false);
         }else {
             iniciar.setVisibility(View.VISIBLE);
         }
@@ -183,6 +188,9 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         idBloque = bun.getInt("idBloque");
         tipoPlan.setText("DENTRO DEL PLAN: " + bun.getString("tipoPlan"));
         planSesion = bun.getString("tipoPlan");
+        idProfesor = bun.getInt("idProfesor");
+
+        /*Cargar datos del Perfil del Profesor*/
 
         /*Datos de pre Orden listos para ser lanzados :)*/
         ServicioTaskPreOrden preOrden = new ServicioTaskPreOrden(idEstudiante, idSesion, ServicioTaskPreOrden.PANTALLA_PRE_COBRO);
@@ -289,6 +297,16 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
                     getFragmentManager().beginTransaction().detach(this).commit();
                 })
                 .show();
+    }
+
+    @OnClick(R.id.perfilEstudianteCard)
+    public void onClick(){
+        Bundle bundle = new Bundle();
+        bundle.putInt("tipoPerfil", PerfilFragment.PERFIL_PROFESOR);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        PerfilFragment perfilFragment = new PerfilFragment();
+        perfilFragment.setArguments(bundle);
+        perfilFragment.show(fragmentTransaction, "Perfil - Profesor");
     }
 
     @Override

@@ -27,10 +27,8 @@ public class ServicioTaskObtenerSesiones extends AsyncTask<Void, Void, String> {
     private Context contexto;
 
     public ServicioTaskObtenerSesiones(Context contexto, String linkAPI){
-
         this.contexto = contexto;
         this.linkAPI = linkAPI;
-
     }
 
     @Override
@@ -96,23 +94,16 @@ public class ServicioTaskObtenerSesiones extends AsyncTask<Void, Void, String> {
         this.respuestaAPI = s;
 
         if(this.respuestaAPI == null){
-
             Toast.makeText(this.contexto, "Error del servidor.", Toast.LENGTH_LONG).show();
-
         }else{
-
             if(!this.respuestaAPI.equals("null")){
-
                 try{
-
                     JSONArray jsonArray = new JSONArray(this.respuestaAPI);
                     for (int i = 0; i < jsonArray.length(); i++){
-
                         JSONObject object = jsonArray.getJSONObject(i);
                         LatLng ubicacion = new LatLng(object.getDouble("latitud"), object.getDouble("longitud"));
                         Marker marker = BuscarSesionFragment.mMap.addMarker(new MarkerOptions().position(ubicacion).title("Sesion de: " + object.getString("nombre") + "\n" + "Nivel: " + Component.getSeccion(object.getInt("idSeccion")) + "/" + Component.getNivel(object.getInt("idSeccion"), object.getInt("idNivel"))).snippet(String.valueOf(object.getInt("idSesion"))));
                         BuscarSesionFragment.perth.add(marker);
-
                     }
                     LatLng ubicacion = new LatLng(19.4326077, -99.13320799999);
                     for(Marker marcador: BuscarSesionFragment.perth){

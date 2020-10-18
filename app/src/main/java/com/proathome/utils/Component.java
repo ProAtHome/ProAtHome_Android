@@ -5,13 +5,21 @@ import java.util.Objects;
 public class Component {
 
     private String tipoPlan, fecha, tipoClase, horario, profesor, lugar, observaciones, actualizado, fotoProfesor, descripcionProfesor, correoProfesor;
-    private int photoRes, idClase, idSeccion, idNivel, idBloque, tiempo;
+    private int photoRes, idClase, idSeccion, idNivel, idBloque, tiempo, idProfesor;
     private double latitud, longitud;
     private int type;
     private boolean sumar;
 
     public Component(){
 
+    }
+
+    public int getIdProfesor() {
+        return idProfesor;
+    }
+
+    public void setIdProfesor(int idProfesor) {
+        this.idProfesor = idProfesor;
     }
 
     public String getTipoPlan() {

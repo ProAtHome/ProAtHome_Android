@@ -80,10 +80,8 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
 
             }
             else{
-
                 result= new String("Error: "+ responseCode);
                 respuesta = null;
-
             }
 
             URL imageUrl = null;
@@ -118,15 +116,10 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
         resultadoApi = s;
 
         if(resultadoApi == null){
-
             Toast.makeText(httpContext, "Error del servidor.", Toast.LENGTH_LONG).show();
-
         }else {
-
             if(!resultadoApi.equals("null")){
-
                 try{
-
                     JSONObject jsonObject = new JSONObject(resultadoApi);
 
                     if(this.tipo == Constants.FOTO_EDITAR_PERFIL)

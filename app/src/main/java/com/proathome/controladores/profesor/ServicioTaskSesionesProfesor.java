@@ -122,32 +122,24 @@ public class ServicioTaskSesionesProfesor extends AsyncTask<Void, Void, String> 
                     }
 
                     for (int i = 0; i < jsonArray.length(); i++){
-
                         JSONObject object = jsonArray.getJSONObject(i);
                         if(tipo == 1) {
                             InicioProfesorFragment.myAdapter.add(DetallesSesionProfesorFragment.getmInstance(object.getInt("idsesiones"), object.getString("nombreEstudiante"), object.getString("descripcion"), object.getString("correo"), object.getString("foto"),  object.getString("tipoClase"), object.getString("horario"),
                                     "Soy yo", object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
-                                    object.getDouble("longitud"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque")));
+                                    object.getDouble("longitud"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getInt("idEstudiante")));
                         }else if(tipo == 2){
                             //SesionesProfesorFragment.myAdapter.add();
                         }
-
                     }
 
                 }catch(JSONException ex){
-
                     ex.printStackTrace();
-
                 }
 
             }else{
-
                 Toast.makeText(this.contexto, "Usuario sin Sesiones.",Toast.LENGTH_LONG).show();
-
             }
-
         }
-
     }
 
 }

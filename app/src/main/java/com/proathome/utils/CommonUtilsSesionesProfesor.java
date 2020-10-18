@@ -8,11 +8,11 @@ import com.proathome.fragments.DetallesSesionProfesorFragment;
 public class CommonUtilsSesionesProfesor {
 
     private static String nombreEstudianteS = "", descripcionS = "", correoS = "", fotoS ="", tipoClaseS = "", horarioS = "", profesorS = "", lugarS = "", observacionesS = "";
-    private static int idClaseS, tiempoS, idSeccionS, idNivelS, idBloqueS;
+    private static int idClaseS, tiempoS, idSeccionS, idNivelS, idBloqueS, idEstudianteS;
     private static double latitudS, longitudS;
 
     public static void setFragment(AppCompatActivity activity, String nameFragment, int contentRes, int idClase, String nombreEstudiante, String descripcion, String correo, String foto, String tipoClase, String horario, String profesor,
-                                   String lugar, int tiempo, String observaciones,  double latitud,  double longitud, int idSeccion, int idNivel, int idBloque){
+                                   String lugar, int tiempo, String observaciones,  double latitud,  double longitud, int idSeccion, int idNivel, int idBloque, int idEstudiante){
 
         idClaseS = idClase;
         nombreEstudianteS = nombreEstudiante;
@@ -30,6 +30,7 @@ public class CommonUtilsSesionesProfesor {
         idSeccionS = idSeccion;
         idNivelS = idNivel;
         idBloqueS = idBloque;
+        idEstudianteS = idEstudiante;
         Fragment fragment = getFragmentById(nameFragment);
         activity.getSupportFragmentManager().beginTransaction().add(contentRes, fragment).commit();
 
@@ -59,6 +60,7 @@ public class CommonUtilsSesionesProfesor {
                 bun.putInt("idSeccion", idSeccionS);
                 bun.putInt("idNivel", idNivelS);
                 bun.putInt("idBloque", idBloqueS);
+                bun.putInt("idEstudiante", idEstudianteS);
                 fragment.setArguments(bun);
                 break;
 

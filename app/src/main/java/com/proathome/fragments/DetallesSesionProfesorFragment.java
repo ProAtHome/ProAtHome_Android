@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,13 +37,14 @@ import com.proathome.utils.ComponentSesionesProfesor;
 import com.proathome.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class DetallesSesionProfesorFragment extends Fragment implements OnMapReadyCallback {
 
     private static ComponentSesionesProfesor mInstance;
     public static final String TAG = "Detalles de Clase";
-    public static int PROFESOR = 2;
+    public static int PROFESOR = 2, idEstudiante;
     private int idSesion = 0;
     private int idProfesor = 0;
     private int tiempoPasar = 0;
@@ -51,7 +53,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
     private Unbinder mUnbinder;
     private double longitud = -99.13320799999, latitud = 19.4326077;
     public static ImageView foto;
-    private String fotoNombre;
+    public static String fotoNombre;
     @BindView(R.id.nombreTV)
     TextView nombreTV;
     @BindView(R.id.descripcionTV)
@@ -76,7 +78,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
 
     }
 
-    public static ComponentSesionesProfesor getmInstance(int idClase, String nombreEstudiante, String descripcion, String correo, String foto, String tipoClase, String horario, String profesor, String lugar, int tiempo, String observaciones, double latitud, double longitud, int idSeccion, int idNivel, int idBloque){
+    public static ComponentSesionesProfesor getmInstance(int idClase, String nombreEstudiante, String descripcion, String correo, String foto, String tipoClase, String horario, String profesor, String lugar, int tiempo, String observaciones, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, int idEstudiante){
 
         mInstance = new ComponentSesionesProfesor();
         mInstance.setIdClase(idClase);
@@ -95,6 +97,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         mInstance.setIdSeccion(idSeccion);
         mInstance.setIdNivel(idNivel);
         mInstance.setIdBloque(idBloque);
+        mInstance.setIdEstudiante(idEstudiante);
         mInstance.setPhotoRes(R.drawable.img_button);
         mInstance.setType(Constants.STATIC);
         return mInstance;
@@ -131,11 +134,12 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         direccionTV.setText(bun.getString("lugar"));
         tiempoPasar = bun.getInt("tiempo");
         tiempoTV.setText("Tiempo: " + obtenerHorario(bun.getInt("tiempo")));
-        System.out.println("Nivel: " + bun.getInt("idSeccion"));
         nivelTV.setText("Nivel: " + componentSesionesProfesor.obtenerNivel(bun.getInt("idSeccion"), bun.getInt("idNivel"), bun.getInt("idBloque")));
         tipoTV.setText(bun.getString("tipoClase"));
         horarioTV.setText(bun.getString("horario"));
         observacionesTV.setText(bun.getString("observaciones"));
+        idEstudiante = bun.getInt("idEstudiante");
+        Toast.makeText(getContext(), "IdEst: " + bun.getInt("idEstudiante"), Toast.LENGTH_LONG).show();
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesionProfesor", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
@@ -184,6 +188,16 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         ServicioTaskFotoDetalles fotoDetalles = new ServicioTaskFotoDetalles(getContext(), this.fotoNombre, PROFESOR);
         fotoDetalles.execute();
 
+    }
+
+    @OnClick(R.id.perfilEstudianteCard)
+    public void onClick(){
+        Bundle bundle = new Bundle();
+        bundle.putInt("tipoPerfil", PerfilFragment.PERFIL_ESTUDIANTE);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        PerfilFragment perfilFragment = new PerfilFragment();
+        perfilFragment.setArguments(bundle);
+        perfilFragment.show(fragmentTransaction, "Perfil - Estudiante");
     }
 
     private void showAlert() {

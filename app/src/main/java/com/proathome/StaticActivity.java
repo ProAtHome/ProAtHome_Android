@@ -43,7 +43,8 @@ public class StaticActivity extends AppCompatActivity {
             int idSeccion = getIntent().getIntExtra("idSeccion",0);
             int idNivel = getIntent().getIntExtra("idNivel", 0);
             int idBloque = getIntent().getIntExtra("idBloque", 0);
-            CommonUtilsSesionesProfesor.setFragment(this, nameFragment, R.id.content_static, idClase, nombreEstudiante, descripcion, correo, foto, tipoClase, horario, profesor, lugar, tiempo, observaciones, latitud, longitud, idSeccion, idNivel, idBloque);
+            int idEstudiante = getIntent().getIntExtra("idEstudiante", 0);
+            CommonUtilsSesionesProfesor.setFragment(this, nameFragment, R.id.content_static, idClase, nombreEstudiante, descripcion, correo, foto, tipoClase, horario, profesor, lugar, tiempo, observaciones, latitud, longitud, idSeccion, idNivel, idBloque, idEstudiante);
 
         }
 
