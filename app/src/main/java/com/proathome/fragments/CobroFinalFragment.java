@@ -116,6 +116,7 @@ public class CobroFinalFragment extends DialogFragment {
                         servicioTaskCobro.execute();
                     }
                     dismiss();
+                    //TODO FLUJO_EVALUACION: Mostrar modal de evaluación;
                 }else if(pantalla == CobroFinalFragment.PANTALLA_TE){//Si venimos de algún Tiempo Extra en Más Tiempo.
                     SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(Constants.contexto_DISPONIBILIDAD_PROGRESO);
                     String idCardSesion = "idCard" + idSesion;

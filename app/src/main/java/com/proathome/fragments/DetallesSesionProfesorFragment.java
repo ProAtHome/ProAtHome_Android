@@ -33,6 +33,7 @@ import com.proathome.controladores.clase.ServicioTaskSincronizarClases;
 import com.proathome.controladores.WorkaroundMapFragment;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.profesor.ServicioTaskFotoDetalles;
+import com.proathome.controladores.valoracion.ServicioValidarValoracion;
 import com.proathome.utils.ComponentSesionesProfesor;
 import com.proathome.utils.Constants;
 import butterknife.BindView;
@@ -45,8 +46,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
     private static ComponentSesionesProfesor mInstance;
     public static final String TAG = "Detalles de Clase";
     public static int PROFESOR = 2, idEstudiante;
-    private int idSesion = 0;
-    private int idProfesor = 0;
+    public static int idSesion = 0, idProfesor = 0;
     private int tiempoPasar = 0;
     private GoogleMap mMap;
     private ScrollView mScrollView;
@@ -54,6 +54,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
     private double longitud = -99.13320799999, latitud = 19.4326077;
     public static ImageView foto;
     public static String fotoNombre;
+    public static boolean procedenciaFin = false;
     @BindView(R.id.nombreTV)
     TextView nombreTV;
     @BindView(R.id.descripcionTV)
@@ -73,6 +74,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
     @BindView(R.id.observacionesTV)
     TextView observacionesTV;
     public static MaterialButton iniciar;
+    public static Fragment fragmentDetallesProf;
 
     public DetallesSesionProfesorFragment() {
 
@@ -111,6 +113,11 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         sincronizarClases.execute();
         ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(getContext(), idSesion, idProfesor, Constants.VALIDAR_CLASE_FINALIZADA_AMBOS_PERFILES, DetallesSesionProfesorFragment.PROFESOR);
         finalizarClase.execute();
+        if(procedenciaFin){
+            ServicioValidarValoracion validarValoracion = new ServicioValidarValoracion(idSesion, idEstudiante, ServicioValidarValoracion.PROCEDENCIA_PROFESOR);
+            validarValoracion.execute();
+            procedenciaFin = false;
+        }
     }
 
 
@@ -123,6 +130,8 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         ComponentSesionesProfesor componentSesionesProfesor = new ComponentSesionesProfesor();
         foto = view.findViewById(R.id.foto);
         iniciar = view.findViewById(R.id.iniciar);
+
+        fragmentDetallesProf = DetallesSesionProfesorFragment.this;
 
         idSesion = bun.getInt("idClase");
         this.fotoNombre = bun.getString("foto");

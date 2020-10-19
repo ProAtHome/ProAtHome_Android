@@ -38,7 +38,7 @@ import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioTaskBancoEstudiante;
 import com.proathome.controladores.estudiante.ServicioTaskPreOrden;
 import com.proathome.controladores.profesor.ServicioTaskFotoDetalles;
-import com.proathome.controladores.valoracion.ServicioTaskValoracion;
+import com.proathome.controladores.valoracion.ServicioValidarValoracion;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 import butterknife.BindView;
@@ -56,7 +56,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     public static boolean sumar;
     public static int idSesion = 0, idEstudiante = 0, idProfesor = 0, tiempoPasar = 0, idSeccion = 0, idNivel = 0, idBloque = 0;
     /*VARIABLE DE EXISTENCIA DE DATOS - BANCO*/
-    public static boolean banco;
+    public static boolean banco, procedenciaFin = false;
     public static ImageView foto;
     @BindView(R.id.profesor)
     public TextView profesor;
@@ -80,6 +80,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     TextView tipoPlan;
     @BindView(R.id.perfilEstudianteCard)
     MaterialCardView perfilEstudianteCard;
+    public static Fragment detallesFragment;
     public static MaterialButton iniciar;
     private ScrollView mScrollView;
     private Unbinder mUnbinder;
@@ -128,14 +129,22 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         sincronizarClases.execute();
         ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(getContext(), idSesion, idEstudiante, Constants.VALIDAR_CLASE_FINALIZADA_AMBOS_PERFILES, DetallesFragment.ESTUDIANTE);
         finalizarClase.execute();
+        if(procedenciaFin){
+            ServicioValidarValoracion validarValoracion = new ServicioValidarValoracion(idSesion, idProfesor, ServicioValidarValoracion.PROCEDENCIA_ESTUDIANTE);
+            validarValoracion.execute();
+            procedenciaFin = false;
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_detalles, container, false);
-        Component component = new Component();
         mUnbinder = ButterKnife.bind(this, view);
+
+        detallesFragment = DetallesFragment.this;
+
+        Component component = new Component();
         Bundle bun = getArguments();
         foto = view.findViewById(R.id.foto);
         iniciar = view.findViewById(R.id.iniciar);

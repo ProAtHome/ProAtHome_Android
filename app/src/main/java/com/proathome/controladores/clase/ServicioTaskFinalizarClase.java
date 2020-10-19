@@ -233,6 +233,7 @@ public class ServicioTaskFinalizarClase extends AsyncTask<Void, Void, String> {
                 boolean finalizado = jsonObject.getBoolean("finalizado");
                 if(finalizado){
                     Constants.fragmentActivity.finish();
+                    DetallesSesionProfesorFragment.procedenciaFin = true;
                 }else{
                     Toast.makeText(this.contexto, "El estudiante todavia no decide su futuro :=)", Toast.LENGTH_LONG).show();
                 }

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.proathome.R;
@@ -81,7 +80,7 @@ public class PerfilFragment extends DialogFragment {
             toolbar.setBackgroundColor(getResources().getColor(R.color.color_secondary));
             toolbar.setTitle("Perfil - ESTUDIANTE");
         }else if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_PROFESOR){
-            toolbar.setBackgroundColor(getResources().getColor(R.color.color_primary));
+            toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
             toolbar.setTitle("Perfil - PROFESOR");
         }
         toolbar.setTitleTextColor(Color.WHITE);

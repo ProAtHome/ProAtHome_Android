@@ -2,6 +2,12 @@ package com.proathome.controladores.clase;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Bundle;
+
+import androidx.fragment.app.FragmentTransaction;
+
+import com.proathome.fragments.DetallesFragment;
+import com.proathome.fragments.EvaluarFragment;
 import com.proathome.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -113,6 +119,7 @@ public class ServicioTaskSumarClaseRuta extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        DetallesFragment.procedenciaFin = true;
     }
 
 }

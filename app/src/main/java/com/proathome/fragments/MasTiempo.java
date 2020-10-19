@@ -123,7 +123,7 @@ public class MasTiempo extends DialogFragment {
     }
 
     @OnClick(R.id.cancelar)
-    public void onClick(View view){
+    public void onClick(){
         /*Vamos a obtene los datos de la pre orden y usarlos para mostrar el cobro final*/
         //TODO FLUJO_EJECUTAR_PLAN:  Cobramos sólo el TE elegido, crear otro MODAL Cobro Final MODO PLAN,
         // y poner las funciones de finalización de clase que están en ServicioTaskCobro, etc.
@@ -154,7 +154,9 @@ public class MasTiempo extends DialogFragment {
             finalizarClase.execute();
             ServicioTaskSumarClaseRuta sumarClaseRuta = new ServicioTaskSumarClaseRuta(this.contexto, this.idSesion, this.idEstudiante, ClaseEstudiante.idSeccion, ClaseEstudiante.idNivel, ClaseEstudiante.idBloque, ClaseEstudiante.tiempo, ClaseEstudiante.sumar);
             sumarClaseRuta.execute();
+
             dismiss();
+
         }
 
     }

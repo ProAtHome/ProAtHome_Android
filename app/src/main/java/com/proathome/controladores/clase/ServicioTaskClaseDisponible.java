@@ -147,6 +147,7 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                     ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(Constants.contexto_DISPONIBILIDAD_PROGRESO, Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO, Constants.FINALIZAR_CLASE, DetallesFragment.ESTUDIANTE);
                                     finalizarClase.execute();
                                     //Sumamos la ruta de Aprendizaje.
+                                    //TODO FLUJO_EVALUACION: Mostrar modal de evaluación;
                                     ServicioTaskSumarClaseRuta sumarClaseRuta = new ServicioTaskSumarClaseRuta(Constants.contexto_DISPONIBILIDAD_PROGRESO, Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO, ClaseEstudiante.idSeccion, ClaseEstudiante.idNivel, ClaseEstudiante.idBloque, ClaseEstudiante.tiempo, ClaseEstudiante.sumar);
                                     sumarClaseRuta.execute();
                                     ClaseEstudiante.terminado_TE = false;
@@ -242,6 +243,7 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                     ClaseProfesor.encurso_TE = true;
                                     ClaseProfesor.enpausa_TE = false;
                                     ClaseProfesor.inicio_TE = true;
+                                    DetallesSesionProfesorFragment.procedenciaFin = false;
                                 }
 
                             } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO_TE) {//Si el estatus de la CLASE - TE = EN CURSO.
@@ -253,6 +255,7 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                     ClaseProfesor.encurso_TE = false;
                                     ClaseProfesor.enpausa_TE = true;
                                     ClaseProfesor.inicio_TE = true;
+                                    DetallesSesionProfesorFragment.procedenciaFin = false;
                                 }
 
                             } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO_TE) {//Si el estatus de la CLASE - TE = FINALIZADO.
@@ -261,6 +264,7 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                     ClaseProfesor.terminado_TE = false;
                                     ClaseProfesor.timerSchedule.cancel();
                                     ClaseProfesor.timer2.cancel();
+                                    DetallesSesionProfesorFragment.procedenciaFin = true;
                                 }
 
                             }
@@ -275,6 +279,7 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                             cambiarEstatusClase.execute();
                             ClaseProfesor.pausa_start.setVisibility(View.INVISIBLE);
                             ClaseProfesor.terminar.setVisibility(View.VISIBLE);
+                            DetallesSesionProfesorFragment.procedenciaFin = true;
                         }
 
                     }else{//Tiempo normal en PROFESOR
@@ -287,6 +292,7 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                             ClaseProfesor.timer.cancel();
                             ClaseProfesor.pausa_start.setVisibility(View.INVISIBLE);
                             ClaseProfesor.terminar.setVisibility(View.VISIBLE);
+                            DetallesSesionProfesorFragment.procedenciaFin = true;
                         }
 
                         if (Constants.dispEstudiante_DISPONIBILIDAD_PROGRESO) {// Si el estudiante está en conexión.
@@ -301,6 +307,7 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                     ClaseProfesor.encurso = true;
                                     ClaseProfesor.enpausa = false;
                                     ClaseProfesor.inicio = true;
+                                    DetallesSesionProfesorFragment.procedenciaFin = false;
                                 }
 
                             } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO) {//Si el estatus de la CLASE = EN CURSO.
@@ -312,12 +319,14 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
                                     ClaseProfesor.encurso = false;
                                     ClaseProfesor.enpausa = true;
                                     ClaseProfesor.inicio = true;
+                                    DetallesSesionProfesorFragment.procedenciaFin = false;
                                 }
 
                             } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO) {//Si el estatus de la CLASE = FINALIZADO.
 
                                 if (ClaseProfesor.terminado) {
                                     ClaseProfesor.terminado = false;
+                                    DetallesSesionProfesorFragment.procedenciaFin = true;
                                 }
 
                             }

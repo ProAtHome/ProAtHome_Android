@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.EvaluarFragment"
+    android:padding="@dimen/common_padding_default">
+
+    <TextView
+        android:id="@+id/tvEvaluar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Evalua a tu profesor / estudiante."
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:stepSize="0.5"
+        android:clickable="true"
+        android:layout_marginTop="@dimen/common_padding_min"
+        android:progressBackgroundTint="@android:color/darker_gray"
+        android:progressTint="@android:color/holo_orange_dark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEvaluar"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvComentario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:text="Deja un comentario:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ratingBar"
+        android:layout_marginTop="@dimen/common_padding_min"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilComentario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvComentario"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tieComentario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text|textMultiLine"
+            android:maxLines="6"
+            android:textColor="@android:color/black"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnEnviar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enviar"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tilComentario"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

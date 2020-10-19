@@ -1,7 +1,12 @@
 package com.proathome.controladores;
 
 import android.os.AsyncTask;
+import android.os.Bundle;
 
+import androidx.fragment.app.FragmentTransaction;
+
+import com.proathome.fragments.DetallesFragment;
+import com.proathome.fragments.EvaluarFragment;
 import com.proathome.utils.Constants;
 
 import org.json.JSONException;
@@ -53,7 +58,6 @@ public class ServicioTaskOrdenPago extends AsyncTask<Void, Void, String> {
             jsonDatos.put("idSesion", this.idSesion);
             jsonDatos.put("estatusPago", "Pagado");
             jsonDatos.put("tipoPlan", this.tipoPlan);
-            System.out.println(jsonDatos);
 
             //PARAMETROS DE CONEXIÓN.
             httpURLConnection.setReadTimeout(15000);
@@ -79,10 +83,8 @@ public class ServicioTaskOrdenPago extends AsyncTask<Void, Void, String> {
                 String linea = "";
 
                 while ((linea = bufferedReader.readLine()) != null){
-
                     stringBuffer.append(linea);
                     break;
-
                 }
 
                 bufferedReader.close();
