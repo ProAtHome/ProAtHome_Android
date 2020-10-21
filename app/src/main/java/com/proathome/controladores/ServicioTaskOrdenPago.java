@@ -26,15 +26,16 @@ public class ServicioTaskOrdenPago extends AsyncTask<Void, Void, String> {
 
     private int idEstudiante, idSesion;
     private double costoClase, costoTE;
-    private String tipoPlan;
+    private String tipoPlan, estatusPago;
     private String linkActualizarPago = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/actualizarPago";
 
-    public ServicioTaskOrdenPago(int idEstudiante, int idSesion, double costoClase, double costoTE, String tipoPlan){
+    public ServicioTaskOrdenPago(int idEstudiante, int idSesion, double costoClase, double costoTE, String tipoPlan, String estatusPago){
         this.idEstudiante = idEstudiante;
         this.idSesion = idSesion;
         this.costoClase = costoClase;
         this.costoTE = costoTE;
         this.tipoPlan = tipoPlan;
+        this.estatusPago = estatusPago;
     }
 
     @Override
@@ -56,7 +57,7 @@ public class ServicioTaskOrdenPago extends AsyncTask<Void, Void, String> {
             jsonDatos.put("costoTE", this.costoTE);
             jsonDatos.put("idEstudiante", this.idEstudiante);
             jsonDatos.put("idSesion", this.idSesion);
-            jsonDatos.put("estatusPago", "Pagado");
+            jsonDatos.put("estatusPago", this.estatusPago);
             jsonDatos.put("tipoPlan", this.tipoPlan);
 
             //PARAMETROS DE CONEXIÓN.

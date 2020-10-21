@@ -1,6 +1,5 @@
 package com.proathome.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import com.proathome.ClaseEstudiante;
 import com.proathome.R;
 import com.proathome.controladores.ServicioTaskOrdenPago;
-import com.proathome.controladores.TabuladorCosto;
 import com.proathome.controladores.clase.ServicioTaskFinalizarClase;
 import com.proathome.controladores.clase.ServicioTaskSumarClaseRuta;
 import com.proathome.controladores.estudiante.ServicioTaskPreOrden;
@@ -145,9 +143,10 @@ public class MasTiempo extends DialogFragment {
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             cobroFinalFragment.setArguments(bundle);
             cobroFinalFragment.show(fragmentTransaction, "PreOrden");
+            dismiss();
         }else{
             //Actualizar la orden de pago con estatusPago = Pagado.
-            ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, 0, 0, DetallesFragment.planSesion);
+            ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, 0, 0, DetallesFragment.planSesion, "Pagado");
             ordenPago.execute();
             //Finalizamos la clase, sumamos la ruta y obtenemos el token de el celular para realizar el cobro.
             ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(this.contexto, this.idSesion, this.idEstudiante, Constants.FINALIZAR_CLASE, DetallesFragment.ESTUDIANTE);

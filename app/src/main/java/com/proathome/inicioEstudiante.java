@@ -10,7 +10,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.controladores.estudiante.ServicioTaskBloquearPerfil;
 import com.proathome.controladores.estudiante.ServicioTaskPerfilEstudiante;
+import com.proathome.fragments.DetallesFragment;
 import com.proathome.utils.Constants;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +30,8 @@ public class inicioEstudiante extends AppCompatActivity{
     public static TextView correoTV, nombreTV, tipoPlan, monedero;
     private int idEstudiante = 0;
     public static ImageView foto;
+    public static final int PROCEDENCIA_INICIO_ESTUDIANTE = 2;
+    public static AppCompatActivity appCompatActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,8 @@ public class inicioEstudiante extends AppCompatActivity{
         setContentView(R.layout.activity_inicio_estudiante);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        appCompatActivity = inicioEstudiante.this;
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -71,6 +77,8 @@ public class inicioEstudiante extends AppCompatActivity{
             this.idEstudiante = fila.getInt(0);
             //TODO FLUJO_PLANES: Crear PLAN al iniciar sesión si no existe registro en la BD.
             /*TODO FLUJO_PANES: Cargamos la info de PLAN, MONEDERO Y PERFIL.*/
+            ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(idEstudiante, inicioEstudiante.PROCEDENCIA_INICIO_ESTUDIANTE);
+            bloquearPerfil.execute();
             ServicioTaskPerfilEstudiante perfilEstudiante = new ServicioTaskPerfilEstudiante(this, linkRESTCargarPerfil, this.imageHttpAddress, this.idEstudiante, Constants.INFO_PERFIL);
             perfilEstudiante.execute();
         }else{

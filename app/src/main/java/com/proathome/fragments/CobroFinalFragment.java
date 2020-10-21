@@ -115,6 +115,7 @@ public class CobroFinalFragment extends DialogFragment {
                         ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idEstudiante, idCard, costoTotal, ServicioTaskCobro.TOKEN_PHONE, ServicioTaskCobro.ENTENDIDO_CANCELAR);
                         servicioTaskCobro.execute();
                     }
+                    DetallesFragment.procedenciaFin = true;
                     dismiss();
                     //TODO FLUJO_EVALUACION: Mostrar modal de evaluación;
                 }else if(pantalla == CobroFinalFragment.PANTALLA_TE){//Si venimos de algún Tiempo Extra en Más Tiempo.
@@ -137,6 +138,7 @@ public class CobroFinalFragment extends DialogFragment {
                         //Crear nuevo token de Tarjeta.
                         //TODO FLUJO_EJECUTAR_PLAN: Validar metodo de pago.
                         Bundle bundle = new Bundle();
+                        bundle.putInt("procedencia", DatosBancoPlanFragment.PROCEDENCIA_PAGO_PLAN);
                         bundle.putString("deviceIdString", deviceIdString);
                         bundle.putInt("idSesion", idSesion);
                         bundle.putInt("idEstudiante", idEstudiante);

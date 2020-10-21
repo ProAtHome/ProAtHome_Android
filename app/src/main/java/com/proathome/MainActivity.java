@@ -3,6 +3,8 @@ package com.proathome;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,6 +19,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioTaskLoginEstudiante;
 import com.proathome.controladores.profesor.AdminSQLiteOpenHelperProfesor;
+import com.proathome.fragments.PagoPendienteFragment;
 import com.proathome.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;

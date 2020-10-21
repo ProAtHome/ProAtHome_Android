@@ -177,7 +177,7 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
                 if(s.equalsIgnoreCase("")){
                     System.out.println("Entendido cancelar");
                     //Actualizar la orden de pago con estatusPago = Pagado.
-                    ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo, TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR), DetallesFragment.planSesion);
+                    ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo, TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR), DetallesFragment.planSesion, "Pagado");
                     ordenPago.execute();
                     //Finalizamos la clase, sumamos la ruta y obtenemos el token de el celular para realizar el cobro.
                     ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(this.contexto, this.idSesion, this.idEstudiante, Constants.FINALIZAR_CLASE, DetallesFragment.ESTUDIANTE);
@@ -186,17 +186,25 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
                     sumarClaseRuta.execute();
                     Constants.fragmentActivity.finish();
                 }else{//Mostramos el error.
-                    Toast.makeText(this.contexto, s, Toast.LENGTH_LONG).show();
+                    //Finalizamos la clase, sumamos la ruta.
+                    ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(this.contexto, this.idSesion, this.idEstudiante, Constants.FINALIZAR_CLASE, DetallesFragment.ESTUDIANTE);
+                    finalizarClase.execute();
+                    ServicioTaskSumarClaseRuta sumarClaseRuta = new ServicioTaskSumarClaseRuta(this.contexto, this.idSesion, this.idEstudiante, ClaseEstudiante.idSeccion, ClaseEstudiante.idNivel, ClaseEstudiante.idBloque, ClaseEstudiante.tiempo, ClaseEstudiante.sumar);
+                    sumarClaseRuta.execute();
+                    ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo, TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR), DetallesFragment.planSesion, "Deuda");
+                    ordenPago.execute();
+                    Constants.fragmentActivity.finish();
+                    Toast.makeText(this.contexto, "Error: " + s + " tu perfil será bloqueado.", Toast.LENGTH_LONG).show();
                 }
             }else if(this.tipo_boton == ServicioTaskCobro.ENTENDIDO_TE){
                 if(s.equalsIgnoreCase("")){
                     System.out.println("Entendido TE");
                     //Actualizar la orden de pago con estatusPago = Pagado.
                     if(DetallesFragment.planSesion.equalsIgnoreCase("PARTICULAR")){
-                        ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo, TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR), DetallesFragment.planSesion);
+                        ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo, TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR), DetallesFragment.planSesion, "Pagado");
                         ordenPago.execute();
                     }else{
-                        ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, 0, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR), DetallesFragment.planSesion);
+                        ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, 0, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR), DetallesFragment.planSesion, "Pagado");
                         ordenPago.execute();
                     }
 
@@ -204,16 +212,12 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
                     ServicioTaskMasTiempo masTiempo = new ServicioTaskMasTiempo(this.contexto, this.idSesion, this.idEstudiante, CobroFinalFragment.progresoTotal);
                     masTiempo.execute();
                 }else{//Mostramos el error.
-                    Toast.makeText(this.contexto, s, Toast.LENGTH_LONG).show();
-                    System.out.println(s);
-                    //Volvemos a mostrar los Tiempos extras disponibles.
-                    MasTiempo masTiempo = new MasTiempo();
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
-                    bundle.putInt("idEstudiante", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
-                    FragmentTransaction fragmentTransaction = ClaseEstudiante.obtenerFargment(Constants.fragmentActivity);
-                    masTiempo.setArguments(bundle);
-                    masTiempo.show(fragmentTransaction, "Tiempo Extra");
+                    //Generamos el tiempo extra y la vida sigue pero con bloqueo.
+                    ServicioTaskMasTiempo masTiempo = new ServicioTaskMasTiempo(this.contexto, this.idSesion, this.idEstudiante, CobroFinalFragment.progresoTotal);
+                    masTiempo.execute();
+                    ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo, TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR), DetallesFragment.planSesion, "Deuda");
+                    ordenPago.execute();
+                    Toast.makeText(this.contexto, "Error: " + s + " tu perfil será bloqueado al terminar el TE.", Toast.LENGTH_LONG).show();
                 }
             }
         }else if(this.tipo_token == ServicioTaskCobro.TOKEN_BD){

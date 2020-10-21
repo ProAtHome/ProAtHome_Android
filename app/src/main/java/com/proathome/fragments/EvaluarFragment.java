@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
+import com.proathome.controladores.estudiante.ServicioTaskBloquearPerfil;
 import com.proathome.controladores.valoracion.ServicioTaskValorar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,6 +72,9 @@ public class EvaluarFragment extends DialogFragment {
                 if(this.procedencia == EvaluarFragment.PROCEDENCIA_ESTUDIANTE){
                     ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesFragment.idEstudiante, DetallesFragment.idProfesor, ratingBar.getRating(), tieComentario.getText().toString(), EvaluarFragment.PROCEDENCIA_ESTUDIANTE, DetallesFragment.idSesion);
                     valorar.execute();
+                    //Esta peticion es por que bloquearemos el perfil después de evaluar.
+                    ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(DetallesFragment.idEstudiante, DetallesFragment.PROCEDENCIA_DETALLES_FRAGMENT);
+                    bloquearPerfil.execute();
                 }else if(this.procedencia == EvaluarFragment.PROCEDENCIA_PROFESOR){
                     ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesSesionProfesorFragment.idProfesor, DetallesSesionProfesorFragment.idEstudiante, ratingBar.getRating(), tieComentario.getText().toString(), EvaluarFragment.PROCEDENCIA_PROFESOR, DetallesSesionProfesorFragment.idSesion);
                     valorar.execute();

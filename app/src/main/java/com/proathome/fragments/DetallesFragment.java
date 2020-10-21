@@ -36,6 +36,7 @@ import com.proathome.controladores.clase.ServicioTaskSincronizarClases;
 import com.proathome.controladores.WorkaroundMapFragment;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioTaskBancoEstudiante;
+import com.proathome.controladores.estudiante.ServicioTaskBloquearPerfil;
 import com.proathome.controladores.estudiante.ServicioTaskPreOrden;
 import com.proathome.controladores.profesor.ServicioTaskFotoDetalles;
 import com.proathome.controladores.valoracion.ServicioValidarValoracion;
@@ -51,7 +52,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     private static Component mInstance;
     private GoogleMap mMap;
     public static final String TAG = "Detalles";
-    public static int ESTUDIANTE = 1;
+    public static int ESTUDIANTE = 1, PROCEDENCIA_DETALLES_FRAGMENT = 1;
     public static String fotoNombre, planSesion;
     public static boolean sumar;
     public static int idSesion = 0, idEstudiante = 0, idProfesor = 0, tiempoPasar = 0, idSeccion = 0, idNivel = 0, idBloque = 0;
@@ -133,6 +134,9 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
             ServicioValidarValoracion validarValoracion = new ServicioValidarValoracion(idSesion, idProfesor, ServicioValidarValoracion.PROCEDENCIA_ESTUDIANTE);
             validarValoracion.execute();
             procedenciaFin = false;
+        }else{
+            ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(idEstudiante, DetallesFragment.PROCEDENCIA_DETALLES_FRAGMENT);
+            bloquearPerfil.execute();
         }
     }
 

@@ -1,0 +1,105 @@
+package com.proathome.controladores.estudiante;
+
+import android.os.AsyncTask;
+import android.os.Bundle;
+
+import androidx.fragment.app.FragmentTransaction;
+
+import com.proathome.fragments.DetallesFragment;
+import com.proathome.fragments.PagoPendienteFragment;
+import com.proathome.inicioEstudiante;
+import com.proathome.utils.Component;
+import com.proathome.utils.Constants;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class ServicioTaskBloquearPerfil extends AsyncTask<Void, Void, String> {
+
+    private String linkBloquearPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/bloquearPerfil/";
+    private int idEstudiante, procedencia;
+
+    public ServicioTaskBloquearPerfil(int idEstudiante, int procedencia){
+        this.idEstudiante = idEstudiante;
+        this.procedencia = procedencia;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
+
+    @Override
+    protected String doInBackground(Void... voids) {
+        String resultado = null;
+
+        try{
+            URL url = new URL(this.linkBloquearPerfil + this.idEstudiante);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.setConnectTimeout(15000);
+            urlConnection.setReadTimeout(15000);
+            urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
+
+            int responseCode = urlConnection.getResponseCode();
+            if(responseCode == HttpURLConnection.HTTP_OK){
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                StringBuffer stringBuffer = new StringBuffer("");
+                String linea = "";
+
+                while((linea = bufferedReader.readLine()) != null){
+                    stringBuffer.append(linea);
+                    break;
+                }
+
+                bufferedReader.close();
+                resultado = stringBuffer.toString();
+
+            }else{
+                resultado = new String("Error: " + responseCode);
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return resultado;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+
+        try{
+            JSONObject jsonObject = new JSONObject(s);
+            PagoPendienteFragment pagoPendienteFragment = new PagoPendienteFragment();
+            Bundle bundle = new Bundle();
+            if(jsonObject.getBoolean("bloquear")){
+                FragmentTransaction fragmentTransaction = null;
+                bundle.putDouble("deuda", jsonObject.getDouble("deuda"));
+                bundle.putString("sesion", Component.getSeccion(jsonObject.getInt("idSeccion")) + " / " + Component.getNivel(jsonObject.getInt("idSeccion"), jsonObject.getInt("idNivel")) + " / " + jsonObject.getInt("idBloque"));
+                bundle.putString("lugar", jsonObject.getString("lugar"));
+                bundle.putString("nombre", jsonObject.getString("nombre"));
+                bundle.putString("correo", jsonObject.getString("correo"));
+                bundle.putInt("idSesion", jsonObject.getInt("idSesion"));
+                if(this.procedencia == DetallesFragment.PROCEDENCIA_DETALLES_FRAGMENT)
+                    fragmentTransaction = DetallesFragment.detallesFragment.getFragmentManager().beginTransaction();
+                else if(this.procedencia == inicioEstudiante.PROCEDENCIA_INICIO_ESTUDIANTE)
+                    fragmentTransaction = inicioEstudiante.appCompatActivity.getSupportFragmentManager().beginTransaction();
+
+                pagoPendienteFragment.setArguments(bundle);
+                pagoPendienteFragment.show(fragmentTransaction, "Pago pendiente");
+            }
+
+        }catch(JSONException ex){
+            ex.printStackTrace();
+        }
+    }
+
+}

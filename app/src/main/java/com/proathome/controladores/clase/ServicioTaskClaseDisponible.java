@@ -144,6 +144,7 @@ public class ServicioTaskClaseDisponible extends AsyncTask<Void, Void, String> {
 
                                 if(ClaseEstudiante.terminado_TE){
                                     //Finalizamos la Clase.
+                                    DetallesFragment.procedenciaFin = true;
                                     ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(Constants.contexto_DISPONIBILIDAD_PROGRESO, Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO, Constants.FINALIZAR_CLASE, DetallesFragment.ESTUDIANTE);
                                     finalizarClase.execute();
                                     //Sumamos la ruta de Aprendizaje.
