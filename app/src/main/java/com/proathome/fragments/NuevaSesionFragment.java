@@ -180,7 +180,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                                 dismiss();
                             }else {
                                 if(obtenerMinutosHorario() <= SesionesFragment.MONEDERO){//Eliminar horas de monedero
-                                    //TODO FLUJO_EJECUTAR_PLAN: En esta peticion restamos en el moendero el tiempo elegido y verificamos después la vigencia del PLAN en el servidor.
+                                    //TODO FLUJO_EJECUTAR_PLAN: En esta peticion restamos en el monedero el tiempo elegido y verificamos después la vigencia del PLAN en el servidor.
                                     nuevoMonedero = SesionesFragment.MONEDERO - obtenerMinutosHorario();
 
                                     STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1, extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), true, SesionesFragment.PLAN);
@@ -202,20 +202,36 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                         /*TODO FLUJO_EJECUTAR_PLAN: Validaciones correspondientes en el FragmentNuevaSesion (Verificar que el tiempo sea acorde a las horas diponibles si hay PLAN activo) -> descontamos horas del monedero.
                             En la tabla sesiones agregar campo tipoPlan.*/
 
-                        STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1, extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), false, SesionesFragment.PLAN);
-                        registro.execute();
-                        direccionET.setText("");
-                        horarioET.setText("");
-                        observacionesET.setText("");
-                        Toast.makeText(getContext(), "Revisa tu nueva clase en Inicio o en Gestión.", Toast.LENGTH_LONG).show();
-                        dismiss();
+                        if(SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR")){
+
+                            STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1, extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), false, SesionesFragment.PLAN);
+                            registro.execute();
+                            direccionET.setText("");
+                            horarioET.setText("");
+                            observacionesET.setText("");
+                            Toast.makeText(getContext(), "Revisa tu nueva clase en Inicio o en Gestión.", Toast.LENGTH_LONG).show();
+                            dismiss();
+                        }else {
+                            if(obtenerMinutosHorario() <= SesionesFragment.MONEDERO){//Eliminar horas de monedero
+                                //TODO FLUJO_EJECUTAR_PLAN: En esta peticion restamos en el monedero el tiempo elegido y verificamos después la vigencia del PLAN en el servidor.
+                                nuevoMonedero = SesionesFragment.MONEDERO - obtenerMinutosHorario();
+
+                                STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1, extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), false, SesionesFragment.PLAN);
+                                registro.execute();
+                                direccionET.setText("");
+                                horarioET.setText("");
+                                observacionesET.setText("");
+                                Toast.makeText(getContext(), "Revisa tu nueva clase en Inicio o en Gestión.", Toast.LENGTH_LONG).show();
+                                dismiss();
+                            }else{
+                                Toast.makeText(getContext(), "Elige un tiempo de sesión a corde a tus horas disponibles a corde a tu plan.", Toast.LENGTH_LONG).show();
+                            }
+                        }
                     }
                 }
 
             } else {
-
                 Toast.makeText(getContext(), "Llena todos los campos.", Toast.LENGTH_LONG).show();
-
             }
 
 

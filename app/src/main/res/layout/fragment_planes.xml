@@ -160,13 +160,13 @@
                     android:id="@+id/descPlan3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Plan de 40 horas disponibles \na un precio especial durante \n2 meses."
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
                     android:layout_marginStart="@dimen/common_padding_min"
+                    android:text="Plan de 40 horas disponibles \na un precio especial durante \n2 meses."
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/imgPlan3"
-                    app:layout_constraintTop_toBottomOf="@id/tituloPlan3"/>
+                    app:layout_constraintTop_toBottomOf="@id/tituloPlan3" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

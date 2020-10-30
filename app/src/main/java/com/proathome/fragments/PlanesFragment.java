@@ -21,7 +21,12 @@ import com.proathome.controladores.estudiante.ServicioTaskSesionActual;
 import com.proathome.controladores.planes.ServicioTaskFechaServidor;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -115,21 +120,29 @@ public class PlanesFragment extends DialogFragment {
                     Calendar calendar = Calendar.getInstance();
                     String fechaDispositivo = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH)+1) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
 
-                    if(fechaDispositivo.equalsIgnoreCase(PlanesFragment.fechaServidor)){
-                        if(plan == PlanesFragment.PLAN_SEMANAL){
-                            bundle.putString("PLAN", "SEMANAL");
-                            ordenCompraPlanFragment.setArguments(bundle);
-                        }else if(plan == PlanesFragment.PLAN_MENSUAL){
-                            bundle.putString("PLAN", "MENSUAL");
-                            ordenCompraPlanFragment.setArguments(bundle);
-                        }else if(plan == PlanesFragment.PLAN_BIMESTRAL){
-                            bundle.putString("PLAN", "BIMESTRAL");
-                            ordenCompraPlanFragment.setArguments(bundle);
-                        }
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    try{
+                        Date fechaCelular = sdf.parse(fechaDispositivo);
+                        Date fechaServer = sdf.parse(PlanesFragment.fechaServidor);
 
-                        ordenCompraPlanFragment.show(transaction, "Orden de Compra");
-                    }else{
-                        Toast.makeText(getContext(), "Fecha de dispositivo alterada.", Toast.LENGTH_LONG).show();
+                        if(fechaCelular.equals(fechaServer)){
+                            if(plan == PlanesFragment.PLAN_SEMANAL){
+                                bundle.putString("PLAN", "SEMANAL");
+                                ordenCompraPlanFragment.setArguments(bundle);
+                            }else if(plan == PlanesFragment.PLAN_MENSUAL){
+                                bundle.putString("PLAN", "MENSUAL");
+                                ordenCompraPlanFragment.setArguments(bundle);
+                            }else if(plan == PlanesFragment.PLAN_BIMESTRAL){
+                                bundle.putString("PLAN", "BIMESTRAL");
+                                ordenCompraPlanFragment.setArguments(bundle);
+                            }
+
+                            ordenCompraPlanFragment.show(transaction, "Orden de Compra");
+                        }else{
+                            Toast.makeText(getContext(), "Fecha de dispositivo alterada.", Toast.LENGTH_LONG).show();
+                        }
+                    }catch(ParseException ex){
+                        ex.printStackTrace();
                     }
 
                 })

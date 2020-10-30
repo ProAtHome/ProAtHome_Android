@@ -152,7 +152,7 @@ public class Constants {
     public static final  int BLOQUE1_AVANZADO5= 1;
     public static final  int BLOQUE2_AVANZADO5= 2;
     /*FIN RUTA NIVELES*/
-    public static final String IP = "192.168.100.70";
+    public static final String IP = "192.168.100.83";
 
 
     /*Prueba Estaticos Singleton*/
