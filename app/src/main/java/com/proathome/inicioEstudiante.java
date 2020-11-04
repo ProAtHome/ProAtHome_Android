@@ -53,7 +53,7 @@ public class inicioEstudiante extends AppCompatActivity{
         foto = view.findViewById(R.id.fotoIV);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_inicio, R.id.nav_editarPerfil, R.id.nav_sesiones,
-                R.id.nav_ruta, R.id.nav_cerrarSesion, R.id.nav_ayuda)
+                R.id.nav_ruta, R.id.nav_cerrarSesion, R.id.nav_ayuda, R.id.nav_privacidad)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

@@ -10,6 +10,7 @@
         android:name="com.proathome.ui.inicio.InicioFragment"
         android:label="@string/menu_inicio"
         tools:layout="@layout/fragment_inicio" />
+
     <fragment
         android:id="@+id/nav_editarPerfil"
         android:name="com.proathome.ui.editarPerfil.EditarPerfilFragment"
@@ -39,5 +40,11 @@
         android:name="com.proathome.ui.ayuda.AyudaFragment"
         android:label="@string/menu_ayuda"
         tools:layout="@layout/fragment_ayuda" />
+
+    <fragment
+        android:id="@+id/nav_privacidad"
+        android:name="com.proathome.ui.privacidad.PrivacidadFragment"
+        android:label="@string/menu_privacidad"
+        tools:layout="@layout/fragment_privacidad"/>
 
 </navigation>

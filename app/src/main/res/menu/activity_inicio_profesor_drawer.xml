@@ -32,6 +32,10 @@
                 android:id="@+id/nav_ayudaProfesor"
                 android:icon="@drawable/ic_help_black_24dp"
                 android:title="@string/menu_ayuda"/>
+            <item
+                android:id="@+id/nav_privacidadProfesor"
+                android:icon="@drawable/ic_privacidad"
+                android:title="Política de Privacidad"/>
         </menu>
     </item>
 

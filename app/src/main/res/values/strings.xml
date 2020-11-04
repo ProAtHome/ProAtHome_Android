@@ -13,9 +13,54 @@
     <string name="menu_otros">Otros</string>
     <string name="menu_cerrarSesion">Cerrar Sesión</string>
     <string name="menu_inicio">Inicio</string>
+    <string name="menu_privacidad">Politica de Privacidad</string>
     <string name="title_activity_scroll">ScrollActivity</string>
-    <string name="large_text">
 
+    <!--Aviso de privacidad-->
+    <string name="p1_priv">De Conformidad con lo establecido en la Ley Federal de Protección de
+        Datos Personales en Posesion de los Particulares, <b>PRO AT HOME.</b> pone a su
+        disposicion el siguiente aviso de privacidad:\n\n<b>PRO AT HOME</b>, es responsable de uso y proteccion de sus datos
+        personales, en este sentido y atendiendio las obligacviones legales establecidas
+        en la Ley Federal de Protección de Datos Personales en Posesion de los
+        Particulares, a traves de este instrumento se informa a los titulares de los datos, la
+        informacion que de ellos se recaba y los fines que se le darán a dicha información.\n\nAdemás de lo anterior
+        informamos que PRO AT HOME, tiene su domicilio en: \n\n
+        <b>“CALLE DR. JOSE MARÍA VERTIZ NÚMERO 148 INTERIOR 4 COLONIA DOCTORES, ALCALDIA CUAUHTEMOC, CIUDAD DE MÉXICO.”</b>\n\nLos datos
+        personales que recabamos de ustéd serán utilizados para las siguientes finalidades, las cuales son necesarias
+        para concretar nuestra relacion con usted, asi como atender los servicios y/o pedidos que solicita, siendo estos:\n\n
+        “EL APOYO PARA LA CAPACITACION PROFESIONAL Y ESPECIALIZADA EN EL IDIOMA INLGES, PARA QUE NUESTROS CLIENTES
+        TENGAN LA MEJOR PREPARACIÓN POSIBLE Y LOGREN SU CERTIFICACION”\n\nPara llevar a cabo las finalidades descritas en el presente aviso de
+        privacidad, utilizaremos los siguientes datos personales:\n\n<b>Nombre completo</b>\n<b>Edad</b>\n<b>Nacionalidad</b>\n<b>Domicilio
+            actual</b>\n<b>Estado Civil</b>\n<b>Último grado de estudios</b>\n<b>Empleo o Profesión</b>\n<b>Numeros telefonicos: Fijo,
+            Celular Oficina.</b>\n<b>Correo electrónico</b>\n<b>Redes Sociales: Facebook, Twitter, Instagram, WhatsApp, Snapchat.</b>\n\nPor otra parte,
+        informamos que sus datos personales no serán compartidos con ninguna autoridad, empresa, organización o personas distinatas a nosotros
+        y serán utilizados exclusivamenre para los fines señalados.\n\nUsted tiene en todo momento el derecho a conocer qyue datos personales poseemos,
+        para que los utilizaremos y las condicines del uso que les damos (acceso). Asi mismo, es su derecho solicitar la corrección de su información
+        personal en caso de que esta esté desactuializada, sea inexacta o incompleta; de igual manera, tiene derecho a que su informacion se elimine
+        de nuestros reguistros o base de datos cuadno considere que la misma no esta siendo utilizada adecuadamente, así como tambien a oponerse al
+        uso de sus datos personales patra fines específicos. Estos derechos se conocen como Derechos ARCO.\n\nPara el ejercicio de cualquiera de los
+        Derechos ARCO, se deberá presentar la solicitud a través de los formatos que estarán a su disposición en:\n\n<b>“CALLE DR. JOSE MARÍA VERTIZ
+            NÚMERO 148 INTERIOR 4 COLONIA DOCTORES, ALCALDIA CUAUHTEMOC, CIUDAD DE MÉXICO.”</b>\n\nLo anterior también servirá para conocer el procedimiento
+        y requisitos para el ejercicio de los Derechos ARCO.\n\nLa respuesta a dicha solicitud se dará en 20 días hábiles y se le comunicara vía telefónica
+        o por el correo electrónico proporcionado por el usuario.\n\nLos datos de contacto de la persona o departamento de datos personales, que está
+        a cargo dar trámite a las solicitudes de Derechos ARCO es:\n\n<b>José Eduardo Herrera Leguizamo en el domicilio ubicado en “Calle Dr. José María Vertiz
+            Número 148 interior 4, Colonia Doctores, Alcaldia Cuauhtemoc, Ciudad de México” con el numero de telefono 5572590933 y
+            con el correo electronico anglit_cert@outlook.com </b>\n\nCabe mencionar que en cualquier momento usted puede revocar su concentimiento
+        para el uso de sus datos personales. Del mismo modo, usted puede revocar el consentimiento que, en su caso, nos haya otorgado
+        para el tratamiento de sus datos personales.\n\nAsí mismo, usted deberá considerar que para ciertos fines, la revocacion de su consentimiento
+        implicara que no podamos seguir pretando el servicio que nos solicito, o la conclusión de su relacion con nostros.\n\nPara revocar el consentimiento
+        que usted otroga en este acto o para limitar su divulgación, se deberá ´presentar la solicitud respectiva a través de los formatos que estarán
+        a su disposicón en:\n\n<b>“CALLE DR. JOSE MARÍA VERTIZ NÚMERO 148 INTERIOR 4 COLONIA DOCTORES, ALCALDIA CUAUHTEMOC, CIUDAD DE MÉXICO.”</b>\n\nDel mismo modo,
+        podrá solicitar la informacipon para conocer el procedimiento y requisitos para la revocación del consentimiento, asi como limityar le uso
+        y divulgación de su informaqcion personal.\n\nEn cualquier caso, la respuesta a las peticiones se dará a conocer en un plazo de 20 días hábiles.\n\nPor ultimo <b>PRO AT HOME</b>,
+        se compromete a mantenerlo informado sobre cualquier cambio en nuestro modelo de trabajo o alguna otra modificacion de el giro social de esta,
+        ya sea por disolicion fusión o modificación de denominación sociul, por lo cual nos comprometemos a mantenerlo informado sobre los cambios
+        que pueda sufrir el presente aviso de provacidad, sin embargo, usted puiede solciatr informacion sobre si el mismo ha sufrido algún cambio
+        a traves del siguiente correo electronico: anglit_cert@outlook.com\n\nAtentamente\n\n<b>PRO AT HOME</b>
+    </string>
+
+
+    <string name="large_text">
 
         <string name="card_chip_demo">Chip</string>
     <string name="card_message_demo_large">This is a secondary text for a card with three lines in the message.

@@ -45,7 +45,7 @@ public class inicioProfesor extends AppCompatActivity {
         foto = view.findViewById(R.id.fotoProfesorIV);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_inicio_profesor, R.id.nav_editarPerfil_profesor, R.id.nav_sesiones_profesor,
-                R.id.nav_material_profesor, R.id.nav_cerrarSesion_Profesor, R.id.nav_ayudaProfesor)
+                R.id.nav_material_profesor, R.id.nav_cerrarSesion_Profesor, R.id.nav_ayudaProfesor, R.id.nav_privacidadProfesor)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
