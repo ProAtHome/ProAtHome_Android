@@ -49,7 +49,6 @@ public class PagoPendienteFragment extends DialogFragment {
         nombre = bundle.getString("nombre");
         correo = bundle.getString("correo");
         idSesion = bundle.getInt("idSesion");
-        System.out.println(idSesion);
         DecimalFormat df = new DecimalFormat("#.00");
         tvMonto.setText(df.format(deuda) + " MXN");
 
