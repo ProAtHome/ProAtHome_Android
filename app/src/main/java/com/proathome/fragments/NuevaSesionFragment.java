@@ -170,7 +170,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                         if(obtenerMinutosHorario() <= minutosRestantes){
 
                             if(SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR")){
-
+                                System.out.println("Entro en PARTTTTTTTT");
                                 STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(), registrarSesionREST, idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition()+1, niveles.getSelectedItemPosition()+1, bloques.getSelectedItemPosition()+1, extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), true, SesionesFragment.PLAN);
                                 registro.execute();
                                 direccionET.setText("");
@@ -358,7 +358,8 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date fechaFin = null;
         try {
-            fechaFin = sdf.parse(SesionesFragment.FECHA_FIN);
+            if(!SesionesFragment.FECHA_FIN.equalsIgnoreCase("null"))
+                fechaFin = sdf.parse(SesionesFragment.FECHA_FIN);
         }catch (ParseException ex){
             ex.printStackTrace();
         }

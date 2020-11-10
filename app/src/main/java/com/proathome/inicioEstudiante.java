@@ -13,6 +13,7 @@ import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioTaskBloquearPerfil;
 import com.proathome.controladores.estudiante.ServicioTaskPerfilEstudiante;
 import com.proathome.fragments.DetallesFragment;
+import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -77,6 +78,7 @@ public class inicioEstudiante extends AppCompatActivity{
             this.idEstudiante = fila.getInt(0);
             //TODO FLUJO_PLANES: Crear PLAN al iniciar sesión si no existe registro en la BD.
             /*TODO FLUJO_PANES: Cargamos la info de PLAN, MONEDERO Y PERFIL.*/
+            DetallesFragment.procedenciaFin = false;
             ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(idEstudiante, inicioEstudiante.PROCEDENCIA_INICIO_ESTUDIANTE);
             bloquearPerfil.execute();
             ServicioTaskPerfilEstudiante perfilEstudiante = new ServicioTaskPerfilEstudiante(this, linkRESTCargarPerfil, this.imageHttpAddress, this.idEstudiante, Constants.INFO_PERFIL);

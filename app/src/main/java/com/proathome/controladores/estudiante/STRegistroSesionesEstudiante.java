@@ -141,8 +141,10 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         progressDialog.dismiss();
+        System.out.println(NuevaSesionFragment.nuevoMonedero);
         ServicioTaskActualizarMonedero actualizarMonedero = new ServicioTaskActualizarMonedero(this.contexto, idCliente, NuevaSesionFragment.nuevoMonedero);
         actualizarMonedero.execute();
+        NuevaSesionFragment.nuevoMonedero = 0;
     }
 
     public String getPostDataString(JSONObject params) throws Exception{

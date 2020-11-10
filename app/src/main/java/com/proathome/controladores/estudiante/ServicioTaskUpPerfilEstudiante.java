@@ -127,9 +127,7 @@ public class ServicioTaskUpPerfilEstudiante extends AsyncTask<Void, Void, String
     }
 
     public String getPostDataString(JSONObject params) throws Exception {
-
         return params.toString();
-
     }
 
 }
