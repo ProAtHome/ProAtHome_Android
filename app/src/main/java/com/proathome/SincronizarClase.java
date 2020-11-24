@@ -69,11 +69,17 @@ public class SincronizarClase extends AppCompatActivity {
                     public void run() {
                         try {
                             if (tipoPerfil == DetallesFragment.ESTUDIANTE){
-                                ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idPerfil, DetallesFragment.ESTUDIANTE, Constants.VERIFICAR_DISPONIBLIDAD, true);
+                                ServicioTaskSincronizarClases sincronizarClases =
+                                        new ServicioTaskSincronizarClases(getApplicationContext(),
+                                                idSesion, idPerfil, DetallesFragment.ESTUDIANTE,
+                                                    Constants.VERIFICAR_DISPONIBLIDAD, true);
                                 sincronizarClases.execute();
                                 sincronizarClases = null;
                             }else if(tipoPerfil == DetallesSesionProfesorFragment.PROFESOR){
-                                ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idPerfil, DetallesSesionProfesorFragment.PROFESOR, Constants.VERIFICAR_DISPONIBLIDAD, true);
+                                ServicioTaskSincronizarClases sincronizarClases =
+                                        new ServicioTaskSincronizarClases(getApplicationContext(), idSesion,
+                                                idPerfil, DetallesSesionProfesorFragment.PROFESOR,
+                                                    Constants.VERIFICAR_DISPONIBLIDAD, true);
                                 sincronizarClases.execute();
                                 sincronizarClases = null;
                             }
@@ -93,10 +99,15 @@ public class SincronizarClase extends AppCompatActivity {
     public void onClick(){
         finish();
         if (tipoPerfil == DetallesFragment.ESTUDIANTE){
-            ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idPerfil, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
+            ServicioTaskSincronizarClases sincronizarClases =
+                    new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idPerfil,
+                            DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
             sincronizarClases.execute();
         }else if(tipoPerfil == DetallesSesionProfesorFragment.PROFESOR){
-            ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idPerfil, DetallesSesionProfesorFragment.PROFESOR, Constants.CAMBIAR_DISPONIBILIDAD, false);
+            ServicioTaskSincronizarClases sincronizarClases =
+                    new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idPerfil,
+                            DetallesSesionProfesorFragment.PROFESOR, Constants.CAMBIAR_DISPONIBILIDAD,
+                            false);
             sincronizarClases.execute();
         }
         //CAMBIAR A FALSE EN BD.

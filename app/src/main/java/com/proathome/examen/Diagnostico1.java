@@ -1,7 +1,6 @@
 package com.proathome.examen;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,6 +19,8 @@ import com.proathome.R;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioExamenDiagnostico;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -204,7 +205,8 @@ public class Diagnostico1 extends AppCompatActivity {
         mUnbinder = ButterKnife.bind(this);
 
         cerrarExamen.setOnClickListener(v ->{
-            new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
+            new MaterialAlertDialogBuilder(this,
+                    R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
                     .setTitle("EXÁMEN DIAGNÓSTICO")
                     .setMessage("Al salir durante el examen perderás el progreso de ésta sección.")
                     .setNegativeButton("Salir", (dialog, which) -> {
@@ -251,7 +253,6 @@ public class Diagnostico1 extends AppCompatActivity {
             if(respuesta10.equalsIgnoreCase("They are always on time ")){
                 puntuacion++;
             }
-            Toast.makeText(this, "Puntuación:" + puntuacion, Toast.LENGTH_LONG).show();
 
             AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"sesion", null, 1);
             SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
@@ -260,7 +261,8 @@ public class Diagnostico1 extends AppCompatActivity {
             int idCliente = 0;
             if (fila.moveToFirst()) {
                 idCliente = fila.getInt(0);
-                ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(this, idCliente, Constants.INICIO_EXAMEN, puntuacion, 10);
+                ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(this, idCliente, Diagnostico1.this,
+                        Diagnostico2.class, Constants.INICIO_EXAMEN, puntuacion, 10);
                 examen.execute();
             }else{
                 baseDeDatos.close();
@@ -268,9 +270,6 @@ public class Diagnostico1 extends AppCompatActivity {
 
             baseDeDatos.close();
 
-            Intent intent = new Intent(this, Diagnostico2.class);
-            startActivityForResult(intent, 1, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-            finish();
         });
 
         pregunta1.addTextChangedListener(new TextWatcher() {
@@ -495,7 +494,8 @@ public class Diagnostico1 extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.chip_p2_1, R.id.chip_p2_2, R.id.chip_p2_3, R.id.chip_p2_4, R.id.chip_p2_5, R.id.chip_p2_6, R.id.chip_p2_7})
+    @OnClick({R.id.chip_p2_1, R.id.chip_p2_2, R.id.chip_p2_3, R.id.chip_p2_4, R.id.chip_p2_5, R.id.chip_p2_6,
+            R.id.chip_p2_7})
     public void onClickChipPregunta2(View view){
         switch (view.getId()){
             case R.id.chip_p2_1:
@@ -555,7 +555,8 @@ public class Diagnostico1 extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.chip_p4_1, R.id.chip_p4_2, R.id.chip_p4_3, R.id.chip_p4_4, R.id.chip_p4_5, R.id.chip_p4_6, R.id.chip_p4_7, R.id.chip_p4_8})
+    @OnClick({R.id.chip_p4_1, R.id.chip_p4_2, R.id.chip_p4_3, R.id.chip_p4_4, R.id.chip_p4_5, R.id.chip_p4_6,
+            R.id.chip_p4_7, R.id.chip_p4_8})
     public void onClickChipPregunta4(View view){
         switch (view.getId()){
             case R.id.chip_p4_1:
@@ -653,7 +654,8 @@ public class Diagnostico1 extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.chip_p7_1, R.id.chip_p7_2, R.id.chip_p7_3, R.id.chip_p7_4, R.id.chip_p7_5, R.id.chip_p7_6, R.id.chip_p7_7})
+    @OnClick({R.id.chip_p7_1, R.id.chip_p7_2, R.id.chip_p7_3, R.id.chip_p7_4, R.id.chip_p7_5, R.id.chip_p7_6,
+            R.id.chip_p7_7})
     public void onClickChipPregunta7(View view){
         switch (view.getId()){
             case R.id.chip_p7_1:
@@ -709,7 +711,8 @@ public class Diagnostico1 extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.chip_p9_1, R.id.chip_p9_2, R.id.chip_p9_3, R.id.chip_p9_4, R.id.chip_p9_5, R.id.chip_p9_6, R.id.chip_p9_7, R.id.chip_p9_8})
+    @OnClick({R.id.chip_p9_1, R.id.chip_p9_2, R.id.chip_p9_3, R.id.chip_p9_4, R.id.chip_p9_5, R.id.chip_p9_6,
+            R.id.chip_p9_7, R.id.chip_p9_8})
     public void onClickChipPregunta9(View view){
         switch (view.getId()){
             case R.id.chip_p9_1:

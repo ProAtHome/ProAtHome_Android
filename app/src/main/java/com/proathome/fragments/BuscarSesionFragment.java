@@ -41,7 +41,8 @@ import butterknife.Unbinder;
 public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCallback {
 
     public static final String TAG = "Nueva Sesión";
-    private String linkAPISesiones = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/obtenerSesionesMovil";
+    private String linkAPISesiones = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/profesor/obtenerSesionesMovil";
     public static int RANGO_BUSQUEDA = 4000;
     private double latitud, longitud;
     public static GoogleMap mMap;
@@ -66,7 +67,8 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (mMap == null) {
-            SupportMapFragment mapFragment = (WorkaroundMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
+            SupportMapFragment mapFragment = (WorkaroundMapFragment) getActivity()
+                    .getSupportFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
         }
     }
@@ -98,9 +100,15 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
         ((WorkaroundMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map))
                 .setListener(() -> mScrollView.requestDisallowInterceptTouchEvent(true));
 
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         mMap.setMyLocationEnabled(true);
         LatLng ubicacion = new LatLng(19.4326077, -99.13320799999);
-        profesorPerth = mMap.addMarker(new MarkerOptions().position(ubicacion).title("Mueve el marcador para elegir el radio a buscar.").snippet("profesor").draggable(true));
+        profesorPerth = mMap.addMarker(new MarkerOptions().position(ubicacion)
+                .title("Mueve el marcador para elegir el radio a buscar.").snippet("profesor").draggable(true));
         profesorPerth.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.profubb));
         Circle circle = mMap.addCircle(new CircleOptions()
                 .center(ubicacion)

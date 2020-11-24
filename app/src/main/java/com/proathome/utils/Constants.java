@@ -9,7 +9,8 @@ import mx.openpay.android.Openpay;
 
 public class Constants {
 
-    public static final Openpay openpay = new Openpay("medmbxsomtgpwv744wtf", "pk_db3401afe85245d3b9bbec82324ba58c", false);
+    public static final Openpay openpay = new Openpay("medmbxsomtgpwv744wtf",
+            "pk_db3401afe85245d3b9bbec82324ba58c", false);
 
     public static final String ARG_NAME = "name";
     public static final int SCROLL = 0;
@@ -152,7 +153,7 @@ public class Constants {
     public static final  int BLOQUE1_AVANZADO5= 1;
     public static final  int BLOQUE2_AVANZADO5= 2;
     /*FIN RUTA NIVELES*/
-    public static final String IP = "192.168.100.120";
+    public static final String IP = "192.168.100.173";
 
 
     /*Prueba Estaticos Singleton*/
@@ -163,13 +164,17 @@ public class Constants {
     public static boolean TE_activado_DISPONIBILIDAD_PROGRESO;
     public static int progresoSegundosTE_DISPONIBILIDAD_PROGRESO;
     public static int progresoTE_DISPONIBILIDAD_PROGRESO;
-    public static String linkSincronizarEstudiante_DISPONIBILIDAD_PROGRESO = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/validarEstatusClase/";
-    public static String linkSincronizarProfesor_DISPONIBILIDAD_PROGRESO = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/validarEstatusClase/";
-    public static int idPerfil_DISPONIBILIDAD_PROGRESO, tipoPerfil_DISPONIBILIDAD_PROGRESO, idSesion_DISPONIBILIDAD_PROGRESO;
+    public static String linkSincronizarEstudiante_DISPONIBILIDAD_PROGRESO = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/cliente/validarEstatusClase/";
+    public static String linkSincronizarProfesor_DISPONIBILIDAD_PROGRESO = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/profesor/validarEstatusClase/";
+    public static int idPerfil_DISPONIBILIDAD_PROGRESO, tipoPerfil_DISPONIBILIDAD_PROGRESO,
+            idSesion_DISPONIBILIDAD_PROGRESO;
     public static Context contexto_DISPONIBILIDAD_PROGRESO;
     public static String wsURL_DISPONIBILIDAD_PROGRESO;
     public static String result_DISPONIBILIDAD_PROGRESO;
-    public static int progreso_DISPONIBILIDAD_PROGRESO, progresoSegundos_DISPONIBILIDAD_PROGRESO, estatus_DISPONIBILIDAD_PROGRESO;
+    public static int progreso_DISPONIBILIDAD_PROGRESO, progresoSegundos_DISPONIBILIDAD_PROGRESO,
+            estatus_DISPONIBILIDAD_PROGRESO;
     public static boolean dispProfesor_DISPONIBILIDAD_PROGRESO, dispEstudiante_DISPONIBILIDAD_PROGRESO;
     public static URL obtenerURL_DISPONIBILIDAD_PROGRESO() throws MalformedURLException {
         URL url = new URL(Constants.wsURL_DISPONIBILIDAD_PROGRESO);
@@ -178,9 +183,12 @@ public class Constants {
     /*FIN ASYNCTASK SERVICIO OBTENER DISPONIBILIDAD Y PROGRESO*/
 
     /*ASYNCTASK SERVICIO OBTENER PROGRESO*/
-    public static String linkSincronizarEstudiante_PROGRESO = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/validarEstatusClase/";
-    public static String linkSincronizarProfesor_PROGRESO = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/validarEstatusClase/";
-    public static int idPerfil_PROGRESO, tipoPerfil_PROGRESO, idSesion_PROGRESO, progresoSegundosS_PROGRESO, progresoS_PROGRESO;
+    public static String linkSincronizarEstudiante_PROGRESO = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/cliente/validarEstatusClase/";
+    public static String linkSincronizarProfesor_PROGRESO = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/profesor/validarEstatusClase/";
+    public static int idPerfil_PROGRESO, tipoPerfil_PROGRESO, idSesion_PROGRESO, progresoSegundosS_PROGRESO,
+            progresoS_PROGRESO;
     public static Context contexto_PROGRESO;
     public static String wsURL_PROGRESO;
     public static String result_PROGRESO;
@@ -191,10 +199,12 @@ public class Constants {
     /*FIN ASYNCTASK SERVICIO OBTENER PROGRESO*/
 
     /*ASYNCTASK SERVICIO GUARDAR PROGRESO*/
-    public static String linkActualizarProgreso_GUARDAR_PROGRESO = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/actualizarProgresoClase/";
+    public static String linkActualizarProgreso_GUARDAR_PROGRESO = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/profesor/actualizarProgresoClase/";
     public static String wsURL_GUARDAR_PROGRESO;
     public static Context contexto_GUARDAR_PROGRESO;
-    public static int idPerfil_GUARDAR_PROGRESO, tipoDeTiempo_GUARDAR_PROGRESO, idSesion_GUARDAR_PROGRESO, progreso_GUARDAR_PROGRESO, progresoSegundos_GUARDAR_PROGRESO;
+    public static int idPerfil_GUARDAR_PROGRESO, tipoDeTiempo_GUARDAR_PROGRESO, idSesion_GUARDAR_PROGRESO,
+            progreso_GUARDAR_PROGRESO, progresoSegundos_GUARDAR_PROGRESO;
     public static String result_GUARDAR_PROGRESO;
     public static URL obtenerURL_GUARDAR_PROGRESO() throws MalformedURLException {
         URL url = new URL(Constants.wsURL_GUARDAR_PROGRESO);
@@ -203,12 +213,15 @@ public class Constants {
     /*FIN ASYNCTASK GUARDAR PROGRESO*/
 
     /*ASYNCTASK CAMBIAR ESTATUS CLASE*/
-    public static String linkCambiarEstatusProfesor_CAMBIAR_ESTATUS = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/cambiarEstatusClase/";
-    public static String linkCambiarEstatusEstudiante_CAMBIAR_ESTATUS = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/cambiarEstatusClase/";
+    public static String linkCambiarEstatusProfesor_CAMBIAR_ESTATUS = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/profesor/cambiarEstatusClase/";
+    public static String linkCambiarEstatusEstudiante_CAMBIAR_ESTATUS = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/cliente/cambiarEstatusClase/";
     public static Context contexto_CAMBIAR_ESTATUS;
     public static String wsURL_CAMBIAR_ESTATUS;
     public static String result_CAMBIAR_ESTATUS;
-    public static int idPerfil_CAMBIAR_ESTATUS, idSesion_CAMBIAR_ESTATUS, estatus_CAMBIAR_ESTATUS, tipoPerfil_CAMBIAR_ESTATUS;
+    public static int idPerfil_CAMBIAR_ESTATUS, idSesion_CAMBIAR_ESTATUS, estatus_CAMBIAR_ESTATUS,
+            tipoPerfil_CAMBIAR_ESTATUS;
     public static URL obtenerURL_CAMBIAR_ESTATUS() throws MalformedURLException {
         URL url = new URL(Constants.wsURL_CAMBIAR_ESTATUS);
         return url;

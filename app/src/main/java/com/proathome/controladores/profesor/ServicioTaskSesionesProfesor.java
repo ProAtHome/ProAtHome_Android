@@ -26,20 +26,16 @@ public class ServicioTaskSesionesProfesor extends AsyncTask<Void, Void, String> 
     private Context contexto;
 
     public ServicioTaskSesionesProfesor(Context contexto, String linkAPI, int idProfesor, int tipo){
-
         this.contexto = contexto;
         this.linkAPI = linkAPI + idProfesor;
         this.idProfesor = idProfesor;
         this.tipo = tipo;
-
     }
 
     @Override
     protected void onPreExecute() {
-
         super.onPreExecute();
         progressDialog = ProgressDialog.show(this.contexto, "Cargando Sesiones", "Por favor, espere...");
-
     }
 
     @Override
@@ -50,10 +46,8 @@ public class ServicioTaskSesionesProfesor extends AsyncTask<Void, Void, String> 
         URL url = null;
 
         try{
-
             url = new URL(wsURL);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
             urlConnection.setRequestMethod("GET");
@@ -62,28 +56,22 @@ public class ServicioTaskSesionesProfesor extends AsyncTask<Void, Void, String> 
             int responseCode = urlConnection.getResponseCode();
 
             if(responseCode == HttpURLConnection.HTTP_OK){
-
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
                 StringBuffer sb= new StringBuffer("");
                 String linea="";
-                while ((linea=in.readLine())!= null){
 
+                while ((linea=in.readLine())!= null){
                     sb.append(linea);
                     break;
-
                 }
+
                 in.close();
                 result= sb.toString();
                 this.respuestaAPI = result;
-
             }else{
-
                 result = new String("Error: "+ responseCode);
                 this.respuestaAPI = null;
-
             }
-
         }catch(MalformedURLException ex){
             ex.printStackTrace();
         }catch(IOException ex){
@@ -98,21 +86,15 @@ public class ServicioTaskSesionesProfesor extends AsyncTask<Void, Void, String> 
 
     @Override
     protected void onPostExecute(String s) {
-
         super.onPostExecute(s);
         this.respuestaAPI = s;
         progressDialog.dismiss();
 
         if(this.respuestaAPI == null){
-
             Toast.makeText(this.contexto, "Error del servidor.", Toast.LENGTH_LONG).show();
-
         }else{
-
             if(!this.respuestaAPI.equals("null")){
-
                 try{
-                    System.out.println(this.respuestaAPI);
                     JSONArray jsonArray = new JSONArray(this.respuestaAPI);
 
                     if(jsonArray.length() == 0 && tipo == 1){
@@ -131,11 +113,9 @@ public class ServicioTaskSesionesProfesor extends AsyncTask<Void, Void, String> 
                             //SesionesProfesorFragment.myAdapter.add();
                         }
                     }
-
                 }catch(JSONException ex){
                     ex.printStackTrace();
                 }
-
             }else{
                 Toast.makeText(this.contexto, "Usuario sin Sesiones.",Toast.LENGTH_LONG).show();
             }

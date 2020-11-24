@@ -1,16 +1,13 @@
 package com.proathome.ui.sesiones;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -18,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterGestionar;
@@ -28,6 +24,8 @@ import com.proathome.controladores.estudiante.ServicioTaskSesionesEstudiante;
 import com.proathome.fragments.NuevaSesionFragment;
 import com.proathome.fragments.PlanesFragment;
 import com.proathome.utils.Constants;
+import com.proathome.utils.PermisosUbicacion;
+import com.proathome.utils.SweetAlert;
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +35,8 @@ import butterknife.Unbinder;
 public class SesionesFragment extends Fragment {
 
     public static ComponentAdapterGestionar myAdapter;
-    private String clasesHttpAddress = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerSesiones/";
+    private String clasesHttpAddress = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/cliente/obtenerSesiones/";
     private ServicioTaskSesionesEstudiante sesionesTask;
     private Unbinder mUnbinder;
     private int idCliente = 0;
@@ -61,7 +60,8 @@ public class SesionesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        sesionesTask = new ServicioTaskSesionesEstudiante(getContext(), clasesHttpAddress, this.idCliente, Constants.SESIONES_GESTIONAR);
+        sesionesTask = new ServicioTaskSesionesEstudiante(getContext(), clasesHttpAddress, this.idCliente,
+                Constants.SESIONES_GESTIONAR);
         sesionesTask.execute();
         configAdapter();
         configRecyclerView();
@@ -101,22 +101,7 @@ public class SesionesFragment extends Fragment {
     }
 
     private void showAlert() {
-        new MaterialAlertDialogBuilder(getActivity(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
-                .setTitle("Permisos de Ubicación")
-                .setMessage("Necesitamos tu permiso :)")
-                .setPositiveButton("Dar permiso", (dialog, which) -> {
-
-                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivity(myIntent);
-
-                })
-                .setNegativeButton("Cancelar", (dialog, which) -> {
-                    Toast.makeText(getContext(), "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
-                })
-                .setOnCancelListener(dialog -> {
-                    Toast.makeText(getContext(), "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
-                })
-                .show();
+        PermisosUbicacion.showAlert(getContext(), SweetAlert.ESTUDIANTE);
     }
 
     @OnClick({R.id.fabNuevaSesion, R.id.fabActualizar})
@@ -129,66 +114,54 @@ public class SesionesFragment extends Fragment {
                                                                               -> NO, ENTONCES, Mostramos MODAL con PLANES.
                    -> NO, ENTONCES  Creamos Clase con PLAN -> PARTICULAR (Normal). */
                 if(SesionesFragment.PLAN_ACTIVO && SesionesFragment.MONEDERO > 0){
-                    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
+                                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         showAlert();
                     } else {
                         if(SesionesFragment.SESIONES_PAGADAS_FINALIZADAS){
                             if(SesionesFragment.PLAN_ACTIVO){
                                 //TODO FLUJO_EJECUTAR_PLAN: Pasar por Bundle el tipo de PLAN en nuevaSesionFragment.
-                                NuevaSesionFragment nueva = new NuevaSesionFragment();
-                                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                                nueva.show(transaction, NuevaSesionFragment.TAG);
-                                Toast.makeText(getContext(), "Con plan disitnto a PARTICULAR; = " + SesionesFragment.PLAN, Toast.LENGTH_LONG).show();
+                                tipoPlanMsg(SesionesFragment.PLAN);
                             }else{
                                 PlanesFragment planesFragment = new PlanesFragment();
                                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                                 planesFragment.show(transaction, "Planes Disponibles");
-                                Toast.makeText(getContext(), "Mostramos planes.", Toast.LENGTH_LONG).show();
                             }
                         }else{
                             if(SesionesFragment.PLAN_ACTIVO){
-                                NuevaSesionFragment nueva = new NuevaSesionFragment();
-                                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                                nueva.show(transaction, NuevaSesionFragment.TAG);
-                                Toast.makeText(getContext(), "Con plan disitnto a PARTICULAR; = " + SesionesFragment.PLAN, Toast.LENGTH_LONG).show();
+                                tipoPlanMsg(SesionesFragment.PLAN);
                             }else{
-                                NuevaSesionFragment nueva = new NuevaSesionFragment();
-                                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                                nueva.show(transaction, NuevaSesionFragment.TAG);
-                                Toast.makeText(getContext(), "Con plan PARTICULAR; = " + SesionesFragment.PLAN, Toast.LENGTH_LONG).show();
+                                tipoPlanMsg("PARTICULAR");
                             }
                         }
                     }
                 }else if(SesionesFragment.PLAN_ACTIVO && SesionesFragment.MONEDERO == 0){
-                    Toast.makeText(getContext(), "Estas en plan activo pero ya no tienes monedas, acábatelas :).", Toast.LENGTH_LONG).show();
+                    new SweetAlert(getContext(), SweetAlert.WARNING_TYPE, SweetAlert.ESTUDIANTE)
+                            .setTitleText("¡ESPERA!")
+                            .setContentText("Tienes un plan activo pero ya no tienes tiempo disponible," +
+                                    " elimina una sesión o espera a que finalicen las clases que creaste.")
+                            .show();
                 }else{
-                    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+                            PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
+                                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         showAlert();
                     } else {
                         if(SesionesFragment.SESIONES_PAGADAS_FINALIZADAS){
                             if(SesionesFragment.PLAN_ACTIVO){
                                 //TODO FLUJO_EJECUTAR_PLAN: Pasar por Bundle el tipo de PLAN en nuevaSesionFragment.
-                                NuevaSesionFragment nueva = new NuevaSesionFragment();
-                                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                                nueva.show(transaction, NuevaSesionFragment.TAG);
-                                Toast.makeText(getContext(), "Con plan disitnto a PARTICULAR; = " + SesionesFragment.PLAN, Toast.LENGTH_LONG).show();
+                                tipoPlanMsg(SesionesFragment.PLAN);
                             }else{
                                 PlanesFragment planesFragment = new PlanesFragment();
                                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                                 planesFragment.show(transaction, "Planes Disponibles");
-                                Toast.makeText(getContext(), "Mostramos planes.", Toast.LENGTH_LONG).show();
                             }
                         }else{
                             if(SesionesFragment.PLAN_ACTIVO){
-                                NuevaSesionFragment nueva = new NuevaSesionFragment();
-                                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                                nueva.show(transaction, NuevaSesionFragment.TAG);
-                                Toast.makeText(getContext(), "Con plan disitnto a PARTICULAR; = " + SesionesFragment.PLAN, Toast.LENGTH_LONG).show();
+                                tipoPlanMsg(SesionesFragment.PLAN);
                             }else{
-                                NuevaSesionFragment nueva = new NuevaSesionFragment();
-                                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                                nueva.show(transaction, NuevaSesionFragment.TAG);
-                                Toast.makeText(getContext(), "Con plan PARTICULAR; = " + SesionesFragment.PLAN, Toast.LENGTH_LONG).show();
+                                tipoPlanMsg("PARTICULAR");
                             }
                         }
                     }
@@ -199,6 +172,18 @@ public class SesionesFragment extends Fragment {
                 break;
         }
 
+    }
+
+    private void tipoPlanMsg(String plan) {
+        new SweetAlert(getContext(), SweetAlert.NORMAL_TYPE, SweetAlert.ESTUDIANTE)
+                .setTitleText("Creación de clases con PLAN: " + plan)
+                .setConfirmButton("OK", sweetAlertDialog -> {
+                    sweetAlertDialog.dismissWithAnimation();
+                    NuevaSesionFragment nueva = new NuevaSesionFragment();
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    nueva.show(transaction, NuevaSesionFragment.TAG);
+                })
+                .show();
     }
 
     @Override

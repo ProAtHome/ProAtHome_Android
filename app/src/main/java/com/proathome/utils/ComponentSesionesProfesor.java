@@ -4,7 +4,8 @@ import java.util.Objects;
 
 public class ComponentSesionesProfesor {
 
-    private String nombreEstudiante, descripcion, correo, foto, tipoClase, horario, profesor, lugar, observaciones, actualizado;
+    private String nombreEstudiante, descripcion, correo, foto, tipoClase, horario, profesor, lugar,
+            observaciones, actualizado;
     private int photoRes, idClase, tiempo, idSeccion, idNivel, idBloque, idEstudiante;
     private double latitud, longitud;
     private int type;
@@ -407,7 +408,8 @@ public class ComponentSesionesProfesor {
 
     @Override
     public int hashCode() {
-        return Objects.hash(nombreEstudiante, descripcion, correo, foto, tipoClase, horario, profesor, lugar, tiempo, observaciones, actualizado, photoRes, idClase, latitud, longitud, type);
+        return Objects.hash(nombreEstudiante, descripcion, correo, foto, tipoClase, horario, profesor,
+                lugar, tiempo, observaciones, actualizado, photoRes, idClase, latitud, longitud, type);
     }
 
 }

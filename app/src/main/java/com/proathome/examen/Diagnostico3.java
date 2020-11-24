@@ -87,7 +87,8 @@ public class Diagnostico3 extends AppCompatActivity {
         mUnbinder = ButterKnife.bind(this);
 
         cerrarExamen.setOnClickListener(v ->{
-            new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
+            new MaterialAlertDialogBuilder(this,
+                    R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
                     .setTitle("EXÁMEN DIAGNÓSTICO")
                     .setMessage("Al salir durante el examen perderás el progreso de ésta sección.")
                     .setNegativeButton("Salir", (dialog, which) -> {
@@ -105,7 +106,6 @@ public class Diagnostico3 extends AppCompatActivity {
         btnContinuar.setOnClickListener(v ->{
             int puntuacionSecc2 = validarSeccion2();
             int puntuacionTotal = respuesta1 + respuesta2 + respuesta3 + respuesta4 + respuesta5 + puntuacionSecc2;
-            Toast.makeText(this, "Puntuación: " + puntuacionTotal, Toast.LENGTH_LONG).show();
 
             AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"sesion", null, 1);
             SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
@@ -114,7 +114,8 @@ public class Diagnostico3 extends AppCompatActivity {
             int idCliente = 0;
             if (fila.moveToFirst()) {
                 idCliente = fila.getInt(0);
-                ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(this, idCliente, Constants.ENCURSO_EXAMEN, puntuacionTotal, 30);
+                ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(this, idCliente, Diagnostico3.this,
+                        Diagnostico4.class, Constants.ENCURSO_EXAMEN, puntuacionTotal, 30);
                 examen.execute();
             }else{
                 baseDeDatos.close();
@@ -122,9 +123,6 @@ public class Diagnostico3 extends AppCompatActivity {
 
             baseDeDatos.close();
 
-            Intent intent = new Intent(this, Diagnostico4.class);
-            startActivityForResult(intent, 1, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-            finish();
         });
 
         chekeableChips(chip_p1_1, chip_p1_2, chip_p1_3);

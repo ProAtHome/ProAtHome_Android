@@ -2,14 +2,17 @@ package com.proathome;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,6 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MatchSesionEstudiante extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -55,10 +59,10 @@ public class MatchSesionEstudiante extends AppCompatActivity implements OnMapRea
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
         Cursor cursor = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);
 
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             this.idProfesor = cursor.getInt(0);
             idProfesorSesion = this.idProfesor;
-        }else{
+        } else {
             baseDeDatos.close();
         }
 
@@ -88,13 +92,19 @@ public class MatchSesionEstudiante extends AppCompatActivity implements OnMapRea
         ServicioTaskInfoSesion sesion = new ServicioTaskInfoSesion(this, this.linkInfoSesion, this.linkFoto, this.idSesion);
         sesion.execute();
 
-        matchBTN.setOnClickListener(v ->{
-            if (matchBTN.isEnabled()){
+        matchBTN.setOnClickListener(v -> {
+            if (matchBTN.isEnabled()) {
                 ServicioTaskMatchSesion match = new ServicioTaskMatchSesion(this, this.linkAPIMatch, this.idSesion, this.idProfesor);
                 match.execute();
                 finish();
-            }else{
-                Toast.makeText(this, "Ya tiene un profesor asigando :(", Toast.LENGTH_LONG).show();
+            } else {
+                new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("¡Espera!")
+                        .setConfirmButton("OK", sweetAlertDialog -> {
+                            sweetAlertDialog.dismissWithAnimation();
+                        })
+                        .setContentText("Ya tiene un profesor asigando.")
+                        .show();
             }
         });
 
@@ -106,6 +116,9 @@ public class MatchSesionEstudiante extends AppCompatActivity implements OnMapRea
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         mMap.setMyLocationEnabled(true);
         mScrollView = findViewById(R.id.scrollMatch); //parent scrollview in xml, give your scrollview id value
         ((WorkaroundMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapsDetallesMatch))

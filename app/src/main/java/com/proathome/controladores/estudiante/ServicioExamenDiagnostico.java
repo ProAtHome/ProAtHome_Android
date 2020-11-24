@@ -1,5 +1,7 @@
 package com.proathome.controladores.estudiante;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +21,8 @@ import com.proathome.examen.EvaluarRuta;
 import com.proathome.fragments.FragmentRutaGenerada;
 import com.proathome.ui.ruta.RutaFragment;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -47,7 +51,8 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
     private int puntacionAsumar;
     private int preguntaActual;
     private ProgressDialog progressDialog;
-    private Intent intent;
+    private Activity activity;
+    private Class activitySiguiente;
 
     public ServicioExamenDiagnostico(Context contexto, int idEstudiante, int estatus){
         this.contexto = contexto;
@@ -62,8 +67,10 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
         this.puntacionAsumar = puntuacionAsumar;
     }
 
-    public ServicioExamenDiagnostico(Context contexto, int idEstudiante, int estatus, int puntuacionAsumar, int preguntaActual){
+    public ServicioExamenDiagnostico(Context contexto, int idEstudiante, Activity activity, Class activitySiguiente, int estatus, int puntuacionAsumar, int preguntaActual){
         this.contexto = contexto;
+        this.activity = activity;
+        this.activitySiguiente = activitySiguiente;
         this.idEstudiante = idEstudiante;
         this.estatus = estatus;
         this.puntacionAsumar = puntuacionAsumar;
@@ -521,7 +528,20 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
                 FragmentRutaGenerada.nivel.setText("Nivel: " + evaluarRuta.getRutaString(evaluarRuta.getRuta()));
                 FragmentRutaGenerada.aciertos = puntuacionTotal;
             }else if(estatus == Constants.EXAMEN_GUARDADO){
-                Toast.makeText(this.contexto, "Puntuación guardada.", Toast.LENGTH_LONG).show();
+                new SweetAlert(this.contexto, SweetAlert.NORMAL_TYPE, SweetAlert.ESTUDIANTE)
+                        .setTitleText("Puntuación guardada.")
+                        .setConfirmButton("Continuar", sweetAlertDialog -> {
+                            sweetAlertDialog.dismissWithAnimation();
+                            if(!Diagnostico7.ultimaPagina){
+                                Intent intent = new Intent(this.contexto, this.activitySiguiente);
+                                activity.startActivityForResult(intent, 1, ActivityOptions.makeSceneTransitionAnimation(this.activity)
+                                        .toBundle());
+                                activity.finish();
+                            }else{
+                                Diagnostico7.ultimaPagina = false;
+                            }
+                        })
+                        .show();
             }else if(estatus == Constants.CONTINUAR_EXAMEN){
                 Intent intent;
                 int pregunta = jsonObject.getInt("preguntaActual");

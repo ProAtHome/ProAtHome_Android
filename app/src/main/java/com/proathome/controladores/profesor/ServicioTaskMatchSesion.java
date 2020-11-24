@@ -1,6 +1,5 @@
 package com.proathome.controladores.profesor;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -20,16 +19,13 @@ public class ServicioTaskMatchSesion extends AsyncTask<Void, Void, String> {
 
     private String respuestaAPI, linkAPI;
     private Context contexto;
-    private ProgressDialog progressDialog;
     private int idSesion, idProfesor;
 
     public ServicioTaskMatchSesion(Context contexto, String linkAPI, int idSesion, int idProfesor){
-
         this.contexto = contexto;
         this.linkAPI = linkAPI;
         this.idSesion = idSesion;
         this.idProfesor = idProfesor;
-
     }
 
     @Override
@@ -41,19 +37,16 @@ public class ServicioTaskMatchSesion extends AsyncTask<Void, Void, String> {
     protected String doInBackground(Void... voids) {
 
         String result = null;
-
         String wsURL = this.linkAPI;
         URL url = null;
 
         try{
-
             url = new URL(wsURL);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             JSONObject parametrosPOST = new JSONObject();
             parametrosPOST.put("idProfesor", this.idProfesor);
             parametrosPOST.put("idSesion", this.idSesion);
-
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
             urlConnection.setRequestMethod("PUT");
@@ -70,25 +63,19 @@ public class ServicioTaskMatchSesion extends AsyncTask<Void, Void, String> {
 
             int responseCode = urlConnection.getResponseCode();
             if(responseCode == HttpURLConnection.HTTP_OK){
-
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer sb = new StringBuffer("");
                 String linea = "";
 
                 while ((linea = in.readLine()) != null){
-
                     sb.append(linea);
                     break;
-
                 }
 
                 in.close();
                 result = sb.toString();
-
             }else{
-
                 result = new String("Error: " +responseCode);
-
             }
 
         }catch(MalformedURLException ex){
@@ -102,22 +89,17 @@ public class ServicioTaskMatchSesion extends AsyncTask<Void, Void, String> {
         }
 
         return result;
-
     }
 
     @Override
     protected void onPostExecute(String s) {
-
         super.onPostExecute(s);
         this.respuestaAPI = s;
         Toast.makeText(this.contexto, this.respuestaAPI, Toast.LENGTH_LONG).show();
-
     }
 
     public String getPostDataString(JSONObject params) throws Exception {
-
         return params.toString();
-
     }
 
 }

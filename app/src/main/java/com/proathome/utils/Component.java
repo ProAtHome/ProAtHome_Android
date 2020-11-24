@@ -4,7 +4,8 @@ import java.util.Objects;
 
 public class Component {
 
-    private String tipoPlan, fecha, tipoClase, horario, profesor, lugar, observaciones, actualizado, fotoProfesor, descripcionProfesor, correoProfesor;
+    private String tipoPlan, fecha, tipoClase, horario, profesor, lugar, observaciones, actualizado,
+            fotoProfesor, descripcionProfesor, correoProfesor;
     private int photoRes, idClase, idSeccion, idNivel, idBloque, tiempo, idProfesor;
     private double latitud, longitud;
     private int type;

@@ -7,22 +7,18 @@ import androidx.annotation.Nullable;
 
 public class AdminSQLiteOpenHelperProfesor extends SQLiteOpenHelper {
 
-    public AdminSQLiteOpenHelperProfesor(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-
+    public AdminSQLiteOpenHelperProfesor(@Nullable Context context, @Nullable String name,
+                                         @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
         db.execSQL("CREATE TABLE sesionProfesor(id int PRIMARY KEY, idProfesor int, correo text)");
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 
 }

@@ -1,17 +1,9 @@
 package com.proathome.controladores;
 
 import android.os.AsyncTask;
-import android.os.Bundle;
-
-import androidx.fragment.app.FragmentTransaction;
-
-import com.proathome.fragments.DetallesFragment;
-import com.proathome.fragments.EvaluarFragment;
 import com.proathome.utils.Constants;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -29,7 +21,8 @@ public class ServicioTaskOrdenPago extends AsyncTask<Void, Void, String> {
     private String tipoPlan, estatusPago;
     private String linkActualizarPago = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/actualizarPago";
 
-    public ServicioTaskOrdenPago(int idEstudiante, int idSesion, double costoClase, double costoTE, String tipoPlan, String estatusPago){
+    public ServicioTaskOrdenPago(int idEstudiante, int idSesion, double costoClase, double costoTE,
+                                 String tipoPlan, String estatusPago){
         this.idEstudiante = idEstudiante;
         this.idSesion = idSesion;
         this.costoClase = costoClase;
@@ -79,7 +72,8 @@ public class ServicioTaskOrdenPago extends AsyncTask<Void, Void, String> {
             int responseCode = httpURLConnection.getResponseCode();
             if(responseCode == HttpURLConnection.HTTP_OK){
 
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+                BufferedReader bufferedReader = new BufferedReader(
+                        new InputStreamReader(httpURLConnection.getInputStream()));
                 StringBuffer stringBuffer = new StringBuffer("");
                 String linea = "";
 

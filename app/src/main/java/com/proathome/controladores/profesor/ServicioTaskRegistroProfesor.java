@@ -32,35 +32,30 @@ public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> 
     public String contrasena ="";
     public String correo="";
 
-    public ServicioTaskRegistroProfesor(Context ctx, String linkAPI, String nombre, String fecha, int edad, String correo, String contrasena){
-
-        this.httpContext=ctx;
-        this.linkrequestAPI=linkAPI;
-        this.fecha=fecha;
-        this.nombre=nombre;
-        this.edad=edad;
+    public ServicioTaskRegistroProfesor(Context ctx, String linkAPI, String nombre, String fecha,
+                                        int edad, String correo, String contrasena){
+        this.httpContext = ctx;
+        this.linkrequestAPI = linkAPI;
+        this.fecha = fecha;
+        this.nombre = nombre;
+        this.edad = edad;
         this.contrasena = contrasena;
         this.correo = correo;
-
     }
 
     @Override
     protected void onPreExecute() {
-
         super.onPreExecute();
         progressDialog = ProgressDialog.show(httpContext, "Registrando Profesor.", "Por favor, espere...");
-
     }
 
     @Override
     protected String doInBackground(Void... params) {
-
         String result= null;
-
         String wsURL = linkrequestAPI;
         URL url = null;
-        try {
 
+        try {
             url = new URL(wsURL);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
@@ -84,7 +79,6 @@ public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> 
             urlConnection.setDoInput(true);
             urlConnection.setDoOutput(true);
 
-
             //OBTENER EL RESULTADO DEL REQUEST
             OutputStream os = urlConnection.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
@@ -95,28 +89,21 @@ public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> 
 
             int responseCode=urlConnection.getResponseCode();
             if(responseCode== HttpURLConnection.HTTP_OK){
-
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
                 StringBuffer sb= new StringBuffer("");
                 String linea="";
-                while ((linea=in.readLine())!= null){
 
+                while ((linea=in.readLine())!= null){
                     sb.append(linea);
                     break;
-
                 }
 
                 in.close();
                 result= sb.toString();
-
             }
             else{
-
                 result= new String("Error: "+ responseCode);
-
             }
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -128,25 +115,21 @@ public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> 
         }
 
         return  result;
-
     }
 
     @Override
     protected void onPostExecute(String s) {
-
         super.onPostExecute(s);
         progressDialog.dismiss();
         resultadoapi=s;
+
         Toast.makeText(httpContext,resultadoapi,Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this.httpContext, loginProfesor.class);
         this.httpContext.startActivity(intent);
-
     }
 
     public String getPostDataString(JSONObject params) throws Exception {
-
         return params.toString();
-
     }
 
 }

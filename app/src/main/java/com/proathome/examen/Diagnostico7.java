@@ -2,6 +2,9 @@ package com.proathome.examen;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -23,6 +26,7 @@ public class Diagnostico7 extends AppCompatActivity {
 
     private Unbinder mUnbinder;
     private boolean finalizado = false;
+    public static boolean ultimaPagina = false;
     @BindView(R.id.resp1)
     TextInputEditText resp1;
     @BindView(R.id.resp2)
@@ -48,7 +52,8 @@ public class Diagnostico7 extends AppCompatActivity {
             if(finalizado){
                 finish();
             }else{
-                new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
+                new MaterialAlertDialogBuilder(this,
+                        R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
                         .setTitle("EXÁMEN DIAGNÓSTICO")
                         .setMessage("Al salir durante el examen perderás el progreso de ésta sección.")
                         .setNegativeButton("Salir", (dialog, which) -> {
@@ -74,6 +79,8 @@ public class Diagnostico7 extends AppCompatActivity {
             btnFinalizar.setEnabled(false);
             finalizado = true;
 
+            Diagnostico7.ultimaPagina = true;
+
             FragmentRutaGenerada rutaGenerada = new FragmentRutaGenerada();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             rutaGenerada.show(fragmentTransaction, "Ruta");
@@ -85,9 +92,11 @@ public class Diagnostico7 extends AppCompatActivity {
             int idCliente = 0;
             if (fila.moveToFirst()) {
                 idCliente = fila.getInt(0);
-                ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(this, idCliente, Constants.INFO_EXAMEN_FINAL, validarRespuestas());
+                ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(this, idCliente,
+                        Constants.INFO_EXAMEN_FINAL, validarRespuestas());
                 examen.execute();
-                ServicioExamenDiagnostico examenGuardar = new ServicioExamenDiagnostico(this, idCliente, Constants.EXAMEN_FINALIZADO, validarRespuestas(), 65);
+                ServicioExamenDiagnostico examenGuardar = new ServicioExamenDiagnostico(this, idCliente, Diagnostico7.this,
+                        Diagnostico7.class, Constants.EXAMEN_FINALIZADO, validarRespuestas(), 65);
                 examenGuardar.execute();
             }else{
                 baseDeDatos.close();
@@ -95,17 +104,21 @@ public class Diagnostico7 extends AppCompatActivity {
 
             baseDeDatos.close();
 
-            Toast.makeText(this, "Puntuación: " + validarRespuestas(), Toast.LENGTH_LONG).show();
-
         });
 
     }
 
+    public Activity actividadContext(){
+        return this;
+    }
+
     public int validarRespuestas(){
         int puntuacion = 0;
-        if(resp1.getText().toString().trim().equalsIgnoreCase("Nanorobotics is the emerging technology field creating machines or robots whose components are at or close to the scale of a nanometer"))
+        if(resp1.getText().toString().trim().equalsIgnoreCase("Nanorobotics is the emerging" +
+                " technology field creating machines or robots whose components are at or close to the scale of a nanometer"))
             puntuacion++;
-        if(resp2.getText().toString().trim().equalsIgnoreCase("Nanobots, Nanoids, Nanites, Nanomachines and Nanomites"))
+        if(resp2.getText().toString().trim().equalsIgnoreCase("Nanobots, Nanoids, Nanites," +
+                " Nanomachines and Nanomites"))
             puntuacion++;
         if(resp3.getText().toString().trim().equalsIgnoreCase("Cancer"))
             puntuacion++;

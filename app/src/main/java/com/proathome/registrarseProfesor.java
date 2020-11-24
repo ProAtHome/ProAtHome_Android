@@ -7,11 +7,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.controladores.profesor.ServicioTaskRegistroProfesor;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
 import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,7 +24,8 @@ public class registrarseProfesor extends AppCompatActivity {
     public static final int DATE_ID = 0;
     public Calendar calendar = Calendar.getInstance();
     private ServicioTaskRegistroProfesor servicioTaskRegistroProfesor;
-    private final String registrarProfesorREST = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/agregarProfesor";
+    private final String registrarProfesorREST = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/" +
+            "profesor/agregarProfesor";
     @BindView(R.id.nombreET_RP)
     TextInputEditText nombreET;
     @BindView(R.id.fechaET_RP)
@@ -74,15 +75,13 @@ public class registrarseProfesor extends AppCompatActivity {
 
         switch (id){
             case DATE_ID:
-                DatePickerDialog dialog = new DatePickerDialog(this, android.R.style.Theme_Holo_Dialog, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        mYearIni = year;
-                        mMonthIni = month;
-                        mDayIni = day;
-                        colocarFecha();
-                    }
-                }, sYearIni, sMonthIni, sDayIni);
+                DatePickerDialog dialog = new DatePickerDialog(this, android.R.style.Theme_Holo_Dialog,
+                        (datePicker, year, month, day) -> {
+                            mYearIni = year;
+                            mMonthIni = month;
+                            mDayIni = day;
+                            colocarFecha();
+                        }, sYearIni, sMonthIni, sDayIni);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
                 return dialog;
@@ -103,8 +102,10 @@ public class registrarseProfesor extends AppCompatActivity {
     }//Fin método iniciarSesion.
 
     public void registrar(View view){
-        if(!nombreET.getText().toString().trim().equalsIgnoreCase("") && !fechaET.getText().toString().trim().equalsIgnoreCase("")
-                && !edadET.getText().toString().trim().equalsIgnoreCase("") && !correoET.getText().toString().trim().equalsIgnoreCase("")
+        if(!nombreET.getText().toString().trim().equalsIgnoreCase("") &&
+                !fechaET.getText().toString().trim().equalsIgnoreCase("")
+                && !edadET.getText().toString().trim().equalsIgnoreCase("") &&
+                !correoET.getText().toString().trim().equalsIgnoreCase("")
                 && !contrasenaET.getText().toString().trim().equalsIgnoreCase("")){
 
             String nombre = String.valueOf(nombreET.getText());
@@ -112,10 +113,17 @@ public class registrarseProfesor extends AppCompatActivity {
             int edad = Integer.parseInt(String.valueOf(edadET.getText()));
             String correo = String.valueOf(correoET.getText());
             String contrasena = String.valueOf(contrasenaET.getText());
-            servicioTaskRegistroProfesor = new ServicioTaskRegistroProfesor(this, registrarProfesorREST, nombre, fecha, edad, correo, contrasena);
+            servicioTaskRegistroProfesor = new ServicioTaskRegistroProfesor(this, registrarProfesorREST,
+                    nombre, fecha, edad, correo, contrasena);
             servicioTaskRegistroProfesor.execute();
         }else{
-            Toast.makeText(this, "Llena todos los campos.", Toast.LENGTH_SHORT).show();
+            new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.PROFESOR)
+                    .setTitleText("¡Error!")
+                    .setConfirmButton("OK", sweetAlertDialog -> {
+                        sweetAlertDialog.dismissWithAnimation();
+                    })
+                    .setContentText("Llena todos los campos.")
+                    .show();
         }
     }//Fin método registrar.
 

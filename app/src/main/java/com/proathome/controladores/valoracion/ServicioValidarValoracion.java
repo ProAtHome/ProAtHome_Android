@@ -2,17 +2,13 @@ package com.proathome.controladores.valoracion;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import androidx.fragment.app.FragmentTransaction;
-
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.DetallesSesionProfesorFragment;
 import com.proathome.fragments.EvaluarFragment;
 import com.proathome.utils.Constants;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,8 +19,10 @@ import java.net.URL;
 public class ServicioValidarValoracion extends AsyncTask<Void, Void, String> {
 
     private int idSesion, idPerfil, procedencia;
-    private String linkValidarValEst = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/validarValoracion/";
-    private String linkValidarValProf = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/validarValoracion/";
+    private String linkValidarValEst = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/profesor/validarValoracion/";
+    private String linkValidarValProf = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/cliente/validarValoracion/";
     public static int PROCEDENCIA_ESTUDIANTE = 1, PROCEDENCIA_PROFESOR = 2;
 
     public ServicioValidarValoracion(int idSesion, int idPerfil, int procedencia){
@@ -59,7 +57,8 @@ public class ServicioValidarValoracion extends AsyncTask<Void, Void, String> {
             int responseCode = urlConnection.getResponseCode();
 
             if(responseCode == HttpURLConnection.HTTP_OK){
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                        urlConnection.getInputStream()));
                 StringBuffer stringBuffer = new StringBuffer("");
                 String linea = "";
 
@@ -91,14 +90,16 @@ public class ServicioValidarValoracion extends AsyncTask<Void, Void, String> {
             JSONObject jsonObject = new JSONObject(s);
             if(!jsonObject.getBoolean("valorado")){
                 if(this.procedencia == ServicioValidarValoracion.PROCEDENCIA_ESTUDIANTE){
-                    FragmentTransaction fragmentTransaction = DetallesFragment.detallesFragment.getFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = DetallesFragment.detallesFragment
+                            .getFragmentManager().beginTransaction();
                     Bundle bundle = new Bundle();
                     bundle.putInt("procedencia", EvaluarFragment.PROCEDENCIA_ESTUDIANTE);
                     EvaluarFragment evaluarFragment = new EvaluarFragment();
                     evaluarFragment.setArguments(bundle);
                     evaluarFragment.show(fragmentTransaction, "Evaluación");
                 }else if(this.procedencia == ServicioValidarValoracion.PROCEDENCIA_PROFESOR){
-                    FragmentTransaction fragmentTransaction = DetallesSesionProfesorFragment.fragmentDetallesProf.getFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = DetallesSesionProfesorFragment
+                            .fragmentDetallesProf.getFragmentManager().beginTransaction();
                     Bundle bundle = new Bundle();
                     bundle.putInt("procedencia", EvaluarFragment.PROCEDENCIA_PROFESOR);
                     EvaluarFragment evaluarFragment = new EvaluarFragment();

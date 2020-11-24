@@ -3,24 +3,20 @@ package com.proathome;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.provider.Settings;
 import android.view.View;
-import android.widget.Toast;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioTaskLoginEstudiante;
 import com.proathome.controladores.profesor.AdminSQLiteOpenHelperProfesor;
-import com.proathome.fragments.PagoPendienteFragment;
 import com.proathome.utils.Constants;
+import com.proathome.utils.PermisosUbicacion;
+import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -53,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         baseDeDatos2.close();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            showAlert();
+            PermisosUbicacion.showAlert(this, MainActivity.this, SweetAlert.ESTUDIANTE);
         }else {
 
             /*
@@ -84,62 +80,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void showAlert() {
-        new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
-                .setTitle("Permisos de Ubicación")
-                .setMessage("Necesitamos tu permiso :)")
-                .setPositiveButton("Dar permiso", (dialog, which) -> {
-
-                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivity(myIntent);
-
-                })
-                .setNegativeButton("Cancelar", (dialog, which) -> {
-                    Toast.makeText(this, "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
-                    finish();
-                })
-                .setOnCancelListener(dialog -> {
-                    Toast.makeText(this, "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
-                    finish();
-                })
-                .show();
-    }
-
-    private void showAlertEntrar() {
-        new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
-                .setTitle("Permisos de Ubicación")
-                .setMessage("Necesitamos tu permiso :)")
-                .setPositiveButton("Dar permiso", (dialog, which) -> {
-
-                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivity(myIntent);
-
-                })
-                .setNegativeButton("Cancelar", (dialog, which) -> {
-                    Toast.makeText(this, "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
-                })
-                .setOnCancelListener(dialog -> {
-                    Toast.makeText(this, "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
-                })
-                .show();
-    }
-
     public void soyProfesor(View view){
         intent = new Intent(this, loginProfesor.class);
         startActivity(intent);
         finish();
-    }//Fin método soyProfesor.
+    }
 
     public void registrarse(View view){
         intent = new Intent(this, registrarseEstudiante.class);
         startActivity(intent);
         finish();
-    }//Fin método registrarse.
+    }
 
     public void entrar(View view) {
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            showAlertEntrar();
+            PermisosUbicacion.showAlert(this, MainActivity.this, SweetAlert.ESTUDIANTE);
         }else{
             if(!correoET.getText().toString().trim().equalsIgnoreCase("") && !contrasenaET.getText().toString().trim().equalsIgnoreCase("")){
                 String correo = String.valueOf(correoET.getText());
@@ -147,10 +102,12 @@ public class MainActivity extends AppCompatActivity {
                 ServicioTaskLoginEstudiante servicio = new ServicioTaskLoginEstudiante(this, iniciarSesionREST, correo, contrasena);
                 servicio.execute();
             }else{
-                Toast.makeText(this, "Llena todos los campos.", Toast.LENGTH_LONG).show();
+                new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                        .setTitleText("¡ERROR!")
+                        .setContentText("Llena todos los campos.")
+                        .show();
             }
         }
-
     }//Fin método entrar.
 
     @Override

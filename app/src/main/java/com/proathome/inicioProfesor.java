@@ -24,8 +24,10 @@ public class inicioProfesor extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private Intent intent;
-    private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
-    private String linkRESTCargarPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/perfilProfesor";
+    private String imageHttpAddress = "http://" + Constants.IP +
+            "/ProAtHome/assets/img/fotoPerfil/";
+    private String linkRESTCargarPerfil = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/profesor/perfilProfesor";
     public static TextView correoTV, nombreTV;
     private int idProfesor = 0;
     public static ImageView foto;
@@ -45,7 +47,8 @@ public class inicioProfesor extends AppCompatActivity {
         foto = view.findViewById(R.id.fotoProfesorIV);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_inicio_profesor, R.id.nav_editarPerfil_profesor, R.id.nav_sesiones_profesor,
-                R.id.nav_material_profesor, R.id.nav_cerrarSesion_Profesor, R.id.nav_ayudaProfesor, R.id.nav_privacidadProfesor)
+                R.id.nav_material_profesor, R.id.nav_cerrarSesion_Profesor, R.id.nav_ayudaProfesor,
+                R.id.nav_privacidadProfesor)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -58,13 +61,15 @@ public class inicioProfesor extends AppCompatActivity {
 
     public void cargarPerfil(){
 
-        AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(this, "sesionProfesor", null, 1);
+        AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(this, "sesionProfesor",
+                null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
         Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);
 
         if(fila.moveToFirst()){
             this.idProfesor = fila.getInt(0);
-            ServicioTaskPerfilProfesor perfilProfesor = new ServicioTaskPerfilProfesor(this, linkRESTCargarPerfil, this.imageHttpAddress, this.idProfesor, Constants.INFO_PERFIL);
+            ServicioTaskPerfilProfesor perfilProfesor = new ServicioTaskPerfilProfesor(this, linkRESTCargarPerfil,
+                    this.imageHttpAddress, this.idProfesor, Constants.INFO_PERFIL);
             perfilProfesor.execute();
             baseDeDatos.close();
         }else{
@@ -75,7 +80,8 @@ public class inicioProfesor extends AppCompatActivity {
 
     public void cerrarSesion(View view){
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesionProfesor", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesionProfesor",
+                null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
         baseDeDatos.delete("sesionProfesor", "id=1", null);
         baseDeDatos.close();

@@ -1,14 +1,10 @@
 package com.proathome.controladores.valoracion;
 
 import android.os.AsyncTask;
-
 import com.proathome.fragments.EvaluarFragment;
-import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -21,13 +17,16 @@ import java.net.URL;
 
 public class ServicioTaskValorar extends AsyncTask<Void, Void, String> {
 
-    private String linkValorarProfesor = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/valorarProfesor";
-    private String linkValorarEstudiante = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/valorarEstudiante";
+    private String linkValorarProfesor = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/cliente/valorarProfesor";
+    private String linkValorarEstudiante = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/profesor/valorarEstudiante";
     private int idEstudiante, idProfesor, procedencia, idSesion;
     private float valoracion;
     private String comentario;
 
-    public ServicioTaskValorar(int idEstudiante, int idProfesor, float valoracion, String comentario, int procedencia, int idSesion){
+    public ServicioTaskValorar(int idEstudiante, int idProfesor, float valoracion, String comentario,
+                               int procedencia, int idSesion){
         this.idEstudiante = idEstudiante;
         this.idProfesor = idProfesor;
         this.valoracion = valoracion;
@@ -76,7 +75,8 @@ public class ServicioTaskValorar extends AsyncTask<Void, Void, String> {
                 int responseCode = httpURLConnection.getResponseCode();
                 if(responseCode == HttpURLConnection.HTTP_OK){
 
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                            httpURLConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";
 
@@ -132,7 +132,8 @@ public class ServicioTaskValorar extends AsyncTask<Void, Void, String> {
                 int responseCode = httpURLConnection.getResponseCode();
                 if(responseCode == HttpURLConnection.HTTP_OK){
 
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                            httpURLConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";
 

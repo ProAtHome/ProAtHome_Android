@@ -99,10 +99,12 @@ public class RutaAvanzado extends AppCompatActivity {
                 finish();
                 break;
             case R.id.bloque1:
-                verBloque("Continuous verb forms.\nIntroducing points in an argument/Globalisation.\nUrbanisation/Varieties of english.", "1", "13HRS");
+                verBloque("Continuous verb forms.\nIntroducing points in an argument/Globalisation." +
+                        "\nUrbanisation/Varieties of english.", "1", "13HRS");
                 break;
             case R.id.bloque2:
-                verBloque("Perfect verbs forms cleft sentences/Feelings adversiting and emotions wordspot: Idioms whit laugh, cry and tears/Word stress.", "2", "12HRS");
+                verBloque("Perfect verbs forms cleft sentences/Feelings adversiting and emotions" +
+                        " wordspot: Idioms whit laugh, cry and tears/Word stress.", "2", "12HRS");
                 break;
         }
     }
@@ -111,10 +113,12 @@ public class RutaAvanzado extends AppCompatActivity {
     public void OnClickB2(View view){
         switch (view.getId()){
             case R.id.bloque_1_a2:
-                verBloque("Time and tense inversion whit negative adverbials/Money and enterprise wordspot: worth.", "1", "12HRS");
+                verBloque("Time and tense inversion whit negative adverbials/Money and enterprise" +
+                        " wordspot: worth.", "1", "12HRS");
                 break;
             case R.id.bloque2_a2:
-                verBloque("Patterns whit comparatives and superlatives adjectives/Self-improvement fitness wordspot: Body idioms/Accuracy.", "2", "13HRS");
+                verBloque("Patterns whit comparatives and superlatives adjectives/Self-improvement" +
+                        " fitness wordspot: Body idioms/Accuracy.", "2", "13HRS");
                 break;
         }
     }
@@ -123,10 +127,13 @@ public class RutaAvanzado extends AppCompatActivity {
     public void OnClickB3(View view){
         switch (view.getId()){
             case R.id.bloque_1_a3:
-                verBloque("Modals and related verbs.\nPatternswhit abstract nouns and relative clauses/Polite social behaviour image communication/Intonation of phrases for getting people to do something.", "1", "13HRS");
+                verBloque("Modals and related verbs.\nPatternswhit abstract nouns and relative" +
+                        " clauses/Polite social behaviour image communication/Intonation of phrases for" +
+                        " getting people to do something.", "1", "13HRS");
                 break;
             case R.id.bloque2_a3:
-                verBloque("Use and non-use of the passive particles wich modify meaning/Education learning/Stress on particles.", "2", "12HRS");
+                verBloque("Use and non-use of the passive particles wich modify meaning/Education " +
+                        "learning/Stress on particles.", "2", "12HRS");
                 break;
         }
     }
@@ -135,10 +142,14 @@ public class RutaAvanzado extends AppCompatActivity {
     public void OnClickB4(View view){
         switch (view.getId()){
             case R.id.bloque_1_a4:
-                verBloque("Adding emphasis with auxiliaries and inversion adverbs/Desciptive adjectives Fashion wordspot: look.\nSound and feel/Emphasis whit auxiliaries and inversion.", "1", "12HRS");
+                verBloque("Adding emphasis with auxiliaries and inversion adverbs/Desciptive" +
+                        " adjectives Fashion wordspot: look.\nSound and feel/Emphasis whit auxiliaries" +
+                        " and inversion.", "1", "12HRS");
                 break;
             case R.id.bloque2_a4:
-                verBloque("Describing typical habits infinitives and -ingforms.\nCompounds phrases/Characteristics and behaviour wordspot: just/Stress in compound phrases.", "2", "13HRS");
+                verBloque("Describing typical habits infinitives and -ingforms.\nCompounds" +
+                        " phrases/Characteristics and behaviour wordspot: just/Stress in compound phrases.",
+                        "2", "13HRS");
                 break;
         }
     }
@@ -147,10 +158,12 @@ public class RutaAvanzado extends AppCompatActivity {
     public void OnClickB5(View view){
         switch (view.getId()){
             case R.id.bloque_1_a5:
-                verBloque("Future forms describing current trends/Describing future developments wordspot: way.", "1", "12HRS");
+                verBloque("Future forms describing current trends/Describing future developments" +
+                        " wordspot: way.", "1", "12HRS");
                 break;
             case R.id.bloque2_a5:
-                verBloque("Phraseswhit as…as+ Verb.\nEllipsis and substitution/Truth and lies wordspot: well.", "2", "13HRS");
+                verBloque("Phraseswhit as…as+ Verb.\nEllipsis and substitution/Truth and lies" +
+                        " wordspot: well.", "2", "13HRS");
                 break;
         }
     }

@@ -26,8 +26,8 @@ public class ServicioTaskUpPerfilProfesor extends AsyncTask<Void, Void, String> 
     private int idProfesor, edad;
     private String nombre, descripcion, correo;
 
-    public ServicioTaskUpPerfilProfesor(Context httpContext, String linkRequestApi, int idProfesor, String nombre, String correo, int edad, String descripcion){
-
+    public ServicioTaskUpPerfilProfesor(Context httpContext, String linkRequestApi, int idProfesor,
+                                        String nombre, String correo, int edad, String descripcion){
         this.httpContext = httpContext;
         this.linkRequestApi = linkRequestApi;
         this.idProfesor = idProfesor;
@@ -35,27 +35,21 @@ public class ServicioTaskUpPerfilProfesor extends AsyncTask<Void, Void, String> 
         this.edad = edad;
         this.descripcion = descripcion;
         this.correo = correo;
-
     }
 
     @Override
     protected void onPreExecute() {
-
         super.onPreExecute();
         progressDialog = ProgressDialog.show(httpContext, "Actualizando.", "Por favor, espere...");
-
     }
 
     @Override
     protected String doInBackground(Void... voids) {
-
         String result = null;
-
         String wsURL = linkRequestApi;
         URL url = null;
 
         try{
-
             url = new URL(wsURL);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
@@ -64,7 +58,6 @@ public class ServicioTaskUpPerfilProfesor extends AsyncTask<Void, Void, String> 
             parametrosPOST.put("nombre", this.nombre);
             parametrosPOST.put("correo", this.correo);
             parametrosPOST.put("descripcion", this.descripcion);
-
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
             urlConnection.setRequestMethod("PUT");
@@ -81,25 +74,19 @@ public class ServicioTaskUpPerfilProfesor extends AsyncTask<Void, Void, String> 
 
             int responseCode = urlConnection.getResponseCode();
             if(responseCode == HttpURLConnection.HTTP_OK){
-
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer sb = new StringBuffer("");
                 String linea = "";
 
                 while ((linea = in.readLine()) != null){
-
                     sb.append(linea);
                     break;
-
                 }
 
                 in.close();
                 result = sb.toString();
-
             }else{
-
                 result = new String("Error: " +responseCode);
-
             }
 
         }catch(MalformedURLException ex){
@@ -118,18 +105,13 @@ public class ServicioTaskUpPerfilProfesor extends AsyncTask<Void, Void, String> 
 
     @Override
     protected void onPostExecute(String s) {
-
         super.onPostExecute(s);
         progressDialog.dismiss();
         resultadoApi = s;
-        Toast.makeText(httpContext, resultadoApi, Toast.LENGTH_LONG).show();
-
     }
 
     public String getPostDataString(JSONObject params) throws Exception {
-
         return params.toString();
-
     }
 
 }

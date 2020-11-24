@@ -58,7 +58,8 @@ public class RutaFragment extends Fragment {
 
         if (fila.moveToFirst()) {
             idCliente = fila.getInt(0);
-            ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(getContext(), idCliente, Constants.ESTATUS_EXAMEN);
+            ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(getContext(), idCliente,
+                    Constants.ESTATUS_EXAMEN);
             examen.execute();
             ServicioTaskRuta ruta = new ServicioTaskRuta(getContext(), idCliente, Constants.ESTADO_RUTA, SECCIONES);
             ruta.execute();
@@ -77,7 +78,8 @@ public class RutaFragment extends Fragment {
 
                     })
                     .setPositiveButton("EVALUAR", ((dialog, which) -> {
-                        ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(getContext(), idCliente, Constants.REINICIAR_EXAMEN);
+                        ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(getContext(),
+                                idCliente, Constants.REINICIAR_EXAMEN);
                         examen.execute();
                         Intent intent = new Intent(getContext(), Diagnostico1.class);
                         startActivity(intent);

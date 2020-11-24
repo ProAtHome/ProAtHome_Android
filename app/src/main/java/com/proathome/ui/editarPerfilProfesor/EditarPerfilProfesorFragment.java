@@ -20,8 +20,6 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -44,10 +42,14 @@ import butterknife.Unbinder;
 
 public class EditarPerfilProfesorFragment extends Fragment {
 
-    private String linkRESTCargarPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/perfilProfesor";
-    private String linkRESTDatosBancarios = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/obtenerDatosBancarios";
-    private String linkRESTActualizarPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/informacionPerfil";
-    private String linkRESTActualizarBanco = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/actualizarCuentaProfesor";
+    private String linkRESTCargarPerfil = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/profesor/perfilProfesor";
+    private String linkRESTDatosBancarios = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/profesor/obtenerDatosBancarios";
+    private String linkRESTActualizarPerfil = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/profesor/informacionPerfil";
+    private String linkRESTActualizarBanco = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/profesor/actualizarCuentaProfesor";
     private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
     private String linkFoto = "http://" + Constants.IP + "/ProAtHome/assets/lib/ActualizarFotoProfesorAndroid.php";
     private Unbinder mUnbinder;
@@ -67,6 +69,11 @@ public class EditarPerfilProfesorFragment extends Fragment {
     public static final int RESULT_OK = -1;
     public int idProfesor;
     private String correo;
+    private Bitmap bitmap;
+    private int PICK_IMAGE_REQUEST = 1;
+    private String KEY_IMAGEN = "foto";
+    private String KEY_NOMBRE = "nombre";
+    private String ID_PROFESOR = "";
     @BindView(R.id.bottomNavigationPerfil)
     BottomNavigationView bottomNavigationPerfil;
     @BindView(R.id.btnFoto)
@@ -91,20 +98,17 @@ public class EditarPerfilProfesorFragment extends Fragment {
     TextView tvDireccion;
     @BindView(R.id.btnActualizarInfoBancaria)
     Button btnActualizarInfoBancaria;
-    private Bitmap bitmap;
-    private int PICK_IMAGE_REQUEST = 1;
-    private String KEY_IMAGEN = "foto";
-    private String KEY_NOMBRE = "nombre";
-    private String ID_PROFESOR = "";
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_editar_perfil_profesor, container, false);
         mUnbinder = ButterKnife.bind(this, root);
 
-        AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(getContext(), "sesionProfesor", null, 1);
+        AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(getContext(), "sesionProfesor",
+                null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor, correo FROM sesionProfesor WHERE id = " + 1, null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor, correo FROM sesionProfesor WHERE id = " + 1,
+                null);
 
         if(fila.moveToFirst()){
             this.idProfesor = fila.getInt(0);
@@ -115,13 +119,17 @@ public class EditarPerfilProfesorFragment extends Fragment {
         }
 
         btnActualizarInfo.setOnClickListener(view -> {
-            actualizarPerfil = new ServicioTaskUpPerfilProfesor(getContext(), linkRESTActualizarPerfil, this.idProfesor, etNombre.getText().toString(), this.correo, Integer.valueOf(etEdad.getText().toString()), etDesc.getText().toString());
+            actualizarPerfil = new ServicioTaskUpPerfilProfesor(getContext(), linkRESTActualizarPerfil,
+                    this.idProfesor, etNombre.getText().toString(), this.correo,
+                        Integer.valueOf(etEdad.getText().toString()), etDesc.getText().toString());
             actualizarPerfil.execute();
             uploadImage();
         });
 
         btnActualizarInfoBancaria.setOnClickListener(view -> {
-            actualizarBanco = new ServicioTaskUpCuentaProfesor(getContext(), linkRESTActualizarBanco, this.idProfesor, etTipoDePago.getText().toString(), etBanco.getText().toString(), etCuenta.getText().toString(), etDireccion.getText().toString());
+            actualizarBanco = new ServicioTaskUpCuentaProfesor(getContext(), linkRESTActualizarBanco,
+                    this.idProfesor, etTipoDePago.getText().toString(), etBanco.getText().toString(),
+                        etCuenta.getText().toString(), etDireccion.getText().toString());
             actualizarBanco.execute();
         });
 
@@ -191,13 +199,15 @@ public class EditarPerfilProfesorFragment extends Fragment {
         etDireccion = getView().findViewById(R.id.etDireccion);
         ivFoto = getView().findViewById(R.id.ivFoto);
 
-        AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(getContext(), "sesionProfesor", null, 1);
+        AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(getContext(), "sesionProfesor",
+                null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
         Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);
 
         if(fila.moveToFirst()){
             this.idProfesor = fila.getInt(0);
-            perfilEstudiante = new ServicioTaskPerfilProfesor(getContext(), linkRESTCargarPerfil, this.imageHttpAddress, this.idProfesor, Constants.INFO_PERFIl_EDITAR);
+            perfilEstudiante = new ServicioTaskPerfilProfesor(getContext(), linkRESTCargarPerfil,
+                    this.imageHttpAddress, this.idProfesor, Constants.INFO_PERFIl_EDITAR);
             perfilEstudiante.execute();
             bancoEstudiante = new ServicioTaskBancoProfesor(getContext(), linkRESTDatosBancarios, this.idProfesor);
             bancoEstudiante.execute();
@@ -224,17 +234,9 @@ public class EditarPerfilProfesorFragment extends Fragment {
 
     private void uploadImage(){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, linkFoto,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                    }
+                response -> {
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
+                error -> {
                 }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {

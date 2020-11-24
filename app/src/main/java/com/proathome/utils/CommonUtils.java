@@ -8,13 +8,18 @@ import com.proathome.fragments.DetallesGestionarFragment;
 
 public class CommonUtils {
 
-    private static String tipoPlanS = "", tipoClaseS = "", horarioS = "", profesorS = "", lugarS = "", observacionesS = "", fechaS = "", fotoProfesorS = "", descripcionProfesorS = "", correoProfesorS = "";
+    private static String tipoPlanS = "", tipoClaseS = "", horarioS = "", profesorS = "", lugarS = "",
+            observacionesS = "", fechaS = "", fotoProfesorS = "", descripcionProfesorS = "", correoProfesorS = "";
     private static int idClaseS, tiempoS, idSeccionS, idNivelS, idBloqueS, idProfesorS;
     private static double latitudS, longitudS;
     private static boolean sumarS;
 
-    public static void setFragment(AppCompatActivity activity, String nameFragment, int contentRes, int idClase, String tipoClase, String horario, String profesor,
-                                   String lugar, int tiempo, String observaciones,  double latitud,  double longitud, int idSeccion, int idNivel, int idBloque, String fecha, String fotoProfesor, String descripcionProfesor, String correoProfesor, boolean sumar, String tipoPlan, int idProfesor){
+    public static void setFragment(AppCompatActivity activity, String nameFragment, int contentRes,
+                                   int idClase, String tipoClase, String horario, String profesor,
+                                        String lugar, int tiempo, String observaciones,  double latitud,
+                                            double longitud, int idSeccion, int idNivel, int idBloque,
+                                                String fecha, String fotoProfesor, String descripcionProfesor,
+                                                    String correoProfesor, boolean sumar, String tipoPlan, int idProfesor){
 
         idClaseS = idClase;
         tipoClaseS = tipoClase;

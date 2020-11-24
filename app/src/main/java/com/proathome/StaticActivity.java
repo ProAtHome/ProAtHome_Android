@@ -25,7 +25,6 @@ public class StaticActivity extends AppCompatActivity {
 
         String nameFragment = null;
         if(savedInstanceState == null){
-
             nameFragment = getIntent().getStringExtra(Constants.ARG_NAME);
             int idClase = getIntent().getIntExtra("idClase" , 0);
             String profesor = getIntent().getStringExtra("profesor");
@@ -44,32 +43,27 @@ public class StaticActivity extends AppCompatActivity {
             int idNivel = getIntent().getIntExtra("idNivel", 0);
             int idBloque = getIntent().getIntExtra("idBloque", 0);
             int idEstudiante = getIntent().getIntExtra("idEstudiante", 0);
-            CommonUtilsSesionesProfesor.setFragment(this, nameFragment, R.id.content_static, idClase, nombreEstudiante, descripcion, correo, foto, tipoClase, horario, profesor, lugar, tiempo, observaciones, latitud, longitud, idSeccion, idNivel, idBloque, idEstudiante);
-
+            CommonUtilsSesionesProfesor.setFragment(this, nameFragment, R.id.content_static,
+                    idClase, nombreEstudiante, descripcion, correo, foto, tipoClase, horario, profesor,
+                    lugar, tiempo, observaciones, latitud, longitud, idSeccion, idNivel, idBloque, idEstudiante);
         }
 
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null){
-
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(nameFragment);
-
         }
 
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         if(item.getItemId() == android.R.id.home){
-
             finish();
             return true;
-
         }
 
         return super.onOptionsItemSelected(item);
-
     }
 
 }

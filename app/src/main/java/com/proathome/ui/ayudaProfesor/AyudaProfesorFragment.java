@@ -24,10 +24,6 @@ public class AyudaProfesorFragment extends Fragment {
     @BindView(R.id.mensaje)
     TextInputEditText mensaje;
 
-    public AyudaProfesorFragment() {
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ayuda_profesor, container, false);
@@ -38,7 +34,8 @@ public class AyudaProfesorFragment extends Fragment {
 
     @OnClick(R.id.enviar)
     public void onClick(){
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesionProfesor", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesionProfesor",
+                null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
         Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);
 
@@ -47,7 +44,8 @@ public class AyudaProfesorFragment extends Fragment {
             if(mensaje.getText().toString().trim().equalsIgnoreCase(""))
                 Toast.makeText(getContext(), "Escribe un comentario.", Toast.LENGTH_LONG).show();
             else{
-                ServicioTaskAyuda servicioTaskAyuda = new ServicioTaskAyuda(getContext(), idProfesor, mensaje.getText().toString(), Constants.TIPO_PROFESOR);
+                ServicioTaskAyuda servicioTaskAyuda = new ServicioTaskAyuda(getContext(), idProfesor,
+                        mensaje.getText().toString(), Constants.TIPO_PROFESOR);
                 servicioTaskAyuda.execute();
                 mensaje.setText("");
                 Toast.makeText(getContext(), "Mensaje enviado...", Toast.LENGTH_LONG).show();

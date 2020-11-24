@@ -113,7 +113,8 @@ public class Diagnostico2 extends AppCompatActivity {
         mUnbinder = ButterKnife.bind(this);
 
         cerrarExamen.setOnClickListener(v ->{
-            new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
+            new MaterialAlertDialogBuilder(this,
+                    R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
                     .setTitle("EXÁMEN DIAGNÓSTICO")
                     .setMessage("Al salir durante el examen perderás el progreso de ésta sección.")
                     .setNegativeButton("Salir", (dialog, which) -> {
@@ -129,8 +130,8 @@ public class Diagnostico2 extends AppCompatActivity {
         });
 
         btnContinuar.setOnClickListener(v ->{
-            int puntuacion = respuesta1 + respuesta2 + respuesta3 + respuesta4 + respuesta5 + respuesta6 + respuesta7 + respuesta8 + respuesta9 + respuesta10;
-            Toast.makeText(this, "Puntuacion: " + puntuacion, Toast.LENGTH_LONG).show();
+            int puntuacion = respuesta1 + respuesta2 + respuesta3 + respuesta4 + respuesta5 + respuesta6 +
+                    respuesta7 + respuesta8 + respuesta9 + respuesta10;
 
             AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"sesion", null, 1);
             SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
@@ -139,7 +140,8 @@ public class Diagnostico2 extends AppCompatActivity {
             int idCliente = 0;
             if (fila.moveToFirst()) {
                 idCliente = fila.getInt(0);
-                ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(this, idCliente, Constants.ENCURSO_EXAMEN, puntuacion, 20);
+                ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(this, idCliente, Diagnostico2.this,
+                        Diagnostico3.class, Constants.ENCURSO_EXAMEN, puntuacion, 20);
                 examen.execute();
             }else{
                 baseDeDatos.close();
@@ -147,13 +149,11 @@ public class Diagnostico2 extends AppCompatActivity {
 
             baseDeDatos.close();
 
-            Intent intent = new Intent(this, Diagnostico3.class);
-            startActivityForResult(intent, 1, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-            finish();
         });
     }
 
-    private void configRespuesta(String principal, TextView tvPrincipal, String secundario, TextView tvSecundario, String terciario, TextView tvTerciario){
+    private void configRespuesta(String principal, TextView tvPrincipal, String secundario, TextView tvSecundario,
+                                 String terciario, TextView tvTerciario){
         SpannableString mitextoU = new SpannableString(principal);
         mitextoU.setSpan(new UnderlineSpan(), 0, mitextoU.length(), 0);
         tvPrincipal.setText(mitextoU);
@@ -178,15 +178,18 @@ public class Diagnostico2 extends AppCompatActivity {
         SpannableString mitextoU;
         switch (view.getId()){
             case R.id.under1:
-                configRespuesta("withdraw", under1, "withdrew", under2, "withdrawing", under3);
+                configRespuesta("withdraw", under1, "withdrew", under2,
+                        "withdrawing", under3);
                 respuesta1 = 0;
                 break;
             case R.id.under2:
-                configRespuesta("withdrew", under2, "withdraw", under1, "withdrawing", under3);
+                configRespuesta("withdrew", under2, "withdraw", under1,
+                        "withdrawing", under3);
                 respuesta1 = 0;
                 break;
             case R.id.under3:
-                configRespuesta("withdrawing", under3, "withdrew", under2, "withdraw", under1);
+                configRespuesta("withdrawing", under3, "withdrew", under2,
+                        "withdraw", under1);
                 respuesta1 = 1;
                 break;
         }
@@ -319,15 +322,18 @@ public class Diagnostico2 extends AppCompatActivity {
         SpannableString mitextoU;
         switch (view.getId()){
             case R.id.under1_4_secc3:
-                configRespuesta("the famousest", under1_4_secc3, "the most famous", under2_4_secc3, "the more famous", under3_4_secc3);
+                configRespuesta("the famousest", under1_4_secc3, "the most famous",
+                        under2_4_secc3, "the more famous", under3_4_secc3);
                 respuesta9 = 0;
                 break;
             case R.id.under2_4_secc3:
-                configRespuesta("the most famous", under2_4_secc3, "the famousest", under1_4_secc3, "the more famous", under3_4_secc3);
+                configRespuesta("the most famous", under2_4_secc3, "the famousest",
+                        under1_4_secc3, "the more famous", under3_4_secc3);
                 respuesta9 = 1;
                 break;
             case R.id.under3_4_secc3:
-                configRespuesta("the more famous", under3_4_secc3, "the most famous", under2_4_secc3, "the famousest", under1_4_secc3);
+                configRespuesta("the more famous", under3_4_secc3, "the most famous",
+                        under2_4_secc3, "the famousest", under1_4_secc3);
                 respuesta9 = 0;
                 break;
         }
@@ -338,15 +344,18 @@ public class Diagnostico2 extends AppCompatActivity {
         SpannableString mitextoU;
         switch (view.getId()){
             case R.id.under1_5_secc3:
-                configRespuesta("harder", under1_5_secc3, "harderer", under2_5_secc3, "hardest", under3_5_secc3);
+                configRespuesta("harder", under1_5_secc3, "harderer", under2_5_secc3,
+                        "hardest", under3_5_secc3);
                 respuesta10 = 1;
                 break;
             case R.id.under2_5_secc3:
-                configRespuesta("harderer", under2_5_secc3, "harder", under1_5_secc3, "hardest", under3_5_secc3);
+                configRespuesta("harderer", under2_5_secc3, "harder", under1_5_secc3,
+                        "hardest", under3_5_secc3);
                 respuesta10 = 0;
                 break;
             case R.id.under3_5_secc3:
-                configRespuesta("hardest", under3_5_secc3, "harderer", under2_5_secc3, "harder", under1_5_secc3);
+                configRespuesta("hardest", under3_5_secc3, "harderer", under2_5_secc3,
+                        "harder", under1_5_secc3);
                 respuesta10 = 0;
                 break;
         }

@@ -23,7 +23,8 @@ public class ClaseEstudiante extends FragmentActivity {
 
     private int idSesion = 0, idEstudiante = 0;
     public static CountDownTimer countDownTimer;
-    public static boolean mTimerRunning, sumar, encurso = true, enpausa = true, inicio = true, terminado = true, encurso_TE = true, enpausa_TE = true, inicio_TE = true, terminado_TE = true;
+    public static boolean mTimerRunning, sumar, encurso = true, enpausa = true, inicio = true,
+            terminado = true, encurso_TE = true, enpausa_TE = true, inicio_TE = true, terminado_TE = true;
     public static long mTimeLeftMillis = 0;
     public static TextView temporizador;
     public static Timer timer;
@@ -75,14 +76,14 @@ public class ClaseEstudiante extends FragmentActivity {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                handler.post(new Runnable() {
-                    public void run() {
-                        try {
-                            ServicioTaskClaseDisponible servicioTaskClaseDisponible = new ServicioTaskClaseDisponible(getApplicationContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, ClaseEstudiante.this);
-                            servicioTaskClaseDisponible.execute();
-                        } catch (Exception e) {
-                            Log.e("error", e.getMessage());
-                        }
+                handler.post(() -> {
+                    try {
+                        ServicioTaskClaseDisponible servicioTaskClaseDisponible =
+                                new ServicioTaskClaseDisponible(getApplicationContext(), idSesion,
+                                        idEstudiante, DetallesFragment.ESTUDIANTE, ClaseEstudiante.this);
+                        servicioTaskClaseDisponible.execute();
+                    } catch (Exception e) {
+                        Log.e("error", e.getMessage());
                     }
                 });
             }
@@ -139,7 +140,9 @@ public class ClaseEstudiante extends FragmentActivity {
         if(countDownTimer != null)
             countDownTimer.cancel();
         timer.cancel();
-        ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
+        ServicioTaskSincronizarClases sincronizarClases =
+                new ServicioTaskSincronizarClases(getApplicationContext(), idSesion, idEstudiante,
+                        DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
         sincronizarClases.execute();
     }
 }

@@ -15,17 +15,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
-import androidx.annotation.TransitionRes;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -36,8 +31,9 @@ import com.proathome.controladores.estudiante.ServicioTaskBancoEstudiante;
 import com.proathome.controladores.estudiante.ServicioTaskPerfilEstudiante;
 import com.proathome.controladores.estudiante.ServicioTaskUpCuentaEstudiante;
 import com.proathome.controladores.estudiante.ServicioTaskUpPerfilEstudiante;
-import com.proathome.ui.inicio.InicioFragment;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Hashtable;
@@ -50,10 +46,14 @@ import mx.openpay.android.validation.CardValidator;
 
 public class EditarPerfilFragment extends Fragment {
 
-    private String linkRESTCargarPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/perfilCliente";
-    private String linkRESTDatosBancarios = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
-    private String linkRESTActualizarPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/informacionPerfil";
-    private String linkRESTActualizarBanco = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/actualizarCuentaCliente";
+    private String linkRESTCargarPerfil = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/cliente/perfilCliente";
+    private String linkRESTDatosBancarios = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
+    private String linkRESTActualizarPerfil = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/cliente/informacionPerfil";
+    private String linkRESTActualizarBanco = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/cliente/actualizarCuentaCliente";
     private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
     private String linkFoto = "http://" + Constants.IP + "/ProAtHome/assets/lib/ActualizarFotoAndroid.php";
     private Unbinder mUnbinder;
@@ -73,6 +73,11 @@ public class EditarPerfilFragment extends Fragment {
     public static final int RESULT_OK = -1;
     public int idEstudiante;
     private String correo;
+    private Bitmap bitmap;
+    private int PICK_IMAGE_REQUEST = 1;
+    private String KEY_IMAGEN = "foto";
+    private String KEY_NOMBRE = "nombre";
+    private String ID_ESTUDIANTE = "";
     @BindView(R.id.bottomNavigationPerfil)
     BottomNavigationView bottomNavigationPerfil;
     @BindView(R.id.btnFoto)
@@ -99,11 +104,6 @@ public class EditarPerfilFragment extends Fragment {
     TextView tvInfoBancaria;
     @BindView(R.id.btnActualizarInfoBancaria)
     Button btnActualizarInfoBancaria;
-    private Bitmap bitmap;
-    private int PICK_IMAGE_REQUEST = 1;
-    private String KEY_IMAGEN = "foto";
-    private String KEY_NOMBRE = "nombre";
-    private String ID_ESTUDIANTE = "";
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -123,26 +123,37 @@ public class EditarPerfilFragment extends Fragment {
         }
 
         btnActualizarInfo.setOnClickListener(view -> {
-            actualizarPerfil = new ServicioTaskUpPerfilEstudiante(getContext(), linkRESTActualizarPerfil, this.idEstudiante, etNombre.getText().toString(), this.correo, Integer.valueOf(etEdad.getText().toString()), etDesc.getText().toString());
+            actualizarPerfil = new ServicioTaskUpPerfilEstudiante(getContext(), linkRESTActualizarPerfil,
+                    this.idEstudiante, etNombre.getText().toString(), this.correo,
+                        Integer.valueOf(etEdad.getText().toString()), etDesc.getText().toString());
             actualizarPerfil.execute();
             uploadImage();
         });
 
         btnActualizarInfoBancaria.setOnClickListener(view -> {
-            if(CardValidator.validateHolderName(etNombreTitular.getText().toString())){
-                if(CardValidator.validateNumber(etTarjeta.getText().toString())){
-                    if(CardValidator.validateExpiryDate(Integer.parseInt(etMes.getText().toString()), Integer.parseInt(etAño.getText().toString()))){
-                        actualizarBanco = new ServicioTaskUpCuentaEstudiante(getContext(), linkRESTActualizarBanco, this.idEstudiante, etNombreTitular.getText().toString(), etTarjeta.getText().toString(), etMes.getText().toString(), etAño.getText().toString());
-                        actualizarBanco.execute();
+            if(camposValidosBanco()){
+                if(CardValidator.validateHolderName(etNombreTitular.getText().toString())){
+                    if(CardValidator.validateNumber(etTarjeta.getText().toString())){
+                        if(CardValidator.validateExpiryDate(Integer.parseInt(etMes.getText().toString()),
+                                Integer.parseInt(etAño.getText().toString()))){
+                            actualizarBanco = new ServicioTaskUpCuentaEstudiante(getContext(), linkRESTActualizarBanco,
+                                    this.idEstudiante, etNombreTitular.getText().toString(),
+                                    etTarjeta.getText().toString(), etMes.getText().toString(),
+                                    etAño.getText().toString());
+                            actualizarBanco.execute();
+                        }else{
+                            errorDatosBanco("Fecha de expiración no válida.");
+                        }
                     }else{
-                        Toast.makeText(getContext(), "Fecha de expiración no válida.", Toast.LENGTH_LONG).show();
+                        errorDatosBanco("Tarjeta no válida.");
                     }
                 }else{
-                    Toast.makeText(getContext(), "Tarjeta no válida.", Toast.LENGTH_LONG).show();
+                    errorDatosBanco("Nombre del titular no válido.");
                 }
             }else{
-                Toast.makeText(getContext(), "Nombre del titular no válido.", Toast.LENGTH_LONG).show();
+                errorDatosBanco("Llena todos los campos correctamente.");
             }
+
         });
 
         bottomNavigationPerfil.setOnNavigationItemSelectedListener(item -> {
@@ -199,6 +210,23 @@ public class EditarPerfilFragment extends Fragment {
 
     }
 
+    public boolean camposValidosBanco(){
+        if(!etNombreTitular.getText().toString().trim().equalsIgnoreCase("") &&
+                !etTarjeta.getText().toString().trim().equalsIgnoreCase("") &&
+                    !etMes.getText().toString().trim().equalsIgnoreCase("") &&
+                        !etAño.getText().toString().trim().equalsIgnoreCase(""))
+            return true;
+        else
+            return false;
+    }
+
+    public void errorDatosBanco(String mensaje){
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -218,9 +246,11 @@ public class EditarPerfilFragment extends Fragment {
 
         if(fila.moveToFirst()){
             this.idEstudiante = fila.getInt(0);
-            perfilEstudiante = new ServicioTaskPerfilEstudiante(getContext(), linkRESTCargarPerfil, this.imageHttpAddress, this.idEstudiante, Constants.INFO_PERFIl_EDITAR);
+            perfilEstudiante = new ServicioTaskPerfilEstudiante(getContext(), linkRESTCargarPerfil,
+                    this.imageHttpAddress, this.idEstudiante, Constants.INFO_PERFIl_EDITAR);
             perfilEstudiante.execute();
-            bancoEstudiante = new ServicioTaskBancoEstudiante(getContext(), linkRESTDatosBancarios, this.idEstudiante, ServicioTaskBancoEstudiante.OBTENER_DATOS);
+            bancoEstudiante = new ServicioTaskBancoEstudiante(getContext(), linkRESTDatosBancarios,
+                    this.idEstudiante, ServicioTaskBancoEstudiante.OBTENER_DATOS);
             bancoEstudiante.execute();
         }else{
             baseDeDatos.close();
@@ -245,17 +275,9 @@ public class EditarPerfilFragment extends Fragment {
 
     private void uploadImage(){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, linkFoto,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                    }
+                response -> {
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
+                error -> {
                 }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {

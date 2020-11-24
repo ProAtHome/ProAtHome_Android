@@ -22,26 +22,24 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
     private ProgressDialog progressDialog;
-    private String linkAPI, linkFoto, respuestaAPI, nombre, descripcion, correo, direccion, tipo, horario, observaciones, foto;
+    private String linkAPI, linkFoto, respuestaAPI, nombre, descripcion, correo, direccion, tipo,
+            horario, observaciones, foto;
     private double latitud, longitud;
     private int idSesion, idProfesor, tiempo, idSeccion, idNivel, idBloque;
     private Bitmap loadedImage;
 
     public ServicioTaskInfoSesion(Context contexto, String linkAPI, String linkFoto, int idSesion){
-
         this.contexto = contexto;
         this.linkAPI = linkAPI + "/" + idSesion;
         this.linkFoto = linkFoto;
         this.idSesion = idSesion;
-
     }
 
     @Override
     protected void onPreExecute() {
-
         super.onPreExecute();
-        progressDialog = ProgressDialog.show(this.contexto,"Cargando información", "Por favor, espere...");
-
+        progressDialog = ProgressDialog.show(this.contexto,"Cargando información",
+                "Por favor, espere...");
     }
 
     @Override
@@ -49,10 +47,8 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
 
         String resultado = null;
         try{
-
             URL url = new URL(this.linkAPI);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
             urlConnection.setRequestMethod("GET");
@@ -60,14 +56,12 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
 
             int responseCode = urlConnection.getResponseCode();
             if(responseCode == HttpURLConnection.HTTP_OK){
-
                 InputStream inputStream = urlConnection.getInputStream();
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
                 JsonReader jsonReader = new JsonReader(inputStreamReader);
                 jsonReader.beginObject();
 
                 while (jsonReader.hasNext()){
-
                     String key = jsonReader.nextName();
 
                     if (key.equals("nombre"))
@@ -105,26 +99,22 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
 
                 }
 
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                        urlConnection.getInputStream()));
                 StringBuffer stringBuffer = new StringBuffer("");
                 String linea = "";
 
                 while((linea = bufferedReader.readLine()) != null){
-
                     stringBuffer.append(linea);
                     break;
-
                 }
 
                 bufferedReader.close();
                 resultado = stringBuffer.toString();
                 this.respuestaAPI = resultado;
-
             }else{
-
                 resultado = new String("Error: " + responseCode);
                 this.respuestaAPI = resultado;
-
             }
 
             URL imageUrl = null;
@@ -144,9 +134,7 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
             e.printStackTrace();
         }
 
-
         return resultado;
-
     }
 
     public String obtenerHorario(int tiempo){
@@ -158,19 +146,14 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-
         super.onPostExecute(s);
         progressDialog.dismiss();
         this.respuestaAPI = s;
 
         if(this.respuestaAPI == null){
-
             Toast.makeText(this.contexto, "Error del servidor.", Toast.LENGTH_LONG).show();
-
         }else {
-
             if(!this.respuestaAPI.equals("null")){
-
                 if(MatchSesionEstudiante.idProfesorSesion == this.idProfesor || this.idProfesor != 0){
                     MatchSesionEstudiante.matchBTN.setVisibility(View.INVISIBLE);
                 }else{
@@ -182,19 +165,16 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
                 MatchSesionEstudiante.descripcionTV.setText(this.descripcion);
                 MatchSesionEstudiante.direccionTV.setText("Dirección: " + this.direccion);
                 MatchSesionEstudiante.tiempoTV.setText("Tiempo de la Sesión: " + obtenerHorario(this.tiempo));
-                MatchSesionEstudiante.nivelTV.setText("Nivel: " + Component.getSeccion(this.idSeccion) + "/" + Component.getNivel(this.idSeccion, this.idNivel) + "/" + Component.getBloque(this.idBloque));
+                MatchSesionEstudiante.nivelTV.setText("Nivel: " + Component.getSeccion(this.idSeccion) +
+                        "/" + Component.getNivel(this.idSeccion, this.idNivel) + "/" +
+                            Component.getBloque(this.idBloque));
                 MatchSesionEstudiante.tipoClaseTV.setText("Tipo de clase: " + this.tipo);
                 MatchSesionEstudiante.observacionesTV.setText("Observaciones: " + this.observaciones);
                 MatchSesionEstudiante.horarioTV.setText("Horario: " + this.horario);
-
             }else{
-
                 Toast.makeText(this.contexto, "Sin datos", Toast.LENGTH_LONG).show();
-
             }
-
         }
-
     }
 
 }

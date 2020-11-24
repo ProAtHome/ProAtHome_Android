@@ -8,14 +8,16 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.controladores.estudiante.ServicioTaskRegistroEstudiante;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
+
 import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class registrarseEstudiante extends AppCompatActivity {
 
@@ -117,7 +119,13 @@ public class registrarseEstudiante extends AppCompatActivity {
             servicioTaskRegistroEstudiante.execute();
 
         }else{
-            Toast.makeText(this, "Llena todos los campos.", Toast.LENGTH_SHORT).show();
+            new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                    .setTitleText("¡Error!")
+                    .setConfirmButton("OK", sweetAlertDialog -> {
+                        sweetAlertDialog.dismissWithAnimation();
+                    })
+                    .setContentText("Llena todos los campos.")
+                    .show();
         }
 
     }//Fin método registrar.

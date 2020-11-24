@@ -23,7 +23,8 @@ import butterknife.Unbinder;
 public class InicioFragment extends Fragment {
 
     public static ComponentAdapter myAdapter;
-    private String clasesHttpAddress = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerSesiones/";
+    private String clasesHttpAddress = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/cliente/obtenerSesiones/";
     private ServicioTaskSesionesEstudiante sesionesTask;
     private Unbinder mUnbinder;
     public static LottieAnimationView lottieAnimationView;
@@ -42,7 +43,8 @@ public class InicioFragment extends Fragment {
         int idCliente = 0;
         if (fila.moveToFirst()) {
             idCliente = fila.getInt(0);
-            sesionesTask = new ServicioTaskSesionesEstudiante(getContext(), clasesHttpAddress, idCliente, Constants.SESIONES_INICIO);
+            sesionesTask = new ServicioTaskSesionesEstudiante(getContext(), clasesHttpAddress, idCliente,
+                    Constants.SESIONES_INICIO);
             sesionesTask.execute();
             configAdapter();
             configRecyclerView();

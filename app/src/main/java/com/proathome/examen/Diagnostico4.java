@@ -92,7 +92,8 @@ public class Diagnostico4 extends AppCompatActivity {
         mUnbinder = ButterKnife.bind(this);
 
         cerrarExamen.setOnClickListener(v ->{
-            new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
+            new MaterialAlertDialogBuilder(this,
+                    R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
                     .setTitle("EXÁMEN DIAGNÓSTICO")
                     .setMessage("Al salir durante el examen perderás el progreso de ésta sección.")
                     .setNegativeButton("Salir", (dialog, which) -> {
@@ -109,7 +110,6 @@ public class Diagnostico4 extends AppCompatActivity {
 
         btnContinuar.setOnClickListener(v ->{
             int puntuacion = respuesta1 + respuesta2 + respuesta3 + respuesta4 + respuesta5 + validarSeccion1();
-            Toast.makeText(this, "Puntuación: " + puntuacion, Toast.LENGTH_LONG).show();
 
             AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"sesion", null, 1);
             SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
@@ -118,7 +118,8 @@ public class Diagnostico4 extends AppCompatActivity {
             int idCliente = 0;
             if (fila.moveToFirst()) {
                 idCliente = fila.getInt(0);
-                ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(this, idCliente, Constants.ENCURSO_EXAMEN, puntuacion, 40);
+                ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(this, idCliente, Diagnostico4.this,
+                        Diagnostico5.class, Constants.ENCURSO_EXAMEN, puntuacion, 40);
                 examen.execute();
             }else{
                 baseDeDatos.close();
@@ -126,9 +127,6 @@ public class Diagnostico4 extends AppCompatActivity {
 
             baseDeDatos.close();
 
-            Intent intent = new Intent(this, Diagnostico5.class);
-            startActivityForResult(intent, 1, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-            finish();
         });
 
     }
@@ -150,7 +148,8 @@ public class Diagnostico4 extends AppCompatActivity {
         return puntuacion;
     }
 
-    private void configRespuesta(String principal, TextView tvPrincipal, String secundario, TextView tvSecundario, String terciario, TextView tvTerciario){
+    private void configRespuesta(String principal, TextView tvPrincipal, String secundario, TextView tvSecundario,
+                                 String terciario, TextView tvTerciario){
         SpannableString mitextoU = new SpannableString(principal);
         mitextoU.setSpan(new UnderlineSpan(), 0, mitextoU.length(), 0);
         tvPrincipal.setText(mitextoU);
@@ -161,7 +160,8 @@ public class Diagnostico4 extends AppCompatActivity {
         tvTerciario.setTextColor(getResources().getColor(R.color.colorPersonalDark));
     }
 
-    private void configRespuesta2(String principal, TextView tvPrincipal, String secundario, TextView tvSecundario, String terciario, TextView tvTerciario, String cuarto, TextView tvCuarto){
+    private void configRespuesta2(String principal, TextView tvPrincipal, String secundario, TextView tvSecundario,
+                                  String terciario, TextView tvTerciario, String cuarto, TextView tvCuarto){
         SpannableString mitextoU = new SpannableString(principal);
         mitextoU.setSpan(new UnderlineSpan(), 0, mitextoU.length(), 0);
         tvPrincipal.setText(mitextoU);
@@ -217,15 +217,18 @@ public class Diagnostico4 extends AppCompatActivity {
         SpannableString mitextoU;
         switch (view.getId()){
             case R.id.under1_3:
-                configRespuesta("cultivate", under1_3, "cultivated", under2_3, "cultivates", under3_3);
+                configRespuesta("cultivate", under1_3, "cultivated", under2_3,
+                        "cultivates", under3_3);
                 respuesta3 = 0;
                 break;
             case R.id.under2_3:
-                configRespuesta("cultivated", under2_3, "cultivate", under1_3, "cultivates", under3_3);
+                configRespuesta("cultivated", under2_3, "cultivate", under1_3,
+                        "cultivates", under3_3);
                 respuesta3 = 1;
                 break;
             case R.id.under3_3:
-                configRespuesta("cultivates", under3_3, "cultivated", under2_3, "cultivate", under1_3);
+                configRespuesta("cultivates", under3_3, "cultivated", under2_3,
+                        "cultivate", under1_3);
                 respuesta3 = 0;
                 break;
         }
@@ -236,15 +239,18 @@ public class Diagnostico4 extends AppCompatActivity {
         SpannableString mitextoU;
         switch (view.getId()){
             case R.id.under1_4:
-                configRespuesta("produced", under1_4, "producer", under2_4, "produces", under3_4);
+                configRespuesta("produced", under1_4, "producer", under2_4,
+                        "produces", under3_4);
                 respuesta4 = 1;
                 break;
             case R.id.under2_4:
-                configRespuesta("producer", under2_4, "produced", under1_4, "produces", under3_4);
+                configRespuesta("producer", under2_4, "produced", under1_4,
+                        "produces", under3_4);
                 respuesta4 = 0;
                 break;
             case R.id.under3_4:
-                configRespuesta("produces", under3_4, "producer", under2_4, "produced", under1_4);
+                configRespuesta("produces", under3_4, "producer", under2_4,
+                        "produced", under1_4);
                 respuesta4 = 0;
                 break;
         }
@@ -255,19 +261,23 @@ public class Diagnostico4 extends AppCompatActivity {
         SpannableString mitextoU;
         switch (view.getId()){
             case R.id.under1_5:
-                configRespuesta2("was", under1_5, "were", under2_5, "were not", under3_5, "are not", under4_5);
+                configRespuesta2("was", under1_5, "were", under2_5, "were not",
+                        under3_5, "are not", under4_5);
                 respuesta5 = 0;
                 break;
             case R.id.under2_5:
-                configRespuesta2("were", under2_5, "was", under1_5, "were not", under3_5, "are not", under4_5);
+                configRespuesta2("were", under2_5, "was", under1_5, "were not",
+                        under3_5, "are not", under4_5);
                 respuesta5 = 0;
                 break;
             case R.id.under3_5:
-                configRespuesta2("were not", under3_5, "were", under2_5, "was", under1_5, "are not", under4_5);
+                configRespuesta2("were not", under3_5, "were", under2_5, "was",
+                        under1_5, "are not", under4_5);
                 respuesta5 = 1;
                 break;
             case R.id.under4_5:
-                configRespuesta2("are not", under4_5, "was", under1_5, "were", under2_5, "were not", under3_5);
+                configRespuesta2("are not", under4_5, "was", under1_5, "were",
+                        under2_5, "were not", under3_5);
                 respuesta5 = 0;
                 break;
         }

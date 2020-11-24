@@ -3,7 +3,6 @@ package com.proathome.controladores.profesor;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -24,7 +23,6 @@ public class ServicioTaskUpCuentaProfesor extends AsyncTask<Void, Void, String> 
     private int idProfesor;
 
     public ServicioTaskUpCuentaProfesor(Context contexto, String linkAPI, int idProfesor, String tipoDePago, String banco, String numeroCuenta, String direccionFacturacion){
-
         this.contexto = contexto;
         this.linkAPI = linkAPI;
         this.idProfesor = idProfesor;
@@ -32,28 +30,22 @@ public class ServicioTaskUpCuentaProfesor extends AsyncTask<Void, Void, String> 
         this.banco = banco;
         this.numeroCuenta = numeroCuenta;
         this.direccionFacturacion = direccionFacturacion;
-
     }
 
     @Override
     protected void onPreExecute() {
-
         super.onPreExecute();
         progressDialog = ProgressDialog.show(this.contexto, "Actualizando Datos", "Por favor, espere...");
-
     }
 
     @Override
     protected String doInBackground(Void... voids) {
-
         String result = null;
 
         try{
-
             String urlREST = this.linkAPI;
             URL url = new URL(urlREST);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
             JSONObject parametrosPOST = new JSONObject();
             parametrosPOST.put("idProfesor", this.idProfesor);
             parametrosPOST.put("tipoDePago", this.tipoDePago);
@@ -77,27 +69,20 @@ public class ServicioTaskUpCuentaProfesor extends AsyncTask<Void, Void, String> 
 
             int responseCode = urlConnection.getResponseCode();
             if(responseCode == HttpURLConnection.HTTP_OK){
-
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer sb = new StringBuffer("");
                 String linea = "";
 
                 while ((linea = in.readLine()) != null){
-
                     sb.append(linea);
                     break;
-
                 }
 
                 in.close();
                 result = sb.toString();
-
             }else{
-
                 result = new String("Error: " +responseCode);
-
             }
-
         }catch (MalformedURLException ex){
             ex.printStackTrace();
         }catch (IOException ex){
@@ -114,18 +99,13 @@ public class ServicioTaskUpCuentaProfesor extends AsyncTask<Void, Void, String> 
 
     @Override
     protected void onPostExecute(String s) {
-
         super.onPostExecute(s);
         progressDialog.dismiss();
         this.resultadoAPI = s;
-        Toast.makeText(this.contexto, this.resultadoAPI, Toast.LENGTH_LONG).show();
-
     }
 
     public String getPostDataString(JSONObject params) throws Exception {
-
         return params.toString();
-
     }
 
 }

@@ -25,7 +25,6 @@ public class ScrollActivity extends AppCompatActivity {
 
         String nameFragment = null;
         if(savedInstanceState == null){
-
             nameFragment = getIntent().getStringExtra(Constants.ARG_NAME);
             int tiempo = getIntent().getIntExtra("tiempo", 0);
             int idClase = getIntent().getIntExtra("idClase" , 0);
@@ -46,7 +45,9 @@ public class ScrollActivity extends AppCompatActivity {
             double latitud = getIntent().getDoubleExtra("latitud", 0.0);
             double longitud = getIntent().getDoubleExtra("longitud", 0.0);
             boolean sumar = getIntent().getBooleanExtra("sumar", true);
-            CommonUtils.setFragment(this, nameFragment, R.id.content_scroll, idClase, tipoClase, horario, profesor, lugar, tiempo, observaciones, latitud, longitud, idSeccion, idNivel, idBloque, fecha, fotoProfesor, descripcionProfesor, correoProfesor, sumar, tipoPlan, idProfesor);
+            CommonUtils.setFragment(this, nameFragment, R.id.content_scroll, idClase, tipoClase,
+                    horario, profesor, lugar, tiempo, observaciones, latitud, longitud, idSeccion, idNivel,
+                    idBloque, fecha, fotoProfesor, descripcionProfesor, correoProfesor, sumar, tipoPlan, idProfesor);
 
         }
 

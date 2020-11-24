@@ -4,10 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.controladores.profesor.ServicioTaskLoginProfesor;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -15,7 +15,8 @@ import butterknife.Unbinder;
 public class loginProfesor extends AppCompatActivity {
 
     private Intent intent;
-    private final String iniciarSesionProfesorREST = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/sesionProfesor";
+    private final String iniciarSesionProfesorREST = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/profesor/sesionProfesor";
     @BindView(R.id.correoET_ISP)
     TextInputEditText correoET;
     @BindView(R.id.contraET_ISP)
@@ -62,13 +63,21 @@ public class loginProfesor extends AppCompatActivity {
 
     public void entrar(View view){
 
-        if(!correoET.getText().toString().trim().equalsIgnoreCase("") && !contrasenaET.getText().toString().trim().equalsIgnoreCase("")){
+        if(!correoET.getText().toString().trim().equalsIgnoreCase("") &&
+                !contrasenaET.getText().toString().trim().equalsIgnoreCase("")){
             String correo = String.valueOf(correoET.getText());
             String contrasena = String.valueOf(contrasenaET.getText());
-            ServicioTaskLoginProfesor servicio = new ServicioTaskLoginProfesor(this, iniciarSesionProfesorREST, correo, contrasena);
+            ServicioTaskLoginProfesor servicio = new ServicioTaskLoginProfesor(this, iniciarSesionProfesorREST,
+                    correo, contrasena);
             servicio.execute();
         }else{
-            Toast.makeText(this, "Llena todos los campos.", Toast.LENGTH_LONG).show();
+            new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.PROFESOR)
+                    .setTitleText("¡Error!")
+                    .setConfirmButton("OK", sweetAlertDialog -> {
+                        sweetAlertDialog.dismissWithAnimation();
+                    })
+                    .setContentText("Llena todos los campos.")
+                    .show();
         }
 
     }//Fin método entrar.

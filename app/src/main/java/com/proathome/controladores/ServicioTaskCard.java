@@ -35,7 +35,8 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
     public static final int OBTENER_TOKEN_BD = 3;
     private String linkGuardarToken = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/actualizarToken";
 
-    public ServicioTaskCard(Context contexto, String nombreTitular, String tarjeta, int mes, int ano, String cvv, int solicitud){
+    public ServicioTaskCard(Context contexto, String nombreTitular, String tarjeta, int mes, int ano,
+                            String cvv, int solicitud){
         this.contexto = contexto;
         this.nombreTitular = nombreTitular;
         this.tarjeta = tarjeta;
@@ -93,16 +94,13 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
 
                 int responseCode = urlConnection.getResponseCode();
                 if(responseCode == HttpURLConnection.HTTP_OK) {
-
                     BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer sb = new StringBuffer("");
                     String linea = "";
 
                     while ((linea = in.readLine()) != null) {
-
                         sb.append(linea);
                         break;
-
                     }
 
                     in.close();
@@ -151,10 +149,13 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
                     myEditor.commit();
 
                     /*Guardamos el token en la perra BD*/
-                    ServicioTaskCard servicioTaskCard = new ServicioTaskCard(idCard, DetallesFragment.idSesion, DetallesFragment.idEstudiante, ServicioTaskCard.GUARDAR_TOKEN_BD);
+                    ServicioTaskCard servicioTaskCard = new ServicioTaskCard(idCard, DetallesFragment.idSesion,
+                            DetallesFragment.idEstudiante, ServicioTaskCard.GUARDAR_TOKEN_BD);
                     servicioTaskCard.execute();
                     /*Iniciamos la búsqueda de el profesor*/
-                    ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(contexto, DetallesFragment.idSesion, DetallesFragment.idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
+                    ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(contexto,
+                            DetallesFragment.idSesion, DetallesFragment.idEstudiante, DetallesFragment.ESTUDIANTE,
+                                Constants.CAMBIAR_DISPONIBILIDAD, true);
                     sincronizarClases.execute();
 
                     Intent intent = new Intent(contexto, SincronizarClase.class);
@@ -172,7 +173,6 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
                 }
             });
         }else if(this.solicitud == ServicioTaskCard.OBTENER_TOKEN_BD){
-
         }
 
         return result;
@@ -181,20 +181,10 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-
-        if(this.solicitud == ServicioTaskCard.OBTENER_TOKEN_BD){
-            try{
-                JSONObject jsonObject = new JSONObject(s);
-            }catch(JSONException ex){
-                ex.printStackTrace();
-            }
-        }
     }
 
     public String getPostDataString(JSONObject params) throws Exception {
-
         return params.toString();
-
     }
 
 }

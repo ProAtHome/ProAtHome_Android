@@ -7,12 +7,16 @@ import com.proathome.fragments.DetallesSesionProfesorFragment;
 
 public class CommonUtilsSesionesProfesor {
 
-    private static String nombreEstudianteS = "", descripcionS = "", correoS = "", fotoS ="", tipoClaseS = "", horarioS = "", profesorS = "", lugarS = "", observacionesS = "";
+    private static String nombreEstudianteS = "", descripcionS = "", correoS = "", fotoS ="", tipoClaseS = "",
+            horarioS = "", profesorS = "", lugarS = "", observacionesS = "";
     private static int idClaseS, tiempoS, idSeccionS, idNivelS, idBloqueS, idEstudianteS;
     private static double latitudS, longitudS;
 
-    public static void setFragment(AppCompatActivity activity, String nameFragment, int contentRes, int idClase, String nombreEstudiante, String descripcion, String correo, String foto, String tipoClase, String horario, String profesor,
-                                   String lugar, int tiempo, String observaciones,  double latitud,  double longitud, int idSeccion, int idNivel, int idBloque, int idEstudiante){
+    public static void setFragment(AppCompatActivity activity, String nameFragment, int contentRes,
+                                   int idClase, String nombreEstudiante, String descripcion, String correo,
+                                        String foto, String tipoClase, String horario, String profesor,
+                                            String lugar, int tiempo, String observaciones,  double latitud,
+                                                double longitud, int idSeccion, int idNivel, int idBloque, int idEstudiante){
 
         idClaseS = idClase;
         nombreEstudianteS = nombreEstudiante;

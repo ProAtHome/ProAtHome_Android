@@ -27,13 +27,11 @@ public class ServicioTaskPerfilProfesor extends AsyncTask<Void, Void, String> {
     private Bitmap loadedImage;
 
     public ServicioTaskPerfilProfesor(Context ctx, String linkAPI, String linkFoto, int idProfesor, int tipo){
-
         this.httpContext=ctx;
         this.idProfesor = idProfesor;
         this.linkrequestAPI=linkAPI + "/" + this.idProfesor;
         this.tipo = tipo;
         this.linkFoto = linkFoto;
-
     }
 
     @Override
@@ -43,16 +41,13 @@ public class ServicioTaskPerfilProfesor extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... voids) {
-
         String result = null;
-
         String wsURL = linkrequestAPI;
         URL url = null;
-        try {
 
+        try {
             url = new URL(wsURL);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
             //DEFINIR PARAMETROS DE CONEXION
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
@@ -61,30 +56,23 @@ public class ServicioTaskPerfilProfesor extends AsyncTask<Void, Void, String> {
 
             int responseCode=urlConnection.getResponseCode();
             if(responseCode== HttpURLConnection.HTTP_OK){
-
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
                 StringBuffer sb= new StringBuffer("");
                 String linea="";
-                while ((linea=in.readLine())!= null){
 
+                while ((linea=in.readLine())!= null){
                     sb.append(linea);
                     break;
-
                 }
 
                 in.close();
                 result= sb.toString();
                 respuesta = result;
-
             }
             else{
-
                 result= new String("Error: "+ responseCode);
                 respuesta = null;
-
             }
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -100,31 +88,23 @@ public class ServicioTaskPerfilProfesor extends AsyncTask<Void, Void, String> {
             HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
             conn.connect();
             loadedImage = BitmapFactory.decodeStream(conn.getInputStream());
-
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
         return  result;
-
     }
 
     @Override
     protected void onPostExecute(String s) {
-
         super.onPostExecute(s);
         resultadoApi = s;
 
         if(resultadoApi == null){
-
             Toast.makeText(httpContext, "Error del servidor.", Toast.LENGTH_LONG).show();
-
         }else {
-
             if(!resultadoApi.equals("null")){
-
                 try{
-
                     JSONObject jsonObject = new JSONObject(resultadoApi);
 
                     if(this.tipo == Constants.FOTO_EDITAR_PERFIL)
@@ -133,35 +113,20 @@ public class ServicioTaskPerfilProfesor extends AsyncTask<Void, Void, String> {
                         inicioProfesor.foto.setImageBitmap(loadedImage);
 
                     if(this.tipo == Constants.INFO_PERFIl_EDITAR){
-
-
                         EditarPerfilProfesorFragment.etNombre.setText(jsonObject.getString("nombre"));
                         EditarPerfilProfesorFragment.etEdad.setText(jsonObject.getString("edad"));
                         EditarPerfilProfesorFragment.etDesc.setText(jsonObject.getString("descripcion"));
-
                     }else if(this.tipo == Constants.INFO_PERFIL){
-
                         inicioProfesor.nombreTV.setText(jsonObject.getString("nombre"));
                         inicioProfesor.correoTV.setText(jsonObject.getString("correo"));
-
                     }
-
-
-
                 }catch(JSONException ex){
-
                     ex.printStackTrace();
-
                 }
-
             }else{
-
                 Toast.makeText(httpContext, "Error en el perfil.",Toast.LENGTH_LONG).show();
-
             }
-
         }
-
     }
 
 }

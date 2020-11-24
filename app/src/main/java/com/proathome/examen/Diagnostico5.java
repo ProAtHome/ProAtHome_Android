@@ -1,7 +1,6 @@
 package com.proathome.examen;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.database.Cursor;
@@ -90,7 +89,6 @@ public class Diagnostico5 extends AppCompatActivity {
 
         btnContinuar.setOnClickListener(v ->{
             int puntuacion = respuesta1 + respuesta2 + respuesta3 + respuesta4 + respuesta5 + evaluarParte1();
-            Toast.makeText(this, "Puntuación: " + puntuacion, Toast.LENGTH_LONG).show();
 
             AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"sesion", null, 1);
             SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
@@ -99,7 +97,8 @@ public class Diagnostico5 extends AppCompatActivity {
             int idCliente = 0;
             if (fila.moveToFirst()) {
                 idCliente = fila.getInt(0);
-                ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(this, idCliente, Constants.ENCURSO_EXAMEN, puntuacion, 50);
+                ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(this, idCliente, Diagnostico5.this,
+                                Diagnostico6.class, Constants.ENCURSO_EXAMEN, puntuacion, 50);
                 examen.execute();
             }else{
                 baseDeDatos.close();
@@ -107,9 +106,6 @@ public class Diagnostico5 extends AppCompatActivity {
 
             baseDeDatos.close();
 
-            Intent intent = new Intent(this, Diagnostico6.class);
-            startActivityForResult(intent, 1, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-            finish();
         });
 
         checkeableChips(chip_p1_1, chip_p1_2);

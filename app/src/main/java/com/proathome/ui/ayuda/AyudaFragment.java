@@ -24,10 +24,6 @@ public class AyudaFragment extends Fragment {
     @BindView(R.id.mensaje)
     TextInputEditText mensaje;
 
-    public AyudaFragment() {
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ayuda, container, false);
@@ -47,7 +43,8 @@ public class AyudaFragment extends Fragment {
             if(mensaje.getText().toString().trim().equalsIgnoreCase(""))
                 Toast.makeText(getContext(), "Escribe un comentario.", Toast.LENGTH_LONG).show();
             else{
-                ServicioTaskAyuda servicioTaskAyuda = new ServicioTaskAyuda(getContext(), idEstudiante, mensaje.getText().toString(), Constants.TIPO_ESTUDIANTE);
+                ServicioTaskAyuda servicioTaskAyuda = new ServicioTaskAyuda(getContext(), idEstudiante,
+                        mensaje.getText().toString(), Constants.TIPO_ESTUDIANTE);
                 servicioTaskAyuda.execute();
                 mensaje.setText("");
                 Toast.makeText(getContext(), "Mensaje enviado...", Toast.LENGTH_LONG).show();
