@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -42,6 +41,7 @@ import com.proathome.controladores.profesor.ServicioTaskFotoDetalles;
 import com.proathome.controladores.valoracion.ServicioValidarValoracion;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -55,7 +55,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     public static int ESTUDIANTE = 1, PROCEDENCIA_DETALLES_FRAGMENT = 1;
     public static String fotoNombre, planSesion;
     public static boolean sumar;
-    public static int idSesion = 0, idEstudiante = 0, idProfesor = 0, tiempoPasar = 0, idSeccion = 0, idNivel = 0, idBloque = 0;
+    public static int idSesion = 0, idEstudiante = 0, idProfesor = 0, tiempoPasar = 0, idSeccion = 0,
+            idNivel = 0, idBloque = 0;
     /*VARIABLE DE EXISTENCIA DE DATOS - BANCO*/
     public static boolean banco, procedenciaFin = false;
     public static ImageView foto;
@@ -86,7 +87,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     private ScrollView mScrollView;
     private Unbinder mUnbinder;
     private double longitud = -99.13320799999, latitud = 19.4326077;
-    private String linkRESTDatosBancarios = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
+    private String linkRESTDatosBancarios = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
 
     public DetallesFragment() {
 
@@ -95,7 +97,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     public static Component getmInstance(int idClase, String tipoClase, String horario, String profesor, String lugar,
                                          int tiempo, String observaciones, double latitud, double longitud, int idSeccion,
                                          int idNivel, int idBloque, String fecha, String fotoProfesor, String descripcionProfesor,
-                                         String correoProfesor, boolean sumar, String tipoPlan, int idProfesor){
+                                         String correoProfesor, boolean sumar, String tipoPlan, int idProfesor) {
 
         mInstance = new Component();
         mInstance.setIdClase(idClase);
@@ -126,16 +128,20 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onResume() {
         super.onResume();
-        ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
+        ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(),
+                idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
         sincronizarClases.execute();
-        ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(getContext(), idSesion, idEstudiante, Constants.VALIDAR_CLASE_FINALIZADA_AMBOS_PERFILES, DetallesFragment.ESTUDIANTE);
+        ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(getContext(), idSesion,
+                idEstudiante, Constants.VALIDAR_CLASE_FINALIZADA_AMBOS_PERFILES, DetallesFragment.ESTUDIANTE);
         finalizarClase.execute();
-        if(procedenciaFin){
-            ServicioValidarValoracion validarValoracion = new ServicioValidarValoracion(idSesion, idProfesor, ServicioValidarValoracion.PROCEDENCIA_ESTUDIANTE);
+        if (procedenciaFin) {
+            ServicioValidarValoracion validarValoracion = new ServicioValidarValoracion(idSesion, idProfesor,
+                    ServicioValidarValoracion.PROCEDENCIA_ESTUDIANTE);
             validarValoracion.execute();
             procedenciaFin = false;
-        }else{
-            ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(idEstudiante, DetallesFragment.PROCEDENCIA_DETALLES_FRAGMENT);
+        } else {
+            ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(idEstudiante,
+                    DetallesFragment.PROCEDENCIA_DETALLES_FRAGMENT);
             bloquearPerfil.execute();
         }
     }
@@ -157,26 +163,25 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
         Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
 
-        if(fila.moveToFirst()){
+        if (fila.moveToFirst()) {
             idEstudiante = fila.getInt(0);
-        }else{
+        } else {
             baseDeDatos.close();
         }
 
         baseDeDatos.close();
 
-
-        if(bun.getString("fotoProfesor").equalsIgnoreCase("Sin foto")) {
+        if (bun.getString("fotoProfesor").equalsIgnoreCase("Sin foto")) {
             iniciar.setVisibility(View.INVISIBLE);
             perfilEstudianteCard.setClickable(false);
-        }else {
+        } else {
             iniciar.setVisibility(View.VISIBLE);
         }
-        if(bun.getString("descripcionProfesor").equalsIgnoreCase("Sin descripcion"))
+        if (bun.getString("descripcionProfesor").equalsIgnoreCase("Sin descripcion"))
             descripcionProfesor.setVisibility(View.INVISIBLE);
         else
             descripcionProfesor.setVisibility(View.VISIBLE);
-        if(bun.getString("correoProfesor").equalsIgnoreCase("Sin correo"))
+        if (bun.getString("correoProfesor").equalsIgnoreCase("Sin correo"))
             correoProfesor.setVisibility(View.INVISIBLE);
         else
             correoProfesor.setVisibility(View.VISIBLE);
@@ -189,7 +194,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         tiempo.setText("Tiempo: " + obtenerHorario(bun.getInt("tiempo")));
         tiempoPasar = bun.getInt("tiempo");
         observaciones.setText("Observaciones: " + bun.getString("observaciones"));
-        nivel.setText("Nivel: " + component.obtenerNivel(bun.getInt("idSeccion"), bun.getInt("idNivel"), bun.getInt("idBloque")));
+        nivel.setText("Nivel: " + component.obtenerNivel(bun.getInt("idSeccion"), bun.getInt("idNivel"),
+                bun.getInt("idBloque")));
         tipoClase.setText("Tipo de Clase: " + bun.getString("tipoClase"));
         horario.setText("Horario: " + bun.getString("horario"));
         descripcionProfesor.setText(bun.getString("descripcionProfesor"));
@@ -206,17 +212,21 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         /*Cargar datos del Perfil del Profesor*/
 
         /*Datos de pre Orden listos para ser lanzados :)*/
-        ServicioTaskPreOrden preOrden = new ServicioTaskPreOrden(idEstudiante, idSesion, ServicioTaskPreOrden.PANTALLA_PRE_COBRO);
+        ServicioTaskPreOrden preOrden = new ServicioTaskPreOrden(idEstudiante, idSesion,
+                ServicioTaskPreOrden.PANTALLA_PRE_COBRO);
         preOrden.execute();
-        ServicioTaskBancoEstudiante bancoEstudiante = new ServicioTaskBancoEstudiante(getContext(), linkRESTDatosBancarios, idEstudiante, ServicioTaskBancoEstudiante.VALIDAR_BANCO);
+        ServicioTaskBancoEstudiante bancoEstudiante = new ServicioTaskBancoEstudiante(getContext(),
+                linkRESTDatosBancarios, idEstudiante, ServicioTaskBancoEstudiante.VALIDAR_BANCO);
         bancoEstudiante.execute();
 
-        iniciar.setOnClickListener(v ->{
+        iniciar.setOnClickListener(v -> {
             /*TODO FLUJO_EJECUTAR_PLAN: Clase en modo PLAN activo?
                     Si, entonces, Al iniciar la clase no mostramos Pre Orden ya que está pagado.*/
-            if(!this.planSesion.equalsIgnoreCase("PARTICULAR")){
-                if(banco){
-                    ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
+            if (!this.planSesion.equalsIgnoreCase("PARTICULAR")) {
+                if (banco) {
+                    ServicioTaskSincronizarClases sincronizarClases =
+                            new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante,
+                                    DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
                     sincronizarClases.execute();
 
                     Intent intent = new Intent(getContext(), SincronizarClase.class);
@@ -229,25 +239,27 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
                     intent.putExtra("idBloque", bun.getInt("idBloque"));
                     intent.putExtra("sumar", sumar);
                     startActivity(intent);
-                }else{
-                    Toast.makeText(getContext(), "Revisa tus datos bancarios antes de continuar.", Toast.LENGTH_LONG).show();
+                } else {
+                    errorBancoMsg();
                 }
-            }else{
-                if(banco){
+            } else {
+                if (banco) {
                     /*Chechamos en putiza si hay un token guardado en el telefono de el pago de la sesión*/
                     SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                     String idCardSesion = "idCard" + idSesion;
                     String idCard = myPreferences.getString(idCardSesion, "Sin valor");
 
-                    if(idCard.equalsIgnoreCase("Sin valor")){
+                    if (idCard.equalsIgnoreCase("Sin valor")) {
                         //Si no hay un token en el phone entonces creamos uno con el diálogo de PreOrden*/
                         PreOrdenClase preOrdenClase = new PreOrdenClase();
                         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                         preOrdenClase.show(fragmentTransaction, "PreOrden");
-                    }else{
+                    } else {
                 /*Si ya tenemos un token entonces no hay pedo e iniciamos la buisqueda de la conexión del
                 profesor.*/
-                        ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
+                        ServicioTaskSincronizarClases sincronizarClases =
+                                new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante,
+                                        DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
                         sincronizarClases.execute();
 
                         Intent intent = new Intent(getContext(), SincronizarClase.class);
@@ -261,8 +273,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
                         intent.putExtra("sumar", sumar);
                         startActivity(intent);
                     }
-                }else{
-                    Toast.makeText(getContext(), "Revisa tus datos bancarios antes de continuar.", Toast.LENGTH_LONG).show();
+                } else {
+                    errorBancoMsg();
                 }
             }
 
@@ -277,43 +289,60 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState);
 
         if (mMap == null) {
-            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+                    PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 showAlert();
-            }else{
-                SupportMapFragment mapFragment = (WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetalles);
+            } else {
+                SupportMapFragment mapFragment = (WorkaroundMapFragment) getChildFragmentManager()
+                        .findFragmentById(R.id.mapsDetalles);
                 mapFragment.getMapAsync(this);
             }
         }
 
         ServicioTaskFotoDetalles fotoDetalles = new ServicioTaskFotoDetalles(getContext(), this.fotoNombre, ESTUDIANTE);
-        if(!fotoNombre.equalsIgnoreCase("Sin foto"))
+        if (!fotoNombre.equalsIgnoreCase("Sin foto"))
             fotoDetalles.execute();
 
+    }
+
+    public void errorBancoMsg(){
+        new SweetAlert(getContext(), SweetAlert.WARNING_TYPE, SweetAlert.ESTUDIANTE)
+                .setTitleText("¡AVISO!")
+                .setContentText("Revisa que tus datos bancarios estén registrados en EDITAR PERFIL.")
+                .show();
     }
 
     private void showAlert() {
         new MaterialAlertDialogBuilder(getActivity(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
                 .setTitle("Permisos de Ubicación")
-                .setMessage("Necesitamos tu permiso :)")
+                .setMessage("Necesitamos el permiso de ubicación para ofrecerte una mejor experiencia.")
                 .setPositiveButton("Dar permiso", (dialog, which) -> {
-
                     Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(myIntent);
-
                 })
                 .setNegativeButton("Cancelar", (dialog, which) -> {
-                    Toast.makeText(getContext(), "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
-                    getFragmentManager().beginTransaction().detach(this).commit();
+                    errorMsg();
                 })
                 .setOnCancelListener(dialog -> {
-                    Toast.makeText(getContext(), "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
+                    errorMsg();
+                })
+                .show();
+    }
+
+    public void errorMsg() {
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                .setTitleText("¡OH NO!")
+                .setContentText("No podemos continuar sin el permiso de ubicación.")
+                .setConfirmButton("OK", sweetAlertDialog -> {
                     getFragmentManager().beginTransaction().detach(this).commit();
+                    sweetAlertDialog.dismissWithAnimation();
                 })
                 .show();
     }
 
     @OnClick(R.id.perfilEstudianteCard)
-    public void onClick(){
+    public void onClick() {
         Bundle bundle = new Bundle();
         bundle.putInt("tipoPerfil", PerfilFragment.PERFIL_PROFESOR);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
@@ -327,10 +356,16 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        mScrollView = getView().findViewById(R.id.scrollMapDetalles); //parent scrollview in xml, give your scrollview id value
+        mScrollView = getView().findViewById(R.id.scrollMapDetalles); //parent scrollview in xml, give
+        // your scrollview id value
         ((WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetalles))
                 .setListener(() -> mScrollView.requestDisallowInterceptTouchEvent(true));
 
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         mMap.setMyLocationEnabled(true);
         agregarMarca(googleMap, latitud, longitud);
     }

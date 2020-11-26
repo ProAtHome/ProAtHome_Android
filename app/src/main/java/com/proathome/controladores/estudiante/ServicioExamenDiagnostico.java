@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
-import android.widget.Toast;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
 import com.proathome.examen.Diagnostico1;
@@ -22,7 +21,6 @@ import com.proathome.fragments.FragmentRutaGenerada;
 import com.proathome.ui.ruta.RutaFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -518,11 +516,9 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
                 examen.execute();
             }else if(estatus == Constants.CANCELADO_EXAMEN){
                 RutaFragment.imgExamen.setVisibility(View.VISIBLE);
-                Toast.makeText(this.contexto, "Exámen cancelado...", Toast.LENGTH_LONG).show();
             }else if(estatus == Constants.INFO_EXAMEN_FINAL){
                 int aciertos = jsonObject.getInt("aciertos");
                 int puntuacionTotal = this.puntacionAsumar + aciertos;
-                Toast.makeText(this.contexto, "Puntuación Total: " + puntuacionTotal, Toast.LENGTH_LONG).show();
                 EvaluarRuta evaluarRuta = new EvaluarRuta(puntuacionTotal);
                 FragmentRutaGenerada.ruta.setText(evaluarRuta.getRutaString(evaluarRuta.getRuta()));
                 FragmentRutaGenerada.nivel.setText("Nivel: " + evaluarRuta.getRutaString(evaluarRuta.getRuta()));
@@ -564,11 +560,16 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
                     intent = new Intent(this.contexto, Diagnostico7.class);
                     this.contexto.startActivity(intent);
                 }
-            }else if(estatus == Constants.EXAMEN_FINALIZADO)
-                Toast.makeText(this.contexto, "Ya fuiste evaluado ;)", Toast.LENGTH_LONG);
-            else if(estatus == Constants.REINICIAR_EXAMEN)
-                Toast.makeText(this.contexto, "Examen reiniciado...", Toast.LENGTH_LONG);
-
+            }else if(estatus == Constants.EXAMEN_FINALIZADO) {
+                new SweetAlert(this.contexto, SweetAlert.NORMAL_TYPE, SweetAlert.ESTUDIANTE)
+                        .setTitleText("Ya tenemos tu diagnóstico.")
+                        .show();
+            }else if(estatus == Constants.REINICIAR_EXAMEN) {
+                new SweetAlert(this.contexto, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
+                        .setTitleText("¡GENIAL!")
+                        .setContentText("Examen reiniciado, suerte.")
+                        .show();
+            }
         }catch(JSONException ex){
             ex.printStackTrace();
         }

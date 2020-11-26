@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -21,12 +20,11 @@ import com.proathome.controladores.estudiante.ServicioTaskSesionActual;
 import com.proathome.controladores.planes.ServicioTaskFechaServidor;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
-
+import com.proathome.utils.SweetAlert;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -139,7 +137,10 @@ public class PlanesFragment extends DialogFragment {
 
                             ordenCompraPlanFragment.show(transaction, "Orden de Compra");
                         }else{
-                            Toast.makeText(getContext(), "Fecha de dispositivo alterada.", Toast.LENGTH_LONG).show();
+                            new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                                    .setTitleText("¡ERROR!")
+                                    .setContentText("Fecha de dispositivo alterada.")
+                                    .show();
                         }
                     }catch(ParseException ex){
                         ex.printStackTrace();
@@ -155,13 +156,18 @@ public class PlanesFragment extends DialogFragment {
 
     @OnClick(R.id.btnCancelar)
     public void OnClick(){
-        //TODO FLUJO_PLANES: Aquí iremos por nueva Clase PARTICULAR.
-        dismiss();
-        //TODO FLUJO_EJECUTAR_PLAN: Pasar por Bundle el tipo de PLAN en nuevaSesionFragment.
-        NuevaSesionFragment nueva = new NuevaSesionFragment();
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        nueva.show(transaction, NuevaSesionFragment.TAG);
-        Toast.makeText(getContext(), "Con plan PARTICULAR; = " + SesionesFragment.PLAN, Toast.LENGTH_LONG).show();
+        new SweetAlert(SesionesFragment.contexto, SweetAlert.NORMAL_TYPE, SweetAlert.ESTUDIANTE)
+                .setTitleText("CLASE CON PLAN: PARTICULAR")
+                .setConfirmButton("OK", sweetAlertDialog -> {
+                    //TODO FLUJO_PLANES: Aquí iremos por nueva Clase PARTICULAR.
+                    dismiss();
+                    //TODO FLUJO_EJECUTAR_PLAN: Pasar por Bundle el tipo de PLAN en nuevaSesionFragment.
+                    NuevaSesionFragment nueva = new NuevaSesionFragment();
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    nueva.show(transaction, NuevaSesionFragment.TAG);
+                    sweetAlertDialog.dismissWithAnimation();
+                })
+                .show();
     }
 
     @Override

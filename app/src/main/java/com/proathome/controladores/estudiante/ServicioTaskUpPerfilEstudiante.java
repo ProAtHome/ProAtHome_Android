@@ -3,7 +3,7 @@ package com.proathome.controladores.estudiante;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -26,8 +26,8 @@ public class ServicioTaskUpPerfilEstudiante extends AsyncTask<Void, Void, String
     private int idEstudiante, edad;
     private String nombre, descripcion, correo;
 
-    public ServicioTaskUpPerfilEstudiante(Context httpContext, String linkRequestApi, int idEstudiante, String nombre, String correo, int edad, String descripcion){
-
+    public ServicioTaskUpPerfilEstudiante(Context httpContext, String linkRequestApi, int idEstudiante,
+                                          String nombre, String correo, int edad, String descripcion){
         this.httpContext = httpContext;
         this.linkRequestApi = linkRequestApi;
         this.idEstudiante = idEstudiante;
@@ -35,27 +35,22 @@ public class ServicioTaskUpPerfilEstudiante extends AsyncTask<Void, Void, String
         this.edad = edad;
         this.descripcion = descripcion;
         this.correo = correo;
-
     }
 
     @Override
     protected void onPreExecute() {
-
         super.onPreExecute();
         progressDialog = ProgressDialog.show(httpContext, "Actualizando.", "Por favor, espere...");
-
     }
 
     @Override
     protected String doInBackground(Void... voids) {
 
         String result = null;
-
         String wsURL = linkRequestApi;
         URL url = null;
 
         try{
-
             url = new URL(wsURL);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
@@ -81,27 +76,20 @@ public class ServicioTaskUpPerfilEstudiante extends AsyncTask<Void, Void, String
 
             int responseCode = urlConnection.getResponseCode();
             if(responseCode == HttpURLConnection.HTTP_OK){
-
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer sb = new StringBuffer("");
                 String linea = "";
 
                 while ((linea = in.readLine()) != null){
-
                     sb.append(linea);
                     break;
-
                 }
 
                 in.close();
                 result = sb.toString();
-
             }else{
-
                 result = new String("Error: " +responseCode);
-
             }
-
         }catch(MalformedURLException ex){
             ex.printStackTrace();
         }catch(IOException ex){
@@ -113,17 +101,23 @@ public class ServicioTaskUpPerfilEstudiante extends AsyncTask<Void, Void, String
         }
 
         return result;
-
     }
 
     @Override
     protected void onPostExecute(String s) {
-
         super.onPostExecute(s);
         progressDialog.dismiss();
-        resultadoApi = s;
-        Toast.makeText(httpContext, resultadoApi, Toast.LENGTH_LONG).show();
-
+        this.resultadoApi = s;
+        if(this.resultadoApi.equalsIgnoreCase("Actualización exitosa")){
+            new SweetAlert(this.httpContext, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
+                    .setTitleText("¡GENIAL!")
+                    .setContentText("Datos actualizados correctamente.")
+                    .show();
+        }else{
+            new SweetAlert(this.httpContext, SweetAlert.WARNING_TYPE, SweetAlert.ESTUDIANTE)
+                    .setTitleText(this.resultadoApi)
+                    .show();
+        }
     }
 
     public String getPostDataString(JSONObject params) throws Exception {

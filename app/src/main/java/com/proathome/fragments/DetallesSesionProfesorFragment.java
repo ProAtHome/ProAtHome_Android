@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,6 +35,7 @@ import com.proathome.controladores.profesor.ServicioTaskFotoDetalles;
 import com.proathome.controladores.valoracion.ServicioValidarValoracion;
 import com.proathome.utils.ComponentSesionesProfesor;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -80,7 +80,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
 
     }
 
-    public static ComponentSesionesProfesor getmInstance(int idClase, String nombreEstudiante, String descripcion, String correo, String foto, String tipoClase, String horario, String profesor, String lugar, int tiempo, String observaciones, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, int idEstudiante){
+    public static ComponentSesionesProfesor getmInstance(int idClase, String nombreEstudiante, String descripcion, String correo, String foto, String tipoClase, String horario, String profesor, String lugar, int tiempo, String observaciones, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, int idEstudiante) {
 
         mInstance = new ComponentSesionesProfesor();
         mInstance.setIdClase(idClase);
@@ -113,7 +113,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         sincronizarClases.execute();
         ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(getContext(), idSesion, idProfesor, Constants.VALIDAR_CLASE_FINALIZADA_AMBOS_PERFILES, DetallesSesionProfesorFragment.PROFESOR);
         finalizarClase.execute();
-        if(procedenciaFin){
+        if (procedenciaFin) {
             ServicioValidarValoracion validarValoracion = new ServicioValidarValoracion(idSesion, idEstudiante, ServicioValidarValoracion.PROCEDENCIA_PROFESOR);
             validarValoracion.execute();
             procedenciaFin = false;
@@ -148,21 +148,20 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         horarioTV.setText(bun.getString("horario"));
         observacionesTV.setText(bun.getString("observaciones"));
         idEstudiante = bun.getInt("idEstudiante");
-        Toast.makeText(getContext(), "IdEst: " + bun.getInt("idEstudiante"), Toast.LENGTH_LONG).show();
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesionProfesor", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
         Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);
 
-        if(fila.moveToFirst()){
+        if (fila.moveToFirst()) {
             idProfesor = fila.getInt(0);
-        }else{
+        } else {
             baseDeDatos.close();
         }
 
         baseDeDatos.close();
 
-        iniciar.setOnClickListener(v ->{
+        iniciar.setOnClickListener(v -> {
             ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(), idSesion, idProfesor, DetallesSesionProfesorFragment.PROFESOR, Constants.CAMBIAR_DISPONIBILIDAD, true);
             sincronizarClases.execute();
 
@@ -188,7 +187,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         if (mMap == null) {
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 showAlert();
-            }else{
+            } else {
                 SupportMapFragment mapFragment = (WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetallesSesionProfesor);
                 mapFragment.getMapAsync(this);
             }
@@ -200,7 +199,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
     }
 
     @OnClick(R.id.perfilEstudianteCard)
-    public void onClick(){
+    public void onClick() {
         Bundle bundle = new Bundle();
         bundle.putInt("tipoPerfil", PerfilFragment.PERFIL_ESTUDIANTE);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
@@ -212,36 +211,44 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
     private void showAlert() {
         new MaterialAlertDialogBuilder(getActivity(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
                 .setTitle("Permisos de Ubicación")
-                .setMessage("Necesitamos tu permiso :)")
+                .setMessage("Necesitamos el permiso de ubicación para ofrecerte una mejor experiencia.")
                 .setPositiveButton("Dar permiso", (dialog, which) -> {
-
                     Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(myIntent);
-
                 })
                 .setNegativeButton("Cancelar", (dialog, which) -> {
-                    Toast.makeText(getContext(), "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
-                    getFragmentManager().beginTransaction().detach(this).commit();
+                    errorMsg();
                 })
                 .setOnCancelListener(dialog -> {
-                    Toast.makeText(getContext(), "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
+                    errorMsg();
+                })
+                .show();
+    }
+
+    public void errorMsg(){
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.PROFESOR)
+                .setTitleText("¡OH NO!")
+                .setContentText("No podemos continuar sin el permiso de ubicación.")
+                .setConfirmButton("OK", sweetAlertDialog -> {
                     getFragmentManager().beginTransaction().detach(this).commit();
+                    sweetAlertDialog.dismissWithAnimation();
                 })
                 .show();
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mScrollView = getView().findViewById(R.id.scrollMapDetallesProfesor); //parent scrollview in xml, give your scrollview id value
         ((WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.mapsDetallesSesionProfesor))
                 .setListener(() -> mScrollView.requestDisallowInterceptTouchEvent(true));
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         mMap.setMyLocationEnabled(true);
         agregarMarca(googleMap, latitud, longitud);
-
     }
 
     public void agregarMarca(GoogleMap googleMap, double lat, double longi){

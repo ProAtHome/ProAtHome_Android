@@ -1,15 +1,11 @@
 package com.proathome.fragments;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-
 import com.github.barteksc.pdfviewer.PDFView;
 import com.proathome.R;
 import butterknife.BindView;

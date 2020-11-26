@@ -1,15 +1,12 @@
 package com.proathome.examen;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.app.ActivityOptions;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -20,7 +17,6 @@ import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioExamenDiagnostico;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -213,10 +209,10 @@ public class Diagnostico1 extends AppCompatActivity {
                         finish();
                     })
                     .setPositiveButton("Cancelar", ((dialog, which) -> {
-                        Toast.makeText(this, "¡No te rindas!", Toast.LENGTH_LONG);
+                        salirMsg();
                     }))
                     .setOnCancelListener(dialog -> {
-                        Toast.makeText(this, "¡No te rindas!", Toast.LENGTH_LONG);
+                        salirMsg();
                     })
                     .show();
         });
@@ -462,6 +458,12 @@ public class Diagnostico1 extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void salirMsg(){
+        new SweetAlert(this, SweetAlert.NORMAL_TYPE, SweetAlert.ESTUDIANTE)
+                .setTitleText("¡NO TE RINDAS!")
+                .show();
     }
 
     @OnClick({R.id.chip_p1_1, R.id.chip_p1_2, R.id.chip_p1_3, R.id.chip_p1_4, R.id.chip_p1_5, R.id.chip_p1_6})

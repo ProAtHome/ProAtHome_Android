@@ -3,7 +3,8 @@ package com.proathome.controladores.estudiante;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
+import com.proathome.ui.sesiones.SesionesFragment;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -79,20 +80,16 @@ public class ServicioTaskEliminarSesion extends AsyncTask<Void, Void, String> {
                 String linea = "";
 
                 while ((linea = bufferedReader.readLine()) != null){
-
                     stringBuffer.append(linea);
                     break;
-
                 }
 
                 bufferedReader.close();
                 result = stringBuffer.toString();
 
             }else{
-
                 result = new String("Error: " + responseCode);
                 this.resultadoAPI = result;
-
             }
 
         }catch (MalformedURLException ex){
@@ -110,18 +107,17 @@ public class ServicioTaskEliminarSesion extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-
         super.onPostExecute(s);
         progressDialog.dismiss();
         this.resultadoAPI = s;
-        Toast.makeText(this.contexto, this.resultadoAPI, Toast.LENGTH_LONG).show();
-
+        new SweetAlert(SesionesFragment.contexto, SweetAlert.WARNING_TYPE, SweetAlert.ESTUDIANTE)
+                .setTitleText("¡AVISO!")
+                .setContentText(this.resultadoAPI)
+                .show();
     }
 
     public String getPostDataString(JSONObject params) throws Exception {
-
         return params.toString();
-
     }
 
 }

@@ -10,12 +10,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
-import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -32,6 +30,9 @@ import com.proathome.R;
 import com.proathome.controladores.WorkaroundMapFragment;
 import com.proathome.controladores.profesor.ServicioTaskObtenerSesiones;
 import com.proathome.utils.Constants;
+import com.proathome.utils.PermisosUbicacion;
+import com.proathome.utils.SweetAlert;
+
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
@@ -189,22 +190,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
     }
 
     private void showAlert() {
-        new MaterialAlertDialogBuilder(getActivity(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
-                .setTitle("Permisos de Ubicación")
-                .setMessage("Necesitamos tu permiso :)")
-                .setPositiveButton("Dar permiso", (dialog, which) -> {
-
-                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivity(myIntent);
-
-                })
-                .setNegativeButton("Cancelar", (dialog, which) -> {
-                    Toast.makeText(getContext(), "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
-                })
-                .setOnCancelListener(dialog -> {
-                    Toast.makeText(getContext(), "Necesitamos el permiso ;/", Toast.LENGTH_LONG).show();
-                })
-                .show();
+        PermisosUbicacion.showAlert(getContext(), SweetAlert.PROFESOR);
     }
 
     public static void mostrarMarcadores(LatLng profesor, LatLng marcador, Marker marker){

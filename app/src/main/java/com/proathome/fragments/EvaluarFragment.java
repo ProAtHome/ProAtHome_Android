@@ -1,7 +1,6 @@
 package com.proathome.fragments;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +50,6 @@ public class EvaluarFragment extends DialogFragment {
 
         Bundle bundle = getArguments();
         procedencia = bundle.getInt("procedencia");
-        Toast.makeText(getContext(), "Int: " + bundle.getInt("procedencia"), Toast.LENGTH_LONG).show();
         if(bundle.getInt("procedencia") == EvaluarFragment.PROCEDENCIA_ESTUDIANTE){
             tvEvaluar.setText("Evalúa a tu pofesor");
             tvEvaluar.setTextColor(getResources().getColor(R.color.colorPrimaryDark));

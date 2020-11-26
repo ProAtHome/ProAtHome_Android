@@ -1,8 +1,6 @@
 package com.proathome.examen;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.app.ActivityOptions;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -11,7 +9,6 @@ import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -20,6 +17,7 @@ import com.proathome.R;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.controladores.estudiante.ServicioExamenDiagnostico;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -100,10 +98,10 @@ public class Diagnostico4 extends AppCompatActivity {
                         finish();
                     })
                     .setPositiveButton("Cancelar", ((dialog, which) -> {
-                        Toast.makeText(this, "¡No te rindas!", Toast.LENGTH_LONG);
+                        salirMsg();
                     }))
                     .setOnCancelListener(dialog -> {
-                        Toast.makeText(this, "¡No te rindas!", Toast.LENGTH_LONG);
+                        salirMsg();
                     })
                     .show();
         });
@@ -158,6 +156,12 @@ public class Diagnostico4 extends AppCompatActivity {
         tvSecundario.setTextColor(getResources().getColor(R.color.colorPersonalDark));
         tvTerciario.setText(terciario);
         tvTerciario.setTextColor(getResources().getColor(R.color.colorPersonalDark));
+    }
+
+    public void salirMsg(){
+        new SweetAlert(this, SweetAlert.NORMAL_TYPE, SweetAlert.ESTUDIANTE)
+                .setTitleText("¡NO TE RINDAS!")
+                .show();
     }
 
     private void configRespuesta2(String principal, TextView tvPrincipal, String secundario, TextView tvSecundario,

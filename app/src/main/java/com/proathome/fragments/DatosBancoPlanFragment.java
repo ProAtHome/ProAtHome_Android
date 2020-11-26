@@ -6,12 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.controladores.clase.ServicioTaskPagoDeuda;
 import com.proathome.controladores.planes.ServicioTaskTokenCard;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -111,43 +111,49 @@ public class DatosBancoPlanFragment extends DialogFragment {
                                 dismiss();
                             }
                         }else{
-                            Toast.makeText(getContext(), "CVV no válido.", Toast.LENGTH_LONG).show();
+                            errorMsg("CVV no válido.");
                             validarDatos.setEnabled(true);
                         }
                     }else{
-                        Toast.makeText(getContext(), "Fecha de expiración no válida.", Toast.LENGTH_LONG).show();
+                        errorMsg("Fecha de expiración no válida.");
                         validarDatos.setEnabled(true);
                     }
                 }else{
-                    Toast.makeText(getContext(), "Tarjeta no válida.", Toast.LENGTH_LONG).show();
+                    errorMsg("Tarjeta no válida.");
                     validarDatos.setEnabled(true);
                 }
             }else{
-                Toast.makeText(getContext(), "Nombre del titular no válido.", Toast.LENGTH_LONG).show();
+                errorMsg("Nombre del titular no válido.");
                 validarDatos.setEnabled(true);
             }
         }else {
-            Toast.makeText(getContext(), "Llena todos los campos correctamente.", Toast.LENGTH_LONG).show();
+            errorMsg("Llena todos los campos correctamente.");
             validarDatos.setEnabled(true);
         }
 
+    }
+
+    public void errorMsg(String mensaje){
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
     }
 
     public void pagar(Card card){
         Constants.openpay.createToken(card, new OperationCallBack<Token>() {
             @Override
             public void onError(OpenpayServiceException e) {
-
+                errorMsg(e.toString());
             }
 
             @Override
             public void onCommunicationError(ServiceUnavailableException e) {
-
+                errorMsg(e.toString());
             }
 
             @Override
             public void onSuccess(OperationResult<Token> operationResult) {
-                Toast.makeText(getContext(), operationResult.getResult().getId(), Toast.LENGTH_LONG).show();
                 ServicioTaskPagoDeuda pagoDeuda = new ServicioTaskPagoDeuda(getContext(), nombre, correo, operationResult.getResult().getId(), deuda, descripcion, DatosBancoPlanFragment.this, idSesion, deviceId);
                 pagoDeuda.execute();
             }

@@ -3,14 +3,11 @@ package com.proathome.controladores.planes;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
-
 import androidx.fragment.app.DialogFragment;
-
-import com.proathome.controladores.clase.ServicioSesionesPagadas;
 import com.proathome.fragments.OrdenCompraPlanFragment;
 import com.proathome.fragments.PlanesFragment;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -83,15 +80,12 @@ public class ServicioTaskCobroPlan extends AsyncTask<Void, Void, String> {
 
             int responseCode = urlConnection.getResponseCode();
             if(responseCode == HttpURLConnection.HTTP_OK){
-
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer sb= new StringBuffer("");
                 String linea="";
                 while ((linea=in.readLine())!= null){
-
                     sb.append(linea);
                     break;
-
                 }
                 in.close();
                 resultado = sb.toString();
@@ -118,17 +112,29 @@ public class ServicioTaskCobroPlan extends AsyncTask<Void, Void, String> {
         progressDialog.dismiss();
 
         if(s.equalsIgnoreCase(  "")){
-            Toast.makeText(this.contexto, "Cobro correcto.", Toast.LENGTH_LONG).show();
-            /*TODO FLUJO_COBRO_PLAN: Activamos el PLAN correspondiente en el perfil y generamos las horas en monedero.
-                Guardamos el PLAN  en el historial.
-                Vamos a NuevaSesionFragment con el PLAN activo.*/
-            dialogFragment.dismiss();
-            PlanesFragment.planesFragment.dismiss();
             ServicioTaskGenerarPlan generarPlan = new ServicioTaskGenerarPlan(this.contexto, OrdenCompraPlanFragment.tipoPlan, OrdenCompraPlanFragment.fechaIn, OrdenCompraPlanFragment.fechaFi, OrdenCompraPlanFragment.monedero, OrdenCompraPlanFragment.idEstudiante);
             generarPlan.execute();
+            new SweetAlert(this.contexto, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
+                    .setTitleText("¡GENIAL!")
+                    .setContentText("Pago correcto de PLAN.")
+                    .setConfirmButton("OK", sweetAlertDialog -> {
+                        /*TODO FLUJO_COBRO_PLAN: Activamos el PLAN correspondiente en el perfil y generamos las horas en monedero.
+                            Guardamos el PLAN  en el historial.
+                                Vamos a NuevaSesionFragment con el PLAN activo.*/
+                        dialogFragment.dismiss();
+                        PlanesFragment.planesFragment.dismiss();
+                        sweetAlertDialog.dismissWithAnimation();
+                    })
+                    .show();
         }else{
-            Toast.makeText(this.contexto, "Error en el cobro", Toast.LENGTH_LONG).show();
-            OrdenCompraPlanFragment.comprar.setEnabled(true);
+            new SweetAlert(this.contexto, SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                    .setTitleText("¡ERROR!")
+                    .setContentText("Fallo en la transacción - " + s)
+                    .setConfirmButton("OK", sweetAlertDialog -> {
+                        OrdenCompraPlanFragment.comprar.setEnabled(true);
+                        sweetAlertDialog.dismissWithAnimation();
+                    })
+                    .show();
         }
 
     }

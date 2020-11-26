@@ -7,9 +7,9 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.JsonReader;
 import android.view.View;
-import android.widget.Toast;
 import com.proathome.MatchSesionEstudiante;
 import com.proathome.utils.Component;
+import com.proathome.utils.SweetAlert;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -151,7 +151,7 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
         this.respuestaAPI = s;
 
         if(this.respuestaAPI == null){
-            Toast.makeText(this.contexto, "Error del servidor.", Toast.LENGTH_LONG).show();
+            errorMsg("Error, ocurrió un problema con el servidor.");
         }else {
             if(!this.respuestaAPI.equals("null")){
                 if(MatchSesionEstudiante.idProfesorSesion == this.idProfesor || this.idProfesor != 0){
@@ -172,9 +172,16 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
                 MatchSesionEstudiante.observacionesTV.setText("Observaciones: " + this.observaciones);
                 MatchSesionEstudiante.horarioTV.setText("Horario: " + this.horario);
             }else{
-                Toast.makeText(this.contexto, "Sin datos", Toast.LENGTH_LONG).show();
+                errorMsg("Sin datos, ocurrió un error.");
             }
         }
+    }
+
+    public void errorMsg(String mensaje){
+        new SweetAlert(this.contexto, SweetAlert.ERROR_TYPE, SweetAlert.PROFESOR)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
     }
 
 }

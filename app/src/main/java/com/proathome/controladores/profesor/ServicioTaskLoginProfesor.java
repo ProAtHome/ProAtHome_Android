@@ -6,14 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.util.JsonReader;
-import android.widget.Toast;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.proathome.R;
 import com.proathome.inicioProfesor;
+import com.proathome.utils.SweetAlert;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -58,22 +56,6 @@ public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
 
             int responseCode=urlConnection.getResponseCode();
             if(responseCode== HttpURLConnection.HTTP_OK){
-                InputStream responseBody = urlConnection.getInputStream();
-                InputStreamReader responseBodyReader = new InputStreamReader(responseBody, "UTF-8");
-                JsonReader jsonReader = new JsonReader(responseBodyReader);
-                jsonReader.beginObject();
-
-                while (jsonReader.hasNext()) {
-                    String key = jsonReader.nextName();
-                    if(key.equals("idProfesor")){
-                        this.idProfesor = jsonReader.nextInt();
-                    }else if(key.equals("estado")){
-                        this.estado = jsonReader.nextBoolean();
-                    }else {
-                        jsonReader.skipValue();
-                    }
-                }
-
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer sb= new StringBuffer("");
                 String linea="";
@@ -107,45 +89,47 @@ public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         progressDialog.dismiss();
-        resultadoapi=s;
 
-        if(resultadoapi == null){
-            Toast.makeText(this.contexto, "No estás registrado.", Toast.LENGTH_LONG).show();
-        }else {
-            if(!resultadoapi.equals("null")){
-                if(this.estado){
-                    AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(this.contexto,
-                            "sesionProfesor", null, 1);
-                    SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-                    ContentValues registro = new ContentValues();
-                    registro.put("id", 1);
-                    registro.put("idProfesor", this.idProfesor);
-                    registro.put("correo" , this.correo);
-                    baseDeDatos.insert("sesionProfesor", null, registro);
-                    baseDeDatos.close();
+        try{
+            if(s == null){
+                errorMsg("Ocurrió un error inesperado, intenta de nuevo.");
+            }else {
+                if(!s.equals("null")){
+                    JSONObject jsonObject = new JSONObject(s);
+                    if(jsonObject.getBoolean("estado")){
+                        AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(this.contexto,
+                                "sesionProfesor", null, 1);
+                        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+                        ContentValues registro = new ContentValues();
+                        registro.put("id", 1);
+                        registro.put("idProfesor", jsonObject.getInt("idProfesor"));
+                        registro.put("correo" , this.correo);
+                        baseDeDatos.insert("sesionProfesor", null, registro);
+                        baseDeDatos.close();
 
-                    Intent intent = new Intent(this.contexto, inicioProfesor.class);
-                    this.contexto.startActivity(intent);
+                        Intent intent = new Intent(this.contexto, inicioProfesor.class);
+                        this.contexto.startActivity(intent);
+                    }else{
+                        new SweetAlert(this.contexto, SweetAlert.WARNING_TYPE, SweetAlert.PROFESOR)
+                                .setTitleText("¡ESPERA!")
+                                .setContentText("No tienes permiso para iniciar sesión, ponte en contacto" +
+                                        " con soporte técnico para validar tu documentación.")
+                                .show();
+                    }
                 }else{
-                    new MaterialAlertDialogBuilder(this.contexto,
-                            R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
-                            .setTitle("AVISO")
-                            .setMessage("No tienes permiso para iniciar sesión.")
-                            .setNegativeButton("Entendido", (dialog, which) -> {
-                                Toast.makeText(this.contexto, "Ponte en contacto con soporte técnico.",
-                                        Toast.LENGTH_LONG).show();
-                            })
-                            .setOnCancelListener(dialog -> {
-                                Toast.makeText(this.contexto, "Ponte en contacto con soporte técnico.",
-                                        Toast.LENGTH_LONG).show();
-                            })
-                            .show();
+                    errorMsg("Usuario no registrado o tus datos están incorrectos.");
                 }
-
-            }else{
-                Toast.makeText(this.contexto, "Usuario no registrado.",Toast.LENGTH_LONG).show();
             }
+        }catch (JSONException ex){
+            ex.printStackTrace();
         }
+    }
+
+    public void errorMsg(String mensaje){
+        new SweetAlert(this.contexto, SweetAlert.ERROR_TYPE, SweetAlert.PROFESOR)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
     }
 
 }

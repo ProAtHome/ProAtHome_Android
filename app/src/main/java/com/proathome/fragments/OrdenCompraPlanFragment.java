@@ -6,12 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.controladores.planes.ServicioTaskCobroPlan;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -93,19 +93,19 @@ public class OrdenCompraPlanFragment extends DialogFragment {
                                 card.cvv2(etCVV.getText().toString());
                                 comprar(card);
                             }else{
-                                Toast.makeText(getContext(), "CVV no válido.", Toast.LENGTH_LONG).show();
+                                errorMsg("CVV no válido.");
                             }
                         }else{
-                            Toast.makeText(getContext(), "Fecha de expiración no válida.", Toast.LENGTH_LONG).show();
+                            errorMsg("Fecha de expiración no válida.");
                         }
                     }else{
-                        Toast.makeText(getContext(), "Tarjeta no válida.", Toast.LENGTH_LONG).show();
+                        errorMsg("Tarjeta no válida.");
                     }
                 }else{
-                    Toast.makeText(getContext(), "Nombre del titular no válido.", Toast.LENGTH_LONG).show();
+                    errorMsg("Nombre del titular no válido.");
                 }
             }else {
-                Toast.makeText(getContext(), "Llena todos los campos correctamente.", Toast.LENGTH_LONG).show();
+                errorMsg("Llena todos los campos correctamente.");
             }
         });
         Bundle bundle = getArguments();
@@ -194,6 +194,13 @@ public class OrdenCompraPlanFragment extends DialogFragment {
         return view;
     }
 
+    public void errorMsg(String mensaje){
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
+    }
+
     @OnClick(R.id.cancelar)
     public void onClick(){
         dismiss();
@@ -203,17 +210,16 @@ public class OrdenCompraPlanFragment extends DialogFragment {
         Constants.openpay.createToken(card, new OperationCallBack<Token>() {
             @Override
             public void onError(OpenpayServiceException e) {
-                Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG).show();
+                errorMsg(e.toString());
             }
 
             @Override
             public void onCommunicationError(ServiceUnavailableException e) {
-                Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG).show();
+                errorMsg(e.toString());
             }
 
             @Override
             public void onSuccess(OperationResult<Token> operationResult) {
-                Toast.makeText(getContext(), operationResult.getResult().getId(), Toast.LENGTH_LONG).show();
                 nombreEstudiante = PlanesFragment.nombreEstudiante;
                 correo = PlanesFragment.correoEstudiante;
                 ServicioTaskCobroPlan cobroPlan = new ServicioTaskCobroPlan(getContext(), nombreEstudiante, correo, operationResult.getResult().getId(), cobro, descripcion, OrdenCompraPlanFragment.this);

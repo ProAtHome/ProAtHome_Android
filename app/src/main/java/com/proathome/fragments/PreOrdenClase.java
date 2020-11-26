@@ -8,12 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.controladores.ServicioTaskCard;
 import com.proathome.controladores.TabuladorCosto;
+import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -88,21 +88,28 @@ public class PreOrdenClase extends DialogFragment {
                             servicioTaskCard.execute();
                             dismiss();
                         }else{
-                            Toast.makeText(getContext(), "CVV no válido.", Toast.LENGTH_LONG).show();
+                            errorMsg("CVV no válido.");
                         }
                     }else{
-                        Toast.makeText(getContext(), "Fecha de expiración no válida.", Toast.LENGTH_LONG).show();
+                        errorMsg("Fecha de expiración no válida.");
                     }
                 }else{
-                    Toast.makeText(getContext(), "Tarjeta no válida.", Toast.LENGTH_LONG).show();
+                    errorMsg("Tarjeta no válida.");
                 }
             }else{
-                Toast.makeText(getContext(), "Nombre del titular no válido.", Toast.LENGTH_LONG).show();
+                errorMsg("Nombre del titular no válido.");
             }
         }else {
-            Toast.makeText(getContext(), "Llena todos los campos correctamente.", Toast.LENGTH_LONG).show();
+            errorMsg("Llena todos los campos correctamente.");
         }
 
+    }
+
+    public void errorMsg(String mensaje){
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
     }
 
     @Override

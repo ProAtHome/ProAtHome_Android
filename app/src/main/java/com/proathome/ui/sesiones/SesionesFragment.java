@@ -1,6 +1,7 @@
 package com.proathome.ui.sesiones;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -45,6 +46,7 @@ public class SesionesFragment extends Fragment {
     public static String FECHA_INICIO = "", FECHA_FIN = "";
     public static int MONEDERO = 0;
     public static LottieAnimationView lottieAnimationView;
+    public static Context contexto;
     @BindView(R.id.recyclerGestionar)
     RecyclerView recyclerView;
     @BindView(R.id.fabNuevaSesion)
@@ -76,6 +78,7 @@ public class SesionesFragment extends Fragment {
         mUnbinder = ButterKnife.bind(this, root);
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(),"sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+        SesionesFragment.contexto = getContext();
 
         Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
         if (fila.moveToFirst()) {

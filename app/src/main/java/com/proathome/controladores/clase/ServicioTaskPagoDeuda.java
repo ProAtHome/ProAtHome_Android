@@ -3,10 +3,9 @@ package com.proathome.controladores.clase;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 import androidx.fragment.app.DialogFragment;
-import com.proathome.fragments.PagoPendienteFragment;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -122,14 +121,26 @@ public class ServicioTaskPagoDeuda extends AsyncTask<Void, Void, String> {
 
         progressDialog.dismiss();
         if(s.equalsIgnoreCase(  "")){
-            Toast.makeText(this.contexto, "Cobro correcto.", Toast.LENGTH_LONG).show();
-            dialogFragment.dismiss();
             //Actualizar Pago en Pagos
             ServicioTaskSaldarDeuda saldarDeuda = new ServicioTaskSaldarDeuda(this.idSesion);
             saldarDeuda.execute();
+            new SweetAlert(this.contexto, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
+                    .setTitleText("¡GENIAL!")
+                    .setContentText("Cobro correcto.")
+                    .setConfirmButton("OK", sweetAlertDialog -> {
+                        dialogFragment.dismiss();
+                        sweetAlertDialog.dismissWithAnimation();
+                    })
+                    .show();
         }else{
-            Toast.makeText(this.contexto, "Error en el cobro", Toast.LENGTH_LONG).show();
-            dialogFragment.dismiss();
+            new SweetAlert(this.contexto, SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                    .setTitleText("¡ERROR!")
+                    .setContentText("Error en el cobro - " + s)
+                    .setConfirmButton("OK", sweetAlertDialog -> {
+                        dialogFragment.dismiss();
+                        sweetAlertDialog.dismissWithAnimation();
+                    })
+                    .show();
         }
     }
 

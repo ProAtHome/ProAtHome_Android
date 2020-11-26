@@ -3,7 +3,6 @@ package com.proathome.controladores.estudiante;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 import com.proathome.RutaAvanzado;
 import com.proathome.RutaBasico;
 import com.proathome.RutaIntermedio;
@@ -206,10 +205,8 @@ public class ServicioTaskRuta extends AsyncTask <Void, Void, String> {
         try{
             JSONObject rutaJSON = new JSONObject(s);
             int estado = rutaJSON.getInt("estado");
-
-            if(estado == Constants.INICIO_RUTA){
-                Toast.makeText(this.contexto, "RUTA DE 0", Toast.LENGTH_LONG).show();
-            }else if(estado == Constants.RUTA_ENCURSO) {
+            /*if(estado == Constants.INICIO_RUTA){
+    }else */if(estado == Constants.RUTA_ENCURSO) {
                 int idBloque = rutaJSON.getInt("idBloque");
                 int idNivel = rutaJSON.getInt("idNivel");
                 int idSeccion = rutaJSON.getInt("idSeccion");

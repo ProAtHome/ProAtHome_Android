@@ -193,7 +193,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                 if(tomarSesion.getSeccion() == Constants.BASICO){
                     if(secciones.getSelectedItem().toString().equalsIgnoreCase("Básico")){
                         if(!basicoVisto){
-                            Toast.makeText(getContext(), "Valores de REST", Toast.LENGTH_LONG).show();
+
                             basicoVisto = true;
                         }else{
                             niveles.setAdapter(tomarSesion.obtenerNiveles(Constants.BASICO));
@@ -211,7 +211,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                         horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                     }else if(secciones.getSelectedItem().toString().equalsIgnoreCase("Intermedio")){
                         if(!intermedioVisto){
-                            Toast.makeText(getContext(), "Valores de REST", Toast.LENGTH_LONG).show();
+
                             intermedioVisto = true;
                         }else{
                             niveles.setAdapter(tomarSesion.obtenerNiveles(Constants.INTERMEDIO));
@@ -229,7 +229,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                         horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                     }else if(secciones.getSelectedItem().toString().equalsIgnoreCase("Avanzado")){
                         if(!avanzadoVisto){
-                            Toast.makeText(getContext(), "Valores de REST", Toast.LENGTH_LONG).show();
+
                             avanzadoVisto = true;
                         }else{
                             niveles.setAdapter(tomarSesion.obtenerNiveles(Constants.AVANZADO));
@@ -253,35 +253,35 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                 if(secciones.getSelectedItem().toString().equalsIgnoreCase("Básico")) {
                     if(niveles.getSelectedItem().toString().equalsIgnoreCase("Básico 1")){
                         if(tomarSesion.getNivel() == Constants.BASICO_1){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                         }else {
                             horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                             bloques.setAdapter(tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_1));
                         }
                     }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Básico 2")){
                         if(tomarSesion.getNivel() == Constants.BASICO_2){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                         }else {
                             horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                             bloques.setAdapter(tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_2));
                         }
                     }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Básico 3")){
                         if(tomarSesion.getNivel() == Constants.BASICO_3){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                         }else {
                             horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                             bloques.setAdapter(tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_3));
                         }
                     }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Básico 4")){
                         if(tomarSesion.getNivel() == Constants.BASICO_4){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                         }else {
                             horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                             bloques.setAdapter(tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_4));
                         }
                     }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Básico 5")){
                         if(tomarSesion.getNivel() == Constants.BASICO_5){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                         }else {
                             horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                             bloques.setAdapter(tomarSesion.obtenerBloques(Constants.BASICO, Constants.BASICO_5));
@@ -290,35 +290,35 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                 }else if(secciones.getSelectedItem().toString().equalsIgnoreCase("Intermedio")){
                     if(niveles.getSelectedItem().toString().equalsIgnoreCase("Intermedio 1")){
                         if(tomarSesion.getNivel() == Constants.INTERMEDIO_1){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                         }else {
                             horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                             bloques.setAdapter(tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_1));
                         }
                     }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Intermedio 2")){
                         if(tomarSesion.getNivel() == Constants.INTERMEDIO_2){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                         }else {
                             horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                             bloques.setAdapter(tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_2));
                         }
                     }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Intermedio 3")){
                         if(tomarSesion.getNivel() == Constants.INTERMEDIO_3){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                         }else {
                             horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                             bloques.setAdapter(tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_3));
                         }
                     }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Intermedio 4")){
                         if(tomarSesion.getNivel() == Constants.INTERMEDIO_4){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                         }else {
                             horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                             bloques.setAdapter(tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_4));
                         }
                     }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Intermedio 5")){
                         if(tomarSesion.getNivel() == Constants.INTERMEDIO_5){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                         }else {
                             horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                             bloques.setAdapter(tomarSesion.obtenerBloques(Constants.INTERMEDIO, Constants.INTERMEDIO_5));
@@ -327,35 +327,35 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                 }else if(secciones.getSelectedItem().toString().equalsIgnoreCase("Avanzado")){
                     if(niveles.getSelectedItem().toString().equalsIgnoreCase("Avanzado 1")){
                         if(tomarSesion.getNivel() == Constants.AVANZADO_1){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                         }else {
                             horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                             bloques.setAdapter(tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_1));
                         }
                     }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Avanzado 2")){
                         if(tomarSesion.getNivel() == Constants.AVANZADO_1){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                         }else {
                             horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                             bloques.setAdapter(tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_2));
                         }
                     }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Avanzado 3")){
                         if(tomarSesion.getNivel() == Constants.AVANZADO_1){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                         }else {
                             horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                             bloques.setAdapter(tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_3));
                         }
                     }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Avanzado 4")){
                         if(tomarSesion.getNivel() == Constants.AVANZADO_1){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                         }else {
                             horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                             bloques.setAdapter(tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_4));
                         }
                     }else if(niveles.getSelectedItem().toString().equalsIgnoreCase("Avanzado 5")){
                         if(tomarSesion.getNivel() == Constants.AVANZADO_1){
-                            Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                         }else {
                             horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                             bloques.setAdapter(tomarSesion.obtenerBloques(Constants.AVANZADO, Constants.AVANZADO_5));
@@ -380,43 +380,43 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(bloques.getSelectedItem().toString().equalsIgnoreCase("Bloque 1")){
                     if(tomarSesion.getBloque() == 1){
-                        Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                     }else{
                         horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                     }
                 }else if(bloques.getSelectedItem().toString().equalsIgnoreCase("Bloque 2")){
                     if(tomarSesion.getBloque() == 2){
-                        Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                     }else{
                         horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                     }
                 }else if(bloques.getSelectedItem().toString().equalsIgnoreCase("Bloque 3")){
                     if(tomarSesion.getBloque() == 3){
-                        Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                     }else{
                         horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                     }
                 }else if(bloques.getSelectedItem().toString().equalsIgnoreCase("Bloque 4")){
                     if(tomarSesion.getBloque() == 4){
-                        Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                     }else{
                         horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                     }
                 }else if(bloques.getSelectedItem().toString().equalsIgnoreCase("Bloque 5")){
                     if(tomarSesion.getBloque() == 5){
-                        Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                     }else{
                         horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                     }
                 }else if(bloques.getSelectedItem().toString().equalsIgnoreCase("Bloque 6")){
                     if(tomarSesion.getBloque() == 6){
-                        Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                     }else{
                         horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                     }
                 }else if(bloques.getSelectedItem().toString().equalsIgnoreCase("Bloque 7")){
                     if(tomarSesion.getBloque() == 7){
-                        Toast.makeText(getContext(), "Valores Normales", Toast.LENGTH_LONG);
+
                     }else{
                         horasDisponiblesTV.setText("Estas eligiendo una sesión a tu preferencia, no afecta a tu Ruta de Aprendizaje");
                     }
