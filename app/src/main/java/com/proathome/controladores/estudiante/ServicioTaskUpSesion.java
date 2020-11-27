@@ -3,7 +3,8 @@ package com.proathome.controladores.estudiante;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
+import com.proathome.ui.sesiones.SesionesFragment;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -26,7 +27,6 @@ public class ServicioTaskUpSesion extends AsyncTask<Void, Void, String> {
     private boolean cambioFecha;
 
     public ServicioTaskUpSesion(Context contexto, String linkAPI, int idSesion, String horario, String lugar, int tiempo, String tipo, String observaciones, double latitud, double longitud, String actualizado, int idSeccion, int idNivel, int idBloque, String fecha, boolean cambioFecha){
-
         this.contexto = contexto;
         this.linkAPI = linkAPI;
         this.idSesion = idSesion;
@@ -43,15 +43,12 @@ public class ServicioTaskUpSesion extends AsyncTask<Void, Void, String> {
         this.idBloque = idBloque;
         this.fecha = fecha;
         this.cambioFecha = cambioFecha;
-
     }
 
     @Override
     protected void onPreExecute() {
-
         super.onPreExecute();
         progressDialog = ProgressDialog.show(this.contexto,"Actualizando Sesión", "Por favor, espere...");
-
     }
 
     @Override
@@ -61,7 +58,6 @@ public class ServicioTaskUpSesion extends AsyncTask<Void, Void, String> {
         String urlREST = this.linkAPI;
 
         try{
-
             URL url = new URL(urlREST);
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
 
@@ -105,20 +101,16 @@ public class ServicioTaskUpSesion extends AsyncTask<Void, Void, String> {
                 String linea = "";
 
                 while ((linea = bufferedReader.readLine()) != null){
-
                     stringBuffer.append(linea);
                     break;
-
                 }
 
                 bufferedReader.close();
                 result = stringBuffer.toString();
 
             }else{
-
                 result = new String("Error: " + responseCode);
                 this.resultadoAPI = result;
-
             }
 
         }catch (MalformedURLException ex){
@@ -132,23 +124,28 @@ public class ServicioTaskUpSesion extends AsyncTask<Void, Void, String> {
         }
 
         return result;
-
     }
 
     @Override
     protected void onPostExecute(String s) {
-
         super.onPostExecute(s);
         progressDialog.dismiss();
         this.resultadoAPI = s;
-        Toast.makeText(this.contexto,  this.resultadoAPI, Toast.LENGTH_LONG).show();
-
+        if(this.resultadoAPI != null){
+            new SweetAlert(SesionesFragment.contexto, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
+                    .setTitleText("¡GENIAL!")
+                    .setContentText(this.resultadoAPI)
+                    .show();
+        }else{
+            new SweetAlert(SesionesFragment.contexto, SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                    .setTitleText("¡ERROR!")
+                    .setContentText("Error al actualizar la clase.")
+                    .show();
+        }
     }
 
     public String getPostDataString(JSONObject params) throws Exception {
-
         return params.toString();
-
     }
 
 }

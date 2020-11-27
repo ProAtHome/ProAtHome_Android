@@ -139,7 +139,6 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
 
                 @Override
                 public void onSuccess(OperationResult<Token> operationResult) {//Si este pedo funcionó.
-                    Toast.makeText(contexto, operationResult.getResult().getId(), Toast.LENGTH_LONG).show();
                     /*Guardamos el nuevo token en el perro phone*/
                     String idCard = operationResult.getResult().getId();
                     SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(contexto);

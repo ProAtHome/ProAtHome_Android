@@ -4,8 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.Toast;
 import com.proathome.MainActivity;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -30,8 +30,8 @@ public class ServicioTaskRegistroEstudiante extends AsyncTask<Void, Void, String
     public String contrasena ="";
     public String correo="";
 
-    public ServicioTaskRegistroEstudiante(Context ctx, String linkAPI, String nombre, String fecha, int edad, String correo, String contrasena){
-
+    public ServicioTaskRegistroEstudiante(Context ctx, String linkAPI, String nombre, String fecha,
+                                          int edad, String correo, String contrasena){
         this.httpContext=ctx;
         this.linkrequestAPI=linkAPI;
         this.fecha=fecha;
@@ -39,21 +39,18 @@ public class ServicioTaskRegistroEstudiante extends AsyncTask<Void, Void, String
         this.edad=edad;
         this.contrasena = contrasena;
         this.correo = correo;
-
     }
+
     @Override
     protected void onPreExecute() {
-
         super.onPreExecute();
         progressDialog = ProgressDialog.show(httpContext, "Registrando Estudiante.", "Por favor, espere...");
-
     }
 
     @Override
     protected String doInBackground(Void... params) {
 
         String result= null;
-
         String wsURL = linkrequestAPI;
         URL url = null;
         try {
@@ -93,10 +90,8 @@ public class ServicioTaskRegistroEstudiante extends AsyncTask<Void, Void, String
                 StringBuffer sb= new StringBuffer("");
                 String linea="";
                 while ((linea=in.readLine())!= null){
-
                     sb.append(linea);
                     break;
-
                 }
 
                 in.close();
@@ -104,9 +99,7 @@ public class ServicioTaskRegistroEstudiante extends AsyncTask<Void, Void, String
 
             }
             else{
-
                 result= new String("Error: "+ responseCode);
-
             }
 
         } catch (MalformedURLException e) {
@@ -120,25 +113,32 @@ public class ServicioTaskRegistroEstudiante extends AsyncTask<Void, Void, String
         }
 
         return  result;
-
     }
 
     @Override
     protected void onPostExecute(String s) {
-
         super.onPostExecute(s);
         progressDialog.dismiss();
         resultadoapi=s;
-        Toast.makeText(httpContext,resultadoapi,Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this.httpContext, MainActivity.class);
-        this.httpContext.startActivity(intent);
-
+        if(resultadoapi != null){
+            new SweetAlert(this.httpContext, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
+                    .setTitleText("¡GENIAL!")
+                    .setContentText(resultadoapi)
+                    .setConfirmButton("OK", sweetAlertDialog -> {
+                        Intent intent = new Intent(this.httpContext, MainActivity.class);
+                        this.httpContext.startActivity(intent);
+                    })
+                    .show();
+        }else{
+            new SweetAlert(this.httpContext, SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                    .setTitleText("¡ERROR!")
+                    .setContentText("Ocurrió un error inesperado.")
+                    .show();
+        }
     }
 
     public String getPostDataString(JSONObject params) throws Exception {
-
         return params.toString();
-
     }
 
 }

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import com.proathome.fragments.NuevaSesionFragment;
 import com.proathome.fragments.PlanesFragment;
 import com.proathome.utils.Constants;

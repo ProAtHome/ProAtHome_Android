@@ -3,7 +3,7 @@ package com.proathome.controladores.profesor;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -107,7 +107,17 @@ public class ServicioTaskUpPerfilProfesor extends AsyncTask<Void, Void, String> 
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         progressDialog.dismiss();
-        resultadoApi = s;
+        this.resultadoApi = s;
+        if(this.resultadoApi.equalsIgnoreCase("Actualización exitosa")){
+            new SweetAlert(this.httpContext, SweetAlert.SUCCESS_TYPE, SweetAlert.PROFESOR)
+                    .setTitleText("¡GENIAL!")
+                    .setContentText("Datos actualizados correctamente.")
+                    .show();
+        }else{
+            new SweetAlert(this.httpContext, SweetAlert.WARNING_TYPE, SweetAlert.PROFESOR)
+                    .setTitleText(this.resultadoApi)
+                    .show();
+        }
     }
 
     public String getPostDataString(JSONObject params) throws Exception {

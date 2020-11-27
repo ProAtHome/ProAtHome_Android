@@ -78,7 +78,7 @@ public class inicioEstudiante extends AppCompatActivity{
             //TODO FLUJO_PLANES: Crear PLAN al iniciar sesión si no existe registro en la BD.
             /*TODO FLUJO_PANES: Cargamos la info de PLAN, MONEDERO Y PERFIL.*/
             DetallesFragment.procedenciaFin = false;
-            ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(idEstudiante,
+            ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(this, idEstudiante,
                     inicioEstudiante.PROCEDENCIA_INICIO_ESTUDIANTE);
             bloquearPerfil.execute();
             ServicioTaskPerfilEstudiante perfilEstudiante = new ServicioTaskPerfilEstudiante(this,

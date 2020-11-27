@@ -3,11 +3,10 @@ package com.proathome.controladores.estudiante;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
-
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.PlanesFragment;
 import com.proathome.ui.editarPerfil.EditarPerfilFragment;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -21,9 +20,7 @@ public class ServicioTaskBancoEstudiante extends AsyncTask<Void, Void, String>{
 
     private Context httpContext;
     private ProgressDialog progressDialog;
-    public String resultadoapi = "";
-    public String linkrequestAPI = "";
-    public String respuesta;
+    public String resultadoapi, linkrequestAPI, respuesta;
     public int idEstudiante, tipoSolicitud;
     public static int OBTENER_DATOS = 1, VALIDAR_BANCO = 2, DATOS_PLANES = 3;
 
@@ -36,21 +33,18 @@ public class ServicioTaskBancoEstudiante extends AsyncTask<Void, Void, String>{
 
     @Override
     protected void onPreExecute() {
-
         super.onPreExecute();
         progressDialog = ProgressDialog.show(httpContext, "Cargando Datos Bancarios.", "Por favor, espere...");
-
     }
 
     @Override
     protected String doInBackground(Void... params) {
 
         String result = null;
-
         String wsURL = linkrequestAPI;
         URL url = null;
-        try {
 
+        try {
             url = new URL(wsURL);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
@@ -62,30 +56,22 @@ public class ServicioTaskBancoEstudiante extends AsyncTask<Void, Void, String>{
 
             int responseCode = urlConnection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
                 StringBuffer sb = new StringBuffer("");
                 String linea = "";
-                while ((linea = in.readLine()) != null) {
 
+                while ((linea = in.readLine()) != null) {
                     sb.append(linea);
                     break;
-
                 }
 
                 in.close();
                 result = sb.toString();
                 respuesta = result;
-
             } else {
-
                 result = new String("Error: " + responseCode);
                 respuesta = null;
-
             }
-
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -95,20 +81,17 @@ public class ServicioTaskBancoEstudiante extends AsyncTask<Void, Void, String>{
         }
 
         return result;
-
     }
 
     @Override
     protected void onPostExecute(String s) {
-
         super.onPostExecute(s);
         progressDialog.dismiss();
         resultadoapi = s;
 
         if (resultadoapi == null) {
-            Toast.makeText(httpContext, "Error del servidor.", Toast.LENGTH_LONG).show();
+            infoMsg("¡ERROR!","Ocurrió un error inesperado.", SweetAlert.WARNING_TYPE);
         } else {
-
             if(this.tipoSolicitud == ServicioTaskBancoEstudiante.OBTENER_DATOS){
                 if (!resultadoapi.equals("null")) {
                     try {
@@ -121,7 +104,7 @@ public class ServicioTaskBancoEstudiante extends AsyncTask<Void, Void, String>{
                         ex.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(httpContext, "Sin datos bancarios.", Toast.LENGTH_LONG).show();
+                    infoMsg("¡AVISO!","Sin datos bancarios.", SweetAlert.WARNING_TYPE);
                 }
             }else if(this.tipoSolicitud == ServicioTaskBancoEstudiante.VALIDAR_BANCO){
                 if(resultadoapi.equals("null")){
@@ -141,12 +124,17 @@ public class ServicioTaskBancoEstudiante extends AsyncTask<Void, Void, String>{
                         ex.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(httpContext, "Sin datos bancarios.", Toast.LENGTH_LONG).show();
+                    infoMsg("¡AVISO!","Sin datos bancarios.", SweetAlert.WARNING_TYPE);
                 }
             }
-
         }
+    }
 
+    public void infoMsg(String titulo, String mensaje, int tipo){
+        new SweetAlert(this.httpContext, tipo, SweetAlert.ESTUDIANTE)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .show();
     }
 
 }

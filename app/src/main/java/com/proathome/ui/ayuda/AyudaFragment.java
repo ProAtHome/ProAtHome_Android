@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
@@ -40,14 +39,13 @@ public class AyudaFragment extends Fragment {
 
         if(fila.moveToFirst()){
             int idEstudiante = fila.getInt(0);
-            if(mensaje.getText().toString().trim().equalsIgnoreCase(""))
-                Toast.makeText(getContext(), "Escribe un comentario.", Toast.LENGTH_LONG).show();
-            else{
+            if(mensaje.getText().toString().trim().equalsIgnoreCase("")){
+
+            }else{
                 ServicioTaskAyuda servicioTaskAyuda = new ServicioTaskAyuda(getContext(), idEstudiante,
                         mensaje.getText().toString(), Constants.TIPO_ESTUDIANTE);
                 servicioTaskAyuda.execute();
                 mensaje.setText("");
-                Toast.makeText(getContext(), "Mensaje enviado...", Toast.LENGTH_LONG).show();
             }
         }else{
             baseDeDatos.close();

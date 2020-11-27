@@ -140,7 +140,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
             validarValoracion.execute();
             procedenciaFin = false;
         } else {
-            ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(idEstudiante,
+            ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(getContext(), idEstudiante,
                     DetallesFragment.PROCEDENCIA_DETALLES_FRAGMENT);
             bloquearPerfil.execute();
         }

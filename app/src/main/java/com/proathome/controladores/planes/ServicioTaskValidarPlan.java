@@ -2,10 +2,10 @@ package com.proathome.controladores.planes;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 import com.proathome.inicioEstudiante;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -20,7 +20,8 @@ public class ServicioTaskValidarPlan extends AsyncTask<Void, Void, String> {
 
     private int idEstudiante;
     private Context contexto;
-    private String linkValidarPlan = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/verificarPlan/";
+    private String linkValidarPlan = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/cliente/verificarPlan/";
 
     public ServicioTaskValidarPlan(Context contexto, int idEstudiante){
         this.idEstudiante = idEstudiante;
@@ -46,13 +47,12 @@ public class ServicioTaskValidarPlan extends AsyncTask<Void, Void, String> {
             httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
             int responseCode = httpURLConnection.getResponseCode();
-
             if (responseCode == HttpURLConnection.HTTP_OK) {
-
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
-
+                BufferedReader bufferedReader = new BufferedReader(
+                        new InputStreamReader(httpURLConnection.getInputStream()));
                 StringBuffer stringBuffer = new StringBuffer("");
                 String linea = "";
+
                 while ((linea = bufferedReader.readLine()) != null) {
                     stringBuffer.append(linea);
                     break;
@@ -78,16 +78,20 @@ public class ServicioTaskValidarPlan extends AsyncTask<Void, Void, String> {
         super.onPostExecute(s);
 
         try{
-            JSONObject jsonDatos = new JSONObject(s);
-            if(jsonDatos == null){
-                Toast.makeText(this.contexto, "Error al obtener la información.", Toast.LENGTH_LONG).show();
+            if(s == null){
+                new SweetAlert(this.contexto, SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                        .setTitleText("¡ERROR!")
+                        .setContentText("Error al obtener la información.")
+                        .show();
             }else{
+                JSONObject jsonDatos = new JSONObject(s);
                 SesionesFragment.PLAN =  jsonDatos.getString("tipoPlan");
                 SesionesFragment.MONEDERO = jsonDatos.getInt("monedero");
                 SesionesFragment.FECHA_INICIO = jsonDatos.getString("fechaInicio");
                 SesionesFragment.FECHA_FIN = jsonDatos.getString("fechaFin");
                 inicioEstudiante.tipoPlan.setText("PLAN ACTUAL: " + jsonDatos.getString("tipoPlan"));
-                inicioEstudiante.monedero.setText("HORAS DISPONIBLES:                      " + obtenerHorario(jsonDatos.getInt("monedero")));
+                inicioEstudiante.monedero.setText("HORAS DISPONIBLES:                      " +
+                        obtenerHorario(jsonDatos.getInt("monedero")));
             }
         }catch(JSONException ex){
             ex.printStackTrace();

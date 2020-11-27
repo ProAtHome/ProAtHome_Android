@@ -4,13 +4,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.widget.Toast;
-
 import com.proathome.controladores.planes.ServicioTaskValidarPlan;
 import com.proathome.fragments.PlanesFragment;
 import com.proathome.inicioEstudiante;
 import com.proathome.ui.editarPerfil.EditarPerfilFragment;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -23,9 +22,7 @@ import java.net.URL;
 public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> {
 
     private Context httpContext;
-    private String resultadoApi = "", linkFoto;
-    private String linkrequestAPI;
-    private String respuesta;
+    private String resultadoApi, linkFoto, linkrequestAPI, respuesta;
     private int idEstudiante, tipo;
     private Bitmap loadedImage;
 
@@ -44,16 +41,14 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
 
     @Override
     protected String doInBackground(Void... params) {
-
         String result= null;
-
         String wsURL = linkrequestAPI;
         URL url = null;
+
         try {
 
             url = new URL(wsURL);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
             //DEFINIR PARAMETROS DE CONEXION
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
@@ -62,22 +57,18 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
 
             int responseCode = urlConnection.getResponseCode();
             if(responseCode == HttpURLConnection.HTTP_OK){
-
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
                 StringBuffer sb= new StringBuffer("");
                 String linea="";
-                while ((linea=in.readLine())!= null){
 
+                while ((linea=in.readLine())!= null){
                     sb.append(linea);
                     break;
-
                 }
 
                 in.close();
                 result= sb.toString();
                 respuesta = result;
-
             }
             else{
                 result= new String("Error: "+ responseCode);
@@ -86,17 +77,14 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
 
             URL imageUrl = null;
             try {
-
                 JSONObject json = new JSONObject(result);
                 imageUrl = new URL(this.linkFoto + json.getString("foto"));
                 HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
                 conn.connect();
                 loadedImage = BitmapFactory.decodeStream(conn.getInputStream());
-
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -114,9 +102,9 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
 
         super.onPostExecute(s);
         resultadoApi = s;
-
+        System.out.println(s);
         if(resultadoApi == null){
-            Toast.makeText(httpContext, "Error del servidor.", Toast.LENGTH_LONG).show();
+            errorMsg("Error del servidor, intente ingresar más tarde.");
         }else {
             if(!resultadoApi.equals("null")){
                 try{
@@ -154,11 +142,18 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
                 }
 
             }else{
-                Toast.makeText(httpContext, "Error en el perfil.",Toast.LENGTH_LONG).show();
+                errorMsg("Error en el perfil, intente ingresar más tarde.");
             }
 
         }
 
+    }
+
+    public void errorMsg(String mensaje){
+        new SweetAlert(this.httpContext, SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
     }
 
     public String obtenerHorario(int tiempo){

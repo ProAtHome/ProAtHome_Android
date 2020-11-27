@@ -4,11 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
-import android.widget.Toast;
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.DetallesGestionarFragment;
 import com.proathome.ui.inicio.InicioFragment;
 import com.proathome.ui.sesiones.SesionesFragment;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,15 +95,14 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
         resultadoapi=s;
 
         if(resultadoapi == null){
-            Toast.makeText(httpContext, "Error del servidor.", Toast.LENGTH_LONG).show();
+            errorMsg("Error del servidor, intente de nuevo más tarde.", SweetAlert.ERROR_TYPE);
         }else{
-
-            ServicioTaskIniciarProcesoRuta iniciarProcesoRuta = new ServicioTaskIniciarProcesoRuta(this.httpContext, idCliente);
+            ServicioTaskIniciarProcesoRuta iniciarProcesoRuta =
+                    new ServicioTaskIniciarProcesoRuta(this.httpContext, idCliente);
             iniciarProcesoRuta.execute();
 
             if(!resultadoapi.equals("null")){
                 try{
-
                     JSONObject jsonObject = new JSONObject(resultadoapi);
                     JSONArray jsonArray = jsonObject.getJSONArray("sesiones");
 
@@ -114,7 +113,6 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
                     }
 
                     for (int i = 0; i < jsonArray.length(); i++){
-
                         JSONObject object = jsonArray.getJSONObject(i);
                         if(tipo == 1) {
                             InicioFragment.myAdapter.add(DetallesFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoClase"), object.getString("horario"),
@@ -126,7 +124,8 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
                             if(!object.getBoolean("finalizado")){
                                 SesionesFragment.myAdapter.add(DetallesGestionarFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoClase"), object.getString("horario"),
                                         object.getString("profesor"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
-                                        object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getString("fecha"), object.getString("tipoPlan")));
+                                        object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"),
+                                        object.getString("fecha"), object.getString("tipoPlan")));
                             }
                          }
 
@@ -136,11 +135,16 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
                     ex.printStackTrace();
                 }
             }else{
-                Toast.makeText(httpContext, "Usuario sin Sesiones.",Toast.LENGTH_LONG).show();
+                errorMsg("Usuario sin sesiones disponibles.", SweetAlert.WARNING_TYPE);
             }
-
         }
+    }
 
+    public void errorMsg(String mensaje, int tipo){
+        new SweetAlert(this.httpContext, tipo, SweetAlert.ESTUDIANTE)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
     }
 
 }

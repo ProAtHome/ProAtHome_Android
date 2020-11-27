@@ -3,7 +3,6 @@ package com.proathome.controladores.profesor;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 import com.proathome.ui.editarPerfilProfesor.EditarPerfilProfesorFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -91,7 +90,7 @@ public class ServicioTaskBancoProfesor extends AsyncTask<Void, Void, String>{
         resultadoapi = s;
 
         if (resultadoapi == null) {
-            Toast.makeText(httpContext, "Error del servidor.", Toast.LENGTH_LONG).show();
+
         } else {
             if (!resultadoapi.equals("null")) {
                 try {
@@ -104,7 +103,7 @@ public class ServicioTaskBancoProfesor extends AsyncTask<Void, Void, String>{
                     ex.printStackTrace();
                 }
             } else {
-                Toast.makeText(httpContext, "Sin datos bancarios.", Toast.LENGTH_LONG).show();
+
             }
         }
     }

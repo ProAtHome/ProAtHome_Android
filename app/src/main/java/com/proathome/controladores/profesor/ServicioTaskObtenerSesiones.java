@@ -3,12 +3,12 @@ package com.proathome.controladores.profesor;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.proathome.fragments.BuscarSesionFragment;
 import com.proathome.utils.Component;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -89,7 +89,7 @@ public class ServicioTaskObtenerSesiones extends AsyncTask<Void, Void, String> {
         this.respuestaAPI = s;
 
         if(this.respuestaAPI == null){
-            Toast.makeText(this.contexto, "Error del servidor.", Toast.LENGTH_LONG).show();
+            errorMsg("Error del servidor, intente de nuevo más tarde.", SweetAlert.ERROR_TYPE);
         }else{
             if(!this.respuestaAPI.equals("null")){
                 try{
@@ -117,9 +117,16 @@ public class ServicioTaskObtenerSesiones extends AsyncTask<Void, Void, String> {
                 }
 
             }else{
-                Toast.makeText(this.contexto, "Sin Sesiones disponibles.",Toast.LENGTH_LONG).show();
+                errorMsg("Sin Sesiones disponibles.", SweetAlert.WARNING_TYPE);
             }
         }
+    }
+
+    public void errorMsg(String mensaje, int tipo){
+        new SweetAlert(this.contexto, tipo, SweetAlert.ESTUDIANTE)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
     }
 
 }

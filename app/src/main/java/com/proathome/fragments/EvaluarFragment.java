@@ -68,13 +68,19 @@ public class EvaluarFragment extends DialogFragment {
         if(!tieComentario.getText().toString().trim().equalsIgnoreCase("")){
             if(ratingBar.getRating() != 0.0){
                 if(this.procedencia == EvaluarFragment.PROCEDENCIA_ESTUDIANTE){
-                    ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesFragment.idEstudiante, DetallesFragment.idProfesor, ratingBar.getRating(), tieComentario.getText().toString(), EvaluarFragment.PROCEDENCIA_ESTUDIANTE, DetallesFragment.idSesion);
+                    ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesFragment.idEstudiante,
+                            DetallesFragment.idProfesor, ratingBar.getRating(), tieComentario.getText().toString(),
+                                EvaluarFragment.PROCEDENCIA_ESTUDIANTE, DetallesFragment.idSesion);
                     valorar.execute();
                     //Esta peticion es por que bloquearemos el perfil después de evaluar.
-                    ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(DetallesFragment.idEstudiante, DetallesFragment.PROCEDENCIA_DETALLES_FRAGMENT);
+                    ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(getContext(),
+                            DetallesFragment.idEstudiante, DetallesFragment.PROCEDENCIA_DETALLES_FRAGMENT);
                     bloquearPerfil.execute();
                 }else if(this.procedencia == EvaluarFragment.PROCEDENCIA_PROFESOR){
-                    ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesSesionProfesorFragment.idProfesor, DetallesSesionProfesorFragment.idEstudiante, ratingBar.getRating(), tieComentario.getText().toString(), EvaluarFragment.PROCEDENCIA_PROFESOR, DetallesSesionProfesorFragment.idSesion);
+                    ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesSesionProfesorFragment.idProfesor,
+                            DetallesSesionProfesorFragment.idEstudiante, ratingBar.getRating(),
+                                tieComentario.getText().toString(), EvaluarFragment.PROCEDENCIA_PROFESOR,
+                                    DetallesSesionProfesorFragment.idSesion);
                     valorar.execute();
                 }
                 dismiss();

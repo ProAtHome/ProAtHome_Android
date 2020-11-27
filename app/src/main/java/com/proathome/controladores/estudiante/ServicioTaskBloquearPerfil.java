@@ -1,15 +1,15 @@
 package com.proathome.controladores.estudiante;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import androidx.fragment.app.FragmentTransaction;
-
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.PagoPendienteFragment;
 import com.proathome.inicioEstudiante;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -21,10 +21,13 @@ import java.net.URL;
 
 public class ServicioTaskBloquearPerfil extends AsyncTask<Void, Void, String> {
 
-    private String linkBloquearPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/bloquearPerfil/";
+    private String linkBloquearPerfil = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/cliente/bloquearPerfil/";
     private int idEstudiante, procedencia;
+    private Context contexto;
 
-    public ServicioTaskBloquearPerfil(int idEstudiante, int procedencia){
+    public ServicioTaskBloquearPerfil(Context contexto, int idEstudiante, int procedencia){
+        this.contexto = contexto;
         this.idEstudiante = idEstudiante;
         this.procedencia = procedencia;
     }
@@ -48,7 +51,8 @@ public class ServicioTaskBloquearPerfil extends AsyncTask<Void, Void, String> {
 
             int responseCode = urlConnection.getResponseCode();
             if(responseCode == HttpURLConnection.HTTP_OK){
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                BufferedReader bufferedReader = new BufferedReader(
+                        new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer stringBuffer = new StringBuffer("");
                 String linea = "";
 
@@ -77,24 +81,35 @@ public class ServicioTaskBloquearPerfil extends AsyncTask<Void, Void, String> {
         super.onPostExecute(s);
 
         try{
-            JSONObject jsonObject = new JSONObject(s);
-            PagoPendienteFragment pagoPendienteFragment = new PagoPendienteFragment();
-            Bundle bundle = new Bundle();
-            if(jsonObject.getBoolean("bloquear")){
-                FragmentTransaction fragmentTransaction = null;
-                bundle.putDouble("deuda", jsonObject.getDouble("deuda"));
-                bundle.putString("sesion", Component.getSeccion(jsonObject.getInt("idSeccion")) + " / " + Component.getNivel(jsonObject.getInt("idSeccion"), jsonObject.getInt("idNivel")) + " / " + jsonObject.getInt("idBloque"));
-                bundle.putString("lugar", jsonObject.getString("lugar"));
-                bundle.putString("nombre", jsonObject.getString("nombre"));
-                bundle.putString("correo", jsonObject.getString("correo"));
-                bundle.putInt("idSesion", jsonObject.getInt("idSesion"));
-                if(this.procedencia == DetallesFragment.PROCEDENCIA_DETALLES_FRAGMENT)
-                    fragmentTransaction = DetallesFragment.detallesFragment.getFragmentManager().beginTransaction();
-                else if(this.procedencia == inicioEstudiante.PROCEDENCIA_INICIO_ESTUDIANTE)
-                    fragmentTransaction = inicioEstudiante.appCompatActivity.getSupportFragmentManager().beginTransaction();
+            if(s != null){
+                JSONObject jsonObject = new JSONObject(s);
+                PagoPendienteFragment pagoPendienteFragment = new PagoPendienteFragment();
+                Bundle bundle = new Bundle();
+                if(jsonObject.getBoolean("bloquear")){
+                    FragmentTransaction fragmentTransaction = null;
+                    bundle.putDouble("deuda", jsonObject.getDouble("deuda"));
+                    bundle.putString("sesion", Component.getSeccion(jsonObject.getInt("idSeccion")) +
+                            " / " + Component.getNivel(jsonObject.getInt("idSeccion"),
+                                jsonObject.getInt("idNivel")) + " / " + jsonObject.getInt("idBloque"));
+                    bundle.putString("lugar", jsonObject.getString("lugar"));
+                    bundle.putString("nombre", jsonObject.getString("nombre"));
+                    bundle.putString("correo", jsonObject.getString("correo"));
+                    bundle.putInt("idSesion", jsonObject.getInt("idSesion"));
+                    if(this.procedencia == DetallesFragment.PROCEDENCIA_DETALLES_FRAGMENT)
+                        fragmentTransaction = DetallesFragment.detallesFragment.getFragmentManager()
+                                .beginTransaction();
+                    else if(this.procedencia == inicioEstudiante.PROCEDENCIA_INICIO_ESTUDIANTE)
+                        fragmentTransaction = inicioEstudiante.appCompatActivity.getSupportFragmentManager()
+                                .beginTransaction();
 
-                pagoPendienteFragment.setArguments(bundle);
-                pagoPendienteFragment.show(fragmentTransaction, "Pago pendiente");
+                    pagoPendienteFragment.setArguments(bundle);
+                    pagoPendienteFragment.show(fragmentTransaction, "Pago pendiente");
+                }
+            }else{
+                new SweetAlert(this.contexto, SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                        .setTitleText("¡ERROR!")
+                        .setContentText("Error al obtener la información de tu historial de pagos, intente de nuevo más tarde.")
+                        .show();
             }
 
         }catch(JSONException ex){

@@ -4,8 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.Toast;
 import com.proathome.loginProfesor;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -66,7 +66,7 @@ public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> 
             parametrosPost.put("contrasena", contrasena);
             parametrosPost.put("fechaNacimiento", fecha);
             Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd"); //SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
+            SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd");
             String strDate =  mdformat.format(calendar.getTime());
             System.out.println(strDate);
             parametrosPost.put("fechaRegistro", strDate);
@@ -122,10 +122,21 @@ public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> 
         super.onPostExecute(s);
         progressDialog.dismiss();
         resultadoapi=s;
-
-        Toast.makeText(httpContext,resultadoapi,Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this.httpContext, loginProfesor.class);
-        this.httpContext.startActivity(intent);
+        if(resultadoapi != null){
+            new SweetAlert(this.httpContext, SweetAlert.SUCCESS_TYPE, SweetAlert.PROFESOR)
+                    .setTitleText("¡GENIAL!")
+                    .setContentText(resultadoapi)
+                    .setConfirmButton("OK", sweetAlertDialog -> {
+                        Intent intent = new Intent(this.httpContext, loginProfesor.class);
+                        this.httpContext.startActivity(intent);
+                    })
+                    .show();
+        }else{
+            new SweetAlert(this.httpContext, SweetAlert.ERROR_TYPE, SweetAlert.PROFESOR)
+                    .setTitleText("¡ERROR!")
+                    .setContentText("Ocurrió un error inesperado.")
+                    .show();
+        }
     }
 
     public String getPostDataString(JSONObject params) throws Exception {
