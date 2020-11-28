@@ -144,9 +144,7 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
             }else{
                 errorMsg("Error en el perfil, intente ingresar más tarde.");
             }
-
         }
-
     }
 
     public void errorMsg(String mensaje){

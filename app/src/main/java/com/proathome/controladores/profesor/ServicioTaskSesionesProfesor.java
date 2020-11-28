@@ -4,10 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
-import android.widget.Toast;
 import com.proathome.fragments.DetallesSesionProfesorFragment;
 import com.proathome.ui.inicioProfesor.InicioProfesorFragment;
 import com.proathome.ui.sesionesProfesor.SesionesProfesorFragment;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -89,11 +89,11 @@ public class ServicioTaskSesionesProfesor extends AsyncTask<Void, Void, String> 
         super.onPostExecute(s);
         this.respuestaAPI = s;
         progressDialog.dismiss();
-
+        System.out.println(this.respuestaAPI);
         if(this.respuestaAPI == null){
-            Toast.makeText(this.contexto, "Error del servidor.", Toast.LENGTH_LONG).show();
+            errorMsg("¡ERROR!", "Error en el servidor, intente de nuevo más tarde.", SweetAlert.ERROR_TYPE);
         }else{
-            if(!this.respuestaAPI.equals("null")){
+            if(!this.respuestaAPI.equals("[]")){
                 try{
                     JSONArray jsonArray = new JSONArray(this.respuestaAPI);
 
@@ -117,9 +117,16 @@ public class ServicioTaskSesionesProfesor extends AsyncTask<Void, Void, String> 
                     ex.printStackTrace();
                 }
             }else{
-                Toast.makeText(this.contexto, "Usuario sin Sesiones.",Toast.LENGTH_LONG).show();
+                errorMsg("¡AVISO!", "Usuario sin clases disponibles.", SweetAlert.WARNING_TYPE);
             }
         }
+    }
+
+    public void errorMsg(String titulo, String mensaje, int tipo){
+        new SweetAlert(this.contexto, tipo, SweetAlert.PROFESOR)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .show();
     }
 
 }

@@ -95,7 +95,7 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
         resultadoapi=s;
 
         if(resultadoapi == null){
-            errorMsg("Error del servidor, intente de nuevo más tarde.", SweetAlert.ERROR_TYPE);
+            errorMsg("¡ERROR!", "Error del servidor, intente de nuevo más tarde.", SweetAlert.ERROR_TYPE);
         }else{
             ServicioTaskIniciarProcesoRuta iniciarProcesoRuta =
                     new ServicioTaskIniciarProcesoRuta(this.httpContext, idCliente);
@@ -135,14 +135,14 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
                     ex.printStackTrace();
                 }
             }else{
-                errorMsg("Usuario sin sesiones disponibles.", SweetAlert.WARNING_TYPE);
+                errorMsg("¡AVISO!","Usuario sin clases disponibles.", SweetAlert.WARNING_TYPE);
             }
         }
     }
 
-    public void errorMsg(String mensaje, int tipo){
+    public void errorMsg(String titulo, String mensaje, int tipo){
         new SweetAlert(this.httpContext, tipo, SweetAlert.ESTUDIANTE)
-                .setTitleText("¡ERROR!")
+                .setTitleText(titulo)
                 .setContentText(mensaje)
                 .show();
     }

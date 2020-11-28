@@ -1,6 +1,7 @@
 package com.proathome.fragments;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -42,6 +43,7 @@ import butterknife.Unbinder;
 public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCallback {
 
     public static final String TAG = "Nueva Sesión";
+    public static Context contexto;
     private String linkAPISesiones = "http://" + Constants.IP +
             ":8080/ProAtHome/apiProAtHome/profesor/obtenerSesionesMovil";
     public static int RANGO_BUSQUEDA = 4000;
@@ -62,6 +64,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialog);
+        contexto = getContext();
     }
 
     @Override

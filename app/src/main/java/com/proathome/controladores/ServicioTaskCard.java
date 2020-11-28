@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.widget.Toast;
 import com.proathome.SincronizarClase;
 import com.proathome.controladores.clase.ServicioTaskSincronizarClases;
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -33,7 +33,8 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
     public static final int CREAR_TOKEN = 1;
     public static final int GUARDAR_TOKEN_BD = 2;
     public static final int OBTENER_TOKEN_BD = 3;
-    private String linkGuardarToken = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/actualizarToken";
+    private String linkGuardarToken = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/cliente/actualizarToken";
 
     public ServicioTaskCard(Context contexto, String nombreTitular, String tarjeta, int mes, int ano,
                             String cvv, int solicitud){
@@ -94,7 +95,8 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
 
                 int responseCode = urlConnection.getResponseCode();
                 if(responseCode == HttpURLConnection.HTTP_OK) {
-                    BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    BufferedReader in = new BufferedReader(new InputStreamReader(
+                            urlConnection.getInputStream()));
                     StringBuffer sb = new StringBuffer("");
                     String linea = "";
 
@@ -126,15 +128,14 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
 
             Constants.openpay.createToken(card, new OperationCallBack<Token>() {
 
-
                 @Override
                 public void onError(mx.openpay.android.exceptions.OpenpayServiceException e) {
-                    Toast.makeText(contexto, e.toString(), Toast.LENGTH_LONG).show();
+                    errorMsg(e.toString());
                 }
 
                 @Override
                 public void onCommunicationError(mx.openpay.android.exceptions.ServiceUnavailableException e) {
-                    Toast.makeText(contexto, e.toString(), Toast.LENGTH_LONG).show();
+                    errorMsg(e.toString());
                 }
 
                 @Override
@@ -167,14 +168,19 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
                     intent.putExtra("idBloque", DetallesFragment.idBloque);
                     intent.putExtra("sumar", DetallesFragment.sumar);
                     contexto.startActivity(intent);
-
-
                 }
             });
         }else if(this.solicitud == ServicioTaskCard.OBTENER_TOKEN_BD){
         }
 
         return result;
+    }
+
+    public void errorMsg(String mensaje){
+        new SweetAlert(DetallesFragment.contexto, SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
     }
 
     @Override

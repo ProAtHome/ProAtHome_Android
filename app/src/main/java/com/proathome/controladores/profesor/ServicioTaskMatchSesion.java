@@ -2,7 +2,8 @@ package com.proathome.controladores.profesor;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
+import com.proathome.fragments.BuscarSesionFragment;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -95,7 +96,18 @@ public class ServicioTaskMatchSesion extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         this.respuestaAPI = s;
-        Toast.makeText(this.contexto, this.respuestaAPI, Toast.LENGTH_LONG).show();
+        if(this.respuestaAPI != null){
+            showMsg("¡GENIAL", this.respuestaAPI, SweetAlert.SUCCESS_TYPE);
+        }else{
+            showMsg("¡ERROR!", "Ocurrió un error inesperado", SweetAlert.ERROR_TYPE);
+        }
+    }
+
+    public void showMsg(String titulo, String mensaje, int tipo){
+        new SweetAlert(BuscarSesionFragment.contexto, tipo, SweetAlert.PROFESOR)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .show();
     }
 
     public String getPostDataString(JSONObject params) throws Exception {

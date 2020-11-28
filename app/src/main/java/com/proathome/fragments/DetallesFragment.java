@@ -1,6 +1,7 @@
 package com.proathome.fragments;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -60,6 +61,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     /*VARIABLE DE EXISTENCIA DE DATOS - BANCO*/
     public static boolean banco, procedenciaFin = false;
     public static ImageView foto;
+    public static Context contexto;
     @BindView(R.id.profesor)
     public TextView profesor;
     @BindView(R.id.horario)
@@ -153,6 +155,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         mUnbinder = ButterKnife.bind(this, view);
 
         detallesFragment = DetallesFragment.this;
+        DetallesFragment.contexto = getContext();
 
         Component component = new Component();
         Bundle bun = getArguments();

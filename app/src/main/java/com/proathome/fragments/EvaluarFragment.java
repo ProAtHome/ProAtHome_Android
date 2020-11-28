@@ -7,12 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.controladores.estudiante.ServicioTaskBloquearPerfil;
 import com.proathome.controladores.valoracion.ServicioTaskValorar;
+import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -67,30 +67,43 @@ public class EvaluarFragment extends DialogFragment {
     public void onClick(){
         if(!tieComentario.getText().toString().trim().equalsIgnoreCase("")){
             if(ratingBar.getRating() != 0.0){
-                if(this.procedencia == EvaluarFragment.PROCEDENCIA_ESTUDIANTE){
-                    ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesFragment.idEstudiante,
-                            DetallesFragment.idProfesor, ratingBar.getRating(), tieComentario.getText().toString(),
-                                EvaluarFragment.PROCEDENCIA_ESTUDIANTE, DetallesFragment.idSesion);
-                    valorar.execute();
-                    //Esta peticion es por que bloquearemos el perfil después de evaluar.
-                    ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(getContext(),
-                            DetallesFragment.idEstudiante, DetallesFragment.PROCEDENCIA_DETALLES_FRAGMENT);
-                    bloquearPerfil.execute();
-                }else if(this.procedencia == EvaluarFragment.PROCEDENCIA_PROFESOR){
-                    ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesSesionProfesorFragment.idProfesor,
-                            DetallesSesionProfesorFragment.idEstudiante, ratingBar.getRating(),
-                                tieComentario.getText().toString(), EvaluarFragment.PROCEDENCIA_PROFESOR,
-                                    DetallesSesionProfesorFragment.idSesion);
-                    valorar.execute();
-                }
-                dismiss();
-                Toast.makeText(getContext(), "Garcias por tu valoración!", Toast.LENGTH_LONG).show();
+                new SweetAlert(getContext(), SweetAlert.SUCCESS_TYPE, procedencia)
+                        .setTitleText("¡GENIAL!")
+                        .setContentText("Gracias por tu evaluación.")
+                        .setConfirmButton("OK", sweetAlertDialog -> {
+                            sweetAlertDialog.dismissWithAnimation();
+                            if(this.procedencia == EvaluarFragment.PROCEDENCIA_ESTUDIANTE){
+                                ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesFragment.idEstudiante,
+                                        DetallesFragment.idProfesor, ratingBar.getRating(), tieComentario.getText().toString(),
+                                        EvaluarFragment.PROCEDENCIA_ESTUDIANTE, DetallesFragment.idSesion);
+                                valorar.execute();
+                                //Esta peticion es por que bloquearemos el perfil después de evaluar.
+                                ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(getContext(),
+                                        DetallesFragment.idEstudiante, DetallesFragment.PROCEDENCIA_DETALLES_FRAGMENT);
+                                bloquearPerfil.execute();
+                            }else if(this.procedencia == EvaluarFragment.PROCEDENCIA_PROFESOR){
+                                ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesSesionProfesorFragment.idProfesor,
+                                        DetallesSesionProfesorFragment.idEstudiante, ratingBar.getRating(),
+                                        tieComentario.getText().toString(), EvaluarFragment.PROCEDENCIA_PROFESOR,
+                                        DetallesSesionProfesorFragment.idSesion);
+                                valorar.execute();
+                            }
+                            dismiss();
+                        })
+                        .show();
             }else{
-                Toast.makeText(getContext(), "Deja una puntuación porfa :)", Toast.LENGTH_LONG).show();
+                errorMsg("¡ESPERA!","Da una puntuación por favor.", procedencia);
             }
         }else{
-            Toast.makeText(getContext(), "Deja un comentario porfa :)", Toast.LENGTH_LONG).show();
+            errorMsg("¡ESPERA!","Deja un comentario por favor.", procedencia);
         }
+    }
+
+    public void errorMsg(String titulo, String mensaje, int tipo){
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, tipo)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .show();
     }
 
     @Override

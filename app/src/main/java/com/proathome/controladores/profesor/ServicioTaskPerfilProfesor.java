@@ -4,10 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.widget.Toast;
 import com.proathome.inicioProfesor;
 import com.proathome.ui.editarPerfilProfesor.EditarPerfilProfesorFragment;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -101,7 +101,7 @@ public class ServicioTaskPerfilProfesor extends AsyncTask<Void, Void, String> {
         resultadoApi = s;
 
         if(resultadoApi == null){
-            Toast.makeText(httpContext, "Error del servidor.", Toast.LENGTH_LONG).show();
+            errorMsg("Error del servidor, intente ingresar más tarde.");
         }else {
             if(!resultadoApi.equals("null")){
                 try{
@@ -124,9 +124,16 @@ public class ServicioTaskPerfilProfesor extends AsyncTask<Void, Void, String> {
                     ex.printStackTrace();
                 }
             }else{
-                Toast.makeText(httpContext, "Error en el perfil.",Toast.LENGTH_LONG).show();
+                errorMsg("Error en el perfil, intente ingresar más tarde.");
             }
         }
+    }
+
+    public void errorMsg(String mensaje){
+        new SweetAlert(this.httpContext, SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
     }
 
 }

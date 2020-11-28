@@ -1,12 +1,9 @@
 package com.proathome.controladores.clase;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.Toast;
 import androidx.fragment.app.FragmentActivity;
 import com.proathome.ClaseEstudiante;
 import com.proathome.ClaseProfesor;

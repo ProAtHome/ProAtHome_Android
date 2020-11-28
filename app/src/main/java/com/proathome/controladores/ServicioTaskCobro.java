@@ -3,7 +3,6 @@ package com.proathome.controladores;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 import com.proathome.ClaseEstudiante;
 import com.proathome.controladores.clase.ServicioTaskFinalizarClase;
 import com.proathome.controladores.clase.ServicioTaskMasTiempo;
@@ -11,6 +10,7 @@ import com.proathome.controladores.clase.ServicioTaskSumarClaseRuta;
 import com.proathome.fragments.CobroFinalFragment;
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -64,12 +64,9 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
         String resultado = null;
 
         if(this.tipo_token == ServicioTaskCobro.TOKEN_PHONE){
-
             try {
-
                 URL url = new URL(this.linkCobro);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
 
                 DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
                 separadoresPersonalizados.setDecimalSeparator('.');
@@ -100,15 +97,12 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
 
                 int responseCode = urlConnection.getResponseCode();
                 if(responseCode == HttpURLConnection.HTTP_OK){
-
                     BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer sb= new StringBuffer("");
                     String linea="";
                     while ((linea=in.readLine())!= null){
-
                         sb.append(linea);
                         break;
-
                     }
                     in.close();
                     resultado = sb.toString();
@@ -127,7 +121,6 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
             }
 
         }else if(this.tipo_token == ServicioTaskCobro.TOKEN_BD){
-
             try {
                 URL url = new URL(this.linkObtenerToken + this.idSesion + "/" + this.idEstudiante);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -193,22 +186,27 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
                     Constants.fragmentActivity.finish();
                 }else{//Mostramos el error.
                     //Finalizamos la clase, sumamos la ruta.
-                    ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(this.contexto,
-                            this.idSesion, this.idEstudiante, Constants.FINALIZAR_CLASE, DetallesFragment.ESTUDIANTE);
-                    finalizarClase.execute();
-                    ServicioTaskSumarClaseRuta sumarClaseRuta = new ServicioTaskSumarClaseRuta(this.contexto,
-                            this.idSesion, this.idEstudiante, ClaseEstudiante.idSeccion, ClaseEstudiante.idNivel,
-                                ClaseEstudiante.idBloque, ClaseEstudiante.tiempo, ClaseEstudiante.sumar);
-                    sumarClaseRuta.execute();
-                    ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion,
-                            TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo,
-                                    TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion,
+                    new SweetAlert(this.contexto, SweetAlert.ERROR_TYPE, SweetAlert.PROFESOR)
+                            .setTitleText("¡ERROR!")
+                            .setContentText("Error: " + s + " tu perfil será bloqueado.")
+                            .setConfirmButton("OK", sweetAlertDialog -> {
+                                sweetAlertDialog.dismissWithAnimation();
+                                ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(this.contexto,
+                                        this.idSesion, this.idEstudiante, Constants.FINALIZAR_CLASE, DetallesFragment.ESTUDIANTE);
+                                finalizarClase.execute();
+                                ServicioTaskSumarClaseRuta sumarClaseRuta = new ServicioTaskSumarClaseRuta(this.contexto,
+                                        this.idSesion, this.idEstudiante, ClaseEstudiante.idSeccion, ClaseEstudiante.idNivel,
+                                        ClaseEstudiante.idBloque, ClaseEstudiante.tiempo, ClaseEstudiante.sumar);
+                                sumarClaseRuta.execute();
+                                ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion,
+                                        TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo,
+                                                TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion,
                                         CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR),
-                                            DetallesFragment.planSesion, "Deuda");
-                    ordenPago.execute();
-                    Constants.fragmentActivity.finish();
-                    Toast.makeText(this.contexto, "Error: " + s + " tu perfil será bloqueado.",
-                            Toast.LENGTH_LONG).show();
+                                        DetallesFragment.planSesion, "Deuda");
+                                ordenPago.execute();
+                                Constants.fragmentActivity.finish();
+                            })
+                            .show();
                 }
             }else if(this.tipo_boton == ServicioTaskCobro.ENTENDIDO_TE){
                 if(s.equalsIgnoreCase("")){
@@ -244,8 +242,8 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
                                         CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR),
                                             DetallesFragment.planSesion, "Deuda");
                     ordenPago.execute();
-                    Toast.makeText(this.contexto, "Error: " + s + " tu perfil será bloqueado al terminar el TE.",
-                            Toast.LENGTH_LONG).show();
+                    showMsg("¡ERROR!","Error: " + s + " tu perfil será bloqueado al terminar el TE.",
+                            SweetAlert.ERROR_TYPE);
                 }
             }
         }else if(this.tipo_token == ServicioTaskCobro.TOKEN_BD){
@@ -270,9 +268,14 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
                     e.printStackTrace();
                 }
             }
-
         }
+    }
 
+    public void showMsg(String titulo, String mensaje, int tipo){
+        new SweetAlert(this.contexto, tipo, SweetAlert.PROFESOR)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .show();
     }
 
     public String getPostDataString(JSONObject params) throws Exception {
