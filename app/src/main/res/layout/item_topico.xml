@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:padding="@dimen/common_padding_default"
+    android:layout_marginTop="@dimen/common_padding_min">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/common_padding_default">
+
+        <TextView
+            android:id="@+id/tituloTopico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/material_blue_grey_80"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:text="Título del Ticket Pendiente"/>
+
+        <TextView
+            android:id="@+id/estatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tituloTopico"
+            android:textStyle="bold|italic"
+            android:layout_marginTop="@dimen/common_padding_min"
+            android:textColor="@color/color_primary"
+            android:text="Estatus: En curso de solución"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha de creación:"
+            android:textStyle="bold"
+            android:layout_below="@id/estatus"
+            android:layout_marginTop="@dimen/common_padding_min"
+            android:layout_gravity="right"
+            android:drawableLeft="@drawable/ic_date"/>
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

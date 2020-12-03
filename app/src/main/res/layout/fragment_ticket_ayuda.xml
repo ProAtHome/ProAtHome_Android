@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/common_padding_default">
+
+                        <TextView
+                            android:id="@+id/tvTopico"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Tópico: Título de tópico"
+                            android:textStyle="bold"
+                            android:drawableLeft="@drawable/ic_nuevotop_24"
+                            android:drawablePadding="@dimen/common_padding_min"
+                            android:textColor="@color/material_blue_grey_80"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                        <TextView
+                            android:id="@+id/tvDescripcion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Descripción: Descripción de Problemas de todo tipo."
+                            android:textStyle="bold"
+                            android:textColor="@color/material_blue_grey_80"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvTopico"/>
+
+                        <TextView
+                            android:id="@+id/tvTicket"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No. de Ticket: 102"
+                            android:textColor="@color/color_primary"
+                            android:textStyle="bold|italic"
+                            android:layout_marginTop="@dimen/common_padding_min"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvDescripcion"/>
+
+                        <View
+                            android:id="@+id/divider"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:background="@color/colorPrimaryDark"
+                            app:layout_constraintTop_toBottomOf="@id/tvTicket"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginTop="@dimen/common_padding_min"/>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/constraintChat"
+                            android:layout_width="match_parent"
+                            android:layout_height="350dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/divider">
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/recyclerMsg"
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    tools:listitem="@layout/item_msg_ticket"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/constraintChat"
+                            android:layout_marginTop="@dimen/common_padding_default">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="300dp"
+                                    android:layout_height="wrap_content"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:hint="Escribre algo..."
+                                            android:maxLines="5"
+                                            android:inputType="text|textMultiLine">
+
+                                        </com.google.android.material.textfield.TextInputEditText>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:drawableLeft="@drawable/ic_send_24"/>
+
+                        </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+
+
+

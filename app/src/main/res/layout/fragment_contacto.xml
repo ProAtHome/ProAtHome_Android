@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:padding="@dimen/common_padding_default">
+
+    <TextView
+        android:id="@+id/tvTopico"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tópico:"
+        android:textColor="@color/material_blue_grey_80"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilTopico"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTopico"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <EditText
+            android:id="@+id/etTopico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Título del tema a sulucionar"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvDescripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Descripción:"
+        android:textColor="@color/material_blue_grey_80"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/common_padding_min"
+        app:layout_constraintTop_toBottomOf="@id/tilTopico"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilDescripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDescripcion"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <EditText
+            android:id="@+id/etDescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text|textMultiLine"
+            android:maxLines="10"
+            android:hint="Describenos el problema con detalle." />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnEnviar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enviar"
+        android:layout_marginTop="@dimen/common_padding_min"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tilDescripcion"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/Cancelar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancelar"
+        android:layout_marginStart="@dimen/common_padding_min"
+        android:layout_marginTop="@dimen/common_padding_min"
+        android:backgroundTint="@android:color/holo_red_dark"
+        app:layout_constraintStart_toEndOf="@id/btnEnviar"
+        app:layout_constraintTop_toBottomOf="@id/tilDescripcion"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout >
