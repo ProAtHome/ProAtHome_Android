@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
-import com.proathome.controladores.clase.ServicioTaskSincronizarClases;
+import com.proathome.servicios.clase.ServicioTaskSincronizarClases;
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.DetallesSesionProfesorFragment;
 import com.proathome.utils.Constants;

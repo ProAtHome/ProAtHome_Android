@@ -25,11 +25,11 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
-import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
-import com.proathome.controladores.estudiante.ServicioTaskBancoEstudiante;
-import com.proathome.controladores.estudiante.ServicioTaskPerfilEstudiante;
-import com.proathome.controladores.estudiante.ServicioTaskUpCuentaEstudiante;
-import com.proathome.controladores.estudiante.ServicioTaskUpPerfilEstudiante;
+import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.servicios.estudiante.ServicioTaskBancoEstudiante;
+import com.proathome.servicios.estudiante.ServicioTaskPerfilEstudiante;
+import com.proathome.servicios.estudiante.ServicioTaskUpCuentaEstudiante;
+import com.proathome.servicios.estudiante.ServicioTaskUpPerfilEstudiante;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 

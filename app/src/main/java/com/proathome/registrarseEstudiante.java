@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import com.google.android.material.textfield.TextInputEditText;
-import com.proathome.controladores.estudiante.ServicioTaskRegistroEstudiante;
+import com.proathome.servicios.estudiante.ServicioTaskRegistroEstudiante;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 
@@ -17,7 +17,6 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class registrarseEstudiante extends AppCompatActivity {
 

@@ -19,7 +19,7 @@
             <fragment
                 xmlns:map="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/mapsDetallesSesionProfesor"
-                class="com.proathome.controladores.WorkaroundMapFragment"
+                class="com.proathome.servicios.WorkaroundMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
                 map:layout_constraintEnd_toEndOf="parent"

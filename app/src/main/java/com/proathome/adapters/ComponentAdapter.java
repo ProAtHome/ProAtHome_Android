@@ -39,13 +39,18 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Component component = mComponents.get(position);
         holder.setClickListener(mListener, component);
-        holder.tvNivel.setText("Nivel: " + component.obtenerNivel(component.getIdSeccion(), component.getIdNivel(), component.getIdBloque()));
+        holder.tvNivel.setText("Nivel: " + component.obtenerNivel(component.getIdSeccion(),
+                component.getIdNivel(), component.getIdBloque()));
         holder.tvTipo.setText("Tipo de Clase: " + component.getTipoClase());
         holder.tvHorario.setText("Horario: " + component.getHorario());
         holder.imgPhoto.setImageResource(component.getPhotoRes());
         holder.setOnClickListeners(component.getIdClase(), component.getProfesor(), component.getLugar(),
-                component.getTiempo(), component.getObservaciones(), component.getTipoClase(), component.getHorario(), component.getLatitud(),
-                component.getLongitud(), component.getIdSeccion(), component.getIdNivel(), component.getIdBloque(), component.getFecha(), component.getFotoProfesor(), component.getDescripcionProfesor(), component.getCorreoProfesor(), component.getSumar(), component.getTipoPlan(), component.getIdProfesor());
+                component.getTiempo(), component.getObservaciones(), component.getTipoClase(),
+                component.getHorario(), component.getLatitud(),
+                component.getLongitud(), component.getIdSeccion(), component.getIdNivel(),
+                component.getIdBloque(), component.getFecha(), component.getFotoProfesor(),
+                component.getDescripcionProfesor(), component.getCorreoProfesor(), component.getSumar(),
+                component.getTipoPlan(), component.getIdProfesor());
     }
 
     @Override
@@ -70,7 +75,8 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
         TextView tvHorario;
         Context context;
 
-        String tipoPlan ="", profesor = "", lugar = "", observaciones = "", tipoClase = "", horario = "", fecha = "", fotoProfesor = "", descripcionProfesor ="", correoProfesor = "";
+        String tipoPlan ="", profesor = "", lugar = "", observaciones = "", tipoClase = "", horario = "",
+                fecha = "", fotoProfesor = "", descripcionProfesor ="", correoProfesor = "";
         int idClase, idSeccion, idNivel, idBloque, tiempo, idProfesor;
         double latitud, longitud;
         boolean sumar;
@@ -85,7 +91,10 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
         }
 
         void setOnClickListeners(int idClase, String profesor, String lugar, int tiempo, String observaciones,
-                                 String tipoClase, String horario, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, String fecha, String fotoProfesor, String descripcionProfesor, String correoProfesor, boolean sumar, String tipoPlan, int idProfesor){
+                                 String tipoClase, String horario, double latitud, double longitud,
+                                 int idSeccion, int idNivel, int idBloque, String fecha, String fotoProfesor,
+                                 String descripcionProfesor, String correoProfesor, boolean sumar, String tipoPlan,
+                                 int idProfesor){
             this.idClase = idClase;
             this.profesor = profesor;
             this.lugar = lugar;

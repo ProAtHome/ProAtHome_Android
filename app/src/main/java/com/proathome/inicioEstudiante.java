@@ -9,9 +9,9 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
-import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
-import com.proathome.controladores.estudiante.ServicioTaskBloquearPerfil;
-import com.proathome.controladores.estudiante.ServicioTaskPerfilEstudiante;
+import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.servicios.estudiante.ServicioTaskBloquearPerfil;
+import com.proathome.servicios.estudiante.ServicioTaskPerfilEstudiante;
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.utils.Constants;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -25,7 +25,8 @@ public class inicioEstudiante extends AppCompatActivity{
 
     private AppBarConfiguration mAppBarConfiguration;
     private Intent intent;
-    private String linkRESTCargarPerfil = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/perfilCliente";
+    private String linkRESTCargarPerfil = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/cliente/perfilCliente";
     private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
     public static TextView correoTV, nombreTV, tipoPlan, monedero;
     private int idEstudiante = 0;
@@ -69,16 +70,19 @@ public class inicioEstudiante extends AppCompatActivity{
 
     public void cargarPerfil(){
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesion", null,
+                1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1,
+                null);
 
         if(fila.moveToFirst()){
             this.idEstudiante = fila.getInt(0);
             //TODO FLUJO_PLANES: Crear PLAN al iniciar sesión si no existe registro en la BD.
             /*TODO FLUJO_PANES: Cargamos la info de PLAN, MONEDERO Y PERFIL.*/
             DetallesFragment.procedenciaFin = false;
-            ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(this, idEstudiante,
+            ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(this,
+                    idEstudiante,
                     inicioEstudiante.PROCEDENCIA_INICIO_ESTUDIANTE);
             bloquearPerfil.execute();
             ServicioTaskPerfilEstudiante perfilEstudiante = new ServicioTaskPerfilEstudiante(this,
@@ -101,7 +105,8 @@ public class inicioEstudiante extends AppCompatActivity{
 
     public void cerrarSesion(View view){
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesion", null,
+                1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
         baseDeDatos.delete("sesion", "id=1", null);
         baseDeDatos.close();

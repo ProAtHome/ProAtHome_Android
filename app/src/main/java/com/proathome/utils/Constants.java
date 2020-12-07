@@ -12,6 +12,15 @@ public class Constants {
     public static final Openpay openpay = new Openpay("medmbxsomtgpwv744wtf",
             "pk_db3401afe85245d3b9bbec82324ba58c", false);
 
+    /*Tipos de usuario*/
+    public static final int TIPO_USUARIO_ESTUDIANTE = 1;
+    public static final int TIPO_USUARIO_PROFESOR = 2;
+
+    /*Tickets ayuda*/
+    public static final int ESTATUS_SIN_OPERADOR = 1;
+    public static final int ESTATUS_EN_CURSO = 2;
+    public static final int ESTATUS_SOLUCIONADO = 3;
+
     public static final String ARG_NAME = "name";
     public static final int SCROLL = 0;
     public static final int STATIC = 1;
@@ -153,7 +162,7 @@ public class Constants {
     public static final  int BLOQUE1_AVANZADO5= 1;
     public static final  int BLOQUE2_AVANZADO5= 2;
     /*FIN RUTA NIVELES*/
-    public static final String IP = "192.168.100.199";
+    public static final String IP = "192.168.100.210";
 
 
     /*Prueba Estaticos Singleton*/

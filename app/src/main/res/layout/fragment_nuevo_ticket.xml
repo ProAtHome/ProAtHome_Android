@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.NuevoTicketFragment"
+    android:padding="@dimen/common_padding_default">
+
+    <TextView
+        android:id="@+id/tvTopico"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_primary"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:text="Tópico:" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilTopico"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTopico"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTopico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColor="@android:color/black"
+            android:hint="Escribre un título del problema."/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvDescripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_primary"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/common_padding_min"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_below="@+id/tilTopico"
+        android:text="Descripción:" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilDescripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvDescripcion"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etDescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:inputType="text|textMultiLine"
+            android:hint="Escribre la descripción detallada del problema."/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnEnviar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tilDescripcion"
+        android:layout_marginTop="@dimen/common_padding_min"
+        android:backgroundTint="@color/color_primary"
+        android:text="Enviar"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCancelar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/btnEnviar"
+        android:layout_below="@id/tilDescripcion"
+        android:layout_marginStart="@dimen/common_padding_min"
+        android:layout_marginTop="@dimen/common_padding_min"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:text="Cancelar"/>
+
+</RelativeLayout>

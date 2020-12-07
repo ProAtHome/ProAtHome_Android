@@ -10,12 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.proathome.R;
-import com.proathome.controladores.estudiante.AdminSQLiteOpenHelper;
-import com.proathome.controladores.estudiante.ServicioExamenDiagnostico;
-import com.proathome.controladores.estudiante.ServicioTaskRuta;
-import com.proathome.controladores.estudiante.ServicioTaskRutaExamen;
+import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.servicios.estudiante.ServicioTaskRutaExamen;
 import com.proathome.examen.EvaluarRuta;
-import com.proathome.utils.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

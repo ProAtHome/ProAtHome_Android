@@ -31,6 +31,7 @@
             android:text="Estatus: En curso de solución"/>
 
         <TextView
+            android:id="@+id/fechaCreacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Fecha de creación:"

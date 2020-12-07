@@ -72,6 +72,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardAyuda"/>
 
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_viewAyuda"
             android:layout_width="wrap_content"
@@ -88,8 +89,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             tools:listitem="@layout/item_topico"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/animation_viewAyuda"
+            app:layout_constraintTop_toBottomOf="@id/topicosPendientes"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
