@@ -2,7 +2,32 @@ package com.proathome.utils;
 
 public class ComponentTicket {
 
-    private String tituloTopico, estatus, fechaCreacion;
+    private String tituloTopico, estatus, fechaCreacion, descripcion, noTicket;
+    private int idTicket;
+
+    public int getIdTicket() {
+        return idTicket;
+    }
+
+    public void setIdTicket(int idTicket) {
+        this.idTicket = idTicket;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getNoTicket() {
+        return noTicket;
+    }
+
+    public void setNoTicket(String noTicket) {
+        this.noTicket = noTicket;
+    }
 
     public String getTituloTopico() {
         return tituloTopico;

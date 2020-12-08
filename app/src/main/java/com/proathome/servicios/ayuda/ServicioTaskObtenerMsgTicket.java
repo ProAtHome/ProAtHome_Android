@@ -3,12 +3,8 @@ package com.proathome.servicios.ayuda;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.view.View;
 import com.proathome.fragments.FragmentTicketAyuda;
-import com.proathome.ui.ayuda.AyudaFragment;
-import com.proathome.utils.ComponentTicket;
 import com.proathome.utils.Constants;
-import com.proathome.utils.SweetAlert;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,23 +15,21 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ServicioTaskObtenerTickets extends AsyncTask<Void, Void, String> {
+public class ServicioTaskObtenerMsgTicket extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
-    private String linkObtenerTickets = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/obtenerTickets/";
-    private int idEstudiante;
-    private ProgressDialog progressDialog;
+    private int idEstudiante, idTicket;
+    private String linkObtenerMsgTicket = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/admin/obtenerMsgTicket/";
 
-    public ServicioTaskObtenerTickets(Context contexto, int idEstudiante){
+    public ServicioTaskObtenerMsgTicket(Context contexto, int idEstudiante, int idTicket){
         this.contexto = contexto;
         this.idEstudiante = idEstudiante;
+        this.idTicket = idTicket;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        this.progressDialog = ProgressDialog.show(this.contexto, "Cargando tus tickets de ayuda", "Por favor espere...");
     }
 
     @Override
@@ -43,7 +37,7 @@ public class ServicioTaskObtenerTickets extends AsyncTask<Void, Void, String> {
         String resultado = null;
 
         try{
-            URL url = new URL(this.linkObtenerTickets + idEstudiante);
+            URL url = new URL(this.linkObtenerMsgTicket + idEstudiante + "/" + Constants.TIPO_USUARIO_ESTUDIANTE + "/" + idTicket);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
             httpURLConnection.setReadTimeout(15000);
@@ -81,36 +75,20 @@ public class ServicioTaskObtenerTickets extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        this.progressDialog.dismiss();
-
         try{
-            if(s != null){
-                JSONArray jsonArray = new JSONArray(s);
-                    for(int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        if (jsonObject.getBoolean("sinTickets")){
-                            AyudaFragment.lottieAnimationView.setVisibility(View.VISIBLE);
-                        } else{
-                            AyudaFragment.lottieAnimationView.setVisibility(View.INVISIBLE);
-                            AyudaFragment.componentAdapterTicket.add(FragmentTicketAyuda.getmInstance(jsonObject.getString("topico"),
-                                ComponentTicket.validarEstatus(jsonObject.getInt("estatus")),
-                                    jsonObject.getString("fechaCreacion"), jsonObject.getInt("idTicket"),
-                                    jsonObject.getString("descripcion"), jsonObject.getString("noTicket")));
-                        }
-                    }
-            }else{
-                msgInfo(SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inseperado, intenta nuevamente.");
+            JSONArray jsonArray = new JSONArray(s);
+            JSONObject ticket = jsonArray.getJSONObject(0);
+            JSONObject mensajes = jsonArray.getJSONObject(1);
+            JSONArray jsonArrayMensajes = mensajes.getJSONArray("mensajes");
+            for(int i = 0; i < jsonArrayMensajes.length(); i++){
+                JSONObject mensaje = jsonArrayMensajes.getJSONObject(i);
+                FragmentTicketAyuda.componentAdapterMsgTickets.add(FragmentTicketAyuda.getmInstance(
+                        "Usuario", mensaje.getString("msg"), mensaje.getBoolean("operador")));
             }
-        }catch (JSONException ex){
+            FragmentTicketAyuda.recyclerView.getLayoutManager().scrollToPosition(jsonArrayMensajes.length() - 1);
+        }catch(JSONException ex){
             ex.printStackTrace();
         }
-    }
-
-    public void msgInfo(int tipo, String titulo, String contenido){
-        new SweetAlert(this.contexto, tipo, SweetAlert.ESTUDIANTE)
-                .setTitleText(titulo)
-                .setContentText(contenido)
-                .show();
     }
 
 }

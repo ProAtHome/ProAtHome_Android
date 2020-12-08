@@ -1,14 +1,17 @@
 package com.proathome.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import com.proathome.R;
+import com.proathome.fragments.FragmentTicketAyuda;
+import com.proathome.ui.ayuda.AyudaFragment;
 import com.proathome.utils.ComponentTicket;
 import com.proathome.utils.OnClickListener;
 import java.util.List;
@@ -36,8 +39,12 @@ public class ComponentAdapterTicket extends RecyclerView.Adapter<ComponentAdapte
         ComponentTicket componentTicket = mComponentTicket.get(position);
         holder.setClickListener(mOnClickListener, componentTicket);
         holder.tituloTopico.setText("Tópico: " + componentTicket.getTituloTopico());
+        holder.topico = "Tópico: " + componentTicket.getTituloTopico();
+        holder.descripcion = "Problema: " + componentTicket.getDescripcion();
+        holder.noTicket = "No. de Ticket: " + componentTicket.getNoTicket();
         holder.estatus.setText("Estatus: " + componentTicket.getEstatus());
         holder.fechaCreacion.setText("Fecha de Creación: " + componentTicket.getFechaCreacion());
+        holder.idTicket = componentTicket.getIdTicket();
         holder.setOnClickListeners();
     }
 
@@ -55,6 +62,8 @@ public class ComponentAdapterTicket extends RecyclerView.Adapter<ComponentAdapte
 
         private View view;
         private Context contexto;
+        private int idTicket;
+        private String topico, descripcion, noTicket;
         @BindView(R.id.tituloTopico)
         TextView tituloTopico;
         @BindView(R.id.estatus)
@@ -79,7 +88,15 @@ public class ComponentAdapterTicket extends RecyclerView.Adapter<ComponentAdapte
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(this.contexto, "Veremos el ticket con sus mensajes", Toast.LENGTH_LONG).show();
+            Bundle bundle = new Bundle();
+            bundle.putInt("idTicket", this.idTicket);
+            bundle.putString("topico", this.topico);
+            bundle.putString("descripcion", this.descripcion);
+            bundle.putString("noTicket", this.noTicket);
+            FragmentTransaction fragmentTransaction = AyudaFragment.ayudaFragment.getFragmentManager().beginTransaction();
+            FragmentTicketAyuda fragmentTicketAyuda = new FragmentTicketAyuda();
+            fragmentTicketAyuda.setArguments(bundle);
+            fragmentTicketAyuda.show(fragmentTransaction, "Mensajes");
         }
     }
 

@@ -14,7 +14,16 @@
 
                 <androidx.appcompat.widget.Toolbar
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"/>
+                    android:layout_height="?attr/actionBarSize">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnRegresar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Regresar"
+                            android:layout_gravity="right"/>
+
+                </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -83,6 +92,7 @@
                                     android:id="@+id/recyclerMsg"
                                     android:layout_width="0dp"
                                     android:layout_height="0dp"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                                     tools:listitem="@layout/item_msg_ticket"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
@@ -101,11 +111,13 @@
                             android:layout_marginTop="@dimen/common_padding_default">
 
                                 <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/tilEscribeMsg"
                                     android:layout_width="300dp"
                                     android:layout_height="wrap_content"
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                                         <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/etEscribeMsg"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:hint="Escribre algo..."
@@ -117,6 +129,7 @@
                                 </com.google.android.material.textfield.TextInputLayout>
 
                                 <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btnEnviarMsg"
                                     android:layout_width="60dp"
                                     android:layout_height="wrap_content"
                                     android:drawableLeft="@drawable/ic_send_24"/>

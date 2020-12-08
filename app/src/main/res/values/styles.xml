@@ -8,10 +8,22 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--Estilos de mensajes Ayuda Tickets-->
+    <style name="StyleCardMsg" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialCardView.Cut</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.MaterialCardView.Cut" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">8dp</item>
+        <item name="cornerSizeTopLeft">8dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+    <!--Estilos de mensajes Ayuda Tickets FIN-->
+
     <style name="MyTheme.DayNight.Add" parent="Base.MyTheme">
-
         <item name="android:windowEnterTransition">@transition/explode</item>
-
     </style>
 
     <style name="AppThemeProfesor.NoActionBar">

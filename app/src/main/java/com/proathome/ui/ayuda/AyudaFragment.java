@@ -18,7 +18,6 @@ import com.proathome.fragments.NuevoTicketFragment;
 import com.proathome.servicios.ayuda.ServicioTaskObtenerTickets;
 import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
 import java.util.ArrayList;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -30,6 +29,7 @@ public class AyudaFragment extends Fragment {
     public static ComponentAdapterTicket componentAdapterTicket;
     public static LottieAnimationView lottieAnimationView;
     public static RecyclerView recyclerView;
+    public static AyudaFragment ayudaFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,6 +38,7 @@ public class AyudaFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recyclerTopicos);
         lottieAnimationView = view.findViewById(R.id.animation_viewAyuda);
+        ayudaFragment = this;
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
