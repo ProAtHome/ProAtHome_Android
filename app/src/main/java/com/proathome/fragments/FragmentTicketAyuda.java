@@ -5,6 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
+
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +17,21 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.proathome.ClaseEstudiante;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterMsgTickets;
 import com.proathome.servicios.ayuda.ServicioTaskMsgTicket;
 import com.proathome.servicios.ayuda.ServicioTaskObtenerMsgTicket;
+import com.proathome.servicios.ayuda.ServicioTaskTicketSolucion;
+import com.proathome.servicios.clase.ServicioTaskClaseDisponible;
 import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.utils.ComponentMsgTickets;
 import com.proathome.utils.ComponentTicket;
 import com.proathome.utils.SweetAlert;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -32,9 +42,11 @@ public class FragmentTicketAyuda extends DialogFragment {
     private Unbinder mUnbinder;
     private static ComponentTicket mComponentTicket;
     private static ComponentMsgTickets mComponentMsgTicket;
+    public static boolean primeraVez = true;
     public static RecyclerView recyclerView;
     public static ComponentAdapterMsgTickets componentAdapterMsgTickets;
     private int idEstudiante, idTicket;
+    public Timer timer;
     @BindView(R.id.btnEnviarMsg)
     MaterialButton btnEnviarMsg;
     @BindView(R.id.etEscribeMsg)
@@ -109,10 +121,12 @@ public class FragmentTicketAyuda extends DialogFragment {
         configAdapter();
         configRecyclerView();
 
+        nuevosMensajes();
+
         return view;
     }
 
-    @OnClick({R.id.btnEnviarMsg, R.id.btnRegresar})
+    @OnClick({R.id.btnEnviarMsg, R.id.btnRegresar, R.id.btnFinalizarTicket})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btnEnviarMsg:
@@ -122,6 +136,7 @@ public class FragmentTicketAyuda extends DialogFragment {
                             .setContentText("Escribe un mensaje para el operador.")
                             .show();
                 }else{
+                    FragmentTicketAyuda.recyclerView.getLayoutManager().scrollToPosition(componentAdapterMsgTickets.getItemCount()-1);
                     ServicioTaskMsgTicket msgTicket = new ServicioTaskMsgTicket(getContext(), etEscribeMsg.getText().toString(), this.idEstudiante, false, this.idTicket);
                     msgTicket.execute();
                     etEscribeMsg.setText("");
@@ -130,8 +145,41 @@ public class FragmentTicketAyuda extends DialogFragment {
             case R.id.btnRegresar:
                 dismiss();
                 break;
+            case R.id.btnFinalizarTicket:
+                new SweetAlert(getContext(), SweetAlert.WARNING_TYPE, SweetAlert.ESTUDIANTE)
+                        .setTitleText("¡ESPERA!")
+                        .setContentText("¿Seguro quieres finalziar el ticket?")
+                        .setConfirmButton("SI", sweetAlertDialog -> {
+                            ServicioTaskTicketSolucion ticketSolucion = new ServicioTaskTicketSolucion(getContext(), idTicket);
+                            ticketSolucion.execute();
+                            sweetAlertDialog.dismissWithAnimation();
+                            dismiss();
+                        })
+                        .show();
+                break;
         }
 
+    }
+
+    public void nuevosMensajes(){
+        final Handler handler = new Handler();
+        timer = new Timer();
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(() -> {
+                    try {
+                        ServicioTaskObtenerMsgTicket obtenerMsgTicket = new ServicioTaskObtenerMsgTicket(getContext(), idEstudiante, idTicket);
+                        obtenerMsgTicket.execute();
+                    } catch (Exception e) {
+                        Log.e("error", e.getMessage());
+                    }
+                });
+            }
+        };
+
+        timer.schedule(task, 0, 1500);
     }
 
     public static void configAdapter(){
@@ -146,7 +194,7 @@ public class FragmentTicketAyuda extends DialogFragment {
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
-
+        timer.cancel();
     }
 
 }

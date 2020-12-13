@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 
 public class ComponentAdapterMsgTickets extends RecyclerView.Adapter<ComponentAdapterMsgTickets.ViewHolderMsgTickets> {
 
-    private List<ComponentMsgTickets> mComponentMsgTickets;
+    public static List<ComponentMsgTickets> mComponentMsgTickets;
 
     public ComponentAdapterMsgTickets(List<ComponentMsgTickets> mComponentMsgTickets){
         this.mComponentMsgTickets = mComponentMsgTickets;
@@ -46,6 +46,10 @@ public class ComponentAdapterMsgTickets extends RecyclerView.Adapter<ComponentAd
     @Override
     public int getItemCount() {
         return mComponentMsgTickets.size();
+    }
+
+    public void remove(int position){
+        mComponentMsgTickets.remove(position);
     }
 
     public void add(ComponentMsgTickets componentMsgTickets){
