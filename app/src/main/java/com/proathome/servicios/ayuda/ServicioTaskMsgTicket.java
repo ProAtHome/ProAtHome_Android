@@ -22,16 +22,18 @@ public class ServicioTaskMsgTicket extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
     private String linkMsgTicket = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/enviarMsgTicket";
+    private String linkMsgTicketProfesor = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/enviarMsgTicket";
     private String mensaje;
-    private int idUsuario, idTicket;
+    private int idUsuario, idTicket, tipoUsuario;
     private boolean operador;
 
-    public ServicioTaskMsgTicket(Context contexto, String mensaje, int idUsuario, boolean operador, int idTicket){
+    public ServicioTaskMsgTicket(Context contexto, String mensaje, int idUsuario, boolean operador, int idTicket, int tipoUsuario){
         this.contexto = contexto;
         this.mensaje = mensaje;
         this.idUsuario = idUsuario;
         this.operador = operador;
         this.idTicket = idTicket;
+        this.tipoUsuario = tipoUsuario;
     }
 
     @Override
@@ -44,7 +46,12 @@ public class ServicioTaskMsgTicket extends AsyncTask<Void, Void, String> {
         String resultado = null;
 
         try{
-            URL url = new URL(this.linkMsgTicket);
+            URL url = null;
+            if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE)
+                url = new URL(this.linkMsgTicket);
+            else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
+                url = new URL(this.linkMsgTicketProfesor);
+
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
 
             JSONObject jsonDatos = new JSONObject();
@@ -105,7 +112,7 @@ public class ServicioTaskMsgTicket extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        ServicioTaskObtenerMsgTicket obtenerMsgTicket = new ServicioTaskObtenerMsgTicket(this.contexto, this.idUsuario, this.idTicket);
+        ServicioTaskObtenerMsgTicket obtenerMsgTicket = new ServicioTaskObtenerMsgTicket(this.contexto, this.idUsuario, this.idTicket, this.tipoUsuario);
         obtenerMsgTicket.execute();
         FragmentTicketAyuda.configAdapter();
         FragmentTicketAyuda.configRecyclerView();

@@ -1,31 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.ayuda.AyudaFragment"
     android:background="@mipmap/fondoprof"
-    android:padding="@dimen/common_padding_min"
-    tools:context=".ui.ayudaProfesor.AyudaProfesorFragment">
-
-    <TextView
-        android:id="@+id/comentario"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Envíanos un comentario"
-        android:textColor="@android:color/white"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    android:padding="@dimen/common_padding_min">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card"
+        android:id="@+id/cardAyuda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/common_padding_min"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/comentario">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -33,44 +23,75 @@
             android:padding="@dimen/common_padding_min">
 
             <TextView
-                android:id="@+id/informanos"
+                android:id="@+id/tvAyuda"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Infórmanos sobre tu experiencia:"
-                android:textColor="@color/colorPersonalDark"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:text="¿Necesitas ayuda?"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textColor="@color/material_blue_grey_80"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/mensajeLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Mensaje"
-                android:inputType="textLongMessage"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/informanos"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/mensaje"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textLongMessage"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/enviar"
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/nuevoTopico"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Enviar"
+                android:src="@drawable/ic_nuevotop_24"
                 android:backgroundTint="@color/color_secondary"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mensajeLayout"/>
+                app:layout_constraintStart_toStartOf="@id/tvAyuda"
+                app:layout_constraintEnd_toEndOf="@id/tvAyuda"
+                app:layout_constraintTop_toBottomOf="@id/tvAyuda"
+                app:layout_constraintBottom_toBottomOf="parent"
+                style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"/>
+
+            <TextView
+                android:id="@+id/descFloat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nuevo Tópico"
+                android:textColor="@color/material_blue_grey_80"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/nuevoTopico"
+                app:layout_constraintTop_toBottomOf="@id/nuevoTopico"
+                app:layout_constraintEnd_toEndOf="@id/nuevoTopico"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/topicosPendientes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tópicos pendientes:"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardAyuda"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_viewAyuda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topicosPendientes"
+        app:lottie_rawRes="@raw/empty"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerTopicos"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        tools:listitem="@layout/item_topico"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topicosPendientes"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

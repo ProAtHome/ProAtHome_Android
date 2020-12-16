@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.proathome.R;
 import com.proathome.fragments.FragmentTicketAyuda;
 import com.proathome.ui.ayuda.AyudaFragment;
+import com.proathome.ui.ayudaProfesor.AyudaProfesorFragment;
 import com.proathome.utils.ComponentTicket;
+import com.proathome.utils.Constants;
 import com.proathome.utils.OnClickListener;
 import java.util.List;
 import butterknife.BindView;
@@ -42,9 +44,11 @@ public class ComponentAdapterTicket extends RecyclerView.Adapter<ComponentAdapte
         holder.topico = "Tópico: " + componentTicket.getTituloTopico();
         holder.descripcion = "Problema: " + componentTicket.getDescripcion();
         holder.noTicket = "No. de Ticket: " + componentTicket.getNoTicket();
-        holder.estatus.setText("Estatus: " + componentTicket.getEstatus());
+        holder.tvEstatus.setText("Estatus: " + componentTicket.getEstatus());
+        holder.estatus = componentTicket.getEstatusINT();
         holder.fechaCreacion.setText("Fecha de Creación: " + componentTicket.getFechaCreacion());
         holder.idTicket = componentTicket.getIdTicket();
+        holder.tipoUsuario = componentTicket.getTipoUsuario();
         holder.setOnClickListeners();
     }
 
@@ -62,12 +66,12 @@ public class ComponentAdapterTicket extends RecyclerView.Adapter<ComponentAdapte
 
         private View view;
         private Context contexto;
-        private int idTicket;
+        private int idTicket, estatus, tipoUsuario;
         private String topico, descripcion, noTicket;
         @BindView(R.id.tituloTopico)
         TextView tituloTopico;
         @BindView(R.id.estatus)
-        TextView estatus;
+        TextView tvEstatus;
         @BindView(R.id.fechaCreacion)
         TextView fechaCreacion;
 
@@ -75,6 +79,8 @@ public class ComponentAdapterTicket extends RecyclerView.Adapter<ComponentAdapte
             super(itemView);
             this.view = itemView;
             this.contexto = itemView.getContext();
+            if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
+                tvEstatus.setTextColor(this.contexto.getResources().getColor(R.color.color_secondary));
             ButterKnife.bind(this, itemView);
         }
 
@@ -93,7 +99,13 @@ public class ComponentAdapterTicket extends RecyclerView.Adapter<ComponentAdapte
             bundle.putString("topico", this.topico);
             bundle.putString("descripcion", this.descripcion);
             bundle.putString("noTicket", this.noTicket);
-            FragmentTransaction fragmentTransaction = AyudaFragment.ayudaFragment.getFragmentManager().beginTransaction();
+            bundle.putInt("estatus", this.estatus);
+            bundle.putInt("tipoUsuario", this.tipoUsuario);
+            FragmentTransaction fragmentTransaction = null;
+            if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE)
+                fragmentTransaction = AyudaFragment.ayudaFragment.getFragmentManager().beginTransaction();
+            else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
+                fragmentTransaction = AyudaProfesorFragment.ayudaProfesorFragment.getFragmentManager().beginTransaction();
             FragmentTicketAyuda fragmentTicketAyuda = new FragmentTicketAyuda();
             fragmentTicketAyuda.setArguments(bundle);
             fragmentTicketAyuda.show(fragmentTransaction, "Mensajes");

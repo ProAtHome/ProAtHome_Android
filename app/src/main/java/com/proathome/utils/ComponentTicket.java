@@ -3,7 +3,23 @@ package com.proathome.utils;
 public class ComponentTicket {
 
     private String tituloTopico, estatus, fechaCreacion, descripcion, noTicket;
-    private int idTicket;
+    private int idTicket, estatusINT, tipoUsuario;
+
+    public int getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(int tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+
+    public int getEstatusINT() {
+        return estatusINT;
+    }
+
+    public void setEstatusINT(int estatusINT) {
+        this.estatusINT = estatusINT;
+    }
 
     public int getIdTicket() {
         return idTicket;

@@ -4,6 +4,15 @@ public class ComponentMsgTickets {
 
     private String nombreUsuario, mensaje;
     private boolean operador;
+    private int tipoUsuario;
+
+    public int getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(int tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
 
     public boolean isOperador() {
         return operador;

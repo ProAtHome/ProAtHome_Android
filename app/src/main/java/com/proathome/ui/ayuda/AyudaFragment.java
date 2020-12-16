@@ -17,6 +17,8 @@ import com.proathome.adapters.ComponentAdapterTicket;
 import com.proathome.fragments.NuevoTicketFragment;
 import com.proathome.servicios.ayuda.ServicioTaskObtenerTickets;
 import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.utils.Constants;
+
 import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -54,21 +56,20 @@ public class AyudaFragment extends Fragment {
         configAdapter();
         configRecyclerView();
 
-        ServicioTaskObtenerTickets obtenerTickets = new ServicioTaskObtenerTickets(getContext(), this.idEstudiante);
+        ServicioTaskObtenerTickets obtenerTickets = new ServicioTaskObtenerTickets(getContext(), this.idEstudiante,
+                Constants.TIPO_USUARIO_ESTUDIANTE);
         obtenerTickets.execute();
 
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
     @OnClick(R.id.nuevoTopico)
     public void onClick(){
+        Bundle bundle = new Bundle();
+        bundle.putInt("tipoUsuario", Constants.TIPO_USUARIO_ESTUDIANTE);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         NuevoTicketFragment ticketAyuda = new NuevoTicketFragment();
+        ticketAyuda.setArguments(bundle);
         ticketAyuda.show(fragmentTransaction, "Ticket");
     }
 

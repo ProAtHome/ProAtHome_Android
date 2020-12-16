@@ -3,9 +3,6 @@ package com.proathome.servicios.ayuda;
 import android.content.Context;
 import android.os.AsyncTask;
 import com.proathome.utils.Constants;
-import com.proathome.utils.SweetAlert;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,12 +13,14 @@ import java.net.URL;
 public class ServicioTaskTicketSolucion extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
-    private int idTicket;
+    private int idTicket, tipoUsuario;
     private String linkFinalizarTicket = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/finalizarTicket/";
+    private String linkFinalizarTicketProfesor = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/finalizarTicket/";
 
-    public ServicioTaskTicketSolucion(Context contexto, int idTicket){
+    public ServicioTaskTicketSolucion(Context contexto, int idTicket, int tipoUsuario){
         this.contexto = contexto;
         this.idTicket = idTicket;
+        this.tipoUsuario = tipoUsuario;
     }
 
     @Override
@@ -34,7 +33,12 @@ public class ServicioTaskTicketSolucion extends AsyncTask<Void, Void, String> {
         String resultado = null;
 
         try{
-            URL url = new URL(this.linkFinalizarTicket + idTicket);
+            URL url = null;
+            if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE)
+                url = new URL(this.linkFinalizarTicket + idTicket);
+            else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
+                url = new URL(this.linkFinalizarTicketProfesor + idTicket);
+
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
             httpURLConnection.setReadTimeout(15000);

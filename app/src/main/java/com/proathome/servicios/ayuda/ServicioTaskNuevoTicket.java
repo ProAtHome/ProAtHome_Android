@@ -3,8 +3,8 @@ package com.proathome.servicios.ayuda;
 import android.content.Context;
 import android.os.AsyncTask;
 import androidx.fragment.app.DialogFragment;
-
 import com.proathome.ui.ayuda.AyudaFragment;
+import com.proathome.ui.ayudaProfesor.AyudaProfesorFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
@@ -25,6 +25,8 @@ public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
     private String topico, descripcion, fechaCreacion;
     private String linkNuevoTiket = "http://" + Constants.IP +
             ":8080/ProAtHome/apiProAtHome/cliente/nuevoTicket";
+    private String linkNuevoTiketProfesor = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/profesor/nuevoTicket";
     private int tipoUsuario, estatus, idUsuario;
     private DialogFragment dialogFragment;
 
@@ -50,7 +52,12 @@ public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
         String resultado = null;
 
         try{
-            URL url = new URL(this.linkNuevoTiket);
+            URL url = null;
+            if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE)
+                url = new URL(this.linkNuevoTiket);
+            else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
+                url = new URL(this.linkNuevoTiketProfesor);
+
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
 
             JSONObject jsonDatos = new JSONObject();
@@ -113,15 +120,23 @@ public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        new SweetAlert(this.contexto, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
+
+        new SweetAlert(this.contexto, SweetAlert.SUCCESS_TYPE, this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE ?
+                SweetAlert.ESTUDIANTE : SweetAlert.PROFESOR)
                 .setTitleText("¡GENIAL!")
                 .setContentText("Tu solicitud será revisada y en breve te contestará soporte.")
                 .setConfirmButton("OK", sweetAlertDialog -> {
                     this.dialogFragment.dismiss();
                     sweetAlertDialog.dismissWithAnimation();
-                    AyudaFragment.configAdapter();
-                    AyudaFragment.configRecyclerView();
-                    ServicioTaskObtenerTickets obtenerTickets = new ServicioTaskObtenerTickets(this.contexto, this.idUsuario);
+                    if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE){
+                        AyudaFragment.configAdapter();
+                        AyudaFragment.configRecyclerView();
+                    }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR){
+                        AyudaProfesorFragment.configAdapter();
+                        AyudaProfesorFragment.configRecyclerView();
+                    }
+
+                    ServicioTaskObtenerTickets obtenerTickets = new ServicioTaskObtenerTickets(this.contexto, this.idUsuario, this.tipoUsuario);
                     obtenerTickets.execute();
                 })
                 .show();

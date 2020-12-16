@@ -37,6 +37,7 @@ public class ComponentAdapterMsgTickets extends RecyclerView.Adapter<ComponentAd
         ComponentMsgTickets componentMsgTickets = mComponentMsgTickets.get(position);
         holder.tvUsuario.setText(componentMsgTickets.getNombreUsuario());
         holder.tvMsg.setText(componentMsgTickets.getMensaje());
+        holder.tipoUsuario = componentMsgTickets.getTipoUsuario();
         if(componentMsgTickets.isOperador())
             holder.cardView.setCardBackgroundColor(Color.GRAY);
         else
@@ -61,6 +62,7 @@ public class ComponentAdapterMsgTickets extends RecyclerView.Adapter<ComponentAd
 
         private Context contexto;
         private View view;
+        private int tipoUsuario;
         @BindView(R.id.tvUsuario)
         TextView tvUsuario;
         @BindView(R.id.tvMsg)
@@ -73,6 +75,7 @@ public class ComponentAdapterMsgTickets extends RecyclerView.Adapter<ComponentAd
             this.view = itemView;
             this.contexto = itemView.getContext();
             ButterKnife.bind(this, view);
+            tvUsuario.setTextColor(this.contexto.getResources().getColor(R.color.color_secondary));
         }
 
     }

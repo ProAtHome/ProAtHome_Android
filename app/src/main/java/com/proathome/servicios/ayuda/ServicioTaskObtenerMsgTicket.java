@@ -17,10 +17,11 @@ import java.net.MalformedURLException;
 
 public class ServicioTaskObtenerMsgTicket extends AsyncTask<Void, Void, String> {
 
-    public ServicioTaskObtenerMsgTicket(Context contexto, int idEstudiante, int idTicket){
+    public ServicioTaskObtenerMsgTicket(Context contexto, int idUsuario, int idTicket, int tipoUsuario){
         Constants.contexto_Ticket = contexto;
-        Constants.idEstudiante_Ticket = idEstudiante;
+        Constants.idUsuario_Ticket = idUsuario;
         Constants.idTicket_Ticket = idTicket;
+        Constants.tipoUsuario_Ticket = tipoUsuario;
     }
 
     @Override
@@ -76,16 +77,14 @@ public class ServicioTaskObtenerMsgTicket extends AsyncTask<Void, Void, String> 
         super.onPostExecute(s);
         try{
             JSONArray jsonArray = new JSONArray(s);
-            JSONObject ticket = jsonArray.getJSONObject(0);
             JSONObject mensajes = jsonArray.getJSONObject(1);
             JSONArray jsonArrayMensajes = mensajes.getJSONArray("mensajes");
             boolean entro = true;
-            System.out.println("Cantidad de elementos: " + FragmentTicketAyuda.componentAdapterMsgTickets.getItemCount());
             for(int i = FragmentTicketAyuda.componentAdapterMsgTickets.getItemCount(); i < jsonArrayMensajes.length(); i++){
                 JSONObject mensaje = jsonArrayMensajes.getJSONObject(i);
 
                 FragmentTicketAyuda.componentAdapterMsgTickets.add(FragmentTicketAyuda.getmInstance(
-                        mensaje.getString("nombreUsuario"), mensaje.getString("msg"), mensaje.getBoolean("operador")));
+                        mensaje.getString("nombreUsuario"), mensaje.getString("msg"), mensaje.getBoolean("operador"), Constants.tipoUsuario_Ticket));
                 if(entro)
                     FragmentTicketAyuda.recyclerView.getLayoutManager().scrollToPosition(jsonArrayMensajes.length()-1);
                 entro = false;

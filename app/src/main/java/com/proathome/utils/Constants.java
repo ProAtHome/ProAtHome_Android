@@ -162,20 +162,26 @@ public class Constants {
     public static final  int BLOQUE1_AVANZADO5= 1;
     public static final  int BLOQUE2_AVANZADO5= 2;
     /*FIN RUTA NIVELES*/
-    public static final String IP = "192.168.100.233";
+    public static final String IP = "192.168.100.236";
 
 
     /*Prueba Estaticos Singleton*/
 
     /*ASYNCTASK SERVICIO MENSAJES TICKET*/
     public static Context contexto_Ticket;
-    public static int idEstudiante_Ticket, idTicket_Ticket;
+    public static int idUsuario_Ticket, idTicket_Ticket, tipoUsuario_Ticket;
     public static String linkObtenerMsgTicket = "http://" + Constants.IP +
             ":8080/ProAtHome/apiProAtHome/admin/obtenerMsgTicket/";
     public static String result_Ticket = null;
     public static URL obtenerURL_Ticket() throws MalformedURLException {
-        URL url = new URL(Constants.linkObtenerMsgTicket + Constants.idEstudiante_Ticket + "/" +
+        URL url = null;
+        if(Constants.tipoUsuario_Ticket == Constants.TIPO_USUARIO_ESTUDIANTE){
+            url = new URL(Constants.linkObtenerMsgTicket + Constants.idUsuario_Ticket + "/" +
                 Constants.TIPO_USUARIO_ESTUDIANTE + "/" + Constants.idTicket_Ticket);
+        }else if(Constants.tipoUsuario_Ticket == Constants.TIPO_USUARIO_PROFESOR){
+            url = new URL(Constants.linkObtenerMsgTicket + Constants.idUsuario_Ticket + "/" +
+                    Constants.TIPO_USUARIO_PROFESOR + "/" + Constants.idTicket_Ticket);
+        }
         return url;
     }
 

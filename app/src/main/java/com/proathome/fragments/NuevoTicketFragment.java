@@ -7,6 +7,9 @@ import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.servicios.ayuda.ServicioTaskNuevoTicket;
@@ -21,11 +24,17 @@ import butterknife.Unbinder;
 public class NuevoTicketFragment extends DialogFragment {
 
     private Unbinder mUnbinder;
-    private int idEstudiante;
+    private int idUsuario, tipoUsuario;
     @BindView(R.id.etTopico)
     TextInputEditText etTopico;
     @BindView(R.id.etDescripcion)
     TextInputEditText etDescripcion;
+    @BindView(R.id.tvTopico)
+    TextView tvTopico;
+    @BindView(R.id.tvDescripcion)
+    TextView tvDescripcion;
+    @BindView(R.id.btnEnviar)
+    MaterialButton btnEnviar;
 
     public NuevoTicketFragment() {
 
@@ -36,24 +45,52 @@ public class NuevoTicketFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_AppCompat_DayNight_Dialog_Alert);
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null,
-                1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+        Bundle bundle = getArguments();
+        this.tipoUsuario = bundle.getInt("tipoUsuario");
 
-        if(fila.moveToFirst()){
-            this.idEstudiante = fila.getInt(0);
-        }else{
+        setIdUsuario();
+    }
+
+    public void setIdUsuario(){
+        if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE){
+            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null,
+                    1);
+            SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+            Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+
+            if(fila.moveToFirst()){
+                this.idUsuario = fila.getInt(0);
+            }else{
+                baseDeDatos.close();
+            }
+
+            baseDeDatos.close();
+        }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR){
+            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesionProfesor", null,
+                    1);
+            SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+            Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);
+
+            if(fila.moveToFirst()){
+                this.idUsuario = fila.getInt(0);
+            }else{
+                baseDeDatos.close();
+            }
+
             baseDeDatos.close();
         }
-
-        baseDeDatos.close();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nuevo_ticket, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+
+        if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR){
+            tvTopico.setTextColor(getResources().getColor(R.color.color_secondary));
+            tvDescripcion.setTextColor(getResources().getColor(R.color.color_secondary));
+            btnEnviar.setBackgroundColor(getResources().getColor(R.color.color_secondary));
+        }
 
         return view;
     }
@@ -73,12 +110,22 @@ public class NuevoTicketFragment extends DialogFragment {
     public void enviarTicket(){
         if(!etTopico.getText().toString().trim().equalsIgnoreCase("") &&
             !etDescripcion.getText().toString().trim().equalsIgnoreCase("")){
-            ServicioTaskNuevoTicket nuevoTicket = new ServicioTaskNuevoTicket(getContext(), Constants.TIPO_USUARIO_ESTUDIANTE,
-                    etTopico.getText().toString(), etDescripcion.getText().toString(), "2020-12-5",
-                        Constants.ESTATUS_SIN_OPERADOR, this.idEstudiante, this);
-            nuevoTicket.execute();
+            ServicioTaskNuevoTicket nuevoTicket;
+            if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE){
+                nuevoTicket = new ServicioTaskNuevoTicket(getContext(), Constants.TIPO_USUARIO_ESTUDIANTE,
+                        etTopico.getText().toString(), etDescripcion.getText().toString(), "2020-12-5",
+                        Constants.ESTATUS_SIN_OPERADOR, this.idUsuario, this);
+                nuevoTicket.execute();
+            }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR){
+                nuevoTicket = new ServicioTaskNuevoTicket(getContext(), Constants.TIPO_USUARIO_PROFESOR,
+                        etTopico.getText().toString(), etDescripcion.getText().toString(), "2020-12-5",
+                        Constants.ESTATUS_SIN_OPERADOR, this.idUsuario, this);
+                nuevoTicket.execute();
+            }
+
         }else{
-            new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+            int tipoSweet = this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE ? SweetAlert.ESTUDIANTE : SweetAlert.PROFESOR;
+            new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, tipoSweet)
                     .setTitleText("¡ERROR!")
                     .setContentText("Llena los campos correctamente.")
                     .show();
