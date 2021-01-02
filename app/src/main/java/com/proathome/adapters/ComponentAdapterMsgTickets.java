@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.card.MaterialCardView;
 import com.proathome.R;
 import com.proathome.utils.ComponentMsgTickets;
+import com.proathome.utils.Constants;
+
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +40,8 @@ public class ComponentAdapterMsgTickets extends RecyclerView.Adapter<ComponentAd
         holder.tvUsuario.setText(componentMsgTickets.getNombreUsuario());
         holder.tvMsg.setText(componentMsgTickets.getMensaje());
         holder.tipoUsuario = componentMsgTickets.getTipoUsuario();
+        if(holder.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
+            holder.tvUsuario.setTextColor(holder.contexto.getResources().getColor(R.color.color_secondary));
         if(componentMsgTickets.isOperador())
             holder.cardView.setCardBackgroundColor(Color.GRAY);
         else
@@ -75,7 +79,6 @@ public class ComponentAdapterMsgTickets extends RecyclerView.Adapter<ComponentAd
             this.view = itemView;
             this.contexto = itemView.getContext();
             ButterKnife.bind(this, view);
-            tvUsuario.setTextColor(this.contexto.getResources().getColor(R.color.color_secondary));
         }
 
     }

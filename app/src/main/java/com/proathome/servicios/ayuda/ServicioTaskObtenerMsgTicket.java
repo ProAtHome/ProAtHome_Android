@@ -84,7 +84,8 @@ public class ServicioTaskObtenerMsgTicket extends AsyncTask<Void, Void, String> 
                 JSONObject mensaje = jsonArrayMensajes.getJSONObject(i);
 
                 FragmentTicketAyuda.componentAdapterMsgTickets.add(FragmentTicketAyuda.getmInstance(
-                        mensaje.getString("nombreUsuario"), mensaje.getString("msg"), mensaje.getBoolean("operador"), Constants.tipoUsuario_Ticket));
+                        mensaje.getBoolean("operador") ? "Operador - Soporte" : mensaje.getString("nombreUsuario"), mensaje.getString("msg"),
+                            mensaje.getBoolean("operador"), Constants.tipoUsuario_Ticket));
                 if(entro)
                     FragmentTicketAyuda.recyclerView.getLayoutManager().scrollToPosition(jsonArrayMensajes.length()-1);
                 entro = false;

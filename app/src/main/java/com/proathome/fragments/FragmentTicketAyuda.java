@@ -117,6 +117,7 @@ public class FragmentTicketAyuda extends DialogFragment {
 
         setIdUsuario();
 
+        System.out.println(bundle.getInt("tipoUsuario"));
         if(bundle.getInt("tipoUsuario") == Constants.TIPO_USUARIO_PROFESOR){
             toolbar.setBackgroundColor(getResources().getColor(R.color.color_secondary));
             tvTicket.setTextColor(getResources().getColor(R.color.color_secondary));

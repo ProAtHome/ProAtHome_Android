@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+
+import com.proathome.PasosActivarCuenta;
 import com.proathome.inicioProfesor;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
@@ -16,6 +18,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import io.opencensus.common.Internal;
 
 public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
 
@@ -96,7 +100,7 @@ public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
             }else {
                 if(!s.equals("null")){
                     JSONObject jsonObject = new JSONObject(s);
-                    if(jsonObject.getBoolean("estado")){
+                    if(jsonObject.getString("estado").equalsIgnoreCase("activo")){
                         AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(this.contexto,
                                 "sesionProfesor", null, 1);
                         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
@@ -109,12 +113,11 @@ public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
 
                         Intent intent = new Intent(this.contexto, inicioProfesor.class);
                         this.contexto.startActivity(intent);
-                    }else{
-                        new SweetAlert(this.contexto, SweetAlert.WARNING_TYPE, SweetAlert.PROFESOR)
-                                .setTitleText("¡ESPERA!")
-                                .setContentText("No tienes permiso para iniciar sesión, ponte en contacto" +
-                                        " con soporte técnico para validar tu documentación.")
-                                .show();
+                    }else if(jsonObject.getString("estado").equalsIgnoreCase("documentacion") ||
+                                jsonObject.getString("estado").equalsIgnoreCase("cita") ||
+                                    jsonObject.getString("estado").equalsIgnoreCase("registro")){
+                        Intent intent = new Intent(this.contexto, PasosActivarCuenta.class);
+                        this.contexto.startActivity(intent);
                     }
                 }else{
                     errorMsg("Usuario no registrado o tus datos están incorrectos.");
