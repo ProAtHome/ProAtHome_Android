@@ -51,6 +51,7 @@ public class ComponentAdapterTicket extends RecyclerView.Adapter<ComponentAdapte
         holder.fechaCreacion.setText("Fecha de Creación: " + componentTicket.getFechaCreacion());
         holder.idTicket = componentTicket.getIdTicket();
         holder.tipoUsuario = componentTicket.getTipoUsuario();
+        holder.categoria = componentTicket.getCategoria();
         holder.setOnClickListeners();
     }
 
@@ -69,7 +70,7 @@ public class ComponentAdapterTicket extends RecyclerView.Adapter<ComponentAdapte
         private View view;
         private Context contexto;
         private int idTicket, estatus, tipoUsuario;
-        private String topico, descripcion, noTicket;
+        private String topico, descripcion, noTicket, categoria;
         @BindView(R.id.tituloTopico)
         TextView tituloTopico;
         @BindView(R.id.estatus)
@@ -103,6 +104,7 @@ public class ComponentAdapterTicket extends RecyclerView.Adapter<ComponentAdapte
             bundle.putString("noTicket", this.noTicket);
             bundle.putInt("estatus", this.estatus);
             bundle.putInt("tipoUsuario", this.tipoUsuario);
+            bundle.putString("categoria", this.categoria);
             FragmentTransaction fragmentTransaction = null;
             if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE)
                 fragmentTransaction = AyudaFragment.ayudaFragment.getFragmentManager().beginTransaction();

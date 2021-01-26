@@ -2,8 +2,16 @@ package com.proathome.utils;
 
 public class ComponentTicket {
 
-    private String tituloTopico, estatus, fechaCreacion, descripcion, noTicket;
+    private String tituloTopico, estatus, fechaCreacion, descripcion, noTicket, categoria;
     private int idTicket, estatusINT, tipoUsuario;
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 
     public int getTipoUsuario() {
         return tipoUsuario;

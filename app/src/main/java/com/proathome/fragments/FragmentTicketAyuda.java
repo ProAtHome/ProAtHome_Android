@@ -56,6 +56,8 @@ public class FragmentTicketAyuda extends DialogFragment {
     TextView tvDescripcion;
     @BindView(R.id.tvTicket)
     TextView tvTicket;
+    @BindView(R.id.tvCategoria)
+    TextView tvCategoria;
     @BindView(R.id.tilEscribeMsg)
     TextInputLayout textInputLayout;
     @BindView(R.id.btnFinalizarTicket)
@@ -78,7 +80,7 @@ public class FragmentTicketAyuda extends DialogFragment {
     }
 
     public static ComponentTicket getmInstance(String tituloTopico, String estatus, String fechaCreacion,
-                                               int idTicket, String descripcion, String noTicket, int estatusINT, int tipoUsuario){
+                                               int idTicket, String descripcion, String noTicket, int estatusINT, int tipoUsuario, String categoria){
         mComponentTicket = new ComponentTicket();
         mComponentTicket.setTituloTopico(tituloTopico);
         mComponentTicket.setEstatus(estatus);
@@ -88,6 +90,7 @@ public class FragmentTicketAyuda extends DialogFragment {
         mComponentTicket.setNoTicket(noTicket);
         mComponentTicket.setEstatusINT(estatusINT);
         mComponentTicket.setTipoUsuario(tipoUsuario);
+        mComponentTicket.setCategoria(categoria);
 
         return mComponentTicket;
     }
@@ -102,6 +105,20 @@ public class FragmentTicketAyuda extends DialogFragment {
         return mComponentMsgTicket;
     }
 
+    public String getCategoria(String categoria){
+        String cat = null;
+        if(categoria.equalsIgnoreCase("queja_profesor"))
+            cat = "Queja a Profesor";
+        else if(categoria.equalsIgnoreCase("queja_estudiante"))
+            cat = "Queja a Estudiante";
+        else if(categoria.equalsIgnoreCase("soporte"))
+            cat = "Soporte Técnico";
+        else if(categoria.equalsIgnoreCase("credito"))
+            cat = "Crédito";
+
+        return cat;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ticket_ayuda, container, false);
@@ -113,6 +130,7 @@ public class FragmentTicketAyuda extends DialogFragment {
         tvTopico.setText(bundle.getString("topico"));
         tvDescripcion.setText(bundle.getString("descripcion"));
         tvTicket.setText(bundle.getString("noTicket"));
+        tvCategoria.setText("Categoría: " + getCategoria(bundle.getString("categoria")));
         this.tipoUsuario = bundle.getInt("tipoUsuario");
 
         setIdUsuario();

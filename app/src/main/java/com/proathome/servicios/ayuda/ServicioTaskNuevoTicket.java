@@ -22,7 +22,7 @@ import java.net.URL;
 public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
-    private String topico, descripcion, fechaCreacion;
+    private String topico, descripcion, fechaCreacion, categoria;
     private String linkNuevoTiket = "http://" + Constants.IP +
             ":8080/ProAtHome/apiProAtHome/cliente/nuevoTicket";
     private String linkNuevoTiketProfesor = "http://" + Constants.IP +
@@ -31,7 +31,7 @@ public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
     private DialogFragment dialogFragment;
 
     public ServicioTaskNuevoTicket(Context contexto, int tipoUsuario, String topico, String descripcion,
-                                   String fechaCreacion, int estatus, int idUsuario, DialogFragment dialogFragment){
+                                   String fechaCreacion, int estatus, int idUsuario, DialogFragment dialogFragment, String categoria){
         this.contexto = contexto;
         this.tipoUsuario = tipoUsuario;
         this.topico = topico;
@@ -40,6 +40,7 @@ public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
         this.estatus = estatus;
         this.idUsuario = idUsuario;
         this.dialogFragment = dialogFragment;
+        this.categoria = categoria;
     }
 
     @Override
@@ -67,6 +68,7 @@ public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
             jsonDatos.put("fechaCreacion", this.fechaCreacion);
             jsonDatos.put("estatus", this.estatus);
             jsonDatos.put("idUsuario", this.idUsuario);
+            jsonDatos.put("categoria", this.categoria);
 
             //PARAMETROS DE CONEXIÓN.
             httpURLConnection.setReadTimeout(15000);

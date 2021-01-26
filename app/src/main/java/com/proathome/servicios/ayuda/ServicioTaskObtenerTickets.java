@@ -105,7 +105,7 @@ public class ServicioTaskObtenerTickets extends AsyncTask<Void, Void, String> {
                                         ComponentTicket.validarEstatus(jsonObject.getInt("estatus")),
                                         jsonObject.getString("fechaCreacion"), jsonObject.getInt("idTicket"),
                                         jsonObject.getString("descripcion"), jsonObject.getString("noTicket"),
-                                        jsonObject.getInt("estatus"), jsonObject.getInt("tipoUsuario")));
+                                        jsonObject.getInt("estatus"), jsonObject.getInt("tipoUsuario"), jsonObject.getString("categoria")));
                             }
                         }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR){
                             if (jsonObject.getBoolean("sinTickets")){
@@ -116,7 +116,7 @@ public class ServicioTaskObtenerTickets extends AsyncTask<Void, Void, String> {
                                         ComponentTicket.validarEstatus(jsonObject.getInt("estatus")),
                                         jsonObject.getString("fechaCreacion"), jsonObject.getInt("idTicket"),
                                         jsonObject.getString("descripcion"), jsonObject.getString("noTicket"),
-                                        jsonObject.getInt("estatus"), jsonObject.getInt("tipoUsuario")));
+                                        jsonObject.getInt("estatus"), jsonObject.getInt("tipoUsuario"), jsonObject.getString("categoria")));
                             }
                         }
 

@@ -8,11 +8,33 @@
     android:padding="@dimen/common_padding_default">
 
     <TextView
+        android:id="@+id/tvCategorias"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_primary"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:text="Categorías:" />
+
+    <Spinner
+        android:id="@+id/categorias"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overlapAnchor="false"
+        android:layout_marginTop="@dimen/common_padding_min"
+        android:spinnerMode="dropdown"
+        android:layout_below="@+id/tvCategorias"
+        android:backgroundTint="@color/colorPersonalDark"
+        style="@style/AppTheme.AppBarOverlay" />
+
+    <TextView
         android:id="@+id/tvTopico"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/color_primary"
         android:textStyle="bold"
+        android:layout_marginTop="@dimen/common_padding_min"
+        android:layout_below="@id/categorias"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:text="Tópico:" />
 

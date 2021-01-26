@@ -7,6 +7,8 @@ import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -33,8 +35,12 @@ public class NuevoTicketFragment extends DialogFragment {
     TextView tvTopico;
     @BindView(R.id.tvDescripcion)
     TextView tvDescripcion;
+    @BindView(R.id.tvCategorias)
+    TextView tvCategorias;
     @BindView(R.id.btnEnviar)
     MaterialButton btnEnviar;
+    @BindView(R.id.categorias)
+    Spinner categorias;
 
     public NuevoTicketFragment() {
 
@@ -81,6 +87,20 @@ public class NuevoTicketFragment extends DialogFragment {
         }
     }
 
+    public String getSelectedCategoria(){
+        String cat = null;
+        if(categorias.getSelectedItem().toString().equalsIgnoreCase("Soporte Técnico"))
+            cat = "soporte";
+        else if(categorias.getSelectedItem().toString().equalsIgnoreCase("credito"))
+            cat = "credito";
+        else if(categorias.getSelectedItem().toString().equalsIgnoreCase("Queja a Profesor"))
+            cat = "queja_profesor";
+        else if(categorias.getSelectedItem().toString().equalsIgnoreCase("Queja a Estudiante"))
+            cat = "queja_estudiante";
+
+        return cat;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nuevo_ticket, container, false);
@@ -90,7 +110,17 @@ public class NuevoTicketFragment extends DialogFragment {
             tvTopico.setTextColor(getResources().getColor(R.color.color_secondary));
             tvDescripcion.setTextColor(getResources().getColor(R.color.color_secondary));
             btnEnviar.setBackgroundColor(getResources().getColor(R.color.color_secondary));
+            tvCategorias.setTextColor(getResources().getColor(R.color.color_secondary));
         }
+
+        String[] datos = null;
+        if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
+            datos = new String[]{"Soporte Técnico", "Crédito", "Queja a Estudiante"};
+        else if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE)
+            datos = new String[]{"Soporte Técnico", "Crédito", "Queja a Profesor"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_spinner_item, datos);
+        categorias.setAdapter(adapter);
 
         return view;
     }
@@ -114,12 +144,12 @@ public class NuevoTicketFragment extends DialogFragment {
             if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE){
                 nuevoTicket = new ServicioTaskNuevoTicket(getContext(), Constants.TIPO_USUARIO_ESTUDIANTE,
                         etTopico.getText().toString(), etDescripcion.getText().toString(), "2020-12-5",
-                        Constants.ESTATUS_SIN_OPERADOR, this.idUsuario, this);
+                        Constants.ESTATUS_SIN_OPERADOR, this.idUsuario, this, getSelectedCategoria());
                 nuevoTicket.execute();
             }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR){
                 nuevoTicket = new ServicioTaskNuevoTicket(getContext(), Constants.TIPO_USUARIO_PROFESOR,
                         etTopico.getText().toString(), etDescripcion.getText().toString(), "2020-12-5",
-                        Constants.ESTATUS_SIN_OPERADOR, this.idUsuario, this);
+                        Constants.ESTATUS_SIN_OPERADOR, this.idUsuario, this, getSelectedCategoria());
                 nuevoTicket.execute();
             }
 
