@@ -49,7 +49,7 @@ public class MasTiempo extends DialogFragment {
         return view;
     }
 
-    @OnClick({R.id.cincoMin, R.id.diezMin, R.id.quinceMin, R.id.veinteMin, R.id.veinticincoMin, R.id.treintaMin})
+    @OnClick({R.id.quinceMin, R.id.treintaMin})
     public void OnClickTiempo(View view){
         /*Creamos los datos de vamos a pasar a la wea*/
         Bundle bundle = new Bundle();
@@ -66,43 +66,9 @@ public class MasTiempo extends DialogFragment {
         CobroFinalFragment cobroFinalFragment = new CobroFinalFragment();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         switch (view.getId()){
-            case R.id.cincoMin:
-                bundle.putInt("Pantalla", 2);
-                bundle.putInt("progresoTotal", 5);
-                bundle.putString("tipoPlan", DetallesFragment.planSesion);
-                //TODO FLUJO_EJECUTAR_PLAN:  Cobramos sólo el TE elegido, crear otro MODAL Cobro Final MODO PLAN,
-                // y poner las funciones de finalización de clase que están en ServicioTaskCobro, etc.
-                cobroFinalFragment.setArguments(bundle);
-                cobroFinalFragment.show(fragmentTransaction, "PreOrden");
-                dismiss();
-                break;
-            case R.id.diezMin:
-                bundle.putInt("Pantalla", 2);
-                bundle.putInt("progresoTotal", 10);
-                bundle.putString("tipoPlan", DetallesFragment.planSesion);
-                cobroFinalFragment.setArguments(bundle);
-                cobroFinalFragment.show(fragmentTransaction, "PreOrden");
-                dismiss();
-                break;
             case R.id.quinceMin:
                 bundle.putInt("Pantalla", 2);
                 bundle.putInt("progresoTotal", 15);
-                bundle.putString("tipoPlan", DetallesFragment.planSesion);
-                cobroFinalFragment.setArguments(bundle);
-                cobroFinalFragment.show(fragmentTransaction, "PreOrden");
-                dismiss();
-                break;
-            case R.id.veinteMin:
-                bundle.putInt("Pantalla", 2);
-                bundle.putInt("progresoTotal", 20);
-                bundle.putString("tipoPlan", DetallesFragment.planSesion);
-                cobroFinalFragment.setArguments(bundle);
-                cobroFinalFragment.show(fragmentTransaction, "PreOrden");
-                dismiss();
-                break;
-            case R.id.veinticincoMin:
-                bundle.putInt("Pantalla", 2);
-                bundle.putInt("progresoTotal", 25);
                 bundle.putString("tipoPlan", DetallesFragment.planSesion);
                 cobroFinalFragment.setArguments(bundle);
                 cobroFinalFragment.show(fragmentTransaction, "PreOrden");

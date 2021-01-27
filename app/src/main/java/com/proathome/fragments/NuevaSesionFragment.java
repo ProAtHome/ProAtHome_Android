@@ -74,8 +74,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     MaterialButton btnSolicitar;
     @BindView(R.id.horas)
     Spinner horas;
-    @BindView(R.id.minutos)
-    Spinner minutos;
     @BindView(R.id.tipo)
     Spinner tipo;
     @BindView(R.id.toolbar)
@@ -137,19 +135,14 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
         baseDeDatos.close();
 
-        String[] datosHoras = new String[]{"0 HRS", "1 HRS", "2 HRS", "3 HRS"};
+        String[] datosHoras = new String[]{"1 HRS", "2 HRS"};
         ArrayAdapter<String> adapterHoras = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item, datosHoras);
-        String[] datosMinutos = new String[]{"0 min", "5 min", "10 min", "15 min", "20 min", "25 min",
-                "30 min", "35 min", "40 min", "45 min", "50 min", "55 min"};
-        ArrayAdapter<String> adapterMinutos = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_spinner_item, datosMinutos);
         String[] datosTipo = new String[]{"Personal", "Grupal"};
         ArrayAdapter<String> adapterTipo = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item, datosTipo);
 
         horas.setAdapter(adapterHoras);
-        minutos.setAdapter(adapterMinutos);
         tipo.setAdapter(adapterTipo);
 
         horarioET.setKeyListener(null);
@@ -158,7 +151,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         fechaET.setText("");
 
         btnSolicitar.setOnClickListener(v -> {
-
             if (!direccionET.getText().toString().trim().equalsIgnoreCase("") &&
                     !observacionesET.getText().toString().trim().equalsIgnoreCase("") &&
                         !fechaET.getText().toString().trim().equalsIgnoreCase("")) {
@@ -181,7 +173,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                             En la tabla sesiones agregar campo tipoPlan.*/
                         int minutosRestantes = minutosEstablecidos - minutosAnteriores;
                         if (obtenerMinutosHorario() <= minutosRestantes) {
-
                             if (SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR")) {
                                 STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(),
                                         registrarSesionREST, idCliente, horarioET.getText().toString(), direccion,
@@ -271,15 +262,12 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                         }
                     }
                 }
-
             } else {
                 new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
                         .setTitleText("¡ERROR!")
                         .setContentText("Llena todos los campos.")
                         .show();
             }
-
-
         });
 
         toolbar.setTitle("Nueva Sesión");
@@ -307,7 +295,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
     public int obtenerMinutosHorario() {
         int horasInt = 0;
-        int minutosInt = 0;
 
         if (horas.getSelectedItem().toString().equalsIgnoreCase("0 HRS"))
             horasInt = 0;
@@ -318,41 +305,14 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         else if (horas.getSelectedItem().toString().equalsIgnoreCase("3 HRS"))
             horasInt = 180;
 
-        if (minutos.getSelectedItem().toString().equalsIgnoreCase("0 min"))
-            minutosInt = 0;
-        else if (minutos.getSelectedItem().toString().equalsIgnoreCase("5 min"))
-            minutosInt = 5;
-        else if (minutos.getSelectedItem().toString().equalsIgnoreCase("10 min"))
-            minutosInt = 10;
-        else if (minutos.getSelectedItem().toString().equalsIgnoreCase("15 min"))
-            minutosInt = 15;
-        else if (minutos.getSelectedItem().toString().equalsIgnoreCase("20 min"))
-            minutosInt = 20;
-        else if (minutos.getSelectedItem().toString().equalsIgnoreCase("25 min"))
-            minutosInt = 25;
-        else if (minutos.getSelectedItem().toString().equalsIgnoreCase("30 min"))
-            minutosInt = 30;
-        else if (minutos.getSelectedItem().toString().equalsIgnoreCase("35 min"))
-            minutosInt = 35;
-        else if (minutos.getSelectedItem().toString().equalsIgnoreCase("40 min"))
-            minutosInt = 40;
-        else if (minutos.getSelectedItem().toString().equalsIgnoreCase("45 min"))
-            minutosInt = 45;
-        else if (minutos.getSelectedItem().toString().equalsIgnoreCase("50 min"))
-            minutosInt = 50;
-        else if (minutos.getSelectedItem().toString().equalsIgnoreCase("55 min"))
-            minutosInt = 55;
-
-        return horasInt + minutosInt;
+        return horasInt;
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-
         mScrollView = getView().findViewById(R.id.scrollMap); //parent scrollview in xml, give your scrollview id value
         ((WorkaroundMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map))
                 .setListener(() -> mScrollView.requestDisallowInterceptTouchEvent(true));
@@ -365,7 +325,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         mMap.setMyLocationEnabled(true);
 
         agregarMarca(googleMap, 19.4326077, -99.13320799999);
-
     }
 
     public void agregarMarca(GoogleMap googleMap, double lat, double longi){

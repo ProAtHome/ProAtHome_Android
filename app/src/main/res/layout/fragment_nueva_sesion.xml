@@ -243,27 +243,6 @@
                     app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
 
                 <TextView
-                    android:id="@+id/textMinutos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Minutos:"
-                    android:layout_margin="@dimen/common_padding_min"
-                    app:layout_constraintStart_toEndOf="@id/horas"
-                    app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
-
-                <Spinner
-                    android:id="@+id/minutos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:overlapAnchor="false"
-                    android:layout_marginTop="@dimen/common_padding_min"
-                    android:spinnerMode="dropdown"
-                    android:backgroundTint="@color/colorPersonalDark"
-                    style="@style/AppTheme.AppBarOverlay"
-                    app:layout_constraintStart_toEndOf="@id/textMinutos"
-                    app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
-
-                <TextView
                     android:id="@+id/textTipoTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -274,7 +253,7 @@
                     android:textStyle="bold"
                     android:drawableLeft="@drawable/tipo"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/minutos"/>
+                    app:layout_constraintTop_toBottomOf="@id/horas"/>
 
 
                 <TextView

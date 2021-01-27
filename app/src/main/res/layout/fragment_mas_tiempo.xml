@@ -18,50 +18,14 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/cincoMin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="5 Minutos"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:layout_marginTop="@dimen/common_padding_default"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/masTiempo"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/diezMin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="10 Minutos"
-        android:backgroundTint="@color/colorPrimaryDark"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cincoMin"/>
-
-    <com.google.android.material.button.MaterialButton
         android:id="@+id/quinceMin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="15 Minutos"
+        android:layout_marginTop="@dimen/common_padding_default"
         android:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/diezMin"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/veinteMin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="20 Minutos"
-        android:backgroundTint="@color/colorPrimaryDark"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/quinceMin"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/veinticincoMin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="25 Minutos"
-        android:backgroundTint="@color/colorPrimaryDark"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/veinteMin"/>
+        app:layout_constraintTop_toBottomOf="@id/masTiempo"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/treintaMin"
@@ -70,7 +34,7 @@
         android:text="30 Minutos"
         android:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/veinticincoMin"/>
+        app:layout_constraintTop_toBottomOf="@id/quinceMin"/>
 
     <TextView
         android:id="@+id/aviso"

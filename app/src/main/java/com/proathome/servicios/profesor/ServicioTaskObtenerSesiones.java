@@ -3,9 +3,12 @@ package com.proathome.servicios.profesor;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.proathome.R;
 import com.proathome.fragments.BuscarSesionFragment;
 import com.proathome.utils.Component;
 import com.proathome.utils.SweetAlert;
@@ -102,8 +105,10 @@ public class ServicioTaskObtenerSesiones extends AsyncTask<Void, Void, String> {
                                 .position(ubicacion).title("Sesion de: " + object.getString("nombre") +
                                         "\n" + "Nivel: " + Component.getSeccion(object.getInt("idSeccion")) +
                                             "/" + Component.getNivel(object.getInt("idSeccion"),
-                                                object.getInt("idNivel"))).snippet(String.valueOf(
+                                                object.getInt("idNivel")) + "\n" + "TIPO DE PLAN: " + object.getString("tipoPlan")).snippet(String.valueOf(
                                                         object.getInt("idSesion"))));
+                        if(!object.getString("tipoPlan").equalsIgnoreCase("PARTICULAR"))
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.profplan));
                         BuscarSesionFragment.perth.add(marker);
                     }
                     LatLng ubicacion = new LatLng(19.4326077, -99.13320799999);
