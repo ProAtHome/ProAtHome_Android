@@ -21,7 +21,8 @@
         android:theme="@style/MyTheme.DayNight"
         android:usesCleartextTraffic="true"
         tools:replace="android:icon">
-        <activity android:name=".PasosActivarCuenta"></activity>
+        <activity android:name=".PasosActivarCuentaEstudiante"></activity>
+        <activity android:name=".PasosActivarCuenta" />
         <activity android:name=".ClaseProfesor" />
         <activity android:name=".ClaseEstudiante" />
         <activity android:name=".SincronizarClase" />

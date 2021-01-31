@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+
+import com.proathome.PasosActivarCuenta;
+import com.proathome.PasosActivarCuentaEstudiante;
 import com.proathome.inicioEstudiante;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
@@ -93,20 +96,29 @@ public class ServicioTaskLoginEstudiante extends AsyncTask<Void, Void, String> {
             if(s == null){
                 errorMsg("Ocurrió un error inesperado, intenta de nuevo.");
             }else {
+                System.out.println(s);
                 if(!s.equals("null")){
                     JSONObject jsonObject = new JSONObject(s);
-                    AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(httpContext, "sesion",
-                            null, 1);
-                    SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-                    ContentValues registro = new ContentValues();
-                    registro.put("id", 1);
-                    registro.put("idEstudiante", jsonObject.getInt("idCliente"));
-                    registro.put("correo", this.correo);
-                    baseDeDatos.insert("sesion", null, registro);
-                    baseDeDatos.close();
+                    System.out.println(jsonObject);
+                    if(jsonObject.getString("estado").equalsIgnoreCase("ACTIVO")){
+                        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(httpContext, "sesion",
+                                null, 1);
+                        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+                        ContentValues registro = new ContentValues();
+                        registro.put("id", 1);
+                        registro.put("idEstudiante", jsonObject.getInt("idCliente"));
+                        registro.put("correo", this.correo);
+                        baseDeDatos.insert("sesion", null, registro);
+                        baseDeDatos.close();
 
-                    Intent intent = new Intent(httpContext, inicioEstudiante.class);
-                    httpContext.startActivity(intent);
+                        Intent intent = new Intent(httpContext, inicioEstudiante.class);
+                        httpContext.startActivity(intent);
+                    }else if(jsonObject.getString("estado").equalsIgnoreCase("DOCUMENTACION") ||
+                            jsonObject.getString("estado").equalsIgnoreCase("REGISTRO")){
+                        Intent intent = new Intent(this.httpContext, PasosActivarCuentaEstudiante.class);
+                        this.httpContext.startActivity(intent);
+                    }
+
                 }else{
                     errorMsg("Usuario no registrado o tus datos están incorrectos.");
                 }

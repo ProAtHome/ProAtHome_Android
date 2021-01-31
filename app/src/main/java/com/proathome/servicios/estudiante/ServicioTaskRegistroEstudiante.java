@@ -22,21 +22,20 @@ public class ServicioTaskRegistroEstudiante extends AsyncTask<Void, Void, String
 
     private Context httpContext;
     private ProgressDialog progressDialog;
-    public String resultadoapi="";
-    public String linkrequestAPI="";
-    public String fecha="";
-    public String nombre="";
-    public int edad;
-    public String contrasena ="";
-    public String correo="";
+    public String resultadoapi="", linkAPI, nombre, paterno, materno, fecha, celular, telefono, direccion, correo, genero, contrasena;
 
-    public ServicioTaskRegistroEstudiante(Context ctx, String linkAPI, String nombre, String fecha,
-                                          int edad, String correo, String contrasena){
+    public ServicioTaskRegistroEstudiante(Context ctx, String linkAPI, String nombre, String paterno, String materno,
+                                          String fecha, String celular, String telefono, String direccion, String genero, String correo, String contrasena){
         this.httpContext=ctx;
-        this.linkrequestAPI=linkAPI;
+        this.linkAPI = linkAPI;
+        this.nombre = nombre;
+        this.paterno = paterno;
+        this.materno = materno;
         this.fecha=fecha;
-        this.nombre=nombre;
-        this.edad=edad;
+        this.celular = celular;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.genero = genero;
         this.contrasena = contrasena;
         this.correo = correo;
     }
@@ -51,20 +50,21 @@ public class ServicioTaskRegistroEstudiante extends AsyncTask<Void, Void, String
     protected String doInBackground(Void... params) {
 
         String result= null;
-        String wsURL = linkrequestAPI;
-        URL url = null;
         try {
-
-            url = new URL(wsURL);
+            URL url = new URL(this.linkAPI);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             JSONObject parametrosPost= new JSONObject();
             parametrosPost.put("nombre",nombre);
-            parametrosPost.put("correo",correo);
-            parametrosPost.put("edad",edad);
-            parametrosPost.put("contrasena", contrasena);
+            parametrosPost.put("paterno", paterno);
+            parametrosPost.put("materno", materno);
+            parametrosPost.put("correo", correo);
+            parametrosPost.put("celular", celular);
+            parametrosPost.put("telefono", telefono);
+            parametrosPost.put("direccion", direccion);
             parametrosPost.put("fechaNacimiento", fecha);
-            parametrosPost.put("fechaRegistro", "2019-04-13");
+            parametrosPost.put("genero", genero);
+            parametrosPost.put("contrasena", contrasena);
 
             //DEFINIR PARAMETROS DE CONEXION
             urlConnection.setReadTimeout(15000);
@@ -84,23 +84,18 @@ public class ServicioTaskRegistroEstudiante extends AsyncTask<Void, Void, String
 
             int responseCode = urlConnection.getResponseCode();
             if(responseCode == HttpURLConnection.HTTP_OK){
-
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
                 StringBuffer sb= new StringBuffer("");
                 String linea="";
                 while ((linea=in.readLine())!= null){
                     sb.append(linea);
                     break;
                 }
-
                 in.close();
                 result= sb.toString();
-
             }
-            else{
+            else
                 result= new String("Error: "+ responseCode);
-            }
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -120,21 +115,15 @@ public class ServicioTaskRegistroEstudiante extends AsyncTask<Void, Void, String
         super.onPostExecute(s);
         progressDialog.dismiss();
         resultadoapi=s;
-        if(resultadoapi != null){
-            new SweetAlert(this.httpContext, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
-                    .setTitleText("¡GENIAL!")
-                    .setContentText(resultadoapi)
-                    .setConfirmButton("OK", sweetAlertDialog -> {
-                        Intent intent = new Intent(this.httpContext, MainActivity.class);
-                        this.httpContext.startActivity(intent);
-                    })
-                    .show();
-        }else{
-            new SweetAlert(this.httpContext, SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
-                    .setTitleText("¡ERROR!")
-                    .setContentText("Ocurrió un error inesperado.")
-                    .show();
-        }
+        new SweetAlert(this.httpContext, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
+                .setTitleText("¡GENIAL!")
+                .setContentText("Usuario registrado exitosamente.")
+                .setConfirmButton("OK", sweetAlertDialog -> {
+                    Intent intent = new Intent(this.httpContext, MainActivity.class);
+                    this.httpContext.startActivity(intent);
+                })
+                .show();
+
     }
 
     public String getPostDataString(JSONObject params) throws Exception {

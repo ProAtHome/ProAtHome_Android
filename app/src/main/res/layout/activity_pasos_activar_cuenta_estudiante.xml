@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PasosActivarCuenta">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/common_padding_default">
+
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PRO AT HOME"
+            android:textColor="@color/color_primary"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvBienvenido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/common_padding_min"
+            android:text="Bienvenido a PRO AT HOME, para finalizar tu registro y activar tu cuenta seguiremos estos pasos:"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitulo"/>
+
+        <TextView
+            android:id="@+id/tvUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ingresa a www.proathome.mx desde tu computadora e inicia sesión."
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="@dimen/common_padding_min"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvBienvenido"/>
+
+        <TextView
+            android:id="@+id/tvPASO1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PASO 1"
+            android:textStyle="bold"
+            android:textColor="@color/color_primary"
+            android:layout_marginTop="@dimen/common_padding_min"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvUrl"/>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_viewP1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvPASO1"
+            app:lottie_rawRes="@raw/emailsend"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"/>
+
+        <TextView
+            android:id="@+id/tvInfoP1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textStyle="bold"
+            android:text="Enviarás documentación (INE y Foto Reciente)"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/animation_viewP1"/>
+
+        <TextView
+            android:id="@+id/tvPASO2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PASO 2"
+            android:textStyle="bold"
+            android:textColor="@color/color_primary"
+            android:layout_marginTop="@dimen/common_padding_min"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvInfoP1"/>
+
+        <TextView
+            android:id="@+id/tvInfoP2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textStyle="bold"
+            android:text="Revisaremos tu documentación y si es válida activaremos tu cuenta."
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvPASO2"/>
+
+        <TextView
+            android:id="@+id/tvFinalizar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¡LISTO!, tendrás tu cuenta activa."
+            android:textStyle="bold"
+            android:textColor="@color/color_primary"
+            android:layout_marginTop="@dimen/common_padding_min"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvInfoP2"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
