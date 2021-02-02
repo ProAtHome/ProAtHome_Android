@@ -26,7 +26,7 @@ import butterknife.Unbinder;
 public class NuevoTicketFragment extends DialogFragment {
 
     private Unbinder mUnbinder;
-    private int idUsuario, tipoUsuario;
+    private int idUsuario, tipoUsuario, idSesion;
     @BindView(R.id.etTopico)
     TextInputEditText etTopico;
     @BindView(R.id.etDescripcion)
@@ -53,6 +53,7 @@ public class NuevoTicketFragment extends DialogFragment {
 
         Bundle bundle = getArguments();
         this.tipoUsuario = bundle.getInt("tipoUsuario");
+        this.idSesion = bundle.getInt("idSesion");
 
         setIdUsuario();
     }
@@ -114,12 +115,19 @@ public class NuevoTicketFragment extends DialogFragment {
         }
 
         String[] datos = null;
-        if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
-            datos = new String[]{"Soporte Técnico", "Crédito", "Queja a Estudiante"};
-        else if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE)
-            datos = new String[]{"Soporte Técnico", "Crédito", "Queja a Profesor"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_spinner_item, datos);
+        ArrayAdapter<String> adapter;
+        if(this.idSesion == 0){
+            datos = new String[]{"Soporte Técnico", "Crédito"};
+            adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_item, datos);
+        }else{
+            if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
+                datos = new String[]{"Soporte Técnico", "Crédito", "Queja a Estudiante"};
+            else if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE)
+                datos = new String[]{"Soporte Técnico", "Crédito", "Queja a Profesor"};
+
+            adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_item, datos);
+        }
+
         categorias.setAdapter(adapter);
 
         return view;
@@ -142,12 +150,12 @@ public class NuevoTicketFragment extends DialogFragment {
             !etDescripcion.getText().toString().trim().equalsIgnoreCase("")){
             ServicioTaskNuevoTicket nuevoTicket;
             if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE){
-                nuevoTicket = new ServicioTaskNuevoTicket(getContext(), Constants.TIPO_USUARIO_ESTUDIANTE,
+                nuevoTicket = new ServicioTaskNuevoTicket(getContext(), this.idSesion, Constants.TIPO_USUARIO_ESTUDIANTE,
                         etTopico.getText().toString(), etDescripcion.getText().toString(), "2020-12-5",
                         Constants.ESTATUS_SIN_OPERADOR, this.idUsuario, this, getSelectedCategoria());
                 nuevoTicket.execute();
             }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR){
-                nuevoTicket = new ServicioTaskNuevoTicket(getContext(), Constants.TIPO_USUARIO_PROFESOR,
+                nuevoTicket = new ServicioTaskNuevoTicket(getContext(), this.idSesion, Constants.TIPO_USUARIO_PROFESOR,
                         etTopico.getText().toString(), etDescripcion.getText().toString(), "2020-12-5",
                         Constants.ESTATUS_SIN_OPERADOR, this.idUsuario, this, getSelectedCategoria());
                 nuevoTicket.execute();

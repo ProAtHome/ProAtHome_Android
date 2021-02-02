@@ -18,14 +18,15 @@
 
     <Spinner
         android:id="@+id/categorias"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:overlapAnchor="false"
         android:layout_marginTop="@dimen/common_padding_min"
         android:spinnerMode="dropdown"
         android:layout_below="@+id/tvCategorias"
         android:backgroundTint="@color/colorPersonalDark"
-        style="@style/AppTheme.AppBarOverlay" />
+        android:popupBackground="@android:color/white"
+ />
 
     <TextView
         android:id="@+id/tvTopico"

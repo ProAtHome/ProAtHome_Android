@@ -27,12 +27,13 @@ public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
             ":8080/ProAtHome/apiProAtHome/cliente/nuevoTicket";
     private String linkNuevoTiketProfesor = "http://" + Constants.IP +
             ":8080/ProAtHome/apiProAtHome/profesor/nuevoTicket";
-    private int tipoUsuario, estatus, idUsuario;
+    private int tipoUsuario, estatus, idUsuario, idSesion;
     private DialogFragment dialogFragment;
 
-    public ServicioTaskNuevoTicket(Context contexto, int tipoUsuario, String topico, String descripcion,
+    public ServicioTaskNuevoTicket(Context contexto, int idSesion, int tipoUsuario, String topico, String descripcion,
                                    String fechaCreacion, int estatus, int idUsuario, DialogFragment dialogFragment, String categoria){
         this.contexto = contexto;
+        this.idSesion = idSesion;
         this.tipoUsuario = tipoUsuario;
         this.topico = topico;
         this.descripcion = descripcion;
@@ -69,6 +70,7 @@ public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
             jsonDatos.put("estatus", this.estatus);
             jsonDatos.put("idUsuario", this.idUsuario);
             jsonDatos.put("categoria", this.categoria);
+            jsonDatos.put("idSesion", this.idSesion);
 
             //PARAMETROS DE CONEXIÓN.
             httpURLConnection.setReadTimeout(15000);
@@ -130,16 +132,18 @@ public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
                 .setConfirmButton("OK", sweetAlertDialog -> {
                     this.dialogFragment.dismiss();
                     sweetAlertDialog.dismissWithAnimation();
-                    if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE){
-                        AyudaFragment.configAdapter();
-                        AyudaFragment.configRecyclerView();
-                    }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR){
-                        AyudaProfesorFragment.configAdapter();
-                        AyudaProfesorFragment.configRecyclerView();
-                    }
+                    if(this.idSesion == 0){
+                        if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE){
+                            AyudaFragment.configAdapter();
+                            AyudaFragment.configRecyclerView();
+                        }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR){
+                            AyudaProfesorFragment.configAdapter();
+                            AyudaProfesorFragment.configRecyclerView();
+                        }
 
-                    ServicioTaskObtenerTickets obtenerTickets = new ServicioTaskObtenerTickets(this.contexto, this.idUsuario, this.tipoUsuario);
-                    obtenerTickets.execute();
+                        ServicioTaskObtenerTickets obtenerTickets = new ServicioTaskObtenerTickets(this.contexto, this.idUsuario, this.tipoUsuario);
+                        obtenerTickets.execute();
+                    }
                 })
                 .show();
     }

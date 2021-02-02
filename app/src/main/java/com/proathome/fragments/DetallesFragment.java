@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.preference.PreferenceManager;
@@ -86,7 +87,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     MaterialCardView perfilEstudianteCard;
     public static Fragment detallesFragment;
     public static MaterialButton iniciar;
-    private ScrollView mScrollView;
+    private NestedScrollView mScrollView;
     private Unbinder mUnbinder;
     private double longitud = -99.13320799999, latitud = 19.4326077;
     private String linkRESTDatosBancarios = "http://" + Constants.IP +
@@ -175,10 +176,10 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         baseDeDatos.close();
 
         if (bun.getString("fotoProfesor").equalsIgnoreCase("Sin foto")) {
-            iniciar.setVisibility(View.INVISIBLE);
+            iniciar.setEnabled(false);
             perfilEstudianteCard.setClickable(false);
         } else {
-            iniciar.setVisibility(View.VISIBLE);
+            iniciar.setEnabled(true);
         }
         if (bun.getString("descripcionProfesor").equalsIgnoreCase("Sin descripcion"))
             descripcionProfesor.setVisibility(View.INVISIBLE);
@@ -342,6 +343,17 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
                     sweetAlertDialog.dismissWithAnimation();
                 })
                 .show();
+    }
+
+    @OnClick(R.id.nuevoTopico)
+    public void onClickNuevoTopico(){
+        Bundle bundle = new Bundle();
+        bundle.putInt("tipoUsuario", Constants.TIPO_USUARIO_ESTUDIANTE);
+        bundle.putInt("idSesion", idSesion);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        NuevoTicketFragment ticketAyuda = new NuevoTicketFragment();
+        ticketAyuda.setArguments(bundle);
+        ticketAyuda.show(fragmentTransaction, "Ticket");
     }
 
     @OnClick(R.id.perfilEstudianteCard)

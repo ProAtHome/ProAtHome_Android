@@ -15,6 +15,7 @@
     <color name="color_surface">#ffffff</color>
     <color name="color_error">#F44336</color>
 
+    <color name="color_back">#f1f1f1 </color>
     <color name="color_on_primary">#ffffff</color>
     <color name="color_on_secondary">#ffffff</color>
     <color name="color_on_background">#000000</color>

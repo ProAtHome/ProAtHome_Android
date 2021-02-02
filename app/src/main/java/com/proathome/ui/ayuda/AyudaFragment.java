@@ -67,6 +67,7 @@ public class AyudaFragment extends Fragment {
     public void onClick(){
         Bundle bundle = new Bundle();
         bundle.putInt("tipoUsuario", Constants.TIPO_USUARIO_ESTUDIANTE);
+        bundle.putInt("idSesion", 0);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         NuevoTicketFragment ticketAyuda = new NuevoTicketFragment();
         ticketAyuda.setArguments(bundle);
