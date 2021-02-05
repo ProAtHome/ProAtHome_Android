@@ -23,6 +23,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
@@ -30,6 +31,7 @@ import com.proathome.servicios.estudiante.ServicioTaskBancoEstudiante;
 import com.proathome.servicios.estudiante.ServicioTaskPerfilEstudiante;
 import com.proathome.servicios.estudiante.ServicioTaskUpCuentaEstudiante;
 import com.proathome.servicios.estudiante.ServicioTaskUpPerfilEstudiante;
+import com.proathome.servicios.profesor.ServicioTaskReportes;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 
@@ -67,7 +69,10 @@ public class EditarPerfilFragment extends Fragment {
     public static TextInputEditText etTarjeta;
     public static TextInputEditText etMes;
     public static TextInputEditText etAño;
+    public static TextView tvAviso;
+    public static ImageView imgAviso;
     public static ImageView ivFoto;
+    public static MaterialCardView cardValoracion;
     private static final int PICK_IMAGE = 100;
     public static final int RESULT_OK = -1;
     public int idEstudiante;
@@ -238,6 +243,9 @@ public class EditarPerfilFragment extends Fragment {
         etMes = getView().findViewById(R.id.etMes);
         etAño = getView().findViewById(R.id.etAño);
         ivFoto = getView().findViewById(R.id.ivFoto);
+        tvAviso = getView().findViewById(R.id.tvAviso);
+        imgAviso = getView().findViewById(R.id.imgAviso);
+        cardValoracion = getView().findViewById(R.id.cardValoracion);
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
@@ -245,6 +253,8 @@ public class EditarPerfilFragment extends Fragment {
 
         if(fila.moveToFirst()){
             this.idEstudiante = fila.getInt(0);
+            ServicioTaskReportes reportes = new ServicioTaskReportes(getContext(), Constants.TIPO_ESTUDIANTE, this.idEstudiante);
+            reportes.execute();
             perfilEstudiante = new ServicioTaskPerfilEstudiante(getContext(), linkRESTCargarPerfil,
                     this.imageHttpAddress, this.idEstudiante, Constants.INFO_PERFIl_EDITAR);
             perfilEstudiante.execute();

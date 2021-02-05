@@ -23,11 +23,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.servicios.profesor.AdminSQLiteOpenHelperProfesor;
 import com.proathome.servicios.profesor.ServicioTaskBancoProfesor;
 import com.proathome.servicios.profesor.ServicioTaskPerfilProfesor;
+import com.proathome.servicios.profesor.ServicioTaskReportes;
 import com.proathome.servicios.profesor.ServicioTaskUpCuentaProfesor;
 import com.proathome.servicios.profesor.ServicioTaskUpPerfilProfesor;
 import com.proathome.utils.Constants;
@@ -64,7 +66,10 @@ public class EditarPerfilProfesorFragment extends Fragment {
     public static TextInputEditText etCuenta;
     public static TextInputEditText etBanco;
     public static TextInputEditText etTipoDePago;
+    public static TextView tvAviso;
+    public static ImageView imgAviso;
     public static ImageView ivFoto;
+    public static MaterialCardView cardValoracion;
     private static final int PICK_IMAGE = 100;
     public static final int RESULT_OK = -1;
     public int idProfesor;
@@ -198,6 +203,9 @@ public class EditarPerfilProfesorFragment extends Fragment {
         etCuenta = getView().findViewById(R.id.etCuenta);
         etDireccion = getView().findViewById(R.id.etDireccion);
         ivFoto = getView().findViewById(R.id.ivFoto);
+        tvAviso = getView().findViewById(R.id.tvAviso);
+        imgAviso = getView().findViewById(R.id.imgAviso);
+        cardValoracion = getView().findViewById(R.id.cardValoracion);
 
         AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(getContext(), "sesionProfesor",
                 null, 1);
@@ -206,6 +214,8 @@ public class EditarPerfilProfesorFragment extends Fragment {
 
         if(fila.moveToFirst()){
             this.idProfesor = fila.getInt(0);
+            ServicioTaskReportes reportes = new ServicioTaskReportes(getContext(), Constants.TIPO_PROFESOR, this.idProfesor);
+            reportes.execute();
             perfilEstudiante = new ServicioTaskPerfilProfesor(getContext(), linkRESTCargarPerfil,
                     this.imageHttpAddress, this.idProfesor, Constants.INFO_PERFIl_EDITAR);
             perfilEstudiante.execute();

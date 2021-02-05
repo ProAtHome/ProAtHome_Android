@@ -10,7 +10,7 @@
             android:title="@string/menu_inicio" />
         <item
             android:id="@+id/nav_editarPerfil_profesor"
-            android:icon="@drawable/ic_edit"
+            android:icon="@drawable/ic_account"
             android:title="@string/menu_editarPerfil" />
         <item
             android:id="@+id/nav_sesiones_profesor"

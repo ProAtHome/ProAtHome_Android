@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.provider.Settings;
@@ -49,7 +50,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
     public static int idSesion = 0, idProfesor = 0;
     private int tiempoPasar = 0;
     private GoogleMap mMap;
-    private ScrollView mScrollView;
+    private NestedScrollView mScrollView;
     private Unbinder mUnbinder;
     private double longitud = -99.13320799999, latitud = 19.4326077;
     public static ImageView foto;
@@ -234,6 +235,17 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
                     sweetAlertDialog.dismissWithAnimation();
                 })
                 .show();
+    }
+
+    @OnClick(R.id.nuevoTopico)
+    public void onClickNuevoTopico(){
+        Bundle bundle = new Bundle();
+        bundle.putInt("tipoUsuario", Constants.TIPO_USUARIO_PROFESOR);
+        bundle.putInt("idSesion", idSesion);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        NuevoTicketFragment ticketAyuda = new NuevoTicketFragment();
+        ticketAyuda.setArguments(bundle);
+        ticketAyuda.show(fragmentTransaction, "Ticket");
     }
 
     @Override

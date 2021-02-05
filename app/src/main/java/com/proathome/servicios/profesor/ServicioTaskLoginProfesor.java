@@ -6,9 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.os.Bundle;
 
 import com.proathome.PasosActivarCuenta;
+import com.proathome.PerfilBloqueado;
 import com.proathome.inicioProfesor;
+import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -117,6 +120,12 @@ public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
                                 jsonObject.getString("estado").equalsIgnoreCase("cita") ||
                                     jsonObject.getString("estado").equalsIgnoreCase("registro")){
                         Intent intent = new Intent(this.contexto, PasosActivarCuenta.class);
+                        this.contexto.startActivity(intent);
+                    }else if(jsonObject.getString("estado").equalsIgnoreCase("BLOQUEADO")){
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("tipoPerfil", Constants.TIPO_USUARIO_PROFESOR);
+                        Intent intent = new Intent(this.contexto, PerfilBloqueado.class);
+                        intent.putExtras(bundle);
                         this.contexto.startActivity(intent);
                     }
                 }else{

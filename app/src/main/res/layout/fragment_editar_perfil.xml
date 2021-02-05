@@ -321,6 +321,55 @@
 
             </com.google.android.material.button.MaterialButton>
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardValoracion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_padding_min"
+                app:cardBackgroundColor="@color/color_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnActualizarInfo">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/common_padding_min">
+
+                    <TextView
+                        android:id="@+id/tvValoracion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Avisos importantes:"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintEnd_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <ImageView
+                        android:id="@+id/imgAviso"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvValoracion"
+                        android:src="@mipmap/aviso"/>
+
+                    <TextView
+                        android:id="@+id/tvAviso"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textStyle="bold"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:text=""
+                        app:layout_constraintStart_toEndOf="@id/imgAviso"
+                        app:layout_constraintTop_toBottomOf="@id/tvValoracion"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
