@@ -29,11 +29,11 @@ public class PerfilBloqueado extends AppCompatActivity {
         if(bundle.getInt("tipoPerfil") == Constants.TIPO_USUARIO_ESTUDIANTE){
             tvBloqueado.setTextColor(getResources().getColor(R.color.color_primary));
             tvDescripcion.setText("Tu pefil ha sido bloquedo debido a la acumulación de quejas por" +
-                    " parte de tus profesores, deberás ponerte ne contacto con nosotros para poder activar tu cuenta nuevamente.");
+                    " parte de tus profesores, deberás ponerte en contacto con nosotros para poder activar tu cuenta nuevamente.");
         }else if(bundle.getInt("tipoPerfil") == Constants.TIPO_USUARIO_PROFESOR){
             tvBloqueado.setTextColor(getResources().getColor(R.color.color_secondary));
             tvDescripcion.setText("Tu pefil ha sido bloquedo debido a la acumulación de quejas por" +
-                    " parte de tus estudiantes, deberás ponerte ne contacto con nosotros para poder activar tu cuenta nuevamente.");
+                    " parte de tus estudiantes, deberás ponerte en contacto con nosotros para poder activar tu cuenta nuevamente.");
         }
     }
 

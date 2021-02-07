@@ -103,7 +103,7 @@ public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
             }else {
                 if(!s.equals("null")){
                     JSONObject jsonObject = new JSONObject(s);
-                    if(jsonObject.getString("estado").equalsIgnoreCase("activo")){
+                    if(jsonObject.getString("estado").equalsIgnoreCase("ACTIVO")){
                         AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(this.contexto,
                                 "sesionProfesor", null, 1);
                         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
