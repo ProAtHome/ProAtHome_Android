@@ -87,24 +87,20 @@ public class ServicioTaskBancoProfesor extends AsyncTask<Void, Void, String>{
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         progressDialog.dismiss();
-        resultadoapi = s;
 
-        if (resultadoapi == null) {
-
-        } else {
-            if (!resultadoapi.equals("null")) {
-                try {
-                    JSONObject jsonObject = new JSONObject(resultadoapi);
-                    EditarPerfilProfesorFragment.etTipoDePago.setText(jsonObject.getString("tipoPago"));
-                    EditarPerfilProfesorFragment.etBanco.setText(jsonObject.getString("banco"));
-                    EditarPerfilProfesorFragment.etCuenta.setText(jsonObject.getString("numeroCuenta"));
-                    EditarPerfilProfesorFragment.etDireccion.setText(jsonObject.getString("direccionFacturacion"));
-                } catch (JSONException ex) {
-                    ex.printStackTrace();
+        try {
+            JSONObject jsonObject = new JSONObject(s);
+            if(jsonObject.getBoolean("respuesta")){
+                JSONObject jsonDatos = jsonObject.getJSONObject("mensaje");
+                if(jsonDatos.getBoolean("existe")){
+                    EditarPerfilProfesorFragment.etTitular.setText(jsonDatos.getString("nombreTitular"));
+                    EditarPerfilProfesorFragment.etBanco.setText(jsonDatos.getString("banco"));
+                    EditarPerfilProfesorFragment.etClabe.setText(jsonDatos.getString("clabe"));
                 }
-            } else {
-
             }
+
+        } catch (JSONException ex) {
+            ex.printStackTrace();
         }
     }
 

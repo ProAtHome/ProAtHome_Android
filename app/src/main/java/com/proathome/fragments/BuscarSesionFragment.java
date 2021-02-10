@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -15,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
+import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,11 +32,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.MatchSesionEstudiante;
 import com.proathome.R;
 import com.proathome.servicios.WorkaroundMapFragment;
+import com.proathome.servicios.profesor.AdminSQLiteOpenHelperProfesor;
 import com.proathome.servicios.profesor.ServicioTaskObtenerSesiones;
+import com.proathome.servicios.profesor.ServicioTaskPerfilProfesor;
 import com.proathome.utils.Constants;
 import com.proathome.utils.PermisosUbicacion;
 import com.proathome.utils.SweetAlert;
-
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
@@ -47,6 +51,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
     private String linkAPISesiones = "http://" + Constants.IP +
             ":8080/ProAtHome/apiProAtHome/profesor/obtenerSesionesMovil";
     public static int RANGO_BUSQUEDA = 4000;
+    private int idProfesor, rangoClase;
     private double latitud, longitud;
     public static GoogleMap mMap;
     public static List<Marker> perth = new ArrayList<>();
@@ -88,6 +93,8 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
         toolbar.setNavigationOnClickListener(v -> {
             dismiss();
         });
+
+        cargarPerfil();
 
         return view;
 
@@ -153,7 +160,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
 
         });
 
-        ServicioTaskObtenerSesiones obtenerSesiones = new ServicioTaskObtenerSesiones(getContext(), this.linkAPISesiones);
+        ServicioTaskObtenerSesiones obtenerSesiones = new ServicioTaskObtenerSesiones(getContext(), this.linkAPISesiones, this.rangoClase);
         obtenerSesiones.execute();
 
         BuscarSesionFragment.mMap.setOnMarkerClickListener(marker -> {
@@ -221,6 +228,26 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
         double distancia = (double) (earthRadius * c);
 
         return distancia;
+    }
+
+    public void cargarPerfil(){
+
+        AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(getContext(), "sesionProfesor",
+                null, 1);
+        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+        Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor, rangoClase FROM sesionProfesor WHERE id = " + 1, null);
+
+        if(fila.moveToFirst()){
+            //Recorremos el cursor hasta que no haya más registros
+            do {
+                this.idProfesor = fila.getInt(0);
+                this.rangoClase = fila.getInt(1);
+            } while(fila.moveToNext());
+            baseDeDatos.close();
+        }else{
+            baseDeDatos.close();
+        }
+
     }
 
     @Override

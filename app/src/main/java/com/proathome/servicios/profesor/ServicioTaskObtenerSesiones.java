@@ -28,10 +28,12 @@ public class ServicioTaskObtenerSesiones extends AsyncTask<Void, Void, String> {
     private ProgressDialog progressDialog;
     private String linkAPI, respuestaAPI;
     private Context contexto;
+    private int rangoClase;
 
-    public ServicioTaskObtenerSesiones(Context contexto, String linkAPI){
+    public ServicioTaskObtenerSesiones(Context contexto, String linkAPI, int rangoClase){
         this.contexto = contexto;
         this.linkAPI = linkAPI;
+        this.rangoClase = rangoClase;
     }
 
     @Override
@@ -46,7 +48,7 @@ public class ServicioTaskObtenerSesiones extends AsyncTask<Void, Void, String> {
         String resultado = null;
 
         try {
-            URL url = new URL(this.linkAPI);
+            URL url = new URL(this.linkAPI + "/" + this.rangoClase);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
             httpURLConnection.setReadTimeout(15000);

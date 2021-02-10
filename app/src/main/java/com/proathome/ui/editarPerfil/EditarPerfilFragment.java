@@ -63,7 +63,10 @@ public class EditarPerfilFragment extends Fragment {
     private ServicioTaskUpPerfilEstudiante actualizarPerfil;
     private ServicioTaskUpCuentaEstudiante actualizarBanco;
     public static TextInputEditText etNombre;
-    public static TextInputEditText etEdad;
+    public static TextInputEditText etCorreo;
+    public static TextInputEditText etCelular;
+    public static TextInputEditText etTelefono;
+    public static TextInputEditText etDireccion;
     public static TextInputEditText etDesc;
     public static TextInputEditText etNombreTitular;
     public static TextInputEditText etTarjeta;
@@ -88,8 +91,14 @@ public class EditarPerfilFragment extends Fragment {
     Button btnFoto;
     @BindView(R.id.tvNombre)
     TextView tvNombre;
-    @BindView(R.id.tvEdad)
-    TextView tvEdad;
+    @BindView(R.id.tvCorreo)
+    TextView tvCorreo;
+    @BindView(R.id.tvCelular)
+    TextView tvCelular;
+    @BindView(R.id.tvTelefono)
+    TextView tvTelefono;
+    @BindView(R.id.tvDireccion)
+    TextView tvDireccion;
     @BindView(R.id.tvDescripcion)
     TextView tvDesc;
     @BindView(R.id.btnActualizarInfo)
@@ -126,13 +135,14 @@ public class EditarPerfilFragment extends Fragment {
             baseDeDatos.close();
         }
 
+        /*
         btnActualizarInfo.setOnClickListener(view -> {
             actualizarPerfil = new ServicioTaskUpPerfilEstudiante(getContext(), linkRESTActualizarPerfil,
                     this.idEstudiante, etNombre.getText().toString(), this.correo,
                         Integer.valueOf(etEdad.getText().toString()), etDesc.getText().toString());
             actualizarPerfil.execute();
             uploadImage();
-        });
+        });*/
 
         btnActualizarInfoBancaria.setOnClickListener(view -> {
             if(camposValidosBanco()){
@@ -167,8 +177,14 @@ public class EditarPerfilFragment extends Fragment {
                     btnFoto.setVisibility(View.VISIBLE);
                     tvNombre.setVisibility(View.VISIBLE);
                     etNombre.setVisibility(View.VISIBLE);
-                    tvEdad.setVisibility(View.VISIBLE);
-                    etEdad.setVisibility(View.VISIBLE);
+                    tvCorreo.setVisibility(View.VISIBLE);
+                    etCorreo.setVisibility(View.VISIBLE);
+                    tvCelular.setVisibility(View.VISIBLE);
+                    etCelular.setVisibility(View.VISIBLE);
+                    tvTelefono.setVisibility(View.VISIBLE);
+                    etTelefono.setVisibility(View.VISIBLE);
+                    tvDireccion.setVisibility(View.VISIBLE);
+                    etDireccion.setVisibility(View.VISIBLE);
                     tvDesc.setVisibility(View.VISIBLE);
                     etDesc.setVisibility(View.VISIBLE);
                     btnActualizarInfo.setVisibility(View.VISIBLE);
@@ -189,8 +205,14 @@ public class EditarPerfilFragment extends Fragment {
                     btnFoto.setVisibility(View.INVISIBLE);
                     tvNombre.setVisibility(View.INVISIBLE);
                     etNombre.setVisibility(View.INVISIBLE);
-                    tvEdad.setVisibility(View.INVISIBLE);
-                    etEdad.setVisibility(View.INVISIBLE);
+                    tvCorreo.setVisibility(View.INVISIBLE);
+                    etCorreo.setVisibility(View.INVISIBLE);
+                    tvCelular.setVisibility(View.INVISIBLE);
+                    etCelular.setVisibility(View.INVISIBLE);
+                    tvTelefono.setVisibility(View.INVISIBLE);
+                    etTelefono.setVisibility(View.INVISIBLE);
+                    tvDireccion.setVisibility(View.INVISIBLE);
+                    etDireccion.setVisibility(View.INVISIBLE);
                     tvDesc.setVisibility(View.INVISIBLE);
                     etDesc.setVisibility(View.INVISIBLE);
                     btnActualizarInfo.setVisibility(View.INVISIBLE);
@@ -236,7 +258,10 @@ public class EditarPerfilFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         etNombre = getView().findViewById(R.id.etNombre);
-        etEdad = getView().findViewById(R.id.etEdad);
+        etCorreo = getView().findViewById(R.id.etCorreo);
+        etCelular = getView().findViewById(R.id.etCelular);
+        etTelefono = getView().findViewById(R.id.etTelefono);
+        etDireccion = getView().findViewById(R.id.etDireccion);
         etDesc = getView().findViewById(R.id.etDesc);
         etNombreTitular = getView().findViewById(R.id.etNombreTitular);
         etTarjeta = getView().findViewById(R.id.etTarjeta);

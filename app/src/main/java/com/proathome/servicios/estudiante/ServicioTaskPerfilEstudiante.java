@@ -118,7 +118,10 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
                     if(this.tipo == Constants.INFO_PERFIl_EDITAR){
 
                         EditarPerfilFragment.etNombre.setText(jsonObject.getString("nombre"));
-                        EditarPerfilFragment.etEdad.setText(jsonObject.getString("edad"));
+                        EditarPerfilFragment.etCorreo.setText(jsonObject.getString("correo"));
+                        EditarPerfilFragment.etCelular.setText(jsonObject.getString("celular"));
+                        EditarPerfilFragment.etTelefono.setText(jsonObject.getString("telefonoLocal"));
+                        EditarPerfilFragment.etDireccion.setText(jsonObject.getString("direccion"));
                         EditarPerfilFragment.etDesc.setText(jsonObject.getString("descripcion"));
 
                     }else if(this.tipo == Constants.INFO_PERFIL){

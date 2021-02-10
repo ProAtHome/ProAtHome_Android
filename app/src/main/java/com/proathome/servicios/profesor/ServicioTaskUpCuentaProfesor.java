@@ -3,6 +3,9 @@ package com.proathome.servicios.profesor;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+
+import com.proathome.utils.SweetAlert;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -19,17 +22,16 @@ public class ServicioTaskUpCuentaProfesor extends AsyncTask<Void, Void, String> 
 
     private Context contexto;
     private ProgressDialog progressDialog;
-    private String linkAPI, tipoDePago, banco, numeroCuenta, direccionFacturacion, respuesta, resultadoAPI;
+    private String linkAPI, titular, banco, clabe, respuesta;
     private int idProfesor;
 
-    public ServicioTaskUpCuentaProfesor(Context contexto, String linkAPI, int idProfesor, String tipoDePago, String banco, String numeroCuenta, String direccionFacturacion){
+    public ServicioTaskUpCuentaProfesor(Context contexto, String linkAPI, int idProfesor, String titular, String banco, String clabe){
         this.contexto = contexto;
         this.linkAPI = linkAPI;
         this.idProfesor = idProfesor;
-        this.tipoDePago = tipoDePago;
+        this.titular = titular;
         this.banco = banco;
-        this.numeroCuenta = numeroCuenta;
-        this.direccionFacturacion = direccionFacturacion;
+        this.clabe = clabe;
     }
 
     @Override
@@ -48,10 +50,9 @@ public class ServicioTaskUpCuentaProfesor extends AsyncTask<Void, Void, String> 
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             JSONObject parametrosPOST = new JSONObject();
             parametrosPOST.put("idProfesor", this.idProfesor);
-            parametrosPOST.put("tipoDePago", this.tipoDePago);
+            parametrosPOST.put("nombreTitular", this.titular);
             parametrosPOST.put("banco", this.banco);
-            parametrosPOST.put("numeroCuenta", this.numeroCuenta);
-            parametrosPOST.put("direccionFacturacion", this.direccionFacturacion);
+            parametrosPOST.put("clabe", this.clabe);
 
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
@@ -101,7 +102,22 @@ public class ServicioTaskUpCuentaProfesor extends AsyncTask<Void, Void, String> 
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         progressDialog.dismiss();
-        this.resultadoAPI = s;
+        try{
+            JSONObject jsonObject = new JSONObject(s);
+            if(jsonObject.getBoolean("respuesta"))
+                msgSweet("¡GENIAL!", jsonObject.getString("mensaje"), SweetAlert.SUCCESS_TYPE);
+            else
+                msgSweet("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.ERROR_TYPE);
+        }catch (JSONException ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public void msgSweet(String titulo, String mensaje, int tipo){
+        new SweetAlert(this.contexto, tipo, SweetAlert.PROFESOR)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .show();
     }
 
     public String getPostDataString(JSONObject params) throws Exception {

@@ -114,16 +114,26 @@ public class ServicioTaskRegistroEstudiante extends AsyncTask<Void, Void, String
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         progressDialog.dismiss();
-        resultadoapi=s;
-        new SweetAlert(this.httpContext, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
-                .setTitleText("¡GENIAL!")
-                .setContentText("Usuario registrado exitosamente.")
-                .setConfirmButton("OK", sweetAlertDialog -> {
-                    Intent intent = new Intent(this.httpContext, MainActivity.class);
-                    this.httpContext.startActivity(intent);
-                })
-                .show();
-
+        try{
+            JSONObject jsonObject = new JSONObject(s);
+            if(jsonObject.getBoolean("respuesta")){
+                new SweetAlert(this.httpContext, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
+                        .setTitleText("¡GENIAL!")
+                        .setContentText(jsonObject.getString("mensaje"))
+                        .setConfirmButton("OK", sweetAlertDialog -> {
+                            Intent intent = new Intent(this.httpContext, MainActivity.class);
+                            this.httpContext.startActivity(intent);
+                        })
+                        .show();
+            }else{
+                new SweetAlert(this.httpContext, SweetAlert.ERROR_TYPE, SweetAlert.PROFESOR)
+                        .setTitleText("¡ERROR!")
+                        .setContentText(jsonObject.getString("mensaje"))
+                        .show();
+            }
+        }catch(JSONException ex){
+            ex.printStackTrace();
+        }
     }
 
     public String getPostDataString(JSONObject params) throws Exception {

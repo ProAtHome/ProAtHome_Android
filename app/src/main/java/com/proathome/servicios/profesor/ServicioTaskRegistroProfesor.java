@@ -121,21 +121,26 @@ public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> 
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         progressDialog.dismiss();
-        resultadoapi=s;
-        if(resultadoapi != null){
-            new SweetAlert(this.httpContext, SweetAlert.SUCCESS_TYPE, SweetAlert.PROFESOR)
-                    .setTitleText("¡GENIAL!")
-                    .setContentText(resultadoapi)
-                    .setConfirmButton("OK", sweetAlertDialog -> {
-                        Intent intent = new Intent(this.httpContext, loginProfesor.class);
-                        this.httpContext.startActivity(intent);
-                    })
-                    .show();
-        }else{
-            new SweetAlert(this.httpContext, SweetAlert.ERROR_TYPE, SweetAlert.PROFESOR)
-                    .setTitleText("¡ERROR!")
-                    .setContentText("Ocurrió un error inesperado.")
-                    .show();
+
+        try{
+            JSONObject jsonObject = new JSONObject(s);
+            if(jsonObject.getBoolean("respuesta")){
+                new SweetAlert(this.httpContext, SweetAlert.SUCCESS_TYPE, SweetAlert.PROFESOR)
+                        .setTitleText("¡GENIAL!")
+                        .setContentText(jsonObject.getString("mensaje"))
+                        .setConfirmButton("OK", sweetAlertDialog -> {
+                            Intent intent = new Intent(this.httpContext, loginProfesor.class);
+                            this.httpContext.startActivity(intent);
+                        })
+                        .show();
+            }else{
+                new SweetAlert(this.httpContext, SweetAlert.ERROR_TYPE, SweetAlert.PROFESOR)
+                        .setTitleText("¡ERROR!")
+                        .setContentText(jsonObject.getString("mensaje"))
+                        .show();
+            }
+        }catch(JSONException ex){
+            ex.printStackTrace();
         }
     }
 

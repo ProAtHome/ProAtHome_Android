@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import com.proathome.inicioProfesor;
+import com.proathome.ui.editarPerfil.EditarPerfilFragment;
 import com.proathome.ui.editarPerfilProfesor.EditarPerfilProfesorFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
@@ -114,7 +115,10 @@ public class ServicioTaskPerfilProfesor extends AsyncTask<Void, Void, String> {
 
                     if(this.tipo == Constants.INFO_PERFIl_EDITAR){
                         EditarPerfilProfesorFragment.etNombre.setText(jsonObject.getString("nombre"));
-                        EditarPerfilProfesorFragment.etEdad.setText(jsonObject.getString("edad"));
+                        EditarPerfilProfesorFragment.etCorreo.setText(jsonObject.getString("correo"));
+                        EditarPerfilProfesorFragment.etCelular.setText(jsonObject.getString("celular"));
+                        EditarPerfilProfesorFragment.etTelefono.setText(jsonObject.getString("telefonoLocal"));
+                        EditarPerfilProfesorFragment.etDireccion.setText(jsonObject.getString("direccion"));
                         EditarPerfilProfesorFragment.etDesc.setText(jsonObject.getString("descripcion"));
                     }else if(this.tipo == Constants.INFO_PERFIL){
                         inicioProfesor.nombreTV.setText(jsonObject.getString("nombre"));

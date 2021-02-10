@@ -51,7 +51,7 @@ public class EditarPerfilProfesorFragment extends Fragment {
     private String linkRESTActualizarPerfil = "http://" + Constants.IP +
             ":8080/ProAtHome/apiProAtHome/profesor/informacionPerfil";
     private String linkRESTActualizarBanco = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/profesor/actualizarCuentaProfesor";
+            ":8080/ProAtHome/apiProAtHome/profesor/actualizarCuenta";
     private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
     private String linkFoto = "http://" + Constants.IP + "/ProAtHome/assets/lib/ActualizarFotoProfesorAndroid.php";
     private Unbinder mUnbinder;
@@ -60,12 +60,14 @@ public class EditarPerfilProfesorFragment extends Fragment {
     private ServicioTaskUpPerfilProfesor actualizarPerfil;
     private ServicioTaskUpCuentaProfesor actualizarBanco;
     public static TextInputEditText etNombre;
-    public static TextInputEditText etEdad;
-    public static TextInputEditText etDesc;
+    public static TextInputEditText etCorreo;
+    public static TextInputEditText etCelular;
+    public static TextInputEditText etTelefono;
     public static TextInputEditText etDireccion;
-    public static TextInputEditText etCuenta;
+    public static TextInputEditText etDesc;
+    public static TextInputEditText etClabe;
     public static TextInputEditText etBanco;
-    public static TextInputEditText etTipoDePago;
+    public static TextInputEditText etTitular;
     public static TextView tvAviso;
     public static ImageView imgAviso;
     public static ImageView ivFoto;
@@ -85,22 +87,26 @@ public class EditarPerfilProfesorFragment extends Fragment {
     Button btnFoto;
     @BindView(R.id.tvNombre)
     TextView tvNombre;
-    @BindView(R.id.tvEdad)
-    TextView tvEdad;
+    @BindView(R.id.tvCorreo)
+    TextView tvCorreo;
+    @BindView(R.id.tvCelular)
+    TextView tvCelular;
+    @BindView(R.id.tvTelefono)
+    TextView tvTelefono;
+    @BindView(R.id.tvDireccion)
+    TextView tvDireccion;
     @BindView(R.id.tvDescripcion)
     TextView tvDesc;
     @BindView(R.id.btnActualizarInfo)
     Button btnActualizarInfo;
     @BindView(R.id.tvInfoBancaria)
     TextView tvInfoBancaria;
-    @BindView(R.id.tvTipoDePago)
-    TextView tvTipoDePago;
+    @BindView(R.id.tvTitular)
+    TextView tvTitular;
     @BindView(R.id.tvBanco)
     TextView tvBanco;
-    @BindView(R.id.tvCuenta)
-    TextView tvCuenta;
-    @BindView(R.id.tvDireccion)
-    TextView tvDireccion;
+    @BindView(R.id.tvClabe)
+    TextView tvClabe;
     @BindView(R.id.btnActualizarInfoBancaria)
     Button btnActualizarInfoBancaria;
 
@@ -123,18 +129,19 @@ public class EditarPerfilProfesorFragment extends Fragment {
             baseDeDatos.close();
         }
 
+        /*
         btnActualizarInfo.setOnClickListener(view -> {
             actualizarPerfil = new ServicioTaskUpPerfilProfesor(getContext(), linkRESTActualizarPerfil,
                     this.idProfesor, etNombre.getText().toString(), this.correo,
                         Integer.valueOf(etEdad.getText().toString()), etDesc.getText().toString());
             actualizarPerfil.execute();
             uploadImage();
-        });
+        });*/
 
         btnActualizarInfoBancaria.setOnClickListener(view -> {
             actualizarBanco = new ServicioTaskUpCuentaProfesor(getContext(), linkRESTActualizarBanco,
-                    this.idProfesor, etTipoDePago.getText().toString(), etBanco.getText().toString(),
-                        etCuenta.getText().toString(), etDireccion.getText().toString());
+                    this.idProfesor, etTitular.getText().toString(), etBanco.getText().toString(),
+                        etClabe.getText().toString());
             actualizarBanco.execute();
         });
 
@@ -145,20 +152,24 @@ public class EditarPerfilProfesorFragment extends Fragment {
                     btnFoto.setVisibility(View.VISIBLE);
                     tvNombre.setVisibility(View.VISIBLE);
                     etNombre.setVisibility(View.VISIBLE);
-                    tvEdad.setVisibility(View.VISIBLE);
-                    etEdad.setVisibility(View.VISIBLE);
+                    tvCorreo.setVisibility(View.VISIBLE);
+                    etCorreo.setVisibility(View.VISIBLE);
+                    tvCelular.setVisibility(View.VISIBLE);
+                    etCelular.setVisibility(View.VISIBLE);
+                    tvTelefono.setVisibility(View.VISIBLE);
+                    etTelefono.setVisibility(View.VISIBLE);
+                    tvDireccion.setVisibility(View.VISIBLE);
+                    etDireccion.setVisibility(View.VISIBLE);
                     tvDesc.setVisibility(View.VISIBLE);
                     etDesc.setVisibility(View.VISIBLE);
                     btnActualizarInfo.setVisibility(View.VISIBLE);
                     tvInfoBancaria.setVisibility(View.INVISIBLE);
-                    tvTipoDePago.setVisibility(View.INVISIBLE);
-                    etTipoDePago.setVisibility(View.INVISIBLE);
+                    tvTitular.setVisibility(View.INVISIBLE);
+                    etTitular.setVisibility(View.INVISIBLE);
                     tvBanco.setVisibility(View.INVISIBLE);
                     etBanco.setVisibility(View.INVISIBLE);
-                    tvCuenta.setVisibility(View.INVISIBLE);
-                    etCuenta.setVisibility(View.INVISIBLE);
-                    tvDireccion.setVisibility(View.INVISIBLE);
-                    etDireccion.setVisibility(View.INVISIBLE);
+                    tvClabe.setVisibility(View.INVISIBLE);
+                    etClabe.setVisibility(View.INVISIBLE);
                     btnActualizarInfoBancaria.setVisibility(View.INVISIBLE);
                     return true;
                 case R.id.action_datos:
@@ -166,20 +177,24 @@ public class EditarPerfilProfesorFragment extends Fragment {
                     btnFoto.setVisibility(View.INVISIBLE);
                     tvNombre.setVisibility(View.INVISIBLE);
                     etNombre.setVisibility(View.INVISIBLE);
-                    tvEdad.setVisibility(View.INVISIBLE);
-                    etEdad.setVisibility(View.INVISIBLE);
+                    tvCorreo.setVisibility(View.INVISIBLE);
+                    etCorreo.setVisibility(View.INVISIBLE);
+                    tvCelular.setVisibility(View.INVISIBLE);
+                    etCelular.setVisibility(View.INVISIBLE);
+                    tvTelefono.setVisibility(View.INVISIBLE);
+                    etTelefono.setVisibility(View.INVISIBLE);
+                    tvDireccion.setVisibility(View.INVISIBLE);
+                    etDireccion.setVisibility(View.INVISIBLE);
                     tvDesc.setVisibility(View.INVISIBLE);
                     etDesc.setVisibility(View.INVISIBLE);
                     btnActualizarInfo.setVisibility(View.INVISIBLE);
                     tvInfoBancaria.setVisibility(View.VISIBLE);
-                    tvTipoDePago.setVisibility(View.VISIBLE);
-                    etTipoDePago.setVisibility(View.VISIBLE);
+                    tvTitular.setVisibility(View.VISIBLE);
+                    etTitular.setVisibility(View.VISIBLE);
                     tvBanco.setVisibility(View.VISIBLE);
                     etBanco.setVisibility(View.VISIBLE);
-                    tvCuenta.setVisibility(View.VISIBLE);
-                    etCuenta.setVisibility(View.VISIBLE);
-                    tvDireccion.setVisibility(View.VISIBLE);
-                    etDireccion.setVisibility(View.VISIBLE);
+                    tvClabe.setVisibility(View.VISIBLE);
+                    etClabe.setVisibility(View.VISIBLE);
                     btnActualizarInfoBancaria.setVisibility(View.VISIBLE);
                     return true;
             }
@@ -196,11 +211,14 @@ public class EditarPerfilProfesorFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         etNombre = getView().findViewById(R.id.etNombre);
-        etEdad = getView().findViewById(R.id.etEdad);
+        etCorreo = getView().findViewById(R.id.etCorreo);
+        etCelular = getView().findViewById(R.id.etCelular);
+        etTelefono = getView().findViewById(R.id.etTelefono);
+        etDireccion = getView().findViewById(R.id.etDireccion);
         etDesc = getView().findViewById(R.id.etDesc);
-        etTipoDePago = getView().findViewById(R.id.etTipoDePago);
+        etTitular = getView().findViewById(R.id.etTitular);
         etBanco = getView().findViewById(R.id.etBanco);
-        etCuenta = getView().findViewById(R.id.etCuenta);
+        etClabe = getView().findViewById(R.id.etClabe);
         etDireccion = getView().findViewById(R.id.etDireccion);
         ivFoto = getView().findViewById(R.id.ivFoto);
         tvAviso = getView().findViewById(R.id.tvAviso);

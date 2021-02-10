@@ -16,6 +16,10 @@ public class Constants {
     public static final int TIPO_USUARIO_ESTUDIANTE = 1;
     public static final int TIPO_USUARIO_PROFESOR = 2;
 
+    /*Datos Fiscales*/
+    public static final int GET_DATOS_FISCALES = 1;
+    public static final int UP_DATOS_FISCALES = 2;
+
     /*Tickets ayuda*/
     public static final int ESTATUS_SIN_OPERADOR = 1;
     public static final int ESTATUS_EN_CURSO = 2;
