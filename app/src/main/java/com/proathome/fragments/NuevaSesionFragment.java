@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -76,6 +77,8 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     Spinner horas;
     @BindView(R.id.tipo)
     Spinner tipo;
+    @BindView(R.id.personas)
+    Spinner personas;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     public static Spinner secciones;
@@ -141,9 +144,13 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         String[] datosTipo = new String[]{"Personal", "Grupal"};
         ArrayAdapter<String> adapterTipo = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item, datosTipo);
+        String[] datosPersonas = new String[]{"1"};
+        ArrayAdapter<String> adapterPersonas = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_spinner_item, datosPersonas);
 
         horas.setAdapter(adapterHoras);
         tipo.setAdapter(adapterTipo);
+        personas.setAdapter(adapterPersonas);
 
         horarioET.setKeyListener(null);
         horarioET.setText("13:00 HRS");
@@ -179,7 +186,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                                             obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1,
                                                 niveles.getSelectedItemPosition() + 1, bloques.getSelectedItemPosition() + 1,
                                                     extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate,
-                                                        fechaET.getText().toString(), true, SesionesFragment.PLAN);
+                                                        fechaET.getText().toString(), true, SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
                                 registro.execute();
                                 direccionET.setText("");
                                 horarioET.setText("");
@@ -195,7 +202,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                                                 obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1,
                                                     niveles.getSelectedItemPosition() + 1, bloques.getSelectedItemPosition() + 1,
                                                         extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate,
-                                                            fechaET.getText().toString(), true, SesionesFragment.PLAN);
+                                                            fechaET.getText().toString(), true, SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
                                     registro.execute();
                                     direccionET.setText("");
                                     horarioET.setText("");
@@ -230,7 +237,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                                         obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1,
                                         niveles.getSelectedItemPosition() + 1, bloques.getSelectedItemPosition() + 1,
                                                     extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate,
-                                                        fechaET.getText().toString(), false, SesionesFragment.PLAN);
+                                                        fechaET.getText().toString(), false, SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
                             registro.execute();
                             direccionET.setText("");
                             horarioET.setText("");
@@ -246,7 +253,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                                             obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1,
                                             niveles.getSelectedItemPosition() + 1, bloques.getSelectedItemPosition() + 1,
                                                         extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate,
-                                                            fechaET.getText().toString(), false, SesionesFragment.PLAN);
+                                                            fechaET.getText().toString(), false, SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
                                 registro.execute();
                                 direccionET.setText("");
                                 horarioET.setText("");
@@ -273,13 +280,35 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         toolbar.setTitle("Nueva Sesión");
         toolbar.setNavigationIcon(R.drawable.ic_close);
         toolbar.setNavigationOnClickListener(v -> {
-
             dismiss();
-
         });
+
+        listenerPersonas();
 
         return view;
 
+    }
+
+    public void listenerPersonas(){
+        tipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String[] datosPersonas = null;
+                if(tipo.getSelectedItem().toString().equals("Personal"))
+                    datosPersonas = new String[]{"1"};
+                else if(tipo.getSelectedItem().toString().equals("Grupal"))
+                    datosPersonas = new String[]{"1", "2", "3", "4", "5"};
+
+                ArrayAdapter<String> adapterPersonas = new ArrayAdapter<String>(getContext(),
+                        android.R.layout.simple_spinner_item, datosPersonas);
+                personas.setAdapter(adapterPersonas);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     public void succesAlert(){

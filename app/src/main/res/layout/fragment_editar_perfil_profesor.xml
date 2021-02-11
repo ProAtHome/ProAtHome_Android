@@ -379,6 +379,17 @@
 
             </com.google.android.material.button.MaterialButton>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnActualizarFiscales"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/color_secondary"
+                app:layout_constraintTop_toBottomOf="@id/btnActualizarInfoBancaria"
+                android:text="Actualizar Datos Fiscales"
+                android:visibility="invisible">
+
+            </com.google.android.material.button.MaterialButton>
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardValoracion"
                 android:layout_width="match_parent"

@@ -17,15 +17,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
+import com.proathome.fragments.DatosFiscalesFragment;
 import com.proathome.servicios.profesor.AdminSQLiteOpenHelperProfesor;
 import com.proathome.servicios.profesor.ServicioTaskBancoProfesor;
 import com.proathome.servicios.profesor.ServicioTaskPerfilProfesor;
@@ -33,6 +37,8 @@ import com.proathome.servicios.profesor.ServicioTaskReportes;
 import com.proathome.servicios.profesor.ServicioTaskUpCuentaProfesor;
 import com.proathome.servicios.profesor.ServicioTaskUpPerfilProfesor;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Hashtable;
@@ -109,6 +115,8 @@ public class EditarPerfilProfesorFragment extends Fragment {
     TextView tvClabe;
     @BindView(R.id.btnActualizarInfoBancaria)
     Button btnActualizarInfoBancaria;
+    @BindView(R.id.btnActualizarFiscales)
+    MaterialButton btnActualizarFiscales;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -138,13 +146,6 @@ public class EditarPerfilProfesorFragment extends Fragment {
             uploadImage();
         });*/
 
-        btnActualizarInfoBancaria.setOnClickListener(view -> {
-            actualizarBanco = new ServicioTaskUpCuentaProfesor(getContext(), linkRESTActualizarBanco,
-                    this.idProfesor, etTitular.getText().toString(), etBanco.getText().toString(),
-                        etClabe.getText().toString());
-            actualizarBanco.execute();
-        });
-
         bottomNavigationPerfil.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.action_informacion:
@@ -171,6 +172,7 @@ public class EditarPerfilProfesorFragment extends Fragment {
                     tvClabe.setVisibility(View.INVISIBLE);
                     etClabe.setVisibility(View.INVISIBLE);
                     btnActualizarInfoBancaria.setVisibility(View.INVISIBLE);
+                    btnActualizarFiscales.setVisibility(View.INVISIBLE);
                     return true;
                 case R.id.action_datos:
                     ivFoto.setVisibility(View.INVISIBLE);
@@ -196,6 +198,7 @@ public class EditarPerfilProfesorFragment extends Fragment {
                     tvClabe.setVisibility(View.VISIBLE);
                     etClabe.setVisibility(View.VISIBLE);
                     btnActualizarInfoBancaria.setVisibility(View.VISIBLE);
+                    btnActualizarFiscales.setVisibility(View.VISIBLE);
                     return true;
             }
             return true;
@@ -247,9 +250,44 @@ public class EditarPerfilProfesorFragment extends Fragment {
 
     }
 
-    @OnClick(R.id.btnFoto)
-    public void onClickFoto(){
-        showFileChooser();
+    public void actualizarDatosBancarios(){
+        if(!etTitular.getText().toString().trim().equalsIgnoreCase("") && !etBanco.getText().toString().trim().equalsIgnoreCase("")
+            && !etClabe.getText().toString().trim().equalsIgnoreCase("")){
+            actualizarBanco = new ServicioTaskUpCuentaProfesor(getContext(), linkRESTActualizarBanco,
+                    this.idProfesor, etTitular.getText().toString(), etBanco.getText().toString(),
+                    etClabe.getText().toString());
+            actualizarBanco.execute();
+        }else{
+            new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.PROFESOR)
+                    .setTitleText("¡ERROR!")
+                    .setContentText("Llena todos los campos correctamente.")
+                    .show();
+        }
+    }
+
+    public void actualizarFiscales(){
+        Bundle bundle = new Bundle();
+        bundle.putInt("tipoPerfil", Constants.TIPO_USUARIO_PROFESOR);
+        bundle.putInt("idUsuario", this.idProfesor);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        DatosFiscalesFragment datosFiscalesFragment = new DatosFiscalesFragment();
+        datosFiscalesFragment.setArguments(bundle);
+        datosFiscalesFragment.show(fragmentTransaction, "DATOS FISCALES");
+    }
+
+    @OnClick({R.id.btnFoto, R.id.btnActualizarFiscales, R.id.btnActualizarInfoBancaria})
+    public void onClickFoto(View view){
+        switch (view.getId()){
+            case R.id.btnFoto:
+                showFileChooser();
+                break;
+            case R.id.btnActualizarFiscales:
+                actualizarFiscales();
+                break;
+            case R.id.btnActualizarInfoBancaria:
+                actualizarDatosBancarios();
+                break;
+        }
     }
 
     public String getStringImagen(Bitmap bmp){

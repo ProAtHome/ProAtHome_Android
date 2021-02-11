@@ -23,13 +23,14 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
 
     private Context contexto;
     private ProgressDialog progressDialog;
-    public int idCliente, tiempo, idSeccion, idNivel, idBloque;
+    public int idCliente, tiempo, idSeccion, idNivel, idBloque, personas;
     public String linkrequestAPI, horario, lugar, extras, tipoClase, actualizado, fecha, tipoPlan;
     public double latitud,longitud;
     private boolean sumar;
 
     public STRegistroSesionesEstudiante(Context contexto, String linkAPI, int idCliente, String horario, String lugar,
-                                        int tiempo, int idSeccion, int idNivel, int idBloque, String extras, String tipoClase, double latitud, double longitud, String actualizado, String fecha, boolean sumar, String tipoPlan){
+                                        int tiempo, int idSeccion, int idNivel, int idBloque, String extras, String tipoClase,
+                                        double latitud, double longitud, String actualizado, String fecha, boolean sumar, String tipoPlan, int personas){
 
         this.contexto = contexto;
         this.linkrequestAPI = linkAPI;
@@ -48,7 +49,7 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
         this.fecha = fecha;
         this.sumar = sumar;
         this.tipoPlan = tipoPlan;
-
+        this.personas = personas;
     }
 
     @Override
@@ -85,6 +86,7 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
             parametrosPOST.put("fecha", this.fecha);
             parametrosPOST.put("sumar", this.sumar);
             parametrosPOST.put("tipoPlan", this.tipoPlan);
+            parametrosPOST.put("personas", this.personas);
 
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);

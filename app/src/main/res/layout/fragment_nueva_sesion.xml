@@ -255,27 +255,48 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/horas"/>
 
-
                 <TextView
                     android:id="@+id/textTipo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tipo:"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
                     android:layout_margin="@dimen/common_padding_min"
+                    android:text="Tipo:"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textTipoTV"/>
+                    app:layout_constraintTop_toBottomOf="@id/textTipoTV" />
 
                 <Spinner
                     android:id="@+id/tipo"
+                    style="@style/AppTheme.AppBarOverlay"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:overlapAnchor="false"
                     android:layout_marginTop="@dimen/common_padding_min"
-                    android:spinnerMode="dropdown"
                     android:backgroundTint="@color/colorPersonalDark"
-                    style="@style/AppTheme.AppBarOverlay"
+                    android:overlapAnchor="false"
+                    android:spinnerMode="dropdown"
                     app:layout_constraintStart_toEndOf="@id/textTipo"
-                    app:layout_constraintTop_toBottomOf="@id/textTipoTV"/>
+                    app:layout_constraintTop_toBottomOf="@id/textTipoTV" />
+
+                <TextView
+                    android:id="@+id/tvPersonas"
+                    android:layout_width="150dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="@dimen/common_padding_min"
+                    android:layout_marginTop="@dimen/common_padding_min"
+                    android:text="Número de personas:"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tipo"/>
+
+                <Spinner
+                    android:id="@+id/personas"
+                    style="@style/AppTheme.AppBarOverlay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/common_padding_min"
+                    android:backgroundTint="@color/colorPersonalDark"
+                    android:overlapAnchor="false"
+                    android:spinnerMode="dropdown"
+                    app:layout_constraintStart_toEndOf="@id/tvPersonas"
+                    app:layout_constraintTop_toBottomOf="@id/tipo" />
 
                 <TextView
                     android:id="@+id/nivelTV"
@@ -289,7 +310,7 @@
                     android:drawableLeft="@drawable/nivel"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tipo"/>
+                    app:layout_constraintTop_toBottomOf="@+id/personas"/>
 
                 <TextView
                     android:id="@+id/seccionesTV"
