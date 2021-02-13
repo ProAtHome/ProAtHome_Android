@@ -1,17 +1,21 @@
 package com.proathome;
 
-import android.os.Bundle;
-import com.proathome.utils.CommonUtilsSesionesProfesor;
-import com.proathome.utils.Constants;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.os.Bundle;
 import android.view.MenuItem;
+
+import com.proathome.utils.CommonUtils;
+import com.proathome.utils.CommonUtilsSesionesProfesor;
+import com.proathome.utils.Constants;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class StaticActivity extends AppCompatActivity {
+public class ScrollActivityProfesor extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -19,34 +23,37 @@ public class StaticActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_static);
+        setContentView(R.layout.activity_scroll_profesor);
+
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
         String nameFragment = null;
         if(savedInstanceState == null){
             nameFragment = getIntent().getStringExtra(Constants.ARG_NAME);
-            int idClase = getIntent().getIntExtra("idClase" , 0);
-            String profesor = getIntent().getStringExtra("profesor");
-            String estudiante = getIntent().getStringExtra("estudiante");
-            String correo = getIntent().getStringExtra("correo");
-            String descripcion = getIntent().getStringExtra("descripcion");
-            String foto = getIntent().getStringExtra("foto");
-            String lugar = getIntent().getStringExtra("lugar");
             int tiempo = getIntent().getIntExtra("tiempo", 0);
+            int idClase = getIntent().getIntExtra("idClase" , 0);
+            int idSeccion = getIntent().getIntExtra("idSeccion", 0);
+            int idNivel = getIntent().getIntExtra("idNivel", 0);
+            int idBloque = getIntent().getIntExtra("idBloque", 0);
+            String estudiante = getIntent().getStringExtra("estudiante");
+            String profesor = getIntent().getStringExtra("profesor");
+            String lugar = getIntent().getStringExtra("lugar");
+            String fecha = getIntent().getStringExtra("fecha");
             String observaciones = getIntent().getStringExtra("observaciones");
             String tipoClase = getIntent().getStringExtra("tipoClase");
             String horario = getIntent().getStringExtra("horario");
+            String foto= getIntent().getStringExtra("foto");
+            String correo = getIntent().getStringExtra("correo");
+            String descripcion = getIntent().getStringExtra("descripcion");
+            String tipoPlan = getIntent().getStringExtra("tipoPlan");
             double latitud = getIntent().getDoubleExtra("latitud", 0.0);
             double longitud = getIntent().getDoubleExtra("longitud", 0.0);
-            int idSeccion = getIntent().getIntExtra("idSeccion",0);
-            int idNivel = getIntent().getIntExtra("idNivel", 0);
-            int idBloque = getIntent().getIntExtra("idBloque", 0);
             int idEstudiante = getIntent().getIntExtra("idEstudiante", 0);
-            String fecha = getIntent().getStringExtra("fecha");
-            CommonUtilsSesionesProfesor.setFragment(this, nameFragment, R.id.content_static, idClase, estudiante, descripcion, correo,
+            CommonUtilsSesionesProfesor.setFragment(this, nameFragment, R.id.content_scroll_profesor, idClase, estudiante, descripcion, correo,
                     foto, tipoClase, horario, profesor, lugar, tiempo, observaciones,
                     latitud, longitud, idSeccion, idNivel, idBloque, idEstudiante, fecha);
+
         }
 
         ActionBar actionBar = getSupportActionBar();
@@ -54,7 +61,6 @@ public class StaticActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(nameFragment);
         }
-
     }
 
     @Override
@@ -66,6 +72,4 @@ public class StaticActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }
-

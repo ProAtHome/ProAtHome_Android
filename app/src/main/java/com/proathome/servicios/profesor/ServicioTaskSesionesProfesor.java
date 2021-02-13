@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
+import com.proathome.fragments.DetallesGestionarProfesorFragment;
 import com.proathome.fragments.DetallesSesionProfesorFragment;
 import com.proathome.ui.inicioProfesor.InicioProfesorFragment;
 import com.proathome.ui.sesionesProfesor.SesionesProfesorFragment;
@@ -110,15 +111,19 @@ public class ServicioTaskSesionesProfesor extends AsyncTask<Void, Void, String> 
                                     "Soy yo", object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
                                     object.getDouble("longitud"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getInt("idEstudiante")));
                         }else if(tipo == 2){
-                            //SesionesProfesorFragment.myAdapter.add();
+                            if(!object.getBoolean("finalizado")){
+                                SesionesProfesorFragment.myAdapter.add(DetallesGestionarProfesorFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoClase"), object.getString("horario"),
+                                        object.getString("nombreEstudiante"), object.getString("correo"), object.getString("descripcion"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
+                                        object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"),
+                                        object.getString("fecha"), object.getString("tipoPlan"), object.getString("foto")));
+                            }
                         }
                     }
                 }catch(JSONException ex){
                     ex.printStackTrace();
                 }
-            }else{
+            }else
                 errorMsg("¡AVISO!", "Usuario sin clases disponibles.", SweetAlert.WARNING_TYPE);
-            }
         }
     }
 

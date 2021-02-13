@@ -87,7 +87,6 @@ public class ComponentAdapterSesionesProfesor extends RecyclerView.Adapter<Compo
             this.descripcion = descripcion;
             this.correo = correo;
             this.foto = foto;
-            this.nivel = nivel;
             this.profesor = profesor;
             this.lugar = lugar;
             this.tiempo = tiempo;

@@ -12,6 +12,10 @@ public class Constants {
     public static final Openpay openpay = new Openpay("medmbxsomtgpwv744wtf",
             "pk_db3401afe85245d3b9bbec82324ba58c", false);
 
+    /*Eliminar sesiones Profesor*/
+    public static final int SOLICITUD_ELIMINAR = 1;
+    public static final int ELIMINAR_SESION = 2;
+
     /*Tipos de usuario*/
     public static final int TIPO_USUARIO_ESTUDIANTE = 1;
     public static final int TIPO_USUARIO_PROFESOR = 2;

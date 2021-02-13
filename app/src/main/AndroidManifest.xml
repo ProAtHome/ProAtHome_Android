@@ -21,7 +21,8 @@
         android:theme="@style/MyTheme.DayNight"
         android:usesCleartextTraffic="true"
         tools:replace="android:icon">
-        <activity android:name=".PerfilBloqueado"></activity>
+        <activity android:name=".ScrollActivityProfesor"></activity>
+        <activity android:name=".PerfilBloqueado" />
         <activity android:name=".PasosActivarCuentaEstudiante" />
         <activity android:name=".PasosActivarCuenta" />
         <activity android:name=".ClaseProfesor" />

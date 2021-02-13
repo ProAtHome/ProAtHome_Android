@@ -49,9 +49,8 @@ public class InicioFragment extends Fragment {
             configAdapter();
             configRecyclerView();
             baseDeDatos.close();
-        } else {
+        } else
             baseDeDatos.close();
-        }
 
         return root;
     }

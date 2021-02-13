@@ -423,8 +423,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     public void onChooserClicked(){
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item);
-        adapter.add("06:00 HRS");
-        adapter.add("07:00 HRS");
         adapter.add("08:00 HRS");
         adapter.add("09:00 HRS");
         adapter.add("10:00 HRS");
@@ -436,10 +434,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         adapter.add("16:00 HRS");
         adapter.add("17:00 HRS");
         adapter.add("18:00 HRS");
-        adapter.add("19:00 HRS");
-        adapter.add("20:00 HRS");
-        adapter.add("21:00 HRS");
-        adapter.add("22:00 HRS");
 
         new MaterialAlertDialogBuilder(getActivity())
                 .setTitle("Elige el horario de tu preferencia para comenzar.")

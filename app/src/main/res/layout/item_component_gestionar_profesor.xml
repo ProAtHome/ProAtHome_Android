@@ -1,7 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/mtrl_card_spacing"
+    android:layout_marginStart="@dimen/mtrl_card_spacing"
+    android:layout_marginEnd="@dimen/mtrl_card_spacing">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/img_button">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/imgGestionar"
+            android:layout_width="100dp"
+            android:layout_height="180dp"
+            android:visibility="visible"
+            android:layout_marginStart="@dimen/common_padding_min"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_rawRes="@raw/location_g"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"/>
+
+        <TextView
+            android:id="@+id/actualizado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha actualizada"
+            android:textSize="@dimen/common_padding_min_text"
+            android:padding="@dimen/common_padding_min_min"
+            android:background="@drawable/background_item"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/tvNivel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text=""
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:padding="@dimen/common_padding_min"
+            android:background="@drawable/background_item"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="@dimen/common_padding_default"
+            android:layout_marginStart="@dimen/common_padding_min"
+            app:layout_constraintStart_toEndOf="@id/imgGestionar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvTipo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textStyle="bold"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:padding="@dimen/common_padding_min"
+            android:background="@drawable/background_item"
+            android:layout_marginStart="@dimen/common_padding_min"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toEndOf="@id/imgGestionar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNivel"/>
+
+        <TextView
+            android:id="@+id/tvHorario"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textStyle="bold"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:padding="@dimen/common_padding_min"
+            android:background="@drawable/background_item"
+            android:textColor="@android:color/black"
+            android:layout_marginStart="@dimen/common_padding_min"
+            app:layout_constraintStart_toEndOf="@id/imgGestionar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTipo" />
+
+        <TextView
+            android:id="@+id/tvFecha"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textStyle="bold"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:padding="@dimen/common_padding_min"
+            android:textColor="@android:color/black"
+            android:layout_marginStart="@dimen/common_padding_min"
+            android:background="@drawable/background_item"
+            app:layout_constraintStart_toEndOf="@id/imgGestionar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvHorario" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

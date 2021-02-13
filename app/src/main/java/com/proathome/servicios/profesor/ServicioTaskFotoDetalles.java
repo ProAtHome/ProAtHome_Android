@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import com.proathome.fragments.DetallesFragment;
+import com.proathome.fragments.DetallesGestionarProfesorFragment;
 import com.proathome.fragments.DetallesSesionProfesorFragment;
 import com.proathome.fragments.PerfilFragment;
 import com.proathome.utils.Constants;
@@ -55,13 +56,14 @@ public class ServicioTaskFotoDetalles extends AsyncTask<Void, Void, String> {
         super.onPostExecute(s);
         if(this.tipo == DetallesSesionProfesorFragment.PROFESOR)
             DetallesSesionProfesorFragment.foto.setImageBitmap(this.loadedImage);
-        else if(this.tipo == DetallesFragment.ESTUDIANTE) {
+        else if(this.tipo == DetallesFragment.ESTUDIANTE)
             DetallesFragment.foto.setImageBitmap(this.loadedImage);
-        }else if(this.tipo == PerfilFragment.PERFIL_PROFESOR_EN_ESTUDIANTE){
+        else if(this.tipo == PerfilFragment.PERFIL_PROFESOR_EN_ESTUDIANTE)
             PerfilFragment.foto.setImageBitmap(this.loadedImage);
-        }else if(this.tipo == PerfilFragment.PERFIL_ESTUDIANTE_EN_PROFESOR){
+        else if(this.tipo == PerfilFragment.PERFIL_ESTUDIANTE_EN_PROFESOR)
             PerfilFragment.foto.setImageBitmap(this.loadedImage);
-        }
+        else if(this.tipo == DetallesGestionarProfesorFragment.GESTION_PROFESOR)
+            DetallesGestionarProfesorFragment.foto.setImageBitmap(this.loadedImage);
     }
 
 }

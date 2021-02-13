@@ -190,11 +190,6 @@ public class SesionesFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
