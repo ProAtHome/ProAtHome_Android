@@ -576,7 +576,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         }catch (ParseException ex){
             ex.printStackTrace();
         }
-        if(!SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR"))
+        if(!SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR") && !SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR_PLAN"))
             dialog.getDatePicker().setMaxDate(fechaFin.getTime());
 
         calendar.add(Calendar.YEAR, 0);

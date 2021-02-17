@@ -92,7 +92,7 @@ public class NuevoTicketFragment extends DialogFragment {
         String cat = null;
         if(categorias.getSelectedItem().toString().equalsIgnoreCase("Soporte Técnico"))
             cat = "soporte";
-        else if(categorias.getSelectedItem().toString().equalsIgnoreCase("credito"))
+        else if(categorias.getSelectedItem().toString().equalsIgnoreCase("Crédito"))
             cat = "credito";
         else if(categorias.getSelectedItem().toString().equalsIgnoreCase("Queja a Profesor"))
             cat = "queja_profesor";

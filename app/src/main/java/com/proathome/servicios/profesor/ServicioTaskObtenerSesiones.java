@@ -109,7 +109,7 @@ public class ServicioTaskObtenerSesiones extends AsyncTask<Void, Void, String> {
                                             "/" + Component.getNivel(object.getInt("idSeccion"),
                                                 object.getInt("idNivel")) + "\n" + "TIPO DE PLAN: " + object.getString("tipoPlan")).snippet(String.valueOf(
                                                         object.getInt("idSesion"))));
-                        if(!object.getString("tipoPlan").equalsIgnoreCase("PARTICULAR"))
+                        if(!object.getString("tipoPlan").equalsIgnoreCase("PARTICULAR") && !object.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN"))
                             marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.profplan));
                         BuscarSesionFragment.perth.add(marker);
                     }

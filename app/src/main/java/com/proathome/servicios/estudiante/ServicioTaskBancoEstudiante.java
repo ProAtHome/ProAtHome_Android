@@ -96,10 +96,11 @@ public class ServicioTaskBancoEstudiante extends AsyncTask<Void, Void, String>{
                 if (!resultadoapi.equals("null")) {
                     try {
                         JSONObject jsonObject = new JSONObject(resultadoapi);
-                        EditarPerfilFragment.etNombreTitular.setText(jsonObject.getString("nombreTitular"));
-                        EditarPerfilFragment.etTarjeta.setText(jsonObject.getString("tarjeta"));
-                        EditarPerfilFragment.etMes.setText(jsonObject.getString("mes"));
-                        EditarPerfilFragment.etAño.setText(jsonObject.getString("ano"));
+                        JSONObject mensaje = jsonObject.getJSONObject("mensaje");
+                        EditarPerfilFragment.etNombreTitular.setText(mensaje.getString("nombreTitular"));
+                        EditarPerfilFragment.etTarjeta.setText(mensaje.getString("tarjeta"));
+                        EditarPerfilFragment.etMes.setText(mensaje.getString("mes"));
+                        EditarPerfilFragment.etAño.setText(mensaje.getString("ano"));
                     } catch (JSONException ex) {
                         ex.printStackTrace();
                     }

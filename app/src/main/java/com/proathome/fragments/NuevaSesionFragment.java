@@ -20,6 +20,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -192,7 +194,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                                 horarioET.setText("");
                                 observacionesET.setText("");
                                 succesAlert();
-                            } else {
+                            }else {
                                 if (obtenerMinutosHorario() <= SesionesFragment.MONEDERO) {//Eliminar horas de monedero
                                     //TODO FLUJO_EJECUTAR_PLAN: En esta peticion restamos en el monedero el tiempo elegido y verificamos después la vigencia del PLAN en el servidor.
                                     nuevoMonedero = SesionesFragment.MONEDERO - obtenerMinutosHorario();
@@ -209,10 +211,17 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                                     observacionesET.setText("");
                                     succesAlert();
                                 } else {
+                                    String mensaje = null;
+                                    if(SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR_PLAN")){
+                                        mensaje = "Elige un tiempo de clase a corde" +
+                                                " a tus horas disponibles agregadas a tu perfil.";
+                                    }else{
+                                        mensaje = "Elige un tiempo de clase a corde" +
+                                                " a tus horas disponibles de tu plan activo.";
+                                    }
                                     new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
                                             .setTitleText("¡ERROR!")
-                                            .setContentText("Elige un tiempo de clase a corde" +
-                                                    " a tus horas disponibles de tu plan activo.")
+                                            .setContentText(mensaje)
                                             .show();
                                 }
                             }
@@ -243,7 +252,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                             horarioET.setText("");
                             observacionesET.setText("");
                             succesAlert();
-                        } else {
+                        }else {
                             if (obtenerMinutosHorario() <= SesionesFragment.MONEDERO) {//Eliminar horas de monedero
                                 //TODO FLUJO_EJECUTAR_PLAN: En esta peticion restamos en el monedero el tiempo elegido y verificamos después la vigencia del PLAN en el servidor.
                                 nuevoMonedero = SesionesFragment.MONEDERO - obtenerMinutosHorario();
@@ -260,10 +269,17 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                                 observacionesET.setText("");
                                 succesAlert();
                             } else {
+                                String mensaje = null;
+                                if(SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR_PLAN")){
+                                    mensaje = "Elige un tiempo de clase a corde" +
+                                                    " a tus horas disponibles agregadas a tu perfil.";
+                                }else{
+                                    mensaje = "Elige un tiempo de clase a corde" +
+                                            " a tus horas disponibles de tu plan activo.";
+                                }
                                 new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
                                         .setTitleText("¡ERROR!")
-                                        .setContentText("Elige un tiempo de clase a corde" +
-                                                " a tus horas disponibles de tu plan activo.")
+                                        .setContentText(mensaje)
                                         .show();
                             }
                         }
@@ -411,7 +427,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         }catch (ParseException ex){
             ex.printStackTrace();
         }
-        if(!SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR"))
+        if(!SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR") && !SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR_PLAN"))
             dialog.getDatePicker().setMaxDate(fechaFin.getTime());
 
         calendar.add(Calendar.YEAR, 0);
