@@ -150,6 +150,7 @@ public class ServicioTaskEliminarSesionProfesor extends AsyncTask<Void, Void, St
                         showAlert("¿Deseas cancelar la clase?");
                     }else if(!mensaje.getBoolean("eliminar")){
                         //No se puede eliminar
+                        errorMsg("No se puede cancelar la clase a menos de 24 HRS de esta.");
                     }
                 }else if(this.solicitud == Constants.ELIMINAR_SESION){
                     new SweetAlert(this.contexto, SweetAlert.SUCCESS_TYPE, SweetAlert.PROFESOR)

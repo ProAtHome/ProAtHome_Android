@@ -3,8 +3,12 @@ package com.proathome.servicios.estudiante;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
+
 import com.proathome.fragments.DetallesFragment;
+import com.proathome.fragments.NuevaSesionFragment;
 import com.proathome.fragments.PlanesFragment;
+import com.proathome.fragments.PreOrdenClase;
 import com.proathome.ui.editarPerfil.EditarPerfilFragment;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
@@ -87,48 +91,46 @@ public class ServicioTaskBancoEstudiante extends AsyncTask<Void, Void, String>{
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         progressDialog.dismiss();
-        resultadoapi = s;
-
-        if (resultadoapi == null) {
-            infoMsg("¡ERROR!","Ocurrió un error inesperado.", SweetAlert.WARNING_TYPE);
-        } else {
-            if(this.tipoSolicitud == ServicioTaskBancoEstudiante.OBTENER_DATOS){
-                if (!resultadoapi.equals("null")) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(resultadoapi);
-                        JSONObject mensaje = jsonObject.getJSONObject("mensaje");
+        try {
+            JSONObject jsonObject = new JSONObject(s);
+            if(jsonObject.getBoolean("respuesta")){
+                JSONObject mensaje = jsonObject.getJSONObject("mensaje");
+                if(this.tipoSolicitud == ServicioTaskBancoEstudiante.OBTENER_DATOS){
+                    if(mensaje.getBoolean("existe")){
                         EditarPerfilFragment.etNombreTitular.setText(mensaje.getString("nombreTitular"));
                         EditarPerfilFragment.etTarjeta.setText(mensaje.getString("tarjeta"));
                         EditarPerfilFragment.etMes.setText(mensaje.getString("mes"));
                         EditarPerfilFragment.etAño.setText(mensaje.getString("ano"));
-                    } catch (JSONException ex) {
-                        ex.printStackTrace();
+                    }else
+                        infoMsg("¡AVISO!", "No tienes datos bancarios registrados", SweetAlert.WARNING_TYPE);
+                }else if(this.tipoSolicitud == ServicioTaskBancoEstudiante.VALIDAR_BANCO){
+                    if(mensaje.getBoolean("existe")){
+                        DetallesFragment.banco = true;
+                        NuevaSesionFragment.banco = true;
+                        //Datos bancarios Pre Orden.}
+                        PreOrdenClase.nombreTitular = mensaje.getString("nombreTitular");
+                        PreOrdenClase.tarjeta = mensaje.get("tarjeta").toString();
+                        PreOrdenClase.mes = mensaje.get("mes").toString();
+                        PreOrdenClase.ano = mensaje.get("ano").toString();
+                    }else{
+                        NuevaSesionFragment.banco = false;
+                        DetallesFragment.banco = false;
                     }
-                } else {
-                    infoMsg("¡AVISO!","Sin datos bancarios.", SweetAlert.WARNING_TYPE);
+                }else if(this.tipoSolicitud == ServicioTaskBancoEstudiante.DATOS_PLANES){
+                    if(mensaje.getBoolean("existe")){
+                        PlanesFragment.nombreTitular = mensaje.getString("nombreTitular");
+                        PlanesFragment.tarjeta = mensaje.getString("tarjeta");
+                        PlanesFragment.mes = mensaje.getString("mes");
+                        PlanesFragment.ano = mensaje.getString("ano");
+                    }else
+                        infoMsg("¡AVISO!", "No tienes datos bancarios registrados", SweetAlert.WARNING_TYPE);
                 }
-            }else if(this.tipoSolicitud == ServicioTaskBancoEstudiante.VALIDAR_BANCO){
-                if(resultadoapi.equals("null")){
-                    DetallesFragment.banco = false;
-                }else{
-                    DetallesFragment.banco = true;
-                }
-            }else if(this.tipoSolicitud == ServicioTaskBancoEstudiante.DATOS_PLANES){
-                if (!resultadoapi.equals("null")) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(resultadoapi);
-                        PlanesFragment.nombreTitular = jsonObject.getString("nombreTitular");
-                        PlanesFragment.tarjeta = jsonObject.getString("tarjeta");
-                        PlanesFragment.mes = jsonObject.getString("mes");
-                        PlanesFragment.ano = jsonObject.getString("ano");
-                    } catch (JSONException ex) {
-                        ex.printStackTrace();
-                    }
-                } else {
-                    infoMsg("¡AVISO!","Sin datos bancarios.", SweetAlert.WARNING_TYPE);
-                }
-            }
+            }else
+                infoMsg("¡ERROR", jsonObject.get("mensaje").toString(), SweetAlert.ERROR_TYPE);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
         }
+
     }
 
     public void infoMsg(String titulo, String mensaje, int tipo){

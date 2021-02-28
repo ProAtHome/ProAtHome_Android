@@ -112,7 +112,7 @@ public class MasTiempo extends DialogFragment {
             dismiss();
         }else{
             //Actualizar la orden de pago con estatusPago = Pagado.
-            ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, 0, 0, DetallesFragment.planSesion, "Pagado");
+            ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion, 0, 0, DetallesFragment.planSesion, "Pagado", ServicioTaskOrdenPago.SOLICITUD_COBRO_TE);
             ordenPago.execute();
             //Finalizamos la clase, sumamos la ruta.
             ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(this.contexto, this.idSesion, this.idEstudiante, Constants.FINALIZAR_CLASE, DetallesFragment.ESTUDIANTE);

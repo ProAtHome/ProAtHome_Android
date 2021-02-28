@@ -90,8 +90,6 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     private NestedScrollView mScrollView;
     private Unbinder mUnbinder;
     private double longitud = -99.13320799999, latitud = 19.4326077;
-    private String linkRESTDatosBancarios = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
 
     public DetallesFragment() {
 
@@ -215,13 +213,6 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
         /*Cargar datos del Perfil del Profesor*/
 
-        /*Datos de pre Orden listos para ser lanzados :)*/
-        ServicioTaskPreOrden preOrden = new ServicioTaskPreOrden(idEstudiante, idSesion,
-                ServicioTaskPreOrden.PANTALLA_PRE_COBRO);
-        preOrden.execute();
-        ServicioTaskBancoEstudiante bancoEstudiante = new ServicioTaskBancoEstudiante(getContext(),
-                linkRESTDatosBancarios, idEstudiante, ServicioTaskBancoEstudiante.VALIDAR_BANCO);
-        bancoEstudiante.execute();
 
         iniciar.setOnClickListener(v -> {
             /*TODO FLUJO_EJECUTAR_PLAN: Clase en modo PLAN activo?

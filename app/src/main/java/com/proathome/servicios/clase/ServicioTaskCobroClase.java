@@ -1,15 +1,17 @@
-package com.proathome.servicios.planes;
+package com.proathome.servicios.clase;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import androidx.fragment.app.DialogFragment;
-import com.proathome.fragments.OrdenCompraPlanFragment;
-import com.proathome.fragments.PlanesFragment;
+import android.os.Bundle;
+
+import com.proathome.fragments.CobroFinalFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -19,30 +21,35 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
-public class ServicioTaskCobroPlan extends AsyncTask<Void, Void, String> {
+public class ServicioTaskCobroClase extends AsyncTask<Void, Void, String> {
 
-    private String linkCobro = "http://" + Constants.IP + "/ProAtHome/assets/lib/Cargo.php";
-    private String nombreEstudiante, correo, idCard, descripcion;
-    private double cobro;
     private Context contexto;
+    private String idCard, nombreEstudiante, correo, descripcion, deviceID;
+    private double cobro;
+    private String linkCobro = "http://" + Constants.IP + "/ProAtHome/assets/lib/Cargo.php";
     private ProgressDialog progressDialog;
-    private DialogFragment dialogFragment;
+    private int idEstudiante;
+    private Bundle bundle;
 
-    public ServicioTaskCobroPlan(Context contexto, String nombreEstudiante, String correo, String idCard, double cobro, String descripcion, DialogFragment dialogFragment){
+    public ServicioTaskCobroClase(Context contexto, String idCard, String nombreEstudiante, String correo, double cobro,
+                                  String descripcion, String deviceID, int idEstudiante){
         this.contexto = contexto;
+        this.idCard = idCard;
         this.nombreEstudiante = nombreEstudiante;
         this.correo = correo;
-        this.idCard = idCard;
         this.cobro = cobro;
         this.descripcion = descripcion;
-        this.dialogFragment = dialogFragment;
+        this.deviceID = deviceID;
+        this.idEstudiante = idEstudiante;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressDialog = ProgressDialog.show(this.contexto, "Generando cobro...", "Por favor, espere.");
+        progressDialog = ProgressDialog.show(this.contexto, "Generando cobro", "Por favor espere...");
     }
 
     @Override
@@ -50,17 +57,19 @@ public class ServicioTaskCobroPlan extends AsyncTask<Void, Void, String> {
         String resultado = null;
 
         try {
-
             URL url = new URL(this.linkCobro);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
+            DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
+            separadoresPersonalizados.setDecimalSeparator('.');
+            DecimalFormat formato1 = new DecimalFormat("#.00", separadoresPersonalizados);
             JSONObject parametrosPost= new JSONObject();
             parametrosPost.put("idCard", this.idCard);
             parametrosPost.put("nombreEstudiante", this.nombreEstudiante);
             parametrosPost.put("correo", this.correo);
-            parametrosPost.put("cobro", this.cobro);
+            parametrosPost.put("cobro", formato1.format(this.cobro));
             parametrosPost.put("descripcion", this.descripcion);
-            parametrosPost.put("deviceId", OrdenCompraPlanFragment.deviceIdString);
+            parametrosPost.put("deviceId", this.deviceID);
 
             //DEFINIR PARAMETROS DE CONEXION
             urlConnection.setReadTimeout(15000);
@@ -109,44 +118,37 @@ public class ServicioTaskCobroPlan extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        progressDialog.dismiss();
+
         try{
+            System.out.println(s);
             JSONObject jsonObject = new JSONObject(s);
+            //Guardamos la clase.
             if(jsonObject.getBoolean("respuesta")){
-                ServicioTaskGenerarPlan generarPlan = new ServicioTaskGenerarPlan(this.contexto, OrdenCompraPlanFragment.tipoPlan, OrdenCompraPlanFragment.fechaIn, OrdenCompraPlanFragment.fechaFi, OrdenCompraPlanFragment.monedero, OrdenCompraPlanFragment.idEstudiante);
-                generarPlan.execute();
-                new SweetAlert(this.contexto, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
-                        .setTitleText("¡GENIAL!")
-                        .setContentText("Pago correcto de PLAN.")
-                        .setConfirmButton("OK", sweetAlertDialog -> {
-                        /*TODO FLUJO_COBRO_PLAN: Activamos el PLAN correspondiente en el perfil y generamos las horas en monedero.
-                            Guardamos el PLAN  en el historial.
-                                Vamos a NuevaSesionFragment con el PLAN activo.*/
-                            dialogFragment.dismiss();
-                            PlanesFragment.planesFragment.dismiss();
-                            sweetAlertDialog.dismissWithAnimation();
-                        })
-                        .show();
-            }else{
-                new SweetAlert(this.contexto, SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
-                        .setTitleText("¡ERROR!")
-                        .setContentText("Fallo en la transacción - " + s)
-                        .setConfirmButton("OK", sweetAlertDialog -> {
-                            OrdenCompraPlanFragment.comprar.setEnabled(true);
-                            sweetAlertDialog.dismissWithAnimation();
-                        })
-                        .show();
-            }
-
-
+                //Guardamos la info de PAGO
+                ServicioTaskGuardarPago guardarPago = new ServicioTaskGuardarPago(this.contexto, jsonObject.getString("mensaje"),
+                        this.cobro, 0.0, "Pagado", this.idEstudiante);
+                guardarPago.setBundleSesion(bundle);
+                guardarPago.execute();
+            }else
+                showMsg("¡ERROR!", s, SweetAlert.ERROR_TYPE);
         }catch(JSONException ex){
             ex.printStackTrace();
         }
+        progressDialog.dismiss();
+    }
 
+    public void showMsg(String titulo, String mensaje, int tipo){
+        new SweetAlert(this.contexto, tipo, SweetAlert.PROFESOR)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .show();
+    }
+
+    public void setBundleSesion(Bundle bundle){
+        this.bundle = bundle;
     }
 
     public String getPostDataString(JSONObject params) throws Exception {
         return params.toString();
     }
-
 }

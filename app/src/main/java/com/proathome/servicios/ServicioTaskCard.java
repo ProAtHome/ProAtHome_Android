@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import com.proathome.SincronizarClase;
+import com.proathome.fragments.NuevaSesionFragment;
 import com.proathome.servicios.clase.ServicioTaskSincronizarClases;
 import com.proathome.fragments.DetallesFragment;
+import com.proathome.servicios.estudiante.STRegistroSesionesEstudiante;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
@@ -33,6 +36,7 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
     public static final int CREAR_TOKEN = 1;
     public static final int GUARDAR_TOKEN_BD = 2;
     public static final int OBTENER_TOKEN_BD = 3;
+    private Bundle bundle;
     private String linkGuardarToken = "http://" + Constants.IP +
             ":8080/ProAtHome/apiProAtHome/cliente/actualizarToken";
 
@@ -52,11 +56,6 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
         this.idSesion = idSesion;
         this.idEstudiante = idEstudiante;
         this.solicitud = solcitud;
-    }
-
-    public ServicioTaskCard(int idSesion, int idEstudiante){
-        this.idSesion = idSesion;
-        this.idEstudiante = idEstudiante;
     }
 
     @Override
@@ -142,17 +141,22 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
                 public void onSuccess(OperationResult<Token> operationResult) {//Si este pedo funcionó.
                     /*Guardamos el nuevo token en el perro phone*/
                     String idCard = operationResult.getResult().getId();
+                    /*
                     SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(contexto);
                     SharedPreferences.Editor myEditor = myPreferences.edit();
                     String idCardSesion = "idCard" + DetallesFragment.idSesion;
                     myEditor.putString(idCardSesion, idCard);
-                    myEditor.commit();
+                    myEditor.commit();*/
 
-                    /*Guardamos el token en la perra BD*/
+                    /*Guardamos el token en la perra BD
                     ServicioTaskCard servicioTaskCard = new ServicioTaskCard(idCard, DetallesFragment.idSesion,
                             DetallesFragment.idEstudiante, ServicioTaskCard.GUARDAR_TOKEN_BD);
-                    servicioTaskCard.execute();
-                    /*Iniciamos la búsqueda de el profesor*/
+                    servicioTaskCard.execute();*/
+
+                    ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(contexto, bundle.getString("deviceID"), idEstudiante, idCard, Double.parseDouble(bundle.getString("costoTotal")), true);
+                    servicioTaskCobro.execute();
+
+                    /*Iniciamos la búsqueda de el profesor
                     ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(contexto,
                             DetallesFragment.idSesion, DetallesFragment.idEstudiante, DetallesFragment.ESTUDIANTE,
                                 Constants.CAMBIAR_DISPONIBILIDAD, true);
@@ -167,7 +171,7 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
                     intent.putExtra("idNivel", DetallesFragment.idNivel);
                     intent.putExtra("idBloque", DetallesFragment.idBloque);
                     intent.putExtra("sumar", DetallesFragment.sumar);
-                    contexto.startActivity(intent);
+                    contexto.startActivity(intent);*/
                 }
             });
         }else if(this.solicitud == ServicioTaskCard.OBTENER_TOKEN_BD){

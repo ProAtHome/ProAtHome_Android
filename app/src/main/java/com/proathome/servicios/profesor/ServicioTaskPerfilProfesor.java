@@ -114,8 +114,8 @@ public class ServicioTaskPerfilProfesor extends AsyncTask<Void, Void, String> {
                         inicioProfesor.foto.setImageBitmap(loadedImage);
 
                     if(this.tipo == Constants.INFO_PERFIl_EDITAR){
-                        EditarPerfilProfesorFragment.etNombre.setText(jsonObject.getString("nombre"));
-                        EditarPerfilProfesorFragment.etCorreo.setText(jsonObject.getString("correo"));
+                        EditarPerfilProfesorFragment.tvNombre.setText("Nombre: " + jsonObject.getString("nombre"));
+                        EditarPerfilProfesorFragment.tvCorreo.setText("Correo: " + jsonObject.getString("correo"));
                         EditarPerfilProfesorFragment.etCelular.setText(jsonObject.getString("celular"));
                         EditarPerfilProfesorFragment.etTelefono.setText(jsonObject.getString("telefonoLocal"));
                         EditarPerfilProfesorFragment.etDireccion.setText(jsonObject.getString("direccion"));

@@ -92,6 +92,7 @@ public class ServicioTaskValidarPlan extends AsyncTask<Void, Void, String> {
                 inicioEstudiante.tipoPlan.setText("PLAN ACTUAL: " + (jsonDatos.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN") ? "PARTICULAR" : jsonDatos.getString("tipoPlan")));
                 inicioEstudiante.monedero.setText("HORAS DISPONIBLES:                      " +
                         obtenerHorario(jsonDatos.getInt("monedero")));
+                inicioEstudiante.planActivo = jsonDatos.getString("tipoPlan").toString();
             }
         }catch(JSONException ex){
             ex.printStackTrace();

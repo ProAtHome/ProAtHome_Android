@@ -107,14 +107,8 @@ public class CobroFinalFragment extends DialogFragment {
                     String idCardSesion = "idCard" + idSesion;
                     idCard = myPreferences.getString(idCardSesion, "Sin valor");
 
-                    if(idCard.equalsIgnoreCase("Sin valor")){
-                        //obtenerToken de BD.
-                        ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idEstudiante, idCard, costoTotal, ServicioTaskCobro.TOKEN_BD, ServicioTaskCobro.ENTENDIDO_CANCELAR);
-                        servicioTaskCobro.execute();
-                    }else{
-                        ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idEstudiante, idCard, costoTotal, ServicioTaskCobro.TOKEN_PHONE, ServicioTaskCobro.ENTENDIDO_CANCELAR);
-                        servicioTaskCobro.execute();
-                    }
+                    ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idEstudiante, idCard, costoTotal, ServicioTaskCobro.ENTENDIDO_CANCELAR);
+                    servicioTaskCobro.execute();
                     DetallesFragment.procedenciaFin = true;
                     dismiss();
                     //TODO FLUJO_EVALUACION: Mostrar modal de evaluación;
@@ -126,14 +120,8 @@ public class CobroFinalFragment extends DialogFragment {
                     //Cobro tentativo con OpenPay al elegir el tiempo EXTRA.
                     //Validar si estamos en tipoPlan.
                     if(tipoPlan.equalsIgnoreCase("PARTICULAR")){
-                        if(idCard.equalsIgnoreCase("Sin valor")){
-                            //obtenerToken de BD.
-                            ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idEstudiante, idCard, costoTotal, ServicioTaskCobro.TOKEN_BD, ServicioTaskCobro.ENTENDIDO_TE);
-                            servicioTaskCobro.execute();
-                        }else{
-                            ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idEstudiante, idCard, costoTotal, ServicioTaskCobro.TOKEN_PHONE, ServicioTaskCobro.ENTENDIDO_TE);
-                            servicioTaskCobro.execute();
-                        }
+                        ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idEstudiante, idCard, costoTotal, ServicioTaskCobro.ENTENDIDO_TE);
+                        servicioTaskCobro.execute();
                     }else{
                         //Crear nuevo token de Tarjeta.
                         //TODO FLUJO_EJECUTAR_PLAN: Validar metodo de pago.

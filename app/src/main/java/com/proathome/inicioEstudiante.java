@@ -31,6 +31,7 @@ public class inicioEstudiante extends AppCompatActivity{
     public static TextView correoTV, nombreTV, tipoPlan, monedero;
     private int idEstudiante = 0;
     public static ImageView foto;
+    public static String planActivo;
     public static final int PROCEDENCIA_INICIO_ESTUDIANTE = 2;
     public static AppCompatActivity appCompatActivity;
 

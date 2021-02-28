@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 
 import com.proathome.servicios.planes.ServicioTaskActualizarMonedero;
 import com.proathome.fragments.NuevaSesionFragment;
+import com.proathome.utils.SweetAlert;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,13 +25,14 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
     private Context contexto;
     private ProgressDialog progressDialog;
     public int idCliente, tiempo, idSeccion, idNivel, idBloque, personas;
-    public String linkrequestAPI, horario, lugar, extras, tipoClase, actualizado, fecha, tipoPlan;
+    public String linkrequestAPI, horario, lugar, extras, tipoClase, actualizado, fecha, tipoPlan, token;
     public double latitud,longitud;
     private boolean sumar;
 
     public STRegistroSesionesEstudiante(Context contexto, String linkAPI, int idCliente, String horario, String lugar,
                                         int tiempo, int idSeccion, int idNivel, int idBloque, String extras, String tipoClase,
-                                        double latitud, double longitud, String actualizado, String fecha, boolean sumar, String tipoPlan, int personas){
+                                        double latitud, double longitud, String actualizado, String fecha, boolean sumar, String tipoPlan,
+                                        int personas, String token){
 
         this.contexto = contexto;
         this.linkrequestAPI = linkAPI;
@@ -50,6 +52,7 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
         this.sumar = sumar;
         this.tipoPlan = tipoPlan;
         this.personas = personas;
+        this.token = token;
     }
 
     @Override
@@ -61,12 +64,10 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
     @Override
     protected String doInBackground(Void... voids) {
         String result = null;
-
         String wsURl = linkrequestAPI;
 
         URL url = null;
         try{
-
             url = new URL(wsURl);
             HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
 
@@ -87,6 +88,7 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
             parametrosPOST.put("sumar", this.sumar);
             parametrosPOST.put("tipoPlan", this.tipoPlan);
             parametrosPOST.put("personas", this.personas);
+            parametrosPOST.put("token", this.token);
 
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
@@ -104,26 +106,17 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
 
             int responseCode = urlConnection.getResponseCode();
             if(responseCode == HttpURLConnection.HTTP_OK){
-
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
                 StringBuffer sb = new StringBuffer("");
                 String linea ="";
                 while ((linea = in.readLine()) != null){
-
                     sb.append(linea);
                     break;
-
                 }
-
                 in.close();
                 result = sb.toString();
-
-            }else{
-
+            }else
                 result = new String("Error: " + responseCode);
-
-            }
 
         }catch(MalformedURLException ex){
             ex.printStackTrace();
@@ -142,10 +135,37 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         progressDialog.dismiss();
-        System.out.println(NuevaSesionFragment.nuevoMonedero);
-        ServicioTaskActualizarMonedero actualizarMonedero = new ServicioTaskActualizarMonedero(this.contexto, idCliente, NuevaSesionFragment.nuevoMonedero);
-        actualizarMonedero.execute();
-        NuevaSesionFragment.nuevoMonedero = 0;
+        try{
+            JSONObject jsonObject = new JSONObject(s);
+            if(jsonObject.getBoolean("respuesta")){
+                ServicioTaskActualizarMonedero actualizarMonedero = new ServicioTaskActualizarMonedero(this.contexto, idCliente, NuevaSesionFragment.nuevoMonedero);
+                actualizarMonedero.execute();
+                NuevaSesionFragment.nuevoMonedero = 0;
+                showMsg("¡GENIAL!", jsonObject.getString("mensaje"), SweetAlert.SUCCESS_TYPE);
+            }else
+                showMsg("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.ERROR_TYPE);
+        }catch(JSONException ex){
+            ex.printStackTrace();
+        }
+
+    }
+
+    public void showMsg(String titulo, String mensaje, int tipo){
+        if(tipo == SweetAlert.ERROR_TYPE){
+            new SweetAlert(this.contexto, tipo, SweetAlert.ESTUDIANTE)
+                    .setTitleText(titulo)
+                    .setContentText(mensaje)
+                    .show();
+        }else if( tipo == SweetAlert.SUCCESS_TYPE){
+            new SweetAlert(this.contexto, tipo, SweetAlert.ESTUDIANTE)
+                    .setTitleText(titulo)
+                    .setContentText(mensaje)
+                    .setConfirmButton("¡VAMOS!", sweetAlertDialog -> {
+                        NuevaSesionFragment.dialogFragment.dismiss();
+                        sweetAlertDialog.dismissWithAnimation();
+                    })
+                    .show();
+        }
     }
 
     public String getPostDataString(JSONObject params) throws Exception{

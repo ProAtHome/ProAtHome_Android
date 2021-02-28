@@ -35,7 +35,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivFoto"
-                android:enabled="false"
                 android:text="@string/cambiar_foto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -49,30 +48,10 @@
                 android:text="Nombre:"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintTop_toBottomOf="@id/btnFoto">
 
             </TextView>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/itNombre"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="@android:color/black"
-                app:layout_constraintTop_toBottomOf="@id/tvNombre"
-                app:boxStrokeColor="@color/colorPrimary"
-                app:boxStrokeWidth="2dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etNombre"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:textColor="@android:color/black">
-
-                </com.google.android.material.textfield.TextInputEditText>
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/tvCorreo"
@@ -81,30 +60,11 @@
                 android:text="Correo:"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/itNombre">
+                android:layout_marginTop="@dimen/common_padding_min"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:layout_constraintTop_toBottomOf="@id/tvNombre">
 
             </TextView>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/itCorreo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="@android:color/black"
-                app:layout_constraintTop_toBottomOf="@id/tvCorreo"
-                app:boxStrokeColor="@color/colorPrimary"
-                app:boxStrokeWidth="2dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCorreo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:textColor="@android:color/black">
-
-                </com.google.android.material.textfield.TextInputEditText>
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/tvCelular"
@@ -113,7 +73,8 @@
                 android:text="Celular:"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/itCorreo">
+                android:layout_marginTop="@dimen/common_padding_default"
+                app:layout_constraintTop_toBottomOf="@id/tvCorreo">
 
             </TextView>
 
@@ -238,7 +199,6 @@
                 android:id="@+id/btnActualizarInfo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:enabled="false"
                 app:layout_constraintTop_toBottomOf="@id/itDesc"
                 android:text="Actualizar Información">
 

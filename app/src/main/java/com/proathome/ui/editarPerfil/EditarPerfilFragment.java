@@ -56,7 +56,7 @@ public class EditarPerfilFragment extends Fragment {
     private String linkRESTDatosBancarios = "http://" + Constants.IP +
             ":8080/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
     private String linkRESTActualizarPerfil = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/informacionPerfil";
+            ":8080/ProAtHome/apiProAtHome/cliente/actualizarPerfil";
     private String linkRESTActualizarBanco = "http://" + Constants.IP +
             ":8080/ProAtHome/apiProAtHome/cliente/actualizarCuentaCliente";
     private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
@@ -66,8 +66,8 @@ public class EditarPerfilFragment extends Fragment {
     private ServicioTaskBancoEstudiante bancoEstudiante;
     private ServicioTaskUpPerfilEstudiante actualizarPerfil;
     private ServicioTaskUpCuentaEstudiante actualizarBanco;
-    public static TextInputEditText etNombre;
-    public static TextInputEditText etCorreo;
+    public static TextView tvNombre;
+    public static TextView tvCorreo;
     public static TextInputEditText etCelular;
     public static TextInputEditText etTelefono;
     public static TextInputEditText etDireccion;
@@ -93,10 +93,6 @@ public class EditarPerfilFragment extends Fragment {
     BottomNavigationView bottomNavigationPerfil;
     @BindView(R.id.btnFoto)
     Button btnFoto;
-    @BindView(R.id.tvNombre)
-    TextView tvNombre;
-    @BindView(R.id.tvCorreo)
-    TextView tvCorreo;
     @BindView(R.id.tvCelular)
     TextView tvCelular;
     @BindView(R.id.tvTelefono)
@@ -141,14 +137,14 @@ public class EditarPerfilFragment extends Fragment {
             baseDeDatos.close();
         }
 
-        /*
+
         btnActualizarInfo.setOnClickListener(view -> {
             actualizarPerfil = new ServicioTaskUpPerfilEstudiante(getContext(), linkRESTActualizarPerfil,
-                    this.idEstudiante, etNombre.getText().toString(), this.correo,
-                        Integer.valueOf(etEdad.getText().toString()), etDesc.getText().toString());
+                    this.idEstudiante, etCelular.getText().toString(), etTelefono.getText().toString(), etDireccion.getText().toString(),
+                    etDesc.getText().toString());
             actualizarPerfil.execute();
             uploadImage();
-        });*/
+        });
 
         bottomNavigationPerfil.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()){
@@ -156,9 +152,7 @@ public class EditarPerfilFragment extends Fragment {
                     ivFoto.setVisibility(View.VISIBLE);
                     btnFoto.setVisibility(View.VISIBLE);
                     tvNombre.setVisibility(View.VISIBLE);
-                    etNombre.setVisibility(View.VISIBLE);
                     tvCorreo.setVisibility(View.VISIBLE);
-                    etCorreo.setVisibility(View.VISIBLE);
                     tvCelular.setVisibility(View.VISIBLE);
                     etCelular.setVisibility(View.VISIBLE);
                     tvTelefono.setVisibility(View.VISIBLE);
@@ -185,9 +179,7 @@ public class EditarPerfilFragment extends Fragment {
                     ivFoto.setVisibility(View.INVISIBLE);
                     btnFoto.setVisibility(View.INVISIBLE);
                     tvNombre.setVisibility(View.INVISIBLE);
-                    etNombre.setVisibility(View.INVISIBLE);
                     tvCorreo.setVisibility(View.INVISIBLE);
-                    etCorreo.setVisibility(View.INVISIBLE);
                     tvCelular.setVisibility(View.INVISIBLE);
                     etCelular.setVisibility(View.INVISIBLE);
                     tvTelefono.setVisibility(View.INVISIBLE);
@@ -239,8 +231,8 @@ public class EditarPerfilFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        etNombre = getView().findViewById(R.id.etNombre);
-        etCorreo = getView().findViewById(R.id.etCorreo);
+        tvNombre = getView().findViewById(R.id.tvNombre);
+        tvCorreo = getView().findViewById(R.id.tvCorreo);
         etCelular = getView().findViewById(R.id.etCelular);
         etTelefono = getView().findViewById(R.id.etTelefono);
         etDireccion = getView().findViewById(R.id.etDireccion);

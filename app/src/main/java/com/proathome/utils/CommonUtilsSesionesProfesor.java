@@ -54,7 +54,7 @@ public class CommonUtilsSesionesProfesor {
             case DetallesSesionProfesorFragment.TAG:
                 fragment = new DetallesSesionProfesorFragment();
                 bun.putInt("idClase", idClaseS);
-                bun.putString("estudiante", nombreEstudianteS);
+                bun.putString("nombreEstudiante", nombreEstudianteS);
                 bun.putString("descripcion", descripcionS);
                 bun.putString("correo", correoS);
                 bun.putString("foto", fotoS);

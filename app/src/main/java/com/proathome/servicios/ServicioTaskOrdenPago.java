@@ -16,19 +16,23 @@ import java.net.URL;
 
 public class ServicioTaskOrdenPago extends AsyncTask<Void, Void, String> {
 
-    private int idEstudiante, idSesion;
+    public static final int SOLICITUD_COBRO_INICIAL = 1;
+    public static final int SOLICITUD_COBRO_TE = 2;
+    private int idEstudiante, idSesion, tipoSolicitud;
     private double costoClase, costoTE;
     private String tipoPlan, estatusPago;
     private String linkActualizarPago = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/actualizarPago";
+    private String linkPagoInicial = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/pagoInicial";
 
     public ServicioTaskOrdenPago(int idEstudiante, int idSesion, double costoClase, double costoTE,
-                                 String tipoPlan, String estatusPago){
+                                 String tipoPlan, String estatusPago, int tipoSolicitud){
         this.idEstudiante = idEstudiante;
         this.idSesion = idSesion;
         this.costoClase = costoClase;
         this.costoTE = costoTE;
         this.tipoPlan = tipoPlan;
         this.estatusPago = estatusPago;
+        this.tipoSolicitud = tipoSolicitud;
     }
 
     @Override
@@ -42,7 +46,11 @@ public class ServicioTaskOrdenPago extends AsyncTask<Void, Void, String> {
 
         try{
 
-            URL url = new URL(this.linkActualizarPago);
+            URL url = null;
+            if(this.tipoSolicitud == ServicioTaskOrdenPago.SOLICITUD_COBRO_INICIAL)
+                url = new URL(this.linkPagoInicial);
+            else if(this.tipoSolicitud == ServicioTaskOrdenPago.SOLICITUD_COBRO_TE)
+                url = new URL(this.linkActualizarPago);
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
 
             JSONObject jsonDatos = new JSONObject();

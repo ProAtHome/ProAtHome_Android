@@ -12,6 +12,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,13 +35,19 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
+import com.proathome.inicioEstudiante;
 import com.proathome.servicios.WorkaroundMapFragment;
+import com.proathome.servicios.clase.ServicioTaskGuardarPago;
 import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.servicios.estudiante.ControladorTomarSesion;
 import com.proathome.servicios.estudiante.STRegistroSesionesEstudiante;
+import com.proathome.servicios.estudiante.ServicioTaskBancoEstudiante;
+import com.proathome.servicios.estudiante.ServicioTaskPreOrden;
 import com.proathome.servicios.estudiante.ServicioTaskSesionActual;
 import com.proathome.servicios.planes.ServicioTaskValidarPlan;
+import com.proathome.ui.inicio.InicioFragment;
 import com.proathome.ui.sesiones.SesionesFragment;
+import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import java.text.ParseException;
@@ -56,13 +64,18 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
     public static final String TAG = "Nueva Sesión";
     public static boolean basicoVisto, intermedioVisto, avanzadoVisto;
-    private int idCliente = 0;
+    public static int idCliente = 0;
     private GoogleMap mMap;
     private Marker perth;
     private ScrollView mScrollView;
     private double latitud, longitud;
+    public static boolean banco = false;
+    public static String planSesion, correoEstudiante;
+    public static DialogFragment dialogFragment;
     private String registrarSesionREST = "http://" + Constants.IP +
             ":8080/ProAtHome/apiProAtHome/cliente/agregarSesion";
+    private String linkRESTDatosBancarios = "http://" + Constants.IP +
+            ":8080/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
     private Unbinder mUnbinder;
     public static ControladorTomarSesion tomarSesion;
     @BindView(R.id.text_direccionET)
@@ -116,6 +129,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
         View view = inflater.inflate(R.layout.fragment_nueva_sesion, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+        dialogFragment = this;
 
         secciones = view.findViewById(R.id.secciones);
         niveles = view.findViewById(R.id.niveles);
@@ -124,21 +138,30 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante, correo FROM sesion WHERE id = " + 1, null);
 
         if (fila.moveToFirst()) {
-            idCliente = fila.getInt(0);
+            this.idCliente = fila.getInt(0);
+            this.correoEstudiante = fila.getString(1);
             ServicioTaskSesionActual servicioTaskSesionActual =
                     new ServicioTaskSesionActual(getContext(), idCliente, ServicioTaskSesionActual.NUEVA_SESION_FRAGMENT);
             servicioTaskSesionActual.execute();
         } else {
             baseDeDatos.close();
         }
+        baseDeDatos.close();
 
         ServicioTaskValidarPlan validarPlan = new ServicioTaskValidarPlan(getContext(), idCliente);
         validarPlan.execute();
+        //Servicio para validar que ya tenemos datos bancarios registrados para lanzar la preOrden.
+        ServicioTaskBancoEstudiante bancoEstudiante = new ServicioTaskBancoEstudiante(getContext(),
+                linkRESTDatosBancarios, idCliente, ServicioTaskBancoEstudiante.VALIDAR_BANCO);
+        bancoEstudiante.execute();
+        /*Datos de pre Orden listos para ser lanzados :)
+        ServicioTaskPreOrden preOrden = new ServicioTaskPreOrden(idCliente, idSesion,
+                ServicioTaskPreOrden.PANTALLA_PRE_COBRO);
+        preOrden.execute();*/
 
-        baseDeDatos.close();
 
         String[] datosHoras = new String[]{"1 HRS", "2 HRS"};
         ArrayAdapter<String> adapterHoras = new ArrayAdapter<String>(getContext(),
@@ -163,134 +186,15 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
             if (!direccionET.getText().toString().trim().equalsIgnoreCase("") &&
                     !observacionesET.getText().toString().trim().equalsIgnoreCase("") &&
                         !fechaET.getText().toString().trim().equalsIgnoreCase("")) {
-
-                if (obtenerMinutosHorario() == 0) {
-                    new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
-                            .setTitleText("¡ERROR!")
-                            .setContentText("Elige el tiempo de duración de la clase.")
-                            .show();
-                } else {
-                    String direccion = direccionET.getText().toString();
-                    String extras = observacionesET.getText().toString();
-                    Calendar calendar = Calendar.getInstance();
-                    SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss "); //SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
-                    String strDate = mdformat.format(calendar.getTime());
-                    if (rutaRecomendada) {
-                        /*TODO FLUJO_EJECUTAR_PLAN: Validaciones correspondientes en el FragmentNuevaSesion
-                           (Verificar que el tiempo sea acorde a las horas diponibles si hay PLAN activo)
-                           -> descontamos horas del monedero.
-                            En la tabla sesiones agregar campo tipoPlan.*/
-                        int minutosRestantes = minutosEstablecidos - minutosAnteriores;
-                        if (obtenerMinutosHorario() <= minutosRestantes) {
-                            if (SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR")) {
-                                STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(),
-                                        registrarSesionREST, idCliente, horarioET.getText().toString(), direccion,
-                                            obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1,
-                                                niveles.getSelectedItemPosition() + 1, bloques.getSelectedItemPosition() + 1,
-                                                    extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate,
-                                                        fechaET.getText().toString(), true, SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
-                                registro.execute();
-                                direccionET.setText("");
-                                horarioET.setText("");
-                                observacionesET.setText("");
-                                succesAlert();
-                            }else {
-                                if (obtenerMinutosHorario() <= SesionesFragment.MONEDERO) {//Eliminar horas de monedero
-                                    //TODO FLUJO_EJECUTAR_PLAN: En esta peticion restamos en el monedero el tiempo elegido y verificamos después la vigencia del PLAN en el servidor.
-                                    nuevoMonedero = SesionesFragment.MONEDERO - obtenerMinutosHorario();
-
-                                    STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(),
-                                            registrarSesionREST, idCliente, horarioET.getText().toString(), direccion,
-                                                obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1,
-                                                    niveles.getSelectedItemPosition() + 1, bloques.getSelectedItemPosition() + 1,
-                                                        extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate,
-                                                            fechaET.getText().toString(), true, SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
-                                    registro.execute();
-                                    direccionET.setText("");
-                                    horarioET.setText("");
-                                    observacionesET.setText("");
-                                    succesAlert();
-                                } else {
-                                    String mensaje = null;
-                                    if(SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR_PLAN")){
-                                        mensaje = "Elige un tiempo de clase a corde" +
-                                                " a tus horas disponibles agregadas a tu perfil.";
-                                    }else{
-                                        mensaje = "Elige un tiempo de clase a corde" +
-                                                " a tus horas disponibles de tu plan activo.";
-                                    }
-                                    new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
-                                            .setTitleText("¡ERROR!")
-                                            .setContentText(mensaje)
-                                            .show();
-                                }
-                            }
-
-                        } else {
-                            new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
-                                    .setTitleText("¡ERROR!")
-                                    .setContentText("Elige un tiempo de clase a corde a el tiempo" +
-                                            " faltante del bloque en curso.")
-                                    .show();
-                        }
-                    } else {
-                        /*TODO FLUJO_EJECUTAR_PLAN: Validaciones correspondientes en el FragmentNuevaSesion
-                            (Verificar que el tiempo sea acorde a las horas diponibles si hay PLAN activo)
-                            -> descontamos horas del monedero.
-                            En la tabla sesiones agregar campo tipoPlan.*/
-
-                        if (SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR")) {
-
-                            STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(),
-                                    registrarSesionREST, idCliente, horarioET.getText().toString(), direccion,
-                                        obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1,
-                                        niveles.getSelectedItemPosition() + 1, bloques.getSelectedItemPosition() + 1,
-                                                    extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate,
-                                                        fechaET.getText().toString(), false, SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
-                            registro.execute();
-                            direccionET.setText("");
-                            horarioET.setText("");
-                            observacionesET.setText("");
-                            succesAlert();
-                        }else {
-                            if (obtenerMinutosHorario() <= SesionesFragment.MONEDERO) {//Eliminar horas de monedero
-                                //TODO FLUJO_EJECUTAR_PLAN: En esta peticion restamos en el monedero el tiempo elegido y verificamos después la vigencia del PLAN en el servidor.
-                                nuevoMonedero = SesionesFragment.MONEDERO - obtenerMinutosHorario();
-
-                                STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(getContext(),
-                                        registrarSesionREST, idCliente, horarioET.getText().toString(), direccion,
-                                            obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1,
-                                            niveles.getSelectedItemPosition() + 1, bloques.getSelectedItemPosition() + 1,
-                                                        extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate,
-                                                            fechaET.getText().toString(), false, SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
-                                registro.execute();
-                                direccionET.setText("");
-                                horarioET.setText("");
-                                observacionesET.setText("");
-                                succesAlert();
-                            } else {
-                                String mensaje = null;
-                                if(SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR_PLAN")){
-                                    mensaje = "Elige un tiempo de clase a corde" +
-                                                    " a tus horas disponibles agregadas a tu perfil.";
-                                }else{
-                                    mensaje = "Elige un tiempo de clase a corde" +
-                                            " a tus horas disponibles de tu plan activo.";
-                                }
-                                new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
-                                        .setTitleText("¡ERROR!")
-                                        .setContentText(mensaje)
-                                        .show();
-                            }
-                        }
-                    }
-                }
-            } else {
-                new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
-                        .setTitleText("¡ERROR!")
-                        .setContentText("Llena todos los campos.")
-                        .show();
-            }
+                if (obtenerMinutosHorario() != 0) {
+                    if(banco)
+                        validacionPlanes_Ruta();
+                    else
+                        errorMsg("¡AVISO!","Sin datos bancarios.");
+                } else
+                    errorMsg("¡ERROR!", "Elige el tiempo de duración de la clase.");
+            } else
+                errorMsg("¡ERROR!", "Llena todos los campos.");
         });
 
         toolbar.setTitle("Nueva Sesión");
@@ -303,6 +207,143 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
         return view;
 
+    }
+
+    public String obtenerHorario(int tiempo){
+        String horas = String.valueOf(tiempo/60) + " HRS ";
+        String minutos = String.valueOf(tiempo%60) + " min";
+
+        return horas + minutos;
+    }
+
+    public void errorMsg(String titulo, String mensaje){
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .show();
+    }
+
+    public void validacionPlanes_Ruta(){
+        String direccion = direccionET.getText().toString();
+        String extras = observacionesET.getText().toString();
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss "); //SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
+        String strDate = mdformat.format(calendar.getTime());
+        if (rutaRecomendada) {
+                        /*TODO FLUJO_EJECUTAR_PLAN: Validaciones correspondientes en el FragmentNuevaSesion
+                           (Verificar que el tiempo sea acorde a las horas diponibles si hay PLAN activo)
+                           -> descontamos horas del monedero*/
+            int minutosRestantes = minutosEstablecidos - minutosAnteriores;
+            if (obtenerMinutosHorario() <= minutosRestantes) {
+                if (SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR")) {
+                    registroDeClase(idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1,
+                            niveles.getSelectedItemPosition() + 1, bloques.getSelectedItemPosition() + 1, extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate,
+                            fechaET.getText().toString(), true, SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
+                }else {
+                    if (obtenerMinutosHorario() <= SesionesFragment.MONEDERO) {//Eliminar horas de monedero
+                        //TODO FLUJO_EJECUTAR_PLAN: En esta peticion restamos en el monedero el tiempo elegido y verificamos después la vigencia del PLAN en el servidor.
+                        nuevoMonedero = SesionesFragment.MONEDERO - obtenerMinutosHorario();
+                        registroDeClase(idCliente, horarioET.getText().toString(), direccion,
+                                obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1, niveles.getSelectedItemPosition() + 1, bloques.getSelectedItemPosition() + 1,
+                                extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), true,
+                                SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
+                    } else {
+                        String mensaje = null;
+                        if(SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR_PLAN"))
+                            mensaje = "Elige un tiempo de clase a corde a tus horas disponibles agregadas a tu perfil.";
+                        else
+                            mensaje = "Elige un tiempo de clase a corde a tus horas disponibles de tu plan activo.";
+
+                        errorMsg("¡ERROR!", mensaje);
+                    }
+                }
+
+            } else
+                errorMsg("¡ERROR!", "Elige un tiempo de clase a corde a el tiempo faltante del bloque en curso.");
+        } else {
+            /*TODO FLUJO_EJECUTAR_PLAN: Validaciones correspondientes en el FragmentNuevaSesion
+                (Verificar que el tiempo sea acorde a las horas diponibles si hay PLAN activo)
+                -> descontamos horas del monedero.
+                En la tabla sesiones agregar campo tipoPlan.*/
+            if (SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR")) {
+                registroDeClase(idCliente, horarioET.getText().toString(), direccion,
+                        obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1, niveles.getSelectedItemPosition() + 1, bloques.getSelectedItemPosition() + 1,
+                        extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), false,
+                        SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
+            }else {
+                if (obtenerMinutosHorario() <= SesionesFragment.MONEDERO) {//Eliminar horas de monedero
+                    //TODO FLUJO_EJECUTAR_PLAN: En esta peticion restamos en el monedero el tiempo elegido y verificamos después la vigencia del PLAN en el servidor.
+                    nuevoMonedero = SesionesFragment.MONEDERO - obtenerMinutosHorario();
+                    registroDeClase(idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1,
+                            niveles.getSelectedItemPosition() + 1, bloques.getSelectedItemPosition() + 1, extras, tipo.getSelectedItem().toString(),
+                            latitud, longitud, strDate, fechaET.getText().toString(), false, SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
+                } else {
+                    String mensaje = null;
+                    if(SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR_PLAN"))
+                        mensaje = "Elige un tiempo de clase a corde a tus horas disponibles agregadas a tu perfil.";
+                    else
+                        mensaje = "Elige un tiempo de clase a corde a tus horas disponibles de tu plan activo.";
+
+                    errorMsg("¡ERROR!", mensaje);
+                }
+            }
+        }
+    }
+
+    public void registroDeClase(int idCliente, String horario, String lugar,
+                                int tiempo, int idSeccion, int idNivel, int idBloque, String extras, String tipoClase,
+                                double latitud, double longitud, String actualizado, String fecha, boolean sumar, String tipoPlan, int personas){
+        /* TODO Validar si hay pago o no dependiendo el PLAN*/
+        /*TODO FLUJO_EJECUTAR_PLAN: Clase en modo PLAN activo?
+                    Si, entonces, Al iniciar la clase no mostramos Pre Orden ya que está pagado.*/
+        if (!inicioEstudiante.planActivo.equals("PARTICULAR")) {
+            //Guardamos la info de PAGO
+            ServicioTaskGuardarPago guardarPago = new ServicioTaskGuardarPago(getContext(), "PLAN - " + SesionesFragment.PLAN,
+                    0.0, 0.0, "Pagado", this.idCliente);
+            Bundle bundle = getBundleSesion(registrarSesionREST, idCliente, horario, lugar, tiempo, idSeccion, idNivel, idBloque, extras, tipoClase, latitud, longitud, actualizado,
+                    fecha, sumar, tipoPlan, personas);
+            guardarPago.setBundleSesion(bundle);
+            guardarPago.execute();
+        }else{
+                PreOrdenClase.sesion = "Sesión: " + Component.getSeccion(secciones.getSelectedItemPosition() + 1) + " / "
+                        + Component.getNivel(secciones.getSelectedItemPosition() + 1, niveles.getSelectedItemPosition() + 1) + " / "
+                        + Component.getBloque(bloques.getSelectedItemPosition() + 1);
+                PreOrdenClase.tiempo = "Tiempo: " + obtenerHorario(obtenerMinutosHorario());
+                PreOrdenClase.tiempoPasar = obtenerMinutosHorario();
+                PreOrdenClase.idSeccion = (secciones.getSelectedItemPosition() + 1);
+                //Pre Orden ya que no esta pagada.
+                Bundle bundle = getBundleSesion(registrarSesionREST, idCliente, horario, lugar, tiempo, idSeccion, idNivel, idBloque, extras, tipoClase, latitud, longitud, actualizado,
+                        fecha, sumar, tipoPlan, personas);
+                PreOrdenClase preOrdenClase = new PreOrdenClase();
+                preOrdenClase.setArguments(bundle);
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                preOrdenClase.show(fragmentTransaction, "PreOrden");
+        }
+    }
+
+    public Bundle getBundleSesion(String linkAPI, int idCliente, String horario, String lugar,
+                                  int tiempo, int idSeccion, int idNivel, int idBloque, String extras, String tipoClase,
+                                  double latitud, double longitud, String actualizado, String fecha, boolean sumar, String tipoPlan, int personas){
+        Bundle bundle = new Bundle();
+        bundle.putString("registrarSesionREST", linkAPI);
+        bundle.putInt("idCliente", idCliente);
+        bundle.putString("horario", horario);
+        bundle.putString("lugar", lugar);
+        bundle.putInt("tiempo", tiempo);
+        bundle.putInt("idSeccion", idSeccion);
+        bundle.putInt("idNivel", idNivel);
+        bundle.putInt("idBloque", idBloque);
+        bundle.putString("extras", extras);
+        bundle.putString("tipoClase", tipoClase);
+        bundle.getDouble("latitud", latitud);
+        bundle.putDouble("longitud", longitud);
+        bundle.putString("actualizado", actualizado);
+        bundle.putString("fecha", fecha);
+        bundle.putBoolean("sumar", sumar);
+        bundle.putString("tipoPlan", tipoPlan);
+        bundle.putInt("personas", personas);
+
+        return bundle;
     }
 
     public void listenerPersonas(){

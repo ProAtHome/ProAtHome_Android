@@ -21,20 +21,19 @@ public class ServicioTaskUpPerfilEstudiante extends AsyncTask<Void, Void, String
     private Context httpContext;
     private ProgressDialog progressDialog;
     private String respuesta;
-    private String resultadoApi = "";
     private String linkRequestApi;
-    private int idEstudiante, edad;
-    private String nombre, descripcion, correo;
+    private int idEstudiante;
+    private String celular, descripcion, direccion, telefono;
 
     public ServicioTaskUpPerfilEstudiante(Context httpContext, String linkRequestApi, int idEstudiante,
-                                          String nombre, String correo, int edad, String descripcion){
+                                          String celular, String telefono, String direccion, String descripcion){
         this.httpContext = httpContext;
         this.linkRequestApi = linkRequestApi;
         this.idEstudiante = idEstudiante;
-        this.nombre = nombre;
-        this.edad = edad;
+        this.celular = celular;
         this.descripcion = descripcion;
-        this.correo = correo;
+        this.telefono = telefono;
+        this.direccion = direccion;
     }
 
     @Override
@@ -56,8 +55,9 @@ public class ServicioTaskUpPerfilEstudiante extends AsyncTask<Void, Void, String
 
             JSONObject parametrosPOST = new JSONObject();
             parametrosPOST.put("idCliente", this.idEstudiante);
-            parametrosPOST.put("nombre", this.nombre);
-            parametrosPOST.put("correo", this.correo);
+            parametrosPOST.put("celular", this.celular);
+            parametrosPOST.put("telefonoLocal", this.telefono);
+            parametrosPOST.put("direccion", this.direccion);
             parametrosPOST.put("descripcion", this.descripcion);
 
             urlConnection.setReadTimeout(15000);
@@ -107,17 +107,23 @@ public class ServicioTaskUpPerfilEstudiante extends AsyncTask<Void, Void, String
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         progressDialog.dismiss();
-        this.resultadoApi = s;
-        if(this.resultadoApi.equalsIgnoreCase("Actualización exitosa")){
-            new SweetAlert(this.httpContext, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
-                    .setTitleText("¡GENIAL!")
-                    .setContentText("Datos actualizados correctamente.")
-                    .show();
-        }else{
-            new SweetAlert(this.httpContext, SweetAlert.WARNING_TYPE, SweetAlert.ESTUDIANTE)
-                    .setTitleText(this.resultadoApi)
-                    .show();
+        try{
+            JSONObject jsonObject = new JSONObject(s);
+            if(jsonObject.getBoolean("respuesta")){
+                new SweetAlert(this.httpContext, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
+                        .setTitleText("¡GENIAL!")
+                        .setContentText(jsonObject.getString("mensaje"))
+                        .show();
+            }else{
+                new SweetAlert(this.httpContext, SweetAlert.WARNING_TYPE, SweetAlert.ESTUDIANTE)
+                        .setTitleText("¡ERROR!")
+                        .setContentText(jsonObject.getString("mensaje"))
+                        .show();
+            }
+        }catch(JSONException ex){
+            ex.printStackTrace();
         }
+
     }
 
     public String getPostDataString(JSONObject params) throws Exception {

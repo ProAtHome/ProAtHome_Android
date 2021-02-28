@@ -13,6 +13,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.servicios.ServicioTaskCard;
 import com.proathome.servicios.TabuladorCosto;
+import com.proathome.servicios.clase.TokenCardPagoClase;
+import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,7 +24,9 @@ import mx.openpay.android.validation.CardValidator;
 
 public class PreOrdenClase extends DialogFragment {
 
-    public static String nombreTitular, tarjeta, mes, ano, tiempo, sesion;
+    public static String nombreTitular, tarjeta, mes, ano, tiempo, sesion, deviceID, correo;
+    public static int idSeccion, tiempoPasar;
+    public Bundle bundle;
     @BindView(R.id.etTitular)
     TextInputEditText etNombreTitular;
     @BindView(R.id.etTarjeta)
@@ -49,6 +53,7 @@ public class PreOrdenClase extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        deviceID = Constants.openpay.getDeviceCollectorDefaultImpl().setup(getActivity());
     }
 
     @Override
@@ -62,6 +67,7 @@ public class PreOrdenClase extends DialogFragment {
 
         View view = inflater.inflate(R.layout.fragment_pre_orden_clase, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+        bundle = getArguments();
 
         /*Mostramos los datos de la PreOrden*/
         etNombreTitular.setText(nombreTitular);
@@ -70,7 +76,7 @@ public class PreOrdenClase extends DialogFragment {
         etAno.setText(ano);
         tvSesion.setText(sesion);
         tvTiempo.setText(tiempo);
-        tvCosto.setText("Total: " + String.format("%.2f", TabuladorCosto.getCosto(DetallesFragment.idSeccion, DetallesFragment.tiempoPasar, TabuladorCosto.PARTICULAR)) + " MXN");
+        tvCosto.setText("Total: " + String.format("%.2f", TabuladorCosto.getCosto(this.idSeccion, this.tiempoPasar, TabuladorCosto.PARTICULAR)) + " MXN");
         return view;
     }
 
@@ -84,7 +90,13 @@ public class PreOrdenClase extends DialogFragment {
                     if(CardValidator.validateExpiryDate(Integer.parseInt(etMes.getText().toString()), Integer.parseInt(etAno.getText().toString()))){
                         if(CardValidator.validateCVV(etCVV.getText().toString(), etTarjeta.getText().toString())){
                             /*Vamos a crear un perro y poderoso token de tarjeta*/
-                            ServicioTaskCard servicioTaskCard = new ServicioTaskCard(getContext(), etNombreTitular.getText().toString(), etTarjeta.getText().toString(), Integer.parseInt(etMes.getText().toString()), Integer.parseInt(etAno.getText().toString()), etCVV.getText().toString(), ServicioTaskCard.CREAR_TOKEN);
+                            bundle.putString("costoTotal", String.format("%.2f", TabuladorCosto.getCosto(this.idSeccion, this.tiempoPasar, TabuladorCosto.PARTICULAR)));
+                            bundle.putString("deviceID", deviceID);
+                            bundle.putString("sesion", sesion);
+                            TokenCardPagoClase servicioTaskCard = new TokenCardPagoClase(getContext(), etNombreTitular.getText().toString(),
+                                    etTarjeta.getText().toString(), Integer.parseInt(etMes.getText().toString()), Integer.parseInt(etAno.getText().toString()),
+                                    etCVV.getText().toString(), NuevaSesionFragment.idCliente);
+                            servicioTaskCard.setBundleSesion(bundle);
                             servicioTaskCard.execute();
                             dismiss();
                         }else{

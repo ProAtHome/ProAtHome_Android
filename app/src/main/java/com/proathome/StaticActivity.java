@@ -28,7 +28,7 @@ public class StaticActivity extends AppCompatActivity {
             nameFragment = getIntent().getStringExtra(Constants.ARG_NAME);
             int idClase = getIntent().getIntExtra("idClase" , 0);
             String profesor = getIntent().getStringExtra("profesor");
-            String estudiante = getIntent().getStringExtra("estudiante");
+            String estudiante = getIntent().getStringExtra("nombreEstudiante");
             String correo = getIntent().getStringExtra("correo");
             String descripcion = getIntent().getStringExtra("descripcion");
             String foto = getIntent().getStringExtra("foto");

@@ -139,6 +139,7 @@ public class DetallesSesionProfesorFragment extends Fragment implements OnMapRea
         latitud = bun.getDouble("latitud");
         longitud = bun.getDouble("longitud");
         nombreTV.setText(bun.getString("nombreEstudiante"));
+        System.out.println("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY: " + bun.getString("nombreEstudiante"));
         descripcionTV.setText(bun.getString("descripcion"));
         correoTV.setText(bun.getString("correo"));
         direccionTV.setText(bun.getString("lugar"));

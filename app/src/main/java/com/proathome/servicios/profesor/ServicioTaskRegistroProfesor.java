@@ -24,21 +24,20 @@ public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> 
 
     private Context httpContext;
     private ProgressDialog progressDialog;
-    public String resultadoapi="";
-    public String linkrequestAPI="";
-    public String fecha="";
-    public String nombre="";
-    public int edad;
-    public String contrasena ="";
-    public String correo="";
+    public String resultadoapi="", linkAPI, nombre, paterno, materno, fecha, celular, telefono, direccion, correo, genero, contrasena;
 
-    public ServicioTaskRegistroProfesor(Context ctx, String linkAPI, String nombre, String fecha,
-                                        int edad, String correo, String contrasena){
-        this.httpContext = ctx;
-        this.linkrequestAPI = linkAPI;
-        this.fecha = fecha;
+    public ServicioTaskRegistroProfesor(Context ctx, String linkAPI, String nombre, String paterno, String materno,
+                                        String fecha, String celular, String telefono, String direccion, String genero, String correo, String contrasena){
+        this.httpContext=ctx;
+        this.linkAPI = linkAPI;
         this.nombre = nombre;
-        this.edad = edad;
+        this.paterno = paterno;
+        this.materno = materno;
+        this.fecha=fecha;
+        this.celular = celular;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.genero = genero;
         this.contrasena = contrasena;
         this.correo = correo;
     }
@@ -52,24 +51,22 @@ public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> 
     @Override
     protected String doInBackground(Void... params) {
         String result= null;
-        String wsURL = linkrequestAPI;
-        URL url = null;
 
         try {
-            url = new URL(wsURL);
+            URL url = new URL(this.linkAPI);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             JSONObject parametrosPost= new JSONObject();
             parametrosPost.put("nombre",nombre);
-            parametrosPost.put("correo",correo);
-            parametrosPost.put("edad",edad);
-            parametrosPost.put("contrasena", contrasena);
+            parametrosPost.put("paterno", paterno);
+            parametrosPost.put("materno", materno);
+            parametrosPost.put("correo", correo);
+            parametrosPost.put("celular", celular);
+            parametrosPost.put("telefono", telefono);
+            parametrosPost.put("direccion", direccion);
             parametrosPost.put("fechaNacimiento", fecha);
-            Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd");
-            String strDate =  mdformat.format(calendar.getTime());
-            System.out.println(strDate);
-            parametrosPost.put("fechaRegistro", strDate);
+            parametrosPost.put("genero", genero);
+            parametrosPost.put("contrasena", contrasena);
 
             //DEFINIR PARAMETROS DE CONEXION
             urlConnection.setReadTimeout(15000);

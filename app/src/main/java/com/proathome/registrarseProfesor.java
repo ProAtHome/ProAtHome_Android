@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.Spinner;
+
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.servicios.profesor.ServicioTaskRegistroProfesor;
@@ -26,16 +29,28 @@ public class registrarseProfesor extends AppCompatActivity {
     private ServicioTaskRegistroProfesor servicioTaskRegistroProfesor;
     private final String registrarProfesorREST = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/" +
             "profesor/agregarProfesor";
-    @BindView(R.id.nombreET_RP)
+    @BindView(R.id.nombreET_R)
     TextInputEditText nombreET;
-    @BindView(R.id.fechaET_RP)
+    @BindView(R.id.paternoET_R)
+    TextInputEditText paternoET;
+    @BindView(R.id.maternoET_R)
+    TextInputEditText maternoET;
+    @BindView(R.id.fechaET_R)
     TextInputEditText fechaET;
-    @BindView(R.id.edadET_RP)
-    TextInputEditText edadET;
-    @BindView(R.id.correoET_RP)
+    @BindView(R.id.celularET_R)
+    TextInputEditText celularET;
+    @BindView(R.id.telefonoET_R)
+    TextInputEditText telefonoET;
+    @BindView(R.id.direccionET_R)
+    TextInputEditText direccionET;
+    @BindView(R.id.genero)
+    Spinner genero;
+    @BindView(R.id.correoET_R)
     TextInputEditText correoET;
-    @BindView(R.id.contraET_RP)
+    @BindView(R.id.contraET_R)
     TextInputEditText contrasenaET;
+    @BindView(R.id.contra2ET_R)
+    TextInputEditText contrasena2ET;
     private Unbinder mUnbinder;
 
     @Override
@@ -46,6 +61,11 @@ public class registrarseProfesor extends AppCompatActivity {
         sDayIni = calendar.get(Calendar.DAY_OF_MONTH);
         sMonthIni = calendar.get(Calendar.MONTH);
         sYearIni = calendar.get(Calendar.YEAR);
+
+        String[] datos= new String[]{"HOMBRE", "MUJER", "OTRO"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                R.layout.spinner_item, datos);
+        genero.setAdapter(adapter);
     }
 
     private void colocarFecha(){
@@ -102,30 +122,31 @@ public class registrarseProfesor extends AppCompatActivity {
     }//Fin método iniciarSesion.
 
     public void registrar(View view){
-        if(!nombreET.getText().toString().trim().equalsIgnoreCase("") &&
-                !fechaET.getText().toString().trim().equalsIgnoreCase("")
-                && !edadET.getText().toString().trim().equalsIgnoreCase("") &&
-                !correoET.getText().toString().trim().equalsIgnoreCase("")
-                && !contrasenaET.getText().toString().trim().equalsIgnoreCase("")){
+        if(!nombreET.getText().toString().trim().equalsIgnoreCase("") && !paternoET.getText().toString().trim().equalsIgnoreCase("") && !maternoET.getText().toString().trim().equalsIgnoreCase("")
+                && !fechaET.getText().toString().trim().equalsIgnoreCase("") && !celularET.getText().toString().trim().equalsIgnoreCase("") && !telefonoET.getText().toString().trim().equalsIgnoreCase("")
+                && !direccionET.getText().toString().trim().equalsIgnoreCase("") && !correoET.getText().toString().trim().equalsIgnoreCase("")
+                && !contrasenaET.getText().toString().trim().equalsIgnoreCase("") && !contrasena2ET.getText().toString().trim().equalsIgnoreCase("")){
 
-            String nombre = String.valueOf(nombreET.getText());
-            String fecha = String.valueOf(fechaET.getText());
-            int edad = Integer.parseInt(String.valueOf(edadET.getText()));
-            String correo = String.valueOf(correoET.getText());
-            String contrasena = String.valueOf(contrasenaET.getText());
-            servicioTaskRegistroProfesor = new ServicioTaskRegistroProfesor(this, registrarProfesorREST,
-                    nombre, fecha, edad, correo, contrasena);
-            servicioTaskRegistroProfesor.execute();
-        }else{
-            new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.PROFESOR)
-                    .setTitleText("¡Error!")
-                    .setConfirmButton("OK", sweetAlertDialog -> {
-                        sweetAlertDialog.dismissWithAnimation();
-                    })
-                    .setContentText("Llena todos los campos.")
-                    .show();
-        }
+            //Verificar que las contraseñas sean iguales
+            if(contrasenaET.getText().toString().trim().equals(contrasena2ET.getText().toString())) {
+                servicioTaskRegistroProfesor = new ServicioTaskRegistroProfesor(this, registrarProfesorREST, nombreET.getText().toString(), paternoET.getText().toString(), maternoET.getText().toString(), fechaET.getText().toString(),
+                        celularET.getText().toString(), telefonoET.getText().toString(), direccionET.getText().toString(), genero.getSelectedItem().toString(), correoET.getText().toString(), contrasenaET.getText().toString());
+                servicioTaskRegistroProfesor.execute();
+            }else
+                errorMsg("¡ERROR!", "Las contraseñas no coinciden.", SweetAlert.ERROR_TYPE);
+        }else
+            errorMsg("¡ERROR!", "Llena todos los campos correctamente.", SweetAlert.ERROR_TYPE);
     }//Fin método registrar.
+
+    public void errorMsg(String titulo, String mensaje, int tipo){
+        new SweetAlert(this, tipo, SweetAlert.ESTUDIANTE)
+                .setTitleText(titulo)
+                .setConfirmButton("OK", sweetAlertDialog -> {
+                    sweetAlertDialog.dismissWithAnimation();
+                })
+                .setContentText(mensaje)
+                .show();
+    }
 
     @Override
     protected void onDestroy() {
