@@ -29,12 +29,12 @@ public class CobroFinalFragment extends DialogFragment {
     MaterialButton entendido;
     @BindView(R.id.regresar)
     MaterialButton regresar;
-    @BindView(R.id.tarjeta)
-    TextView tvTarjeta;
+//    @BindView(R.id.tarjeta)
+  //  TextView tvTarjeta;
     @BindView(R.id.tvSesion)
     TextView tvSesion;
-    @BindView(R.id.tvTiempo)
-    TextView tvTiempo;
+    //@BindView(R.id.tvTiempo)
+    //TextView tvTiempo;
     @BindView(R.id.tvTiempoExtra)
     TextView tvTiempoExtra;
     @BindView(R.id.tvCostoTotal)
@@ -73,16 +73,16 @@ public class CobroFinalFragment extends DialogFragment {
         idEstudiante = bundle.getInt("idEstudiante");
         pantalla = bundle.getInt("Pantalla");
         progresoTotal = bundle.getInt("progresoTotal");
-        tvTarjeta.setText(metodoRegistrado);
+        //tvTarjeta.setText(metodoRegistrado);
         tvSesion.setText(sesion);
-        tvTiempo.setText(tiempo);
+        //tvTiempo.setText(tiempo);
         tvTipoPlan.setText("PLAN DE CLASE: " + bundle.getString("tipoPlan"));
         tipoPlan = bundle.getString("tipoPlan");
         tvTiempoExtra.setText("Tiempo Extra: " + obtenerHorario(progresoTotal));
-        if(bundle.getString("tipoPlan").equalsIgnoreCase("PARTICULAR"))
-            costoTotal = (double) TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo, TabuladorCosto.PARTICULAR) + TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, progresoTotal, TabuladorCosto.PARTICULAR);
-        else
-            costoTotal = (double) TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, progresoTotal, TabuladorCosto.PARTICULAR);
+        //if(bundle.getString("tipoPlan").equalsIgnoreCase("PARTICULAR"))
+          //  costoTotal = (double) TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo, TabuladorCosto.PARTICULAR) + TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, progresoTotal, TabuladorCosto.PARTICULAR);
+        //else
+        costoTotal = (double) TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, progresoTotal, TabuladorCosto.PARTICULAR);
         tvCostoTotal.setText("Total: " + String.format("%.2f", costoTotal) + " MXN");
 
         ServicioTaskPreOrden preOrden = new ServicioTaskPreOrden(idEstudiante, idSesion, ServicioTaskPreOrden.PANTALLA_COBRO_FINAL);
@@ -100,9 +100,11 @@ public class CobroFinalFragment extends DialogFragment {
 
     @OnClick({R.id.entendido, R.id.regresar})
     public void onClick(View view){
+        Bundle bundle = new Bundle();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         switch (view.getId()){
             case R.id.entendido:
-                if(pantalla == CobroFinalFragment.PANTALLA_CANCELAR){//Si venimos de el boton de CANCELAR en Más Tiempo.
+            /*    if(pantalla == CobroFinalFragment.PANTALLA_CANCELAR){//Si venimos de el boton de CANCELAR en Más Tiempo.
                     SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(Constants.contexto_DISPONIBILIDAD_PROGRESO);
                     String idCardSesion = "idCard" + idSesion;
                     idCard = myPreferences.getString(idCardSesion, "Sin valor");
@@ -112,48 +114,47 @@ public class CobroFinalFragment extends DialogFragment {
                     DetallesFragment.procedenciaFin = true;
                     dismiss();
                     //TODO FLUJO_EVALUACION: Mostrar modal de evaluación;
-                }else if(pantalla == CobroFinalFragment.PANTALLA_TE){//Si venimos de algún Tiempo Extra en Más Tiempo.
-                    SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(Constants.contexto_DISPONIBILIDAD_PROGRESO);
-                    String idCardSesion = "idCard" + idSesion;
-                    idCard = myPreferences.getString(idCardSesion, "Sin valor");
+                }else if(pantalla == CobroFinalFragment.PANTALLA_TE){ */ //Si venimos de algún Tiempo Extra en Más Tiempo.
+                 //   SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(Constants.contexto_DISPONIBILIDAD_PROGRESO);
+                   // String idCardSesion = "idCard" + idSesion;
+                    //idCard = myPreferences.getString(idCardSesion, "Sin valor");
 
                     //Cobro tentativo con OpenPay al elegir el tiempo EXTRA.
                     //Validar si estamos en tipoPlan.
-                    if(tipoPlan.equalsIgnoreCase("PARTICULAR")){
+               /*     if(tipoPlan.equalsIgnoreCase("PARTICULAR")){
                         ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idEstudiante, idCard, costoTotal, ServicioTaskCobro.ENTENDIDO_TE);
                         servicioTaskCobro.execute();
-                    }else{
+                    }else{*/
                         //Crear nuevo token de Tarjeta.
                         //TODO FLUJO_EJECUTAR_PLAN: Validar metodo de pago.
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("procedencia", DatosBancoPlanFragment.PROCEDENCIA_PAGO_PLAN);
-                        bundle.putString("deviceIdString", deviceIdString);
-                        bundle.putInt("idSesion", idSesion);
-                        bundle.putInt("idEstudiante", idEstudiante);
-                        bundle.putDouble("costoTotal", costoTotal);
-                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                        DatosBancoPlanFragment bancoPlanFragment = new DatosBancoPlanFragment();
-                        bancoPlanFragment.setArguments(bundle);
-                        bancoPlanFragment.show(fragmentTransaction, "Validar datos");
-                    }
 
-                    dismiss();
-                }
+                bundle.putInt("procedencia", DatosBancoPlanFragment.PROCEDENCIA_PAGO_PLAN);
+                bundle.putString("deviceIdString", deviceIdString);
+                bundle.putInt("idSesion", idSesion);
+                bundle.putInt("idEstudiante", idEstudiante);
+                bundle.putDouble("costoTotal", costoTotal);
+                DatosBancoPlanFragment bancoPlanFragment = new DatosBancoPlanFragment();
+                bancoPlanFragment.setArguments(bundle);
+                bancoPlanFragment.show(fragmentTransaction, "Validar datos");
+                   // }
+
+                dismiss();
+                //}
                 break;
             case R.id.regresar:
-                if(pantalla == CobroFinalFragment.PANTALLA_CANCELAR){//Si venimos de el boton de CANCELAR en Más Tiempo.
-                    dismiss();
-                }else if(pantalla == CobroFinalFragment.PANTALLA_TE){//Si venimos de algún Tiempo Extra en Más Tiempo.
+                //if(pantalla == CobroFinalFragment.PANTALLA_CANCELAR){//Si venimos de el boton de CANCELAR en Más Tiempo.
+                  //  dismiss();
+                //}else if(pantalla == CobroFinalFragment.PANTALLA_TE){//Si venimos de algún Tiempo Extra en Más Tiempo.
                     //Volvemos a mostrar los Tiempos extras disponibles.
-                    MasTiempo masTiempo = new MasTiempo();
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
-                    bundle.putInt("idEstudiante", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    masTiempo.setArguments(bundle);
-                    masTiempo.show(fragmentTransaction, "Tiempo Extra");
-                    dismiss();
-                }
+                MasTiempo masTiempo = new MasTiempo();
+ //               Bundle bundle = new Bundle();
+                bundle.putInt("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
+                bundle.putInt("idEstudiante", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
+
+                masTiempo.setArguments(bundle);
+                masTiempo.show(fragmentTransaction, "Tiempo Extra");
+                dismiss();
+                //}
                 break;
         }
     }

@@ -91,6 +91,14 @@ public class MasTiempo extends DialogFragment {
         /*Vamos a obtene los datos de la pre orden y usarlos para mostrar el cobro final*/
         //TODO FLUJO_EJECUTAR_PLAN:  Cobramos sólo el TE elegido, crear otro MODAL Cobro Final MODO PLAN,
         // y poner las funciones de finalización de clase que están en ServicioTaskCobro, etc.
+        //Finalizamos la clase, sumamos la ruta.
+        ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(this.contexto, this.idSesion, this.idEstudiante, Constants.FINALIZAR_CLASE, DetallesFragment.ESTUDIANTE);
+        finalizarClase.execute();
+        ServicioTaskSumarClaseRuta sumarClaseRuta = new ServicioTaskSumarClaseRuta(this.contexto, this.idSesion, this.idEstudiante, ClaseEstudiante.idSeccion, ClaseEstudiante.idNivel, ClaseEstudiante.idBloque, ClaseEstudiante.tiempo, ClaseEstudiante.sumar);
+        sumarClaseRuta.execute();
+
+        dismiss();
+        /*
         if(DetallesFragment.planSesion.equalsIgnoreCase("PARTICULAR")){
             Bundle bundle = new Bundle();
             bundle.putInt("Pantalla", 1);
@@ -122,7 +130,7 @@ public class MasTiempo extends DialogFragment {
 
             dismiss();
 
-        }
+        }*/
 
     }
 

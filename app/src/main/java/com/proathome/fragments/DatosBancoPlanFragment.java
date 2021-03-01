@@ -6,7 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.proathome.ClaseEstudiante;
 import com.proathome.R;
 import com.proathome.servicios.clase.ServicioTaskPagoDeuda;
 import com.proathome.servicios.planes.ServicioTaskTokenCard;
@@ -40,6 +43,8 @@ public class DatosBancoPlanFragment extends DialogFragment {
     TextInputEditText etCVV;
     @BindView(R.id.validarDatos)
     Button validarDatos;
+    @BindView(R.id.btnCancelar)
+    Button cancelar;
     public static String deviceIdString, descripcion, nombre, correo;
     public static int idSesion, idEstudiante, procedencia;
     public static double costoTotal, deuda;
@@ -53,6 +58,7 @@ public class DatosBancoPlanFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_AppCompat_DayNight_Dialog_Alert);
+        setCancelable(false);
         deviceId = Constants.openpay.getDeviceCollectorDefaultImpl().setup(getActivity());
     }
 
@@ -82,6 +88,17 @@ public class DatosBancoPlanFragment extends DialogFragment {
         }
 
         return view;
+    }
+
+    @OnClick(R.id.btnCancelar)
+    public void cancelar(){
+        dismiss();
+        MasTiempo masTiempo = new MasTiempo();
+        Bundle bundle = new Bundle();
+        bundle.putInt("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
+        bundle.putInt("idEstudiante", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
+        masTiempo.setArguments(bundle);
+        masTiempo.show(ClaseEstudiante.obtenerFargment(Constants.fragmentActivity), "Tiempo Extra");
     }
 
     @OnClick(R.id.validarDatos)

@@ -153,8 +153,9 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
                             DetallesFragment.idEstudiante, ServicioTaskCard.GUARDAR_TOKEN_BD);
                     servicioTaskCard.execute();*/
 
+                    /*
                     ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(contexto, bundle.getString("deviceID"), idEstudiante, idCard, Double.parseDouble(bundle.getString("costoTotal")), true);
-                    servicioTaskCobro.execute();
+                    servicioTaskCobro.execute();*/
 
                     /*Iniciamos la búsqueda de el profesor
                     ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(contexto,
@@ -174,7 +175,6 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
                     contexto.startActivity(intent);*/
                 }
             });
-        }else if(this.solicitud == ServicioTaskCard.OBTENER_TOKEN_BD){
         }
 
         return result;

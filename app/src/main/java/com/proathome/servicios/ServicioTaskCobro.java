@@ -5,14 +5,15 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.fragment.app.FragmentTransaction;
+
 import com.proathome.ClaseEstudiante;
-import com.proathome.fragments.NuevaSesionFragment;
+import com.proathome.fragments.MasTiempo;
 import com.proathome.servicios.clase.ServicioTaskFinalizarClase;
 import com.proathome.servicios.clase.ServicioTaskMasTiempo;
 import com.proathome.servicios.clase.ServicioTaskSumarClaseRuta;
 import com.proathome.fragments.CobroFinalFragment;
 import com.proathome.fragments.DetallesFragment;
-import com.proathome.servicios.estudiante.STRegistroSesionesEstudiante;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
@@ -37,14 +38,12 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
     public static final int ENTENDIDO_CANCELAR = 3;
     public static final int ENTENDIDO_TE = 4;
     private String linkCobro = "http://" + Constants.IP + "/ProAtHome/assets/lib/Cargo.php";
-    //private String linkObtenerToken = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerToken/";
+    private String linkObtenerToken = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerToken/";
     private int idSesion, idEstudiante, tipo_boton;
     private String idCard, deviceId;
     private double cobro;
     private Context contexto;
-    private boolean cobroInicial = false;
     private ProgressDialog progressDialog;
-    private Bundle bundle;
 
     public ServicioTaskCobro(Context contexto, String deviceId, int idSesion, int idEstudiante, String idCard,
                              double cobro, int tipo_boton){
@@ -55,16 +54,6 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
         this.idCard = idCard;
         this.cobro = cobro;
         this.tipo_boton = tipo_boton;
-    }
-
-    public ServicioTaskCobro(Context contexto, String deviceId, int idEstudiante, String idCard,
-                             double cobro, boolean cobroInicial){
-        this.contexto = contexto;
-        this.deviceId = deviceId;
-        this.idEstudiante = idEstudiante;
-        this.idCard = idCard;
-        this.cobro = cobro;
-        this.cobroInicial = cobroInicial;
     }
 
     @Override
@@ -78,7 +67,6 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
 
         String resultado = null;
 
-       // if(this.tipo_token == ServicioTaskCobro.TOKEN_PHONE){
             try {
                 URL url = new URL(this.linkCobro);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -135,44 +123,6 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
                 e.printStackTrace();
             }
 
-      //}
-
-        /*else if(this.tipo_token == ServicioTaskCobro.TOKEN_BD){
-            try {
-                URL url = new URL(this.linkObtenerToken + this.idSesion + "/" + this.idEstudiante);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-
-                httpURLConnection.setReadTimeout(15000);
-                httpURLConnection.setConnectTimeout(15000);
-                httpURLConnection.setRequestMethod("GET");
-                httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
-
-                int responseCode = httpURLConnection.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                            httpURLConnection.getInputStream()));
-                    StringBuffer stringBuffer = new StringBuffer("");
-                    String linea = "";
-                    while ((linea = bufferedReader.readLine()) != null) {
-                        stringBuffer.append(linea);
-                        break;
-                    }
-
-                    bufferedReader.close();
-                    resultado = stringBuffer.toString();
-                }else {
-                    resultado = new String("Error: "+ responseCode);
-                }
-
-            }catch (MalformedURLException | ProtocolException ex){
-                ex.printStackTrace();
-            }catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }*/
-
         return resultado;
     }
 
@@ -181,152 +131,57 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
         super.onPostExecute(s);
         progressDialog.dismiss();
         try{
-            System.out.println(s);
             JSONObject jsonObject = new JSONObject(s);
-            if(this.cobroInicial){
-                //Guardamos la clase.
-                if(jsonObject.getBoolean("respuesta")){
+            System.out.println(jsonObject);
 
-                /*Guardamos la info de PAGO
-                STRegistroSesionesEstudiante registro = new STRegistroSesionesEstudiante(contexto,
-                        bundle.getString("registrarSesionREST"), bundle.getInt("idCliente"), bundle.getString("horario"),
-                        bundle.getString("lugar"), bundle.getInt("tiempo"), bundle.getInt("idSeccion"), bundle.getInt("idNivel"),
-                        bundle.getInt("idBloque"), bundle.getString("extras"), bundle.getString("tipoClase"), bundle.getDouble("latitud"),
-                        bundle.getDouble("longitud"), bundle.getString("actualizado"), bundle.getString("fecha"), bundle.getBoolean("sumar"),
-                        bundle.getString("tipoPlan"), bundle.getInt("personas"));
-                registro.execute();
-                succesAlert();*/
-                    System.out.println("INFO: " + jsonObject.getString("mensaje"));
-
-                }else
-                    showMsg("¡ERROR!", s, SweetAlert.ERROR_TYPE);
-            }else
-                validarBotonTE(s);
-        }catch(JSONException ex){
-            ex.printStackTrace();
-        }
-        //if(this.tipo_token == ServicioTaskCobro.TOKEN_PHONE){
-
-
-       // }
-        /*else if(this.tipo_token == ServicioTaskCobro.TOKEN_BD){
-            if(this.tipo_boton == ServicioTaskCobro.ENTENDIDO_CANCELAR){
-                try{
-                    JSONObject jsonObject = new JSONObject(s);
-                    ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(this.contexto, this.deviceId,
-                            this.idSesion, this.idEstudiante, jsonObject.get("token").toString(), this.cobro,
-                                ServicioTaskCobro.TOKEN_PHONE, ServicioTaskCobro.ENTENDIDO_CANCELAR);
-                    servicioTaskCobro.execute();
-                }catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }else if(this.tipo_boton == ServicioTaskCobro.ENTENDIDO_TE){
-                try{
-                    JSONObject jsonObject = new JSONObject(s);
-                    ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(this.contexto, this.deviceId,
-                            this.idSesion, this.idEstudiante, jsonObject.get("token").toString(), this.cobro,
-                                ServicioTaskCobro.TOKEN_PHONE, ServicioTaskCobro.ENTENDIDO_TE);
-                    servicioTaskCobro.execute();
-                }catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }*/
-    }
-
-    public void validarBotonTE(String s){
-        if(this.tipo_boton == ServicioTaskCobro.ENTENDIDO_CANCELAR){
-            if(s.equalsIgnoreCase("")){
-                System.out.println("Entendido cancelar");
-                //Actualizar la orden de pago con estatusPago = Pagado.
-                ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante,
-                        this.idSesion, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo,
-                        TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion,
-                        CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR),
-                        DetallesFragment.planSesion, "Pagado", ServicioTaskOrdenPago.SOLICITUD_COBRO_TE);
-                ordenPago.execute();
-                //Finalizamos la clase, sumamos la ruta y obtenemos el token de el celular para realizar el cobro.
-                ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(this.contexto,
-                        this.idSesion, this.idEstudiante, Constants.FINALIZAR_CLASE, DetallesFragment.ESTUDIANTE);
-                finalizarClase.execute();
-                ServicioTaskSumarClaseRuta sumarClaseRuta = new ServicioTaskSumarClaseRuta(this.contexto,
-                        this.idSesion, this.idEstudiante, ClaseEstudiante.idSeccion, ClaseEstudiante.idNivel,
-                        ClaseEstudiante.idBloque, ClaseEstudiante.tiempo, ClaseEstudiante.sumar);
-                sumarClaseRuta.execute();
-                Constants.fragmentActivity.finish();
-            }else{//Mostramos el error.
-                //Finalizamos la clase, sumamos la ruta.
-                new SweetAlert(this.contexto, SweetAlert.ERROR_TYPE, SweetAlert.PROFESOR)
-                        .setTitleText("¡ERROR!")
-                        .setContentText("Error: " + s + " tu perfil será bloqueado.")
-                        .setConfirmButton("OK", sweetAlertDialog -> {
-                            sweetAlertDialog.dismissWithAnimation();
-                            ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(this.contexto,
-                                    this.idSesion, this.idEstudiante, Constants.FINALIZAR_CLASE, DetallesFragment.ESTUDIANTE);
-                            finalizarClase.execute();
-                            ServicioTaskSumarClaseRuta sumarClaseRuta = new ServicioTaskSumarClaseRuta(this.contexto,
-                                    this.idSesion, this.idEstudiante, ClaseEstudiante.idSeccion, ClaseEstudiante.idNivel,
-                                    ClaseEstudiante.idBloque, ClaseEstudiante.tiempo, ClaseEstudiante.sumar);
-                            sumarClaseRuta.execute();
-                            ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion,
-                                    TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo,
-                                            TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion,
-                                    CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR),
-                                    DetallesFragment.planSesion, "Deuda",  ServicioTaskOrdenPago.SOLICITUD_COBRO_TE);
-                            ordenPago.execute();
-                            Constants.fragmentActivity.finish();
-                        })
-                        .show();
-            }
-        }else if(this.tipo_boton == ServicioTaskCobro.ENTENDIDO_TE){
-            if(s.equalsIgnoreCase("")){
+            if(jsonObject.getBoolean("respuesta")){
                 System.out.println("Entendido TE");
-                //Actualizar la orden de pago con estatusPago = Pagado.
+                //Actualizar la orden de pago con el costo del TE
+                /*
                 if(DetallesFragment.planSesion.equalsIgnoreCase("PARTICULAR")){
                     ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante,
                             this.idSesion, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo,
                             TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion,
                             CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR),
-                            DetallesFragment.planSesion, "Pagado",  ServicioTaskOrdenPago.SOLICITUD_COBRO_TE);
+                            DetallesFragment.planSesion, "Pagado");
                     ordenPago.execute();
                 }else{
                     ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante,
                             this.idSesion, 0, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion,
                             CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR),
-                            DetallesFragment.planSesion, "Pagado",  ServicioTaskOrdenPago.SOLICITUD_COBRO_TE);
+                            DetallesFragment.planSesion, "Pagado");
                     ordenPago.execute();
-                }
+                }*/
 
                 //Generamos el tiempo extra y la vida sigue.
                 ServicioTaskMasTiempo masTiempo = new ServicioTaskMasTiempo(this.contexto, this.idSesion,
                         this.idEstudiante, CobroFinalFragment.progresoTotal);
                 masTiempo.execute();
-            }else{//Mostramos el error.
-                //Generamos el tiempo extra y la vida sigue pero con bloqueo.
-                ServicioTaskMasTiempo masTiempo = new ServicioTaskMasTiempo(this.contexto, this.idSesion,
-                        this.idEstudiante, CobroFinalFragment.progresoTotal);
-                masTiempo.execute();
-                ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante, this.idSesion,
-                        TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo,
-                                TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion,
-                        CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR),
-                        DetallesFragment.planSesion, "Deuda",  ServicioTaskOrdenPago.SOLICITUD_COBRO_TE);
-                ordenPago.execute();
-                showMsg("¡ERROR!","Error: " + s + " tu perfil será bloqueado al terminar el TE.",
-                        SweetAlert.ERROR_TYPE);
-            }
+            }else//Mostramos el error.
+                showMsg("¡ERROR!",jsonObject.getString("mensaje"), SweetAlert.ERROR_TYPE);
+        }catch(JSONException ex){
+            ex.printStackTrace();
         }
+
+
     }
 
     public void showMsg(String titulo, String mensaje, int tipo){
-        new SweetAlert(this.contexto, tipo, SweetAlert.PROFESOR)
+        new SweetAlert(this.contexto, tipo, SweetAlert.ESTUDIANTE)
                 .setTitleText(titulo)
                 .setContentText(mensaje)
-                .show();
-    }
+                .setConfirmButton("OK", sweetAlertDialog -> {
+                    sweetAlertDialog.dismissWithAnimation();
+                    //Preguntamos si desea más tiempo Extra.
+                    MasTiempo masTiempo = new MasTiempo();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
+                    bundle.putInt("idEstudiante", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
+                    masTiempo.setArguments(bundle);
+                    masTiempo.show(ClaseEstudiante.obtenerFargment(Constants.fragmentActivity), "Tiempo Extra");
 
-    public void setBundleSesion(Bundle bundle){
-        this.bundle = bundle;
+                })
+                .show();
     }
 
     public String getPostDataString(JSONObject params) throws Exception {

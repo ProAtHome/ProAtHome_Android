@@ -167,6 +167,17 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tilCvv"/>
 
+                    <Button
+                        android:id="@+id/btnCancelar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:text="CANCELAR"
+                        android:layout_marginLeft="@dimen/common_padding_default"
+                        android:backgroundTint="@android:color/holo_red_dark"
+                        app:layout_constraintStart_toEndOf="@id/validarDatos"
+                        app:layout_constraintTop_toBottomOf="@id/tilCvv"/>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>

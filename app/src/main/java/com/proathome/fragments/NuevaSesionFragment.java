@@ -335,7 +335,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         bundle.putInt("idBloque", idBloque);
         bundle.putString("extras", extras);
         bundle.putString("tipoClase", tipoClase);
-        bundle.getDouble("latitud", latitud);
+        bundle.putDouble("latitud", latitud);
         bundle.putDouble("longitud", longitud);
         bundle.putString("actualizado", actualizado);
         bundle.putString("fecha", fecha);

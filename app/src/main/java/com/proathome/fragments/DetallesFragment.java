@@ -215,8 +215,25 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
 
         iniciar.setOnClickListener(v -> {
-            /*TODO FLUJO_EJECUTAR_PLAN: Clase en modo PLAN activo?
-                    Si, entonces, Al iniciar la clase no mostramos Pre Orden ya que está pagado.*/
+
+            ServicioTaskSincronizarClases sincronizarClases =
+                    new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante,
+                            DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
+            sincronizarClases.execute();
+
+            Intent intent = new Intent(getContext(), SincronizarClase.class);
+            intent.putExtra("perfil", ESTUDIANTE);
+            intent.putExtra("idSesion", idSesion);
+            intent.putExtra("idPerfil", idEstudiante);
+            intent.putExtra("tiempo", tiempoPasar);
+            intent.putExtra("idSeccion", bun.getInt("idSeccion"));
+            intent.putExtra("idNivel", bun.getInt("idNivel"));
+            intent.putExtra("idBloque", bun.getInt("idBloque"));
+            intent.putExtra("sumar", sumar);
+            startActivity(intent);
+
+            /*
+
             if (!this.planSesion.equalsIgnoreCase("PARTICULAR")) {
                 if (banco) {
                     ServicioTaskSincronizarClases sincronizarClases =
@@ -239,19 +256,16 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
                 }
             } else {
                 if (banco) {
-                    /*Chechamos en putiza si hay un token guardado en el telefono de el pago de la sesión*/
+
                     SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                     String idCardSesion = "idCard" + idSesion;
                     String idCard = myPreferences.getString(idCardSesion, "Sin valor");
 
                     if (idCard.equalsIgnoreCase("Sin valor")) {
-                        //Si no hay un token en el phone entonces creamos uno con el diálogo de PreOrden*/
                         PreOrdenClase preOrdenClase = new PreOrdenClase();
                         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                         preOrdenClase.show(fragmentTransaction, "PreOrden");
                     } else {
-                /*Si ya tenemos un token entonces no hay pedo e iniciamos la buisqueda de la conexión del
-                profesor.*/
                         ServicioTaskSincronizarClases sincronizarClases =
                                 new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante,
                                         DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
@@ -271,7 +285,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
                 } else {
                     errorBancoMsg();
                 }
-            }
+            }*/
 
         });
 
