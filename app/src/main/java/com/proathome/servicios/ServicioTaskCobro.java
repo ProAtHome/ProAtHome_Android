@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.proathome.ClaseEstudiante;
 import com.proathome.fragments.MasTiempo;
+import com.proathome.servicios.clase.ServicioTaskActPagoTE;
 import com.proathome.servicios.clase.ServicioTaskFinalizarClase;
 import com.proathome.servicios.clase.ServicioTaskMasTiempo;
 import com.proathome.servicios.clase.ServicioTaskSumarClaseRuta;
@@ -67,61 +68,61 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
 
         String resultado = null;
 
-            try {
-                URL url = new URL(this.linkCobro);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        try {
+            URL url = new URL(this.linkCobro);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
-                DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
-                separadoresPersonalizados.setDecimalSeparator('.');
-                DecimalFormat formato1 = new DecimalFormat("#.00", separadoresPersonalizados);
-                JSONObject parametrosPost= new JSONObject();
-                parametrosPost.put("idCard", this.idCard);
-                parametrosPost.put("nombreEstudiante", CobroFinalFragment.nombreEstudiante);
-                parametrosPost.put("correo", CobroFinalFragment.correo);
-                parametrosPost.put("cobro", formato1.format(this.cobro));
-                parametrosPost.put("descripcion", "Cargo ProAtHome - " + CobroFinalFragment.sesion);
-                parametrosPost.put("deviceId", this.deviceId);
+            DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
+            separadoresPersonalizados.setDecimalSeparator('.');
+            DecimalFormat formato1 = new DecimalFormat("#.00", separadoresPersonalizados);
+            JSONObject parametrosPost= new JSONObject();
+            parametrosPost.put("idCard", this.idCard);
+            parametrosPost.put("nombreEstudiante", CobroFinalFragment.nombreEstudiante);
+            parametrosPost.put("correo", CobroFinalFragment.correo);
+            parametrosPost.put("cobro", formato1.format(this.cobro));
+            parametrosPost.put("descripcion", "Cargo ProAtHome - " + CobroFinalFragment.sesion);
+            parametrosPost.put("deviceId", this.deviceId);
 
-                //DEFINIR PARAMETROS DE CONEXION
-                urlConnection.setReadTimeout(15000);
-                urlConnection.setConnectTimeout(15000);
-                urlConnection.setRequestMethod("POST");
-                urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
-                urlConnection.setDoInput(true);
-                urlConnection.setDoOutput(true);
+            //DEFINIR PARAMETROS DE CONEXION
+            urlConnection.setReadTimeout(15000);
+            urlConnection.setConnectTimeout(15000);
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
+            urlConnection.setDoInput(true);
+            urlConnection.setDoOutput(true);
 
-                //OBTENER EL RESULTADO DEL REQUEST
-                OutputStream os = urlConnection.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-                writer.write(getPostDataString(parametrosPost));
-                writer.flush();
-                writer.close();
-                os.close();
+            //OBTENER EL RESULTADO DEL REQUEST
+            OutputStream os = urlConnection.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            writer.write(getPostDataString(parametrosPost));
+            writer.flush();
+            writer.close();
+            os.close();
 
-                int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
-                    BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                    StringBuffer sb= new StringBuffer("");
-                    String linea="";
-                    while ((linea=in.readLine())!= null){
-                        sb.append(linea);
-                        break;
-                    }
-                    in.close();
-                    resultado = sb.toString();
+            int responseCode = urlConnection.getResponseCode();
+            if(responseCode == HttpURLConnection.HTTP_OK){
+                BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                StringBuffer sb= new StringBuffer("");
+                String linea="";
+                while ((linea=in.readLine())!= null){
+                    sb.append(linea);
+                    break;
                 }
-                else{
-                    resultado = new String("Error: "+ responseCode);
-                }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
+                in.close();
+                resultado = sb.toString();
             }
+            else{
+                resultado = new String("Error: "+ responseCode);
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return resultado;
     }
@@ -137,6 +138,8 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
             if(jsonObject.getBoolean("respuesta")){
                 System.out.println("Entendido TE");
                 //Actualizar la orden de pago con el costo del TE
+                ServicioTaskActPagoTE actPagoTE = new ServicioTaskActPagoTE(this.contexto, this.cobro, this.idSesion);
+                actPagoTE.execute();
                 /*
                 if(DetallesFragment.planSesion.equalsIgnoreCase("PARTICULAR")){
                     ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante,
