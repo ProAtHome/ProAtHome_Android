@@ -24,7 +24,7 @@
         android:layout_height="match_parent"
         android:padding="@dimen/common_padding_min"
         android:layout_marginTop="55dp"
-        android:background="@mipmap/fondoplanes">
+        android:background="@mipmap/fondo1">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card1"

@@ -12,7 +12,8 @@
         android:id="@+id/btnCerrar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPersonal"
+        android:textColor="@color/colorAzul"
+        android:fontFamily="@font/din"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="Cerrar"
@@ -23,30 +24,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Contenido del Bloque:"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
         android:layout_margin="10dp"
         app:layout_constraintTop_toBottomOf="@id/btnCerrar"
         app:layout_constraintStart_toStartOf="parent"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+        style="@style/Titulos"/>
 
     <TextView
         android:id="@+id/tvContenido"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:textColor="@android:color/black"
         android:text="@string/hello_blank_fragment"
         app:layout_constraintStart_toStartOf="@id/tvContenidoTitle"
-        app:layout_constraintTop_toBottomOf="@+id/tvContenidoTitle"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvContenidoTitle"
+        style="@style/Textos"/>
 
     <TextView
         android:id="@+id/tvHoras"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@color/colorGris"
+        android:fontFamily="@font/mooka"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:text="Horas de bloque"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvContenido"

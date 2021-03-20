@@ -22,8 +22,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/common_padding_min"
-                android:textColor="@android:color/black"
-                android:text="@string/diagnostico8"/>
+                android:text="@string/diagnostico8"
+                style="@style/Titulos"/>
 
             <!--Pregunta 1-->
             <com.google.android.material.card.MaterialCardView
@@ -44,10 +44,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="I really needed 0. _______ (go) for a drink, I went to an Irish bar and there I met my girlfriend Laura, It was when I studied medicine in the 90’s, firstly, I approached elegantly 41. _______________ (invite) her a wine’s cup, later, I made some jokes because I desperately wanted 42. _______________ (get) her confidence and appear more natural, but, she didn’t smile, so, I asked her 43. _______________ (dance), it seems that I’m more agile with my feet than with the lips, she told me “I love 44. _______________ (do) Yoga”, Have you ever practiced it?,  I answered,  well,  I have  never done it,  but,  if  you  teach  me,  I  will enjoy    45. _______________ (be) your student, that’s for sure!, she laughed at my comment and that was the beginning of our relationship."
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -58,9 +57,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/common_padding_min"
-                android:textColor="@color/colorPersonalDark"
                 android:textStyle="bold|italic"
-                android:text="Parentheses" />
+                android:text="Parentheses"
+                style="@style/Titulos"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -79,13 +78,12 @@
                         android:id="@+id/p0"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="00- "
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:text="00- "
+                        android:padding="@dimen/common_padding_min"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Titulos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/r0"
@@ -101,7 +99,8 @@
                             android:layout_height="wrap_content"
                             android:maxLength="5"
                             android:text="to go"
-                            android:textColor="@color/colorPersonalDark"/>
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,12 +109,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="41- "
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:padding="@dimen/common_padding_min"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/r0"/>
+                        app:layout_constraintTop_toBottomOf="@id/r0"
+                        style="@style/Titulos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/r1"
@@ -128,10 +126,11 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/resp1"
-                            android:layout_width="wrap_content"
+                            android:layout_width="20dp"
                             android:layout_height="wrap_content"
                             android:maxLength="9"
-                            android:textColor="@color/colorPersonalDark"/>
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -140,12 +139,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="42- "
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:padding="@dimen/common_padding_min"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/r1"/>
+                        app:layout_constraintTop_toBottomOf="@id/r1"
+                        style="@style/Titulos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/r2"
@@ -161,7 +159,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="6"
-                            android:textColor="@color/colorPersonalDark"/>
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -170,12 +169,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="43- "
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
+                        android:padding="@dimen/common_padding_min"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/r2"/>
+                        app:layout_constraintTop_toBottomOf="@id/r2"
+                        style="@style/Titulos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/r3"
@@ -192,7 +190,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="8"
-                            android:textColor="@color/colorPersonalDark" />
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -201,12 +200,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="44- "
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:padding="@dimen/common_padding_min"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/r3"/>
+                        app:layout_constraintTop_toBottomOf="@id/r3"
+                        style="@style/Titulos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/r4"
@@ -222,7 +220,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="5"
-                            android:textColor="@color/colorPersonalDark"/>
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -231,12 +230,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="45- "
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:padding="@dimen/common_padding_min"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/r4"/>
+                        app:layout_constraintTop_toBottomOf="@id/r4"
+                        style="@style/Titulos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/r5"
@@ -252,7 +250,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="5"
-                            android:textColor="@color/colorPersonalDark"/>
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -265,8 +264,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/common_padding_min"
-                android:textColor="@android:color/black"
-                android:text="@string/diagnostico9"/>
+                android:text="@string/diagnostico9"
+                style="@style/Titulos"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -286,9 +285,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="46- I’ve visited this museum many times."
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p1_1"
@@ -298,7 +297,7 @@
                         android:ellipsize="end"
                         android:checkable="true"
                         android:text="a)She said she visited that museum many times."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p1_2"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -310,7 +309,7 @@
                         android:ellipsize="end"
                         android:checkable="true"
                         android:text="b)She said she’d visited that museum many times."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/chip_p1_1"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -336,9 +335,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="47.-I’m studying for my English test."
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p2_1"
@@ -348,7 +347,7 @@
                         android:ellipsize="end"
                         android:checkable="true"
                         android:text="a)He told he was studying for my English test."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p2_2"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -360,7 +359,7 @@
                         android:ellipsize="end"
                         android:checkable="true"
                         android:text="b)He told he was studying for his English test."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/chip_p2_1"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -386,9 +385,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="48.-She broke her leg last year."
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p3_1"
@@ -398,7 +397,7 @@
                         android:ellipsize="end"
                         android:checkable="true"
                         android:text="a)She told she had breaken her leg the year before."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p3_2"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -410,7 +409,7 @@
                         android:ellipsize="end"
                         android:checkable="true"
                         android:text="b)She told she had broken her leg the year before."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/chip_p3_1"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -436,9 +435,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="49.-We will change the world."
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p4_1"
@@ -448,7 +447,7 @@
                         android:ellipsize="end"
                         android:checkable="true"
                         android:text="a)They said they would change the world"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p4_2"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -460,7 +459,7 @@
                         android:ellipsize="end"
                         android:checkable="true"
                         android:text="b)They said they would not change the world."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/chip_p4_1"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -487,9 +486,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="50.-I can’t play any musical instrument."
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p5_1"
@@ -499,7 +498,7 @@
                         android:ellipsize="end"
                         android:checkable="true"
                         android:text="a)He said he couldn’t play any musical instrument."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p5_2"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -512,7 +511,7 @@
                         android:textSize="8sp"
                         android:checkable="true"
                         android:text="b)He said he could play any musical instrument."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/chip_p5_1"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -528,7 +527,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="40dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                android:backgroundTint="@color/colorAzul"
+                android:fontFamily="@font/din"
+                style="@style/Widget.MaterialComponents.Button"/>
 
         </LinearLayout>
 
@@ -540,7 +541,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_cancel"
         android:layout_margin="@dimen/common_padding_default"
-        android:backgroundTint="@color/colorPersonalDark"
+        android:backgroundTint="@color/colorRosa"
         android:layout_gravity="bottom|end"
         style="@style/Widget.MaterialComponents.FloatingActionButton"/>
 

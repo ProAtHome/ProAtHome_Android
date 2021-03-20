@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorRosa">#D31B53</color>
+    <color name="colorAzul">#092635</color>
+    <color name="colorGris">#4D4D4D</color>
+    <color name="colorBlanco">#FFFFFF</color>
+
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>

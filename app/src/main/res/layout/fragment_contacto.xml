@@ -11,11 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tópico:"
-        android:textColor="@color/material_blue_grey_80"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Titulos"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilTopico"
@@ -30,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
+            android:fontFamily="@font/din"
             android:hint="Título del tema a sulucionar"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -39,12 +38,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Descripción:"
-        android:textColor="@color/material_blue_grey_80"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_marginTop="@dimen/common_padding_default"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="@dimen/common_padding_min"
-        app:layout_constraintTop_toBottomOf="@id/tilTopico"/>
+        app:layout_constraintTop_toBottomOf="@id/tilTopico"
+        style="@style/Titulos"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilDescripcion"
@@ -58,9 +55,10 @@
             android:id="@+id/etDescripcion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Describenos el problema con detalle."
             android:inputType="text|textMultiLine"
-            android:maxLines="10"
-            android:hint="Describenos el problema con detalle." />
+            android:fontFamily="@font/din"
+            android:maxLines="10" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,6 +67,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enviar"
+        android:backgroundTint="@color/colorAzul"
+        android:fontFamily="@font/din"
         android:layout_marginTop="@dimen/common_padding_min"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tilDescripcion"/>
@@ -80,7 +80,8 @@
         android:text="Cancelar"
         android:layout_marginStart="@dimen/common_padding_min"
         android:layout_marginTop="@dimen/common_padding_min"
-        android:backgroundTint="@android:color/holo_red_dark"
+        android:backgroundTint="@color/colorRosa"
+        android:fontFamily="@font/din"
         app:layout_constraintStart_toEndOf="@id/btnEnviar"
         app:layout_constraintTop_toBottomOf="@id/tilDescripcion"/>
 

@@ -26,7 +26,7 @@
         android:id="@+id/scrollMapProf"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/fondois"
+        android:background="@mipmap/fondo1"
         android:fillViewport="true"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 

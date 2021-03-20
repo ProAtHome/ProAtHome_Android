@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.ayuda.AyudaFragment"
-    android:background="@mipmap/fondoprof"
+    android:background="@mipmap/fondo1"
     android:padding="@dimen/common_padding_min">
 
     <com.google.android.material.card.MaterialCardView

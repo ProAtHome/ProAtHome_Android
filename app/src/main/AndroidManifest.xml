@@ -83,10 +83,12 @@
             android:name=".inicioEstudiante"
             android:label="@string/title_activity_inicio_estudiante"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".registrarseEstudiante" />
+        <activity android:name=".registrarseEstudiante"
+                  android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".registrarseProfesor" />
         <activity android:name=".loginProfesor" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+                    android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -10,7 +10,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".examen.Diagnostico1">
+        tools:context=".examen.Diagnostico2">
 
         <LinearLayout
             android:orientation="vertical"
@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/common_padding_min"
-                android:textColor="@android:color/black"
+                style="@style/Titulos"
                 android:text="@string/diagnostico2"/>
 
             <!--Pregunta 1-->
@@ -43,10 +43,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
                         android:text="11- He is"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/under1"
@@ -54,8 +56,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="withdraw"
-                        android:textColor="@color/colorPersonalDark"
                         android:textStyle="italic|bold"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         app:layout_constraintStart_toEndOf="@id/part1"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,7 +69,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under1"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -76,7 +82,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="withdrew"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part2"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -87,7 +95,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under2"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -98,7 +108,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="withdrawing"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -109,10 +121,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="money from the bank."
-                        android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part1" />
+                        app:layout_constraintTop_toBottomOf="@id/part1"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -136,9 +148,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="12- She is"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/under1_2"
@@ -146,7 +158,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="bring"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part1_2"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -157,7 +171,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under1_2"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -168,7 +184,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="brought"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part2_2"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -179,7 +197,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under2_2"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -190,7 +210,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="bringing"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part3_2"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -202,9 +224,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="some"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toEndOf="@id/under3_2"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/part5_2"
@@ -212,10 +234,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="snacks to share."
-                        android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part1_2" />
+                        app:layout_constraintTop_toBottomOf="@id/part1_2"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -240,9 +262,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="13-"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/under1_3"
@@ -250,7 +272,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="Do"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part1_3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -261,7 +285,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under1_3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -272,7 +298,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="Are"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part2_3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -283,7 +311,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under2_3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -294,7 +324,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="Is"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part3_3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -306,9 +338,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="they studying for their"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toEndOf="@id/under3_3"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/part5_3"
@@ -316,10 +348,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="English test?"
-                        android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part1_3" />
+                        app:layout_constraintTop_toBottomOf="@id/part1_3"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -343,9 +375,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="14- The technician"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/under1_4"
@@ -353,7 +385,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="is"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part1_4"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -364,7 +398,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under1_4"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -375,7 +411,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="am"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part2_4"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -386,7 +424,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under2_4"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -397,7 +437,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="are"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part3_4"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -408,9 +450,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="revising the"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toEndOf="@id/under3_4"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/part5_4"
@@ -418,10 +460,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="laptop."
-                        android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part1_4" />
+                        app:layout_constraintTop_toBottomOf="@id/part1_4"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -447,9 +489,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="15- I am"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/under1_5"
@@ -457,7 +499,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="draw"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part1_5"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -468,7 +512,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under1_5"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -479,7 +525,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="drew"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part2_5"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -490,7 +538,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under2_5"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -501,7 +551,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="drawing"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part3_5"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -512,9 +564,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="the face of"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toEndOf="@id/under3_5"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/part5_5"
@@ -522,10 +574,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="my lassie."
-                        android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part1_5" />
+                        app:layout_constraintTop_toBottomOf="@id/part1_5"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -536,8 +588,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/common_padding_min"
-                android:textColor="@android:color/black"
-                android:text="@string/diagnostico3"/>
+                android:text="@string/diagnostico3"
+                style="@style/Titulos"/>
 
             <!--Pregunta 1-->
             <com.google.android.material.card.MaterialCardView
@@ -558,9 +610,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="16- In my opinion, Cantinflas is"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/under1_secc3"
@@ -568,7 +620,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="funnier"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part1_secc3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -579,7 +633,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under1_secc3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -590,7 +646,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="funniest"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -602,10 +660,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="than Mr Bean."
-                        android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/under2_secc3"
-                        app:layout_constraintTop_toBottomOf="@id/part1_secc3" />
+                        app:layout_constraintTop_toBottomOf="@id/part1_secc3"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -629,9 +687,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="17- Going from Nezahualcoyotl to Pantitlan is a"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/under1_2_secc3"
@@ -639,7 +697,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="shortest"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -651,7 +711,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/under1_2_secc3"
@@ -663,7 +725,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="shorter"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/part2_2_secc3"
@@ -675,10 +739,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="distance than going to Taxqueña."
-                        android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/under2_2_secc3"
-                        app:layout_constraintTop_toBottomOf="@id/part1_2_secc3" />
+                        app:layout_constraintTop_toBottomOf="@id/part1_2_secc3"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -703,9 +767,9 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/common_padding_min"
                     android:text="18- Americans consider that the current U.S.A"
-                    android:textColor="@android:color/black"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/part2_3_secc3"
@@ -713,9 +777,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="president is"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part1_3_secc3" />
+                        app:layout_constraintTop_toBottomOf="@id/part1_3_secc3"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/under1_3_secc3"
@@ -723,7 +787,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="the baddest"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part2_3_secc3"
                         app:layout_constraintTop_toBottomOf="@id/part1_3_secc3" />
@@ -734,7 +800,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under1_3_secc3"
                         app:layout_constraintTop_toBottomOf="@id/part1_3_secc3" />
@@ -745,7 +813,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="the worst"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part3_3_secc3"
                         app:layout_constraintTop_toBottomOf="@id/part1_3_secc3" />
@@ -756,9 +826,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="in the"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toEndOf="@id/under2_3_secc3"
-                        app:layout_constraintTop_toBottomOf="@id/part1_3_secc3" />
+                        app:layout_constraintTop_toBottomOf="@id/part1_3_secc3"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/part5_3_secc3"
@@ -766,10 +836,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="history of that nation."
-                        android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part2_3_secc3" />
+                        app:layout_constraintTop_toBottomOf="@id/part2_3_secc3"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -795,9 +865,9 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:text="19- DJ Psy is"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/under1_4_secc3"
@@ -805,7 +875,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="the famousest"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part1_4_secc3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -816,7 +888,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under1_4_secc3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -827,7 +901,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="the most famous"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part2_4_secc3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -849,7 +925,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="the more famous"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -861,10 +939,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="Korean artist in the world."
-                        android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/under3_4_secc3"
-                        app:layout_constraintTop_toBottomOf="@id/part1_4_secc3" />
+                        app:layout_constraintTop_toBottomOf="@id/part1_4_secc3"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -889,9 +967,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="20- For many people Maths is"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/under1_5_secc3"
@@ -899,7 +977,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="harder"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part1_5_secc3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -910,7 +990,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under1_5_secc3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -921,7 +1003,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="harderer"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part2_5_secc3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -932,7 +1016,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under2_5_secc3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -943,7 +1029,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="hardest"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -955,10 +1043,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="than learning a lenguage."
-                        android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/under3_5_secc3"
-                        app:layout_constraintTop_toBottomOf="@id/part1_5_secc3" />
+                        app:layout_constraintTop_toBottomOf="@id/part1_5_secc3"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -972,7 +1060,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="40dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                android:fontFamily="@font/din"
+                android:backgroundTint="@color/colorAzul"
+                style="@style/Widget.MaterialComponents.Button"/>
 
         </LinearLayout>
 
@@ -984,7 +1074,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_cancel"
         android:layout_margin="@dimen/common_padding_default"
-        android:backgroundTint="@color/colorPersonalDark"
+        android:backgroundTint="@color/colorRosa"
         android:layout_gravity="bottom|end"
         style="@style/Widget.MaterialComponents.FloatingActionButton"/>
 

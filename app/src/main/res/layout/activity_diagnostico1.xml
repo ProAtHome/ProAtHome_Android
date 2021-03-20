@@ -24,9 +24,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/seccion1"
                 android:layout_margin="@dimen/common_padding_min"
-                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/Titulos"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -42,14 +42,13 @@
 
                     <TextView
                         android:id="@+id/pre1"
-                        android:text="1"
-                        android:textStyle="bold"
+                        android:layout_width="12dp"
+                        android:layout_height="0dp"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
+                        android:text="1"
+                        style="@style/Textos"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/pregunta1"
@@ -68,6 +67,7 @@
                             android:id="@+id/pregunta1_text"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:fontFamily="@font/din"
                             android:textColor="@android:color/black"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -78,6 +78,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="like"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/pregunta1"/>
 
@@ -87,6 +89,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="you"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                        android:textSize="5sp"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p1_1"
                         app:layout_constraintTop_toBottomOf="@id/pregunta1"/>
@@ -97,6 +102,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="do"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p1_2"
                         app:layout_constraintTop_toBottomOf="@id/pregunta1"/>
@@ -109,7 +116,9 @@
                         android:text="What"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p1_3"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta1"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta1"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p1_5"
@@ -119,7 +128,9 @@
                         android:text="\?"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p1_4"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta1"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta1"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p1_6"
@@ -129,7 +140,9 @@
                         android:text="reading"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p1_5"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta1"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta1"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -148,12 +161,11 @@
 
                     <TextView
                         android:id="@+id/pre2"
-                        android:layout_width="7dp"
-                        android:layout_height="14dp"
+                        style="@style/Textos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="2"
-                        android:textColor="@color/colorPersonalDark"
-                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -174,6 +186,7 @@
                             android:id="@+id/pregunta2_text"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:fontFamily="@font/din"
                             android:textColor="@android:color/black"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -185,7 +198,9 @@
                         android:layout_marginTop="2dp"
                         android:text="do"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta2"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta2"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p2_2"
@@ -195,7 +210,9 @@
                         android:text="you"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p2_1"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta2"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta2"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p2_3"
@@ -205,7 +222,9 @@
                         android:text="on"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p2_2"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta2"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta2"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p2_4"
@@ -215,7 +234,9 @@
                         android:text="go"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p2_3"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta2"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta2"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p2_5"
@@ -225,7 +246,9 @@
                         android:text="Where"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p2_4"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta2"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta2"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p2_6"
@@ -235,7 +258,9 @@
                         android:text="\?"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p2_5"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta2"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta2"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p2_7"
@@ -245,7 +270,9 @@
                         android:text="holidays"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/chip_p2_6"/>
+                        app:layout_constraintTop_toBottomOf="@id/chip_p2_6"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -265,14 +292,13 @@
 
                     <TextView
                         android:id="@+id/pre3"
-                        android:text="3"
-                        android:textStyle="bold"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="3"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/pregunta3"
@@ -291,6 +317,7 @@
                             android:id="@+id/pregunta3_text"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:fontFamily="@font/din"
                             android:textColor="@android:color/black"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -302,7 +329,9 @@
                         android:layout_marginTop="2dp"
                         android:text="She"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta3"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta3"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p3_2"
@@ -312,7 +341,9 @@
                         android:text="aunt"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p3_1"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta3"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta3"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p3_3"
@@ -322,7 +353,9 @@
                         android:text="favourite"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p3_2"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta3"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta3"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p3_4"
@@ -332,7 +365,9 @@
                         android:text="my"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p3_3"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta3"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta3"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p3_5"
@@ -342,7 +377,9 @@
                         android:text="is"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p3_4"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta3"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta3"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -351,7 +388,6 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_marginStart="@dimen/common_padding_min"
                 android:layout_marginEnd="@dimen/common_padding_min"
                 android:layout_marginTop="@dimen/common_padding_min">
@@ -362,14 +398,13 @@
 
                     <TextView
                         android:id="@+id/pre4"
-                        android:text="4"
-                        android:textStyle="bold"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="4"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/pregunta4"
@@ -388,6 +423,7 @@
                             android:id="@+id/pregunta4_text"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:fontFamily="@font/din"
                             android:textColor="@android:color/black"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -399,7 +435,9 @@
                         android:layout_marginTop="2dp"
                         android:text="often"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta4"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta4"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p4_2"
@@ -409,7 +447,9 @@
                         android:text="do"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p4_1"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta4"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta4"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p4_3"
@@ -419,7 +459,9 @@
                         android:text="you"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p4_2"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta4"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta4"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p4_4"
@@ -429,7 +471,9 @@
                         android:text="How"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p4_3"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta4"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta4"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p4_5"
@@ -439,7 +483,9 @@
                         android:text="practice"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p4_4"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta4"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta4"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p4_6"
@@ -449,7 +495,9 @@
                         android:text="English"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/chip_p4_5"/>
+                        app:layout_constraintTop_toBottomOf="@id/chip_p4_5"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p4_7"
@@ -459,7 +507,9 @@
                         android:text="your"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@+id/chip_p4_6"
-                        app:layout_constraintTop_toBottomOf="@id/chip_p4_1"/>
+                        app:layout_constraintTop_toBottomOf="@id/chip_p4_1"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p4_8"
@@ -469,7 +519,9 @@
                         android:text="\?"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p4_7"
-                        app:layout_constraintTop_toBottomOf="@id/chip_p4_1"/>
+                        app:layout_constraintTop_toBottomOf="@id/chip_p4_1"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -490,13 +542,12 @@
                     <TextView
                         android:id="@+id/pre5"
                         android:text="5"
-                        android:textStyle="bold"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/pregunta5"
@@ -515,6 +566,7 @@
                             android:id="@+id/pregunta5_text"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:fontFamily="@font/din"
                             android:textColor="@android:color/black"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -526,7 +578,9 @@
                         android:layout_marginTop="2dp"
                         android:text="I"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta5"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta5"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p5_2"
@@ -536,7 +590,9 @@
                         android:text="eat"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p5_1"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta5"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta5"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p5_3"
@@ -546,7 +602,9 @@
                         android:text="never"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p5_2"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta5"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta5"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p5_4"
@@ -556,7 +614,9 @@
                         android:text="expensive"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p5_3"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta5"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta5"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p5_5"
@@ -566,7 +626,9 @@
                         android:text="on"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p5_4"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta5"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta5"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p5_6"
@@ -576,7 +638,9 @@
                         android:text="restaurants"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/chip_p5_5"/>
+                        app:layout_constraintTop_toBottomOf="@id/chip_p5_5"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -596,13 +660,12 @@
                     <TextView
                         android:id="@+id/pre6"
                         android:text="6"
-                        android:textStyle="bold"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/pregunta6"
@@ -621,6 +684,7 @@
                             android:id="@+id/pregunta6_text"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:fontFamily="@font/din"
                             android:textColor="@android:color/black"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -632,7 +696,9 @@
                         android:layout_marginTop="2dp"
                         android:text="Which"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta6"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta6"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p6_2"
@@ -642,7 +708,9 @@
                         android:text="do"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p6_1"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta6"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta6"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p6_3"
@@ -652,7 +720,9 @@
                         android:text="you"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p6_2"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta6"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta6"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p6_4"
@@ -662,7 +732,9 @@
                         android:text="prefer"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p6_3"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta6"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta6"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p6_5"
@@ -672,7 +744,9 @@
                         android:text="one"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p6_4"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta6"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta6"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p6_6"
@@ -682,7 +756,9 @@
                         android:text="\?"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p6_5"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta6"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta6"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -702,14 +778,13 @@
 
                     <TextView
                         android:id="@+id/pre7"
-                        android:text="7"
-                        android:textStyle="bold"
-                        android:layout_margin="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/common_padding_min"
+                        android:text="7"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/pregunta7"
@@ -728,6 +803,7 @@
                             android:id="@+id/pregunta7_text"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:fontFamily="@font/din"
                             android:textColor="@android:color/black"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -739,7 +815,9 @@
                         android:layout_marginTop="2dp"
                         android:text="does"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta7"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta7"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p7_2"
@@ -749,7 +827,9 @@
                         android:text="He"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p7_1"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta7"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta7"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p7_3"
@@ -759,7 +839,9 @@
                         android:text="study"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p7_2"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta7"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta7"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p7_4"
@@ -769,7 +851,9 @@
                         android:text="not"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p7_3"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta7"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta7"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p7_5"
@@ -779,7 +863,9 @@
                         android:text="tests"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p7_4"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta7"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta7"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p7_6"
@@ -789,7 +875,9 @@
                         android:text="for"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p7_5"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta7"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta7"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p7_7"
@@ -799,7 +887,9 @@
                         android:text="his"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/chip_p7_6"/>
+                        app:layout_constraintTop_toBottomOf="@id/chip_p7_6"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -820,13 +910,12 @@
                     <TextView
                         android:id="@+id/pre8"
                         android:text="8"
-                        android:textStyle="bold"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/pregunta8"
@@ -845,6 +934,7 @@
                             android:id="@+id/pregunta8_text"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:fontFamily="@font/din"
                             android:textColor="@android:color/black"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -856,7 +946,9 @@
                         android:layout_marginTop="2dp"
                         android:text="Anatomy"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta8"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta8"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p8_2"
@@ -866,7 +958,9 @@
                         android:text="rarely"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p8_1"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta8"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta8"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p8_3"
@@ -876,7 +970,9 @@
                         android:text="study"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p8_2"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta8"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta8"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p8_4"
@@ -886,7 +982,9 @@
                         android:text="Engineers"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p8_3"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta8"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta8"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -908,13 +1006,12 @@
                     <TextView
                         android:id="@+id/pre9"
                         android:text="9"
-                        android:textStyle="bold"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/pregunta9"
@@ -933,6 +1030,7 @@
                             android:id="@+id/pregunta9_text"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:fontFamily="@font/din"
                             android:textColor="@android:color/black"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -944,7 +1042,9 @@
                         android:layout_marginTop="2dp"
                         android:text="NY"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta9"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta9"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p9_2"
@@ -954,7 +1054,9 @@
                         android:text="in"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p9_1"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta9"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta9"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p9_3"
@@ -964,7 +1066,9 @@
                         android:text="place"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p9_2"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta9"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta9"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p9_4"
@@ -974,7 +1078,9 @@
                         android:text="same"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p9_3"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta9"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta9"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p9_5"
@@ -984,7 +1090,9 @@
                         android:text="the"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p9_4"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta9"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta9"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p9_6"
@@ -994,7 +1102,9 @@
                         android:text="visit"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p9_5"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta9"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta9"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p9_7"
@@ -1004,7 +1114,9 @@
                         android:text="always"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/chip_p9_6"/>
+                        app:layout_constraintTop_toBottomOf="@id/chip_p9_6"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p9_8"
@@ -1014,7 +1126,9 @@
                         android:text="They"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p9_7"
-                        app:layout_constraintTop_toBottomOf="@id/chip_p9_6"/>
+                        app:layout_constraintTop_toBottomOf="@id/chip_p9_6"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -1034,14 +1148,13 @@
 
                     <TextView
                         android:id="@+id/pre10"
-                        android:text="10"
-                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
+                        android:text="10"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        style="@style/Textos" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/pregunta10"
@@ -1060,6 +1173,7 @@
                             android:id="@+id/pregunta10_text"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:fontFamily="@font/din"
                             android:textColor="@android:color/black"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -1071,7 +1185,9 @@
                         android:layout_marginTop="2dp"
                         android:text="are"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta10"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta10"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p10_2"
@@ -1081,7 +1197,9 @@
                         android:text="on"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p10_1"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta10"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta10"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p10_3"
@@ -1091,7 +1209,9 @@
                         android:text="time"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p10_2"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta10"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta10"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p10_4"
@@ -1101,7 +1221,9 @@
                         android:text="always"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p10_3"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta10"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta10"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_p10_5"
@@ -1111,7 +1233,9 @@
                         android:text="They"
                         android:layout_marginStart="2dp"
                         app:layout_constraintStart_toEndOf="@id/chip_p10_4"
-                        app:layout_constraintTop_toBottomOf="@id/pregunta10"/>
+                        app:layout_constraintTop_toBottomOf="@id/pregunta10"
+                        style="@style/Textos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -1125,7 +1249,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="40dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                android:backgroundTint="@color/colorAzul"
+                android:fontFamily="@font/din"
+                style="@style/Widget.MaterialComponents.Button"/>
 
         </LinearLayout>
 
@@ -1137,7 +1263,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_cancel"
         android:layout_margin="@dimen/common_padding_default"
-        android:backgroundTint="@color/colorPersonalDark"
+        android:backgroundTint="@color/colorRosa"
         android:layout_gravity="bottom|end"
         style="@style/Widget.MaterialComponents.FloatingActionButton"/>
 

@@ -39,14 +39,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/common_padding_default"
-                    android:background="@mipmap/fondoplanes">
+                    android:background="@mipmap/fondo1">
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/foto"
                         android:layout_width="170dp"
                         android:layout_height="170dp"
                         app:shapeAppearanceOverlay="@style/circleImageView"
-                        app:srcCompat="@mipmap/fondoplanes"
+                        app:srcCompat="@mipmap/fondo1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"/>

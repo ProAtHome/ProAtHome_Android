@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/fondoregis"
+    android:background="@mipmap/fondo1"
     android:padding="@dimen/common_padding_default"
     tools:context=".registrarseEstudiante">
 
@@ -20,16 +20,26 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/logo"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
             <TextView
                 android:id="@+id/registrarseTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:text="Registrarse (Estudiante)"
-                android:layout_gravity="center"/>
+                android:textSize="25dp"
+                android:text="Registro - Cliente"
+                android:layout_gravity="center"
+                style="@style/Titulos"/>
 
             <TextView
                 android:id="@+id/Datos"
@@ -38,7 +48,7 @@
                 android:text="Datos Personales"
                 android:textStyle="bold"
                 android:layout_marginTop="@dimen/common_padding_default"
-                android:textColor="@android:color/black"/>
+                style="@style/Textos"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/nombreET_RL"
@@ -58,6 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
+                    android:fontFamily="@font/din"
                     android:inputType="textPersonName"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -80,6 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
+                    android:fontFamily="@font/din"
                     android:inputType="textPersonName"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -101,8 +113,9 @@
                     android:id="@+id/maternoET_R"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:inputType="textPersonName"/>
+                    android:fontFamily="@font/din"
+                    android:inputType="textPersonName"
+                    android:textColor="@android:color/black" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -111,8 +124,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="verDatePicker"
+                android:backgroundTint="@color/colorRosa"
+                android:fontFamily="@font/din"
                 android:text="Fecha de Nacimiento"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/white"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fechaET_RL"
@@ -133,6 +148,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
                     android:enabled="false"
+                    android:fontFamily="@font/din"
                     android:inputType="textPersonName"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -155,6 +171,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
+                    android:fontFamily="@font/din"
                     android:inputType="number"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -179,8 +196,9 @@
                     android:id="@+id/telefonoET_R"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:inputType="number"/>
+                    android:fontFamily="@font/din"
+                    android:inputType="number"
+                    android:textColor="@android:color/black" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -205,6 +223,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
+                    android:fontFamily="@font/din"
                     android:inputType="textPersonName"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -214,26 +233,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Género"
-                android:textColor="@android:color/black"/>
+                style="@style/Textos"/>
 
             <Spinner
                 android:id="@+id/genero"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:overlapAnchor="false"
                 android:layout_marginTop="@dimen/common_padding_min"
+                android:backgroundTint="@color/colorRosa"
+                android:overlapAnchor="false"
                 android:spinnerMode="dropdown"
-                android:backgroundTint="@color/colorPersonalDark"
-                style="@style/AppTheme.AppBarOverlay" />
+                android:fontFamily="@font/din"
+                style="@style/AppTheme.AppBarOverlay"/>
 
             <TextView
                 android:id="@+id/Cuenta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Credenciales"
-                android:textStyle="bold"
                 android:layout_marginTop="@dimen/common_padding_default"
-                android:textColor="@android:color/black"/>
+                style="@style/Textos"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/correoET_RL"
@@ -253,6 +272,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
+                    android:fontFamily="@font/din"
                     android:inputType="text"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -275,6 +295,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
+                    android:fontFamily="@font/din"
                     android:textColor="@android:color/black" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -297,6 +318,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
+                    android:fontFamily="@font/din"
                     android:textColor="@android:color/black" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -306,6 +328,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="registrar"
+                android:backgroundTint="@color/colorRosa"
+                android:fontFamily="@font/din"
                 android:text="Registrarse" />
 
             <com.google.android.material.button.MaterialButton
@@ -313,6 +337,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="iniciarSesion"
+                android:backgroundTint="@color/colorAzul"
+                android:fontFamily="@font/din"
                 android:text="Iniciar Sesión" />
 
         </LinearLayout>

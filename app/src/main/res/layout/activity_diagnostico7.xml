@@ -22,8 +22,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/common_padding_min"
-                android:textColor="@android:color/black"
-                android:text="@string/diagnostico11"/>
+                android:text="@string/diagnostico11"
+                style="@style/Titulos"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -43,22 +43,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
                         android:text="Nanorobotics"
                         android:textStyle="bold|italic"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Titulos"/>
 
                     <TextView
                         android:id="@+id/texto1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textColor="@android:color/black"
                         android:text="@string/texto1"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/texto1Titulo"/>
+                        app:layout_constraintTop_toBottomOf="@id/texto1Titulo"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -81,22 +81,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
                         android:text="Nubots"
                         android:textStyle="bold|italic"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Titulos"/>
 
                     <TextView
                         android:id="@+id/texto2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textColor="@android:color/black"
                         android:text="@string/texto2"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/texto2Titulo"/>
+                        app:layout_constraintTop_toBottomOf="@id/texto2Titulo"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -120,22 +120,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
                         android:text="Bacteria-based"
                         android:textStyle="bold|italic"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Titulos"/>
 
                     <TextView
                         android:id="@+id/texto3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textColor="@android:color/black"
                         android:text="@string/texto3"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/texto3Titulo"/>
+                        app:layout_constraintTop_toBottomOf="@id/texto3Titulo"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -158,10 +158,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="61- What is “nanorobotics”? "
-                        android:textColor="@android:color/black"
                         android:textStyle="bold|italic"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/r1"
@@ -175,7 +175,8 @@
                             android:id="@+id/resp1"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:textColor="@color/colorPersonal"
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"
                             android:inputType="textMultiLine"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -196,10 +197,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="62- Write the 5 alternative names that a ”nanorobot” receives?"
-                        android:textColor="@android:color/black"
                         android:textStyle="bold|italic"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/divider1"/>
+                        app:layout_constraintTop_toBottomOf="@id/divider1"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/r2"
@@ -213,7 +214,8 @@
                             android:id="@+id/resp2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:textColor="@color/colorPersonal"
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"
                             android:inputType="textMultiLine"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -234,10 +236,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="63- What terrible illness might be solved by nanotechnology? "
-                        android:textColor="@android:color/black"
                         android:textStyle="bold|italic"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/divider2"/>
+                        app:layout_constraintTop_toBottomOf="@id/divider2"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/r3"
@@ -251,7 +253,8 @@
                             android:id="@+id/resp3"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:textColor="@color/colorPersonal"
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"
                             android:inputType="textMultiLine"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -272,10 +275,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="64- Is it possible to move a mini machine by using bacteria?"
-                        android:textColor="@android:color/black"
                         android:textStyle="bold|italic"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/divider3"/>
+                        app:layout_constraintTop_toBottomOf="@id/divider3"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/r4"
@@ -289,7 +292,8 @@
                             android:id="@+id/resp4"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:textColor="@color/colorPersonal"
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"
                             android:inputType="textMultiLine"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -310,10 +314,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="65- Is it likely to dose medicine by using “nubots”? "
-                        android:textColor="@android:color/black"
                         android:textStyle="bold|italic"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/divider4"/>
+                        app:layout_constraintTop_toBottomOf="@id/divider4"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/r5"
@@ -327,7 +331,8 @@
                             android:id="@+id/resp5"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:textColor="@color/colorPersonal"
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"
                             android:inputType="textMultiLine"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -344,7 +349,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="40dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                android:backgroundTint="@color/colorAzul"
+                android:fontFamily="@font/din"
+                style="@style/Widget.MaterialComponents.Button"/>
 
         </LinearLayout>
 
@@ -356,7 +363,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_cancel"
         android:layout_margin="@dimen/common_padding_default"
-        android:backgroundTint="@color/colorPersonalDark"
+        android:backgroundTint="@color/colorRosa"
         android:layout_gravity="bottom|end"
         style="@style/Widget.MaterialComponents.FloatingActionButton"/>
 

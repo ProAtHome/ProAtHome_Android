@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/common_padding_default"
-        android:background="@mipmap/fondoplanes">
+        android:background="@mipmap/fondo1">
 
         <TextView
             android:id="@+id/tvComentario"

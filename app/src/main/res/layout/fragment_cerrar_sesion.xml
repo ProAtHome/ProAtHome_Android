@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/fondoinicio">
+    android:background="@mipmap/fondo1">
 
     <Button
         android:id="@+id/button3"
@@ -14,6 +14,8 @@
         android:layout_marginTop="40dp"
         android:onClick="cerrarSesion"
         android:text="Cerrar Sesión"
+        android:backgroundTint="@color/colorAzul"
+        android:fontFamily="@font/din"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -1,473 +1,483 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/common_padding_min"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/common_padding_default"
     tools:context=".fragments.DetallesGestionarFragment">
 
-    <fragment
-        xmlns:map="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/mapsDetallesG"
-        class="com.proathome.servicios.WorkaroundMapFragment"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toTopOf="parent"
-        tools:context=".MapsFragment" />
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/common_padding_middle">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilProfesor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:hint="@string/profesor_asignado"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mapsDetallesG"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <fragment
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/mapsDetallesG"
+            class="com.proathome.servicios.WorkaroundMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent"
+            tools:context=".MapsFragment" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tietProfesor"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilProfesor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName">
+            android:enabled="false"
+            android:hint="@string/profesor_asignado"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mapsDetallesG"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
-        </com.google.android.material.textfield.TextInputEditText>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietProfesor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/din"
+                android:inputType="textPersonName">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputEditText>
 
-    <TextView
-        android:id="@+id/text_elegirFecha"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:text="Elige la fecha de la sesión:"
-        android:layout_margin="@dimen/common_padding_min"
-        android:drawableLeft="@drawable/direccion"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tilProfesor"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/elegirFecha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fecha"
-        android:layout_marginStart="@dimen/common_padding_min"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/text_fecha"
-        app:layout_constraintBottom_toBottomOf="@id/text_fecha"/>
+        <TextView
+            android:id="@+id/text_elegirFecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Elige la fecha de la sesión:"
+            android:layout_margin="@dimen/common_padding_min"
+            android:gravity="center_vertical|center"
+            android:drawableLeft="@drawable/direccion"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilProfesor"
+            style="@style/Textos"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_fecha"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
-        android:hint="Fecha Elegida"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/elegirFecha"
-        app:layout_constraintTop_toBottomOf="@id/text_elegirFecha">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/elegirFecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha"
+            android:backgroundTint="@color/colorAzul"
+            android:fontFamily="@font/din"
+            android:layout_marginStart="@dimen/common_padding_min"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_fecha"
+            app:layout_constraintBottom_toBottomOf="@id/text_fecha"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tietFecha"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_fecha"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Fecha Elegida"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/elegirFecha"
+            app:layout_constraintTop_toBottomOf="@id/text_elegirFecha">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietFecha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/din"
+                android:inputType="none">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/divider0"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/colorPersonalDark"
+            android:layout_margin="@dimen/common_padding_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_fecha"
+            android:layout_marginTop="@dimen/common_padding_middle"/>
+
+        <TextView
+            android:id="@+id/direccionTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Escribe la dirección de la sesión:"
+            android:layout_margin="@dimen/common_padding_min"
+            android:gravity="center_vertical|center"
+            android:drawableLeft="@drawable/direccion"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider0"
+            style="@style/Textos"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_direccion"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none">
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="15dp"
+            android:hint="Dirección"
+            app:endIconMode="clear_text"
+            android:layout_margin="@dimen/common_padding_min"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/direccionTV">
 
-        </com.google.android.material.textfield.TextInputEditText>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietLugar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/din">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputEditText>
 
-    <View
-        android:id="@+id/divider0"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/colorPersonalDark"
-        android:layout_margin="@dimen/common_padding_default"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_fecha"
-        android:layout_marginTop="@dimen/common_padding_middle"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/direccionTV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:text="Escribe la dirección de la sesión:"
-        android:layout_margin="@dimen/common_padding_min"
-        android:drawableLeft="@drawable/direccion"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider0"/>
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/colorPersonalDark"
+            android:layout_margin="@dimen/common_padding_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_direccion"
+            android:layout_marginTop="@dimen/common_padding_middle"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_direccion"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="15dp"
-        android:hint="Dirección"
-        app:endIconMode="clear_text"
-        android:layout_margin="@dimen/common_padding_min"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/direccionTV">
+        <TextView
+            android:id="@+id/text_elegirHorario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Elige el horario para comenzar:"
+            android:layout_margin="@dimen/common_padding_min"
+            android:gravity="center_vertical|center"
+            android:drawableLeft="@drawable/horario"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            style="@style/Textos"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tietLugar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_horario"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Horario Elegido"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/elegirHorario"
+            app:layout_constraintTop_toBottomOf="@id/text_elegirHorario">
 
-        </com.google.android.material.textfield.TextInputEditText>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietHorario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/din"
+                android:inputType="none">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputEditText>
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/colorPersonalDark"
-        android:layout_margin="@dimen/common_padding_default"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_direccion"
-        android:layout_marginTop="@dimen/common_padding_middle"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/text_elegirHorario"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Elige el horario para comenzar:"
-        android:layout_margin="@dimen/common_padding_min"
-        android:textStyle="bold"
-        android:drawableLeft="@drawable/horario"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider"
-        style="@style/TextAppearance.MaterialComponents.Body1"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/elegirHorario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Horario"
+            android:backgroundTint="@color/colorAzul"
+            android:fontFamily="@font/din"
+            android:layout_marginStart="@dimen/common_padding_min"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_horario"
+            app:layout_constraintBottom_toBottomOf="@id/text_horario"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_horario"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
-        android:hint="Horario Elegido"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/elegirHorario"
-        app:layout_constraintTop_toBottomOf="@id/text_elegirHorario">
+        <TextView
+            android:id="@+id/text_eligeTiempo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_padding_default"
+            android:text="Tiempo elegido:"
+            android:layout_margin="@dimen/common_padding_min"
+            android:gravity="center_vertical|center"
+            android:drawableLeft="@drawable/tiempo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/elegirHorario"
+            style="@style/Textos"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tietHorario"
+        <TextView
+            android:id="@+id/textHoras"
+            style="@style/Titulos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_padding_min"
+            android:text="0 HRS"
+            android:textColor="@color/colorGris"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo" />
+
+        <!--
+        <Spinner
+            android:id="@+id/horas"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:overlapAnchor="false"
+            android:layout_marginTop="@dimen/common_padding_min"
+            android:spinnerMode="dropdown"
+            android:backgroundTint="@color/colorPersonalDark"
+            style="@style/AppTheme.AppBarOverlay"
+            app:layout_constraintStart_toEndOf="@id/textHoras"
+            app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
+
+        <TextView
+            android:id="@+id/textMinutos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Minutos:"
+            android:layout_margin="@dimen/common_padding_min"
+            app:layout_constraintStart_toEndOf="@id/horas"
+            app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
+
+        <Spinner
+            android:id="@+id/minutos"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:overlapAnchor="false"
+            android:layout_marginTop="@dimen/common_padding_min"
+            android:spinnerMode="dropdown"
+            android:backgroundTint="@color/colorPersonalDark"
+            style="@style/AppTheme.AppBarOverlay"
+            app:layout_constraintStart_toEndOf="@id/textMinutos"
+            app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>-->
+
+        <TextView
+            android:id="@+id/textTipoTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Elige el tipo de sesión:"
+            android:layout_marginTop="20dp"
+            android:layout_margin="@dimen/common_padding_min"
+            android:drawableLeft="@drawable/tipo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textHoras"
+            style="@style/Textos"/>
+
+
+        <TextView
+            android:id="@+id/textTipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tipo:"
+            android:fontFamily="@font/din"
+            android:textColor="@color/colorGris"
+            android:layout_margin="@dimen/common_padding_min"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textTipoTV"/>
+
+        <Spinner
+            android:id="@+id/tipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:overlapAnchor="false"
+            android:layout_marginTop="@dimen/common_padding_min"
+            android:spinnerMode="dropdown"
+            android:backgroundTint="@color/colorAzul"
+            style="@style/AppTheme.AppBarOverlay"
+            app:layout_constraintStart_toEndOf="@id/textTipo"
+            app:layout_constraintTop_toBottomOf="@id/textTipoTV"/>
+
+        <TextView
+            android:id="@+id/nivelTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sesión elegida:"
+            android:layout_margin="@dimen/common_padding_min"
+            android:layout_marginTop="@dimen/common_padding_default"
+            android:drawablePadding="@dimen/common_padding_min"
+            android:gravity="center_vertical|center"
+            android:drawableLeft="@drawable/nivel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tipo"
+            style="@style/Textos"/>
+
+        <TextView
+            android:id="@+id/seccionesTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:text="Sección:"
+            android:layout_margin="@dimen/common_padding_min"
+            android:layout_marginTop="@dimen/common_padding_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nivelTV"
+            style="@style/Titulos"/>
+
+        <TextView
+            android:id="@+id/secciones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seccion"
+            android:layout_margin="@dimen/common_padding_min"
+            android:layout_marginTop="@dimen/common_padding_default"
+            app:layout_constraintStart_toEndOf="@id/seccionesTV"
+            app:layout_constraintTop_toBottomOf="@id/nivelTV"
+            style="@style/Textos"/>
+
+        <TextView
+            android:id="@+id/nivelesTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:text="Nivel:"
+            android:layout_margin="@dimen/common_padding_min"
+            android:layout_marginTop="@dimen/common_padding_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/secciones"
+            style="@style/Titulos"/>
+
+        <TextView
+            android:id="@+id/niveles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nivel"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_margin="@dimen/common_padding_min"
+            android:layout_marginTop="@dimen/common_padding_default"
+            app:layout_constraintStart_toEndOf="@id/nivelesTV"
+            app:layout_constraintTop_toBottomOf="@id/secciones"
+            style="@style/Textos"/>
+
+        <TextView
+            android:id="@+id/bloquesTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:text="Bloque:"
+            android:layout_margin="@dimen/common_padding_min"
+            android:layout_marginTop="@dimen/common_padding_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/niveles"
+            style="@style/Titulos"/>
+
+        <TextView
+            android:id="@+id/bloques"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bloque"
+            android:layout_margin="@dimen/common_padding_min"
+            android:layout_marginTop="@dimen/common_padding_default"
+            app:layout_constraintStart_toEndOf="@id/bloquesTV"
+            app:layout_constraintTop_toBottomOf="@id/niveles"
+            style="@style/Textos"/>
+
+        <!--
+        <TextView
+            android:id="@+id/horasDisponibles"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="italic|bold"
+            android:textSize="12sp"
+            android:layout_margin="@dimen/common_padding_min"
+            android:text="*Tienes 0 HRS / 11HRS de avance en el actual bloque*"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bloques"/>-->
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/colorAzul"
+            android:layout_margin="@dimen/common_padding_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bloques"
+            android:layout_marginTop="@dimen/common_padding_middle"/>
+
+        <TextView
+            android:id="@+id/observacionesTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Escribe alguna observación a tomar en cuenta:"
+            android:layout_margin="@dimen/common_padding_min"
+            android:gravity="center_vertical|center"
+            android:drawablePadding="@dimen/common_padding_min"
+            android:drawableLeft="@drawable/observacion"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider2"
+            style="@style/Textos"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilObservaciones"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none">
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Observaciones "
+            android:layout_margin="@dimen/common_padding_min"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/observacionesTV">
 
-        </com.google.android.material.textfield.TextInputEditText>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietObservaciones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/din">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputEditText>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/elegirHorario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Horario"
-        android:layout_marginStart="@dimen/common_padding_min"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/text_horario"
-        app:layout_constraintBottom_toBottomOf="@id/text_horario"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/text_eligeTiempo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/common_padding_default"
-        android:text="Tiempo elegido:"
-        android:layout_margin="@dimen/common_padding_min"
-        android:textStyle="bold"
-        android:drawableLeft="@drawable/tiempo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/elegirHorario"
-        style="@style/TextAppearance.MaterialComponents.Body1"/>
-
-    <TextView
-        android:id="@+id/textHoras"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0 HRS"
-        android:textColor="@color/colorPrimaryDark"
-        android:layout_margin="@dimen/common_padding_min"
-        android:textStyle="bold"
-        android:layout_marginBottom="@dimen/common_padding_default"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
-
-    <!--
-    <Spinner
-        android:id="@+id/horas"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:overlapAnchor="false"
-        android:layout_marginTop="@dimen/common_padding_min"
-        android:spinnerMode="dropdown"
-        android:backgroundTint="@color/colorPersonalDark"
-        style="@style/AppTheme.AppBarOverlay"
-        app:layout_constraintStart_toEndOf="@id/textHoras"
-        app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
-
-    <TextView
-        android:id="@+id/textMinutos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Minutos:"
-        android:layout_margin="@dimen/common_padding_min"
-        app:layout_constraintStart_toEndOf="@id/horas"
-        app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
-
-    <Spinner
-        android:id="@+id/minutos"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:overlapAnchor="false"
-        android:layout_marginTop="@dimen/common_padding_min"
-        android:spinnerMode="dropdown"
-        android:backgroundTint="@color/colorPersonalDark"
-        style="@style/AppTheme.AppBarOverlay"
-        app:layout_constraintStart_toEndOf="@id/textMinutos"
-        app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>-->
-
-    <TextView
-        android:id="@+id/textTipoTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Elige el tipo de sesión:"
-        android:layout_marginTop="20dp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:layout_margin="@dimen/common_padding_min"
-        android:textStyle="bold"
-        android:drawableLeft="@drawable/tipo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textHoras"/>
-
-
-    <TextView
-        android:id="@+id/textTipo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tipo:"
-        android:layout_margin="@dimen/common_padding_min"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textTipoTV"/>
-
-    <Spinner
-        android:id="@+id/tipo"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:overlapAnchor="false"
-        android:layout_marginTop="@dimen/common_padding_min"
-        android:spinnerMode="dropdown"
-        android:backgroundTint="@color/colorPersonalDark"
-        style="@style/AppTheme.AppBarOverlay"
-        app:layout_constraintStart_toEndOf="@id/textTipo"
-        app:layout_constraintTop_toBottomOf="@id/textTipoTV"/>
-
-    <TextView
-        android:id="@+id/nivelTV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:text="Sesión elegida:"
-        android:layout_margin="@dimen/common_padding_min"
-        android:textStyle="bold"
-        android:layout_marginTop="@dimen/common_padding_default"
-        android:drawableLeft="@drawable/nivel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tipo"/>
-
-    <TextView
-        android:id="@+id/seccionesTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:text="Sección:"
-        android:textColor="@color/colorPersonalDark"
-        android:layout_margin="@dimen/common_padding_min"
-        android:textStyle="bold"
-        android:layout_marginTop="@dimen/common_padding_default"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nivelTV"/>
-
-    <TextView
-        android:id="@+id/secciones"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Seccion"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:layout_margin="@dimen/common_padding_min"
-        android:layout_marginTop="@dimen/common_padding_default"
-        app:layout_constraintStart_toEndOf="@id/seccionesTV"
-        app:layout_constraintTop_toBottomOf="@id/nivelTV"/>
-
-    <TextView
-        android:id="@+id/nivelesTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:text="Nivel:"
-        android:textColor="@color/colorPersonalDark"
-        android:layout_margin="@dimen/common_padding_min"
-        android:textStyle="bold"
-        android:layout_marginTop="@dimen/common_padding_default"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/secciones"/>
-
-    <TextView
-        android:id="@+id/niveles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nivel"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:layout_margin="@dimen/common_padding_min"
-        android:layout_marginTop="@dimen/common_padding_default"
-        app:layout_constraintStart_toEndOf="@id/nivelesTV"
-        app:layout_constraintTop_toBottomOf="@id/secciones"/>
-
-    <TextView
-        android:id="@+id/bloquesTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:text="Bloque:"
-        android:textColor="@color/colorPersonalDark"
-        android:layout_margin="@dimen/common_padding_min"
-        android:textStyle="bold"
-        android:layout_marginTop="@dimen/common_padding_default"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/niveles"/>
-
-    <TextView
-        android:id="@+id/bloques"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bloque"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:layout_margin="@dimen/common_padding_min"
-        android:layout_marginTop="@dimen/common_padding_default"
-        app:layout_constraintStart_toEndOf="@id/bloquesTV"
-        app:layout_constraintTop_toBottomOf="@id/niveles"/>
-
-    <!--
-    <TextView
-        android:id="@+id/horasDisponibles"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:textColor="@android:color/holo_red_dark"
-        android:textStyle="italic|bold"
-        android:textSize="12sp"
-        android:layout_margin="@dimen/common_padding_min"
-        android:text="*Tienes 0 HRS / 11HRS de avance en el actual bloque*"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bloques"/>-->
-
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/colorPersonalDark"
-        android:layout_margin="@dimen/common_padding_default"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bloques"
-        android:layout_marginTop="@dimen/common_padding_middle"/>
-
-    <TextView
-        android:id="@+id/observacionesTV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:text="Escribe alguna observación a tomar en cuenta:"
-        android:layout_margin="@dimen/common_padding_min"
-        android:textStyle="bold"
-        android:drawableLeft="@drawable/observacion"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider2"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilObservaciones"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
-        android:hint="Observaciones "
-        android:layout_margin="@dimen/common_padding_min"
-        app:endIconMode="clear_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/observacionesTV">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tietObservaciones"
+        <TextView
+            android:id="@+id/tipoPlan"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:text="DENTRO DEL PLAN:"
+            android:layout_marginTop="@dimen/common_padding_min"
+            android:textStyle="bold|italic"
+            android:layout_marginStart="@dimen/common_padding_min"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilObservaciones"
+            style="@style/Textos"/>
 
-        </com.google.android.material.textfield.TextInputEditText>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnActualizarSesion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/actualizar"
+            android:backgroundTint="@color/colorAzul"
+            android:fontFamily="@font/din"
+            android:layout_marginTop="@dimen/common_padding_min"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tipoPlan">
 
-    </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.button.MaterialButton>
 
-    <TextView
-        android:id="@+id/tipoPlan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="DENTRO DEL PLAN:"
-        android:textColor="@android:color/holo_red_dark"
-        android:layout_marginTop="@dimen/common_padding_min"
-        android:textStyle="bold|italic"
-        android:layout_marginStart="@dimen/common_padding_min"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tilObservaciones"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEliminarSesion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_padding_min"
+            android:layout_marginStart="@dimen/common_padding_default"
+            android:layout_marginBottom="@dimen/common_padding_middle"
+            android:text="@string/eliminar"
+            android:backgroundTint="@color/colorRosa"
+            android:fontFamily="@font/din"
+            app:layout_constraintStart_toEndOf="@+id/btnActualizarSesion"
+            app:layout_constraintTop_toBottomOf="@id/tipoPlan">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnActualizarSesion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/actualizar"
-        android:layout_marginTop="@dimen/common_padding_min"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tipoPlan">
+        </com.google.android.material.button.MaterialButton>
 
-    </com.google.android.material.button.MaterialButton>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnEliminarSesion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/common_padding_min"
-        android:layout_marginStart="@dimen/common_padding_default"
-        android:text="@string/eliminar"
-        android:backgroundTint="@android:color/holo_red_dark"
-        app:layout_constraintStart_toEndOf="@+id/btnActualizarSesion"
-        app:layout_constraintTop_toBottomOf="@id/tipoPlan">
-
-    </com.google.android.material.button.MaterialButton>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

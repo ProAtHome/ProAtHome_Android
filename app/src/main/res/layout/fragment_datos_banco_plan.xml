@@ -31,23 +31,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Ayudanos a validar tu método de pago."
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+                        style="@style/Titulos"/>
 
                     <TextView
                         android:id="@+id/tvMetodoRegistrado"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
                         android:text="Método registrado:"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold"
-                        android:layout_marginTop="@dimen/common_padding_middle"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvAyuda"/>
+                        app:layout_constraintTop_toBottomOf="@id/tvAyuda"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilTitular"
@@ -64,9 +61,10 @@
                             android:id="@+id/etTitular"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/din"
                             android:hint="Titular de la tarjeta"
                             android:inputType="textPersonName"
-                            android:textColor="@color/colorPrimary"/>
+                            android:textColor="@color/colorRosa" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,7 +85,8 @@
                             android:layout_height="wrap_content"
                             android:hint="Número de Tarjeta"
                             android:inputType="number"
-                            android:textColor="@color/colorPrimary"/>
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorRosa"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -109,7 +108,8 @@
                             android:hint="Mes (MM)"
                             android:inputType="number"
                             android:maxLength="2"
-                            android:textColor="@color/colorPrimary"/>
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorRosa"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -131,7 +131,8 @@
                             android:hint="Año (AA)"
                             android:inputType="number"
                             android:maxLength="2"
-                            android:textColor="@color/colorPrimary"/>
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorRosa"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -153,7 +154,8 @@
                             android:hint="CVV"
                             android:inputType="number"
                             android:maxLength="4"
-                            android:textColor="@color/colorPrimary"/>
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorRosa"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -162,10 +164,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/common_padding_min"
+                        android:backgroundTint="@color/colorAzul"
                         android:text="VALIDAR"
-                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:fontFamily="@font/din"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tilCvv"/>
+                        app:layout_constraintTop_toBottomOf="@id/tilCvv" />
 
                     <Button
                         android:id="@+id/btnCancelar"
@@ -174,7 +178,8 @@
                         android:layout_marginTop="@dimen/common_padding_min"
                         android:text="CANCELAR"
                         android:layout_marginLeft="@dimen/common_padding_default"
-                        android:backgroundTint="@android:color/holo_red_dark"
+                        android:backgroundTint="@color/colorRosa"
+                        android:fontFamily="@font/din"
                         app:layout_constraintStart_toEndOf="@id/validarDatos"
                         app:layout_constraintTop_toBottomOf="@id/tilCvv"/>
 

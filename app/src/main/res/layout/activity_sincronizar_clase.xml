@@ -13,10 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Buscando conexión del profesor..."
-        android:textColor="@color/colorPersonalDark"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Titulos"/>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animation_view"
@@ -33,6 +33,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Cancelar"
+        android:backgroundTint="@color/colorRosa"
+        android:fontFamily="@font/din"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/animation_view"/>
 

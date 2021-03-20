@@ -22,8 +22,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/common_padding_min"
-                android:textColor="@android:color/black"
-                android:text="@string/diagnostico10"/>
+                android:text="@string/diagnostico10"
+                style="@style/Titulos"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -43,11 +43,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
-                        android:textColor="@android:color/black"
                         android:text="@string/preguntasEnLectura2"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -69,17 +69,17 @@
                         android:id="@+id/p1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textColor="@android:color/black"
                         android:text="0- The circus is from Nevada."
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_r1_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="T"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p1"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -91,7 +91,7 @@
                         android:checked="true"
                         android:checkable="true"
                         android:layout_marginStart="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p1"
                         app:layout_constraintStart_toEndOf="@id/chip_r1_1"/>
 
@@ -99,7 +99,7 @@
                         android:id="@+id/divider1"
                         android:layout_width="0dp"
                         android:layout_height="1dp"
-                        android:background="@android:color/darker_gray"
+                        android:background="@color/colorAzul"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/chip_r1_1" />
@@ -108,10 +108,11 @@
                         android:id="@+id/p2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textColor="@android:color/black"
+                        android:layout_marginTop="@dimen/common_padding_min"
                         android:text="51- The circus comes to the town twice a year."
                         app:layout_constraintTop_toBottomOf="@id/divider1"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_r2_1"
@@ -119,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:text="T"
                         android:checkable="true"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p2"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -130,7 +131,7 @@
                         android:text="F"
                         android:checkable="true"
                         android:layout_marginStart="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p2"
                         app:layout_constraintStart_toEndOf="@id/chip_r2_1"/>
 
@@ -147,10 +148,11 @@
                         android:id="@+id/p3"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textColor="@android:color/black"
+                        android:layout_marginTop="@dimen/common_padding_min"
                         android:text="52- There are not many animals in the circus."
                         app:layout_constraintTop_toBottomOf="@id/divider2"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_r3_1"
@@ -158,7 +160,7 @@
                         android:layout_height="wrap_content"
                         android:text="T"
                         android:checkable="true"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p3"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -169,7 +171,7 @@
                         android:text="F"
                         android:checkable="true"
                         android:layout_marginStart="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p3"
                         app:layout_constraintStart_toEndOf="@id/chip_r3_1"/>
 
@@ -186,10 +188,11 @@
                         android:id="@+id/p4"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textColor="@android:color/black"
+                        android:layout_marginTop="@dimen/common_padding_min"
                         android:text="53- People used to like seeing animals performing."
                         app:layout_constraintTop_toBottomOf="@id/divide3"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_r4_1"
@@ -197,7 +200,7 @@
                         android:layout_height="wrap_content"
                         android:text="T"
                         android:checkable="true"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p4"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -208,7 +211,7 @@
                         android:text="F"
                         android:checkable="true"
                         android:layout_marginStart="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p4"
                         app:layout_constraintStart_toEndOf="@id/chip_r4_1"/>
 
@@ -225,10 +228,10 @@
                         android:id="@+id/p5"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textColor="@android:color/black"
                         android:text="54- Leopold and his father work in the circus together."
                         app:layout_constraintTop_toBottomOf="@id/divider4"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_r5_1"
@@ -236,7 +239,7 @@
                         android:layout_height="wrap_content"
                         android:text="T"
                         android:checkable="true"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p5"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -247,7 +250,7 @@
                         android:text="F"
                         android:checkable="true"
                         android:layout_marginStart="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p5"
                         app:layout_constraintStart_toEndOf="@id/chip_r5_1"/>
 
@@ -264,10 +267,10 @@
                         android:id="@+id/p6"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textColor="@android:color/black"
                         android:text="55- Leopold’s father is the strongest."
                         app:layout_constraintTop_toBottomOf="@id/divide5"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_r6_1"
@@ -275,7 +278,7 @@
                         android:layout_height="wrap_content"
                         android:text="T"
                         android:checkable="true"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p6"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -286,7 +289,7 @@
                         android:text="F"
                         android:checkable="true"
                         android:layout_marginStart="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p6"
                         app:layout_constraintStart_toEndOf="@id/chip_r6_1"/>
 
@@ -303,10 +306,10 @@
                         android:id="@+id/p7"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textColor="@android:color/black"
                         android:text="56- Clara’s hair is longer than her daughter’s hair."
                         app:layout_constraintTop_toBottomOf="@id/divider6"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_r7_1"
@@ -314,7 +317,7 @@
                         android:layout_height="wrap_content"
                         android:text="T"
                         android:checkable="true"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p7"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -325,7 +328,7 @@
                         android:text="F"
                         android:checkable="true"
                         android:layout_marginStart="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p7"
                         app:layout_constraintStart_toEndOf="@id/chip_r7_1"/>
 
@@ -342,10 +345,10 @@
                         android:id="@+id/p8"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textColor="@android:color/black"
                         android:text="57- Sue-Ellen wants to be a clown in the circus."
                         app:layout_constraintTop_toBottomOf="@id/divider7"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_r8_1"
@@ -353,7 +356,7 @@
                         android:layout_height="wrap_content"
                         android:text="T"
                         android:checkable="true"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p8"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -364,7 +367,7 @@
                         android:text="F"
                         android:checkable="true"
                         android:layout_marginStart="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p8"
                         app:layout_constraintStart_toEndOf="@id/chip_r8_1"/>
 
@@ -381,10 +384,10 @@
                         android:id="@+id/p9"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textColor="@android:color/black"
                         android:text="58- Pit is the father of the other two clowns."
                         app:layout_constraintTop_toBottomOf="@id/divider8"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_r9_1"
@@ -392,7 +395,7 @@
                         android:layout_height="wrap_content"
                         android:text="T"
                         android:checkable="true"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p9"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -403,7 +406,7 @@
                         android:text="F"
                         android:checkable="true"
                         android:layout_marginStart="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p9"
                         app:layout_constraintStart_toEndOf="@id/chip_r9_1"/>
 
@@ -420,10 +423,10 @@
                         android:id="@+id/p10"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textColor="@android:color/black"
                         android:text="59- The three clowns wear identical shoes."
                         app:layout_constraintTop_toBottomOf="@id/divider9"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_r10_1"
@@ -431,7 +434,7 @@
                         android:layout_height="wrap_content"
                         android:text="T"
                         android:checkable="true"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p10"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -442,7 +445,7 @@
                         android:text="F"
                         android:checkable="true"
                         android:layout_marginStart="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p10"
                         app:layout_constraintStart_toEndOf="@id/chip_r10_1"/>
 
@@ -459,10 +462,10 @@
                         android:id="@+id/p11"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textColor="@android:color/black"
                         android:text="60- Everyone feels tired on the day that the circus leaves town."
                         app:layout_constraintTop_toBottomOf="@id/divider10"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_r11_1"
@@ -470,7 +473,7 @@
                         android:layout_height="wrap_content"
                         android:text="T"
                         android:checkable="true"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p11"
                         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -481,7 +484,7 @@
                         android:text="F"
                         android:checkable="true"
                         android:layout_marginStart="@dimen/common_padding_min"
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/p11"
                         app:layout_constraintStart_toEndOf="@id/chip_r11_1"/>
 
@@ -497,7 +500,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="40dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                android:backgroundTint="@color/colorAzul"
+                android:fontFamily="@font/din"
+                style="@style/Widget.MaterialComponents.Button"/>
 
         </LinearLayout>
 
@@ -509,7 +514,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_cancel"
         android:layout_margin="@dimen/common_padding_default"
-        android:backgroundTint="@color/colorPersonalDark"
+        android:backgroundTint="@color/colorRosa"
         android:layout_gravity="bottom|end"
         style="@style/Widget.MaterialComponents.FloatingActionButton"/>
 

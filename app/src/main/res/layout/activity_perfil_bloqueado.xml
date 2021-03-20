@@ -12,10 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="PERFIL BLOQUEADO"
-        android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Titulos"/>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
@@ -32,10 +32,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=""
-        android:textColor="@android:color/black"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/animationView"/>
+        app:layout_constraintTop_toBottomOf="@id/animationView"
+        style="@style/Textos"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

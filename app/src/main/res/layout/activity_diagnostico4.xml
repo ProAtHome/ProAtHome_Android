@@ -17,15 +17,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!--Pregunta 1-->
             <TextView
                 android:id="@+id/diagnostico6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/common_padding_min"
-                android:textColor="@android:color/black"
-                android:text="@string/diagnostico6"/>
+                android:text="@string/diagnostico6"
+                style="@style/Titulos" />
 
-            <!--Pregunta 1-->
             <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/common_padding_min"
                     android:text="0- If I had money,"
-                    android:textColor="@android:color/black"
+                    style="@style/Textos"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -61,11 +61,12 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:maxLength="1"
-                            android:textColor="@color/colorPersonalDark"
-                            android:text="b"/>
+                            android:text="b"
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,7 +93,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="31- I’d travel around the world,"
-                        android:textColor="@android:color/black"
+                        style="@style/Textos"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -112,7 +113,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="1"
-                            android:textColor="@color/colorPersonalDark"/>
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -139,7 +141,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="32- She’d study music,"
-                        android:textColor="@android:color/black"
+                        style="@style/Textos"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -159,7 +161,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="1"
-                            android:textColor="@color/colorPersonalDark"/>
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -186,7 +189,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="33- If he failed the university,"
-                        android:textColor="@android:color/black"
+                        style="@style/Textos"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -206,7 +209,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="1"
-                            android:textColor="@color/colorPersonalDark" />
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -233,7 +237,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="34- If an unknown man tried to kiss me,"
-                        android:textColor="@android:color/black"
+                        style="@style/Textos"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -253,7 +257,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="1"
-                            android:textColor="@color/colorPersonalDark"/>
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -280,7 +285,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="35- If I didn’t like my job,"
-                        android:textColor="@android:color/black"
+                        style="@style/Textos"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -300,7 +305,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="1"
-                            android:textColor="@color/colorPersonalDark"/>
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -313,9 +319,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/common_padding_min"
-                android:textColor="@color/colorPersonalDark"
                 android:textStyle="italic|bold"
-                android:text="Phrases"/>
+                android:text="Phrases"
+                style="@style/Titulos"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -334,7 +340,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="a) If I was very rich."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorRosa"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -344,7 +350,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="b) I would buy a mansion."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorRosa"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintTop_toBottomOf="@id/chip_f1"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -354,7 +360,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="c) I wouldn’t let him."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorRosa"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintTop_toBottomOf="@id/chip_f2"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -364,7 +370,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="d) I’d get a new one."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorRosa"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintTop_toBottomOf="@id/chip_f3"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -374,7 +380,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="e) he would start working."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorRosa"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintTop_toBottomOf="@id/chip_f4"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -384,7 +390,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="f) If she was supported by her parents."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorRosa"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintTop_toBottomOf="@id/chip_f5"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -398,8 +404,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/common_padding_min"
-                android:textColor="@android:color/black"
-                android:text="@string/diagnostico7"/>
+                android:text="@string/diagnostico7"
+                style="@style/Titulos"/>
 
             <!--Pregunta 1-->
             <com.google.android.material.card.MaterialCardView
@@ -420,9 +426,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="36- Star Wars episode VIII was"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/under1"
@@ -430,7 +436,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="premiere"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part1"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -441,7 +449,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under1"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -452,7 +462,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="premieres"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/part1" />
@@ -463,7 +475,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under2"
                         app:layout_constraintTop_toBottomOf="@id/part1" />
@@ -474,7 +488,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="premiered"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part3"
                         app:layout_constraintTop_toBottomOf="@id/part1" />
@@ -485,9 +501,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="in Mexico on"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toEndOf="@+id/under3"
-                        app:layout_constraintTop_toBottomOf="@id/part1" />
+                        app:layout_constraintTop_toBottomOf="@id/part1"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/part6"
@@ -495,10 +511,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="December 15th 2017."
-                        android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/under2" />
+                        app:layout_constraintTop_toBottomOf="@id/under2"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -522,9 +538,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="37- The Holy Bible was"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/under1_2"
@@ -532,7 +548,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="write"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part1_2"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -543,7 +561,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under1_2"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -554,7 +574,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="written"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part2_2"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -565,7 +587,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under2_2"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -576,7 +600,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="wrote"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part3_2"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -588,10 +614,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="by forty men. "
-                        android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/part1_2" />
+                        app:layout_constraintTop_toBottomOf="@id/part1_2"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -616,9 +642,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="38- The best avocados in the world are"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/under1_3"
@@ -626,7 +652,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="cultivate"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part1_3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -637,7 +665,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under1_3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -648,7 +678,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="cultivated"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -660,7 +692,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under2_3"
                         app:layout_constraintTop_toBottomOf="@id/part1_3"
@@ -672,7 +706,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="cultivates"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/part3_3"
@@ -685,10 +721,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="in Mexico."
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toEndOf="@id/under3_3"
                         app:layout_constraintTop_toBottomOf="@id/part1_3"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -712,9 +748,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="39- The original Vodka is always"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/under1_4"
@@ -722,7 +758,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="produced"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part1_4"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -733,7 +771,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under1_4"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -744,7 +784,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="producer"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -756,7 +798,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/under2_4"
@@ -768,7 +812,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="produces"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/part3_4"
@@ -780,10 +826,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="in Russia. "
-                        android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/under3_4"
-                        app:layout_constraintTop_toBottomOf="@id/part1_4"/>
+                        app:layout_constraintTop_toBottomOf="@id/part1_4"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -809,9 +855,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="40- The pork and chicken"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/under1_5"
@@ -819,7 +865,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="was"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part1_5"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -830,7 +878,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under1_5"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -841,7 +891,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="were"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part2_5"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -852,7 +904,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/under2_5"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -863,7 +917,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="were not"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toEndOf="@id/part3_5"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -874,7 +930,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="/"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         app:layout_constraintStart_toEndOf="@id/under3_5"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -884,7 +942,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="are not"
-                        android:textColor="@color/colorPersonalDark"
+                        android:fontFamily="@font/mooka"
+                        android:textColor="@color/colorAzul"
+                        android:textSize="20sp"
                         android:textStyle="italic|bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/part1_5" />
@@ -895,9 +955,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="originally raised here, they come"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toEndOf="@id/under4_5"
-                        app:layout_constraintTop_toBottomOf="@id/part1_5"/>
+                        app:layout_constraintTop_toBottomOf="@id/part1_5"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/part6_5"
@@ -905,10 +965,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="from Europe."
-                        android:textColor="@android:color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/under4_5"/>
+                        app:layout_constraintTop_toBottomOf="@id/under4_5"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -922,7 +982,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="40dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                android:backgroundTint="@color/colorAzul"
+                android:fontFamily="@font/din"
+                style="@style/Widget.MaterialComponents.Button"/>
 
         </LinearLayout>
 
@@ -934,7 +996,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_cancel"
         android:layout_margin="@dimen/common_padding_default"
-        android:backgroundTint="@color/colorPersonalDark"
+        android:backgroundTint="@color/colorRosa"
         android:layout_gravity="bottom|end"
         style="@style/Widget.MaterialComponents.FloatingActionButton"/>
 

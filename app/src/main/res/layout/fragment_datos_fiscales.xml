@@ -9,7 +9,8 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAzul">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -36,20 +37,19 @@
                 android:id="@+id/tvTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:textAlignment="center"
                 android:layout_gravity="center"
                 android:text="Datos Fiscales"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                style="@style/Titulos"/>
 
             <TextView
                  android:id="@+id/tvTipoPersona"
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
                  android:text="Tipo de Persona:"
-                 android:textStyle="bold"
                  android:layout_marginTop="@dimen/common_padding_default"
-                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+                 style="@style/Textos"/>
 
             <Spinner
                 android:id="@+id/tipoPersona"
@@ -58,7 +58,7 @@
                 android:overlapAnchor="false"
                 android:layout_marginTop="@dimen/common_padding_min"
                 android:spinnerMode="dropdown"
-                android:backgroundTint="@color/colorPersonalDark"
+                android:backgroundTint="@color/colorRosa"
                 style="@style/AppTheme.AppBarOverlay" />
 
             <TextView
@@ -66,9 +66,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Razon Social:"
-                android:textStyle="bold"
                 android:layout_marginTop="@dimen/common_padding_default"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+                style="@style/Textos"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlRazonSocial"
@@ -79,7 +78,9 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etRazonSocial"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/din"
+                    android:textColor="@android:color/black"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,9 +89,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="RFC:"
-                android:textStyle="bold"
                 android:layout_marginTop="@dimen/common_padding_default"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+                style="@style/Textos"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tiRFC"
@@ -101,7 +101,9 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etRFC"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/din"
+                    android:textColor="@android:color/black"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,25 +112,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Uso de CFDI:"
-                android:textStyle="bold"
                 android:layout_marginTop="@dimen/common_padding_default"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+                style="@style/Textos"/>
 
             <Spinner
                 android:id="@+id/spCFDI"
+                style="@style/AppTheme.AppBarOverlay"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:overlapAnchor="false"
                 android:layout_marginTop="@dimen/common_padding_min"
-                android:spinnerMode="dropdown"
-                android:backgroundTint="@color/colorPersonalDark"
-                style="@style/AppTheme.AppBarOverlay" />
+                android:backgroundTint="@color/colorRosa"
+                android:overlapAnchor="false"
+                android:spinnerMode="dropdown" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnActualizar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/common_padding_min"
+                android:backgroundTint="@color/colorAzul"
+                android:fontFamily="@font/din"
                 android:text="Actualizar Datos"/>
 
         </LinearLayout>

@@ -22,8 +22,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/common_padding_min"
-                android:textColor="@android:color/black"
-                android:text="@string/diagnostico4"/>
+                android:text="@string/diagnostico4"
+                style="@style/Titulos"/>
 
             <!--Pregunta 1-->
             <com.google.android.material.card.MaterialCardView
@@ -44,7 +44,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="21- When I was 4 years old, I ___________ visit my grandmother every weekend."
-                        android:textColor="@android:color/black"
+                        style="@style/Textos"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,6 +56,7 @@
                         android:text="a) used to"
                         android:checkable="true"
                         android:layout_marginStart="@dimen/common_padding_min"
+                        android:textColor="@color/colorAzul"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/p1"/>
@@ -67,6 +68,7 @@
                         android:layout_marginTop="2dp"
                         android:text="b) uses to"
                         android:checkable="true"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/chip_p1_1"
@@ -79,6 +81,7 @@
                         android:layout_marginTop="2dp"
                         android:text="c) didn’t use to"
                         android:checkable="true"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/chip_p1_2"
@@ -106,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="22- When I was a teen, I ___________ go to concerts, they were extremely noisy to me."
-                        android:textColor="@android:color/black"
+                        style="@style/Textos"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -117,6 +120,7 @@
                         android:layout_marginTop="2dp"
                         android:text="a) used to"
                         android:checkable="true"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -129,6 +133,7 @@
                         android:layout_marginTop="2dp"
                         android:text="b) uses to"
                         android:checkable="true"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/chip_p2_1"
@@ -141,6 +146,7 @@
                         android:layout_marginTop="2dp"
                         android:text="c) didn’t use to"
                         android:checkable="true"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/chip_p2_2"
@@ -169,7 +175,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="23- My mother ___________ cook me hamburgers if I obtained good grades on school."
-                        android:textColor="@android:color/black"
+                        style="@style/Textos"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -180,6 +186,7 @@
                         android:layout_marginTop="2dp"
                         android:text="a) uses to"
                         android:checkable="true"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -192,6 +199,7 @@
                         android:layout_marginTop="2dp"
                         android:text="b) used to"
                         android:checkable="true"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/chip_p3_1"
@@ -204,6 +212,7 @@
                         android:layout_marginTop="2dp"
                         android:text="c) didn’t use to"
                         android:checkable="true"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/chip_p3_2"
@@ -231,7 +240,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="24- People in the past ___________ be more polite in all respects."
-                        android:textColor="@android:color/black"
+                        style="@style/Textos"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -242,6 +251,7 @@
                         android:layout_marginTop="2dp"
                         android:text="a) uses to"
                         android:checkable="true"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -254,6 +264,7 @@
                         android:layout_marginTop="2dp"
                         android:text="b) used to"
                         android:checkable="true"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/chip_p4_1"
@@ -266,6 +277,7 @@
                         android:layout_marginTop="2dp"
                         android:text="c) didn’t use to"
                         android:checkable="true"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/chip_p4_2"
@@ -295,7 +307,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="25- Pets ___________ have the attentions that now they experience."
-                        android:textColor="@android:color/black"
+                        style="@style/Textos"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -306,6 +318,7 @@
                         android:layout_marginTop="2dp"
                         android:text="a) didn’t use to"
                         android:checkable="true"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -318,6 +331,7 @@
                         android:layout_marginTop="2dp"
                         android:text="b) uses to"
                         android:checkable="true"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/chip_p5_1"
@@ -330,6 +344,7 @@
                         android:layout_marginTop="2dp"
                         android:text="c) used to"
                         android:checkable="true"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/chip_p5_2"
@@ -344,8 +359,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/common_padding_min"
-                android:textColor="@android:color/black"
-                android:text="@string/diagnostico5"/>
+                android:text="@string/diagnostico5"
+                style="@style/Titulos"/>
 
             <!--Pregunta 1-->
             <com.google.android.material.card.MaterialCardView
@@ -366,10 +381,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="0- If I don’t study,"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="wrap_content"
@@ -387,7 +402,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="1"
-                            android:textColor="@color/colorPersonalDark"
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"
                             android:text="f"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -414,7 +430,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="26- If I listen to music too loud,"
-                        android:textColor="@android:color/black"
+                        style="@style/Textos"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -434,7 +450,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="1"
-                            android:textColor="@color/colorPersonalDark"/>
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -461,7 +478,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="27- If I don’t take a shower,"
-                        android:textColor="@android:color/black"
+                        style="@style/Textos"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -481,7 +498,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="1"
-                            android:textColor="@color/colorPersonalDark"/>
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -507,7 +525,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="28- If we vote on the elections,"
-                        android:textColor="@android:color/black"
+                        style="@style/Textos"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -527,7 +545,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="1"
-                            android:textColor="@color/colorPersonalDark"/>
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -554,7 +573,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="29- If a man knows how to dance,"
-                        android:textColor="@android:color/black"
+                        style="@style/Textos"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -574,7 +593,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLength="1"
-                            android:textColor="@color/colorPersonalDark"/>
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -601,7 +621,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/common_padding_min"
                         android:text="30- If a girl knows cooking,"
-                        android:textColor="@android:color/black"
+                        style="@style/Textos"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -618,10 +638,11 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/r5"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:maxLength="1"
-                            android:textColor="@color/colorPersonalDark"/>
+                            android:textColor="@color/colorRosa"
+                            android:fontFamily="@font/din" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -634,9 +655,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/common_padding_min"
-                android:textColor="@color/colorPersonalDark"
                 android:textStyle="italic|bold"
-                android:text="Phrases"/>
+                android:text="Phrases"
+                style="@style/Titulos"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -655,7 +676,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="a) I will smell really bad."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -665,7 +686,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="b) my ears will damage."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintTop_toBottomOf="@id/chip_f1"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -675,7 +696,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="c) he might get a lot of dates."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintTop_toBottomOf="@id/chip_f2"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -685,7 +706,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="d) we will decide our nation’s future."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintTop_toBottomOf="@id/chip_f3"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -695,7 +716,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="e) she might be a good chef or housewife."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintTop_toBottomOf="@id/chip_f4"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -705,7 +726,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="f) I am not going to pass the semester."
-                        android:textColor="@color/colorPersonalDark"
+                        android:textColor="@color/colorAzul"
                         android:layout_marginStart="@dimen/common_padding_min"
                         app:layout_constraintTop_toBottomOf="@id/chip_f5"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -722,7 +743,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="40dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                android:backgroundTint="@color/colorAzul"
+                android:fontFamily="@font/din"
+                style="@style/Widget.MaterialComponents.Button"/>
 
         </LinearLayout>
 
@@ -734,7 +757,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_cancel"
         android:layout_margin="@dimen/common_padding_default"
-        android:backgroundTint="@color/colorPersonalDark"
+        android:backgroundTint="@color/colorRosa"
         android:layout_gravity="bottom|end"
         style="@style/Widget.MaterialComponents.FloatingActionButton"/>
 
