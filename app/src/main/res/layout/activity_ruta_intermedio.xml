@@ -31,8 +31,8 @@
                 android:text="CERRAR"
                 app:icon="@drawable/ic_close"
                 android:fontFamily="@font/din"
-                android:backgroundTint="@color/colorRosa"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
+                app:iconTint="@android:color/white"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"/>
 
         </androidx.appcompat.widget.Toolbar>
 

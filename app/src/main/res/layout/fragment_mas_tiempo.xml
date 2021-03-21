@@ -10,20 +10,20 @@
         android:id="@+id/masTiempo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimaryDark"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
         android:text="¿Deseas agregar más tiempo a la sesión?"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Titulos"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/quinceMin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="15 Minutos"
+        android:fontFamily="@font/din"
         android:layout_marginTop="@dimen/common_padding_default"
-        android:backgroundTint="@color/colorPrimaryDark"
+        android:backgroundTint="@color/colorAzul"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/masTiempo"/>
 
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="30 Minutos"
-        android:backgroundTint="@color/colorPrimaryDark"
+        android:backgroundTint="@color/colorAzul"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/quinceMin"/>
 
@@ -41,18 +41,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/common_padding_min"
-        android:textColor="@color/color_error"
-        android:textStyle="bold"
         android:text="Este tiempo será extra y no se tomará en cuenta para la Ruta de Aprendizaje."
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/treintaMin"/>
+        app:layout_constraintTop_toBottomOf="@id/treintaMin"
+        style="@style/Textos"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancelar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cancelar"
-        android:backgroundTint="@android:color/darker_gray"
+        android:backgroundTint="@color/colorRosa"
+        android:fontFamily="@font/din"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/aviso"/>
 

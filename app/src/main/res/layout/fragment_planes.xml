@@ -8,7 +8,8 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAzul">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -51,24 +52,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="PLAN SEMANAL"
-                    android:textColor="@android:color/black"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/common_padding_min"
                     android:layout_marginStart="@dimen/common_padding_min"
                     app:layout_constraintStart_toEndOf="@id/imgPlan1"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/Titulos"/>
 
                 <TextView
                     android:id="@+id/descPlan1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Plan de 5 horas disponibles \na un precio especial durante \n1 semana."
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
                     android:layout_marginStart="@dimen/common_padding_min"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                     app:layout_constraintStart_toEndOf="@id/imgPlan1"
-                    app:layout_constraintTop_toBottomOf="@id/tituloPlan1"/>
+                    app:layout_constraintTop_toBottomOf="@id/tituloPlan1"
+                    style="@style/Textos"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -100,24 +98,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="PLAN MENSUAL"
-                    android:textColor="@android:color/black"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                    android:textStyle="bold"
                     android:layout_marginStart="@dimen/common_padding_min"
+                    android:layout_marginTop="@dimen/common_padding_min"
                     app:layout_constraintStart_toEndOf="@id/imgPlan2"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/Titulos"/>
 
                 <TextView
                     android:id="@+id/descPlan2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Plan de 20 horas disponibles \na un precio especial durante \n1 mes."
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
                     android:layout_marginStart="@dimen/common_padding_min"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                     app:layout_constraintStart_toEndOf="@id/imgPlan2"
-                    app:layout_constraintTop_toBottomOf="@id/tituloPlan2"/>
+                    app:layout_constraintTop_toBottomOf="@id/tituloPlan2"
+                    style="@style/Textos"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -149,12 +144,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="PLAN BIMESTRAL"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
+                    android:layout_marginTop="@dimen/common_padding_min"
                     android:layout_marginStart="@dimen/common_padding_min"
                     app:layout_constraintStart_toEndOf="@id/imgPlan3"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/Titulos"/>
 
                 <TextView
                     android:id="@+id/descPlan3"
@@ -162,11 +156,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_padding_min"
                     android:text="Plan de 40 horas disponibles \na un precio especial durante \n2 meses."
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/imgPlan3"
-                    app:layout_constraintTop_toBottomOf="@id/tituloPlan3" />
+                    app:layout_constraintTop_toBottomOf="@id/tituloPlan3"
+                    style="@style/Textos"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -177,6 +169,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="No, gracias"
+            android:backgroundTint="@color/colorAzul"
+            android:fontFamily="@font/din"
             android:layout_marginTop="@dimen/common_padding_min"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/card3"/>

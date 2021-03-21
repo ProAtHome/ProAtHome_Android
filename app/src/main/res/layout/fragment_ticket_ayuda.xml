@@ -8,6 +8,7 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
+            android:backgroundTint="@color/colorAzul"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -21,7 +22,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Regresar"
-                            android:layout_gravity="right"/>
+                            android:textColor="@android:color/white"
+                            android:fontFamily="@font/din"
+                            android:layout_gravity="right"
+                            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"/>
 
                 </androidx.appcompat.widget.Toolbar>
 
@@ -39,65 +43,61 @@
 
                         <TextView
                             android:id="@+id/tvTopico"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Tópico: Título de tópico"
-                            android:textStyle="bold"
-                            android:drawableLeft="@drawable/ic_nuevotop_24"
-                            android:drawablePadding="@dimen/common_padding_min"
-                            android:textColor="@color/material_blue_grey_80"
-                            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                            android:gravity="center_vertical|center"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                            app:layout_constraintTop_toTopOf="parent"
+                            style="@style/Titulos"/>
 
                         <TextView
                             android:id="@+id/tvDescripcion"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Descripción: Descripción de Problemas de todo tipo."
-                            android:textStyle="bold"
-                            android:textColor="@color/material_blue_grey_80"
-                            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tvTopico"/>
+                            android:layout_marginTop="@dimen/common_padding_min"
+                            app:layout_constraintTop_toBottomOf="@id/tvTopico"
+                            style="@style/Textos"/>
 
                         <TextView
                             android:id="@+id/tvCategoria"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:textColor="@color/material_blue_grey_80"
-                            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                            android:text="Categoria"
+                            android:layout_marginTop="@dimen/common_padding_min"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tvDescripcion"/>
+                            app:layout_constraintTop_toBottomOf="@id/tvDescripcion"
+                            style="@style/Textos"/>
 
                         <TextView
                             android:id="@+id/tvEstatus"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Estatus: En curso."
-                            android:textStyle="bold"
-                            android:textColor="@color/material_blue_grey_80"
-                            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                            android:layout_marginTop="@dimen/common_padding_min"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tvCategoria"/>
+                            app:layout_constraintTop_toBottomOf="@id/tvCategoria"
+                            style="@style/Textos"/>
 
                         <TextView
                             android:id="@+id/tvTicket"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="No. de Ticket: 102"
-                            android:textColor="@color/color_primary"
+                            android:textColor="@color/colorGris"
                             android:textStyle="bold|italic"
                             android:layout_marginTop="@dimen/common_padding_min"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tvEstatus"/>
+                            app:layout_constraintTop_toBottomOf="@id/tvEstatus"
+                            style="@style/Textos"/>
 
                         <View
                             android:id="@+id/divider"
                             android:layout_width="0dp"
                             android:layout_height="1dp"
-                            android:background="@color/colorPrimaryDark"
+                            android:background="@color/colorAzul"
                             app:layout_constraintTop_toBottomOf="@id/tvTicket"
                             app:layout_constraintStart_toStartOf="parent"
                             android:layout_marginTop="@dimen/common_padding_min"/>
@@ -144,6 +144,7 @@
                                             android:layout_height="wrap_content"
                                             android:hint="Escribre algo..."
                                             android:maxLines="5"
+                                            android:fontFamily="@font/din"
                                             android:inputType="text|textMultiLine">
 
                                         </com.google.android.material.textfield.TextInputEditText>
@@ -154,6 +155,8 @@
                                     android:id="@+id/btnEnviarMsg"
                                     android:layout_width="60dp"
                                     android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/colorAzul"
+                                    android:drawableTint="@android:color/white"
                                     android:drawableLeft="@drawable/ic_send_24"/>
 
                         </LinearLayout>
@@ -163,8 +166,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Finalizar Ticket"
+                            android:backgroundTint="@color/colorRosa"
+                            android:fontFamily="@font/din"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/linearMsg"/>
+                            app:layout_constraintTop_toBottomOf="@id/linearMsg" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

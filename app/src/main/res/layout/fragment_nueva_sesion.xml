@@ -9,7 +9,8 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAzul">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -24,6 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:text="@string/solicitar"
+                android:fontFamily="@font/din"
                 android:textColor="@android:color/white">
 
             </com.google.android.material.button.MaterialButton>
@@ -61,22 +63,23 @@
 
                 <TextView
                     android:id="@+id/text_elegirFecha"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:text="Elige la fecha de la sesión:"
                     android:layout_margin="@dimen/common_padding_min"
+                    android:gravity="center_vertical|center"
                     android:drawableLeft="@drawable/direccion"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/map"/>
+                    app:layout_constraintTop_toBottomOf="@+id/map"
+                    style="@style/Textos"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/elegirFecha"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Fecha"
+                    android:backgroundTint="@color/colorAzul"
+                    android:fontFamily="@font/din"
                     android:layout_marginStart="@dimen/common_padding_min"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/text_fecha"
@@ -98,6 +101,7 @@
                         android:id="@+id/text_fechaET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/din"
                         android:inputType="none">
 
                     </com.google.android.material.textfield.TextInputEditText>
@@ -117,16 +121,15 @@
 
                 <TextView
                     android:id="@+id/direccionTV"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:text="Escribe la dirección de la sesión:"
                     android:layout_margin="@dimen/common_padding_min"
+                    android:gravity="center_vertical|center"
                     android:drawableLeft="@drawable/direccion"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/divider0"/>
+                    app:layout_constraintTop_toBottomOf="@+id/divider0"
+                    style="@style/Textos"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/text_direccion"
@@ -145,7 +148,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/text_direccionET"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/din">
 
                     </com.google.android.material.textfield.TextInputEditText>
 
@@ -164,16 +168,15 @@
 
                 <TextView
                     android:id="@+id/text_elegirHorario"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Elige el horario para comenzar:"
                     android:layout_margin="@dimen/common_padding_min"
-                    android:textStyle="bold"
+                    android:gravity="center_vertical|center"
                     android:drawableLeft="@drawable/horario"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider"
-                    style="@style/TextAppearance.MaterialComponents.Body1"/>
+                    style="@style/Textos"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/text_horario"
@@ -191,6 +194,7 @@
                         android:id="@+id/text_horarioET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/din"
                         android:inputType="none">
 
                     </com.google.android.material.textfield.TextInputEditText>
@@ -202,6 +206,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Horario"
+                    android:backgroundTint="@color/colorAzul"
+                    android:fontFamily="@font/din"
                     android:layout_marginStart="@dimen/common_padding_min"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/text_horario"
@@ -209,23 +215,25 @@
 
                 <TextView
                     android:id="@+id/text_eligeTiempo"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/common_padding_default"
                     android:text="Elige el tiempo de la sesión:"
                     android:layout_margin="@dimen/common_padding_min"
-                    android:textStyle="bold"
+                    android:gravity="center_vertical|center"
                     android:drawableLeft="@drawable/tiempo"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/elegirHorario"
-                    style="@style/TextAppearance.MaterialComponents.Body1"/>
+                    style="@style/Textos"/>
 
                 <TextView
                     android:id="@+id/textHoras"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Horas:"
+                    android:textColor="@color/colorGris"
+                    android:fontFamily="@font/mooka"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:layout_margin="@dimen/common_padding_min"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
@@ -237,7 +245,8 @@
                     android:overlapAnchor="false"
                     android:layout_marginTop="@dimen/common_padding_min"
                     android:spinnerMode="dropdown"
-                    android:backgroundTint="@color/colorPersonalDark"
+                    android:fontFamily="@font/din"
+                    android:backgroundTint="@color/colorAzul"
                     style="@style/AppTheme.AppBarOverlay"
                     app:layout_constraintStart_toEndOf="@id/textHoras"
                     app:layout_constraintTop_toBottomOf="@id/text_eligeTiempo"/>
@@ -248,12 +257,12 @@
                     android:layout_height="wrap_content"
                     android:text="Elige el tipo de sesión:"
                     android:layout_marginTop="@dimen/common_padding_default"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:layout_margin="@dimen/common_padding_min"
-                    android:textStyle="bold"
+                    android:gravity="center_vertical|center"
                     android:drawableLeft="@drawable/tipo"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/horas"/>
+                    app:layout_constraintTop_toBottomOf="@id/horas"
+                    style="@style/Textos"/>
 
                 <TextView
                     android:id="@+id/textTipo"
@@ -261,6 +270,9 @@
                     android:layout_height="20dp"
                     android:layout_margin="@dimen/common_padding_min"
                     android:text="Tipo:"
+                    android:textColor="@color/colorGris"
+                    android:fontFamily="@font/mooka"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textTipoTV" />
 
@@ -270,7 +282,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/common_padding_min"
-                    android:backgroundTint="@color/colorPersonalDark"
+                    android:textColor="@color/colorGris"
+                    android:fontFamily="@font/mooka"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:backgroundTint="@color/colorAzul"
                     android:overlapAnchor="false"
                     android:spinnerMode="dropdown"
                     app:layout_constraintStart_toEndOf="@id/textTipo"
@@ -282,6 +297,9 @@
                     android:layout_height="20dp"
                     android:layout_margin="@dimen/common_padding_min"
                     android:layout_marginTop="@dimen/common_padding_min"
+                    android:textColor="@color/colorGris"
+                    android:fontFamily="@font/mooka"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:text="Número de personas:"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tipo"/>
@@ -292,7 +310,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/common_padding_min"
-                    android:backgroundTint="@color/colorPersonalDark"
+                    android:backgroundTint="@color/colorAzul"
+                    android:fontFamily="@font/din"
                     android:overlapAnchor="false"
                     android:spinnerMode="dropdown"
                     app:layout_constraintStart_toEndOf="@id/tvPersonas"
@@ -300,17 +319,17 @@
 
                 <TextView
                     android:id="@+id/nivelTV"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:text="Sesión en curso (RECOMENDADO):"
                     android:layout_margin="@dimen/common_padding_min"
-                    android:textStyle="bold"
+                    android:drawablePadding="@dimen/common_padding_min"
                     android:layout_marginTop="@dimen/common_padding_default"
+                    android:gravity="center_vertical|center"
                     android:drawableLeft="@drawable/nivel"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/personas"/>
+                    app:layout_constraintTop_toBottomOf="@+id/personas"
+                    style="@style/Textos"/>
 
                 <TextView
                     android:id="@+id/seccionesTV"
@@ -318,12 +337,11 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:text="Sección:"
-                    android:textColor="@color/colorPersonalDark"
                     android:layout_margin="@dimen/common_padding_min"
-                    android:textStyle="bold"
                     android:layout_marginTop="@dimen/common_padding_default"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/nivelTV"/>
+                    app:layout_constraintTop_toBottomOf="@+id/nivelTV"
+                    style="@style/Titulos"/>
 
                 <Spinner
                     android:id="@+id/secciones"
@@ -333,7 +351,8 @@
                     android:layout_marginTop="@dimen/common_padding_min"
                     android:spinnerMode="dropdown"
                     android:textSize="12sp"
-                    android:backgroundTint="@color/colorPersonalDark"
+                    android:fontFamily="@font/din"
+                    android:backgroundTint="@color/colorAzul"
                     style="@style/AppTheme.AppBarOverlay"
                     app:layout_constraintStart_toEndOf="@id/seccionesTV"
                     app:layout_constraintTop_toBottomOf="@id/nivelTV"/>
@@ -344,12 +363,11 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:text="Nivel:"
-                    android:textColor="@color/colorPersonalDark"
                     android:layout_margin="@dimen/common_padding_min"
-                    android:textStyle="bold"
                     android:layout_marginTop="@dimen/common_padding_default"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/secciones"/>
+                    app:layout_constraintTop_toBottomOf="@+id/secciones"
+                    style="@style/Titulos"/>
 
                 <Spinner
                     android:id="@+id/niveles"
@@ -358,7 +376,8 @@
                     android:overlapAnchor="false"
                     android:layout_marginTop="@dimen/common_padding_min"
                     android:spinnerMode="dropdown"
-                    android:backgroundTint="@color/colorPersonalDark"
+                    android:fontFamily="@font/din"
+                    android:backgroundTint="@color/colorAzul"
                     style="@style/AppTheme.AppBarOverlay"
                     app:layout_constraintStart_toEndOf="@id/nivelesTV"
                     app:layout_constraintTop_toBottomOf="@id/secciones"/>
@@ -369,12 +388,11 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:text="Bloque:"
-                    android:textColor="@color/colorPersonalDark"
                     android:layout_margin="@dimen/common_padding_min"
-                    android:textStyle="bold"
                     android:layout_marginTop="@dimen/common_padding_default"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/niveles"/>
+                    app:layout_constraintTop_toBottomOf="@+id/niveles"
+                    style="@style/Titulos"/>
 
                 <Spinner
                     android:id="@+id/bloques"
@@ -383,7 +401,8 @@
                     android:overlapAnchor="false"
                     android:layout_marginTop="@dimen/common_padding_min"
                     android:spinnerMode="dropdown"
-                    android:backgroundTint="@color/colorPersonalDark"
+                    android:fontFamily="@font/din"
+                    android:backgroundTint="@color/colorAzul"
                     style="@style/AppTheme.AppBarOverlay"
                     app:layout_constraintStart_toEndOf="@id/bloquesTV"
                     app:layout_constraintTop_toBottomOf="@id/niveles"/>
@@ -392,19 +411,19 @@
                     android:id="@+id/horasDisponibles"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textColor="@android:color/holo_red_dark"
                     android:textStyle="italic|bold"
                     android:textSize="12sp"
                     android:layout_margin="@dimen/common_padding_min"
                     android:text="*Tienes 0 HRS / 11HRS de avance en el actual bloque*"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/bloques"/>
+                    app:layout_constraintTop_toBottomOf="@id/bloques"
+                    style="@style/Textos"/>
 
                 <View
                     android:id="@+id/divider2"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:background="@color/colorPersonalDark"
+                    android:background="@color/colorAzul"
                     android:layout_margin="@dimen/common_padding_default"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -415,14 +434,13 @@
                     android:id="@+id/observacionesTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:text="Escribe alguna observación a tomar en cuenta:"
                     android:layout_margin="@dimen/common_padding_min"
-                    android:textStyle="bold"
                     android:drawableLeft="@drawable/observacion"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/divider2"/>
+                    app:layout_constraintTop_toBottomOf="@+id/divider2"
+                    style="@style/Textos"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/text_observaciones"
@@ -441,7 +459,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/text_observacionesET"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/din">
 
                     </com.google.android.material.textfield.TextInputEditText>
 

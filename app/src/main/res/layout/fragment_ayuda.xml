@@ -37,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_nuevotop_24"
-                    android:backgroundTint="@color/colorAzul"
+                    android:backgroundTint="@color/colorRosa"
                     app:layout_constraintStart_toStartOf="@id/tvAyuda"
                     app:layout_constraintEnd_toEndOf="@id/tvAyuda"
                     app:layout_constraintTop_toBottomOf="@id/tvAyuda"
@@ -63,6 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tópicos pendientes:"
+            android:layout_marginTop="@dimen/common_padding_default"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardAyuda"
             style="@style/Titulos"/>

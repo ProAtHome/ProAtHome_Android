@@ -11,10 +11,8 @@
         android:id="@+id/tvCategorias"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/color_primary"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        android:text="Categorías:" />
+        android:text="Categorías:"
+        style="@style/Titulos"/>
 
     <Spinner
         android:id="@+id/categorias"
@@ -24,20 +22,17 @@
         android:layout_marginTop="@dimen/common_padding_min"
         android:spinnerMode="dropdown"
         android:layout_below="@+id/tvCategorias"
-        android:backgroundTint="@color/colorPersonalDark"
-        android:popupBackground="@android:color/white"
- />
+        android:backgroundTint="@color/colorAzul"
+        android:popupBackground="@android:color/white" />
 
     <TextView
         android:id="@+id/tvTopico"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/color_primary"
-        android:textStyle="bold"
         android:layout_marginTop="@dimen/common_padding_min"
         android:layout_below="@id/categorias"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        android:text="Tópico:" />
+        android:text="Tópico:"
+        style="@style/Titulos"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilTopico"
@@ -50,9 +45,10 @@
             android:id="@+id/etTopico"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Escribre un título del problema."
             android:inputType="text"
-            android:textColor="@android:color/black"
-            android:hint="Escribre un título del problema."/>
+            android:fontFamily="@font/din"
+            android:textColor="@android:color/black" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,12 +56,10 @@
         android:id="@+id/tvDescripcion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/color_primary"
-        android:textStyle="bold"
         android:layout_marginTop="@dimen/common_padding_min"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_below="@+id/tilTopico"
-        android:text="Descripción:" />
+        android:text="Descripción:"
+        style="@style/Titulos"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilDescripcion"
@@ -80,6 +74,7 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:inputType="text|textMultiLine"
+            android:fontFamily="@font/din"
             android:hint="Escribre la descripción detallada del problema."/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -90,7 +85,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tilDescripcion"
         android:layout_marginTop="@dimen/common_padding_min"
-        android:backgroundTint="@color/color_primary"
+        android:fontFamily="@font/din"
+        android:backgroundTint="@color/colorAzul"
         android:text="Enviar"/>
 
     <com.google.android.material.button.MaterialButton
@@ -101,7 +97,8 @@
         android:layout_below="@id/tilDescripcion"
         android:layout_marginStart="@dimen/common_padding_min"
         android:layout_marginTop="@dimen/common_padding_min"
-        android:backgroundTint="@android:color/holo_red_dark"
+        android:fontFamily="@font/din"
+        android:backgroundTint="@color/colorRosa"
         android:text="Cancelar"/>
 
 </RelativeLayout>

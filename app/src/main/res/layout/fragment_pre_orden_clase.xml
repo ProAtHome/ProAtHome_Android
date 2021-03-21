@@ -31,23 +31,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Ayudanos a validar tu método de pago."
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+                        style="@style/Titulos"/>
 
                     <TextView
                         android:id="@+id/tvMetodoRegistrado"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Método registrado:"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold"
                         android:layout_marginTop="@dimen/common_padding_middle"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvAyuda"/>
+                        app:layout_constraintTop_toBottomOf="@id/tvAyuda"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilTitular"
@@ -66,7 +63,8 @@
                             android:layout_height="wrap_content"
                             android:hint="Titular de la tarjeta"
                             android:inputType="textPersonName"
-                            android:textColor="@color/colorPrimary"/>
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorAzul"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,7 +85,8 @@
                             android:layout_height="wrap_content"
                             android:hint="Número de Tarjeta"
                             android:inputType="number"
-                            android:textColor="@color/colorPrimary"/>
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorAzul"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -109,7 +108,8 @@
                             android:hint="Mes (MM)"
                             android:inputType="number"
                             android:maxLength="2"
-                            android:textColor="@color/colorPrimary"/>
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorAzul"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -131,7 +131,8 @@
                             android:hint="Año (AA)"
                             android:inputType="number"
                             android:maxLength="2"
-                            android:textColor="@color/colorPrimary"/>
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorAzul"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -153,7 +154,8 @@
                             android:hint="CVV"
                             android:inputType="number"
                             android:maxLength="4"
-                            android:textColor="@color/colorPrimary"/>
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorAzul"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -172,11 +174,9 @@
                         android:layout_height="wrap_content"
                         android:text="Pre-Costo de la clase"
                         android:layout_marginTop="@dimen/common_padding_default"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/divider"/>
+                        app:layout_constraintTop_toBottomOf="@id/divider"
+                        style="@style/Titulos"/>
 
                     <TextView
                         android:id="@+id/tvSesion"
@@ -184,11 +184,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/common_padding_default"
                         android:text="Clase: Bloque 1 / Básico 1 / Básico"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                         app:layout_constraintTop_toBottomOf="@id/tvPreOrden"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/tvTiempo"
@@ -196,11 +194,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/common_padding_min"
                         android:text="Tiempo: 3 HRS"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                         app:layout_constraintTop_toBottomOf="@id/tvSesion"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/tvCosto"
@@ -208,11 +204,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/common_padding_min"
                         android:text="Total: 0.00 MXN"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvTiempo"/>
+                        app:layout_constraintTop_toBottomOf="@id/tvTiempo"
+                        style="@style/Titulos"/>
 
                     <Button
                         android:id="@+id/validar"
@@ -220,7 +214,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/common_padding_min"
                         android:text="VALIDAR"
-                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:backgroundTint="@color/colorAzul"
+                        android:fontFamily="@font/din"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvCosto"/>
 

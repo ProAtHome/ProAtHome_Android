@@ -11,7 +11,8 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAzul">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbarPerfil"
@@ -55,49 +56,53 @@
                         android:id="@+id/nombre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text=""
-                        android:layout_marginTop="@dimen/common_padding_min"
-                        android:textStyle="bold"
-                        android:textSize="30sp"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:text="Nombre"
+                        android:layout_marginTop="@dimen/common_padding_default"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/foto"/>
+                        app:layout_constraintTop_toBottomOf="@id/foto"
+                        style="@style/Titulos"/>
 
                     <TextView
                         android:id="@+id/descripcion"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold"
-                        android:text=""
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:text="Descripcion"
+                        android:drawablePadding="@dimen/common_padding_min"
+                        android:gravity="center_vertical|center"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:drawableTint="@color/colorAzul"
                         android:drawableLeft="@drawable/ic_account"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/nombre"/>
+                        app:layout_constraintTop_toBottomOf="@id/nombre"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/correo"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:text="Correo"
+                        android:drawablePadding="@dimen/common_padding_min"
+                        android:gravity="center_vertical|center"
+                        android:drawableTint="@color/colorAzul"
                         android:drawableLeft="@drawable/email"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/descripcion"
-                        android:layout_marginTop="@dimen/common_padding_min"/>
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/calificacion"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
+                        android:text="Calficacion"
+                        android:drawablePadding="@dimen/common_padding_min"
                         android:drawableLeft="@drawable/star"
-                        android:textStyle="bold"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                        android:drawableTint="@color/colorAzul"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:gravity="center_vertical|center"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/correo"/>
+                        app:layout_constraintTop_toBottomOf="@id/correo"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -108,12 +113,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Valoraciónes"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
                 android:layout_marginTop="@dimen/common_padding_min"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardPerfil"/>
+                app:layout_constraintTop_toBottomOf="@id/cardPerfil"
+                style="@style/Titulos"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewPerfil"

@@ -31,85 +31,79 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="ORDEN DE COMPRA"
-                        android:textColor="@color/colorPrimary"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Titulos"/>
 
                     <TextView
                         android:id="@+id/plan"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/common_padding_min"
                         android:drawableLeft="@drawable/plan"
-                        android:drawableTint="@color/colorPrimaryDark"
+                        android:drawableTint="@color/colorAzul"
                         android:text="PLAN: PLAN_ELEGIDO"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold"
+                        android:gravity="center_vertical|center"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/titulo" />
+                        app:layout_constraintTop_toBottomOf="@id/titulo"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/fechaInicio"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="FECHA DE INICIO: 09/10/2020"
-                        android:textStyle="bold"
                         android:drawableLeft="@drawable/ic_date"
-                        android:drawableTint="@color/colorPrimaryDark"
-                        android:textColor="@android:color/black"
+                        android:drawableTint="@color/colorAzul"
                         android:layout_marginTop="@dimen/common_padding_min"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        android:gravity="center_vertical|center"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/plan"/>
+                        app:layout_constraintTop_toBottomOf="@id/plan"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/fechaFin"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="FECHA DE EXPIRACIÓN: 10/10/2020"
-                        android:textStyle="bold"
                         android:drawableLeft="@drawable/ic_date"
-                        android:drawableTint="@color/colorPrimaryDark"
-                        android:textColor="@android:color/black"
+                        android:drawableTint="@color/colorAzul"
+                        android:gravity="center_vertical|center"
                         android:layout_marginTop="@dimen/common_padding_min"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/fechaInicio"/>
+                        app:layout_constraintTop_toBottomOf="@id/fechaInicio"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/horas"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="HORAS DISPONIBLES: 5 HRS"
-                        android:textStyle="bold"
-                        android:drawableTint="@color/colorPrimaryDark"
+                        android:drawableTint="@color/colorAzul"
                         android:drawableLeft="@drawable/horario"
-                        android:textColor="@android:color/black"
                         android:layout_marginTop="@dimen/common_padding_min"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        android:gravity="center_vertical|center"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/fechaFin"/>
+                        app:layout_constraintTop_toBottomOf="@id/fechaFin"
+                        style="@style/Textos"/>
 
                     <TextView
                         android:id="@+id/costo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="12dp"
                         android:text="COSTO TOTAL: 1000 MXN"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:layout_marginTop="@dimen/common_padding_default"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        android:textSize="20sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/horas"/>
+                        app:layout_constraintTop_toBottomOf="@id/horas"
+                        style="@style/Titulos"/>
 
                     <View
                         android:id="@+id/divider"
                         android:layout_width="0dp"
                         android:layout_height="1dp"
-                        android:background="@color/colorPrimaryDark"
+                        android:background="@color/colorAzul"
                         app:layout_constraintTop_toBottomOf="@id/costo"
                         app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginTop="@dimen/common_padding_middle"/>
@@ -119,24 +113,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Ayudanos a validar tu método de pago."
-                        android:textColor="@color/colorPrimaryDark"
                         android:layout_marginTop="@dimen/common_padding_min"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/divider"/>
+                        app:layout_constraintTop_toBottomOf="@id/divider"
+                        style="@style/Titulos"/>
 
                     <TextView
                         android:id="@+id/tvMetodoRegistrado"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
                         android:text="Método registrado:"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold"
-                        android:layout_marginTop="@dimen/common_padding_middle"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvAyuda"/>
+                        app:layout_constraintTop_toBottomOf="@id/tvAyuda"
+                        style="@style/Textos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilTitular"
@@ -153,9 +143,10 @@
                             android:id="@+id/etTitular"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/din"
                             android:hint="Titular de la tarjeta"
                             android:inputType="textPersonName"
-                            android:textColor="@color/colorPrimary"/>
+                            android:textColor="@color/colorAzul" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -176,7 +167,8 @@
                             android:layout_height="wrap_content"
                             android:hint="Número de Tarjeta"
                             android:inputType="number"
-                            android:textColor="@color/colorPrimary"/>
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorAzul"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -198,7 +190,8 @@
                             android:hint="Mes (MM)"
                             android:inputType="number"
                             android:maxLength="2"
-                            android:textColor="@color/colorPrimary"/>
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorAzul"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -220,7 +213,8 @@
                             android:hint="Año (AA)"
                             android:inputType="number"
                             android:maxLength="2"
-                            android:textColor="@color/colorPrimary"/>
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorAzul"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -242,7 +236,8 @@
                             android:hint="CVV"
                             android:inputType="number"
                             android:maxLength="4"
-                            android:textColor="@color/colorPrimary"/>
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorAzul"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -251,8 +246,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Comprar"
-                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:backgroundTint="@color/colorAzul"
                         android:layout_marginTop="@dimen/common_padding_min"
+                        android:fontFamily="@font/din"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tilCvv"/>
 
@@ -261,7 +257,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Cancelar"
-                        android:backgroundTint="@android:color/holo_red_dark"
+                        android:backgroundTint="@color/colorRosa"
+                        android:fontFamily="@font/din"
                         android:layout_marginStart="@dimen/common_padding_default"
                         android:layout_marginTop="@dimen/common_padding_min"
                         app:layout_constraintStart_toEndOf="@id/comprar"

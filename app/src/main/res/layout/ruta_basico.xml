@@ -10,13 +10,15 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAzul">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="Ruta - Básico"
+            app:titleTextAppearance="@style/Titulos"
             app:titleTextColor="@android:color/white">
 
             <com.google.android.material.button.MaterialButton
@@ -25,10 +27,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:textColor="@android:color/white"
+                android:fontFamily="@font/din"
                 android:layout_marginEnd="5dp"
                 android:text="CERRAR"
                 app:icon="@drawable/ic_close"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
+                app:iconTint="@android:color/white"
+                android:drawableTint="@android:color/white"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"/>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -49,12 +54,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/basico1"
                 android:textStyle="bold|italic"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                android:textColor="@android:color/white"
                 android:gravity="center"
+                android:layout_marginTop="@dimen/common_padding_min"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/Titulos"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque1"
@@ -63,6 +68,7 @@
                 android:layout_margin="20dp"
                 android:backgroundTint="#574359"
                 android:text="Bloque 1"
+                android:fontFamily="@font/mooka"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvBasico" />
@@ -88,6 +94,7 @@
                 android:layout_margin="20dp"
                 android:text="Bloque 2"
                 android:backgroundTint="#574359"
+                android:fontFamily="@font/mooka"
                 app:cornerRadius="65dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/bloque1" />
@@ -112,6 +119,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 3"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#574359"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -137,6 +145,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 4"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#574359"
                 app:cornerRadius="65dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -162,6 +171,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 5"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#574359"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -187,6 +197,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 6"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#574359"
                 app:cornerRadius="65dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -196,7 +207,7 @@
                 android:id="@+id/divider"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
+                android:background="@color/colorAzul"
                 app:layout_constraintStart_toStartOf="@id/bloque5"
                 app:layout_constraintEnd_toEndOf="@id/bloque6"
                 app:layout_constraintTop_toBottomOf="@id/bloque6"
@@ -208,13 +219,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/basico2"
                 android:textStyle="bold|italic"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                android:textColor="@android:color/white"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/common_padding_min"
                 app:layout_constraintTop_toBottomOf="@id/divider"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/Titulos"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque_1_b2"
@@ -223,6 +233,7 @@
                 android:layout_margin="20dp"
                 android:backgroundTint="#babf95"
                 android:text="Bloque 1"
+                android:fontFamily="@font/mooka"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvBasico2" />
@@ -247,6 +258,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 2"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#babf95"
                 app:cornerRadius="65dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -272,6 +284,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 3"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#babf95"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -297,6 +310,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 4"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#babf95"
                 app:cornerRadius="65dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -322,6 +336,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 5"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#babf95"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -347,6 +362,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 6"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#babf95"
                 app:cornerRadius="65dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -356,7 +372,7 @@
                 android:id="@+id/divider_b2"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
+                android:background="@color/colorAzul"
                 app:layout_constraintStart_toStartOf="@id/bloque5_b2"
                 app:layout_constraintEnd_toEndOf="@id/bloque6_b2"
                 app:layout_constraintTop_toBottomOf="@id/bloque6_b2"
@@ -368,13 +384,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/basico3"
                 android:textStyle="bold|italic"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                android:textColor="@android:color/white"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/common_padding_min"
                 app:layout_constraintTop_toBottomOf="@id/divider_b2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/Titulos"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque_1_b3"
@@ -383,6 +398,7 @@
                 android:layout_margin="20dp"
                 android:backgroundTint="#701818"
                 android:text="Bloque 1"
+                android:fontFamily="@font/mooka"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvBasico3" />
@@ -407,6 +423,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 2"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#701818"
                 app:cornerRadius="65dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -432,6 +449,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 3"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#701818"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -457,6 +475,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 4"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#701818"
                 app:cornerRadius="65dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -482,6 +501,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 5"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#701818"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -507,6 +527,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 6"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#701818"
                 app:cornerRadius="65dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -532,6 +553,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 7"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#701818"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -541,7 +563,7 @@
                 android:id="@+id/divider_b3"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
+                android:background="@color/colorAzul"
                 app:layout_constraintStart_toStartOf="@id/bloque7_b3"
                 app:layout_constraintEnd_toEndOf="@id/bloque6_b3"
                 app:layout_constraintTop_toBottomOf="@id/bloque7_b3"
@@ -553,13 +575,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/basico4"
                 android:textStyle="bold|italic"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                android:textColor="@android:color/white"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/common_padding_min"
                 app:layout_constraintTop_toBottomOf="@id/divider_b3"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/Titulos"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque_1_b4"
@@ -568,6 +589,7 @@
                 android:layout_margin="20dp"
                 android:backgroundTint="#381b1b"
                 android:text="Bloque 1"
+                android:fontFamily="@font/mooka"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvBasico4" />
@@ -592,6 +614,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 2"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#381b1b"
                 app:cornerRadius="65dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -617,6 +640,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 3"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#381b1b"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -642,6 +666,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 4"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#381b1b"
                 app:cornerRadius="65dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -667,6 +692,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 5"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#381b1b"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -692,6 +718,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 6"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#381b1b"
                 app:cornerRadius="65dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -717,6 +744,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 7"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#381b1b"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -726,7 +754,7 @@
                 android:id="@+id/divider_b4"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
+                android:background="@color/colorAzul"
                 app:layout_constraintStart_toStartOf="@id/bloque7_b4"
                 app:layout_constraintEnd_toEndOf="@id/bloque6_b4"
                 app:layout_constraintTop_toBottomOf="@id/bloque7_b4"
@@ -738,13 +766,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/basico5"
                 android:textStyle="bold|italic"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                android:textColor="@android:color/white"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/common_padding_min"
                 app:layout_constraintTop_toBottomOf="@id/divider_b4"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/Titulos"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque_1_b5"
@@ -753,6 +780,7 @@
                 android:layout_margin="20dp"
                 android:backgroundTint="#2d2d2d"
                 android:text="Bloque 1"
+                android:fontFamily="@font/mooka"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvBasico5" />
@@ -777,6 +805,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 2"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#2d2d2d"
                 app:cornerRadius="65dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -802,6 +831,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 3"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#2d2d2d"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -827,6 +857,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 4"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#2d2d2d"
                 app:cornerRadius="65dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -852,6 +883,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 5"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#2d2d2d"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -877,6 +909,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 6"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#2d2d2d"
                 app:cornerRadius="65dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -902,6 +935,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 7"
+                android:fontFamily="@font/mooka"
                 android:backgroundTint="#2d2d2d"
                 app:cornerRadius="65dp"
                 app:layout_constraintStart_toStartOf="parent"

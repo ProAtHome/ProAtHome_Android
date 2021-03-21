@@ -392,6 +392,8 @@
                 android:id="@+id/btnActualizarFiscales"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:backgroundTint="@color/colorRosa"
+                android:fontFamily="@font/din"
                 app:layout_constraintTop_toBottomOf="@id/btnActualizarInfoBancaria"
                 android:text="Actualizar Datos Fiscales"
                 android:visibility="invisible">
@@ -417,11 +419,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Avisos importantes:"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                         app:layout_constraintEnd_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Titulos"/>
 
                     <ImageView
                         android:id="@+id/imgAviso"
@@ -436,12 +436,11 @@
                         android:id="@+id/tvAviso"
                         android:layout_width="280dp"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:textStyle="bold"
                         android:layout_marginTop="@dimen/common_padding_min"
                         android:text=""
                         app:layout_constraintStart_toEndOf="@id/imgAviso"
-                        app:layout_constraintTop_toBottomOf="@id/tvValoracion"/>
+                        app:layout_constraintTop_toBottomOf="@id/tvValoracion"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -461,7 +460,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/colorAzul"
                     app:itemIconTint="@drawable/states_colors_bottom_navigation"
                     app:itemTextColor="@drawable/states_colors_bottom_navigation"
                     app:menu="@menu/menu_bottom_nav_estudiante" />

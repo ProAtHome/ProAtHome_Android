@@ -20,21 +20,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nombre Usuario"
-            android:textStyle="bold"
-            android:textColor="@color/color_primary"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/Titulos"/>
 
         <TextView
             android:id="@+id/tvMsg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mensaje de Usuario"
-            android:textColor="@color/material_blue_grey_80"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:text="Mensaje"
+            android:layout_marginTop="@dimen/common_padding_min"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvUsuario" />
+            app:layout_constraintTop_toBottomOf="@id/tvUsuario"
+            style="@style/Textos"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

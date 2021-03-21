@@ -10,7 +10,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/img_button">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgPhoto"
@@ -25,40 +26,42 @@
             android:id="@+id/tvNivel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textAppearance="?attr/textAppearanceListItem"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:padding="@dimen/common_padding_min"
+            android:layout_marginTop="@dimen/common_padding_min"
+            android:text="Niveles"
             android:background="@drawable/background_item"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/animation_view"
             app:layout_constraintTop_toTopOf="@id/imgPhoto"
-            android:textColor="@android:color/black"/>
+            style="@style/Titulos"/>
 
         <TextView
             android:id="@+id/tvTipo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Text2" android:textStyle="bold"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:padding="@dimen/common_padding_min"
+            android:text="Text2"
+            android:textStyle="bold"
             android:background="@drawable/background_item"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:padding="@dimen/common_padding_min"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/animation_view"
             app:layout_constraintTop_toBottomOf="@id/tvNivel"
-            android:textColor="@android:color/black"/>
+            style="@style/Titulos"/>
 
         <TextView
             android:id="@+id/tvHorario"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Text2" android:textStyle="bold"
-            android:textAppearance="?attr/textAppearanceListItem"
+            android:text="Text2"
             android:padding="@dimen/common_padding_min"
             android:background="@drawable/background_item"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/animation_view"
             app:layout_constraintTop_toBottomOf="@id/tvTipo"
-            android:textColor="@android:color/black"/>
+            style="@style/Titulos"/>
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_view"

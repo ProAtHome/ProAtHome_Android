@@ -12,11 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Evalua a tu profesor / estudiante."
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        style="@style/Titulos"/>
 
     <RatingBar
         android:id="@+id/ratingBar"
@@ -36,13 +35,11 @@
         android:id="@+id/tvComentario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:text="Deja un comentario:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ratingBar"
-        android:layout_marginTop="@dimen/common_padding_min"/>
+        android:layout_marginTop="@dimen/common_padding_min"
+        style="@style/Textos"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilComentario"
@@ -58,6 +55,7 @@
             android:layout_height="wrap_content"
             android:inputType="text|textMultiLine"
             android:maxLines="6"
+            android:fontFamily="@font/din"
             android:textColor="@android:color/black"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -67,7 +65,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enviar"
-        android:backgroundTint="@color/colorPrimaryDark"
+        android:backgroundTint="@color/colorAzul"
+        android:fontFamily="@font/din"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tilComentario"/>
 

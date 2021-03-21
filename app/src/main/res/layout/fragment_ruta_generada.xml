@@ -14,24 +14,23 @@
         android:layout_height="wrap_content"
         android:text="¡Enhorabuena!"
         android:textAlignment="center"
-        android:textStyle="bold"
-        android:textColor="@color/colorPersonalDark"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        style="@style/TextAppearance.MaterialComponents.Headline4"/>
+        style="@style/Titulos"/>
 
     <TextView
         android:id="@+id/puntuacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textStyle="bold"
-        android:textColor="@android:color/background_dark"
+        android:layout_marginTop="@dimen/common_padding_default"
         android:text="Hemos analizado tus respuestas y creemos que podrías comenzar en:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/enohora"/>
+        app:layout_constraintTop_toBottomOf="@id/enohora"
+        style="@style/Textos"/>
 
     <TextView
         android:id="@+id/nivel"
@@ -39,12 +38,12 @@
         android:layout_height="wrap_content"
         android:text="NIVEL"
         android:textStyle="bold|italic"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:textColor="@color/color_primary"
         android:textAlignment="center"
+        android:layout_marginTop="@dimen/common_padding_default"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/puntuacion"/>
+        app:layout_constraintTop_toBottomOf="@id/puntuacion"
+        style="@style/Titulos"/>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animation_view"
@@ -61,17 +60,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Emprezar de 0"
-        android:textColor="@color/colorPersonalDark"
+        android:fontFamily="@font/din"
+        android:backgroundTint="@color/colorRosa"
+        android:textColor="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/animation_view"
-        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"/>
+        style="@style/Widget.MaterialComponents.Button"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/ruta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Comenzar en NIVEL"
-        android:textColor="@color/colorPersonalDark"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/colorAzul"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/animation_view"
         style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"/>

@@ -17,18 +17,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Aviso de Privacidad PRO AT HOME"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textStyle="bold"
-            android:textColor="@color/color_primary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/Titulos"/>
 
         <TextView
             android:id="@+id/p1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/p1_priv"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorRosa"
+            android:fontFamily="@font/din"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:layout_marginTop="@dimen/common_padding_default"
             app:layout_constraintStart_toStartOf="parent"

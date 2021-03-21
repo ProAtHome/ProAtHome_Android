@@ -265,6 +265,7 @@
                     android:layout_margin="@dimen/common_padding_min"
                     android:backgroundTint="@color/colorAzul"
                     android:fontFamily="@font/din"
+                    android:textColor="@android:color/white"
                     app:layout_constraintTop_toBottomOf="@+id/infoSesion"
                     app:layout_constraintStart_toStartOf="parent"/>
 
