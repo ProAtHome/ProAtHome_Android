@@ -13,7 +13,7 @@
         android:layout_marginTop="10dp"
         android:onClick="cerrarSesion"
         android:text="Cerrar Sesión"
-        android:backgroundTint="@color/colorProfesor"
+        android:backgroundTint="@color/colorAzul"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>

@@ -20,6 +20,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        app:itemTextAppearance="@style/Titulos"
         app:headerLayout="@layout/nav_header_inicio_profesor"
         app:menu="@menu/activity_inicio_profesor_drawer" />
 

@@ -85,8 +85,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".registrarseEstudiante"
                   android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".registrarseProfesor" />
-        <activity android:name=".loginProfesor" />
+        <activity android:name=".registrarseProfesor"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".loginProfesor"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".MainActivity"
                     android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

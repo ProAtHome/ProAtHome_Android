@@ -64,7 +64,7 @@ public class registrarseProfesor extends AppCompatActivity {
 
         String[] datos= new String[]{"HOMBRE", "MUJER", "OTRO"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                R.layout.spinner_item, datos);
+                R.layout.spinner_item_white, datos);
         genero.setAdapter(adapter);
     }
 

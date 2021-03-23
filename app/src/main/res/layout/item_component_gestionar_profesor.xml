@@ -34,7 +34,8 @@
             android:padding="@dimen/common_padding_min_min"
             android:background="@drawable/background_item"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/Textos">
 
         </TextView>
 
@@ -42,62 +43,58 @@
             android:id="@+id/tvNivel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text=""
-            android:textAppearance="?attr/textAppearanceListItem"
+            android:text="Nivel"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:padding="@dimen/common_padding_min"
             android:background="@drawable/background_item"
-            android:textColor="@android:color/black"
             android:layout_marginTop="@dimen/common_padding_default"
             android:layout_marginStart="@dimen/common_padding_min"
             app:layout_constraintStart_toEndOf="@id/imgGestionar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/Titulos"/>
 
         <TextView
             android:id="@+id/tvTipo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textStyle="bold"
-            android:textAppearance="?attr/textAppearanceListItem"
+            android:text="Tipo"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:padding="@dimen/common_padding_min"
             android:background="@drawable/background_item"
             android:layout_marginStart="@dimen/common_padding_min"
-            android:textColor="@android:color/black"
             app:layout_constraintStart_toEndOf="@id/imgGestionar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvNivel"/>
+            app:layout_constraintTop_toBottomOf="@id/tvNivel"
+            style="@style/Titulos"/>
 
         <TextView
             android:id="@+id/tvHorario"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textStyle="bold"
-            android:textAppearance="?attr/textAppearanceListItem"
+            android:text="Horario"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:padding="@dimen/common_padding_min"
             android:background="@drawable/background_item"
-            android:textColor="@android:color/black"
             android:layout_marginStart="@dimen/common_padding_min"
             app:layout_constraintStart_toEndOf="@id/imgGestionar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTipo" />
+            app:layout_constraintTop_toBottomOf="@id/tvTipo"
+            style="@style/Titulos"/>
 
         <TextView
             android:id="@+id/tvFecha"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textStyle="bold"
-            android:textAppearance="?attr/textAppearanceListItem"
+            android:text="Fecha"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:padding="@dimen/common_padding_min"
-            android:textColor="@android:color/black"
             android:layout_marginStart="@dimen/common_padding_min"
             android:background="@drawable/background_item"
             app:layout_constraintStart_toEndOf="@id/imgGestionar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvHorario" />
+            app:layout_constraintTop_toBottomOf="@id/tvHorario"
+            style="@style/Titulos"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

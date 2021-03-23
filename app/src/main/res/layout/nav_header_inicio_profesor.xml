@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="@color/colorProfesor"
+    android:background="@color/colorAzul"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:fontFamily="@font/mooka"
         android:text="*Nombre* (Estudiante)"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -33,6 +34,7 @@
         android:id="@+id/correoProfesorTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/din"
         android:text="correo@correo.com" />
 
 </LinearLayout>

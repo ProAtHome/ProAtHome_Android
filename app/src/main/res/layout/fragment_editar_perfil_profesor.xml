@@ -36,7 +36,8 @@
                 android:text="@string/cambiar_foto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorProfesor"
+                android:fontFamily="@font/din"
+                android:backgroundTint="@color/colorAzul"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivFoto">
@@ -48,10 +49,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Nombre:"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                app:layout_constraintTop_toBottomOf="@id/btnFoto">
+                app:layout_constraintTop_toBottomOf="@id/btnFoto"
+                style="@style/Titulos">
 
             </TextView>
 
@@ -61,10 +60,8 @@
                 android:layout_height="wrap_content"
                 android:text="Correo:"
                 android:layout_marginTop="@dimen/common_padding_min"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                app:layout_constraintTop_toBottomOf="@id/tvNombre">
+                app:layout_constraintTop_toBottomOf="@id/tvNombre"
+                style="@style/Titulos">
 
             </TextView>
 
@@ -74,9 +71,8 @@
                 android:layout_height="wrap_content"
                 android:text="Celular:"
                 android:layout_marginTop="@dimen/common_padding_default"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/tvCorreo">
+                app:layout_constraintTop_toBottomOf="@id/tvCorreo"
+                style="@style/Textos">
 
             </TextView>
 
@@ -86,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="@android:color/black"
                 app:layout_constraintTop_toBottomOf="@id/tvCelular"
-                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeColor="@color/colorAzul"
                 app:boxStrokeWidth="2dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
@@ -95,6 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
+                    android:fontFamily="@font/din"
                     android:textColor="@android:color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -106,9 +103,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Teléfono Local:"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/itCelular">
+                android:layout_marginTop="@dimen/common_padding_min"
+                app:layout_constraintTop_toBottomOf="@id/itCelular"
+                style="@style/Textos">
 
             </TextView>
 
@@ -118,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="@android:color/black"
                 app:layout_constraintTop_toBottomOf="@id/tvTelefono"
-                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeColor="@color/colorAzul"
                 app:boxStrokeWidth="2dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
@@ -127,6 +124,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
+                    android:fontFamily="@font/din"
                     android:textColor="@android:color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -138,9 +136,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Dirección:"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/itTelefono">
+                android:layout_marginTop="@dimen/common_padding_min"
+                app:layout_constraintTop_toBottomOf="@id/itTelefono"
+                style="@style/Textos">
 
             </TextView>
 
@@ -150,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="@android:color/black"
                 app:layout_constraintTop_toBottomOf="@id/tvDireccion"
-                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeColor="@color/colorAzul"
                 app:boxStrokeWidth="2dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
@@ -159,6 +157,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
+                    android:fontFamily="@font/din"
                     android:textColor="@android:color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -170,9 +169,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Descripcion:"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/itDireccion">
+                android:layout_marginTop="@dimen/common_padding_min"
+                app:layout_constraintTop_toBottomOf="@id/itDireccion"
+                style="@style/Textos">
 
             </TextView>
 
@@ -182,7 +181,7 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="@android:color/black"
                 app:layout_constraintTop_toBottomOf="@id/tvDescripcion"
-                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeColor="@color/colorAzul"
                 app:boxStrokeWidth="2dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
@@ -191,6 +190,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
+                    android:fontFamily="@font/din"
                     android:textColor="@android:color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -201,7 +201,8 @@
                 android:id="@+id/btnActualizarInfo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="@color/colorProfesor"
+                android:backgroundTint="@color/colorAzul"
+                android:fontFamily="@font/din"
                 app:layout_constraintTop_toBottomOf="@id/itDesc"
                 android:text="Actualizar Información">
 
@@ -217,10 +218,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:textSize="55px"
-                android:text="Información Bancaria">
+                android:text="Información Bancaria"
+                style="@style/Titulos">
 
             </TextView>
 
@@ -232,8 +231,7 @@
                 android:layout_height="match_parent"
                 app:layout_constraintTop_toBottomOf="@id/tvInfoBancaria"
                 android:text="Titular de la Cuenta:"
-                android:textStyle="bold"
-                android:textColor="@android:color/black">
+                style="@style/Textos">
 
             </TextView>
 
@@ -243,7 +241,7 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="@android:color/black"
                 app:layout_constraintTop_toBottomOf="@id/tvTitular"
-                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeColor="@color/colorAzul"
                 app:boxStrokeWidth="2dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
@@ -253,6 +251,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
+                    android:fontFamily="@font/din"
                     android:textColor="@android:color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -264,10 +263,10 @@
                 android:id="@+id/tvBanco"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/common_padding_min"
                 app:layout_constraintTop_toBottomOf="@id/itTitular"
                 android:text="Nombre de tu Banco:"
-                android:textStyle="bold"
-                android:textColor="@android:color/black">
+                style="@style/Textos">
 
             </TextView>
 
@@ -277,7 +276,7 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="@android:color/black"
                 app:layout_constraintTop_toBottomOf="@+id/tvBanco"
-                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeColor="@color/colorAzul"
                 app:boxStrokeWidth="2dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
@@ -287,6 +286,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
+                    android:fontFamily="@font/din"
                     android:textColor="@android:color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -298,10 +298,10 @@
                 android:id="@+id/tvClabe"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/common_padding_min"
                 app:layout_constraintTop_toBottomOf="@+id/itBanco"
                 android:text="Número de Cuenta (CLABE):"
-                android:textStyle="bold"
-                android:textColor="@android:color/black">
+                style="@style/Textos">
 
             </TextView>
 
@@ -311,7 +311,7 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="@android:color/black"
                 app:layout_constraintTop_toBottomOf="@id/tvClabe"
-                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeColor="@color/colorAzul"
                 app:boxStrokeWidth="2dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
@@ -321,6 +321,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
+                    android:fontFamily="@font/din"
                     android:textColor="@android:color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -331,7 +332,8 @@
                 android:id="@+id/btnActualizarInfoBancaria"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="@color/colorProfesor"
+                android:backgroundTint="@color/colorAzul"
+                android:fontFamily="@font/din"
                 android:text="Actualizar Datos Bancarios"
                 android:visibility="invisible"
                 app:layout_constraintTop_toBottomOf="@id/itClabe">
@@ -342,7 +344,8 @@
                 android:id="@+id/btnActualizarFiscales"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="@color/color_secondary"
+                android:backgroundTint="@color/colorRosa"
+                android:fontFamily="@font/din"
                 app:layout_constraintTop_toBottomOf="@id/btnActualizarInfoBancaria"
                 android:text="Actualizar Datos Fiscales"
                 android:visibility="invisible">
@@ -368,11 +371,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Avisos importantes:"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                         app:layout_constraintEnd_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Titulos"/>
 
                     <ImageView
                         android:id="@+id/imgAviso"
@@ -387,12 +388,11 @@
                         android:id="@+id/tvAviso"
                         android:layout_width="280dp"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:textStyle="bold"
                         android:layout_marginTop="@dimen/common_padding_min"
-                        android:text=""
+                        android:text="Ok"
                         app:layout_constraintStart_toEndOf="@id/imgAviso"
-                        app:layout_constraintTop_toBottomOf="@id/tvValoracion"/>
+                        app:layout_constraintTop_toBottomOf="@id/tvValoracion"
+                        style="@style/Textos"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -410,7 +410,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:background="@color/colorProfesor"
+                    android:background="@color/colorAzul"
                     app:itemIconTint="@drawable/states_colors_bottom_navigation"
                     app:itemTextColor="@drawable/states_colors_bottom_navigation"
                     app:menu="@menu/menu_bottom_nav_estudiante" />

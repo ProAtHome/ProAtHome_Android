@@ -29,38 +29,35 @@
             android:id="@+id/tvNombreEstudiante"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textAppearance="?attr/textAppearanceListItem"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_marginStart="@dimen/common_padding_min"
             android:text="Sesion con: Nombre de Estudiante"
             app:layout_constraintStart_toEndOf="@id/imgGestionar"
             app:layout_constraintTop_toTopOf="parent"
-            android:textColor="@android:color/black"/>
+            style="@style/Titulos"/>
 
         <TextView
             android:id="@+id/tvNivel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nivel: Nivel de la Sesión"
-            android:textStyle="bold"
-            android:textAppearance="?attr/textAppearanceListItem"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_marginStart="@dimen/common_padding_min"
             app:layout_constraintStart_toEndOf="@id/imgGestionar"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/imgGestionar"
-            android:textColor="@android:color/black"/>
+            style="@style/Titulos"/>
 
         <TextView
             android:id="@+id/tvHorario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Horario: Horario de la Sesión"
-            android:textStyle="bold"
             android:layout_marginStart="@dimen/common_padding_min"
-            android:textAppearance="?attr/textAppearanceListItem"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_constraintStart_toEndOf="@id/imgGestionar"
             app:layout_constraintBottom_toBottomOf="@id/imgGestionar"
-            android:textColor="@android:color/black"/>
+            style="@style/Titulos"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

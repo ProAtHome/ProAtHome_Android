@@ -37,7 +37,7 @@
         android:layout_margin="@dimen/common_padding_default"
         android:src="@drawable/ic_reload"
         app:tint="@android:color/white"
-        android:backgroundTint="@color/colorProfesor"
+        android:backgroundTint="@color/colorRosa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/fabNuevaSesion"
         style="@style/Widget.MaterialComponents.FloatingActionButton"/>
@@ -49,7 +49,7 @@
         android:layout_margin="@dimen/common_padding_default"
         android:src="@drawable/ic_add_location"
         app:tint="@android:color/white"
-        android:backgroundTint="@color/colorProfesor"
+        android:backgroundTint="@color/colorAzul"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         style="@style/Widget.MaterialComponents.FloatingActionButton"/>
