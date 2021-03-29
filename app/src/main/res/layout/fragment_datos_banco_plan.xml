@@ -85,6 +85,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Número de Tarjeta"
                             android:inputType="number"
+                            android:maxLength="16"
                             android:fontFamily="@font/din"
                             android:textColor="@color/colorRosa"/>
 

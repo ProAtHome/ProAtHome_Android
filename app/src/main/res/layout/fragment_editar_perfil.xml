@@ -286,6 +286,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
+                    android:maxLength="16"
                     android:fontFamily="@font/din"
                     android:textColor="@android:color/black">
 

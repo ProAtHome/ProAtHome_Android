@@ -64,12 +64,12 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
     public static final String TAG = "Nueva Sesión";
     public static boolean basicoVisto, intermedioVisto, avanzadoVisto;
-    public static int idCliente = 0;
+    public static int idCliente = 0, horasDisponibles = 0;
     private GoogleMap mMap;
     private Marker perth;
     private ScrollView mScrollView;
     private double latitud, longitud;
-    public static boolean banco = false;
+    public static boolean banco = false, disponibilidad;
     public static String planSesion, correoEstudiante;
     public static DialogFragment dialogFragment;
     private String registrarSesionREST = "http://" + Constants.IP +
@@ -163,7 +163,11 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         preOrden.execute();*/
 
 
-        String[] datosHoras = new String[]{"1 HRS", "2 HRS"};
+        String[] datosHoras = null;
+        if((NuevaSesionFragment.horasDisponibles / 60) == 1)
+            datosHoras = new String[]{"1 HRS"};
+        else
+            datosHoras = new String[]{"1 HRS", "2 HRS"};
         ArrayAdapter<String> adapterHoras = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item, datosHoras);
         String[] datosTipo = new String[]{"Personal", "Grupal"};
