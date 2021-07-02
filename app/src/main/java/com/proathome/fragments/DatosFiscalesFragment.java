@@ -74,11 +74,11 @@ public class DatosFiscalesFragment extends DialogFragment {
         datosFiscales.execute();
 
         if(this.tipoPerfil == Constants.TIPO_USUARIO_ESTUDIANTE){
-            toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-            btnActualizar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            toolbar.setBackgroundColor(getResources().getColor(R.color.colorAzul));
+            btnActualizar.setBackgroundColor(getResources().getColor(R.color.colorAzul));
         }else if(this.tipoPerfil == Constants.TIPO_USUARIO_PROFESOR){
-            toolbar.setBackgroundColor(getResources().getColor(R.color.color_secondary));
-            btnActualizar.setBackgroundColor(getResources().getColor(R.color.color_secondary));
+            toolbar.setBackgroundColor(getResources().getColor(R.color.colorAzul));
+            btnActualizar.setBackgroundColor(getResources().getColor(R.color.colorAzul));
         }
 
         return view;

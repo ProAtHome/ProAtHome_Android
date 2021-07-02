@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -175,6 +176,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
         if (bun.getString("fotoProfesor").equalsIgnoreCase("Sin foto")) {
             iniciar.setEnabled(false);
+            iniciar.setBackgroundColor(getResources().getColor(R.color.colorGris));
             perfilEstudianteCard.setClickable(false);
         } else {
             iniciar.setEnabled(true);

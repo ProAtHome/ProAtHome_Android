@@ -77,10 +77,10 @@ public class PerfilFragment extends DialogFragment {
         }
 
         if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_ESTUDIANTE) {
-            toolbar.setBackgroundColor(getResources().getColor(R.color.color_secondary));
+            toolbar.setBackgroundColor(getResources().getColor(R.color.colorAzul));
             toolbar.setTitle("Perfil - ESTUDIANTE");
         }else if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_PROFESOR){
-            toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            toolbar.setBackgroundColor(getResources().getColor(R.color.colorAzul));
             toolbar.setTitle("Perfil - PROFESOR");
         }
         toolbar.setTitleTextColor(Color.WHITE);

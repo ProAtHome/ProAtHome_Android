@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
 import com.google.android.material.textfield.TextInputEditText;
+import com.proathome.servicios.ServicioTaskSQL;
 import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.servicios.estudiante.ServicioTaskLoginEstudiante;
 import com.proathome.servicios.profesor.AdminSQLiteOpenHelperProfesor;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Intent intent;
     private final String iniciarSesionREST = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/sesionCliente";
+    private final String latidoSQL = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/admin/latidoSQL";
     @BindView(R.id.correoET_IS)
     TextInputEditText correoET;
     @BindView(R.id.contraET_IS)
@@ -37,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mUnbinder = ButterKnife.bind(this);
+
+        ServicioTaskSQL servicioTaskSQL = new ServicioTaskSQL(this, this.latidoSQL);
+        servicioTaskSQL.execute();
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();

@@ -170,7 +170,7 @@ public class Constants {
     public static final  int BLOQUE1_AVANZADO5= 1;
     public static final  int BLOQUE2_AVANZADO5= 2;
     /*FIN RUTA NIVELES*/
-    public static final String IP = "192.168.100.55";
+    public static final String IP = "ec2-52-32-182-154.us-west-2.compute.amazonaws.com";
 
 
     /*Prueba Estaticos Singleton*/

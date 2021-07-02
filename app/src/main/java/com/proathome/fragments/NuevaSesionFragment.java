@@ -119,7 +119,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         super.onViewCreated(view, savedInstanceState);
         if (mMap == null) {
             SupportMapFragment mapFragment = (WorkaroundMapFragment) getActivity()
-                    .getSupportFragmentManager().findFragmentById(R.id.map);
+                    .getSupportFragmentManager().findFragmentById(R.id.mapNueva);
             mapFragment.getMapAsync(this);
         }
     }
@@ -403,8 +403,8 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        mScrollView = getView().findViewById(R.id.scrollMap); //parent scrollview in xml, give your scrollview id value
-        ((WorkaroundMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map))
+        mScrollView = getView().findViewById(R.id.scrollMapNueva); //parent scrollview in xml, give your scrollview id value
+        ((WorkaroundMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.mapNueva))
                 .setListener(() -> mScrollView.requestDisallowInterceptTouchEvent(true));
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=

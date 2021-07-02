@@ -107,13 +107,6 @@ public class NuevoTicketFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_nuevo_ticket, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
-        if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR){
-            tvTopico.setTextColor(getResources().getColor(R.color.color_secondary));
-            tvDescripcion.setTextColor(getResources().getColor(R.color.color_secondary));
-            btnEnviar.setBackgroundColor(getResources().getColor(R.color.color_secondary));
-            tvCategorias.setTextColor(getResources().getColor(R.color.color_secondary));
-        }
-
         String[] datos = null;
         ArrayAdapter<String> adapter;
         if(this.idSesion == 0){

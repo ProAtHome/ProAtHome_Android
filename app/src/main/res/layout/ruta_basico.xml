@@ -63,8 +63,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque1"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:backgroundTint="#574359"
                 android:text="Bloque 1"
@@ -89,8 +89,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque2"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 2"
                 android:backgroundTint="#574359"
@@ -115,8 +115,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque3"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 3"
                 android:fontFamily="@font/mooka"
@@ -141,8 +141,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque4"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 4"
                 android:fontFamily="@font/mooka"
@@ -167,8 +167,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque5"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 5"
                 android:fontFamily="@font/mooka"
@@ -193,8 +193,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque6"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 6"
                 android:fontFamily="@font/mooka"
@@ -228,8 +228,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque_1_b2"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:backgroundTint="#babf95"
                 android:text="Bloque 1"
@@ -254,8 +254,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque2_b2"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 2"
                 android:fontFamily="@font/mooka"
@@ -280,8 +280,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque3_b2"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 3"
                 android:fontFamily="@font/mooka"
@@ -306,8 +306,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque4_b2"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 4"
                 android:fontFamily="@font/mooka"
@@ -332,8 +332,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque5_b2"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 5"
                 android:fontFamily="@font/mooka"
@@ -358,8 +358,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque6_b2"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 6"
                 android:fontFamily="@font/mooka"
@@ -393,8 +393,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque_1_b3"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:backgroundTint="#701818"
                 android:text="Bloque 1"
@@ -419,8 +419,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque2_b3"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 2"
                 android:fontFamily="@font/mooka"
@@ -445,8 +445,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque3_b3"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 3"
                 android:fontFamily="@font/mooka"
@@ -471,8 +471,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque4_b3"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 4"
                 android:fontFamily="@font/mooka"
@@ -497,8 +497,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque5_b3"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 5"
                 android:fontFamily="@font/mooka"
@@ -523,8 +523,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque6_b3"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 6"
                 android:fontFamily="@font/mooka"
@@ -549,8 +549,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque7_b3"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 7"
                 android:fontFamily="@font/mooka"
@@ -584,8 +584,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque_1_b4"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:backgroundTint="#381b1b"
                 android:text="Bloque 1"
@@ -610,8 +610,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque2_b4"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 2"
                 android:fontFamily="@font/mooka"
@@ -636,8 +636,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque3_b4"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 3"
                 android:fontFamily="@font/mooka"
@@ -662,8 +662,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque4_b4"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 4"
                 android:fontFamily="@font/mooka"
@@ -688,8 +688,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque5_b4"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 5"
                 android:fontFamily="@font/mooka"
@@ -714,8 +714,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque6_b4"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 6"
                 android:fontFamily="@font/mooka"
@@ -740,8 +740,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque7_b4"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 7"
                 android:fontFamily="@font/mooka"
@@ -775,8 +775,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque_1_b5"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:backgroundTint="#2d2d2d"
                 android:text="Bloque 1"
@@ -801,8 +801,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque2_b5"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 2"
                 android:fontFamily="@font/mooka"
@@ -827,8 +827,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque3_b5"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 3"
                 android:fontFamily="@font/mooka"
@@ -853,8 +853,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque4_b5"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 4"
                 android:fontFamily="@font/mooka"
@@ -879,8 +879,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque5_b5"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 5"
                 android:fontFamily="@font/mooka"
@@ -905,8 +905,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque6_b5"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 6"
                 android:fontFamily="@font/mooka"
@@ -931,8 +931,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bloque7_b5"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_margin="20dp"
                 android:text="Bloque 7"
                 android:fontFamily="@font/mooka"

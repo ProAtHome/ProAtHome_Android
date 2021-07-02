@@ -21,28 +21,45 @@
         android:theme="@style/MyTheme.DayNight"
         android:usesCleartextTraffic="true"
         tools:replace="android:icon">
-        <activity android:name=".ScrollActivityProfesor"></activity>
-        <activity android:name=".PerfilBloqueado" />
-        <activity android:name=".PasosActivarCuentaEstudiante" />
-        <activity android:name=".PasosActivarCuenta" />
-        <activity android:name=".ClaseProfesor" />
-        <activity android:name=".ClaseEstudiante" />
-        <activity android:name=".SincronizarClase" />
-        <activity android:name=".examen.Diagnostico7" />
-        <activity android:name=".examen.Diagnostico6" />
-        <activity android:name=".examen.Diagnostico5" />
-        <activity android:name=".examen.Diagnostico4" />
-        <activity android:name=".examen.Diagnostico3" />
-        <activity android:name=".examen.Diagnostico2" />
-        <activity android:name=".examen.Diagnostico1" />
+        <activity android:name=".ScrollActivityProfesor"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".PerfilBloqueado"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PasosActivarCuentaEstudiante"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PasosActivarCuenta"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ClaseProfesor"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ClaseEstudiante"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SincronizarClase"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".examen.Diagnostico7"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".examen.Diagnostico6"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".examen.Diagnostico5"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".examen.Diagnostico4"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".examen.Diagnostico3"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".examen.Diagnostico2"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".examen.Diagnostico1"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".RutaAvanzado"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RutaIntermedio"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RutaBasico"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MatchSesionEstudiante" />
 
@@ -53,6 +70,7 @@
         <activity
             android:name=".inicioProfesor"
             android:label="@string/title_activity_inicio_profesor"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeProfesor.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -68,28 +86,36 @@
 
         <activity
             android:name=".MapsFragment"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_maps_fragment" />
 
         <meta-data
             android:name="om.google.android.geo.AIzaSyDQV0IqvZ7uyhxDCauRWpgAVgfnYu6iuAg"
             android:value="AIzaSyDQV0IqvZ7uyhxDCauRWpgAVgfnYu6iuAg" />
 
-        <activity android:name=".StaticActivity" />
+        <activity android:name=".StaticActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ScrollActivity"
             android:label="@string/title_activity_scroll"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".inicioEstudiante"
             android:label="@string/title_activity_inicio_estudiante"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".registrarseEstudiante"
+            android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".registrarseProfesor"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".loginProfesor"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".MainActivity"
+                    android:screenOrientation="portrait"
                     android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

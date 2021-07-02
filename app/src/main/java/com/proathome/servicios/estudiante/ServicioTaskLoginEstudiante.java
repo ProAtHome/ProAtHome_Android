@@ -23,6 +23,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class ServicioTaskLoginEstudiante extends AsyncTask<Void, Void, String> {
 
     private Context httpContext;

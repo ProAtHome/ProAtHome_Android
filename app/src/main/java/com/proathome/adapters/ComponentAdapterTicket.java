@@ -83,7 +83,7 @@ public class ComponentAdapterTicket extends RecyclerView.Adapter<ComponentAdapte
             this.view = itemView;
             this.contexto = itemView.getContext();
             if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
-                tvEstatus.setTextColor(this.contexto.getResources().getColor(R.color.color_secondary));
+                tvEstatus.setTextColor(this.contexto.getResources().getColor(R.color.colorRosa));
             ButterKnife.bind(this, itemView);
         }
 

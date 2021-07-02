@@ -35,7 +35,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
-        android:id="@+id/scrollMap"
+        android:id="@+id/scrollMapNueva"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@mipmap/fondo1"
@@ -52,7 +52,7 @@
 
                 <fragment
                     xmlns:map="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/map"
+                    android:id="@+id/mapNueva"
                     class="com.proathome.servicios.WorkaroundMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="500dp"
@@ -70,7 +70,7 @@
                     android:gravity="center_vertical|center"
                     android:drawableLeft="@drawable/direccion"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/map"
+                    app:layout_constraintTop_toBottomOf="@+id/mapNueva"
                     style="@style/Textos"/>
 
                 <com.google.android.material.button.MaterialButton
@@ -186,7 +186,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
                     android:hint="Horario Elegido"
-                    app:layout_constraintEnd_toEndOf="@id/map"
+                    app:layout_constraintEnd_toEndOf="@id/mapNueva"
                     app:layout_constraintStart_toEndOf="@id/elegirHorario"
                     app:layout_constraintTop_toBottomOf="@id/text_elegirHorario">
 
@@ -231,6 +231,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Horas:"
+                    android:paddingTop="4dp"
                     android:textColor="@color/colorGris"
                     android:fontFamily="@font/mooka"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
@@ -266,10 +267,11 @@
 
                 <TextView
                     android:id="@+id/textTipo"
-                    android:layout_width="40dp"
-                    android:layout_height="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="@dimen/common_padding_min"
                     android:text="Tipo:"
+                    android:paddingTop="4dp"
                     android:textColor="@color/colorGris"
                     android:fontFamily="@font/mooka"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
@@ -293,11 +295,12 @@
 
                 <TextView
                     android:id="@+id/tvPersonas"
-                    android:layout_width="150dp"
-                    android:layout_height="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="@dimen/common_padding_min"
                     android:layout_marginTop="@dimen/common_padding_min"
                     android:textColor="@color/colorGris"
+                    android:paddingTop="@dimen/common_padding_min"
                     android:fontFamily="@font/mooka"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:text="Número de personas:"
@@ -452,8 +455,8 @@
                     android:hint="Observaciones "
                     android:layout_margin="@dimen/common_padding_min"
                     app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="@id/map"
-                    app:layout_constraintStart_toStartOf="@id/map"
+                    app:layout_constraintEnd_toEndOf="@id/mapNueva"
+                    app:layout_constraintStart_toStartOf="@id/mapNueva"
                     app:layout_constraintTop_toBottomOf="@id/observacionesTV">
 
                     <com.google.android.material.textfield.TextInputEditText
