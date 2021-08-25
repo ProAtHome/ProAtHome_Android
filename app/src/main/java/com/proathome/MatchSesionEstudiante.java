@@ -33,9 +33,9 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MatchSesionEstudiante extends AppCompatActivity implements OnMapReadyCallback {
 
-    private String linkInfoSesion = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/informacionSesionMatch";
-    private String linkAPIMatch = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/matchSesion";
-    private String linkFoto = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
+    private String linkInfoSesion = Constants.IP + "/ProAtHome/apiProAtHome/profesor/informacionSesionMatch";
+    private String linkAPIMatch = Constants.IP + "/ProAtHome/apiProAtHome/profesor/matchSesion";
+    private String linkFoto = Constants.IP_80 + "/assets/img/fotoPerfil/";
     private Unbinder mUnbinder;
     private GoogleMap mMap;
     private ScrollView mScrollView;

@@ -51,16 +51,16 @@ import mx.openpay.android.validation.CardValidator;
 
 public class EditarPerfilFragment extends Fragment {
 
-    private String linkRESTCargarPerfil = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/perfilCliente";
-    private String linkRESTDatosBancarios = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
-    private String linkRESTActualizarPerfil = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/actualizarPerfil";
-    private String linkRESTActualizarBanco = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/actualizarCuentaCliente";
-    private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
-    private String linkFoto = "http://" + Constants.IP + "/ProAtHome/assets/lib/ActualizarFotoAndroid.php";
+    private String linkRESTCargarPerfil = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/perfilCliente";
+    private String linkRESTDatosBancarios = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
+    private String linkRESTActualizarPerfil = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/actualizarPerfil";
+    private String linkRESTActualizarBanco = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/actualizarCuentaCliente";
+    private String imageHttpAddress = Constants.IP_80 + "/assets/img/fotoPerfil/";
+    private String linkFoto = Constants.IP_80 + "/assets/lib/ActualizarFotoAndroid.php";
     private Unbinder mUnbinder;
     private ServicioTaskPerfilEstudiante perfilEstudiante;
     private ServicioTaskBancoEstudiante bancoEstudiante;

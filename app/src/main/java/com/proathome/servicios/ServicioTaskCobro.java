@@ -25,12 +25,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
 
@@ -38,8 +39,8 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
     public static final int TOKEN_BD = 2;
     public static final int ENTENDIDO_CANCELAR = 3;
     public static final int ENTENDIDO_TE = 4;
-    private String linkCobro = "http://" + Constants.IP + "/ProAtHome/assets/lib/Cargo.php";
-    private String linkObtenerToken = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerToken/";
+    private String linkCobro = Constants.IP_80 + "/assets/lib/Cargo.php";
+    private String linkObtenerToken = Constants.IP + "/ProAtHome/apiProAtHome/cliente/obtenerToken/";
     private int idSesion, idEstudiante, tipo_boton;
     private String idCard, deviceId;
     private double cobro;
@@ -70,7 +71,7 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
 
         try {
             URL url = new URL(this.linkCobro);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
             DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
             separadoresPersonalizados.setDecimalSeparator('.');
@@ -100,7 +101,7 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
             os.close();
 
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer sb= new StringBuffer("");
                 String linea="";

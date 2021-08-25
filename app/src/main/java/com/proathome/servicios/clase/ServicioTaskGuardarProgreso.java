@@ -6,8 +6,10 @@ import com.proathome.utils.Constants;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
+
 import java.net.MalformedURLException;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskGuardarProgreso extends AsyncTask<Void, Void, String> {
 
@@ -31,7 +33,7 @@ public class ServicioTaskGuardarProgreso extends AsyncTask<Void, Void, String> {
         Constants.wsURL_GUARDAR_PROGRESO = Constants.linkActualizarProgreso_GUARDAR_PROGRESO + Constants.idSesion_GUARDAR_PROGRESO + "/" + Constants.idPerfil_GUARDAR_PROGRESO + "/" + Constants.progreso_GUARDAR_PROGRESO + "/" + Constants.progresoSegundos_GUARDAR_PROGRESO + "/" + Constants.tipoDeTiempo_GUARDAR_PROGRESO;
         try{
 
-            HttpURLConnection urlConnection = (HttpURLConnection) Constants.obtenerURL_GUARDAR_PROGRESO().openConnection();
+            HttpsURLConnection urlConnection = (HttpsURLConnection) Constants.obtenerURL_GUARDAR_PROGRESO().openConnection();
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
             urlConnection.setRequestMethod("PUT");
@@ -40,7 +42,7 @@ public class ServicioTaskGuardarProgreso extends AsyncTask<Void, Void, String> {
             urlConnection.setDoOutput(true);
 
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
 
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 

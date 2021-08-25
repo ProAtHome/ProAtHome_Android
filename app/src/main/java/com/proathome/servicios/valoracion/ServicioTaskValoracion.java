@@ -10,15 +10,16 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskValoracion extends AsyncTask<Void, Void, String> {
 
     private int idPerfil, tipoSolicitud;
-    private String linkValoracionProfesor = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerValoracion/";
-    private String linkValoracionEstudiante = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/obtenerValoracion/";
+    private String linkValoracionProfesor = Constants.IP + "/ProAtHome/apiProAtHome/cliente/obtenerValoracion/";
+    private String linkValoracionEstudiante = Constants.IP + "/ProAtHome/apiProAtHome/profesor/obtenerValoracion/";
     public static int PERFIL_PROFESOR = 1, PERFIL_ESTUDIANTE = 2;
 
     public ServicioTaskValoracion(int idPerfil, int tipoSolicitud){
@@ -38,14 +39,14 @@ public class ServicioTaskValoracion extends AsyncTask<Void, Void, String> {
         if(this.tipoSolicitud == ServicioTaskValoracion.PERFIL_PROFESOR){
             try{
                 URL url = new URL(this.linkValoracionProfesor + this.idPerfil);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
                 urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
                 urlConnection.setRequestMethod("GET");
                 urlConnection.setConnectTimeout(15000);
                 urlConnection.setReadTimeout(15000);
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";
@@ -68,14 +69,14 @@ public class ServicioTaskValoracion extends AsyncTask<Void, Void, String> {
         }else if(this.tipoSolicitud == ServicioTaskValoracion.PERFIL_ESTUDIANTE){
             try{
                 URL url = new URL(this.linkValoracionEstudiante + this.idPerfil);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
                 urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
                 urlConnection.setRequestMethod("GET");
                 urlConnection.setConnectTimeout(15000);
                 urlConnection.setReadTimeout(15000);
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";

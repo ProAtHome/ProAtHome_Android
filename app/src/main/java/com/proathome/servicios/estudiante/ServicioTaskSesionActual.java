@@ -13,15 +13,16 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
 
     private Context contexto;
-    private String linkAPISesionActual = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerSesionActual/", respuesta;
+    private String linkAPISesionActual = Constants.IP + "/ProAtHome/apiProAtHome/cliente/obtenerSesionActual/", respuesta;
     private int idEstudiante, tipoSolicitud;
     private ProgressDialog progressDialog;
     private boolean primeraVezI1 = true, primeraVezI2 = true, primeraVezI3 = true, primeraVezI4 = true, primeraVezI5 = true;
@@ -48,7 +49,7 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
         String wsURL = this.linkAPISesionActual + this.idEstudiante;
         try{
             URL url = new URL(wsURL);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
@@ -56,7 +57,7 @@ public class ServicioTaskSesionActual extends AsyncTask <Void, Void, String> {
             urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer stringBuffer = new StringBuffer("");
                 String linea = "";

@@ -72,10 +72,10 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     public static boolean banco = false, disponibilidad;
     public static String planSesion, correoEstudiante;
     public static DialogFragment dialogFragment;
-    private String registrarSesionREST = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/agregarSesion";
-    private String linkRESTDatosBancarios = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
+    private String registrarSesionREST = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/agregarSesion";
+    private String linkRESTDatosBancarios = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
     private Unbinder mUnbinder;
     public static ControladorTomarSesion tomarSesion;
     @BindView(R.id.text_direccionET)

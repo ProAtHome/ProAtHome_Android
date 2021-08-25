@@ -48,8 +48,8 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
 
     public static final String TAG = "Nueva Sesión";
     public static Context contexto;
-    private String linkAPISesiones = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/profesor/obtenerSesionesMovil";
+    private String linkAPISesiones = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesor/obtenerSesionesMovil";
     public static int RANGO_BUSQUEDA = 4000;
     private int idProfesor, rangoClase;
     private double latitud, longitud;

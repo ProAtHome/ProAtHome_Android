@@ -10,9 +10,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskOrdenPago extends AsyncTask<Void, Void, String> {
 
@@ -21,8 +22,8 @@ public class ServicioTaskOrdenPago extends AsyncTask<Void, Void, String> {
     private int idEstudiante, idSesion, tipoSolicitud;
     private double costoClase, costoTE;
     private String tipoPlan, estatusPago;
-    private String linkActualizarPago = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/actualizarPago";
-    private String linkPagoInicial = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/pagoInicial";
+    private String linkActualizarPago = Constants.IP + "/ProAtHome/apiProAtHome/cliente/actualizarPago";
+    private String linkPagoInicial = Constants.IP + "/ProAtHome/apiProAtHome/cliente/pagoInicial";
 
     public ServicioTaskOrdenPago(int idEstudiante, int idSesion, double costoClase, double costoTE,
                                  String tipoPlan, String estatusPago, int tipoSolicitud){
@@ -51,7 +52,7 @@ public class ServicioTaskOrdenPago extends AsyncTask<Void, Void, String> {
                 url = new URL(this.linkPagoInicial);
             else if(this.tipoSolicitud == ServicioTaskOrdenPago.SOLICITUD_COBRO_TE)
                 url = new URL(this.linkActualizarPago);
-            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            HttpsURLConnection httpURLConnection = (HttpsURLConnection)url.openConnection();
 
             JSONObject jsonDatos = new JSONObject();
             jsonDatos.put("costoClase", this.costoClase);
@@ -78,7 +79,7 @@ public class ServicioTaskOrdenPago extends AsyncTask<Void, Void, String> {
             outputStream.close();
 
             int responseCode = httpURLConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
 
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(httpURLConnection.getInputStream()));

@@ -11,16 +11,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class ServicioTaskValorar extends AsyncTask<Void, Void, String> {
 
-    private String linkValorarProfesor = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/valorarProfesor";
-    private String linkValorarEstudiante = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/profesor/valorarEstudiante";
+    private String linkValorarProfesor = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/valorarProfesor";
+    private String linkValorarEstudiante = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesor/valorarEstudiante";
     private int idEstudiante, idProfesor, procedencia, idSesion;
     private float valoracion;
     private String comentario;
@@ -47,7 +48,7 @@ public class ServicioTaskValorar extends AsyncTask<Void, Void, String> {
         if(this.procedencia == EvaluarFragment.PROCEDENCIA_ESTUDIANTE){
             try{
                 URL url = new URL(this.linkValorarProfesor);
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                HttpsURLConnection httpURLConnection = (HttpsURLConnection)url.openConnection();
 
                 JSONObject jsonDatos = new JSONObject();
                 jsonDatos.put("idEstudiante", this.idEstudiante);
@@ -73,7 +74,7 @@ public class ServicioTaskValorar extends AsyncTask<Void, Void, String> {
                 outputStream.close();
 
                 int responseCode = httpURLConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
 
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                             httpURLConnection.getInputStream()));
@@ -104,7 +105,7 @@ public class ServicioTaskValorar extends AsyncTask<Void, Void, String> {
         }else if(this.procedencia == EvaluarFragment.PROCEDENCIA_PROFESOR){
             try{
                 URL url = new URL(this.linkValorarEstudiante);
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                HttpsURLConnection httpURLConnection = (HttpsURLConnection)url.openConnection();
 
                 JSONObject jsonDatos = new JSONObject();
                 jsonDatos.put("idEstudiante", this.idEstudiante);
@@ -130,7 +131,7 @@ public class ServicioTaskValorar extends AsyncTask<Void, Void, String> {
                 outputStream.close();
 
                 int responseCode = httpURLConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
 
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                             httpURLConnection.getInputStream()));

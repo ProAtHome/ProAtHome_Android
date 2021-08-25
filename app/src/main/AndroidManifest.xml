@@ -21,34 +21,54 @@
         android:theme="@style/MyTheme.DayNight"
         android:usesCleartextTraffic="true"
         tools:replace="android:icon">
-        <activity android:name=".ScrollActivityProfesor"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".PerfilBloqueado"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".PasosActivarCuentaEstudiante"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".PasosActivarCuenta"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ClaseProfesor"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ClaseEstudiante"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SincronizarClase"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".examen.Diagnostico7"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".examen.Diagnostico6"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".examen.Diagnostico5"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".examen.Diagnostico4"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".examen.Diagnostico3"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".examen.Diagnostico2"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".examen.Diagnostico1"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".password.CambiarPassword"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".password.CodigoEmail"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".password.EmailPassword"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".ScrollActivityProfesor"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PerfilBloqueado"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PasosActivarCuentaEstudiante"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PasosActivarCuenta"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ClaseProfesor"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ClaseEstudiante"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SincronizarClase"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".examen.Diagnostico7"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".examen.Diagnostico6"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".examen.Diagnostico5"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".examen.Diagnostico4"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".examen.Diagnostico3"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".examen.Diagnostico2"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".examen.Diagnostico1"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RutaAvanzado"
             android:screenOrientation="portrait"
@@ -86,15 +106,16 @@
 
         <activity
             android:name=".MapsFragment"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_maps_fragment" />
+            android:label="@string/title_activity_maps_fragment"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="om.google.android.geo.AIzaSyDQV0IqvZ7uyhxDCauRWpgAVgfnYu6iuAg"
             android:value="AIzaSyDQV0IqvZ7uyhxDCauRWpgAVgfnYu6iuAg" />
 
-        <activity android:name=".StaticActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".StaticActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ScrollActivity"
             android:label="@string/title_activity_scroll"
@@ -105,18 +126,22 @@
             android:label="@string/title_activity_inicio_estudiante"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".registrarseEstudiante"
+        <activity
+            android:name=".registrarseEstudiante"
             android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".registrarseProfesor"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".registrarseProfesor"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".loginProfesor"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".loginProfesor"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".MainActivity"
-                    android:screenOrientation="portrait"
-                    android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

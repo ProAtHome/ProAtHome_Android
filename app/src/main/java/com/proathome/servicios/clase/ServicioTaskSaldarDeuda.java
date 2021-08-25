@@ -11,13 +11,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class ServicioTaskSaldarDeuda extends AsyncTask<Void, Void, String> {
 
-    private String linkSaldarDeuda = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/saldarDeuda";
+    private String linkSaldarDeuda = Constants.IP + "/ProAtHome/apiProAtHome/cliente/saldarDeuda";
     private int idSesion;
 
     public ServicioTaskSaldarDeuda(int idSesion){
@@ -36,7 +37,7 @@ public class ServicioTaskSaldarDeuda extends AsyncTask<Void, Void, String> {
         try {
 
             URL url = new URL(this.linkSaldarDeuda);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
             JSONObject parametrosPost= new JSONObject();
             parametrosPost.put("idSesion", this.idSesion);
@@ -58,7 +59,7 @@ public class ServicioTaskSaldarDeuda extends AsyncTask<Void, Void, String> {
             os.close();
 
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
 
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer sb= new StringBuffer("");

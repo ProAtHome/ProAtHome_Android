@@ -50,16 +50,16 @@ import butterknife.Unbinder;
 
 public class EditarPerfilProfesorFragment extends Fragment {
 
-    private String linkRESTCargarPerfil = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/profesor/perfilProfesor";
-    private String linkRESTDatosBancarios = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/profesor/obtenerDatosBancarios";
-    private String linkRESTActualizarPerfil = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/profesor/actualizarPerfil";
-    private String linkRESTActualizarBanco = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/profesor/actualizarCuenta";
-    private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
-    private String linkFoto = "http://" + Constants.IP + "/ProAtHome/assets/lib/ActualizarFotoProfesorAndroid.php";
+    private String linkRESTCargarPerfil = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesor/perfilProfesor";
+    private String linkRESTDatosBancarios = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesor/obtenerDatosBancarios";
+    private String linkRESTActualizarPerfil = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesor/actualizarPerfil";
+    private String linkRESTActualizarBanco = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesor/actualizarCuenta";
+    private String imageHttpAddress = Constants.IP_80 + "/assets/img/fotoPerfil/";
+    private String linkFoto = Constants.IP_80 + "/assets/lib/ActualizarFotoProfesorAndroid.php";
     private Unbinder mUnbinder;
     private ServicioTaskPerfilProfesor perfilEstudiante;
     private ServicioTaskBancoProfesor bancoEstudiante;

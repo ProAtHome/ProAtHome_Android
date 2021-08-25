@@ -12,10 +12,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskAyuda extends AsyncTask<Void, Void, String> {
 
@@ -23,7 +24,7 @@ public class ServicioTaskAyuda extends AsyncTask<Void, Void, String> {
     private Context contexto;
     private int idCliente, tipo;
     private String respuesta, mensaje;
-    private String linkAPIAyuda = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/admin/enviarMensaje";
+    private String linkAPIAyuda = Constants.IP + "/ProAtHome/apiProAtHome/admin/enviarMensaje";
 
     public ServicioTaskAyuda(Context contexto, int idCliente, String mensaje, int tipo){
         this.contexto = contexto;
@@ -44,7 +45,7 @@ public class ServicioTaskAyuda extends AsyncTask<Void, Void, String> {
         String wsURL = this.linkAPIAyuda;
         try{
             URL url = new URL(wsURL);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
             JSONObject cancelar = new JSONObject();
             cancelar.put("idCliente", this.idCliente);
@@ -70,7 +71,7 @@ public class ServicioTaskAyuda extends AsyncTask<Void, Void, String> {
             outputStream.close();
 
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer stringBuffer = new StringBuffer("");
                 String linea = "";

@@ -34,8 +34,8 @@ public class SesionesProfesorFragment extends Fragment {
     private Unbinder mUnbinder;
     public static ComponentAdapterGestionarProfesor myAdapter;
     public static LottieAnimationView lottieAnimationView;
-    private String clasesHttpAddress = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/profesor/obtenerSesionesProfesorMatch/";
+    private String clasesHttpAddress = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesor/obtenerSesionesProfesorMatch/";
     private ServicioTaskSesionesProfesor sesionesTask;
     private int idProfesor = 0;
     @BindView(R.id.recyclerGestionarProfesor)

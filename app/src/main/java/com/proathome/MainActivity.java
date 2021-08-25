@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
 import com.google.android.material.textfield.TextInputEditText;
+import com.proathome.password.EmailPassword;
 import com.proathome.servicios.ServicioTaskSQL;
 import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.servicios.estudiante.ServicioTaskLoginEstudiante;
@@ -20,13 +21,14 @@ import com.proathome.utils.PermisosUbicacion;
 import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class MainActivity extends AppCompatActivity {
 
     private Intent intent;
-    private final String iniciarSesionREST = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/sesionCliente";
-    private final String latidoSQL = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/admin/latidoSQL";
+    private final String iniciarSesionREST = Constants.IP + "/ProAtHome/apiProAtHome/cliente/sesionCliente";
+    private final String latidoSQL = Constants.IP + "/ProAtHome/apiProAtHome/admin/latidoSQL";
     @BindView(R.id.correoET_IS)
     TextInputEditText correoET;
     @BindView(R.id.contraET_IS)
@@ -83,6 +85,13 @@ public class MainActivity extends AppCompatActivity {
     public void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onPostCreate(savedInstanceState, persistentState);
 
+    }
+
+    @OnClick(R.id.tvOlvideContra)
+    public void onClick(){
+        Intent intent = new Intent(this, EmailPassword.class);
+        intent.putExtra("tipoPerfil", Constants.TIPO_ESTUDIANTE);
+        startActivity(intent);
     }
 
     public void soyProfesor(View view){

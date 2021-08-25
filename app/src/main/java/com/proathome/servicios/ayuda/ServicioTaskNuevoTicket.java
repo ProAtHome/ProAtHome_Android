@@ -15,18 +15,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
     private String topico, descripcion, fechaCreacion, categoria;
-    private String linkNuevoTiket = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/nuevoTicket";
-    private String linkNuevoTiketProfesor = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/profesor/nuevoTicket";
+    private String linkNuevoTiket = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/nuevoTicket";
+    private String linkNuevoTiketProfesor = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesor/nuevoTicket";
     private int tipoUsuario, estatus, idUsuario, idSesion;
     private DialogFragment dialogFragment;
 
@@ -60,7 +61,7 @@ public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
             else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
                 url = new URL(this.linkNuevoTiketProfesor);
 
-            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            HttpsURLConnection httpURLConnection = (HttpsURLConnection)url.openConnection();
 
             JSONObject jsonDatos = new JSONObject();
             jsonDatos.put("tipoUsuario", this.tipoUsuario);
@@ -89,7 +90,7 @@ public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
             outputStream.close();
 
             int responseCode = httpURLConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
 
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(httpURLConnection.getInputStream()));

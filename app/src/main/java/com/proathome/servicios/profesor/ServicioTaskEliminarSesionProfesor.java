@@ -17,16 +17,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskEliminarSesionProfesor extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
     private int solicitud, idClase, idProfesor;
-    private String solicitudEliminar = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/solicitudEliminarSesion/";
-    private String eliminarClase = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/cancelarClase";
+    private String solicitudEliminar = Constants.IP + "/ProAtHome/apiProAtHome/profesor/solicitudEliminarSesion/";
+    private String eliminarClase = Constants.IP + "/ProAtHome/apiProAtHome/profesor/cancelarClase";
     private Fragment fragment;
 
     public ServicioTaskEliminarSesionProfesor(Context contexto, int idClase, int idProfesor, int solicitud, Fragment fragment){
@@ -50,7 +51,7 @@ public class ServicioTaskEliminarSesionProfesor extends AsyncTask<Void, Void, St
         if(this.solicitud == Constants.SOLICITUD_ELIMINAR){
             try {
                 URL url = new URL(this.solicitudEliminar + this.idClase + "/" + this.idProfesor);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                 //DEFINIR PARAMETROS DE CONEXION
                 urlConnection.setReadTimeout(15000);
@@ -59,7 +60,7 @@ public class ServicioTaskEliminarSesionProfesor extends AsyncTask<Void, Void, St
                 urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
                 int responseCode = urlConnection.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK) {
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
                     BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer sb = new StringBuffer("");
                     String linea = "";
@@ -84,7 +85,7 @@ public class ServicioTaskEliminarSesionProfesor extends AsyncTask<Void, Void, St
         }else if(this.solicitud == Constants.ELIMINAR_SESION){
             try{
                 URL url = new URL(this.eliminarClase);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                 JSONObject parametrosPOST = new JSONObject();
                 parametrosPOST.put("idProfesor", this.idProfesor);
@@ -104,7 +105,7 @@ public class ServicioTaskEliminarSesionProfesor extends AsyncTask<Void, Void, St
                 os.close();
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer sb = new StringBuffer("");
                     String linea = "";

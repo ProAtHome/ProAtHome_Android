@@ -23,8 +23,8 @@ import butterknife.Unbinder;
 public class InicioFragment extends Fragment {
 
     public static ComponentAdapter myAdapter;
-    private String clasesHttpAddress = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/obtenerSesiones/";
+    private String clasesHttpAddress = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/obtenerSesiones/";
     private ServicioTaskSesionesEstudiante sesionesTask;
     private Unbinder mUnbinder;
     public static LottieAnimationView lottieAnimationView;

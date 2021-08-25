@@ -59,10 +59,10 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     private boolean cambioFecha;
     private GoogleMap mMap;
     private Marker perth;
-    private String linkAPIEliminarSesion = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/eliminarSesion";
-    private String linkAPIUpSesion = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/actualizarSesion";
+    private String linkAPIEliminarSesion = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/eliminarSesion";
+    private String linkAPIUpSesion = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/actualizarSesion";
     public static final String TAG = "Detalles de la Sesión";
     private int idSeccion, idNivel, idBloque, tiempo, idEstudiante;
     private String tipoPlanString;

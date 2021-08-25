@@ -16,17 +16,18 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskObtenerTickets extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
-    private String linkObtenerTickets = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/obtenerTickets/";
-    private String linkObtenerTicketsProfesor = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/profesor/obtenerTickets/";
+    private String linkObtenerTickets = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/obtenerTickets/";
+    private String linkObtenerTicketsProfesor = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesor/obtenerTickets/";
     private int idUsuario, tipoUsuario;
     private ProgressDialog progressDialog;
 
@@ -52,14 +53,14 @@ public class ServicioTaskObtenerTickets extends AsyncTask<Void, Void, String> {
                 url = new URL(this.linkObtenerTickets + idUsuario);
             else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
                 url = new URL(this.linkObtenerTicketsProfesor + idUsuario);
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection httpURLConnection = (HttpsURLConnection) url.openConnection();
             httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
             httpURLConnection.setReadTimeout(15000);
             httpURLConnection.setConnectTimeout(1500);
             httpURLConnection.setRequestMethod("GET");
 
             int responseCode = httpURLConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(httpURLConnection.getInputStream()));
                 StringBuffer stringBuffer = new StringBuffer("");

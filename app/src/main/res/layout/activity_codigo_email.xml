@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/fondo1"
+    tools:context=".password.EmailPassword">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@mipmap/logo"
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvReestablecimiento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/common_padding_middle"
+        android:paddingRight="@dimen/common_padding_middle"
+        android:layout_marginTop="@dimen/common_padding_middle"
+        android:text="Introduce el código de seguridad que te enviamos:"
+        app:layout_constraintStart_toStartOf="@id/Linear"
+        app:layout_constraintEnd_toEndOf="@id/Linear"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        style="@style/Titulos"/>
+
+    <LinearLayout
+        android:id="@+id/Linear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvReestablecimiento"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/d1"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint=""
+            android:layout_marginLeft="@dimen/common_padding_default"
+            android:layout_marginRight="@dimen/common_padding_default"
+            android:inputType="number"
+            android:textColorHint="@color/colorAzul"
+            android:layout_marginTop="@dimen/common_padding_min"
+            app:boxStrokeWidth="2dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/d1ET_IS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/din"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@android:color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/d2"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint=""
+            android:inputType="number"
+            android:layout_marginLeft="@dimen/common_padding_default"
+            android:layout_marginRight="@dimen/common_padding_default"
+            android:textColorHint="@color/colorAzul"
+            android:layout_marginTop="@dimen/common_padding_min"
+            app:boxStrokeWidth="2dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/d2ET_IS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/din"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@android:color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/d3"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint=""
+            android:inputType="number"
+            android:layout_marginLeft="@dimen/common_padding_default"
+            android:layout_marginRight="@dimen/common_padding_default"
+            android:textColorHint="@color/colorAzul"
+            android:layout_marginTop="@dimen/common_padding_min"
+            app:boxStrokeWidth="2dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/d3ET_IS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/din"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@android:color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/d4"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint=""
+            android:inputType="number"
+            android:layout_marginLeft="@dimen/common_padding_default"
+            android:layout_marginRight="@dimen/common_padding_default"
+            android:textColorHint="@color/colorAzul"
+            android:layout_marginTop="@dimen/common_padding_min"
+            app:boxStrokeWidth="2dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/d4ET_IS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/din"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@android:color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/validarCodigoBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Validar"
+        android:backgroundTint="@color/colorAzul"
+        android:fontFamily="@font/din"
+        app:layout_constraintEnd_toEndOf="@id/Linear"
+        app:layout_constraintStart_toStartOf="@id/Linear"
+        app:layout_constraintTop_toBottomOf="@id/Linear"
+        style="@style/Widget.MaterialComponents.Button"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

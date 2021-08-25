@@ -29,22 +29,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
     private int estatus;
     public String respuesta;
-    private String linkAPIestatus = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/estatusExamenDiagnostico/";
-    private String linkAPIinicio_cancelar = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/examenDiagnostico";
-    private String linkAPIenCurso = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/enCursoExamenDiagnostico";
-    private String linkAPIinfoExamenFinal = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/infoExamenDiagnosticoFinal/";
-    private String linkAPIinfoExamen = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/infoExamenDiagnostico/";
-    private String linkAPIreiniciar = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/reiniciarExamenDiagnostico";
+    private String linkAPIestatus = Constants.IP + "/ProAtHome/apiProAtHome/cliente/estatusExamenDiagnostico/";
+    private String linkAPIinicio_cancelar = Constants.IP + "/ProAtHome/apiProAtHome/cliente/examenDiagnostico";
+    private String linkAPIenCurso = Constants.IP + "/ProAtHome/apiProAtHome/cliente/enCursoExamenDiagnostico";
+    private String linkAPIinfoExamenFinal = Constants.IP + "/ProAtHome/apiProAtHome/cliente/infoExamenDiagnosticoFinal/";
+    private String linkAPIinfoExamen = Constants.IP + "/ProAtHome/apiProAtHome/cliente/infoExamenDiagnostico/";
+    private String linkAPIreiniciar = Constants.IP + "/ProAtHome/apiProAtHome/cliente/reiniciarExamenDiagnostico";
     private int idEstudiante;
     private int puntacionAsumar;
     private int preguntaActual;
@@ -89,7 +90,7 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
             String wsURL = this.linkAPIestatus + this.idEstudiante;
             try{
                 URL url = new URL(wsURL);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                 urlConnection.setReadTimeout(15000);
                 urlConnection.setConnectTimeout(15000);
@@ -97,7 +98,7 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
                 urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";
@@ -126,7 +127,7 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
             String wsURL = this.linkAPIinicio_cancelar;
             try{
                 URL url = new URL(wsURL);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                 JSONObject cancelar = new JSONObject();
                 cancelar.put("idEstudiante", this.idEstudiante);
@@ -150,7 +151,7 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
                 outputStream.close();
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";
@@ -183,7 +184,7 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
             String wsURL = this.linkAPIinfoExamenFinal + this.idEstudiante;
             try{
                 URL url = new URL(wsURL);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                 urlConnection.setReadTimeout(15000);
                 urlConnection.setConnectTimeout(15000);
@@ -191,7 +192,7 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
                 urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";
@@ -220,7 +221,7 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
             String wsURL = this.linkAPIinicio_cancelar;
             try{
                 URL url = new URL(wsURL);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                 JSONObject cancelar = new JSONObject();
                 cancelar.put("idEstudiante", this.idEstudiante);
@@ -244,7 +245,7 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
                 outputStream.close();
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";
@@ -277,7 +278,7 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
             String wsURL = this.linkAPIenCurso;
             try{
                 URL url = new URL(wsURL);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                 JSONObject cancelar = new JSONObject();
                 cancelar.put("idEstudiante", this.idEstudiante);
@@ -301,7 +302,7 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
                 outputStream.close();
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";
@@ -334,7 +335,7 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
             String wsURL = this.linkAPIenCurso;
             try{
                 URL url = new URL(wsURL);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                 JSONObject cancelar = new JSONObject();
                 cancelar.put("idEstudiante", this.idEstudiante);
@@ -358,7 +359,7 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
                 outputStream.close();
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";
@@ -391,7 +392,7 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
             String wsURL = this.linkAPIinfoExamen + this.idEstudiante;
             try{
                 URL url = new URL(wsURL);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                 urlConnection.setReadTimeout(15000);
                 urlConnection.setConnectTimeout(15000);
@@ -399,7 +400,7 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
                 urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";
@@ -428,7 +429,7 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
             String wsURL = this.linkAPIreiniciar;
             try{
                 URL url = new URL(wsURL);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                 JSONObject cancelar = new JSONObject();
                 cancelar.put("idEstudiante", this.idEstudiante);
@@ -452,7 +453,7 @@ public class ServicioExamenDiagnostico extends AsyncTask<Void, Void, String> {
                 outputStream.close();
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";

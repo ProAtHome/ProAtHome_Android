@@ -18,18 +18,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskDatosFiscales extends AsyncTask<Void,Void,String> {
 
     private Context contexto;
     private int tipoPerfil, idUsuario, tipoPeticion;
-    private String linkEstudiantesGET = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/getDatosFiscales/";
-    private String linkProfesoresGET = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/getDatosFiscales/";
-    private String linkEstudiantesUP = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/guardarDatosFiscales";
-    private String linkProfesoresUP = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/guardarDatosFiscales";
+    private String linkEstudiantesGET = Constants.IP + "/ProAtHome/apiProAtHome/cliente/getDatosFiscales/";
+    private String linkProfesoresGET = Constants.IP + "/ProAtHome/apiProAtHome/profesor/getDatosFiscales/";
+    private String linkEstudiantesUP = Constants.IP + "/ProAtHome/apiProAtHome/cliente/guardarDatosFiscales";
+    private String linkProfesoresUP = Constants.IP + "/ProAtHome/apiProAtHome/profesor/guardarDatosFiscales";
     private String razonSocial, tipoPersona, rfc, cfdi;
     private DialogFragment dialogFragment;
 
@@ -64,14 +65,14 @@ public class ServicioTaskDatosFiscales extends AsyncTask<Void,Void,String> {
                     url = new URL(this.linkEstudiantesGET + this.idUsuario);
                 else if(this.tipoPerfil == Constants.TIPO_USUARIO_PROFESOR)
                     url = new URL(this.linkProfesoresGET + this.idUsuario);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
                 urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
                 urlConnection.setRequestMethod("GET");
                 urlConnection.setConnectTimeout(15000);
                 urlConnection.setReadTimeout(15000);
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";
@@ -99,7 +100,7 @@ public class ServicioTaskDatosFiscales extends AsyncTask<Void,Void,String> {
                 else if(this.tipoPerfil == Constants.TIPO_USUARIO_PROFESOR)
                     url = new URL(this.linkProfesoresUP);
 
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                HttpsURLConnection httpURLConnection = (HttpsURLConnection)url.openConnection();
                 JSONObject jsonDatos = new JSONObject();
                 if(this.tipoPerfil == Constants.TIPO_USUARIO_ESTUDIANTE)
                     jsonDatos.put("idEstudiante", this.idUsuario);
@@ -127,7 +128,7 @@ public class ServicioTaskDatosFiscales extends AsyncTask<Void,Void,String> {
                 outputStream.close();
 
                 int responseCode = httpURLConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
 
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                             httpURLConnection.getInputStream()));

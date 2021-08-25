@@ -12,8 +12,9 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskObtenerMsgTicket extends AsyncTask<Void, Void, String> {
 
@@ -33,7 +34,7 @@ public class ServicioTaskObtenerMsgTicket extends AsyncTask<Void, Void, String> 
     protected String doInBackground(Void... voids) {
 
         try{
-            HttpURLConnection httpURLConnection = (HttpURLConnection) Constants.obtenerURL_Ticket().openConnection();
+            HttpsURLConnection httpURLConnection = (HttpsURLConnection) Constants.obtenerURL_Ticket().openConnection();
             httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
             httpURLConnection.setReadTimeout(15000);
             httpURLConnection.setConnectTimeout(15000);
@@ -41,7 +42,7 @@ public class ServicioTaskObtenerMsgTicket extends AsyncTask<Void, Void, String> 
 
             int responseCode = httpURLConnection.getResponseCode();
 
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(httpURLConnection.getInputStream()));
                 StringBuffer stringBuffer = new StringBuffer("");

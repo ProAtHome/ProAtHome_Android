@@ -27,7 +27,7 @@ public class registrarseProfesor extends AppCompatActivity {
     public static final int DATE_ID = 0;
     public Calendar calendar = Calendar.getInstance();
     private ServicioTaskRegistroProfesor servicioTaskRegistroProfesor;
-    private final String registrarProfesorREST = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/" +
+    private final String registrarProfesorREST = Constants.IP + "/ProAtHome/apiProAtHome/" +
             "profesor/agregarProfesor";
     @BindView(R.id.nombreET_R)
     TextInputEditText nombreET;
@@ -127,13 +127,17 @@ public class registrarseProfesor extends AppCompatActivity {
                 && !direccionET.getText().toString().trim().equalsIgnoreCase("") && !correoET.getText().toString().trim().equalsIgnoreCase("")
                 && !contrasenaET.getText().toString().trim().equalsIgnoreCase("") && !contrasena2ET.getText().toString().trim().equalsIgnoreCase("")){
 
-            //Verificar que las contraseñas sean iguales
-            if(contrasenaET.getText().toString().trim().equals(contrasena2ET.getText().toString())) {
-                servicioTaskRegistroProfesor = new ServicioTaskRegistroProfesor(this, registrarProfesorREST, nombreET.getText().toString(), paternoET.getText().toString(), maternoET.getText().toString(), fechaET.getText().toString(),
-                        celularET.getText().toString(), telefonoET.getText().toString(), direccionET.getText().toString(), genero.getSelectedItem().toString(), correoET.getText().toString(), contrasenaET.getText().toString());
-                servicioTaskRegistroProfesor.execute();
+            //Validamos numero, minuscula, mayuscula,
+            if(contrasenaET.getText().toString().trim().matches(".*\\d.*") && contrasenaET.getText().toString().trim().matches(".*[a-z].*") && contrasenaET.getText().toString().trim().matches(".*[A-Z].*") && contrasenaET.getText().toString().trim().length() >= 8){
+                //Verificar que las contraseñas sean iguales
+                if(contrasenaET.getText().toString().trim().equals(contrasena2ET.getText().toString())) {
+                    servicioTaskRegistroProfesor = new ServicioTaskRegistroProfesor(this, registrarProfesorREST, nombreET.getText().toString(), paternoET.getText().toString(), maternoET.getText().toString(), fechaET.getText().toString(),
+                            celularET.getText().toString(), telefonoET.getText().toString(), direccionET.getText().toString(), genero.getSelectedItem().toString(), correoET.getText().toString(), contrasenaET.getText().toString());
+                    servicioTaskRegistroProfesor.execute();
+                }else
+                    errorMsg("¡ERROR!", "Las contraseñas no coinciden.", SweetAlert.ERROR_TYPE);
             }else
-                errorMsg("¡ERROR!", "Las contraseñas no coinciden.", SweetAlert.ERROR_TYPE);
+                errorMsg("¡ESPERA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.", SweetAlert.WARNING_TYPE);
         }else
             errorMsg("¡ERROR!", "Llena todos los campos correctamente.", SweetAlert.ERROR_TYPE);
     }//Fin método registrar.

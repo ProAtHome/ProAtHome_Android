@@ -170,16 +170,18 @@ public class Constants {
     public static final  int BLOQUE1_AVANZADO5= 1;
     public static final  int BLOQUE2_AVANZADO5= 2;
     /*FIN RUTA NIVELES*/
-    public static final String IP = "ec2-52-32-182-154.us-west-2.compute.amazonaws.com";
-
+    public static final String IP = "https://www.proathome.com.mx:8181";
+    public static final String IP_80 = "https://www.proathome.com.mx";
+    //public static final String IP = "http://192.168.100.8:8080";
+    //public static final String IP_80 = "http://192.168.100.8/ProAtHome";
 
     /*Prueba Estaticos Singleton*/
 
     /*ASYNCTASK SERVICIO MENSAJES TICKET*/
     public static Context contexto_Ticket;
     public static int idUsuario_Ticket, idTicket_Ticket, tipoUsuario_Ticket;
-    public static String linkObtenerMsgTicket = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/admin/obtenerMsgTicket/";
+    public static String linkObtenerMsgTicket = Constants.IP +
+            "/ProAtHome/apiProAtHome/admin/obtenerMsgTicket/";
     public static String result_Ticket = null;
     public static URL obtenerURL_Ticket() throws MalformedURLException {
         URL url = null;
@@ -199,10 +201,10 @@ public class Constants {
     public static boolean TE_activado_DISPONIBILIDAD_PROGRESO;
     public static int progresoSegundosTE_DISPONIBILIDAD_PROGRESO;
     public static int progresoTE_DISPONIBILIDAD_PROGRESO;
-    public static String linkSincronizarEstudiante_DISPONIBILIDAD_PROGRESO = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/validarEstatusClase/";
-    public static String linkSincronizarProfesor_DISPONIBILIDAD_PROGRESO = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/profesor/validarEstatusClase/";
+    public static String linkSincronizarEstudiante_DISPONIBILIDAD_PROGRESO = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/validarEstatusClase/";
+    public static String linkSincronizarProfesor_DISPONIBILIDAD_PROGRESO = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesor/validarEstatusClase/";
     public static int idPerfil_DISPONIBILIDAD_PROGRESO, tipoPerfil_DISPONIBILIDAD_PROGRESO,
             idSesion_DISPONIBILIDAD_PROGRESO;
     public static Context contexto_DISPONIBILIDAD_PROGRESO;
@@ -218,10 +220,10 @@ public class Constants {
     /*FIN ASYNCTASK SERVICIO OBTENER DISPONIBILIDAD Y PROGRESO*/
 
     /*ASYNCTASK SERVICIO OBTENER PROGRESO*/
-    public static String linkSincronizarEstudiante_PROGRESO = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/validarEstatusClase/";
-    public static String linkSincronizarProfesor_PROGRESO = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/profesor/validarEstatusClase/";
+    public static String linkSincronizarEstudiante_PROGRESO = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/validarEstatusClase/";
+    public static String linkSincronizarProfesor_PROGRESO = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesor/validarEstatusClase/";
     public static int idPerfil_PROGRESO, tipoPerfil_PROGRESO, idSesion_PROGRESO, progresoSegundosS_PROGRESO,
             progresoS_PROGRESO;
     public static Context contexto_PROGRESO;
@@ -234,8 +236,8 @@ public class Constants {
     /*FIN ASYNCTASK SERVICIO OBTENER PROGRESO*/
 
     /*ASYNCTASK SERVICIO GUARDAR PROGRESO*/
-    public static String linkActualizarProgreso_GUARDAR_PROGRESO = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/profesor/actualizarProgresoClase/";
+    public static String linkActualizarProgreso_GUARDAR_PROGRESO = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesor/actualizarProgresoClase/";
     public static String wsURL_GUARDAR_PROGRESO;
     public static Context contexto_GUARDAR_PROGRESO;
     public static int idPerfil_GUARDAR_PROGRESO, tipoDeTiempo_GUARDAR_PROGRESO, idSesion_GUARDAR_PROGRESO,
@@ -248,10 +250,10 @@ public class Constants {
     /*FIN ASYNCTASK GUARDAR PROGRESO*/
 
     /*ASYNCTASK CAMBIAR ESTATUS CLASE*/
-    public static String linkCambiarEstatusProfesor_CAMBIAR_ESTATUS = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/profesor/cambiarEstatusClase/";
-    public static String linkCambiarEstatusEstudiante_CAMBIAR_ESTATUS = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/cambiarEstatusClase/";
+    public static String linkCambiarEstatusProfesor_CAMBIAR_ESTATUS = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesor/cambiarEstatusClase/";
+    public static String linkCambiarEstatusEstudiante_CAMBIAR_ESTATUS = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/cambiarEstatusClase/";
     public static Context contexto_CAMBIAR_ESTATUS;
     public static String wsURL_CAMBIAR_ESTATUS;
     public static String result_CAMBIAR_ESTATUS;

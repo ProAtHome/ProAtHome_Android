@@ -6,16 +6,17 @@ import com.proathome.utils.Constants;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskMasTiempo extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
     private int idSesion, idEstudiante, progresoTotal;
-    private String linkActivarTE = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/activarTE/";
+    private String linkActivarTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/activarTE/";
 
     public ServicioTaskMasTiempo(Context contexto, int idSesion, int idEstudiante, int progresoTotal){
         this.contexto = contexto;
@@ -36,7 +37,7 @@ public class ServicioTaskMasTiempo extends AsyncTask<Void, Void, String> {
         try{
 
             URL url = new URL(this.linkActivarTE + this.idSesion + "/" + this.idEstudiante + "/" + this.progresoTotal);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
@@ -47,7 +48,7 @@ public class ServicioTaskMasTiempo extends AsyncTask<Void, Void, String> {
 
             int responseCode = urlConnection.getResponseCode();
 
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
 
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 

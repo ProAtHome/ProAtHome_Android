@@ -18,10 +18,11 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskObtenerSesiones extends AsyncTask<Void, Void, String> {
 
@@ -49,7 +50,7 @@ public class ServicioTaskObtenerSesiones extends AsyncTask<Void, Void, String> {
 
         try {
             URL url = new URL(this.linkAPI + "/" + this.rangoClase);
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection httpURLConnection = (HttpsURLConnection) url.openConnection();
 
             httpURLConnection.setReadTimeout(15000);
             httpURLConnection.setConnectTimeout(15000);
@@ -58,7 +59,7 @@ public class ServicioTaskObtenerSesiones extends AsyncTask<Void, Void, String> {
 
             int responseCode = httpURLConnection.getResponseCode();
 
-            if (responseCode == HttpURLConnection.HTTP_OK) {
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
 
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                         httpURLConnection.getInputStream()));

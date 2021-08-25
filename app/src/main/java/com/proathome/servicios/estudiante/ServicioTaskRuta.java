@@ -13,16 +13,17 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskRuta extends AsyncTask <Void, Void, String> {
 
     private Context contexto;
     private String respuesta;
-    private String linkAPIEstadoRuta = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/estadoRutaAprendizaje/";
+    private String linkAPIEstadoRuta = Constants.IP + "/ProAtHome/apiProAtHome/cliente/estadoRutaAprendizaje/";
     private ProgressDialog progressDialog;
     private int idEstudiante, estado, lugarRuta;
 
@@ -47,7 +48,7 @@ public class ServicioTaskRuta extends AsyncTask <Void, Void, String> {
             String wsURL = this.linkAPIEstadoRuta + this.idEstudiante + "/" + RutaFragment.SECCIONES;
             try{
                 URL url = new URL(wsURL);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                 urlConnection.setReadTimeout(15000);
                 urlConnection.setConnectTimeout(15000);
@@ -55,7 +56,7 @@ public class ServicioTaskRuta extends AsyncTask <Void, Void, String> {
                 urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";
@@ -84,7 +85,7 @@ public class ServicioTaskRuta extends AsyncTask <Void, Void, String> {
             String wsURL = this.linkAPIEstadoRuta + this.idEstudiante + "/" + RutaBasico.NIVEL_BASICO;
             try{
                 URL url = new URL(wsURL);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                 urlConnection.setReadTimeout(15000);
                 urlConnection.setConnectTimeout(15000);
@@ -92,7 +93,7 @@ public class ServicioTaskRuta extends AsyncTask <Void, Void, String> {
                 urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";
@@ -121,7 +122,7 @@ public class ServicioTaskRuta extends AsyncTask <Void, Void, String> {
             String wsURL = this.linkAPIEstadoRuta + this.idEstudiante + "/" + RutaIntermedio.NIVEL_INTERMEDIO;
             try{
                 URL url = new URL(wsURL);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                 urlConnection.setReadTimeout(15000);
                 urlConnection.setConnectTimeout(15000);
@@ -129,7 +130,7 @@ public class ServicioTaskRuta extends AsyncTask <Void, Void, String> {
                 urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";
@@ -158,7 +159,7 @@ public class ServicioTaskRuta extends AsyncTask <Void, Void, String> {
             String wsURL = this.linkAPIEstadoRuta + this.idEstudiante + "/" + RutaAvanzado.NIVEL_AVANZADO;
             try{
                 URL url = new URL(wsURL);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                 urlConnection.setReadTimeout(15000);
                 urlConnection.setConnectTimeout(15000);
@@ -166,7 +167,7 @@ public class ServicioTaskRuta extends AsyncTask <Void, Void, String> {
                 urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";

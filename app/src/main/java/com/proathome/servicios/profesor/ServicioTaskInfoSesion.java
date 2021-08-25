@@ -14,9 +14,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
 
@@ -48,14 +49,14 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
         String resultado = null;
         try{
             URL url = new URL(this.linkAPI);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
             urlConnection.setRequestMethod("GET");
             urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
                 InputStream inputStream = urlConnection.getInputStream();
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
                 JsonReader jsonReader = new JsonReader(inputStreamReader);
@@ -120,7 +121,7 @@ public class ServicioTaskInfoSesion extends AsyncTask<Void, Void, String> {
             URL imageUrl = null;
             try {
                 imageUrl = new URL(this.linkFoto + this.foto);
-                HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
+                HttpsURLConnection conn = (HttpsURLConnection) imageUrl.openConnection();
                 conn.connect();
                 loadedImage = BitmapFactory.decodeStream(conn.getInputStream());
 

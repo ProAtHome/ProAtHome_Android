@@ -12,9 +12,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskUpPerfilEstudiante extends AsyncTask<Void, Void, String> {
 
@@ -51,7 +52,7 @@ public class ServicioTaskUpPerfilEstudiante extends AsyncTask<Void, Void, String
 
         try{
             url = new URL(wsURL);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
             JSONObject parametrosPOST = new JSONObject();
             parametrosPOST.put("idCliente", this.idEstudiante);
@@ -75,7 +76,7 @@ public class ServicioTaskUpPerfilEstudiante extends AsyncTask<Void, Void, String
             os.close();
 
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer sb = new StringBuffer("");
                 String linea = "";

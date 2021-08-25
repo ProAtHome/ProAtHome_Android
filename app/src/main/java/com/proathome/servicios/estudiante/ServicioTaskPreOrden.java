@@ -10,15 +10,16 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskPreOrden extends AsyncTask<Void, Void, String> {
 
     public static final int PANTALLA_COBRO_FINAL = 2, PANTALLA_PRE_COBRO = 1;
     private int idEstudiante, idSesion, pantalla;
-    private String linkPreOrden = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerPreOrden/";
+    private String linkPreOrden = Constants.IP + "/ProAtHome/apiProAtHome/cliente/obtenerPreOrden/";
 
     public ServicioTaskPreOrden(int idEstudiante, int idSesion, int pantalla){
         this.idEstudiante = idEstudiante;
@@ -37,7 +38,7 @@ public class ServicioTaskPreOrden extends AsyncTask<Void, Void, String> {
 
         try{
             URL url = new URL(this.linkPreOrden + this.idEstudiante + "/" + this.idSesion);
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection httpURLConnection = (HttpsURLConnection) url.openConnection();
 
             httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
             httpURLConnection.setRequestMethod("GET");
@@ -45,7 +46,7 @@ public class ServicioTaskPreOrden extends AsyncTask<Void, Void, String> {
             httpURLConnection.setReadTimeout(15000);
 
             int responseCode = httpURLConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
                 StringBuffer stringBuffer = new StringBuffer("");
                 String linea = "";

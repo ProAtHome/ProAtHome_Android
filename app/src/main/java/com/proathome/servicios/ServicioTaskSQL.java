@@ -6,9 +6,9 @@ import com.proathome.utils.SweetAlert;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskSQL extends AsyncTask<Void, Void, String>{
 
@@ -35,7 +35,7 @@ public class ServicioTaskSQL extends AsyncTask<Void, Void, String>{
 
         try {
             url = new URL(wsURL);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
             //DEFINIR PARAMETROS DE CONEXION
             urlConnection.setReadTimeout(15000);
@@ -44,7 +44,7 @@ public class ServicioTaskSQL extends AsyncTask<Void, Void, String>{
             urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
             int responseCode=urlConnection.getResponseCode();
-            if(responseCode== HttpURLConnection.HTTP_OK){
+            if(responseCode== HttpsURLConnection.HTTP_OK){
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer sb= new StringBuffer("");
                 String linea="";

@@ -11,18 +11,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskActPagoTE extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
     private int idSesion;
     private double cobro;
-    private String linkCostoTE = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/actualizarPagoTE";
+    private String linkCostoTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/actualizarPagoTE";
 
     public ServicioTaskActPagoTE(Context contexto, double cobro, int idSesion){
         this.contexto = contexto;
@@ -41,7 +42,7 @@ public class ServicioTaskActPagoTE extends AsyncTask<Void, Void, String> {
 
         try {
             URL url = new URL(this.linkCostoTE);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
             DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
             separadoresPersonalizados.setDecimalSeparator('.');
@@ -67,7 +68,7 @@ public class ServicioTaskActPagoTE extends AsyncTask<Void, Void, String> {
             os.close();
 
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer sb= new StringBuffer("");
                 String linea="";

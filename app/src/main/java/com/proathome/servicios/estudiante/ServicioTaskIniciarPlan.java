@@ -10,14 +10,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskIniciarPlan extends AsyncTask<Void, Void, String> {
 
     private int idEstudiante;
-    private String linkIniciarPlan = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/iniciarPlan";
+    private String linkIniciarPlan = Constants.IP + "/ProAtHome/apiProAtHome/cliente/iniciarPlan";
 
     public ServicioTaskIniciarPlan(int idEstudiante){
         this.idEstudiante = idEstudiante;
@@ -35,7 +36,7 @@ public class ServicioTaskIniciarPlan extends AsyncTask<Void, Void, String> {
         try{
             URL url = new URL(this.linkIniciarPlan);
 
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
             JSONObject parametros = new JSONObject();
             parametros.put("idEstudiante", this.idEstudiante);
@@ -55,7 +56,7 @@ public class ServicioTaskIniciarPlan extends AsyncTask<Void, Void, String> {
             os.close();
 
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
 
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 

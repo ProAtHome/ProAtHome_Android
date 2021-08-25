@@ -35,7 +35,7 @@ public class PlanesFragment extends DialogFragment {
     private Unbinder mUnbinder;
     public static final int PLAN_SEMANAL = 1, PLAN_MENSUAL = 2, PLAN_BIMESTRAL = 3;
     public static String tarjeta, nombreTitular, mes, ano, nombreEstudiante, correoEstudiante, fechaServidor;
-    private String linkRESTDatosBancarios = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
+    private String linkRESTDatosBancarios = Constants.IP + "/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
     public static int idEstudiante, idSeccion, idNivel, idBloque;
     public static DialogFragment planesFragment;
     @BindView(R.id.toolbar)

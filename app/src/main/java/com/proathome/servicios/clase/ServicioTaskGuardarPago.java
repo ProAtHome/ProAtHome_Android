@@ -18,8 +18,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
+
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskGuardarPago extends AsyncTask<Void, Void, String> {
 
@@ -27,8 +29,8 @@ public class ServicioTaskGuardarPago extends AsyncTask<Void, Void, String> {
     private String token, estatusPago;
     private double costoClase, costoTE;
     private int idEstudiante;
-    private String linkGuardarToken = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/guardarTokenPagoClase";
+    private String linkGuardarToken = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/guardarTokenPagoClase";
     private Bundle bundle;
 
     public ServicioTaskGuardarPago(Context contexto, String token, double costoClase, double costoTE,
@@ -53,7 +55,7 @@ public class ServicioTaskGuardarPago extends AsyncTask<Void, Void, String> {
         try{
 
             URL url = new URL(this.linkGuardarToken);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
             urlConnection.setReadTimeout(15000);
             urlConnection.setConnectTimeout(15000);
             urlConnection.setRequestMethod("PUT");
@@ -76,7 +78,7 @@ public class ServicioTaskGuardarPago extends AsyncTask<Void, Void, String> {
             os.close();
 
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK) {
+            if(responseCode == HttpsURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(
                         urlConnection.getInputStream()));
                 StringBuffer sb = new StringBuffer("");

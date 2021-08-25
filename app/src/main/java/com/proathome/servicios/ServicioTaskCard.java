@@ -21,8 +21,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
+
 import mx.openpay.android.OperationCallBack;
 import mx.openpay.android.OperationResult;
 import mx.openpay.android.model.Card;
@@ -37,8 +39,8 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
     public static final int GUARDAR_TOKEN_BD = 2;
     public static final int OBTENER_TOKEN_BD = 3;
     private Bundle bundle;
-    private String linkGuardarToken = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/actualizarToken";
+    private String linkGuardarToken = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/actualizarToken";
 
     public ServicioTaskCard(Context contexto, String nombreTitular, String tarjeta, int mes, int ano,
                             String cvv, int solicitud){
@@ -72,7 +74,7 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
             try{
 
                 URL url = new URL(this.linkGuardarToken);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
                 urlConnection.setReadTimeout(15000);
                 urlConnection.setConnectTimeout(15000);
                 urlConnection.setRequestMethod("PUT");
@@ -93,7 +95,7 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
                 os.close();
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK) {
+                if(responseCode == HttpsURLConnection.HTTP_OK) {
                     BufferedReader in = new BufferedReader(new InputStreamReader(
                             urlConnection.getInputStream()));
                     StringBuffer sb = new StringBuffer("");

@@ -12,18 +12,19 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskSincronizarClases extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
     private  int idSesion, idPerfil, tipoPerfil, tipoSolicitud;
-    private String linkSincronizarEstudiante = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/sincronizarClase/";
-    private String getLinkSincronizarProfesor = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/sincronizarClase/";
-    private String linkdispEstudiante = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/claseDisponible/";
-    private String linkdispProfesor = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/profesor/claseDisponible/";
+    private String linkSincronizarEstudiante =  Constants.IP + "/ProAtHome/apiProAtHome/cliente/sincronizarClase/";
+    private String getLinkSincronizarProfesor = Constants.IP + "/ProAtHome/apiProAtHome/profesor/sincronizarClase/";
+    private String linkdispEstudiante = Constants.IP + "/ProAtHome/apiProAtHome/cliente/claseDisponible/";
+    private String linkdispProfesor = Constants.IP + "/ProAtHome/apiProAtHome/profesor/claseDisponible/";
     private String respuesta;
     private boolean disponible;
 
@@ -57,7 +58,7 @@ public class ServicioTaskSincronizarClases extends AsyncTask<Void, Void, String>
             try{
 
                 URL url = new URL(wsURL);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                 urlConnection.setReadTimeout(15000);
                 urlConnection.setConnectTimeout(15000);
@@ -66,7 +67,7 @@ public class ServicioTaskSincronizarClases extends AsyncTask<Void, Void, String>
 
                 int responseCode = urlConnection.getResponseCode();
 
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
 
                     BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 
@@ -108,7 +109,7 @@ public class ServicioTaskSincronizarClases extends AsyncTask<Void, Void, String>
             try{
 
                 URL url = new URL(wsURL);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                 urlConnection.setReadTimeout(15000);
                 urlConnection.setConnectTimeout(15000);
@@ -118,7 +119,7 @@ public class ServicioTaskSincronizarClases extends AsyncTask<Void, Void, String>
                 urlConnection.setDoOutput(true);
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
 
                     BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer sb = new StringBuffer("");

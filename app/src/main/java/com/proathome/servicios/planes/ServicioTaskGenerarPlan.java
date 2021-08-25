@@ -13,16 +13,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskGenerarPlan extends AsyncTask<Void, Void, String> {
 
     private String tipoPlan, fechaInicio, fechaFin;
     private int monedero, idEstudiante;
     private Context contexto;
-    private String linkGenerarPlan = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/generarPlan";
+    private String linkGenerarPlan = Constants.IP + "/ProAtHome/apiProAtHome/cliente/generarPlan";
 
     public ServicioTaskGenerarPlan(Context contexto, String tipoPlan, String fechaInicio, String fechaFin, int monedero, int idEstudiante){
         this.contexto = contexto;
@@ -45,7 +46,7 @@ public class ServicioTaskGenerarPlan extends AsyncTask<Void, Void, String> {
         try {
 
             URL url = new URL(this.linkGenerarPlan);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
             JSONObject parametrosPost= new JSONObject();
             parametrosPost.put("tipoPlan", this.tipoPlan);
@@ -71,7 +72,7 @@ public class ServicioTaskGenerarPlan extends AsyncTask<Void, Void, String> {
             os.close();
 
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
 
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer sb= new StringBuffer("");

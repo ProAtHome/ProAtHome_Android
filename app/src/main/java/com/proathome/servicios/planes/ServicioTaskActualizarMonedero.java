@@ -11,15 +11,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskActualizarMonedero extends AsyncTask<Void, Void, String> {
 
     private int idEstudiante, nuevoMonedero;
     private Context contexto;
-    public String linkActualizarMonedero = "http://" + Constants.IP + ":8080/ProAtHome/apiProAtHome/cliente/actualizarMonedero";
+    public String linkActualizarMonedero = Constants.IP + "/ProAtHome/apiProAtHome/cliente/actualizarMonedero";
 
     public ServicioTaskActualizarMonedero(Context contexto, int idEstudiante, int nuevoMonedero){
         this.idEstudiante = idEstudiante;
@@ -39,7 +40,7 @@ public class ServicioTaskActualizarMonedero extends AsyncTask<Void, Void, String
         try {
 
             URL url = new URL(this.linkActualizarMonedero);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
             JSONObject parametrosPost= new JSONObject();
             parametrosPost.put("idEstudiante", this.idEstudiante);
@@ -62,7 +63,7 @@ public class ServicioTaskActualizarMonedero extends AsyncTask<Void, Void, String
             os.close();
 
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
 
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer sb= new StringBuffer("");

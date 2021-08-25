@@ -14,15 +14,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class ServicioTaskPagoDeuda extends AsyncTask<Void, Void, String> {
 
-    private String linkCobro = "http://" + Constants.IP + "/ProAtHome/assets/lib/Cargo.php";
+    private String linkCobro = Constants.IP + "/assets/lib/Cargo.php";
     private String nombreEstudiante, correo, idCard, descripcion, deviceId;
     private int idSesion;
     private double cobro;
@@ -55,7 +56,7 @@ public class ServicioTaskPagoDeuda extends AsyncTask<Void, Void, String> {
         try {
 
             URL url = new URL(this.linkCobro);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
             DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
             separadoresPersonalizados.setDecimalSeparator('.');
@@ -85,7 +86,7 @@ public class ServicioTaskPagoDeuda extends AsyncTask<Void, Void, String> {
             os.close();
 
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if(responseCode == HttpsURLConnection.HTTP_OK){
 
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer sb= new StringBuffer("");

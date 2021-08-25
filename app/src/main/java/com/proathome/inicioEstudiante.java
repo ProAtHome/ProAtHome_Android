@@ -25,9 +25,9 @@ public class inicioEstudiante extends AppCompatActivity{
 
     private AppBarConfiguration mAppBarConfiguration;
     private Intent intent;
-    private String linkRESTCargarPerfil = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/perfilCliente";
-    private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
+    private String linkRESTCargarPerfil = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/perfilCliente";
+    private String imageHttpAddress = Constants.IP_80 + "/assets/img/fotoPerfil/";
     public static TextView correoTV, nombreTV, tipoPlan, monedero;
     private int idEstudiante = 0;
     public static ImageView foto;

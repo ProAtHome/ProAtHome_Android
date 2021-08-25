@@ -300,11 +300,19 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:id="@+id/tvReglas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número."
+                style="@style/Textos"/>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/contra2ET_RL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
+                android:layout_marginTop="@dimen/common_padding_min"
                 android:hint="Escribe nuevamente tu contraseña"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"

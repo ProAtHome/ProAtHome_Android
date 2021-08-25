@@ -10,14 +10,15 @@ import com.proathome.fragments.DetallesSesionProfesorFragment;
 import com.proathome.fragments.PerfilFragment;
 import com.proathome.utils.Constants;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskFotoDetalles extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
     private String foto;
-    private String imageHttpAddress = "http://" + Constants.IP + "/ProAtHome/assets/img/fotoPerfil/";
+    private String imageHttpAddress = Constants.IP + "/assets/img/fotoPerfil/";
     private Bitmap loadedImage;
     private  int tipo;
 
@@ -39,7 +40,7 @@ public class ServicioTaskFotoDetalles extends AsyncTask<Void, Void, String> {
         URL imageUrl = null;
         try {
             imageUrl = new URL(this.imageHttpAddress + this.foto);
-            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
+            HttpsURLConnection conn = (HttpsURLConnection) imageUrl.openConnection();
             conn.connect();
             loadedImage = BitmapFactory.decodeStream(conn.getInputStream());
 

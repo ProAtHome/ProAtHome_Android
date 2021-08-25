@@ -5,18 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import com.google.android.material.textfield.TextInputEditText;
+import com.proathome.password.EmailPassword;
 import com.proathome.servicios.profesor.ServicioTaskLoginProfesor;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class loginProfesor extends AppCompatActivity {
 
     private Intent intent;
-    private final String iniciarSesionProfesorREST = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/profesor/sesionProfesor";
+    private final String iniciarSesionProfesorREST = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesor/sesionProfesor";
     @BindView(R.id.correoET_ISP)
     TextInputEditText correoET;
     @BindView(R.id.contraET_ISP)
@@ -47,6 +49,13 @@ public class loginProfesor extends AppCompatActivity {
 
         }*/
 
+    }
+
+    @OnClick(R.id.tvOlvideContraPro)
+    public void onClick(){
+        Intent intent = new Intent(this, EmailPassword.class);
+        intent.putExtra("tipoPerfil", Constants.TIPO_PROFESOR);
+        startActivity(intent);
     }
 
     public void soyCliente(View view){

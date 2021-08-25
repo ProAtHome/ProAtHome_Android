@@ -11,20 +11,22 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskFinalizarClase extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
     private int idSesion, idPerfil, tipoSolicitud, tipoPerfil;
-    private String linkFinalizarClase = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/finalizarClase/";
-    private String linkValidarClaseFinalizada = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/profesor/validarClaseFinalizada/";
-    private String linkValidarClaseFinalizadaEstudiante = "http://" + Constants.IP +
-            ":8080/ProAtHome/apiProAtHome/cliente/validarClaseFinalizada/";
+    private String linkFinalizarClase = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/finalizarClase/";
+    private String linkValidarClaseFinalizada = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesor/validarClaseFinalizada/";
+    private String linkValidarClaseFinalizadaEstudiante = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/validarClaseFinalizada/";
 
     public ServicioTaskFinalizarClase(Context contexto, int idSesion, int idPerfil, int tipoSolicitud, int tipoPerfil){
         this.contexto = contexto;
@@ -46,7 +48,7 @@ public class ServicioTaskFinalizarClase extends AsyncTask<Void, Void, String> {
         if(this.tipoSolicitud == Constants.FINALIZAR_CLASE){
             try{
                 URL url = new URL(this.linkFinalizarClase + this.idSesion + "/" + this.idPerfil);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
                 urlConnection.setReadTimeout(15000);
                 urlConnection.setConnectTimeout(15000);
                 urlConnection.setRequestMethod("PUT");
@@ -55,7 +57,7 @@ public class ServicioTaskFinalizarClase extends AsyncTask<Void, Void, String> {
                 urlConnection.setDoOutput(true);
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer sb= new StringBuffer("");
                     String linea="";
@@ -85,7 +87,7 @@ public class ServicioTaskFinalizarClase extends AsyncTask<Void, Void, String> {
             try{
 
                 URL url = new URL(this.linkValidarClaseFinalizada + this.idSesion + "/" + this.idPerfil);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                 urlConnection.setReadTimeout(15000);
                 urlConnection.setConnectTimeout(15000);
@@ -93,7 +95,7 @@ public class ServicioTaskFinalizarClase extends AsyncTask<Void, Void, String> {
                 urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpURLConnection.HTTP_OK){
+                if(responseCode == HttpsURLConnection.HTTP_OK){
                     BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer sb= new StringBuffer("");
                     String linea="";
@@ -125,14 +127,14 @@ public class ServicioTaskFinalizarClase extends AsyncTask<Void, Void, String> {
             if(this.tipoPerfil == DetallesFragment.ESTUDIANTE){
                 try{
                     URL url = new URL(this.linkValidarClaseFinalizadaEstudiante + this.idSesion + "/" + this.idPerfil);
-                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
                     urlConnection.setReadTimeout(15000);
                     urlConnection.setConnectTimeout(15000);
                     urlConnection.setRequestMethod("GET");
                     urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
                     int responseCode = urlConnection.getResponseCode();
-                    if(responseCode == HttpURLConnection.HTTP_OK){
+                    if(responseCode == HttpsURLConnection.HTTP_OK){
                         BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                         StringBuffer sb= new StringBuffer("");
                         String linea="";
@@ -162,7 +164,7 @@ public class ServicioTaskFinalizarClase extends AsyncTask<Void, Void, String> {
             }else if(this.tipoPerfil == DetallesSesionProfesorFragment.PROFESOR){
                 try{
                     URL url = new URL(this.linkValidarClaseFinalizada + this.idSesion + "/" + this.idPerfil);
-                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
                     urlConnection.setReadTimeout(15000);
                     urlConnection.setConnectTimeout(15000);
@@ -170,7 +172,7 @@ public class ServicioTaskFinalizarClase extends AsyncTask<Void, Void, String> {
                     urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
                     int responseCode = urlConnection.getResponseCode();
-                    if(responseCode == HttpURLConnection.HTTP_OK){
+                    if(responseCode == HttpsURLConnection.HTTP_OK){
                         BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                         StringBuffer sb= new StringBuffer("");
                         String linea="";
