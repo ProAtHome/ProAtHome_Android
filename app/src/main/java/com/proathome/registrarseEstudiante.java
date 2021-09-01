@@ -5,12 +5,14 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.servicios.estudiante.ServicioTaskRegistroEstudiante;
 import com.proathome.utils.Constants;
@@ -19,6 +21,7 @@ import com.proathome.utils.SweetAlert;
 import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class registrarseEstudiante extends AppCompatActivity {
@@ -51,6 +54,8 @@ public class registrarseEstudiante extends AppCompatActivity {
     TextInputEditText contrasenaET;
     @BindView(R.id.contra2ET_R)
     TextInputEditText contrasena2ET;
+    @BindView(R.id.checkTC)
+    MaterialCheckBox checkBox;
     private Unbinder mUnbinder;
 
     @Override
@@ -130,9 +135,12 @@ public class registrarseEstudiante extends AppCompatActivity {
             if(contrasenaET.getText().toString().trim().matches(".*\\d.*") && contrasenaET.getText().toString().trim().matches(".*[a-z].*") && contrasenaET.getText().toString().trim().matches(".*[A-Z].*") && contrasenaET.getText().toString().trim().length() >= 8){
                 //Verificar que las contraseñas sean iguales
                 if(contrasenaET.getText().toString().trim().equals(contrasena2ET.getText().toString())){
-                    servicioTaskRegistroEstudiante = new ServicioTaskRegistroEstudiante(this, registrarEstudianteREST, nombreET.getText().toString(), paternoET.getText().toString(), maternoET.getText().toString(), fechaET.getText().toString(),
-                            celularET.getText().toString(), telefonoET.getText().toString(), direccionET.getText().toString(), genero.getSelectedItem().toString(), correoET.getText().toString(), contrasenaET.getText().toString());
-                    servicioTaskRegistroEstudiante.execute();
+                    if(checkBox.isChecked()){
+                        servicioTaskRegistroEstudiante = new ServicioTaskRegistroEstudiante(this, registrarEstudianteREST, nombreET.getText().toString(), paternoET.getText().toString(), maternoET.getText().toString(), fechaET.getText().toString(),
+                                celularET.getText().toString(), telefonoET.getText().toString(), direccionET.getText().toString(), genero.getSelectedItem().toString(), correoET.getText().toString(), contrasenaET.getText().toString());
+                        servicioTaskRegistroEstudiante.execute();
+                    }else
+                        errorMsg("¡ESPERA!", "Debes aceptar los Términos y Condiciones.", SweetAlert.ERROR_TYPE);
                 }else
                     errorMsg("¡ERROR!", "Las contraseñas no coinciden.", SweetAlert.ERROR_TYPE);
             }else
@@ -150,6 +158,13 @@ public class registrarseEstudiante extends AppCompatActivity {
                 })
                 .setContentText(mensaje)
                 .show();
+    }
+
+    @OnClick(R.id.btnTC)
+    public void onClick(){
+        Uri uri = Uri.parse("https://proathome.com.mx/avisoprivacidad/estudiante");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
     }
 
     @Override

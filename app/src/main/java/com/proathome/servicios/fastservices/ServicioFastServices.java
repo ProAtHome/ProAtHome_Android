@@ -1,9 +1,10 @@
-package com.proathome.servicios.password;
+package com.proathome.servicios.fastservices;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -12,15 +13,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
-public class ServicioEnviarCodigo extends AsyncTask<Void, Void, String> {
+public class ServicioFastServices extends AsyncTask<Void, Void, String> {
 
     public interface AsyncResponse {
-        void processFinish(String output);
+        void processFinish(String output) throws JSONException;
     }
 
     public AsyncResponse delegate = null;
@@ -33,7 +33,7 @@ public class ServicioEnviarCodigo extends AsyncTask<Void, Void, String> {
     public static int POST = 2;
     public static int PUT = 3;
 
-    public ServicioEnviarCodigo(AsyncResponse delegate, String urlApi, Context context, int tipoPeticion, JSONObject jsonObject){
+    public ServicioFastServices(AsyncResponse delegate, String urlApi, Context context, int tipoPeticion, JSONObject jsonObject){
         this.delegate = delegate;
         this.urlApi = urlApi;
         this.context = context;
@@ -61,9 +61,9 @@ public class ServicioEnviarCodigo extends AsyncTask<Void, Void, String> {
             urlConnection.setConnectTimeout(15000);
             urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
-            if(this.tipoPeticion == ServicioEnviarCodigo.GET){
+            if(this.tipoPeticion == ServicioFastServices.GET){
                 urlConnection.setRequestMethod("GET");
-            }else if(this.tipoPeticion == ServicioEnviarCodigo.POST){
+            }else if(this.tipoPeticion == ServicioFastServices.POST){
                 urlConnection.setRequestMethod("POST");
                 urlConnection.setDoInput(true);
                 urlConnection.setDoOutput(true);
@@ -73,7 +73,7 @@ public class ServicioEnviarCodigo extends AsyncTask<Void, Void, String> {
                 writer.flush();
                 writer.close();
                 os.close();
-            }else if(this.tipoPeticion == ServicioEnviarCodigo.PUT){
+            }else if(this.tipoPeticion == ServicioFastServices.PUT){
                 urlConnection.setRequestMethod("PUT");
                 urlConnection.setDoInput(true);
                 urlConnection.setDoOutput(true);
@@ -116,7 +116,11 @@ public class ServicioEnviarCodigo extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        delegate.processFinish(s);
+        try {
+            delegate.processFinish(s);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         progressDialog.dismiss();
     }
 

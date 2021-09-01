@@ -330,6 +330,24 @@
                     android:textColor="@android:color/black" />
 
             </com.google.android.material.textfield.TextInputLayout>
+            
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/checkTC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:shadowColor="@android:color/black"
+                android:text="Acepto los Términos y Condiciones"
+                style="@style/Textos">
+                
+            </com.google.android.material.checkbox.MaterialCheckBox>
+            
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnTC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="T&amp;C y Aviso de Privacidad"
+                android:fontFamily="@font/din"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/registrarseBTN"

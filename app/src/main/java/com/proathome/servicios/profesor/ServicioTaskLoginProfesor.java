@@ -105,19 +105,22 @@ public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
                 if(!s.equals("null")){
                     JSONObject jsonObject = new JSONObject(s);
                     if(jsonObject.getString("estado").equalsIgnoreCase("ACTIVO")) {
-                        AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(this.contexto,
-                                "sesionProfesor", null, 1);
-                        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-                        ContentValues registro = new ContentValues();
-                        registro.put("id", 1);
-                        registro.put("idProfesor", jsonObject.getInt("idProfesor"));
-                        registro.put("correo" , this.correo);
-                        registro.put("rangoClase", jsonObject.getInt("rangoClase"));
-                        baseDeDatos.insert("sesionProfesor", null, registro);
-                        baseDeDatos.close();
+                        if(jsonObject.getBoolean("verificado")){
+                            AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(this.contexto,
+                                    "sesionProfesor", null, 1);
+                            SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+                            ContentValues registro = new ContentValues();
+                            registro.put("id", 1);
+                            registro.put("idProfesor", jsonObject.getInt("idProfesor"));
+                            registro.put("correo" , this.correo);
+                            registro.put("rangoClase", jsonObject.getInt("rangoClase"));
+                            baseDeDatos.insert("sesionProfesor", null, registro);
+                            baseDeDatos.close();
 
-                        Intent intent = new Intent(this.contexto, inicioProfesor.class);
-                        this.contexto.startActivity(intent);
+                            Intent intent = new Intent(this.contexto, inicioProfesor.class);
+                            this.contexto.startActivity(intent);
+                        }else
+                            errorMsg("Aún no verificas tu cuenta de correo electrónico.");
                     }else if(jsonObject.getString("estado").equalsIgnoreCase("documentacion") ||
                                 jsonObject.getString("estado").equalsIgnoreCase("cita") ||
                                     jsonObject.getString("estado").equalsIgnoreCase("registro")){

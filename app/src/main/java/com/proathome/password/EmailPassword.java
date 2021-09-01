@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
-import com.proathome.servicios.password.ServicioEnviarCodigo;
+import com.proathome.servicios.fastservices.ServicioFastServices;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
@@ -52,7 +52,7 @@ public class EmailPassword extends AppCompatActivity {
                 else if(this.tipoPerfil == Constants.TIPO_PROFESOR)
                     this.urlApi = Constants.IP_80 + "/assets/lib/Reestablecimiento.php?getCodigoPro=true&correo=" + correo;
 
-                ServicioEnviarCodigo enviarCodigo = new ServicioEnviarCodigo(output -> {
+                ServicioFastServices enviarCodigo = new ServicioFastServices(output -> {
                     try {
                         JSONObject jsonObject = new JSONObject(output);
                         if(jsonObject.getBoolean("respuesta")){
@@ -78,7 +78,7 @@ public class EmailPassword extends AppCompatActivity {
                     }catch (JSONException ex){
                         ex.printStackTrace();
                     }
-                }, this.urlApi, this, ServicioEnviarCodigo.GET, null);
+                }, this.urlApi, this, ServicioFastServices.GET, null);
                 enviarCodigo.execute();
             }else
                 msgAlert("¡ESPERA!", "Ingresa un correo electronico válido.", SweetAlert.ESTUDIANTE, SweetAlert.WARNING_TYPE);

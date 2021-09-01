@@ -105,18 +105,21 @@ public class ServicioTaskLoginEstudiante extends AsyncTask<Void, Void, String> {
                     JSONObject jsonObject = new JSONObject(s);
                     System.out.println(jsonObject);
                     if(jsonObject.getString("estado").equalsIgnoreCase("ACTIVO")){
-                        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(httpContext, "sesion",
-                                null, 1);
-                        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-                        ContentValues registro = new ContentValues();
-                        registro.put("id", 1);
-                        registro.put("idEstudiante", jsonObject.getInt("idCliente"));
-                        registro.put("correo", this.correo);
-                        baseDeDatos.insert("sesion", null, registro);
-                        baseDeDatos.close();
+                        if(jsonObject.getBoolean("verificado")){
+                            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(httpContext, "sesion",
+                                    null, 1);
+                            SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+                            ContentValues registro = new ContentValues();
+                            registro.put("id", 1);
+                            registro.put("idEstudiante", jsonObject.getInt("idCliente"));
+                            registro.put("correo", this.correo);
+                            baseDeDatos.insert("sesion", null, registro);
+                            baseDeDatos.close();
 
-                        Intent intent = new Intent(httpContext, inicioEstudiante.class);
-                        httpContext.startActivity(intent);
+                            Intent intent = new Intent(httpContext, inicioEstudiante.class);
+                            httpContext.startActivity(intent);
+                        }else
+                            errorMsg("Aún no verificas tu cuenta de correo electrónico.");
                     }else if(jsonObject.getString("estado").equalsIgnoreCase("DOCUMENTACION") ||
                             jsonObject.getString("estado").equalsIgnoreCase("REGISTRO")){
                         Intent intent = new Intent(this.httpContext, PasosActivarCuentaEstudiante.class);
