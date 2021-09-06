@@ -61,7 +61,7 @@ public class EmailPassword extends AppCompatActivity {
                                 System.out.println(token);
                                 new SweetAlert(this, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
                                         .setTitleText("¡GENIAL!")
-                                        .setContentText("Email enviado, revisa tus correos no deseados." + token)
+                                        .setContentText("Email enviado, revisa tus correos no deseados.")
                                         .setConfirmButton("OK", listener ->{
                                             Intent intent = new Intent(this, CodigoEmail.class);
                                             intent.putExtra("tipoPerfil", this.tipoPerfil);

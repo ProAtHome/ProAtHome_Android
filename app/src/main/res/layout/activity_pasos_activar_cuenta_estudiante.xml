@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_padding_min"
-            android:text="Ingresa a www.proathome.mx desde tu computadora e inicia sesión."
+            android:text="Ingresa a www.proathome.com.mx e inicia sesión."
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvBienvenido"
             style="@style/Textos"/>

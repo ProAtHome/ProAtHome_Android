@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/common_padding_middle"
-        android:text="Profesores"
+        android:text="Profesionales"
         android:textColor="@android:color/white"
         app:layout_constraintStart_toStartOf="@id/correoET_ISPL"
         app:layout_constraintTop_toBottomOf="@id/logo"
