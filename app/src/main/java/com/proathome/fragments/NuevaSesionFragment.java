@@ -22,7 +22,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,17 +34,14 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
-import com.proathome.inicioEstudiante;
+import com.proathome.InicioEstudiante;
 import com.proathome.servicios.WorkaroundMapFragment;
 import com.proathome.servicios.clase.ServicioTaskGuardarPago;
 import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.servicios.estudiante.ControladorTomarSesion;
-import com.proathome.servicios.estudiante.STRegistroSesionesEstudiante;
 import com.proathome.servicios.estudiante.ServicioTaskBancoEstudiante;
-import com.proathome.servicios.estudiante.ServicioTaskPreOrden;
 import com.proathome.servicios.estudiante.ServicioTaskSesionActual;
 import com.proathome.servicios.planes.ServicioTaskValidarPlan;
-import com.proathome.ui.inicio.InicioFragment;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
@@ -300,7 +296,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         /* TODO Validar si hay pago o no dependiendo el PLAN*/
         /*TODO FLUJO_EJECUTAR_PLAN: Clase en modo PLAN activo?
                     Si, entonces, Al iniciar la clase no mostramos Pre Orden ya que está pagado.*/
-        if (!inicioEstudiante.planActivo.equals("PARTICULAR")) {
+        if (!InicioEstudiante.planActivo.equals("PARTICULAR")) {
             //Guardamos la info de PAGO
             ServicioTaskGuardarPago guardarPago = new ServicioTaskGuardarPago(getContext(), "PLAN - " + SesionesFragment.PLAN,
                     0.0, 0.0, "Pagado", this.idCliente);

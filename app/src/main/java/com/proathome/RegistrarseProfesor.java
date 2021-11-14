@@ -1,6 +1,5 @@
 package com.proathome;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -12,26 +11,28 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputEditText;
-import com.proathome.servicios.estudiante.ServicioTaskRegistroEstudiante;
+import com.proathome.servicios.profesor.ServicioTaskRegistroProfesor;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
-
 import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class registrarseEstudiante extends AppCompatActivity {
+public class RegistrarseProfesor extends AppCompatActivity {
 
     private Intent intent;
     private int mDayIni, mMonthIni, mYearIni, sDayIni, sMonthIni, sYearIni;
     public static final int DATE_ID = 0;
     public Calendar calendar = Calendar.getInstance();
-    private ServicioTaskRegistroEstudiante servicioTaskRegistroEstudiante;
-    private final String registrarEstudianteREST = Constants.IP + "/ProAtHome/apiProAtHome/cliente/agregarCliente";
+    private ServicioTaskRegistroProfesor servicioTaskRegistroProfesor;
+    private final String registrarProfesorREST = Constants.IP + "/ProAtHome/apiProAtHome/" +
+            "profesor/agregarProfesor";
     @BindView(R.id.nombreET_R)
     TextInputEditText nombreET;
     @BindView(R.id.paternoET_R)
@@ -54,14 +55,14 @@ public class registrarseEstudiante extends AppCompatActivity {
     TextInputEditText contrasenaET;
     @BindView(R.id.contra2ET_R)
     TextInputEditText contrasena2ET;
-    @BindView(R.id.checkTC)
+    @BindView(R.id.checkTCP)
     MaterialCheckBox checkBox;
     private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registrarse_estudiante);
+        setContentView(R.layout.activity_registrarse_profesor);
         mUnbinder = ButterKnife.bind(this);
         sDayIni = calendar.get(Calendar.DAY_OF_MONTH);
         sMonthIni = calendar.get(Calendar.MONTH);
@@ -69,7 +70,7 @@ public class registrarseEstudiante extends AppCompatActivity {
 
         String[] datos= new String[]{"HOMBRE", "MUJER", "OTRO"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                R.layout.spinner_item, datos);
+                R.layout.spinner_item_white, datos);
         genero.setAdapter(adapter);
     }
 
@@ -97,25 +98,26 @@ public class registrarseEstudiante extends AppCompatActivity {
 
     @Override
     protected Dialog onCreateDialog(int id) {
+
         switch (id){
             case DATE_ID:
-                DatePickerDialog dialog = new DatePickerDialog(this, android.R.style.Theme_Holo_Dialog, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        mYearIni = year;
-                        mMonthIni = month;
-                        mDayIni = day;
-                        colocarFecha();
-                    }
-                }, sYearIni, sMonthIni, sDayIni);
+                DatePickerDialog dialog = new DatePickerDialog(this, android.R.style.Theme_Holo_Dialog,
+                        (datePicker, year, month, day) -> {
+                            mYearIni = year;
+                            mMonthIni = month;
+                            mDayIni = day;
+                            colocarFecha();
+                        }, sYearIni, sMonthIni, sDayIni);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
                 return dialog;
         }
+
         return null;
+
     }
 
-    public void verDatePicker(View view){
+    public void verDatePickerP(View view){
         showDialog(DATE_ID);
     }//Fin método verDatePicker.
 
@@ -134,11 +136,11 @@ public class registrarseEstudiante extends AppCompatActivity {
             //Validamos numero, minuscula, mayuscula,
             if(contrasenaET.getText().toString().trim().matches(".*\\d.*") && contrasenaET.getText().toString().trim().matches(".*[a-z].*") && contrasenaET.getText().toString().trim().matches(".*[A-Z].*") && contrasenaET.getText().toString().trim().length() >= 8){
                 //Verificar que las contraseñas sean iguales
-                if(contrasenaET.getText().toString().trim().equals(contrasena2ET.getText().toString())){
+                if(contrasenaET.getText().toString().trim().equals(contrasena2ET.getText().toString())) {
                     if(checkBox.isChecked()){
-                        servicioTaskRegistroEstudiante = new ServicioTaskRegistroEstudiante(this, registrarEstudianteREST, nombreET.getText().toString(), paternoET.getText().toString(), maternoET.getText().toString(), fechaET.getText().toString(),
+                        servicioTaskRegistroProfesor = new ServicioTaskRegistroProfesor(this, registrarProfesorREST, nombreET.getText().toString(), paternoET.getText().toString(), maternoET.getText().toString(), fechaET.getText().toString(),
                                 celularET.getText().toString(), telefonoET.getText().toString(), direccionET.getText().toString(), genero.getSelectedItem().toString(), correoET.getText().toString(), contrasenaET.getText().toString());
-                        servicioTaskRegistroEstudiante.execute();
+                        servicioTaskRegistroProfesor.execute();
                     }else
                         errorMsg("¡ESPERA!", "Debes aceptar los Términos y Condiciones.", SweetAlert.ERROR_TYPE);
                 }else
@@ -147,7 +149,6 @@ public class registrarseEstudiante extends AppCompatActivity {
                 errorMsg("¡ESPERA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.", SweetAlert.WARNING_TYPE);
         }else
             errorMsg("¡ERROR!", "Llena todos los campos correctamente.", SweetAlert.ERROR_TYPE);
-
     }//Fin método registrar.
 
     public void errorMsg(String titulo, String mensaje, int tipo){
@@ -160,9 +161,9 @@ public class registrarseEstudiante extends AppCompatActivity {
                 .show();
     }
 
-    @OnClick(R.id.btnTC)
+    @OnClick(R.id.btnTCP)
     public void onClick(){
-        Uri uri = Uri.parse("https://proathome.com.mx/avisoprivacidad/estudiante");
+        Uri uri = Uri.parse("https://proathome.com.mx/avisoprivacidad/profesor");
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }

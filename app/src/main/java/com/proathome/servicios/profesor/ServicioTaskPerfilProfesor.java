@@ -4,8 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import com.proathome.inicioProfesor;
-import com.proathome.ui.editarPerfil.EditarPerfilFragment;
+import com.proathome.InicioProfesor;
 import com.proathome.ui.editarPerfilProfesor.EditarPerfilProfesorFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
@@ -112,7 +111,7 @@ public class ServicioTaskPerfilProfesor extends AsyncTask<Void, Void, String> {
                     if(this.tipo == Constants.FOTO_EDITAR_PERFIL)
                         EditarPerfilProfesorFragment.ivFoto.setImageBitmap(loadedImage);
                     else if (this.tipo == Constants.FOTO_PERFIL)
-                        inicioProfesor.foto.setImageBitmap(loadedImage);
+                        InicioProfesor.foto.setImageBitmap(loadedImage);
 
                     if(this.tipo == Constants.INFO_PERFIl_EDITAR){
                         EditarPerfilProfesorFragment.tvNombre.setText("Nombre: " + jsonObject.getString("nombre"));
@@ -122,8 +121,8 @@ public class ServicioTaskPerfilProfesor extends AsyncTask<Void, Void, String> {
                         EditarPerfilProfesorFragment.etDireccion.setText(jsonObject.getString("direccion"));
                         EditarPerfilProfesorFragment.etDesc.setText(jsonObject.getString("descripcion"));
                     }else if(this.tipo == Constants.INFO_PERFIL){
-                        inicioProfesor.nombreTV.setText(jsonObject.getString("nombre"));
-                        inicioProfesor.correoTV.setText(jsonObject.getString("correo"));
+                        InicioProfesor.nombreTV.setText(jsonObject.getString("nombre"));
+                        InicioProfesor.correoTV.setText(jsonObject.getString("correo"));
                     }
                 }catch(JSONException ex){
                     ex.printStackTrace();

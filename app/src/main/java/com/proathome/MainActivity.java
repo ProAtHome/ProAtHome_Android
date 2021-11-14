@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void registrarse(){
-        startActivity(new Intent(this, registrarseEstudiante.class));
+        startActivity(new Intent(this, RegistrarseEstudiante.class));
         finish();
     }
 
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                                         baseDeDatos.insert("sesion", null, registro);
                                         baseDeDatos.close();
 
-                                        startActivity(new Intent(this, inicioEstudiante.class));
+                                        startActivity(new Intent(this, InicioEstudiante.class));
                                     }else
                                         errorMsg("Aún no verificas tu cuenta de correo electrónico.");
                                 }else if(jsonObject.getString("estado").equalsIgnoreCase("DOCUMENTACION") ||

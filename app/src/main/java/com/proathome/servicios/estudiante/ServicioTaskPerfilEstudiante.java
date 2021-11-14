@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import com.proathome.servicios.planes.ServicioTaskValidarPlan;
 import com.proathome.fragments.PlanesFragment;
-import com.proathome.inicioEstudiante;
+import com.proathome.InicioEstudiante;
 import com.proathome.ui.editarPerfil.EditarPerfilFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
@@ -114,7 +114,7 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
                     if(this.tipo == Constants.FOTO_EDITAR_PERFIL)
                         EditarPerfilFragment.ivFoto.setImageBitmap(loadedImage);
                     else if (this.tipo == Constants.FOTO_PERFIL)
-                        inicioEstudiante.foto.setImageBitmap(loadedImage);
+                        InicioEstudiante.foto.setImageBitmap(loadedImage);
 
                     if(this.tipo == Constants.INFO_PERFIl_EDITAR){
 
@@ -127,8 +127,8 @@ public class ServicioTaskPerfilEstudiante extends AsyncTask<Void, Void, String> 
 
                     }else if(this.tipo == Constants.INFO_PERFIL){
 
-                        inicioEstudiante.nombreTV.setText(jsonObject.getString("nombre"));
-                        inicioEstudiante.correoTV.setText(jsonObject.getString("correo"));
+                        InicioEstudiante.nombreTV.setText(jsonObject.getString("nombre"));
+                        InicioEstudiante.correoTV.setText(jsonObject.getString("correo"));
                         //inicioEstudiante.tipoPlan.setText("PLAN ACTUAL: " + jsonObject.getString("tipoPlan"));
                         //inicioEstudiante.monedero.setText("HORAS DISPONIBLES:                      " + obtenerHorario(jsonObject.getInt("monedero")));
                         PlanesFragment.nombreEstudiante = jsonObject.getString("nombre");

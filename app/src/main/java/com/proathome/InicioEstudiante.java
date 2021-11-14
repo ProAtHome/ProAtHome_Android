@@ -21,7 +21,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class inicioEstudiante extends AppCompatActivity{
+public class InicioEstudiante extends AppCompatActivity{
 
     private AppBarConfiguration mAppBarConfiguration;
     private Intent intent;
@@ -43,7 +43,7 @@ public class inicioEstudiante extends AppCompatActivity{
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        appCompatActivity = inicioEstudiante.this;
+        appCompatActivity = InicioEstudiante.this;
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -84,7 +84,7 @@ public class inicioEstudiante extends AppCompatActivity{
             DetallesFragment.procedenciaFin = false;
             ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(this,
                     idEstudiante,
-                    inicioEstudiante.PROCEDENCIA_INICIO_ESTUDIANTE);
+                    InicioEstudiante.PROCEDENCIA_INICIO_ESTUDIANTE);
             bloquearPerfil.execute();
             ServicioTaskPerfilEstudiante perfilEstudiante = new ServicioTaskPerfilEstudiante(this,
                     linkRESTCargarPerfil, this.imageHttpAddress, this.idEstudiante, Constants.INFO_PERFIL);

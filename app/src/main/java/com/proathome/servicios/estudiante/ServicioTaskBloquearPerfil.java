@@ -6,7 +6,7 @@ import android.os.Bundle;
 import androidx.fragment.app.FragmentTransaction;
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.PagoPendienteFragment;
-import com.proathome.inicioEstudiante;
+import com.proathome.InicioEstudiante;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
@@ -99,8 +99,8 @@ public class ServicioTaskBloquearPerfil extends AsyncTask<Void, Void, String> {
                     if(this.procedencia == DetallesFragment.PROCEDENCIA_DETALLES_FRAGMENT)
                         fragmentTransaction = DetallesFragment.detallesFragment.getFragmentManager()
                                 .beginTransaction();
-                    else if(this.procedencia == inicioEstudiante.PROCEDENCIA_INICIO_ESTUDIANTE)
-                        fragmentTransaction = inicioEstudiante.appCompatActivity.getSupportFragmentManager()
+                    else if(this.procedencia == InicioEstudiante.PROCEDENCIA_INICIO_ESTUDIANTE)
+                        fragmentTransaction = InicioEstudiante.appCompatActivity.getSupportFragmentManager()
                                 .beginTransaction();
 
                     pagoPendienteFragment.setArguments(bundle);

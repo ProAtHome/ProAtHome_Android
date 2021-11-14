@@ -2,7 +2,7 @@ package com.proathome.servicios.planes;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import com.proathome.inicioEstudiante;
+import com.proathome.InicioEstudiante;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
@@ -90,10 +90,10 @@ public class ServicioTaskValidarPlan extends AsyncTask<Void, Void, String> {
                 SesionesFragment.MONEDERO = jsonDatos.getInt("monedero");
                 SesionesFragment.FECHA_INICIO = jsonDatos.getString("fechaInicio");
                 SesionesFragment.FECHA_FIN = jsonDatos.getString("fechaFin");
-                inicioEstudiante.tipoPlan.setText("PLAN ACTUAL: " + (jsonDatos.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN") ? "PARTICULAR" : jsonDatos.getString("tipoPlan")));
-                inicioEstudiante.monedero.setText("HORAS DISPONIBLES:                      " +
+                InicioEstudiante.tipoPlan.setText("PLAN ACTUAL: " + (jsonDatos.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN") ? "PARTICULAR" : jsonDatos.getString("tipoPlan")));
+                InicioEstudiante.monedero.setText("HORAS DISPONIBLES:                      " +
                         obtenerHorario(jsonDatos.getInt("monedero")));
-                inicioEstudiante.planActivo = jsonDatos.getString("tipoPlan").toString();
+                InicioEstudiante.planActivo = jsonDatos.getString("tipoPlan").toString();
             }
         }catch(JSONException ex){
             ex.printStackTrace();

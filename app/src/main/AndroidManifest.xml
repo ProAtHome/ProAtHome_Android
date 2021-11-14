@@ -91,7 +91,7 @@
             android:required="false" />
 
         <activity
-            android:name=".inicioProfesor"
+            android:name=".InicioProfesor"
             android:label="@string/title_activity_inicio_profesor"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeProfesor.NoActionBar" />
@@ -125,16 +125,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".inicioEstudiante"
+            android:name=".InicioEstudiante"
             android:label="@string/title_activity_inicio_estudiante"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".registrarseEstudiante"
+            android:name=".RegistrarseEstudiante"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".registrarseProfesor"
+            android:name=".RegistrarseProfesor"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

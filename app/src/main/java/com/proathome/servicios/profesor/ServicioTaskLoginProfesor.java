@@ -10,7 +10,7 @@ import android.os.Bundle;
 
 import com.proathome.PasosActivarCuenta;
 import com.proathome.PerfilBloqueado;
-import com.proathome.inicioProfesor;
+import com.proathome.InicioProfesor;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
@@ -22,8 +22,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
-
-import io.opencensus.common.Internal;
 
 public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
 
@@ -117,7 +115,7 @@ public class ServicioTaskLoginProfesor extends AsyncTask<Void, Void, String> {
                             baseDeDatos.insert("sesionProfesor", null, registro);
                             baseDeDatos.close();
 
-                            Intent intent = new Intent(this.contexto, inicioProfesor.class);
+                            Intent intent = new Intent(this.contexto, InicioProfesor.class);
                             this.contexto.startActivity(intent);
                         }else
                             errorMsg("Aún no verificas tu cuenta de correo electrónico.");

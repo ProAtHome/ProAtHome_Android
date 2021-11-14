@@ -65,7 +65,7 @@ public class loginProfesor extends AppCompatActivity {
     }//Fin método soyProfesor.
 
     public void registrarse(View view){
-        intent = new Intent(this, registrarseProfesor.class);
+        intent = new Intent(this, RegistrarseProfesor.class);
         startActivity(intent);
         finish();
     }//Fin método registrarse.

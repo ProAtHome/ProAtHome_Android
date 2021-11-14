@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@mipmap/fondo1"
     android:padding="@dimen/common_padding_default"
-    tools:context=".registrarseEstudiante">
+    tools:context=".RegistrarseEstudiante">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -359,7 +359,7 @@
                 android:text="Registrarse" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button2"
+                android:id="@+id/btnIniciarSesion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="iniciarSesion"

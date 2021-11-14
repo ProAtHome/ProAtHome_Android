@@ -20,7 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class inicioProfesor extends AppCompatActivity {
+public class InicioProfesor extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private Intent intent;
