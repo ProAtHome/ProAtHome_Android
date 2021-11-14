@@ -22,10 +22,13 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:icon">
         <activity android:name=".password.CambiarPassword"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".password.CodigoEmail"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".password.EmailPassword"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ScrollActivityProfesor"

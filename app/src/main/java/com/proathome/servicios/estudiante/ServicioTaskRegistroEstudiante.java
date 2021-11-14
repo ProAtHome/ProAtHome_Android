@@ -2,11 +2,8 @@ package com.proathome.servicios.estudiante;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import com.proathome.MainActivity;
-import com.proathome.servicios.fastservices.ServicioFastServices;
-import com.proathome.utils.Constants;
+
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -123,7 +120,7 @@ public class ServicioTaskRegistroEstudiante extends AsyncTask<Void, Void, String
                 JSONObject post = new JSONObject();
                 post.put("token", jsonObject.getString("token"));
                 post.put("correo", this.correo);
-                ServicioFastServices fastServices = new ServicioFastServices(output -> {
+      /*          WebServicesAPI fastServices = new WebServicesAPI(output -> {
                     new SweetAlert(this.httpContext, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
                             .setTitleText("¡GENIAL!")
                             .setContentText(jsonObject.getString("mensaje"))
@@ -132,9 +129,9 @@ public class ServicioTaskRegistroEstudiante extends AsyncTask<Void, Void, String
                                 this.httpContext.startActivity(intent);
                             })
                             .show();
-                }, Constants.IP_80 + "/assets/lib/Verificacion.php?enviar=true", this.httpContext, ServicioFastServices.POST, post);
+                }, Constants.IP_80 + "/assets/lib/Verificacion.php?enviar=true", this.httpContext, WebServicesAPI.POST, post);
                 fastServices.execute();
-
+*/
             }else{
                 new SweetAlert(this.httpContext, SweetAlert.ERROR_TYPE, SweetAlert.PROFESOR)
                         .setTitleText("¡ERROR!")

@@ -2,11 +2,8 @@ package com.proathome.servicios.profesor;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import com.proathome.loginProfesor;
-import com.proathome.servicios.fastservices.ServicioFastServices;
-import com.proathome.utils.Constants;
+
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,8 +15,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -128,7 +123,7 @@ public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> 
                 JSONObject post = new JSONObject();
                 post.put("token", jsonObject.getString("token"));
                 post.put("correo", this.correo);
-                ServicioFastServices fastServices = new ServicioFastServices(output -> {
+     /*           WebServicesAPI fastServices = new WebServicesAPI(output -> {
                     new SweetAlert(this.httpContext, SweetAlert.SUCCESS_TYPE, SweetAlert.PROFESOR)
                             .setTitleText("¡GENIAL!")
                             .setContentText(jsonObject.getString("mensaje"))
@@ -137,8 +132,8 @@ public class ServicioTaskRegistroProfesor extends AsyncTask<Void, Void, String> 
                                 this.httpContext.startActivity(intent);
                             })
                             .show();
-                }, Constants.IP_80 + "/assets/lib/Verificacion.php?enviarPro=true", this.httpContext, ServicioFastServices.POST, post);
-                fastServices.execute();
+                }, Constants.IP_80 + "/assets/lib/Verificacion.php?enviarPro=true", this.httpContext, WebServicesAPI.POST, post);
+                fastServices.execute();*/
             }else{
                 new SweetAlert(this.httpContext, SweetAlert.ERROR_TYPE, SweetAlert.PROFESOR)
                         .setTitleText("¡ERROR!")
