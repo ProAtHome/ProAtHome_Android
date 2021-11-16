@@ -6,8 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,7 +54,7 @@ public class EmailPassword extends AppCompatActivity {
                 else if(this.tipoPerfil == Constants.TIPO_PROFESOR)
                     this.urlApi = Constants.IP_80 + "/assets/lib/Reestablecimiento.php?getCodigoPro=true&correo=" + correo;
 
-       /*         WebServicesAPI enviarCodigo = new WebServicesAPI(output -> {
+                WebServicesAPI enviarCodigo = new WebServicesAPI(output -> {
                     try {
                         JSONObject jsonObject = new JSONObject(output);
                         if(jsonObject.getBoolean("respuesta")){
@@ -66,6 +70,7 @@ public class EmailPassword extends AppCompatActivity {
                                             intent.putExtra("token", token);
                                             intent.putExtra("correo", correo);
                                             startActivity(intent);
+                                            listener.dismiss();
                                             finish();
                                         })
                                         .show();
@@ -77,7 +82,7 @@ public class EmailPassword extends AppCompatActivity {
                         ex.printStackTrace();
                     }
                 }, this.urlApi, this, WebServicesAPI.GET, null);
-                enviarCodigo.execute(); */
+                enviarCodigo.execute();
             }else
                 msgAlert("¡ESPERA!", "Ingresa un correo electronico válido.", SweetAlert.ESTUDIANTE, SweetAlert.WARNING_TYPE);
         }else

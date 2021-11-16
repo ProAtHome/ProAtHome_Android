@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +57,7 @@ public class CodigoEmail extends AppCompatActivity {
             else if(this.tipoPerfil == Constants.TIPO_PROFESOR)
                 this.urlApi = Constants.IP_80 + "/assets/lib/Reestablecimiento.php?validarPro=true&correo=" + this.correo + "&codigo=" +  codigo + "&token=" + this.token;
 
-       /*     WebServicesAPI enviarCodigo = new WebServicesAPI(output -> {
+           WebServicesAPI enviarCodigo = new WebServicesAPI(output -> {
                 try {
                     JSONObject jsonObject = new JSONObject(output);
                     if(jsonObject.getBoolean("respuesta")) {
@@ -73,7 +77,7 @@ public class CodigoEmail extends AppCompatActivity {
                     ex.printStackTrace();
                 }
             }, this.urlApi, this, WebServicesAPI.GET, null);
-            enviarCodigo.execute();*/
+            enviarCodigo.execute();
         }else
             msgAlert("¡ESPERA!", "Ingresa el codigo completo.", SweetAlert.ESTUDIANTE, SweetAlert.WARNING_TYPE);
     }

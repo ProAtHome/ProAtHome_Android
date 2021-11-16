@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.view.View;
 import com.proathome.fragments.DetallesFragment;
 import com.proathome.fragments.DetallesGestionarFragment;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.ui.inicio.InicioFragment;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.SweetAlert;
@@ -17,7 +19,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import javax.net.ssl.HttpsURLConnection;
 
 public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String> {
@@ -98,45 +99,47 @@ public class ServicioTaskSesionesEstudiante extends AsyncTask<Void, Void, String
         if(resultadoapi == null){
             errorMsg("¡ERROR!", "Error del servidor, intente de nuevo más tarde.", SweetAlert.ERROR_TYPE);
         }else{
-            ServicioTaskIniciarProcesoRuta iniciarProcesoRuta =
-                    new ServicioTaskIniciarProcesoRuta(this.httpContext, idCliente);
-            iniciarProcesoRuta.execute();
+            try{
+                JSONObject parametros = new JSONObject();
+                parametros.put("idEstudiante", idCliente);
+                WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
 
-            if(!resultadoapi.equals("null")){
-                try{
-                    JSONObject jsonObject = new JSONObject(resultadoapi);
-                    JSONArray jsonArray = jsonObject.getJSONArray("sesiones");
+                }, APIEndPoints.INICIAR_PROCESO_RUTA, this.httpContext, WebServicesAPI.POST, parametros);
+                webServicesAPI.execute();
 
-                    if(jsonArray.length() == 0 && tipo == 1){
-                        InicioFragment.lottieAnimationView.setVisibility(View.VISIBLE);
-                    }else if(jsonArray.length() == 0 && tipo == 2){
-                        SesionesFragment.lottieAnimationView.setVisibility(View.VISIBLE);
-                    }
+                if(!resultadoapi.equals("null")){
 
-                    for (int i = 0; i < jsonArray.length(); i++){
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        if(tipo == 1) {
-                            InicioFragment.myAdapter.add(DetallesFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoClase"), object.getString("horario"),
-                                    object.getString("profesor"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
-                                    object.getDouble("longitud"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getString("fecha"),
-                                    object.getString("fotoProfesor"), object.getString("descripcionProfesor"), object.getString("correoProfesor"), object.getBoolean("sumar"),
-                                    object.getString("tipoPlan"), object.getInt("profesores_idprofesores")));
-                        }else if(tipo == 2){//TODO FLUJO_PLANES: Nota - Si la clase está finalizada no se puede eliminar ni editar (No mostrar en Gestión)
-                            if(!object.getBoolean("finalizado")){
-                                SesionesFragment.myAdapter.add(DetallesGestionarFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoClase"), object.getString("horario"),
+                        JSONObject jsonObject = new JSONObject(resultadoapi);
+                        JSONArray jsonArray = jsonObject.getJSONArray("sesiones");
+
+                        if(jsonArray.length() == 0 && tipo == 1){
+                            InicioFragment.lottieAnimationView.setVisibility(View.VISIBLE);
+                        }else if(jsonArray.length() == 0 && tipo == 2){
+                            SesionesFragment.lottieAnimationView.setVisibility(View.VISIBLE);
+                        }
+
+                        for (int i = 0; i < jsonArray.length(); i++){
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            if(tipo == 1) {
+                                InicioFragment.myAdapter.add(DetallesFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoClase"), object.getString("horario"),
                                         object.getString("profesor"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
-                                        object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"),
-                                        object.getString("fecha"), object.getString("tipoPlan")));
-                            }
-                         }
+                                        object.getDouble("longitud"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getString("fecha"),
+                                        object.getString("fotoProfesor"), object.getString("descripcionProfesor"), object.getString("correoProfesor"), object.getBoolean("sumar"),
+                                        object.getString("tipoPlan"), object.getInt("profesores_idprofesores")));
+                            }else if(tipo == 2){//TODO FLUJO_PLANES: Nota - Si la clase está finalizada no se puede eliminar ni editar (No mostrar en Gestión)
+                                if(!object.getBoolean("finalizado")){
+                                    SesionesFragment.myAdapter.add(DetallesGestionarFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoClase"), object.getString("horario"),
+                                            object.getString("profesor"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
+                                            object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"),
+                                            object.getString("fecha"), object.getString("tipoPlan")));
+                                }
+                             }
 
-                    }
-
-                }catch(JSONException ex){
-                    ex.printStackTrace();
-                }
-            }else{
-                errorMsg("¡AVISO!","Usuario sin clases disponibles.", SweetAlert.WARNING_TYPE);
+                        }
+                }else
+                    errorMsg("¡AVISO!","Usuario sin clases disponibles.", SweetAlert.WARNING_TYPE);
+            }catch(JSONException ex){
+                ex.printStackTrace();
             }
         }
     }

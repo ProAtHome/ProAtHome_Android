@@ -102,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
             PermisosUbicacion.showAlert(this, MainActivity.this, SweetAlert.ESTUDIANTE);
         }else{
             if(!correoET.getText().toString().trim().equalsIgnoreCase("") && !contrasenaET.getText().toString().trim().equalsIgnoreCase("")){
-                String correo = String.valueOf(correoET.getText());
-                String contrasena = String.valueOf(contrasenaET.getText());
+                String correo = correoET.getText().toString().trim();
+                String contrasena = contrasenaET.getText().toString().trim();
 
                 WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
                     try{

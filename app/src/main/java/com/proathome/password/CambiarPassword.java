@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 
@@ -63,7 +64,7 @@ public class CambiarPassword extends AppCompatActivity {
                         else if(this.tipoPerfil == Constants.TIPO_PROFESOR)
                             this.urlApi = Constants.IP_80 + "/assets/lib/Reestablecimiento.php?guardarPro=true";
 
-           /*             WebServicesAPI enviarCodigo = new WebServicesAPI(output -> {
+                        WebServicesAPI enviarCodigo = new WebServicesAPI(output -> {
                             try{
                                 JSONObject respuesta = new JSONObject(output);
                                 if(respuesta.getBoolean("respuesta")){
@@ -71,6 +72,7 @@ public class CambiarPassword extends AppCompatActivity {
                                             .setTitleText("¡GENIAL!")
                                             .setContentText(respuesta.getString("mensaje"))
                                             .setConfirmButton("OK", listener ->{
+                                                listener.dismiss();
                                                 finish();
                                             }).show();
                                 }else
@@ -79,7 +81,7 @@ public class CambiarPassword extends AppCompatActivity {
                                 ex.printStackTrace();
                             }
                         }, this.urlApi,this, WebServicesAPI.PUT, jsonObject);
-                        enviarCodigo.execute();*/
+                        enviarCodigo.execute();
                     }catch (JSONException ex){
                         ex.printStackTrace();
                     }

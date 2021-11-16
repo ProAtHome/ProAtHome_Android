@@ -18,7 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -30,15 +29,17 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.fragments.DatosFiscalesFragment;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
 import com.proathome.servicios.estudiante.ServicioTaskBancoEstudiante;
 import com.proathome.servicios.estudiante.ServicioTaskPerfilEstudiante;
 import com.proathome.servicios.estudiante.ServicioTaskUpCuentaEstudiante;
-import com.proathome.servicios.estudiante.ServicioTaskUpPerfilEstudiante;
 import com.proathome.servicios.profesor.ServicioTaskReportes;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
-
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Hashtable;
@@ -55,8 +56,6 @@ public class EditarPerfilFragment extends Fragment {
             "/ProAtHome/apiProAtHome/cliente/perfilCliente";
     private String linkRESTDatosBancarios = Constants.IP +
             "/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
-    private String linkRESTActualizarPerfil = Constants.IP +
-            "/ProAtHome/apiProAtHome/cliente/actualizarPerfil";
     private String linkRESTActualizarBanco = Constants.IP +
             "/ProAtHome/apiProAtHome/cliente/actualizarCuentaCliente";
     private String imageHttpAddress = Constants.IP_80 + "/assets/img/fotoPerfil/";
@@ -64,7 +63,6 @@ public class EditarPerfilFragment extends Fragment {
     private Unbinder mUnbinder;
     private ServicioTaskPerfilEstudiante perfilEstudiante;
     private ServicioTaskBancoEstudiante bancoEstudiante;
-    private ServicioTaskUpPerfilEstudiante actualizarPerfil;
     private ServicioTaskUpCuentaEstudiante actualizarBanco;
     public static TextView tvNombre;
     public static TextView tvCorreo;
@@ -80,15 +78,15 @@ public class EditarPerfilFragment extends Fragment {
     public static ImageView imgAviso;
     public static ImageView ivFoto;
     public static MaterialCardView cardValoracion;
-    private static final int PICK_IMAGE = 100;
     public static final int RESULT_OK = -1;
-    public int idEstudiante;
+    public int idCliente;
     private String correo;
     private Bitmap bitmap;
     private int PICK_IMAGE_REQUEST = 1;
     private String KEY_IMAGEN = "foto";
     private String KEY_NOMBRE = "nombre";
     private String ID_ESTUDIANTE = "";
+    private WebServicesAPI webServicesAPI;
     @BindView(R.id.bottomNavigationPerfil)
     BottomNavigationView bottomNavigationPerfil;
     @BindView(R.id.btnFoto)
@@ -130,21 +128,12 @@ public class EditarPerfilFragment extends Fragment {
         Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante, correo FROM sesion WHERE id = " + 1, null);
 
         if(fila.moveToFirst()){
-            this.idEstudiante = fila.getInt(0);
+            this.idCliente = fila.getInt(0);
             this.ID_ESTUDIANTE = String.valueOf(fila.getInt(0));
             this.correo = fila.getString(1);
         }else{
             baseDeDatos.close();
         }
-
-
-        btnActualizarInfo.setOnClickListener(view -> {
-            actualizarPerfil = new ServicioTaskUpPerfilEstudiante(getContext(), linkRESTActualizarPerfil,
-                    this.idEstudiante, etCelular.getText().toString(), etTelefono.getText().toString(), etDireccion.getText().toString(),
-                    etDesc.getText().toString());
-            actualizarPerfil.execute();
-            uploadImage();
-        });
 
         bottomNavigationPerfil.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()){
@@ -220,13 +209,6 @@ public class EditarPerfilFragment extends Fragment {
             return false;
     }
 
-    public void errorDatosBanco(String mensaje){
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
-                .setTitleText("¡ERROR!")
-                .setContentText(mensaje)
-                .show();
-    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -251,14 +233,14 @@ public class EditarPerfilFragment extends Fragment {
         Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
 
         if(fila.moveToFirst()){
-            this.idEstudiante = fila.getInt(0);
-            ServicioTaskReportes reportes = new ServicioTaskReportes(getContext(), Constants.TIPO_ESTUDIANTE, this.idEstudiante);
+            this.idCliente = fila.getInt(0);
+            ServicioTaskReportes reportes = new ServicioTaskReportes(getContext(), Constants.TIPO_ESTUDIANTE, this.idCliente);
             reportes.execute();
             perfilEstudiante = new ServicioTaskPerfilEstudiante(getContext(), linkRESTCargarPerfil,
-                    this.imageHttpAddress, this.idEstudiante, Constants.INFO_PERFIl_EDITAR);
+                    this.imageHttpAddress, this.idCliente, Constants.INFO_PERFIl_EDITAR);
             perfilEstudiante.execute();
             bancoEstudiante = new ServicioTaskBancoEstudiante(getContext(), linkRESTDatosBancarios,
-                    this.idEstudiante, ServicioTaskBancoEstudiante.OBTENER_DATOS);
+                    this.idCliente, ServicioTaskBancoEstudiante.OBTENER_DATOS);
             bancoEstudiante.execute();
         }else{
             baseDeDatos.close();
@@ -275,35 +257,58 @@ public class EditarPerfilFragment extends Fragment {
                     if(CardValidator.validateExpiryDate(Integer.parseInt(etMes.getText().toString()),
                             Integer.parseInt(etAño.getText().toString()))){
                         actualizarBanco = new ServicioTaskUpCuentaEstudiante(getContext(), linkRESTActualizarBanco,
-                                this.idEstudiante, etNombreTitular.getText().toString(),
+                                this.idCliente, etNombreTitular.getText().toString(),
                                 etTarjeta.getText().toString(), etMes.getText().toString(),
                                 etAño.getText().toString());
                         actualizarBanco.execute();
-                    }else{
-                        errorDatosBanco("Fecha de expiración no válida.");
-                    }
-                }else{
-                    errorDatosBanco("Tarjeta no válida.");
-                }
-            }else{
-                errorDatosBanco("Nombre del titular no válido.");
-            }
-        }else{
-            errorDatosBanco("Llena todos los campos correctamente.");
-        }
+                    }else
+                        mensaje("¡ERROR!", "Fecha de expiración no válida.", SweetAlert.ERROR_TYPE);
+                }else
+                    mensaje("¡ERROR!","Tarjeta no válida.", SweetAlert.ERROR_TYPE);
+            }else
+                mensaje("¡ERROR!", "Nombre del titular no válido.", SweetAlert.ERROR_TYPE);
+        }else
+            mensaje("¡ERROR!","Llena todos los campos correctamente.", SweetAlert.ERROR_TYPE);
     }
 
     public void actualizarFiscales(){
         Bundle bundle = new Bundle();
         bundle.putInt("tipoPerfil", Constants.TIPO_USUARIO_ESTUDIANTE);
-        bundle.putInt("idUsuario", this.idEstudiante);
+        bundle.putInt("idUsuario", this.idCliente);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         DatosFiscalesFragment datosFiscalesFragment = new DatosFiscalesFragment();
         datosFiscalesFragment.setArguments(bundle);
         datosFiscalesFragment.show(fragmentTransaction, "DATOS FISCALES");
     }
 
-    @OnClick({R.id.btnFoto, R.id.btnActualizarFiscales, R.id.btnActualizarInfoBancaria})
+    public void actualizarPerfil(){
+        JSONObject parametros = new JSONObject();
+        try {
+            parametros.put("idCliente", idCliente);
+            parametros.put("celular", etCelular.getText().toString().trim());
+            parametros.put("telefonoLocal", etTelefono.getText().toString().trim());
+            parametros.put("direccion", etDireccion.getText().toString());
+            parametros.put("descripcion", etDesc.getText().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        webServicesAPI = new WebServicesAPI(response -> {
+            try{
+                JSONObject jsonObject = new JSONObject(response);
+                if(jsonObject.getBoolean("respuesta"))
+                    mensaje("¡GENIAL!", jsonObject.getString("mensaje"), SweetAlert.SUCCESS_TYPE);
+                else
+                    mensaje("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.WARNING_TYPE);
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.ACTUALIZAR_PERFIL, getContext(), WebServicesAPI.PUT, parametros);
+        webServicesAPI.execute();
+        uploadImage();
+    }
+
+    @OnClick({R.id.btnFoto, R.id.btnActualizarFiscales, R.id.btnActualizarInfoBancaria, R.id.btnActualizarInfo})
     public void onClickFoto(View view){
         switch (view.getId()){
             case R.id.btnFoto:
@@ -314,6 +319,9 @@ public class EditarPerfilFragment extends Fragment {
                 break;
             case R.id.btnActualizarInfoBancaria:
                 actualizarDatosBancarios();
+                break;
+            case R.id.btnActualizarInfo:
+                actualizarPerfil();
                 break;
         }
     }
@@ -375,6 +383,13 @@ public class EditarPerfilFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void mensaje(String titulo, String mensaje, int tipo){
+        new SweetAlert(getContext(), tipo, SweetAlert.ESTUDIANTE)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .show();
     }
 
     @Override
