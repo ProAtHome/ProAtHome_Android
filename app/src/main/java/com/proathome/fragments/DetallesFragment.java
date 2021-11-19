@@ -3,24 +3,20 @@ package com.proathome.fragments;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,18 +29,19 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
 import com.proathome.SincronizarClase;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.clase.ServicioTaskFinalizarClase;
 import com.proathome.servicios.clase.ServicioTaskSincronizarClases;
 import com.proathome.servicios.WorkaroundMapFragment;
 import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
-import com.proathome.servicios.estudiante.ServicioTaskBancoEstudiante;
-import com.proathome.servicios.estudiante.ServicioTaskBloquearPerfil;
-import com.proathome.servicios.estudiante.ServicioTaskPreOrden;
 import com.proathome.servicios.profesor.ServicioTaskFotoDetalles;
 import com.proathome.servicios.valoracion.ServicioValidarValoracion;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
+import org.json.JSONException;
+import org.json.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -55,10 +52,10 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     private static Component mInstance;
     private GoogleMap mMap;
     public static final String TAG = "Detalles";
-    public static int ESTUDIANTE = 1, PROCEDENCIA_DETALLES_FRAGMENT = 1;
+    public static int ESTUDIANTE = 1;
     public static String fotoNombre, planSesion;
     public static boolean sumar;
-    public static int idSesion = 0, idEstudiante = 0, idProfesor = 0, tiempoPasar = 0, idSeccion = 0,
+    public static int idSesion = 0, idCliente = 0, idProfesor = 0, tiempoPasar = 0, idSeccion = 0,
             idNivel = 0, idBloque = 0;
     /*VARIABLE DE EXISTENCIA DE DATOS - BANCO*/
     public static boolean banco, procedenciaFin = false;
@@ -131,10 +128,10 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     public void onResume() {
         super.onResume();
         ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(),
-                idSesion, idEstudiante, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
+                idSesion, idCliente, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
         sincronizarClases.execute();
         ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(getContext(), idSesion,
-                idEstudiante, Constants.VALIDAR_CLASE_FINALIZADA_AMBOS_PERFILES, DetallesFragment.ESTUDIANTE);
+                idCliente, Constants.VALIDAR_CLASE_FINALIZADA_AMBOS_PERFILES, DetallesFragment.ESTUDIANTE);
         finalizarClase.execute();
         if (procedenciaFin) {
             ServicioValidarValoracion validarValoracion = new ServicioValidarValoracion(idSesion, idProfesor,
@@ -142,8 +139,36 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
             validarValoracion.execute();
             procedenciaFin = false;
         } else {
-            ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(getContext(), idEstudiante,
-                    DetallesFragment.PROCEDENCIA_DETALLES_FRAGMENT);
+            WebServicesAPI bloquearPerfil = new WebServicesAPI(response -> {
+                try{
+                    if(response != null){
+                        JSONObject jsonObject = new JSONObject(response);
+                        PagoPendienteFragment pagoPendienteFragment = new PagoPendienteFragment();
+                        Bundle bundle = new Bundle();
+                        if(jsonObject.getBoolean("bloquear")){
+                            FragmentTransaction fragmentTransaction = null;
+                            bundle.putDouble("deuda", jsonObject.getDouble("deuda"));
+                            bundle.putString("sesion", Component.getSeccion(jsonObject.getInt("idSeccion")) +
+                                    " / " + Component.getNivel(jsonObject.getInt("idSeccion"),
+                                    jsonObject.getInt("idNivel")) + " / " + jsonObject.getInt("idBloque"));
+                            bundle.putString("lugar", jsonObject.getString("lugar"));
+                            bundle.putString("nombre", jsonObject.getString("nombre"));
+                            bundle.putString("correo", jsonObject.getString("correo"));
+                            bundle.putInt("idSesion", jsonObject.getInt("idSesion"));
+                            fragmentTransaction = DetallesFragment.detallesFragment.getFragmentManager().beginTransaction();
+                            pagoPendienteFragment.setArguments(bundle);
+                            pagoPendienteFragment.show(fragmentTransaction, "Pago pendiente");
+                        }
+                    }else{
+                        new SweetAlert(this.contexto, SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                                .setTitleText("¡ERROR!")
+                                .setContentText("Error al obtener la información de tu historial de pagos, intente de nuevo más tarde.")
+                                .show();
+                    }
+                }catch(JSONException ex){
+                    ex.printStackTrace();
+                }
+            }, APIEndPoints.BLOQUEAR_PERFIL + "/" + idCliente, getContext(), WebServicesAPI.GET, null);
             bloquearPerfil.execute();
         }
     }
@@ -167,7 +192,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
 
         if (fila.moveToFirst()) {
-            idEstudiante = fila.getInt(0);
+            idCliente = fila.getInt(0);
         } else {
             baseDeDatos.close();
         }
@@ -219,14 +244,14 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         iniciar.setOnClickListener(v -> {
 
             ServicioTaskSincronizarClases sincronizarClases =
-                    new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante,
+                    new ServicioTaskSincronizarClases(getContext(), idSesion, idCliente,
                             DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
             sincronizarClases.execute();
 
             Intent intent = new Intent(getContext(), SincronizarClase.class);
             intent.putExtra("perfil", ESTUDIANTE);
             intent.putExtra("idSesion", idSesion);
-            intent.putExtra("idPerfil", idEstudiante);
+            intent.putExtra("idPerfil", idCliente);
             intent.putExtra("tiempo", tiempoPasar);
             intent.putExtra("idSeccion", bun.getInt("idSeccion"));
             intent.putExtra("idNivel", bun.getInt("idNivel"));
@@ -239,14 +264,14 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
             if (!this.planSesion.equalsIgnoreCase("PARTICULAR")) {
                 if (banco) {
                     ServicioTaskSincronizarClases sincronizarClases =
-                            new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante,
+                            new ServicioTaskSincronizarClases(getContext(), idSesion, idCliente,
                                     DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
                     sincronizarClases.execute();
 
                     Intent intent = new Intent(getContext(), SincronizarClase.class);
                     intent.putExtra("perfil", ESTUDIANTE);
                     intent.putExtra("idSesion", idSesion);
-                    intent.putExtra("idPerfil", idEstudiante);
+                    intent.putExtra("idPerfil", idCliente);
                     intent.putExtra("tiempo", tiempoPasar);
                     intent.putExtra("idSeccion", bun.getInt("idSeccion"));
                     intent.putExtra("idNivel", bun.getInt("idNivel"));
@@ -269,14 +294,14 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
                         preOrdenClase.show(fragmentTransaction, "PreOrden");
                     } else {
                         ServicioTaskSincronizarClases sincronizarClases =
-                                new ServicioTaskSincronizarClases(getContext(), idSesion, idEstudiante,
+                                new ServicioTaskSincronizarClases(getContext(), idSesion, idCliente,
                                         DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
                         sincronizarClases.execute();
 
                         Intent intent = new Intent(getContext(), SincronizarClase.class);
                         intent.putExtra("perfil", ESTUDIANTE);
                         intent.putExtra("idSesion", idSesion);
-                        intent.putExtra("idPerfil", idEstudiante);
+                        intent.putExtra("idPerfil", idCliente);
                         intent.putExtra("tiempo", tiempoPasar);
                         intent.putExtra("idSeccion", bun.getInt("idSeccion"));
                         intent.putExtra("idNivel", bun.getInt("idNivel"));

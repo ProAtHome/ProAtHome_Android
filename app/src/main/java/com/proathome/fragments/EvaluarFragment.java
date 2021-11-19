@@ -2,6 +2,7 @@ package com.proathome.fragments;
 
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,13 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
-import com.proathome.servicios.estudiante.ServicioTaskBloquearPerfil;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.valoracion.ServicioTaskValorar;
+import com.proathome.utils.Component;
 import com.proathome.utils.SweetAlert;
+import org.json.JSONException;
+import org.json.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -73,13 +78,37 @@ public class EvaluarFragment extends DialogFragment {
                         .setConfirmButton("OK", sweetAlertDialog -> {
                             sweetAlertDialog.dismissWithAnimation();
                             if(this.procedencia == EvaluarFragment.PROCEDENCIA_ESTUDIANTE){
-                                ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesFragment.idEstudiante,
+                                ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesFragment.idCliente,
                                         DetallesFragment.idProfesor, ratingBar.getRating(), tieComentario.getText().toString(),
                                         EvaluarFragment.PROCEDENCIA_ESTUDIANTE, DetallesFragment.idSesion);
                                 valorar.execute();
                                 //Esta peticion es por que bloquearemos el perfil después de evaluar.
-                                ServicioTaskBloquearPerfil bloquearPerfil = new ServicioTaskBloquearPerfil(getContext(),
-                                        DetallesFragment.idEstudiante, DetallesFragment.PROCEDENCIA_DETALLES_FRAGMENT);
+                                WebServicesAPI bloquearPerfil = new WebServicesAPI(response -> {
+                                    try{
+                                        if(response != null){
+                                            JSONObject jsonObject = new JSONObject(response);
+                                            PagoPendienteFragment pagoPendienteFragment = new PagoPendienteFragment();
+                                            Bundle bundle = new Bundle();
+                                            if(jsonObject.getBoolean("bloquear")){
+                                                FragmentTransaction fragmentTransaction = null;
+                                                bundle.putDouble("deuda", jsonObject.getDouble("deuda"));
+                                                bundle.putString("sesion", Component.getSeccion(jsonObject.getInt("idSeccion")) +
+                                                        " / " + Component.getNivel(jsonObject.getInt("idSeccion"),
+                                                        jsonObject.getInt("idNivel")) + " / " + jsonObject.getInt("idBloque"));
+                                                bundle.putString("lugar", jsonObject.getString("lugar"));
+                                                bundle.putString("nombre", jsonObject.getString("nombre"));
+                                                bundle.putString("correo", jsonObject.getString("correo"));
+                                                bundle.putInt("idSesion", jsonObject.getInt("idSesion"));
+                                                fragmentTransaction = getFragmentManager().beginTransaction();
+                                                pagoPendienteFragment.setArguments(bundle);
+                                                pagoPendienteFragment.show(fragmentTransaction, "Pago pendiente");
+                                            }
+                                        }else
+                                            errorMsg("¡ERROR!", "Error al obtener la información de tu historial de pagos, intente de nuevo más tarde.", SweetAlert.ERROR_TYPE);
+                                    }catch(JSONException ex){
+                                        ex.printStackTrace();
+                                    }
+                                }, APIEndPoints.BLOQUEAR_PERFIL + "/" + DetallesFragment.idCliente, getContext(), WebServicesAPI.GET, null);
                                 bloquearPerfil.execute();
                             }else if(this.procedencia == EvaluarFragment.PROCEDENCIA_PROFESOR){
                                 ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesSesionProfesorFragment.idProfesor,
