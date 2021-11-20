@@ -3,11 +3,11 @@ package com.proathome.servicios.estudiante;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-
-import com.proathome.servicios.planes.ServicioTaskActualizarMonedero;
 import com.proathome.fragments.NuevaSesionFragment;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
+import com.proathome.servicios.planes.ServicioTaskValidarPlan;
 import com.proathome.utils.SweetAlert;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -18,7 +18,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import javax.net.ssl.HttpsURLConnection;
 
 public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> {
@@ -139,8 +138,14 @@ public class STRegistroSesionesEstudiante extends AsyncTask<Void, Void, String> 
         try{
             JSONObject jsonObject = new JSONObject(s);
             if(jsonObject.getBoolean("respuesta")){
-                ServicioTaskActualizarMonedero actualizarMonedero = new ServicioTaskActualizarMonedero(this.contexto, idCliente, NuevaSesionFragment.nuevoMonedero);
-                actualizarMonedero.execute();
+                JSONObject parametrosPUT= new JSONObject();
+                parametrosPUT.put("idEstudiante", idCliente);
+                parametrosPUT.put("nuevoMonedero", NuevaSesionFragment.nuevoMonedero);
+                WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                    ServicioTaskValidarPlan validarPlan = new ServicioTaskValidarPlan(this.contexto, idCliente);
+                    validarPlan.execute();
+                }, APIEndPoints.ACTUALIZAR_MONEDERO, this.contexto, WebServicesAPI.PUT, parametrosPUT);
+                webServicesAPI.execute();
                 NuevaSesionFragment.nuevoMonedero = 0;
                 showMsg("¡GENIAL!", jsonObject.getString("mensaje"), SweetAlert.SUCCESS_TYPE);
             }else

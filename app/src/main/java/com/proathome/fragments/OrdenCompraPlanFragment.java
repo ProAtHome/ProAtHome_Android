@@ -9,9 +9,13 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
-import com.proathome.servicios.planes.ServicioTaskCobroPlan;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
+import com.proathome.servicios.planes.ServicioTaskGenerarPlan;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -222,8 +226,51 @@ public class OrdenCompraPlanFragment extends DialogFragment {
             public void onSuccess(OperationResult<Token> operationResult) {
                 nombreEstudiante = PlanesFragment.nombreEstudiante;
                 correo = PlanesFragment.correoEstudiante;
-                ServicioTaskCobroPlan cobroPlan = new ServicioTaskCobroPlan(getContext(), nombreEstudiante, correo, operationResult.getResult().getId(), cobro, descripcion, OrdenCompraPlanFragment.this);
-                cobroPlan.execute();
+                JSONObject parametrosPost= new JSONObject();
+                try {
+                    parametrosPost.put("idCard",  operationResult.getResult().getId());
+                    parametrosPost.put("nombreEstudiante", nombreEstudiante);
+                    parametrosPost.put("correo", correo);
+                    parametrosPost.put("cobro", cobro);
+                    parametrosPost.put("descripcion", descripcion);
+                    parametrosPost.put("deviceId", OrdenCompraPlanFragment.deviceIdString);
+                }catch (JSONException ex){
+                    ex.printStackTrace();
+                }
+
+                WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                    try{
+                        JSONObject jsonObject = new JSONObject(response);
+                        if(jsonObject.getBoolean("respuesta")){
+                            ServicioTaskGenerarPlan generarPlan = new ServicioTaskGenerarPlan(getContext(), OrdenCompraPlanFragment.tipoPlan, OrdenCompraPlanFragment.fechaIn, OrdenCompraPlanFragment.fechaFi, OrdenCompraPlanFragment.monedero, OrdenCompraPlanFragment.idEstudiante);
+                            generarPlan.execute();
+                            new SweetAlert(getContext(), SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
+                                    .setTitleText("¡GENIAL!")
+                                    .setContentText("Pago correcto de PLAN.")
+                                    .setConfirmButton("OK", sweetAlertDialog -> {
+                        /*TODO FLUJO_COBRO_PLAN: Activamos el PLAN correspondiente en el perfil y generamos las horas en monedero.
+                            Guardamos el PLAN  en el historial.
+                                Vamos a NuevaSesionFragment con el PLAN activo.*/
+                                        dismiss();
+                                        PlanesFragment.planesFragment.dismiss();
+                                        sweetAlertDialog.dismissWithAnimation();
+                                    })
+                                    .show();
+                        }else{
+                            new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                                    .setTitleText("¡ERROR!")
+                                    .setContentText("Fallo en la transacción - " + response)
+                                    .setConfirmButton("OK", sweetAlertDialog -> {
+                                        OrdenCompraPlanFragment.comprar.setEnabled(true);
+                                        sweetAlertDialog.dismissWithAnimation();
+                                    })
+                                    .show();
+                        }
+                    }catch(JSONException ex){
+                        ex.printStackTrace();
+                    }
+                }, APIEndPoints.COBROS, getContext(), WebServicesAPI.POST, parametrosPost);
+                webServicesAPI.execute();
             }
         });
     }
