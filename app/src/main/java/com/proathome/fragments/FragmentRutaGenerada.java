@@ -10,9 +10,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.proathome.R;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
-import com.proathome.servicios.cliente.ServicioTaskRutaExamen;
 import com.proathome.examen.EvaluarRuta;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,12 +68,30 @@ public class FragmentRutaGenerada extends DialogFragment {
 
         ruta.setOnClickListener(v ->{
             EvaluarRuta evaluarRuta = new EvaluarRuta(aciertos);
-            ServicioTaskRutaExamen rutaExamen = new ServicioTaskRutaExamen(getContext(), idCliente, evaluarRuta.getSeccion(), evaluarRuta.getNivel(), evaluarRuta.getBloque(), 0, true);
-            rutaExamen.execute();
-            dismiss();
+            rutaExamen(evaluarRuta);
         });
 
         return view;
+    }
+
+    public void rutaExamen(EvaluarRuta evaluarRuta){
+        JSONObject parametros = new JSONObject();
+        try {
+            parametros.put("idCliente", this.idCliente);
+            parametros.put("idSeccion", evaluarRuta.getSeccion());
+            parametros.put("idNivel", evaluarRuta.getNivel());
+            parametros.put("idBloque", evaluarRuta.getBloque());
+            parametros.put("horas", 0);
+            parametros.put("fecha_registro", "Hoy");
+            parametros.put("sumar", true);
+
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                dismiss();
+            }, APIEndPoints.NUEVA_RUTA_EXAMEN, WebServicesAPI.POST, parametros);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

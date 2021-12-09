@@ -6,14 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.ServicioCliente;
 import com.proathome.R;
-import com.proathome.servicios.servicio.ServicioTaskPagoDeuda;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.planes.ServicioTaskTokenCard;
+import com.proathome.servicios.servicio.ServicioTaskSaldarDeuda;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -170,10 +178,43 @@ public class DatosBancoPlanFragment extends DialogFragment {
 
             @Override
             public void onSuccess(OperationResult<Token> operationResult) {
-                ServicioTaskPagoDeuda pagoDeuda = new ServicioTaskPagoDeuda(getContext(), nombre, correo, operationResult.getResult().getId(), deuda, descripcion, DatosBancoPlanFragment.this, idSesion, deviceId);
-                pagoDeuda.execute();
+                DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
+                separadoresPersonalizados.setDecimalSeparator('.');
+                DecimalFormat formato1 = new DecimalFormat("#.00", separadoresPersonalizados);
+                JSONObject parametrosPost= new JSONObject();
+                try {
+                    parametrosPost.put("idCard", operationResult.getResult().getId());
+                    parametrosPost.put("nombreCliente", nombre);
+                    parametrosPost.put("correo", correo);
+                    parametrosPost.put("cobro", formato1.format(deuda));
+                    parametrosPost.put("descripcion", descripcion);
+                    parametrosPost.put("deviceId", deviceId);
+                    WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                        if(response.equalsIgnoreCase(  "")){
+                            //Actualizar Pago en Pagos
+                            ServicioTaskSaldarDeuda saldarDeuda = new ServicioTaskSaldarDeuda(idSesion);
+                            saldarDeuda.execute();
+                            msg("¡GENIAL!", "Cobro correcto.", SweetAlert.SUCCESS_TYPE);
+                        }else
+                            msg("ERROR!", "Error en el cobro - " + response, SweetAlert.ERROR_TYPE);
+                    }, APIEndPoints.COBROS, WebServicesAPI.POST, parametrosPost);
+                    webServicesAPI.execute();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
+    }
+
+    private void msg(String titulo, String mensaje, int tipo){
+        new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .setConfirmButton("OK", sweetAlertDialog -> {
+                    sweetAlertDialog.dismissWithAnimation();
+                    dismiss();
+                })
+                .show();
     }
 
     @Override
