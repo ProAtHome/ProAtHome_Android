@@ -31,9 +31,10 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ControladorTomarSesion;
-import com.proathome.servicios.cliente.ServicioTaskEliminarSesion;
 import com.proathome.servicios.cliente.ServicioTaskUpSesion;
 import com.proathome.servicios.WorkaroundMapFragment;
 import com.proathome.servicios.planes.ServicioTaskFechaServidor;
@@ -41,6 +42,10 @@ import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -59,8 +64,6 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     private boolean cambioFecha;
     private GoogleMap mMap;
     private Marker perth;
-    private String linkAPIEliminarSesion = Constants.IP +
-            "/ProAtHome/apiProAtHome/cliente/eliminarSesion";
     private String linkAPIUpSesion = Constants.IP +
             "/ProAtHome/apiProAtHome/cliente/actualizarSesion";
     public static final String TAG = "Detalles de la Sesión";
@@ -727,10 +730,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                             errorServicioMsg("La sesión sólo podía ser eliminada el " +
                                     "día anterior al servicio.");
                         }else if(fechaActual.before(fechaSesionFin)){
-                            ServicioTaskEliminarSesion eliminarSesion =
-                                    new ServicioTaskEliminarSesion(getContext(), this.linkAPIEliminarSesion,
-                                            this.idServicio, this.idCliente, this.tipoPlanString, this.tiempo);
-                            eliminarSesion.execute();
+                            eliminarSesion();
                             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                             getActivity().finish();
                         }
@@ -738,12 +738,27 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                     }else{
                         errorServicioMsg("Fecha del dispositivo erronea.");
                     }
-                }catch(ParseException ex){
+                }catch(ParseException | JSONException ex){
                     ex.printStackTrace();
                 }
                 break;
         }
 
+    }
+
+    private void eliminarSesion() throws JSONException {
+        JSONObject jsonData = new JSONObject();
+        jsonData.put("idSesion", this.idServicio);
+        jsonData.put("idCliente", this.idCliente);
+        jsonData.put("tipoPlan", this.tipoPlan);
+        jsonData.put("horas", this.horas);
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            new SweetAlert(SesionesFragment.contexto, SweetAlert.WARNING_TYPE, SweetAlert.CLIENTE)
+                    .setTitleText("¡AVISO!")
+                    .setContentText(response)
+                    .show();
+        }, APIEndPoints.ELIMINAR_SESION, WebServicesAPI.POST, jsonData);
+        webServicesAPI.execute();
     }
 
     public void errorServicioMsg(String mensaje){

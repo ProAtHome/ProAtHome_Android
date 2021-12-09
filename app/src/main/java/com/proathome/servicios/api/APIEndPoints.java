@@ -12,6 +12,8 @@ public class APIEndPoints {
     public static final String BLOQUEAR_PERFIL = Constants.IP + "/ProAtHome/apiProAtHome/cliente/bloquearPerfil";
     public static final String ACTUALIZAR_MONEDERO = Constants.IP + "/ProAtHome/apiProAtHome/cliente/actualizarMonedero";
     public static final String DISPONIBILIDAD_SERVICIO = Constants.IP + "/ProAtHome/apiProAtHome/cliente/getDisponibilidadServicio/";
+    public static final String ELIMINAR_SESION = Constants.IP + "/ProAtHome/apiProAtHome/cliente/eliminarSesion";
+    public static final String GENERAR_PLAN = Constants.IP + "/ProAtHome/apiProAtHome/cliente/generarPlan";
 
     public static final String COBROS = Constants.IP_80 + "/assets/lib/Cargo.php";
     public static final String VERIFICACION_CORREO = Constants.IP_80 + "/assets/lib/Verificacion.php?enviar=true";

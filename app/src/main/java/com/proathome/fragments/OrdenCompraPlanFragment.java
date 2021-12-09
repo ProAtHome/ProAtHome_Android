@@ -11,7 +11,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
-import com.proathome.servicios.planes.ServicioTaskGenerarPlan;
+import com.proathome.servicios.planes.ServicioTaskValidarPlan;
+import com.proathome.servicios.servicio.ServicioSesionesPagadas;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
@@ -242,8 +243,7 @@ public class OrdenCompraPlanFragment extends DialogFragment {
                     try{
                         JSONObject jsonObject = new JSONObject(response);
                         if(jsonObject.getBoolean("respuesta")){
-                            ServicioTaskGenerarPlan generarPlan = new ServicioTaskGenerarPlan(getContext(), OrdenCompraPlanFragment.tipoPlan, OrdenCompraPlanFragment.fechaIn, OrdenCompraPlanFragment.fechaFi, OrdenCompraPlanFragment.monedero, OrdenCompraPlanFragment.idCliente);
-                            generarPlan.execute();
+                            generarPlan();
                             new SweetAlert(getContext(), SweetAlert.SUCCESS_TYPE, SweetAlert.CLIENTE)
                                     .setTitleText("¡GENIAL!")
                                     .setContentText("Pago correcto de PLAN.")
@@ -273,6 +273,22 @@ public class OrdenCompraPlanFragment extends DialogFragment {
                 webServicesAPI.execute();
             }
         });
+    }
+
+    private void generarPlan() throws JSONException {
+        JSONObject parametrosPost= new JSONObject();
+        parametrosPost.put("tipoPlan", OrdenCompraPlanFragment.tipoPlan);
+        parametrosPost.put("fechaInicio", OrdenCompraPlanFragment.fechaIn);
+        parametrosPost.put("fechaFin", OrdenCompraPlanFragment.fechaFi);
+        parametrosPost.put("monedero", OrdenCompraPlanFragment.monedero);
+        parametrosPost.put("idCliente", this.idCliente);
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            ServicioSesionesPagadas servicioSesionesPagadas = new ServicioSesionesPagadas(OrdenCompraPlanFragment.idCliente);
+            servicioSesionesPagadas.execute();
+            ServicioTaskValidarPlan validarPlan = new ServicioTaskValidarPlan(getContext(), this.idCliente);
+            validarPlan.execute();
+        }, APIEndPoints.GENERAR_PLAN, WebServicesAPI.POST, parametrosPost);
+        webServicesAPI.execute();
     }
 
     @Override
