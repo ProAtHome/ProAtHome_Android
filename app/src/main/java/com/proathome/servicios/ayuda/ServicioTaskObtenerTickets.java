@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.view.View;
 import com.proathome.fragments.FragmentTicketAyuda;
 import com.proathome.ui.ayuda.AyudaFragment;
-import com.proathome.ui.ayudaProfesor.AyudaProfesorFragment;
+import com.proathome.ui.ayudaProfesional.AyudaProfesionalFragment;
 import com.proathome.utils.ComponentTicket;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
@@ -19,15 +19,15 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 public class ServicioTaskObtenerTickets extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
     private String linkObtenerTickets = Constants.IP +
             "/ProAtHome/apiProAtHome/cliente/obtenerTickets/";
-    private String linkObtenerTicketsProfesor = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesor/obtenerTickets/";
+    private String linkObtenerTicketsProfesional = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesional/obtenerTickets/";
     private int idUsuario, tipoUsuario;
     private ProgressDialog progressDialog;
 
@@ -49,18 +49,18 @@ public class ServicioTaskObtenerTickets extends AsyncTask<Void, Void, String> {
 
         try{
             URL url = null;
-            if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE)
+            if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE)
                 url = new URL(this.linkObtenerTickets + idUsuario);
-            else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
-                url = new URL(this.linkObtenerTicketsProfesor + idUsuario);
-            HttpsURLConnection httpURLConnection = (HttpsURLConnection) url.openConnection();
+            else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL)
+                url = new URL(this.linkObtenerTicketsProfesional + idUsuario);
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
             httpURLConnection.setReadTimeout(15000);
             httpURLConnection.setConnectTimeout(1500);
             httpURLConnection.setRequestMethod("GET");
 
             int responseCode = httpURLConnection.getResponseCode();
-            if(responseCode == HttpsURLConnection.HTTP_OK){
+            if(responseCode == HttpURLConnection.HTTP_OK){
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(httpURLConnection.getInputStream()));
                 StringBuffer stringBuffer = new StringBuffer("");
@@ -97,7 +97,7 @@ public class ServicioTaskObtenerTickets extends AsyncTask<Void, Void, String> {
                 JSONArray jsonArray = new JSONArray(s);
                     for(int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE){
+                        if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE){
                             if (jsonObject.getBoolean("sinTickets")){
                                 AyudaFragment.lottieAnimationView.setVisibility(View.VISIBLE);
                             } else{
@@ -108,12 +108,12 @@ public class ServicioTaskObtenerTickets extends AsyncTask<Void, Void, String> {
                                         jsonObject.getString("descripcion"), jsonObject.getString("noTicket"),
                                         jsonObject.getInt("estatus"), jsonObject.getInt("tipoUsuario"), jsonObject.getString("categoria")));
                             }
-                        }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR){
+                        }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL){
                             if (jsonObject.getBoolean("sinTickets")){
-                                AyudaProfesorFragment.lottieAnimationView.setVisibility(View.VISIBLE);
+                                AyudaProfesionalFragment.lottieAnimationView.setVisibility(View.VISIBLE);
                             } else{
-                                AyudaProfesorFragment.lottieAnimationView.setVisibility(View.INVISIBLE);
-                                AyudaProfesorFragment.componentAdapterTicket.add(FragmentTicketAyuda.getmInstance(jsonObject.getString("topico"),
+                                AyudaProfesionalFragment.lottieAnimationView.setVisibility(View.INVISIBLE);
+                                AyudaProfesionalFragment.componentAdapterTicket.add(FragmentTicketAyuda.getmInstance(jsonObject.getString("topico"),
                                         ComponentTicket.validarEstatus(jsonObject.getInt("estatus")),
                                         jsonObject.getString("fechaCreacion"), jsonObject.getInt("idTicket"),
                                         jsonObject.getString("descripcion"), jsonObject.getString("noTicket"),
@@ -124,7 +124,7 @@ public class ServicioTaskObtenerTickets extends AsyncTask<Void, Void, String> {
                     }
             }else{
                 msgInfo(SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inseperado, intenta nuevamente.",
-                        this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE ? SweetAlert.ESTUDIANTE : SweetAlert.PROFESOR);
+                        this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ? SweetAlert.CLIENTE : SweetAlert.PROFESIONAL);
             }
         }catch (JSONException ex){
             ex.printStackTrace();

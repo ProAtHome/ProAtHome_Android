@@ -84,8 +84,8 @@ public class SweetAlert extends Dialog implements View.OnClickListener {
     public static final int WARNING_TYPE = 3;
     public static final int CUSTOM_IMAGE_TYPE = 4;
     public static final int PROGRESS_TYPE = 5;
-    public static final int ESTUDIANTE = 1;
-    public static final int PROFESOR = 2;
+    public static final int CLIENTE = 1;
+    public static final int PROFESIONAL = 2;
 
 
     public static boolean DARK_STYLE = false;
@@ -198,7 +198,7 @@ public class SweetAlert extends Dialog implements View.OnClickListener {
         mNeutralButton.setOnTouchListener(Constants.FOCUS_TOUCH_LISTENER);
         mProgressHelper.setProgressWheel((ProgressWheel) findViewById(R.id.progressWheel));
 
-        if(this.tipoPerfil == SweetAlert.PROFESOR){
+        if(this.tipoPerfil == SweetAlert.PROFESIONAL){
             mCancelButton.setBackgroundColor(getContext().getResources().getColor(R.color.color_secondary));
             mConfirmButton.setBackgroundColor(getContext().getResources().getColor(R.color.color_secondary));
             mNeutralButton.setBackgroundColor(getContext().getResources().getColor(R.color.color_secondary));

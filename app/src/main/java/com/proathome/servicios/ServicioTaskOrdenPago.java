@@ -13,23 +13,23 @@ import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 public class ServicioTaskOrdenPago extends AsyncTask<Void, Void, String> {
 
     public static final int SOLICITUD_COBRO_INICIAL = 1;
     public static final int SOLICITUD_COBRO_TE = 2;
-    private int idEstudiante, idSesion, tipoSolicitud;
-    private double costoClase, costoTE;
+    private int idCliente, idSesion, tipoSolicitud;
+    private double costoServicio, costoTE;
     private String tipoPlan, estatusPago;
     private String linkActualizarPago = Constants.IP + "/ProAtHome/apiProAtHome/cliente/actualizarPago";
     private String linkPagoInicial = Constants.IP + "/ProAtHome/apiProAtHome/cliente/pagoInicial";
 
-    public ServicioTaskOrdenPago(int idEstudiante, int idSesion, double costoClase, double costoTE,
+    public ServicioTaskOrdenPago(int idCliente, int idSesion, double costoServicio, double costoTE,
                                  String tipoPlan, String estatusPago, int tipoSolicitud){
-        this.idEstudiante = idEstudiante;
+        this.idCliente = idCliente;
         this.idSesion = idSesion;
-        this.costoClase = costoClase;
+        this.costoServicio = costoServicio;
         this.costoTE = costoTE;
         this.tipoPlan = tipoPlan;
         this.estatusPago = estatusPago;
@@ -52,12 +52,12 @@ public class ServicioTaskOrdenPago extends AsyncTask<Void, Void, String> {
                 url = new URL(this.linkPagoInicial);
             else if(this.tipoSolicitud == ServicioTaskOrdenPago.SOLICITUD_COBRO_TE)
                 url = new URL(this.linkActualizarPago);
-            HttpsURLConnection httpURLConnection = (HttpsURLConnection)url.openConnection();
+            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
 
             JSONObject jsonDatos = new JSONObject();
-            jsonDatos.put("costoClase", this.costoClase);
+            jsonDatos.put("costoServicio", this.costoServicio);
             jsonDatos.put("costoTE", this.costoTE);
-            jsonDatos.put("idEstudiante", this.idEstudiante);
+            jsonDatos.put("idCliente", this.idCliente);
             jsonDatos.put("idSesion", this.idSesion);
             jsonDatos.put("estatusPago", this.estatusPago);
             jsonDatos.put("tipoPlan", this.tipoPlan);
@@ -79,7 +79,7 @@ public class ServicioTaskOrdenPago extends AsyncTask<Void, Void, String> {
             outputStream.close();
 
             int responseCode = httpURLConnection.getResponseCode();
-            if(responseCode == HttpsURLConnection.HTTP_OK){
+            if(responseCode == HttpURLConnection.HTTP_OK){
 
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(httpURLConnection.getInputStream()));

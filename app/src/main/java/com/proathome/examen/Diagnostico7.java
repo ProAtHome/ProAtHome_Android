@@ -10,8 +10,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
-import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
-import com.proathome.servicios.estudiante.ServicioExamenDiagnostico;
+import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
+import com.proathome.servicios.cliente.ServicioExamenDiagnostico;
 import com.proathome.fragments.FragmentRutaGenerada;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
@@ -84,7 +84,7 @@ public class Diagnostico7 extends AppCompatActivity {
 
             AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"sesion", null, 1);
             SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-            Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+            Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
 
             int idCliente = 0;
             if (fila.moveToFirst()) {
@@ -106,7 +106,7 @@ public class Diagnostico7 extends AppCompatActivity {
     }
 
     public void salirMsg(){
-        new SweetAlert(this, SweetAlert.NORMAL_TYPE, SweetAlert.ESTUDIANTE)
+        new SweetAlert(this, SweetAlert.NORMAL_TYPE, SweetAlert.CLIENTE)
                 .setTitleText("¡NO TE RINDAS!")
                 .show();
     }

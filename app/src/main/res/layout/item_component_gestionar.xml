@@ -83,7 +83,7 @@
             style="@style/Titulos"/>
 
         <TextView
-            android:id="@+id/tvProfesor"
+            android:id="@+id/tvProfesional"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/common_padding_min"

@@ -28,14 +28,14 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
-import com.proathome.SincronizarClase;
+import com.proathome.SincronizarServicio;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
-import com.proathome.servicios.clase.ServicioTaskFinalizarClase;
-import com.proathome.servicios.clase.ServicioTaskSincronizarClases;
+import com.proathome.servicios.servicio.ServicioTaskFinalizarServicio;
+import com.proathome.servicios.servicio.ServicioTaskSincronizarServicios;
 import com.proathome.servicios.WorkaroundMapFragment;
-import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
-import com.proathome.servicios.profesor.ServicioTaskFotoDetalles;
+import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
+import com.proathome.servicios.profesional.ServicioTaskFotoDetalles;
 import com.proathome.servicios.valoracion.ServicioValidarValoracion;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
@@ -52,17 +52,17 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     private static Component mInstance;
     private GoogleMap mMap;
     public static final String TAG = "Detalles";
-    public static int ESTUDIANTE = 1;
+    public static int CLIENTE = 1;
     public static String fotoNombre, planSesion;
     public static boolean sumar;
-    public static int idSesion = 0, idCliente = 0, idProfesor = 0, tiempoPasar = 0, idSeccion = 0,
+    public static int idSesion = 0, idCliente = 0, idProfesional = 0, tiempoPasar = 0, idSeccion = 0,
             idNivel = 0, idBloque = 0;
     /*VARIABLE DE EXISTENCIA DE DATOS - BANCO*/
     public static boolean banco, procedenciaFin = false;
     public static ImageView foto;
     public static Context contexto;
-    @BindView(R.id.profesor)
-    public TextView profesor;
+    @BindView(R.id.profesional)
+    public TextView profesional;
     @BindView(R.id.horario)
     public TextView horario;
     @BindView(R.id.lugar)
@@ -73,16 +73,16 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     public TextView nivel;
     @BindView(R.id.observaciones)
     public TextView observaciones;
-    @BindView(R.id.tipoClase)
-    public TextView tipoClase;
+    @BindView(R.id.tipoServicio)
+    public TextView tipoServicio;
     @BindView(R.id.descripcionTV)
-    TextView descripcionProfesor;
+    TextView descripcionProfesional;
     @BindView(R.id.correoTV)
-    TextView correoProfesor;
+    TextView correoProfesional;
     @BindView(R.id.tipoPlan)
     TextView tipoPlan;
-    @BindView(R.id.perfilEstudianteCard)
-    MaterialCardView perfilEstudianteCard;
+    @BindView(R.id.perfilClienteCard)
+    MaterialCardView perfilClienteCard;
     public static Fragment detallesFragment;
     public static MaterialButton iniciar;
     private NestedScrollView mScrollView;
@@ -93,14 +93,14 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    public static Component getmInstance(int idClase, String tipoClase, String horario, String profesor, String lugar,
+    public static Component getmInstance(int idServicio, String tipoServicio, String horario, String profesional, String lugar,
                                          int tiempo, String observaciones, double latitud, double longitud, int idSeccion,
-                                         int idNivel, int idBloque, String fecha, String fotoProfesor, String descripcionProfesor,
-                                         String correoProfesor, boolean sumar, String tipoPlan, int idProfesor) {
+                                         int idNivel, int idBloque, String fecha, String fotoProfesional, String descripcionProfesional,
+                                         String correoProfesional, boolean sumar, String tipoPlan, int idProfesional) {
 
         mInstance = new Component();
-        mInstance.setIdClase(idClase);
-        mInstance.setProfesor(profesor);
+        mInstance.setIdServicio(idServicio);
+        mInstance.setProfesional(profesional);
         mInstance.setLugar(lugar);
         mInstance.setTiempo(tiempo);
         mInstance.setObservaciones(observaciones);
@@ -110,14 +110,14 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         mInstance.setIdNivel(idNivel);
         mInstance.setIdBloque(idBloque);
         mInstance.setFecha(fecha);
-        mInstance.setTipoClase(tipoClase);
+        mInstance.setTipoServicio(tipoServicio);
         mInstance.setHorario(horario);
-        mInstance.setFotoProfesor(fotoProfesor);
-        mInstance.setDescripcionProfesor(descripcionProfesor);
-        mInstance.setCorreoProfesor(correoProfesor);
+        mInstance.setFotoProfesional(fotoProfesional);
+        mInstance.setDescripcionProfesional(descripcionProfesional);
+        mInstance.setCorreoProfesional(correoProfesional);
         mInstance.setSumar(sumar);
         mInstance.setTipoPlan(tipoPlan);
-        mInstance.setIdProfesor(idProfesor);
+        mInstance.setIdProfesional(idProfesional);
         mInstance.setPhotoRes(R.drawable.img_button);
         mInstance.setType(Constants.SCROLL);
         return mInstance;
@@ -127,15 +127,15 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onResume() {
         super.onResume();
-        ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(getContext(),
-                idSesion, idCliente, DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
-        sincronizarClases.execute();
-        ServicioTaskFinalizarClase finalizarClase = new ServicioTaskFinalizarClase(getContext(), idSesion,
-                idCliente, Constants.VALIDAR_CLASE_FINALIZADA_AMBOS_PERFILES, DetallesFragment.ESTUDIANTE);
-        finalizarClase.execute();
+        ServicioTaskSincronizarServicios sincronizarServicios = new ServicioTaskSincronizarServicios(getContext(),
+                idSesion, idCliente, DetallesFragment.CLIENTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
+        sincronizarServicios.execute();
+        ServicioTaskFinalizarServicio finalizarServicio = new ServicioTaskFinalizarServicio(getContext(), idSesion,
+                idCliente, Constants.VALIDAR_SERVICIO_FINALIZADA_AMBOS_PERFILES, DetallesFragment.CLIENTE);
+        finalizarServicio.execute();
         if (procedenciaFin) {
-            ServicioValidarValoracion validarValoracion = new ServicioValidarValoracion(idSesion, idProfesor,
-                    ServicioValidarValoracion.PROCEDENCIA_ESTUDIANTE);
+            ServicioValidarValoracion validarValoracion = new ServicioValidarValoracion(idSesion, idProfesional,
+                    ServicioValidarValoracion.PROCEDENCIA_CLIENTE);
             validarValoracion.execute();
             procedenciaFin = false;
         } else {
@@ -160,7 +160,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
                             pagoPendienteFragment.show(fragmentTransaction, "Pago pendiente");
                         }
                     }else{
-                        new SweetAlert(this.contexto, SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                        new SweetAlert(this.contexto, SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
                                 .setTitleText("¡ERROR!")
                                 .setContentText("Error al obtener la información de tu historial de pagos, intente de nuevo más tarde.")
                                 .show();
@@ -168,7 +168,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
                 }catch(JSONException ex){
                     ex.printStackTrace();
                 }
-            }, APIEndPoints.BLOQUEAR_PERFIL + "/" + idCliente, getContext(), WebServicesAPI.GET, null);
+            }, APIEndPoints.BLOQUEAR_PERFIL + "/" + idCliente, WebServicesAPI.GET, null);
             bloquearPerfil.execute();
         }
     }
@@ -189,7 +189,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
 
         if (fila.moveToFirst()) {
             idCliente = fila.getInt(0);
@@ -199,57 +199,57 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
         baseDeDatos.close();
 
-        if (bun.getString("fotoProfesor").equalsIgnoreCase("Sin foto")) {
+        if (bun.getString("fotoProfesional").equalsIgnoreCase("Sin foto")) {
             iniciar.setEnabled(false);
             iniciar.setBackgroundColor(getResources().getColor(R.color.colorGris));
-            perfilEstudianteCard.setClickable(false);
+            perfilClienteCard.setClickable(false);
         } else {
             iniciar.setEnabled(true);
         }
-        if (bun.getString("descripcionProfesor").equalsIgnoreCase("Sin descripcion"))
-            descripcionProfesor.setVisibility(View.INVISIBLE);
+        if (bun.getString("descripcionProfesional").equalsIgnoreCase("Sin descripcion"))
+            descripcionProfesional.setVisibility(View.INVISIBLE);
         else
-            descripcionProfesor.setVisibility(View.VISIBLE);
-        if (bun.getString("correoProfesor").equalsIgnoreCase("Sin correo"))
-            correoProfesor.setVisibility(View.INVISIBLE);
+            descripcionProfesional.setVisibility(View.VISIBLE);
+        if (bun.getString("correoProfesional").equalsIgnoreCase("Sin correo"))
+            correoProfesional.setVisibility(View.INVISIBLE);
         else
-            correoProfesor.setVisibility(View.VISIBLE);
+            correoProfesional.setVisibility(View.VISIBLE);
 
-        idSesion = bun.getInt("idClase");
+        idSesion = bun.getInt("idServicio");
         latitud = bun.getDouble("latitud");
         longitud = bun.getDouble("longitud");
-        profesor.setText(bun.getString("profesor"));
+        profesional.setText(bun.getString("profesional"));
         lugar.setText("Dirección: " + bun.getString("lugar"));
         tiempo.setText("Tiempo: " + obtenerHorario(bun.getInt("tiempo")));
         tiempoPasar = bun.getInt("tiempo");
         observaciones.setText("Observaciones: " + bun.getString("observaciones"));
         nivel.setText("Nivel: " + component.obtenerNivel(bun.getInt("idSeccion"), bun.getInt("idNivel"),
                 bun.getInt("idBloque")));
-        tipoClase.setText("Tipo de Clase: " + bun.getString("tipoClase"));
+        tipoServicio.setText("Tipo de Servicio: " + bun.getString("tipoServicio"));
         horario.setText("Horario: " + bun.getString("horario"));
-        descripcionProfesor.setText(bun.getString("descripcionProfesor"));
-        correoProfesor.setText(bun.getString("correoProfesor"));
-        fotoNombre = bun.getString("fotoProfesor");
+        descripcionProfesional.setText(bun.getString("descripcionProfesional"));
+        correoProfesional.setText(bun.getString("correoProfesional"));
+        fotoNombre = bun.getString("fotoProfesional");
         sumar = bun.getBoolean("sumar");
         idSeccion = bun.getInt("idSeccion");
         idNivel = bun.getInt("idNivel");
         idBloque = bun.getInt("idBloque");
         tipoPlan.setText("DENTRO DEL PLAN: " + bun.getString("tipoPlan"));
         planSesion = bun.getString("tipoPlan");
-        idProfesor = bun.getInt("idProfesor");
+        idProfesional = bun.getInt("idProfesional");
 
-        /*Cargar datos del Perfil del Profesor*/
+        /*Cargar datos del Perfil del Profesional*/
 
 
         iniciar.setOnClickListener(v -> {
 
-            ServicioTaskSincronizarClases sincronizarClases =
-                    new ServicioTaskSincronizarClases(getContext(), idSesion, idCliente,
-                            DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
-            sincronizarClases.execute();
+            ServicioTaskSincronizarServicios sincronizarServicios =
+                    new ServicioTaskSincronizarServicios(getContext(), idSesion, idCliente,
+                            DetallesFragment.CLIENTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
+            sincronizarServicios.execute();
 
-            Intent intent = new Intent(getContext(), SincronizarClase.class);
-            intent.putExtra("perfil", ESTUDIANTE);
+            Intent intent = new Intent(getContext(), SincronizarServicio.class);
+            intent.putExtra("perfil", CLIENTE);
             intent.putExtra("idSesion", idSesion);
             intent.putExtra("idPerfil", idCliente);
             intent.putExtra("tiempo", tiempoPasar);
@@ -263,13 +263,13 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
             if (!this.planSesion.equalsIgnoreCase("PARTICULAR")) {
                 if (banco) {
-                    ServicioTaskSincronizarClases sincronizarClases =
-                            new ServicioTaskSincronizarClases(getContext(), idSesion, idCliente,
-                                    DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
-                    sincronizarClases.execute();
+                    ServicioTaskSincronizarServicios sincronizarServicios =
+                            new ServicioTaskSincronizarServicios(getContext(), idSesion, idCliente,
+                                    DetallesFragment.CLIENTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
+                    sincronizarServicios.execute();
 
-                    Intent intent = new Intent(getContext(), SincronizarClase.class);
-                    intent.putExtra("perfil", ESTUDIANTE);
+                    Intent intent = new Intent(getContext(), SincronizarServicio.class);
+                    intent.putExtra("perfil", CLIENTE);
                     intent.putExtra("idSesion", idSesion);
                     intent.putExtra("idPerfil", idCliente);
                     intent.putExtra("tiempo", tiempoPasar);
@@ -289,17 +289,17 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
                     String idCard = myPreferences.getString(idCardSesion, "Sin valor");
 
                     if (idCard.equalsIgnoreCase("Sin valor")) {
-                        PreOrdenClase preOrdenClase = new PreOrdenClase();
+                        PreOrdenServicio preOrdenServicio = new PreOrdenServicio();
                         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                        preOrdenClase.show(fragmentTransaction, "PreOrden");
+                        preOrdenServicio.show(fragmentTransaction, "PreOrden");
                     } else {
-                        ServicioTaskSincronizarClases sincronizarClases =
-                                new ServicioTaskSincronizarClases(getContext(), idSesion, idCliente,
-                                        DetallesFragment.ESTUDIANTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
-                        sincronizarClases.execute();
+                        ServicioTaskSincronizarServicios sincronizarServicios =
+                                new ServicioTaskSincronizarServicios(getContext(), idSesion, idCliente,
+                                        DetallesFragment.CLIENTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
+                        sincronizarServicios.execute();
 
-                        Intent intent = new Intent(getContext(), SincronizarClase.class);
-                        intent.putExtra("perfil", ESTUDIANTE);
+                        Intent intent = new Intent(getContext(), SincronizarServicio.class);
+                        intent.putExtra("perfil", CLIENTE);
                         intent.putExtra("idSesion", idSesion);
                         intent.putExtra("idPerfil", idCliente);
                         intent.putExtra("tiempo", tiempoPasar);
@@ -336,14 +336,14 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
             }
         }
 
-        ServicioTaskFotoDetalles fotoDetalles = new ServicioTaskFotoDetalles(getContext(), this.fotoNombre, ESTUDIANTE);
+        ServicioTaskFotoDetalles fotoDetalles = new ServicioTaskFotoDetalles(getContext(), this.fotoNombre, CLIENTE);
         if (!fotoNombre.equalsIgnoreCase("Sin foto"))
             fotoDetalles.execute();
 
     }
 
     public void errorBancoMsg(){
-        new SweetAlert(getContext(), SweetAlert.WARNING_TYPE, SweetAlert.ESTUDIANTE)
+        new SweetAlert(getContext(), SweetAlert.WARNING_TYPE, SweetAlert.CLIENTE)
                 .setTitleText("¡AVISO!")
                 .setContentText("Revisa que tus datos bancarios estén registrados en EDITAR PERFIL.")
                 .show();
@@ -367,7 +367,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void errorMsg() {
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
                 .setTitleText("¡OH NO!")
                 .setContentText("No podemos continuar sin el permiso de ubicación.")
                 .setConfirmButton("OK", sweetAlertDialog -> {
@@ -380,7 +380,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     @OnClick(R.id.nuevoTopico)
     public void onClickNuevoTopico(){
         Bundle bundle = new Bundle();
-        bundle.putInt("tipoUsuario", Constants.TIPO_USUARIO_ESTUDIANTE);
+        bundle.putInt("tipoUsuario", Constants.TIPO_USUARIO_CLIENTE);
         bundle.putInt("idSesion", idSesion);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         NuevoTicketFragment ticketAyuda = new NuevoTicketFragment();
@@ -388,14 +388,14 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         ticketAyuda.show(fragmentTransaction, "Ticket");
     }
 
-    @OnClick(R.id.perfilEstudianteCard)
+    @OnClick(R.id.perfilClienteCard)
     public void onClick() {
         Bundle bundle = new Bundle();
-        bundle.putInt("tipoPerfil", PerfilFragment.PERFIL_PROFESOR);
+        bundle.putInt("tipoPerfil", PerfilFragment.PERFIL_PROFESIONAL);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         PerfilFragment perfilFragment = new PerfilFragment();
         perfilFragment.setArguments(bundle);
-        perfilFragment.show(fragmentTransaction, "Perfil - Profesor");
+        perfilFragment.show(fragmentTransaction, "Perfil - Profesional");
     }
 
     @Override
@@ -426,7 +426,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
     public void agregarMarca(GoogleMap googleMap, double lat, double longi){
         LatLng ubicacion = new LatLng(lat, longi);
-        mMap.addMarker(new MarkerOptions().position(ubicacion).title("Aquí será tu clase."));
+        mMap.addMarker(new MarkerOptions().position(ubicacion).title("Aquí será tu servicio."));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion,15));
     }
 

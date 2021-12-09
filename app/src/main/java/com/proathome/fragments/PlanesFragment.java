@@ -14,9 +14,9 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
-import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
-import com.proathome.servicios.estudiante.ServicioTaskBancoEstudiante;
-import com.proathome.servicios.estudiante.ServicioTaskSesionActual;
+import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
+import com.proathome.servicios.cliente.ServicioTaskBancoCliente;
+import com.proathome.servicios.cliente.ServicioTaskSesionActual;
 import com.proathome.servicios.planes.ServicioTaskFechaServidor;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
@@ -34,9 +34,9 @@ public class PlanesFragment extends DialogFragment {
 
     private Unbinder mUnbinder;
     public static final int PLAN_SEMANAL = 1, PLAN_MENSUAL = 2, PLAN_BIMESTRAL = 3;
-    public static String tarjeta, nombreTitular, mes, ano, nombreEstudiante, correoEstudiante, fechaServidor;
+    public static String tarjeta, nombreTitular, mes, ano, nombreCliente, correoCliente, fechaServidor;
     private String linkRESTDatosBancarios = Constants.IP + "/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
-    public static int idEstudiante, idSeccion, idNivel, idBloque;
+    public static int idCliente, idSeccion, idNivel, idBloque;
     public static DialogFragment planesFragment;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -72,11 +72,11 @@ public class PlanesFragment extends DialogFragment {
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
 
         if(fila.moveToFirst()){
-            idEstudiante = fila.getInt(0);
-            OrdenCompraPlanFragment.idEstudiante = idEstudiante;
+            idCliente = fila.getInt(0);
+            OrdenCompraPlanFragment.idCliente = idCliente;
         }else{
             baseDeDatos.close();
         }
@@ -85,10 +85,10 @@ public class PlanesFragment extends DialogFragment {
 
         //TODO FLUJO_COMPRAR_PLANES: Obtener fecha de inicio y término del servidor.
 
-        ServicioTaskSesionActual servicioTaskSesionActual = new ServicioTaskSesionActual(getContext(), idEstudiante, ServicioTaskSesionActual.PLANES_FRAGMENT);
+        ServicioTaskSesionActual servicioTaskSesionActual = new ServicioTaskSesionActual(getContext(), idCliente, ServicioTaskSesionActual.PLANES_FRAGMENT);
         servicioTaskSesionActual.execute();
-        ServicioTaskBancoEstudiante bancoEstudiante = new ServicioTaskBancoEstudiante(getContext(), linkRESTDatosBancarios, idEstudiante, ServicioTaskBancoEstudiante.DATOS_PLANES);
-        bancoEstudiante.execute();
+        ServicioTaskBancoCliente bancoCliente = new ServicioTaskBancoCliente(getContext(), linkRESTDatosBancarios, idCliente, ServicioTaskBancoCliente.DATOS_PLANES);
+        bancoCliente.execute();
 
         //TODO FLUJO_COMPRAR_PLANES:  Mostramos la información del Plan (Título, Descripción, Fechas Inicio-Fin, términos y condiciones)
         card1.setOnClickListener(v -> {
@@ -137,7 +137,7 @@ public class PlanesFragment extends DialogFragment {
 
                             ordenCompraPlanFragment.show(transaction, "Orden de Compra");
                         }else{
-                            new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                            new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
                                     .setTitleText("¡ERROR!")
                                     .setContentText("Fecha de dispositivo alterada.")
                                     .show();
@@ -156,10 +156,10 @@ public class PlanesFragment extends DialogFragment {
 
     @OnClick(R.id.btnCancelar)
     public void OnClick(){
-        new SweetAlert(SesionesFragment.contexto, SweetAlert.NORMAL_TYPE, SweetAlert.ESTUDIANTE)
-                .setTitleText("CLASE CON PLAN: PARTICULAR")
+        new SweetAlert(SesionesFragment.contexto, SweetAlert.NORMAL_TYPE, SweetAlert.CLIENTE)
+                .setTitleText("SERVICIO CON PLAN: PARTICULAR")
                 .setConfirmButton("OK", sweetAlertDialog -> {
-                    //TODO FLUJO_PLANES: Aquí iremos por nueva Clase PARTICULAR.
+                    //TODO FLUJO_PLANES: Aquí iremos por nuevo servicio PARTICULAR.
                     dismiss();
                     //TODO FLUJO_EJECUTAR_PLAN: Pasar por Bundle el tipo de PLAN en nuevaSesionFragment.
                     NuevaSesionFragment nueva = new NuevaSesionFragment();

@@ -14,22 +14,22 @@ import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 public class ServicioTaskValorar extends AsyncTask<Void, Void, String> {
 
-    private String linkValorarProfesor = Constants.IP +
-            "/ProAtHome/apiProAtHome/cliente/valorarProfesor";
-    private String linkValorarEstudiante = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesor/valorarEstudiante";
-    private int idEstudiante, idProfesor, procedencia, idSesion;
+    private String linkValorarProfesional = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/valorarProfesional";
+    private String linkValorarCliente = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesional/valorarCliente";
+    private int idCliente, idProfesional, procedencia, idSesion;
     private float valoracion;
     private String comentario;
 
-    public ServicioTaskValorar(int idEstudiante, int idProfesor, float valoracion, String comentario,
+    public ServicioTaskValorar(int idCliente, int idProfesional, float valoracion, String comentario,
                                int procedencia, int idSesion){
-        this.idEstudiante = idEstudiante;
-        this.idProfesor = idProfesor;
+        this.idCliente = idCliente;
+        this.idProfesional = idProfesional;
         this.valoracion = valoracion;
         this.comentario = comentario;
         this.procedencia = procedencia;
@@ -45,14 +45,14 @@ public class ServicioTaskValorar extends AsyncTask<Void, Void, String> {
     protected String doInBackground(Void... voids) {
         String resultado = null;
 
-        if(this.procedencia == EvaluarFragment.PROCEDENCIA_ESTUDIANTE){
+        if(this.procedencia == EvaluarFragment.PROCEDENCIA_CLIENTE){
             try{
-                URL url = new URL(this.linkValorarProfesor);
-                HttpsURLConnection httpURLConnection = (HttpsURLConnection)url.openConnection();
+                URL url = new URL(this.linkValorarProfesional);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
 
                 JSONObject jsonDatos = new JSONObject();
-                jsonDatos.put("idEstudiante", this.idEstudiante);
-                jsonDatos.put("idProfesor", this.idProfesor);
+                jsonDatos.put("idCliente", this.idCliente);
+                jsonDatos.put("idProfesional", this.idProfesional);
                 jsonDatos.put("valoracion", this.valoracion);
                 jsonDatos.put("comentario", this.comentario);
                 jsonDatos.put("idSesion", this.idSesion);
@@ -74,7 +74,7 @@ public class ServicioTaskValorar extends AsyncTask<Void, Void, String> {
                 outputStream.close();
 
                 int responseCode = httpURLConnection.getResponseCode();
-                if(responseCode == HttpsURLConnection.HTTP_OK){
+                if(responseCode == HttpURLConnection.HTTP_OK){
 
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                             httpURLConnection.getInputStream()));
@@ -102,14 +102,14 @@ public class ServicioTaskValorar extends AsyncTask<Void, Void, String> {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else if(this.procedencia == EvaluarFragment.PROCEDENCIA_PROFESOR){
+        }else if(this.procedencia == EvaluarFragment.PROCEDENCIA_PROFESIONAL){
             try{
-                URL url = new URL(this.linkValorarEstudiante);
-                HttpsURLConnection httpURLConnection = (HttpsURLConnection)url.openConnection();
+                URL url = new URL(this.linkValorarCliente);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
 
                 JSONObject jsonDatos = new JSONObject();
-                jsonDatos.put("idEstudiante", this.idEstudiante);
-                jsonDatos.put("idProfesor", this.idProfesor);
+                jsonDatos.put("idCliente", this.idCliente);
+                jsonDatos.put("idProfesional", this.idProfesional);
                 jsonDatos.put("valoracion", this.valoracion);
                 jsonDatos.put("comentario", this.comentario);
                 jsonDatos.put("idSesion", this.idSesion);
@@ -131,7 +131,7 @@ public class ServicioTaskValorar extends AsyncTask<Void, Void, String> {
                 outputStream.close();
 
                 int responseCode = httpURLConnection.getResponseCode();
-                if(responseCode == HttpsURLConnection.HTTP_OK){
+                if(responseCode == HttpURLConnection.HTTP_OK){
 
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                             httpURLConnection.getInputStream()));

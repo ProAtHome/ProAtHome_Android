@@ -36,9 +36,9 @@ public class OrdenCompraPlanFragment extends DialogFragment {
 
     private Unbinder mUnbinder;
     //Variables de cobro
-    private String nombreEstudiante, correo, descripcion;
+    private String nombreCliente, correo, descripcion;
     public static String deviceIdString, tipoPlan, fechaIn, fechaFi;
-    public static int monedero, idEstudiante;
+    public static int monedero, idCliente;
     private double cobro;
     @BindView(R.id.etTitular)
     TextInputEditText etNombreTitular;
@@ -199,7 +199,7 @@ public class OrdenCompraPlanFragment extends DialogFragment {
     }
 
     public void errorMsg(String mensaje){
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
                 .setTitleText("¡ERROR!")
                 .setContentText(mensaje)
                 .show();
@@ -224,12 +224,12 @@ public class OrdenCompraPlanFragment extends DialogFragment {
 
             @Override
             public void onSuccess(OperationResult<Token> operationResult) {
-                nombreEstudiante = PlanesFragment.nombreEstudiante;
-                correo = PlanesFragment.correoEstudiante;
+                nombreCliente = PlanesFragment.nombreCliente;
+                correo = PlanesFragment.correoCliente;
                 JSONObject parametrosPost= new JSONObject();
                 try {
                     parametrosPost.put("idCard",  operationResult.getResult().getId());
-                    parametrosPost.put("nombreEstudiante", nombreEstudiante);
+                    parametrosPost.put("nombreCliente", nombreCliente);
                     parametrosPost.put("correo", correo);
                     parametrosPost.put("cobro", cobro);
                     parametrosPost.put("descripcion", descripcion);
@@ -242,9 +242,9 @@ public class OrdenCompraPlanFragment extends DialogFragment {
                     try{
                         JSONObject jsonObject = new JSONObject(response);
                         if(jsonObject.getBoolean("respuesta")){
-                            ServicioTaskGenerarPlan generarPlan = new ServicioTaskGenerarPlan(getContext(), OrdenCompraPlanFragment.tipoPlan, OrdenCompraPlanFragment.fechaIn, OrdenCompraPlanFragment.fechaFi, OrdenCompraPlanFragment.monedero, OrdenCompraPlanFragment.idEstudiante);
+                            ServicioTaskGenerarPlan generarPlan = new ServicioTaskGenerarPlan(getContext(), OrdenCompraPlanFragment.tipoPlan, OrdenCompraPlanFragment.fechaIn, OrdenCompraPlanFragment.fechaFi, OrdenCompraPlanFragment.monedero, OrdenCompraPlanFragment.idCliente);
                             generarPlan.execute();
-                            new SweetAlert(getContext(), SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
+                            new SweetAlert(getContext(), SweetAlert.SUCCESS_TYPE, SweetAlert.CLIENTE)
                                     .setTitleText("¡GENIAL!")
                                     .setContentText("Pago correcto de PLAN.")
                                     .setConfirmButton("OK", sweetAlertDialog -> {
@@ -257,7 +257,7 @@ public class OrdenCompraPlanFragment extends DialogFragment {
                                     })
                                     .show();
                         }else{
-                            new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                            new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
                                     .setTitleText("¡ERROR!")
                                     .setContentText("Fallo en la transacción - " + response)
                                     .setConfirmButton("OK", sweetAlertDialog -> {
@@ -269,7 +269,7 @@ public class OrdenCompraPlanFragment extends DialogFragment {
                     }catch(JSONException ex){
                         ex.printStackTrace();
                     }
-                }, APIEndPoints.COBROS, getContext(), WebServicesAPI.POST, parametrosPost);
+                }, APIEndPoints.COBROS, WebServicesAPI.POST, parametrosPost);
                 webServicesAPI.execute();
             }
         });

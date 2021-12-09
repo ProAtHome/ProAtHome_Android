@@ -34,13 +34,13 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
-import com.proathome.InicioEstudiante;
+import com.proathome.InicioCliente;
 import com.proathome.servicios.WorkaroundMapFragment;
-import com.proathome.servicios.clase.ServicioTaskGuardarPago;
-import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
-import com.proathome.servicios.estudiante.ControladorTomarSesion;
-import com.proathome.servicios.estudiante.ServicioTaskBancoEstudiante;
-import com.proathome.servicios.estudiante.ServicioTaskSesionActual;
+import com.proathome.servicios.servicio.ServicioTaskGuardarPago;
+import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
+import com.proathome.servicios.cliente.ControladorTomarSesion;
+import com.proathome.servicios.cliente.ServicioTaskBancoCliente;
+import com.proathome.servicios.cliente.ServicioTaskSesionActual;
 import com.proathome.servicios.planes.ServicioTaskValidarPlan;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Component;
@@ -66,7 +66,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     private ScrollView mScrollView;
     private double latitud, longitud;
     public static boolean banco = false, disponibilidad;
-    public static String planSesion, correoEstudiante;
+    public static String planSesion, correoCliente;
     public static DialogFragment dialogFragment;
     private String registrarSesionREST = Constants.IP +
             "/ProAtHome/apiProAtHome/cliente/agregarSesion";
@@ -122,7 +122,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_nueva_sesion, container, false);
         mUnbinder = ButterKnife.bind(this, view);
         dialogFragment = this;
@@ -134,11 +133,11 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante, correo FROM sesion WHERE id = " + 1, null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente, correo FROM sesion WHERE id = " + 1, null);
 
         if (fila.moveToFirst()) {
             this.idCliente = fila.getInt(0);
-            this.correoEstudiante = fila.getString(1);
+            this.correoCliente = fila.getString(1);
             ServicioTaskSesionActual servicioTaskSesionActual =
                     new ServicioTaskSesionActual(getContext(), idCliente, ServicioTaskSesionActual.NUEVA_SESION_FRAGMENT);
             servicioTaskSesionActual.execute();
@@ -150,9 +149,9 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         ServicioTaskValidarPlan validarPlan = new ServicioTaskValidarPlan(getContext(), idCliente);
         validarPlan.execute();
         //Servicio para validar que ya tenemos datos bancarios registrados para lanzar la preOrden.
-        ServicioTaskBancoEstudiante bancoEstudiante = new ServicioTaskBancoEstudiante(getContext(),
-                linkRESTDatosBancarios, idCliente, ServicioTaskBancoEstudiante.VALIDAR_BANCO);
-        bancoEstudiante.execute();
+        ServicioTaskBancoCliente bancoCliente = new ServicioTaskBancoCliente(getContext(),
+                linkRESTDatosBancarios, idCliente, ServicioTaskBancoCliente.VALIDAR_BANCO);
+        bancoCliente.execute();
         /*Datos de pre Orden listos para ser lanzados :)
         ServicioTaskPreOrden preOrden = new ServicioTaskPreOrden(idCliente, idSesion,
                 ServicioTaskPreOrden.PANTALLA_PRE_COBRO);
@@ -192,7 +191,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                     else
                         errorMsg("¡AVISO!","Sin datos bancarios.");
                 } else
-                    errorMsg("¡ERROR!", "Elige el tiempo de duración de la clase.");
+                    errorMsg("¡ERROR!", "Elige el tiempo de duración de el servicio.");
             } else
                 errorMsg("¡ERROR!", "Llena todos los campos.");
         });
@@ -217,7 +216,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     }
 
     public void errorMsg(String titulo, String mensaje){
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
                 .setTitleText(titulo)
                 .setContentText(mensaje)
                 .show();
@@ -236,37 +235,37 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
             int minutosRestantes = minutosEstablecidos - minutosAnteriores;
             if (obtenerMinutosHorario() <= minutosRestantes) {
                 if (SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR")) {
-                    registroDeClase(idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1,
+                    registroDeServicio(idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1,
                             niveles.getSelectedItemPosition() + 1, bloques.getSelectedItemPosition() + 1, extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate,
                             fechaET.getText().toString(), true, SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
                 }else {
                     if (obtenerMinutosHorario() <= SesionesFragment.MONEDERO) {//Eliminar horas de monedero
                         //TODO FLUJO_EJECUTAR_PLAN: En esta peticion restamos en el monedero el tiempo elegido y verificamos después la vigencia del PLAN en el servidor.
                         nuevoMonedero = SesionesFragment.MONEDERO - obtenerMinutosHorario();
-                        registroDeClase(idCliente, horarioET.getText().toString(), direccion,
+                        registroDeServicio(idCliente, horarioET.getText().toString(), direccion,
                                 obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1, niveles.getSelectedItemPosition() + 1, bloques.getSelectedItemPosition() + 1,
                                 extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), true,
                                 SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
                     } else {
                         String mensaje = null;
                         if(SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR_PLAN"))
-                            mensaje = "Elige un tiempo de clase a corde a tus horas disponibles agregadas a tu perfil.";
+                            mensaje = "Elige un tiempo de servicio a corde a tus horas disponibles agregadas a tu perfil.";
                         else
-                            mensaje = "Elige un tiempo de clase a corde a tus horas disponibles de tu plan activo.";
+                            mensaje = "Elige un tiempo de servicio a corde a tus horas disponibles de tu plan activo.";
 
                         errorMsg("¡ERROR!", mensaje);
                     }
                 }
 
             } else
-                errorMsg("¡ERROR!", "Elige un tiempo de clase a corde a el tiempo faltante del bloque en curso.");
+                errorMsg("¡ERROR!", "Elige un tiempo de servicio a corde a el tiempo faltante del bloque en curso.");
         } else {
             /*TODO FLUJO_EJECUTAR_PLAN: Validaciones correspondientes en el FragmentNuevaSesion
                 (Verificar que el tiempo sea acorde a las horas diponibles si hay PLAN activo)
                 -> descontamos horas del monedero.
                 En la tabla sesiones agregar campo tipoPlan.*/
             if (SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR")) {
-                registroDeClase(idCliente, horarioET.getText().toString(), direccion,
+                registroDeServicio(idCliente, horarioET.getText().toString(), direccion,
                         obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1, niveles.getSelectedItemPosition() + 1, bloques.getSelectedItemPosition() + 1,
                         extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), false,
                         SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
@@ -274,15 +273,15 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                 if (obtenerMinutosHorario() <= SesionesFragment.MONEDERO) {//Eliminar horas de monedero
                     //TODO FLUJO_EJECUTAR_PLAN: En esta peticion restamos en el monedero el tiempo elegido y verificamos después la vigencia del PLAN en el servidor.
                     nuevoMonedero = SesionesFragment.MONEDERO - obtenerMinutosHorario();
-                    registroDeClase(idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1,
+                    registroDeServicio(idCliente, horarioET.getText().toString(), direccion, obtenerMinutosHorario(), secciones.getSelectedItemPosition() + 1,
                             niveles.getSelectedItemPosition() + 1, bloques.getSelectedItemPosition() + 1, extras, tipo.getSelectedItem().toString(),
                             latitud, longitud, strDate, fechaET.getText().toString(), false, SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
                 } else {
                     String mensaje = null;
                     if(SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR_PLAN"))
-                        mensaje = "Elige un tiempo de clase a corde a tus horas disponibles agregadas a tu perfil.";
+                        mensaje = "Elige un tiempo de servicio a corde a tus horas disponibles agregadas a tu perfil.";
                     else
-                        mensaje = "Elige un tiempo de clase a corde a tus horas disponibles de tu plan activo.";
+                        mensaje = "Elige un tiempo de servicio a corde a tus horas disponibles de tu plan activo.";
 
                     errorMsg("¡ERROR!", mensaje);
                 }
@@ -290,39 +289,39 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         }
     }
 
-    public void registroDeClase(int idCliente, String horario, String lugar,
-                                int tiempo, int idSeccion, int idNivel, int idBloque, String extras, String tipoClase,
+    public void registroDeServicio(int idCliente, String horario, String lugar,
+                                int tiempo, int idSeccion, int idNivel, int idBloque, String extras, String tipoServicio,
                                 double latitud, double longitud, String actualizado, String fecha, boolean sumar, String tipoPlan, int personas){
         /* TODO Validar si hay pago o no dependiendo el PLAN*/
-        /*TODO FLUJO_EJECUTAR_PLAN: Clase en modo PLAN activo?
-                    Si, entonces, Al iniciar la clase no mostramos Pre Orden ya que está pagado.*/
-        if (!InicioEstudiante.planActivo.equals("PARTICULAR")) {
+        /*TODO FLUJO_EJECUTAR_PLAN: Servicio en modo PLAN activo?
+                    Si, entonces, Al iniciar el servicio no mostramos Pre Orden ya que está pagado.*/
+        if (!InicioCliente.planActivo.equals("PARTICULAR")) {
             //Guardamos la info de PAGO
             ServicioTaskGuardarPago guardarPago = new ServicioTaskGuardarPago(getContext(), "PLAN - " + SesionesFragment.PLAN,
                     0.0, 0.0, "Pagado", this.idCliente);
-            Bundle bundle = getBundleSesion(registrarSesionREST, idCliente, horario, lugar, tiempo, idSeccion, idNivel, idBloque, extras, tipoClase, latitud, longitud, actualizado,
+            Bundle bundle = getBundleSesion(registrarSesionREST, idCliente, horario, lugar, tiempo, idSeccion, idNivel, idBloque, extras, tipoServicio, latitud, longitud, actualizado,
                     fecha, sumar, tipoPlan, personas);
             guardarPago.setBundleSesion(bundle);
             guardarPago.execute();
         }else{
-                PreOrdenClase.sesion = "Sesión: " + Component.getSeccion(secciones.getSelectedItemPosition() + 1) + " / "
+                PreOrdenServicio.sesion = "Sesión: " + Component.getSeccion(secciones.getSelectedItemPosition() + 1) + " / "
                         + Component.getNivel(secciones.getSelectedItemPosition() + 1, niveles.getSelectedItemPosition() + 1) + " / "
                         + Component.getBloque(bloques.getSelectedItemPosition() + 1);
-                PreOrdenClase.tiempo = "Tiempo: " + obtenerHorario(obtenerMinutosHorario());
-                PreOrdenClase.tiempoPasar = obtenerMinutosHorario();
-                PreOrdenClase.idSeccion = (secciones.getSelectedItemPosition() + 1);
+                PreOrdenServicio.tiempo = "Tiempo: " + obtenerHorario(obtenerMinutosHorario());
+                PreOrdenServicio.tiempoPasar = obtenerMinutosHorario();
+                PreOrdenServicio.idSeccion = (secciones.getSelectedItemPosition() + 1);
                 //Pre Orden ya que no esta pagada.
-                Bundle bundle = getBundleSesion(registrarSesionREST, idCliente, horario, lugar, tiempo, idSeccion, idNivel, idBloque, extras, tipoClase, latitud, longitud, actualizado,
+                Bundle bundle = getBundleSesion(registrarSesionREST, idCliente, horario, lugar, tiempo, idSeccion, idNivel, idBloque, extras, tipoServicio, latitud, longitud, actualizado,
                         fecha, sumar, tipoPlan, personas);
-                PreOrdenClase preOrdenClase = new PreOrdenClase();
-                preOrdenClase.setArguments(bundle);
+                PreOrdenServicio preOrdenServicio = new PreOrdenServicio();
+                preOrdenServicio.setArguments(bundle);
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                preOrdenClase.show(fragmentTransaction, "PreOrden");
+                preOrdenServicio.show(fragmentTransaction, "PreOrden");
         }
     }
 
     public Bundle getBundleSesion(String linkAPI, int idCliente, String horario, String lugar,
-                                  int tiempo, int idSeccion, int idNivel, int idBloque, String extras, String tipoClase,
+                                  int tiempo, int idSeccion, int idNivel, int idBloque, String extras, String tipoServicio,
                                   double latitud, double longitud, String actualizado, String fecha, boolean sumar, String tipoPlan, int personas){
         Bundle bundle = new Bundle();
         bundle.putString("registrarSesionREST", linkAPI);
@@ -334,7 +333,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         bundle.putInt("idNivel", idNivel);
         bundle.putInt("idBloque", idBloque);
         bundle.putString("extras", extras);
-        bundle.putString("tipoClase", tipoClase);
+        bundle.putString("tipoServicio", tipoServicio);
         bundle.putDouble("latitud", latitud);
         bundle.putDouble("longitud", longitud);
         bundle.putString("actualizado", actualizado);
@@ -369,9 +368,9 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     }
 
     public void succesAlert(){
-        new SweetAlert(getContext(), SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
+        new SweetAlert(getContext(), SweetAlert.SUCCESS_TYPE, SweetAlert.CLIENTE)
                 .setTitleText("¡GENIAL!")
-                .setContentText("Revisa tu nueva clase en Inicio o en Gestión de Sesiones.")
+                .setContentText("Revisa tu nueva servicio en Inicio o en Gestión de Sesiones.")
                 .setConfirmButton("¡VAMOS!", sweetAlertDialog -> {
                     dismiss();
                     sweetAlertDialog.dismissWithAnimation();
@@ -516,7 +515,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         avanzadoVisto = false;
         intermedioVisto = false;
         basicoVisto = false;
-        Fragment fragment = (getFragmentManager().findFragmentById(R.id.map));
+        Fragment fragment = (getFragmentManager().findFragmentById(R.id.mapNueva));
         if (fragment != null){
             getActivity().getSupportFragmentManager().beginTransaction()
                     .remove(fragment)

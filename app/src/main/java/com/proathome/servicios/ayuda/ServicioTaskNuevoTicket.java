@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import androidx.fragment.app.DialogFragment;
 import com.proathome.ui.ayuda.AyudaFragment;
-import com.proathome.ui.ayudaProfesor.AyudaProfesorFragment;
+import com.proathome.ui.ayudaProfesional.AyudaProfesionalFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
@@ -18,7 +18,7 @@ import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
 
@@ -26,8 +26,8 @@ public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
     private String topico, descripcion, fechaCreacion, categoria;
     private String linkNuevoTiket = Constants.IP +
             "/ProAtHome/apiProAtHome/cliente/nuevoTicket";
-    private String linkNuevoTiketProfesor = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesor/nuevoTicket";
+    private String linkNuevoTiketProfesional = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesional/nuevoTicket";
     private int tipoUsuario, estatus, idUsuario, idSesion;
     private DialogFragment dialogFragment;
 
@@ -56,12 +56,12 @@ public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
 
         try{
             URL url = null;
-            if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE)
+            if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE)
                 url = new URL(this.linkNuevoTiket);
-            else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
-                url = new URL(this.linkNuevoTiketProfesor);
+            else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL)
+                url = new URL(this.linkNuevoTiketProfesional);
 
-            HttpsURLConnection httpURLConnection = (HttpsURLConnection)url.openConnection();
+            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
 
             JSONObject jsonDatos = new JSONObject();
             jsonDatos.put("tipoUsuario", this.tipoUsuario);
@@ -90,7 +90,7 @@ public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
             outputStream.close();
 
             int responseCode = httpURLConnection.getResponseCode();
-            if(responseCode == HttpsURLConnection.HTTP_OK){
+            if(responseCode == HttpURLConnection.HTTP_OK){
 
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(httpURLConnection.getInputStream()));
@@ -126,20 +126,20 @@ public class ServicioTaskNuevoTicket extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-        new SweetAlert(this.contexto, SweetAlert.SUCCESS_TYPE, this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE ?
-                SweetAlert.ESTUDIANTE : SweetAlert.PROFESOR)
+        new SweetAlert(this.contexto, SweetAlert.SUCCESS_TYPE, this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ?
+                SweetAlert.CLIENTE : SweetAlert.PROFESIONAL)
                 .setTitleText("¡GENIAL!")
                 .setContentText("Tu solicitud será revisada y en breve te contestará soporte.")
                 .setConfirmButton("OK", sweetAlertDialog -> {
                     this.dialogFragment.dismiss();
                     sweetAlertDialog.dismissWithAnimation();
                     if(this.idSesion == 0){
-                        if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE){
+                        if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE){
                             AyudaFragment.configAdapter();
                             AyudaFragment.configRecyclerView();
-                        }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR){
-                            AyudaProfesorFragment.configAdapter();
-                            AyudaProfesorFragment.configRecyclerView();
+                        }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL){
+                            AyudaProfesionalFragment.configAdapter();
+                            AyudaProfesionalFragment.configRecyclerView();
                         }
 
                         ServicioTaskObtenerTickets obtenerTickets = new ServicioTaskObtenerTickets(this.contexto, this.idUsuario, this.tipoUsuario);

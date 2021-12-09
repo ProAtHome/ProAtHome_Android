@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.proathome.R;
 import com.proathome.fragments.FragmentTicketAyuda;
 import com.proathome.ui.ayuda.AyudaFragment;
-import com.proathome.ui.ayudaProfesor.AyudaProfesorFragment;
+import com.proathome.ui.ayudaProfesional.AyudaProfesionalFragment;
 import com.proathome.utils.ComponentTicket;
 import com.proathome.utils.Constants;
 import com.proathome.utils.OnClickListener;
@@ -44,7 +44,7 @@ public class ComponentAdapterTicket extends RecyclerView.Adapter<ComponentAdapte
         holder.topico = "Tópico: " + componentTicket.getTituloTopico();
         holder.descripcion = "Problema: " + componentTicket.getDescripcion();
         holder.noTicket = "No. de Ticket: " + componentTicket.getNoTicket();
-        if(componentTicket.getTipoUsuario() == Constants.TIPO_USUARIO_PROFESOR)
+        if(componentTicket.getTipoUsuario() == Constants.TIPO_USUARIO_PROFESIONAL)
             holder.tvEstatus.setTextColor(holder.contexto.getResources().getColor(R.color.color_secondary));
         holder.tvEstatus.setText("Estatus: " + componentTicket.getEstatus());
         holder.estatus = componentTicket.getEstatusINT();
@@ -82,7 +82,7 @@ public class ComponentAdapterTicket extends RecyclerView.Adapter<ComponentAdapte
             super(itemView);
             this.view = itemView;
             this.contexto = itemView.getContext();
-            if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
+            if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL)
                 tvEstatus.setTextColor(this.contexto.getResources().getColor(R.color.colorRosa));
             ButterKnife.bind(this, itemView);
         }
@@ -106,10 +106,10 @@ public class ComponentAdapterTicket extends RecyclerView.Adapter<ComponentAdapte
             bundle.putInt("tipoUsuario", this.tipoUsuario);
             bundle.putString("categoria", this.categoria);
             FragmentTransaction fragmentTransaction = null;
-            if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE)
+            if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE)
                 fragmentTransaction = AyudaFragment.ayudaFragment.getFragmentManager().beginTransaction();
-            else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
-                fragmentTransaction = AyudaProfesorFragment.ayudaProfesorFragment.getFragmentManager().beginTransaction();
+            else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL)
+                fragmentTransaction = AyudaProfesionalFragment.ayudaProfesionalFragment.getFragmentManager().beginTransaction();
             FragmentTicketAyuda fragmentTicketAyuda = new FragmentTicketAyuda();
             fragmentTicketAyuda.setArguments(bundle);
             fragmentTicketAyuda.show(fragmentTransaction, "Mensajes");

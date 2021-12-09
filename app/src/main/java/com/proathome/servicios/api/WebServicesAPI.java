@@ -1,38 +1,33 @@
 package com.proathome.servicios.api;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import javax.net.ssl.HttpsURLConnection;
+
 
 public class WebServicesAPI extends AsyncTask<Void, Void, String> {
 
     public AsyncResponseAPI delegate = null;
     private String urlApi;
-    private ProgressDialog progressDialog;
-    private Context context;
     private JSONObject jsonObject;
     private int tipoPeticion;
     public static int GET = 1;
     public static int POST = 2;
     public static int PUT = 3;
 
-    public WebServicesAPI(AsyncResponseAPI delegate, String urlApi, Context context, int tipoPeticion, JSONObject jsonObject){
+    public WebServicesAPI(AsyncResponseAPI delegate, String urlApi, int tipoPeticion, JSONObject jsonObject){
         this.delegate = delegate;
         this.urlApi = urlApi;
-        this.context = context;
         this.tipoPeticion = tipoPeticion;
         this.jsonObject = jsonObject;
     }
@@ -40,7 +35,6 @@ public class WebServicesAPI extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressDialog = ProgressDialog.show(this.context, "Cargando", "Espere un momento...");
     }
 
     @Override
@@ -50,7 +44,7 @@ public class WebServicesAPI extends AsyncTask<Void, Void, String> {
         try {
             System.out.println(this.urlApi);
             URL url = new URL(this.urlApi);
-            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             //DEFINIR PARAMETROS DE CONEXION
             urlConnection.setReadTimeout(15000);
@@ -82,7 +76,7 @@ public class WebServicesAPI extends AsyncTask<Void, Void, String> {
             }
 
             int responseCode=urlConnection.getResponseCode();
-            if(responseCode== HttpsURLConnection.HTTP_OK){
+            if(responseCode== HttpURLConnection.HTTP_OK){
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer sb= new StringBuffer("");
                 String linea="";
@@ -117,7 +111,6 @@ public class WebServicesAPI extends AsyncTask<Void, Void, String> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        progressDialog.dismiss();
     }
     
 

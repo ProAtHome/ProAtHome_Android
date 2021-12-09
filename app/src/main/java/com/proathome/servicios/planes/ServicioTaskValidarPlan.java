@@ -2,7 +2,7 @@ package com.proathome.servicios.planes;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import com.proathome.InicioEstudiante;
+import com.proathome.InicioCliente;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
@@ -15,17 +15,17 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 public class ServicioTaskValidarPlan extends AsyncTask<Void, Void, String> {
 
-    private int idEstudiante;
+    private int idCliente;
     private Context contexto;
     private String linkValidarPlan = Constants.IP +
             "/ProAtHome/apiProAtHome/cliente/verificarPlan/";
 
-    public ServicioTaskValidarPlan(Context contexto, int idEstudiante){
-        this.idEstudiante = idEstudiante;
+    public ServicioTaskValidarPlan(Context contexto, int idCliente){
+        this.idCliente = idCliente;
         this.contexto = contexto;
     }
 
@@ -39,8 +39,8 @@ public class ServicioTaskValidarPlan extends AsyncTask<Void, Void, String> {
         String resultado = null;
 
         try {
-            URL url = new URL(this.linkValidarPlan + this.idEstudiante);
-            HttpsURLConnection httpURLConnection = (HttpsURLConnection) url.openConnection();
+            URL url = new URL(this.linkValidarPlan + this.idCliente);
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
             httpURLConnection.setReadTimeout(15000);
             httpURLConnection.setConnectTimeout(15000);
@@ -48,7 +48,7 @@ public class ServicioTaskValidarPlan extends AsyncTask<Void, Void, String> {
             httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
             int responseCode = httpURLConnection.getResponseCode();
-            if (responseCode == HttpsURLConnection.HTTP_OK) {
+            if (responseCode == HttpURLConnection.HTTP_OK) {
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(httpURLConnection.getInputStream()));
                 StringBuffer stringBuffer = new StringBuffer("");
@@ -80,7 +80,7 @@ public class ServicioTaskValidarPlan extends AsyncTask<Void, Void, String> {
 
         try{
             if(s == null){
-                new SweetAlert(this.contexto, SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+                new SweetAlert(this.contexto, SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
                         .setTitleText("¡ERROR!")
                         .setContentText("Error al obtener la información.")
                         .show();
@@ -90,10 +90,10 @@ public class ServicioTaskValidarPlan extends AsyncTask<Void, Void, String> {
                 SesionesFragment.MONEDERO = jsonDatos.getInt("monedero");
                 SesionesFragment.FECHA_INICIO = jsonDatos.getString("fechaInicio");
                 SesionesFragment.FECHA_FIN = jsonDatos.getString("fechaFin");
-                InicioEstudiante.tipoPlan.setText("PLAN ACTUAL: " + (jsonDatos.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN") ? "PARTICULAR" : jsonDatos.getString("tipoPlan")));
-                InicioEstudiante.monedero.setText("HORAS DISPONIBLES:                      " +
+                InicioCliente.tipoPlan.setText("PLAN ACTUAL: " + (jsonDatos.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN") ? "PARTICULAR" : jsonDatos.getString("tipoPlan")));
+                InicioCliente.monedero.setText("HORAS DISPONIBLES:                      " +
                         obtenerHorario(jsonDatos.getInt("monedero")));
-                InicioEstudiante.planActivo = jsonDatos.getString("tipoPlan").toString();
+                InicioCliente.planActivo = jsonDatos.getString("tipoPlan").toString();
             }
         }catch(JSONException ex){
             ex.printStackTrace();

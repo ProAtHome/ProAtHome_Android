@@ -118,10 +118,10 @@
         style="@style/Widget.MaterialComponents.Button"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/soyProfesorBTN"
+        android:id="@+id/soyProfesionalBTN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="soyProfesor"
+        android:onClick="soyProfesional"
         android:padding="8dp"
         android:text="Soy Profesional"
         android:backgroundTint="@color/colorGris"

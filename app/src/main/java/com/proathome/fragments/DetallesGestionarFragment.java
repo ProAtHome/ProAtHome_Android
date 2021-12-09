@@ -31,10 +31,10 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
-import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
-import com.proathome.servicios.estudiante.ControladorTomarSesion;
-import com.proathome.servicios.estudiante.ServicioTaskEliminarSesion;
-import com.proathome.servicios.estudiante.ServicioTaskUpSesion;
+import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
+import com.proathome.servicios.cliente.ControladorTomarSesion;
+import com.proathome.servicios.cliente.ServicioTaskEliminarSesion;
+import com.proathome.servicios.cliente.ServicioTaskUpSesion;
 import com.proathome.servicios.WorkaroundMapFragment;
 import com.proathome.servicios.planes.ServicioTaskFechaServidor;
 import com.proathome.ui.sesiones.SesionesFragment;
@@ -64,10 +64,10 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     private String linkAPIUpSesion = Constants.IP +
             "/ProAtHome/apiProAtHome/cliente/actualizarSesion";
     public static final String TAG = "Detalles de la Sesión";
-    private int idSeccion, idNivel, idBloque, tiempo, idEstudiante;
+    private int idSeccion, idNivel, idBloque, tiempo, idCliente;
     private String tipoPlanString;
-    @BindView(R.id.tietProfesor)
-    TextInputEditText profesorET;
+    @BindView(R.id.tietProfesional)
+    TextInputEditText profesionalET;
     @BindView(R.id.tietHorario)
     TextInputEditText horarioET;
     @BindView(R.id.tietLugar)
@@ -98,7 +98,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     //TextView horasDisponiblesTV;
     public NestedScrollView mScrollView;
     private Unbinder mUnbinder;
-    private int idClase = 0;
+    private int idServicio = 0;
     private double longitud = -99.13320799999, latitud = 19.4326077;
     private String fechaSesion = null;
     public static String fechaServidor = null;
@@ -107,7 +107,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
 
     }
 
-    //TODO DETALLES: Ver si podremos actualizar las cosas y depende de que, si hay profesor asignado,
+    //TODO DETALLES: Ver si podremos actualizar las cosas y depende de que, si hay profesional asignado,
     // si estamos en plan, etc.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -120,10 +120,10 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
 
         if (fila.moveToFirst()) {
-            idEstudiante = fila.getInt(0);
+            idCliente = fila.getInt(0);
         } else {
             baseDeDatos.close();
         }
@@ -148,10 +148,10 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         fechaET.setKeyListener(null);
 
         Bundle bun = getArguments();
-        idClase = bun.getInt("idClase");
+        idServicio = bun.getInt("idServicio");
         latitud = bun.getDouble("latitud");
         longitud = bun.getDouble("longitud");
-        profesorET.setText(bun.getString("profesor"));
+        profesionalET.setText(bun.getString("profesional"));
         lugarET.setText(bun.getString("lugar"));
         //horas.setSelection(posicionHoras(horasTexto(bun.getInt("tiempo"))));
         //minutos.setSelection(posicionMinutos(minutosTexto(bun.getInt("tiempo"))));
@@ -162,7 +162,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         //niveles.setSelection(bun.getInt("idNivel")-1);
         //bloques.setSelection(bun.getInt("idBloque")-1);
         horas.setText(horasTexto(bun.getInt("tiempo")) + " " + minutosTexto(bun.getInt("tiempo")));
-        tipo.setSelection(posicionTipo(bun.getString("tipoClase")));
+        tipo.setSelection(posicionTipo(bun.getString("tipoServicio")));
         horarioET.setText(bun.getString("horario"));
         tiempo = bun.getInt("tiempo");
         tipoPlan.setText("DENTRO DEL PLAN:" + bun.getString("tipoPlan"));
@@ -467,7 +467,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     }
 
     public void errorMsg() {
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
                 .setTitleText("¡OH NO!")
                 .setContentText("No podemos continuar sin el permiso de ubicación.")
                 .setConfirmButton("OK", sweetAlertDialog -> {
@@ -477,14 +477,14 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                 .show();
     }
 
-    public static Component getmInstance(int idClase, String tipoClase, String horario, String profesor,
+    public static Component getmInstance(int idServicio, String tipoServicio, String horario, String profesional,
                                          String lugar, int tiempo, String observaciones, double latitud,
                                          double longitud, String actualizado, int idSeccion, int idNivel,
                                          int idBloque, String fecha, String tipoPlan) {
 
         mInstance = new Component();
-        mInstance.setIdClase(idClase);
-        mInstance.setProfesor(profesor);
+        mInstance.setIdServicio(idServicio);
+        mInstance.setProfesional(profesional);
         mInstance.setLugar(lugar);
         mInstance.setTiempo(tiempo);
         mInstance.setObservaciones(observaciones);
@@ -494,7 +494,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         mInstance.setIdNivel(idNivel);
         mInstance.setIdBloque(idBloque);
         mInstance.setFecha(fecha);
-        mInstance.setTipoClase(tipoClase);
+        mInstance.setTipoServicio(tipoServicio);
         mInstance.setHorario(horario);
         mInstance.setActualizado(actualizado);
         mInstance.setTipoPlan(tipoPlan);
@@ -527,7 +527,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     public void agregarMarca(GoogleMap googleMap, double lat, double longi){
 
         LatLng ubicacion = new LatLng(lat, longi);
-        perth = mMap.addMarker(new MarkerOptions().position(ubicacion).title("Aquí será tu clase.").draggable(true));
+        perth = mMap.addMarker(new MarkerOptions().position(ubicacion).title("Aquí será aplicado el servicio.").draggable(true));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion,15));
         latitud = perth.getPosition().latitude;
         longitud = perth.getPosition().longitude;
@@ -692,7 +692,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
 
                 if(cambioFecha){
                     ServicioTaskUpSesion upSesion = new ServicioTaskUpSesion(getContext(),
-                            this.linkAPIUpSesion, this.idClase, horarioET.getText().toString(),
+                            this.linkAPIUpSesion, this.idServicio, horarioET.getText().toString(),
                                 lugarET.getText().toString(), tiempo,
                             tipo.getSelectedItem().toString(), observacionesET.getText().toString(),
                                 this.latitud, this.longitud, strDate, idSeccion, idNivel, idBloque,
@@ -700,7 +700,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                     upSesion.execute();
                 }else{
                     ServicioTaskUpSesion upSesion = new ServicioTaskUpSesion(getContext(),
-                            this.linkAPIUpSesion, this.idClase, horarioET.getText().toString(),
+                            this.linkAPIUpSesion, this.idServicio, horarioET.getText().toString(),
                                 lugarET.getText().toString(), tiempo,
                             tipo.getSelectedItem().toString(), observacionesET.getText().toString(),
                                 this.latitud, this.longitud, strDate, idSeccion, idNivel, idBloque,
@@ -713,7 +713,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                 break;
             case R.id.btnEliminarSesion:
                 //Verificar que sea 24 hrs antes
-//TODO DETALLES: Verificar que no tenga profesor asignado o preguntarle a NERIQUE.
+//TODO DETALLES: Verificar que no tenga profesional asignado o preguntarle a NERIQUE.
                 Calendar calendarHoy = Calendar.getInstance();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String fechaHoy = sdf.format(calendarHoy.getTime());
@@ -724,19 +724,19 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                     Date fechaServidor = sdf.parse(DetallesGestionarFragment.fechaServidor);
                     if(fechaActual.equals(fechaServidor)){
                         if(fechaActual.equals(fechaSesionFin)){
-                            errorClaseMsg("La sesión sólo podía ser eliminada el " +
-                                    "día anterior a la clase.");
+                            errorServicioMsg("La sesión sólo podía ser eliminada el " +
+                                    "día anterior al servicio.");
                         }else if(fechaActual.before(fechaSesionFin)){
                             ServicioTaskEliminarSesion eliminarSesion =
                                     new ServicioTaskEliminarSesion(getContext(), this.linkAPIEliminarSesion,
-                                            this.idClase, this.idEstudiante, this.tipoPlanString, this.tiempo);
+                                            this.idServicio, this.idCliente, this.tipoPlanString, this.tiempo);
                             eliminarSesion.execute();
                             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                             getActivity().finish();
                         }
 
                     }else{
-                        errorClaseMsg("Fecha del dispositivo erronea.");
+                        errorServicioMsg("Fecha del dispositivo erronea.");
                     }
                 }catch(ParseException ex){
                     ex.printStackTrace();
@@ -746,8 +746,8 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
 
     }
 
-    public void errorClaseMsg(String mensaje){
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+    public void errorServicioMsg(String mensaje){
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
                 .setTitleText("¡ERROR!")
                 .setContentText(mensaje)
                 .show();

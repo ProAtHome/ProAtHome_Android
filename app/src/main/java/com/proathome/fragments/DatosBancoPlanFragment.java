@@ -7,11 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.proathome.ClaseEstudiante;
+import com.proathome.ServicioCliente;
 import com.proathome.R;
-import com.proathome.servicios.clase.ServicioTaskPagoDeuda;
+import com.proathome.servicios.servicio.ServicioTaskPagoDeuda;
 import com.proathome.servicios.planes.ServicioTaskTokenCard;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
@@ -46,7 +45,7 @@ public class DatosBancoPlanFragment extends DialogFragment {
     @BindView(R.id.btnCancelar)
     Button cancelar;
     public static String deviceIdString, descripcion, nombre, correo;
-    public static int idSesion, idEstudiante, procedencia;
+    public static int idSesion, idCliente, procedencia;
     public static double costoTotal, deuda;
     public static final int PROCEDENCIA_PAGO_PLAN = 1, PROCEDENCIA_PAGO_PENDIENTE = 2;
     public String deviceId;
@@ -79,7 +78,7 @@ public class DatosBancoPlanFragment extends DialogFragment {
         }else if(bundle.getInt("procedencia") == DatosBancoPlanFragment.PROCEDENCIA_PAGO_PLAN){
             deviceIdString = bundle.getString("deviceIdString");
             idSesion = bundle.getInt("idSesion");
-            idEstudiante = bundle.getInt("idEstudiante");
+            idCliente = bundle.getInt("idCliente");
             costoTotal = bundle.getDouble("costoTotal");
             etNombreTitular.setText(CobroFinalFragment.nombreTitular);
             etTarjeta.setText(CobroFinalFragment.metodoRegistrado);
@@ -96,9 +95,9 @@ public class DatosBancoPlanFragment extends DialogFragment {
         MasTiempo masTiempo = new MasTiempo();
         Bundle bundle = new Bundle();
         bundle.putInt("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
-        bundle.putInt("idEstudiante", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
+        bundle.putInt("idCliente", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
         masTiempo.setArguments(bundle);
-        masTiempo.show(ClaseEstudiante.obtenerFargment(Constants.fragmentActivity), "Tiempo Extra");
+        masTiempo.show(ServicioCliente.obtenerFargment(Constants.fragmentActivity), "Tiempo Extra");
     }
 
     @OnClick(R.id.validarDatos)
@@ -151,7 +150,7 @@ public class DatosBancoPlanFragment extends DialogFragment {
     }
 
     public void errorMsg(String mensaje){
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
                 .setTitleText("¡ERROR!")
                 .setContentText(mensaje)
                 .show();

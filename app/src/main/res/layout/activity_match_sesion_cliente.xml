@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    android:id="@+id/scrollMatch"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/fondo1"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/common_padding_default"
+            tools:context=".MatchSesionCliente">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardPerfil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/white"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/common_padding_default">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/fotoCliente"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:src="@mipmap/defaultfoto"/>
+
+                    <TextView
+                        android:id="@+id/nombreTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cliente: Nombre de Cliente"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/fotoCliente"
+                        style="@style/Titulos"/>
+
+                    <TextView
+                        android:id="@+id/descripcionTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Descripción: Descripción de Cliente"
+                        app:layout_constraintTop_toBottomOf="@id/nombreTV"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        style="@style/Textos"/>
+
+                    <TextView
+                        android:id="@+id/correoTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Correo: Correo de Cliente"
+                        android:textColor="@color/colorGris"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        app:layout_constraintTop_toBottomOf="@id/descripcionTV"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        style="@style/Textos"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSesion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_padding_min"
+                android:backgroundTint="@android:color/white">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintSesion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/common_padding_min">
+
+                    <fragment
+                        android:id="@+id/mapsDetallesMatch"
+                        xmlns:map="http://schemas.android.com/apk/res-auto"
+                        class="com.proathome.servicios.WorkaroundMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        map:layout_constraintEnd_toEndOf="parent"
+                        map:layout_constraintStart_toStartOf="parent"
+                        map:layout_constraintTop_toTopOf="parent"
+                        tools:context=".MapsFragment" />
+
+                    <TextView
+                        android:id="@+id/direccionTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="@dimen/common_padding_min"
+                        android:text="Dirección: Dirección de la Sesión"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/mapsDetallesMatch"
+                        style="@style/Textos"/>
+
+                    <View
+                        android:id="@+id/divider"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorAzul"
+                        app:layout_constraintStart_toStartOf="@id/direccionTV"
+                        app:layout_constraintEnd_toEndOf="@id/direccionTV"
+                        app:layout_constraintBottom_toBottomOf="@id/direccionTV"
+                        android:layout_marginTop="@dimen/common_padding_middle"/>
+
+                    <TextView
+                        android:id="@+id/tiempoTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="@dimen/common_padding_min"
+                        android:text="Tiempo: Tiempo de la Sesión"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/divider"
+                        style="@style/Textos"/>
+
+                    <View
+                        android:id="@+id/dividerTiempo"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorAzul"
+                        app:layout_constraintStart_toStartOf="@id/tiempoTV"
+                        app:layout_constraintEnd_toEndOf="@id/tiempoTV"
+                        app:layout_constraintBottom_toBottomOf="@id/tiempoTV"
+                        android:layout_marginTop="@dimen/common_padding_middle"/>
+
+                    <TextView
+                        android:id="@+id/nivelTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="@dimen/common_padding_min"
+                        android:text="Nivel: Nivel de la Sesión"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/dividerTiempo"
+                        style="@style/Textos"/>
+
+                    <View
+                        android:id="@+id/dividerNivel"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorAzul"
+                        app:layout_constraintStart_toStartOf="@id/nivelTV"
+                        app:layout_constraintEnd_toEndOf="@id/nivelTV"
+                        app:layout_constraintBottom_toBottomOf="@id/nivelTV"
+                        android:layout_marginTop="@dimen/common_padding_middle"/>
+
+                    <TextView
+                        android:id="@+id/tipoTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="@dimen/common_padding_min"
+                        android:text="Tipo de Servicio: Tipo de la Sesión"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/dividerNivel"
+                        style="@style/Textos"/>
+
+                    <View
+                        android:id="@+id/dividerTipo"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorAzul"
+                        app:layout_constraintStart_toStartOf="@id/tipoTV"
+                        app:layout_constraintEnd_toEndOf="@id/tipoTV"
+                        app:layout_constraintBottom_toBottomOf="@id/tipoTV"
+                        android:layout_marginTop="@dimen/common_padding_middle"/>
+
+                    <TextView
+                        android:id="@+id/observacionesTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="@dimen/common_padding_min"
+                        android:text="Observaciones: Observaciones de la Sesión"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/dividerTipo"
+                        style="@style/Textos"/>
+
+                    <View
+                        android:id="@+id/dividerObservaciones"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorAzul"
+                        app:layout_constraintStart_toStartOf="@id/observacionesTV"
+                        app:layout_constraintEnd_toEndOf="@id/observacionesTV"
+                        app:layout_constraintBottom_toBottomOf="@id/observacionesTV"
+                        android:layout_marginTop="@dimen/common_padding_middle"/>
+
+                    <TextView
+                        android:id="@+id/horarioTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="@dimen/common_padding_min"
+                        android:text="Horario: Horario de la Sesión"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/dividerObservaciones"
+                        style="@style/Textos"/>
+
+                    <View
+                        android:id="@+id/dividerHorario"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimaryDark"
+                        app:layout_constraintStart_toStartOf="@id/horarioTV"
+                        app:layout_constraintEnd_toEndOf="@id/horarioTV"
+                        app:layout_constraintBottom_toBottomOf="@id/horarioTV"
+                        android:layout_marginTop="@dimen/common_padding_middle"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/matchBTN"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/match"
+                        android:backgroundTint="@color/colorAzul"
+                        android:textColorHint="@color/colorAzul"
+                        android:textColor="@android:color/white"
+                        android:fontFamily="@font/din"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/dividerHorario"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/seguirBuscandoBTN"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/seguir_buscando"
+                        android:backgroundTint="@color/colorRosa"
+                        android:fontFamily="@font/din"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/matchBTN"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

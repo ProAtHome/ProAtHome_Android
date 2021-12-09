@@ -34,7 +34,7 @@ public class EvaluarFragment extends DialogFragment {
     TextView tvEvaluar;
     @BindView(R.id.btnEnviar)
     MaterialButton btnEnviar;
-    public static int PROCEDENCIA_ESTUDIANTE = 1, PROCEDENCIA_PROFESOR = 2;
+    public static int PROCEDENCIA_CLIENTE = 1, PROCEDENCIA_PROFESIONAL = 2;
     private int procedencia;
 
     public EvaluarFragment() {
@@ -55,12 +55,12 @@ public class EvaluarFragment extends DialogFragment {
 
         Bundle bundle = getArguments();
         procedencia = bundle.getInt("procedencia");
-        if(bundle.getInt("procedencia") == EvaluarFragment.PROCEDENCIA_ESTUDIANTE){
+        if(bundle.getInt("procedencia") == EvaluarFragment.PROCEDENCIA_CLIENTE){
             tvEvaluar.setText("Evalúa a tu pofesor");
             tvEvaluar.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             btnEnviar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-        }else if(bundle.getInt("procedencia") == EvaluarFragment.PROCEDENCIA_PROFESOR){
-            tvEvaluar.setText("Evalúa a tu estudiante");
+        }else if(bundle.getInt("procedencia") == EvaluarFragment.PROCEDENCIA_PROFESIONAL){
+            tvEvaluar.setText("Evalúa a tu cliente");
             tvEvaluar.setTextColor(getResources().getColor(R.color.color_secondary));
             btnEnviar.setBackgroundColor(getResources().getColor(R.color.color_secondary));
         }
@@ -77,10 +77,10 @@ public class EvaluarFragment extends DialogFragment {
                         .setContentText("Gracias por tu evaluación.")
                         .setConfirmButton("OK", sweetAlertDialog -> {
                             sweetAlertDialog.dismissWithAnimation();
-                            if(this.procedencia == EvaluarFragment.PROCEDENCIA_ESTUDIANTE){
+                            if(this.procedencia == EvaluarFragment.PROCEDENCIA_CLIENTE){
                                 ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesFragment.idCliente,
-                                        DetallesFragment.idProfesor, ratingBar.getRating(), tieComentario.getText().toString(),
-                                        EvaluarFragment.PROCEDENCIA_ESTUDIANTE, DetallesFragment.idSesion);
+                                        DetallesFragment.idProfesional, ratingBar.getRating(), tieComentario.getText().toString(),
+                                        EvaluarFragment.PROCEDENCIA_CLIENTE, DetallesFragment.idSesion);
                                 valorar.execute();
                                 //Esta peticion es por que bloquearemos el perfil después de evaluar.
                                 WebServicesAPI bloquearPerfil = new WebServicesAPI(response -> {
@@ -108,13 +108,13 @@ public class EvaluarFragment extends DialogFragment {
                                     }catch(JSONException ex){
                                         ex.printStackTrace();
                                     }
-                                }, APIEndPoints.BLOQUEAR_PERFIL + "/" + DetallesFragment.idCliente, getContext(), WebServicesAPI.GET, null);
+                                }, APIEndPoints.BLOQUEAR_PERFIL + "/" + DetallesFragment.idCliente, WebServicesAPI.GET, null);
                                 bloquearPerfil.execute();
-                            }else if(this.procedencia == EvaluarFragment.PROCEDENCIA_PROFESOR){
-                                ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesSesionProfesorFragment.idProfesor,
-                                        DetallesSesionProfesorFragment.idEstudiante, ratingBar.getRating(),
-                                        tieComentario.getText().toString(), EvaluarFragment.PROCEDENCIA_PROFESOR,
-                                        DetallesSesionProfesorFragment.idSesion);
+                            }else if(this.procedencia == EvaluarFragment.PROCEDENCIA_PROFESIONAL){
+                                ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesSesionProfesionalFragment.idProfesional,
+                                        DetallesSesionProfesionalFragment.idCliente, ratingBar.getRating(),
+                                        tieComentario.getText().toString(), EvaluarFragment.PROCEDENCIA_PROFESIONAL,
+                                        DetallesSesionProfesionalFragment.idSesion);
                                 valorar.execute();
                             }
                             dismiss();

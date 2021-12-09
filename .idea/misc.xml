@@ -3,8 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_inicio_cliente.xml" value="0.4" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_main.xml" value="0.2490740740740741" />
-        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_registrarse_estudiante.xml" value="0.24351851851851852" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_pasos_activar_cuenta.xml" value="0.24166666666666667" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_pasos_activar_cuenta_cliente.xml" value="0.24166666666666667" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_registrarse_cliente.xml" value="0.24351851851851852" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_registrarse_profesional.xml" value="0.24166666666666667" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_static.xml" value="0.1109375" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/content_static.xml" value="0.1109375" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_buscar_sesion.xml" value="0.2324074074074074" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_detalles.xml" value="0.2" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_detalles_sesion_profesional.xml" value="0.25416666666666665" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_nueva_sesion.xml" value="0.2324074074074074" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_sesiones.xml" value="0.2361111111111111" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/item_component.xml" value="0.2361111111111111" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/item_component_profesional.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

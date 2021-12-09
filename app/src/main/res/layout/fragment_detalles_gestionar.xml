@@ -26,18 +26,18 @@
             tools:context=".MapsFragment" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilProfesor"
+            android:id="@+id/tilProfesional"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:hint="@string/profesor_asignado"
+            android:hint="@string/profesional_asignado"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mapsDetallesG"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tietProfesor"
+                android:id="@+id/tietProfesional"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/din"
@@ -56,7 +56,7 @@
             android:gravity="center_vertical|center"
             android:drawableLeft="@drawable/direccion"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tilProfesor"
+            app:layout_constraintTop_toBottomOf="@id/tilProfesional"
             style="@style/Textos"/>
 
         <com.google.android.material.button.MaterialButton

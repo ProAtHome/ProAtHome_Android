@@ -8,8 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import com.google.android.material.button.MaterialButton;
-import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
-import com.proathome.servicios.estudiante.ServicioTaskRuta;
+import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
+import com.proathome.servicios.cliente.ServicioTaskRuta;
 import com.proathome.fragments.DetallesBloque;
 import com.proathome.utils.Constants;
 import butterknife.BindView;
@@ -111,7 +111,7 @@ public class RutaBasico extends AppCompatActivity {
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
 
         if (fila.moveToFirst()) {
             idCliente = fila.getInt(0);

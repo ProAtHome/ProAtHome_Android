@@ -58,8 +58,7 @@
                     android:layout_height="500dp"
                     map:layout_constraintEnd_toEndOf="parent"
                     map:layout_constraintStart_toStartOf="parent"
-                    map:layout_constraintTop_toTopOf="parent"
-                    tools:context=".MapsFragment" />
+                    map:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
                     android:id="@+id/text_elegirFecha"

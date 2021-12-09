@@ -31,25 +31,25 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".ScrollActivityProfesor"
+            android:name=".ScrollActivityProfesional"
             android:screenOrientation="portrait" />
         <activity
             android:name=".PerfilBloqueado"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PasosActivarCuentaEstudiante"
+            android:name=".PasosActivarCuentaCliente"
             android:screenOrientation="portrait" />
         <activity
             android:name=".PasosActivarCuenta"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ClaseProfesor"
+            android:name=".ServicioProfesional"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ClaseEstudiante"
+            android:name=".ServicioCliente"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SincronizarClase"
+            android:name=".SincronizarServicio"
             android:screenOrientation="portrait" />
         <activity
             android:name=".examen.Diagnostico7"
@@ -84,17 +84,17 @@
             android:name=".RutaBasico"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MatchSesionEstudiante" />
+        <activity android:name=".MatchSesionCliente" />
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
 
         <activity
-            android:name=".InicioProfesor"
-            android:label="@string/title_activity_inicio_profesor"
+            android:name=".InicioProfesional"
+            android:label="@string/title_activity_inicio_profesional"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeProfesor.NoActionBar" />
+            android:theme="@style/AppThemeProfesional.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -125,20 +125,20 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".InicioEstudiante"
-            android:label="@string/title_activity_inicio_estudiante"
+            android:name=".InicioCliente"
+            android:label="@string/title_activity_inicio_cliente"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RegistrarseEstudiante"
+            android:name=".RegistrarseCliente"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RegistrarseProfesor"
+            android:name=".RegistrarseProfesional"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".loginProfesor"
+            android:name=".LoginProfesional"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

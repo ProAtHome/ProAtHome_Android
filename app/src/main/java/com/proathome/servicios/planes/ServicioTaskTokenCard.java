@@ -56,7 +56,7 @@ public class ServicioTaskTokenCard extends AsyncTask<Void, Void, String> {
 
             @Override
             public void onSuccess(OperationResult<Token> operationResult) {
-                ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(contexto, DatosBancoPlanFragment.deviceIdString, DatosBancoPlanFragment.idSesion, DatosBancoPlanFragment.idEstudiante, operationResult.getResult().getId(), DatosBancoPlanFragment.costoTotal, ServicioTaskCobro.ENTENDIDO_TE);
+                ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(contexto, DatosBancoPlanFragment.deviceIdString, DatosBancoPlanFragment.idSesion, DatosBancoPlanFragment.idCliente, operationResult.getResult().getId(), DatosBancoPlanFragment.costoTotal, ServicioTaskCobro.ENTENDIDO_TE);
                 servicioTaskCobro.execute();
             }
         });

@@ -1,6 +1,8 @@
 package com.proathome.utils;
 
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.proathome.fragments.DetallesFragment;
@@ -8,23 +10,23 @@ import com.proathome.fragments.DetallesGestionarFragment;
 
 public class CommonUtils {
 
-    private static String tipoPlanS = "", tipoClaseS = "", horarioS = "", profesorS = "", lugarS = "",
-            observacionesS = "", fechaS = "", fotoProfesorS = "", descripcionProfesorS = "", correoProfesorS = "";
-    private static int idClaseS, tiempoS, idSeccionS, idNivelS, idBloqueS, idProfesorS;
+    private static String tipoPlanS = "", tipoServicioS = "", horarioS = "", profesionalS = "", lugarS = "",
+            observacionesS = "", fechaS = "", fotoProfesionalS = "", descripcionProfesionalS = "", correoProfesionalS = "";
+    private static int idServicioS, tiempoS, idSeccionS, idNivelS, idBloqueS, idProfesionalS;
     private static double latitudS, longitudS;
     private static boolean sumarS;
 
     public static void setFragment(AppCompatActivity activity, String nameFragment, int contentRes,
-                                   int idClase, String tipoClase, String horario, String profesor,
+                                   int idServicio, String tipoServicio, String horario, String profesional,
                                         String lugar, int tiempo, String observaciones,  double latitud,
                                             double longitud, int idSeccion, int idNivel, int idBloque,
-                                                String fecha, String fotoProfesor, String descripcionProfesor,
-                                                    String correoProfesor, boolean sumar, String tipoPlan, int idProfesor){
+                                                String fecha, String fotoProfesional, String descripcionProfesional,
+                                                    String correoProfesional, boolean sumar, String tipoPlan, int idProfesional){
 
-        idClaseS = idClase;
-        tipoClaseS = tipoClase;
+        idServicioS = idServicio;
+        tipoServicioS = tipoServicio;
         horarioS = horario;
-        profesorS = profesor;
+        profesionalS = profesional;
         lugarS = lugar;
         tiempoS = tiempo;
         tiempoS = tiempo;
@@ -35,13 +37,14 @@ public class CommonUtils {
         observacionesS = observaciones;
         latitudS = latitud;
         longitudS = longitud;
-        fotoProfesorS = fotoProfesor;
-        descripcionProfesorS = descripcionProfesor;
-        correoProfesorS = correoProfesor;
+        fotoProfesionalS = fotoProfesional;
+        descripcionProfesionalS = descripcionProfesional;
+        correoProfesionalS = correoProfesional;
         sumarS = sumar;
         tipoPlanS = tipoPlan;
-        idProfesorS = idProfesor;
+        idProfesionalS = idProfesional;
         Fragment fragment = getFragmentById(nameFragment);
+        Log.d("tag1", nameFragment);
         activity.getSupportFragmentManager().beginTransaction().add(contentRes, fragment).commit();
 
     }
@@ -57,10 +60,10 @@ public class CommonUtils {
             case DetallesFragment.TAG:
                 fragment = new DetallesFragment();
                 Bundle bun = new Bundle();
-                bun.putInt("idClase", idClaseS);
-                bun.putString("tipoClase", tipoClaseS);
+                bun.putInt("idServicio", idServicioS);
+                bun.putString("tipoServicio", tipoServicioS);
                 bun.putString("horario", horarioS);
-                bun.putString("profesor", profesorS);
+                bun.putString("profesional", profesionalS);
                 bun.putString("lugar", lugarS);
                 bun.putInt("tiempo", tiempoS);
                 bun.putString("observaciones", observacionesS);
@@ -70,22 +73,22 @@ public class CommonUtils {
                 bun.putInt("idNivel", idNivelS);
                 bun.putInt("idBloque", idBloqueS);
                 bun.putString("fecha", fechaS);
-                bun.putString("fotoProfesor", fotoProfesorS);
-                bun.putString("descripcionProfesor", descripcionProfesorS);
-                bun.putString("correoProfesor", correoProfesorS);
+                bun.putString("fotoProfesional", fotoProfesionalS);
+                bun.putString("descripcionProfesional", descripcionProfesionalS);
+                bun.putString("correoProfesional", correoProfesionalS);
                 bun.putBoolean("sumar", sumarS);
                 bun.putString("tipoPlan", tipoPlanS);
-                bun.putInt("idProfesor", idProfesorS);
+                bun.putInt("idProfesional", idProfesionalS);
                 fragment.setArguments(bun);
                 fragmentBool = true;
                 break;
             case DetallesGestionarFragment.TAG:
                 fragmentGestionar = new DetallesGestionarFragment();
                 Bundle bunG = new Bundle();
-                bunG.putInt("idClase", idClaseS);
-                bunG.putString("tipoClase", tipoClaseS);
+                bunG.putInt("idServicio", idServicioS);
+                bunG.putString("tipoServicio", tipoServicioS);
                 bunG.putString("horario", horarioS);
-                bunG.putString("profesor", profesorS);
+                bunG.putString("profesional", profesionalS);
                 bunG.putString("lugar", lugarS);
                 bunG.putInt("tiempo", tiempoS);
                 bunG.putString("observaciones", observacionesS);

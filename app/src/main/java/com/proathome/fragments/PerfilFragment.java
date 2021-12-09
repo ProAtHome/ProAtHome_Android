@@ -13,7 +13,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterValoraciones;
-import com.proathome.servicios.profesor.ServicioTaskFotoDetalles;
+import com.proathome.servicios.profesional.ServicioTaskFotoDetalles;
 import com.proathome.servicios.valoracion.ServicioTaskValoracion;
 import com.proathome.utils.ComponentValoraciones;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class PerfilFragment extends DialogFragment {
     public static ShapeableImageView foto;
     public static String nombre, correo;
     public static float valoracion;
-    public static int PERFIL_PROFESOR_EN_ESTUDIANTE = 3, PERFIL_ESTUDIANTE_EN_PROFESOR = 4, PERFIL_PROFESOR = 1, PERFIL_ESTUDIANTE = 2;
+    public static int PERFIL_PROFESIONAL_EN_CLIENTE = 3, PERFIL_CLIENTE_EN_PROFESIONAL = 4, PERFIL_PROFESIONAL = 1, PERFIL_CLIENTE = 2;
     public static TextView tvNombre;
     public static TextView tvCoreo;
     public static TextView tvCalificacion;
@@ -64,24 +64,24 @@ public class PerfilFragment extends DialogFragment {
 
         Bundle bundle = getArguments();
 
-        if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_ESTUDIANTE) {
-            ServicioTaskValoracion valoracion = new ServicioTaskValoracion(DetallesSesionProfesorFragment.idEstudiante, ServicioTaskValoracion.PERFIL_ESTUDIANTE);
+        if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_CLIENTE) {
+            ServicioTaskValoracion valoracion = new ServicioTaskValoracion(DetallesSesionProfesionalFragment.idCliente, ServicioTaskValoracion.PERFIL_CLIENTE);
             valoracion.execute();
-            ServicioTaskFotoDetalles detalles = new ServicioTaskFotoDetalles(getContext(), DetallesSesionProfesorFragment.fotoNombre, PerfilFragment.PERFIL_ESTUDIANTE_EN_PROFESOR);
+            ServicioTaskFotoDetalles detalles = new ServicioTaskFotoDetalles(getContext(), DetallesSesionProfesionalFragment.fotoNombre, PerfilFragment.PERFIL_CLIENTE_EN_PROFESIONAL);
             detalles.execute();
-        }else if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_PROFESOR){
-            ServicioTaskValoracion valoracion = new ServicioTaskValoracion(DetallesFragment.idProfesor, ServicioTaskValoracion.PERFIL_PROFESOR);
+        }else if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_PROFESIONAL){
+            ServicioTaskValoracion valoracion = new ServicioTaskValoracion(DetallesFragment.idProfesional, ServicioTaskValoracion.PERFIL_PROFESIONAL);
             valoracion.execute();
-            ServicioTaskFotoDetalles detalles = new ServicioTaskFotoDetalles(getContext(), DetallesFragment.fotoNombre, PerfilFragment.PERFIL_PROFESOR_EN_ESTUDIANTE);
+            ServicioTaskFotoDetalles detalles = new ServicioTaskFotoDetalles(getContext(), DetallesFragment.fotoNombre, PerfilFragment.PERFIL_PROFESIONAL_EN_CLIENTE);
             detalles.execute();
         }
 
-        if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_ESTUDIANTE) {
+        if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_CLIENTE) {
             toolbar.setBackgroundColor(getResources().getColor(R.color.colorAzul));
-            toolbar.setTitle("Perfil - ESTUDIANTE");
-        }else if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_PROFESOR){
+            toolbar.setTitle("Perfil - CLIENTE");
+        }else if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_PROFESIONAL){
             toolbar.setBackgroundColor(getResources().getColor(R.color.colorAzul));
-            toolbar.setTitle("Perfil - PROFESOR");
+            toolbar.setTitle("Perfil - PROFESIONAL");
         }
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setNavigationIcon(R.drawable.ic_close);

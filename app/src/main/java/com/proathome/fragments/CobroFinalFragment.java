@@ -1,21 +1,19 @@
 package com.proathome.fragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
-import android.preference.PreferenceManager;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
-import com.proathome.ClaseEstudiante;
+import com.proathome.ServicioCliente;
 import com.proathome.R;
-import com.proathome.servicios.ServicioTaskCobro;
 import com.proathome.servicios.TabuladorCosto;
-import com.proathome.servicios.estudiante.ServicioTaskPreOrden;
+import com.proathome.servicios.cliente.ServicioTaskPreOrden;
 import com.proathome.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,11 +39,11 @@ public class CobroFinalFragment extends DialogFragment {
     TextView tvCostoTotal;
     @BindView(R.id.tvTipoPlan)
     TextView tvTipoPlan;
-    public static String metodoRegistrado, sesion, tiempo, deviceIdString, nombreEstudiante, correo, tipoPlan;
+    public static String metodoRegistrado, sesion, tiempo, deviceIdString, nombreCliente, correo, tipoPlan;
     //Datos tarjeta para modo PLAN.
     public static String nombreTitular, tarjeta, mes, ano;
     public static double costoTotal = 0.0;
-    public static int idSesion = 0, idEstudiante = 0, pantalla = 0, progresoTotal = 0;
+    public static int idSesion = 0, idCliente = 0, pantalla = 0, progresoTotal = 0;
     public static final int PANTALLA_CANCELAR = 1, PANTALLA_TE = 2;
     public Context context = null;
     public static String idCard = null;
@@ -70,22 +68,22 @@ public class CobroFinalFragment extends DialogFragment {
         /*Obtenemos los datos para manejar el cobro final*/
         Bundle bundle = getArguments();
         idSesion = bundle.getInt("idSesion");
-        idEstudiante = bundle.getInt("idEstudiante");
+        idCliente = bundle.getInt("idCliente");
         pantalla = bundle.getInt("Pantalla");
         progresoTotal = bundle.getInt("progresoTotal");
         //tvTarjeta.setText(metodoRegistrado);
         tvSesion.setText(sesion);
         //tvTiempo.setText(tiempo);
-        tvTipoPlan.setText("PLAN DE CLASE: " + bundle.getString("tipoPlan"));
+        tvTipoPlan.setText("PLAN DEL SERVICIO: " + bundle.getString("tipoPlan"));
         tipoPlan = bundle.getString("tipoPlan");
         tvTiempoExtra.setText("Tiempo Extra: " + obtenerHorario(progresoTotal));
         //if(bundle.getString("tipoPlan").equalsIgnoreCase("PARTICULAR"))
-          //  costoTotal = (double) TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo, TabuladorCosto.PARTICULAR) + TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, progresoTotal, TabuladorCosto.PARTICULAR);
+          //  costoTotal = (double) TabuladorCosto.getCosto(ServicioCliente.idSeccion, ServicioCliente.tiempo, TabuladorCosto.PARTICULAR) + TabuladorCosto.getCosto(ServicioCliente.idSeccion, progresoTotal, TabuladorCosto.PARTICULAR);
         //else
-        costoTotal = (double) TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, progresoTotal, TabuladorCosto.PARTICULAR);
+        costoTotal = (double) TabuladorCosto.getCosto(ServicioCliente.idSeccion, progresoTotal, TabuladorCosto.PARTICULAR);
         tvCostoTotal.setText("Total: " + String.format("%.2f", costoTotal) + " MXN");
 
-        ServicioTaskPreOrden preOrden = new ServicioTaskPreOrden(idEstudiante, idSesion, ServicioTaskPreOrden.PANTALLA_COBRO_FINAL);
+        ServicioTaskPreOrden preOrden = new ServicioTaskPreOrden(idCliente, idSesion, ServicioTaskPreOrden.PANTALLA_COBRO_FINAL);
         preOrden.execute();
 
         return view;
@@ -109,7 +107,7 @@ public class CobroFinalFragment extends DialogFragment {
                     String idCardSesion = "idCard" + idSesion;
                     idCard = myPreferences.getString(idCardSesion, "Sin valor");
 
-                    ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idEstudiante, idCard, costoTotal, ServicioTaskCobro.ENTENDIDO_CANCELAR);
+                    ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idCliente, idCard, costoTotal, ServicioTaskCobro.ENTENDIDO_CANCELAR);
                     servicioTaskCobro.execute();
                     DetallesFragment.procedenciaFin = true;
                     dismiss();
@@ -122,7 +120,7 @@ public class CobroFinalFragment extends DialogFragment {
                     //Cobro tentativo con OpenPay al elegir el tiempo EXTRA.
                     //Validar si estamos en tipoPlan.
                /*     if(tipoPlan.equalsIgnoreCase("PARTICULAR")){
-                        ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idEstudiante, idCard, costoTotal, ServicioTaskCobro.ENTENDIDO_TE);
+                        ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(getContext(), deviceIdString, idSesion, idCliente, idCard, costoTotal, ServicioTaskCobro.ENTENDIDO_TE);
                         servicioTaskCobro.execute();
                     }else{*/
                         //Crear nuevo token de Tarjeta.
@@ -131,7 +129,7 @@ public class CobroFinalFragment extends DialogFragment {
                 bundle.putInt("procedencia", DatosBancoPlanFragment.PROCEDENCIA_PAGO_PLAN);
                 bundle.putString("deviceIdString", deviceIdString);
                 bundle.putInt("idSesion", idSesion);
-                bundle.putInt("idEstudiante", idEstudiante);
+                bundle.putInt("idCliente", idCliente);
                 bundle.putDouble("costoTotal", costoTotal);
                 DatosBancoPlanFragment bancoPlanFragment = new DatosBancoPlanFragment();
                 bancoPlanFragment.setArguments(bundle);
@@ -149,7 +147,7 @@ public class CobroFinalFragment extends DialogFragment {
                 MasTiempo masTiempo = new MasTiempo();
  //               Bundle bundle = new Bundle();
                 bundle.putInt("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
-                bundle.putInt("idEstudiante", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
+                bundle.putInt("idCliente", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
 
                 masTiempo.setArguments(bundle);
                 masTiempo.show(fragmentTransaction, "Tiempo Extra");

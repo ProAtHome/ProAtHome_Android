@@ -14,7 +14,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 public class ServicioTaskFechaServidor extends AsyncTask<Void, Void, String> {
 
@@ -35,7 +35,7 @@ public class ServicioTaskFechaServidor extends AsyncTask<Void, Void, String> {
 
         try {
             URL url = new URL(this.linkFechaServidor);
-            HttpsURLConnection httpURLConnection = (HttpsURLConnection) url.openConnection();
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
             httpURLConnection.setReadTimeout(15000);
             httpURLConnection.setConnectTimeout(15000);
@@ -44,7 +44,7 @@ public class ServicioTaskFechaServidor extends AsyncTask<Void, Void, String> {
 
             int responseCode = httpURLConnection.getResponseCode();
 
-            if (responseCode == HttpsURLConnection.HTTP_OK) {
+            if (responseCode == HttpURLConnection.HTTP_OK) {
 
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
 

@@ -464,7 +464,7 @@
                     android:background="@color/colorAzul"
                     app:itemIconTint="@drawable/states_colors_bottom_navigation"
                     app:itemTextColor="@drawable/states_colors_bottom_navigation"
-                    app:menu="@menu/menu_bottom_nav_estudiante" />
+                    app:menu="@menu/menu_bottom_nav_cliente" />
 
             </FrameLayout>
 

@@ -17,7 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
-import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,12 +29,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.proathome.MatchSesionEstudiante;
+import com.proathome.MatchSesionCliente;
 import com.proathome.R;
 import com.proathome.servicios.WorkaroundMapFragment;
-import com.proathome.servicios.profesor.AdminSQLiteOpenHelperProfesor;
-import com.proathome.servicios.profesor.ServicioTaskObtenerSesiones;
-import com.proathome.servicios.profesor.ServicioTaskPerfilProfesor;
+import com.proathome.servicios.profesional.AdminSQLiteOpenHelperProfesional;
+import com.proathome.servicios.profesional.ServicioTaskObtenerSesiones;
 import com.proathome.utils.Constants;
 import com.proathome.utils.PermisosUbicacion;
 import com.proathome.utils.SweetAlert;
@@ -49,13 +48,13 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
     public static final String TAG = "Nueva Sesión";
     public static Context contexto;
     private String linkAPISesiones = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesor/obtenerSesionesMovil";
+            "/ProAtHome/apiProAtHome/profesional/obtenerSesionesMovil";
     public static int RANGO_BUSQUEDA = 4000;
-    private int idProfesor, rangoClase;
+    private int idProfesional, rangoServicio;
     private double latitud, longitud;
     public static GoogleMap mMap;
     public static List<Marker> perth = new ArrayList<>();
-    public static Marker profesorPerth;
+    public static Marker profesionalPerth;
     private ScrollView mScrollView;
     private Unbinder mUnbinder;
     @BindView(R.id.toolbar)
@@ -118,9 +117,9 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
         }
         mMap.setMyLocationEnabled(true);
         LatLng ubicacion = new LatLng(19.4326077, -99.13320799999);
-        profesorPerth = mMap.addMarker(new MarkerOptions().position(ubicacion)
-                .title("Mueve el marcador para elegir el radio a buscar.").snippet("profesor").draggable(true));
-        profesorPerth.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.profubb));
+        profesionalPerth = mMap.addMarker(new MarkerOptions().position(ubicacion)
+                .title("Mueve el marcador para elegir el radio a buscar.").snippet("profesional").draggable(true));
+        profesionalPerth.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.profubb));
         Circle circle = mMap.addCircle(new CircleOptions()
                 .center(ubicacion)
                 .radius(RANGO_BUSQUEDA)
@@ -131,8 +130,8 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
 
             @Override
             public void onMarkerDrag(Marker marker) {
-                latitud = profesorPerth.getPosition().latitude;
-                longitud = profesorPerth.getPosition().longitude;
+                latitud = profesionalPerth.getPosition().latitude;
+                longitud = profesionalPerth.getPosition().longitude;
                 LatLng ubicacion = new LatLng(latitud, longitud);
                 circle.setCenter(ubicacion);
                 for(Marker marcador: perth){
@@ -148,8 +147,8 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
 
             @Override
             public void onMarkerDragEnd(Marker marker) {
-                latitud = profesorPerth.getPosition().latitude;
-                longitud = profesorPerth.getPosition().longitude;
+                latitud = profesionalPerth.getPosition().latitude;
+                longitud = profesionalPerth.getPosition().longitude;
                 LatLng ubicacion = new LatLng(latitud, longitud);
                 circle.setCenter(ubicacion);
                 for(Marker marcador: perth){
@@ -160,13 +159,13 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
 
         });
 
-        ServicioTaskObtenerSesiones obtenerSesiones = new ServicioTaskObtenerSesiones(getContext(), this.linkAPISesiones, this.rangoClase);
+        ServicioTaskObtenerSesiones obtenerSesiones = new ServicioTaskObtenerSesiones(getContext(), this.linkAPISesiones, this.rangoServicio);
         obtenerSesiones.execute();
 
         BuscarSesionFragment.mMap.setOnMarkerClickListener(marker -> {
-            if(marker.getSnippet().equals("profesor")){
+            if(marker.getSnippet().equals("profesional")){
                 new MaterialAlertDialogBuilder(getContext(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
-                        .setTitle("UBICACIÓN PROFESOR")
+                        .setTitle("UBICACIÓN PROFESIONAL")
                         .setMessage(marker.getTitle())
                         .setNegativeButton("Aceptar", ((dialog, which) -> {
 
@@ -174,7 +173,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
                         .show();
             }else {
                 new MaterialAlertDialogBuilder(getContext(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
-                        .setTitle("SESIÓN DE ESTUDIANTE")
+                        .setTitle("SESIÓN DE CLIENTE")
                         .setMessage(marker.getTitle())
                         .setNegativeButton("Cerrar", (dialog, which) -> {
 
@@ -183,7 +182,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
                             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                                 showAlert();
                             }else{
-                                Intent intent = new Intent(getContext(), MatchSesionEstudiante.class);
+                                Intent intent = new Intent(getContext(), MatchSesionCliente.class);
                                 intent.putExtra("idSesion", marker.getSnippet());
                                 intent.putExtra("latitud", marker.getPosition().latitude);
                                 intent.putExtra("longitud", marker.getPosition().longitude);
@@ -200,16 +199,16 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
     }
 
     private void showAlert() {
-        PermisosUbicacion.showAlert(getContext(), SweetAlert.PROFESOR);
+        PermisosUbicacion.showAlert(getContext(), SweetAlert.PROFESIONAL);
     }
 
-    public static void mostrarMarcadores(LatLng profesor, LatLng marcador, Marker marker){
-        double latProfesor = profesor.latitude;
-        double longProfesor = profesor.longitude;
+    public static void mostrarMarcadores(LatLng profesional, LatLng marcador, Marker marker){
+        double latProfesional = profesional.latitude;
+        double longProfesional = profesional.longitude;
         double latMarcador = marcador.latitude;
         double longMarcador = marcador.longitude;
 
-        double distancia = distanciaEntre(latProfesor, longProfesor, latMarcador, longMarcador);
+        double distancia = distanciaEntre(latProfesional, longProfesional, latMarcador, longMarcador);
         if(distancia <= RANGO_BUSQUEDA){
             marker.setVisible(true);
         }else{
@@ -217,12 +216,12 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
         }
     }
 
-    public static double distanciaEntre(double latProfesor, double longProfesor, double latMarcador, double longMarcador) {
+    public static double distanciaEntre(double latProfesional, double longProfesional, double latMarcador, double longMarcador) {
         double earthRadius = 6371000; //meters
-        double dLat = Math.toRadians(latMarcador - latProfesor);
-        double dLng = Math.toRadians(longMarcador - longProfesor);
+        double dLat = Math.toRadians(latMarcador - latProfesional);
+        double dLng = Math.toRadians(longMarcador - longProfesional);
         double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(Math.toRadians(latProfesor)) * Math.cos(Math.toRadians(latMarcador)) *
+                Math.cos(Math.toRadians(latProfesional)) * Math.cos(Math.toRadians(latMarcador)) *
                         Math.sin(dLng/2) * Math.sin(dLng/2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         double distancia = (double) (earthRadius * c);
@@ -232,16 +231,16 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
 
     public void cargarPerfil(){
 
-        AdminSQLiteOpenHelperProfesor admin = new AdminSQLiteOpenHelperProfesor(getContext(), "sesionProfesor",
+        AdminSQLiteOpenHelperProfesional admin = new AdminSQLiteOpenHelperProfesional(getContext(), "sesionProfesional",
                 null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor, rangoClase FROM sesionProfesor WHERE id = " + 1, null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idProfesional, rangoServicio FROM sesionProfesional WHERE id = " + 1, null);
 
         if(fila.moveToFirst()){
             //Recorremos el cursor hasta que no haya más registros
             do {
-                this.idProfesor = fila.getInt(0);
-                this.rangoClase = fila.getInt(1);
+                this.idProfesional = fila.getInt(0);
+                this.rangoServicio = fila.getInt(1);
             } while(fila.moveToNext());
             baseDeDatos.close();
         }else{

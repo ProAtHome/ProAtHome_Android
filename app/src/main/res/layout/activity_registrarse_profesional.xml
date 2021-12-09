@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/fondo2"
+    android:padding="@dimen/common_padding_default"
+    tools:context=".RegistrarseProfesional">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/logowhite"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/registrarseTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textSize="25dp"
+                android:text="Registro - Profesional"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center"
+                style="@style/Titulos"/>
+
+            <TextView
+                android:id="@+id/Datos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Datos Personales"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/common_padding_default"
+                android:textColor="@android:color/white"
+                style="@style/Textos"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nombreET_RL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Nombre(s)"
+                android:textColorHint="@android:color/white"
+                app:boxStrokeColor="@android:color/white"
+                app:boxStrokeWidth="2dp"
+                android:inputType="textPersonName"
+                app:endIconMode="clear_text"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nombreET_R"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/din"
+                    android:textColor="@android:color/white"
+                    android:inputType="textPersonName"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/paternoET_RL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Apellido Paterno"
+                android:textColorHint="@android:color/white"
+                app:boxStrokeColor="@android:color/white"
+                app:boxStrokeWidth="2dp"
+                android:inputType="textPersonName"
+                app:endIconMode="clear_text"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/paternoET_R"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/din"
+                    android:textColor="@android:color/white"
+                    android:inputType="textPersonName"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/maternoET_RL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Apellido Materno"
+                android:textColorHint="@android:color/white"
+                app:boxStrokeColor="@android:color/white"
+                app:boxStrokeWidth="2dp"
+                android:inputType="textPersonName"
+                app:endIconMode="clear_text"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/maternoET_R"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/din"
+                    android:textColor="@android:color/white"
+                    android:inputType="textPersonName"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="verDatePickerP"
+                android:fontFamily="@font/din"
+                android:text="Fecha de Nacimiento"
+                android:backgroundTint="@color/colorRosa"
+                android:textColor="@android:color/white"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fechaET_RL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Fecha"
+                android:textColorHint="@android:color/white"
+                app:boxStrokeColor="@android:color/white"
+                app:boxStrokeWidth="2dp"
+                android:inputType="textPersonName"
+                app:endIconMode="clear_text"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fechaET_R"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:enabled="false"
+                    android:fontFamily="@font/din"
+                    android:inputType="textPersonName"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/celularET_RL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Número Celular"
+                android:textColorHint="@android:color/white"
+                app:boxStrokeColor="@android:color/white"
+                app:boxStrokeWidth="2dp"
+                android:inputType="textPersonName"
+                app:endIconMode="clear_text"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/celularET_R"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:fontFamily="@font/din"
+                    android:inputType="number"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/telefonoET_RL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Teléfono Local"
+                android:textColorHint="@android:color/white"
+                app:boxStrokeColor="@android:color/white"
+                app:boxStrokeWidth="2dp"
+                android:inputType="textPersonName"
+                app:endIconMode="clear_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/contraET_ISL"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/telefonoET_R"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:fontFamily="@font/din"
+                    android:inputType="number"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/direccionET_RL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Dirección"
+                android:textColorHint="@android:color/white"
+                app:boxStrokeColor="@android:color/white"
+                app:boxStrokeWidth="2dp"
+                android:inputType="textPersonName"
+                app:endIconMode="clear_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/contraET_ISL"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/direccionET_R"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:fontFamily="@font/din"
+                    android:inputType="textPersonName"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvGenero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Género"
+                android:textColor="@android:color/white"
+                style="@style/Textos"/>
+
+            <Spinner
+                android:id="@+id/genero"
+                style="@style/AppTheme.AppBarOverlay"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/common_padding_min"
+                android:backgroundTint="@color/colorRosa"
+                android:overlapAnchor="false"
+                android:spinnerMode="dropdown" />
+
+            <TextView
+                android:id="@+id/Cuenta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Credenciales"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/common_padding_default"
+                android:textColor="@android:color/white"
+                style="@style/Textos"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/correoET_RL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Correo"
+                android:textColorHint="@android:color/white"
+                app:boxStrokeColor="@android:color/white"
+                app:boxStrokeWidth="2dp"
+                android:inputType="textPersonName"
+                app:endIconMode="clear_text"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/correoET_R"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/din"
+                    android:textColor="@android:color/white"
+                    android:inputType="text"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contraET_RL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Contraseña"
+                android:textColorHint="@android:color/white"
+                app:boxStrokeColor="@android:color/white"
+                app:boxStrokeWidth="2dp"
+                android:inputType="textPersonName"
+                app:endIconMode="password_toggle"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/contraET_R"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:fontFamily="@font/din"
+                    android:textColor="@android:color/white" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvReglas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número."
+                style="@style/Textos"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contra2ET_RL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Escribe nuevamente tu contraseña"
+                android:layout_marginTop="@dimen/common_padding_min"
+                android:textColorHint="@android:color/white"
+                app:boxStrokeColor="@android:color/white"
+                app:boxStrokeWidth="2dp"
+                android:inputType="textPersonName"
+                app:endIconMode="password_toggle"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/contra2ET_R"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:fontFamily="@font/din"
+                    android:textColor="@android:color/white" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/checkTCP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:shadowColor="@android:color/black"
+                android:text="Acepto los Términos y Condiciones"
+                android:textColor="@android:color/white"
+                style="@style/Textos">
+
+            </com.google.android.material.checkbox.MaterialCheckBox>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnTCP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="T&amp;C y Aviso de Privacidad"
+                android:fontFamily="@font/din"
+                android:textColor="@android:color/white"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/registrarseBTN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="registrar"
+                android:fontFamily="@font/din"
+                android:backgroundTint="@color/colorRosa"
+                android:text="Registrarse" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAzul"
+                android:onClick="iniciarSesion"
+                android:fontFamily="@font/din"
+                android:text="Iniciar Sesión" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

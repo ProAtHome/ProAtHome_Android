@@ -1,16 +1,10 @@
 package com.proathome.servicios;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import com.proathome.SincronizarClase;
-import com.proathome.fragments.NuevaSesionFragment;
-import com.proathome.servicios.clase.ServicioTaskSincronizarClases;
+
 import com.proathome.fragments.DetallesFragment;
-import com.proathome.servicios.estudiante.STRegistroSesionesEstudiante;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
@@ -23,7 +17,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 import mx.openpay.android.OperationCallBack;
 import mx.openpay.android.OperationResult;
@@ -34,7 +28,7 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
     private String nombreTitular, tarjeta, cvv, token;
-    private int mes, ano, solicitud, idSesion, idEstudiante;
+    private int mes, ano, solicitud, idSesion, idCliente;
     public static final int CREAR_TOKEN = 1;
     public static final int GUARDAR_TOKEN_BD = 2;
     public static final int OBTENER_TOKEN_BD = 3;
@@ -53,10 +47,10 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
         this.solicitud = solicitud;
     }
 
-    public ServicioTaskCard(String token, int idSesion, int idEstudiante, int solcitud){
+    public ServicioTaskCard(String token, int idSesion, int idCliente, int solcitud){
         this.token = token;
         this.idSesion = idSesion;
-        this.idEstudiante = idEstudiante;
+        this.idCliente = idCliente;
         this.solicitud = solcitud;
     }
 
@@ -74,7 +68,7 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
             try{
 
                 URL url = new URL(this.linkGuardarToken);
-                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setReadTimeout(15000);
                 urlConnection.setConnectTimeout(15000);
                 urlConnection.setRequestMethod("PUT");
@@ -84,7 +78,7 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
 
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("idSesion", this.idSesion);
-                jsonObject.put("idEstudiante", this.idEstudiante);
+                jsonObject.put("idCliente", this.idCliente);
                 jsonObject.put("token", this.token);
 
                 OutputStream os = urlConnection.getOutputStream();
@@ -95,7 +89,7 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
                 os.close();
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpsURLConnection.HTTP_OK) {
+                if(responseCode == HttpURLConnection.HTTP_OK) {
                     BufferedReader in = new BufferedReader(new InputStreamReader(
                             urlConnection.getInputStream()));
                     StringBuffer sb = new StringBuffer("");
@@ -152,23 +146,23 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
 
                     /*Guardamos el token en la perra BD
                     ServicioTaskCard servicioTaskCard = new ServicioTaskCard(idCard, DetallesFragment.idSesion,
-                            DetallesFragment.idEstudiante, ServicioTaskCard.GUARDAR_TOKEN_BD);
+                            DetallesFragment.idCliente, ServicioTaskCard.GUARDAR_TOKEN_BD);
                     servicioTaskCard.execute();*/
 
                     /*
-                    ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(contexto, bundle.getString("deviceID"), idEstudiante, idCard, Double.parseDouble(bundle.getString("costoTotal")), true);
+                    ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(contexto, bundle.getString("deviceID"), idCliente, idCard, Double.parseDouble(bundle.getString("costoTotal")), true);
                     servicioTaskCobro.execute();*/
 
-                    /*Iniciamos la búsqueda de el profesor
-                    ServicioTaskSincronizarClases sincronizarClases = new ServicioTaskSincronizarClases(contexto,
-                            DetallesFragment.idSesion, DetallesFragment.idEstudiante, DetallesFragment.ESTUDIANTE,
+                    /*Iniciamos la búsqueda de el profesional
+                    ServicioTaskSincronizarServicios sincronizarServicios = new ServicioTaskSincronizarServicios(contexto,
+                            DetallesFragment.idSesion, DetallesFragment.idCliente, DetallesFragment.CLIENTE,
                                 Constants.CAMBIAR_DISPONIBILIDAD, true);
-                    sincronizarClases.execute();
+                    sincronizarServicios.execute();
 
-                    Intent intent = new Intent(contexto, SincronizarClase.class);
-                    intent.putExtra("perfil", DetallesFragment.ESTUDIANTE);
+                    Intent intent = new Intent(contexto, SincronizarServicio.class);
+                    intent.putExtra("perfil", DetallesFragment.CLIENTE);
                     intent.putExtra("idSesion", DetallesFragment.idSesion);
-                    intent.putExtra("idPerfil", DetallesFragment.idEstudiante);
+                    intent.putExtra("idPerfil", DetallesFragment.idCliente);
                     intent.putExtra("tiempo", DetallesFragment.tiempoPasar);
                     intent.putExtra("idSeccion", DetallesFragment.idSeccion);
                     intent.putExtra("idNivel", DetallesFragment.idNivel);
@@ -183,7 +177,7 @@ public class ServicioTaskCard extends AsyncTask<Void, Void, String> {
     }
 
     public void errorMsg(String mensaje){
-        new SweetAlert(DetallesFragment.contexto, SweetAlert.ERROR_TYPE, SweetAlert.ESTUDIANTE)
+        new SweetAlert(DetallesFragment.contexto, SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
                 .setTitleText("¡ERROR!")
                 .setContentText(mensaje)
                 .show();

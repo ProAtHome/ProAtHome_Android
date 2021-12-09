@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/mtrl_card_spacing"
+    android:layout_marginStart="@dimen/mtrl_card_spacing"
+    android:layout_marginEnd="@dimen/mtrl_card_spacing">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/common_padding_default">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/imgGestionar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:visibility="visible"
+            android:layout_marginStart="@dimen/common_padding_min"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_rawRes="@raw/location_g"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"/>
+
+        <TextView
+            android:id="@+id/tvNombreCliente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_marginStart="@dimen/common_padding_min"
+            android:text="Sesion con: Nombre de Cliente"
+            app:layout_constraintStart_toEndOf="@id/imgGestionar"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/Titulos"/>
+
+        <TextView
+            android:id="@+id/tvNivel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nivel: Nivel de la Sesión"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_marginStart="@dimen/common_padding_min"
+            app:layout_constraintStart_toEndOf="@id/imgGestionar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/imgGestionar"
+            style="@style/Titulos"/>
+
+        <TextView
+            android:id="@+id/tvHorario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Horario: Horario de la Sesión"
+            android:layout_marginStart="@dimen/common_padding_min"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constraintStart_toEndOf="@id/imgGestionar"
+            app:layout_constraintBottom_toBottomOf="@id/imgGestionar"
+            style="@style/Titulos"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

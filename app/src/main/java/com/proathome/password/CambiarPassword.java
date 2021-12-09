@@ -39,7 +39,7 @@ public class CambiarPassword extends AppCompatActivity {
         this.codigo = intent.getStringExtra("codigo");
         this.tipoPerfil = intent.getIntExtra("tipoPerfil", 1);
         msgAlert("¡RECUERDA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.",
-                SweetAlert.ESTUDIANTE, SweetAlert.WARNING_TYPE);
+                SweetAlert.CLIENTE, SweetAlert.WARNING_TYPE);
     }
 
     @OnClick(R.id.guardarPassBTN)
@@ -59,16 +59,16 @@ public class CambiarPassword extends AppCompatActivity {
                         jsonObject.put("correo", this.correo);
                         jsonObject.put("codigo", this.codigo);
 
-                        if(this.tipoPerfil == Constants.TIPO_ESTUDIANTE)
+                        if(this.tipoPerfil == Constants.TIPO_CLIENTE)
                             this.urlApi = Constants.IP_80 + "/assets/lib/Reestablecimiento.php?guardar=true";
-                        else if(this.tipoPerfil == Constants.TIPO_PROFESOR)
+                        else if(this.tipoPerfil == Constants.TIPO_PROFESIONAL)
                             this.urlApi = Constants.IP_80 + "/assets/lib/Reestablecimiento.php?guardarPro=true";
 
                         WebServicesAPI enviarCodigo = new WebServicesAPI(output -> {
                             try{
                                 JSONObject respuesta = new JSONObject(output);
                                 if(respuesta.getBoolean("respuesta")){
-                                    new SweetAlert(this, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
+                                    new SweetAlert(this, SweetAlert.SUCCESS_TYPE, SweetAlert.CLIENTE)
                                             .setTitleText("¡GENIAL!")
                                             .setContentText(respuesta.getString("mensaje"))
                                             .setConfirmButton("OK", listener ->{
@@ -76,21 +76,21 @@ public class CambiarPassword extends AppCompatActivity {
                                                 finish();
                                             }).show();
                                 }else
-                                    msgAlert("¡ERROR!", respuesta.getString("mensaje"), SweetAlert.ESTUDIANTE, SweetAlert.ERROR_TYPE);
+                                    msgAlert("¡ERROR!", respuesta.getString("mensaje"), SweetAlert.CLIENTE, SweetAlert.ERROR_TYPE);
                             }catch (JSONException ex){
                                 ex.printStackTrace();
                             }
-                        }, this.urlApi,this, WebServicesAPI.PUT, jsonObject);
+                        }, this.urlApi, WebServicesAPI.PUT, jsonObject);
                         enviarCodigo.execute();
                     }catch (JSONException ex){
                         ex.printStackTrace();
                     }
                 }else
-                    msgAlert("¡ERROR!", "Las contraseñas no coinciden.", SweetAlert.ESTUDIANTE, SweetAlert.WARNING_TYPE);
+                    msgAlert("¡ERROR!", "Las contraseñas no coinciden.", SweetAlert.CLIENTE, SweetAlert.WARNING_TYPE);
             }else
-                msgAlert("¡ESPERA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.", SweetAlert.ESTUDIANTE, SweetAlert.WARNING_TYPE);
+                msgAlert("¡ESPERA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.", SweetAlert.CLIENTE, SweetAlert.WARNING_TYPE);
         }else
-            msgAlert("¡ESPERA!", "Escribe tu nueva contraseña.", SweetAlert.ESTUDIANTE, SweetAlert.WARNING_TYPE);
+            msgAlert("¡ESPERA!", "Escribe tu nueva contraseña.", SweetAlert.CLIENTE, SweetAlert.WARNING_TYPE);
     }
 
     @Override

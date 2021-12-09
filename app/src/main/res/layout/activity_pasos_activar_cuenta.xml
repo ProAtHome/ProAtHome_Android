@@ -97,7 +97,7 @@
             android:id="@+id/tvInfoP2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Agendaremos una cita para realizarte una entrevista."
+            android:text="Agendaremos una cita para conocerte."
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/animation_viewP2"
             style="@style/Textos"/>

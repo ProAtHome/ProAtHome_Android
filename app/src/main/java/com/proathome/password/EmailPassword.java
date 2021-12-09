@@ -49,9 +49,9 @@ public class EmailPassword extends AppCompatActivity {
 
             if(mather.find()) {
 
-                if(this.tipoPerfil == Constants.TIPO_ESTUDIANTE)
+                if(this.tipoPerfil == Constants.TIPO_CLIENTE)
                     this.urlApi = Constants.IP_80 + "/assets/lib/Reestablecimiento.php?getCodigo=true&correo=" + correo;
-                else if(this.tipoPerfil == Constants.TIPO_PROFESOR)
+                else if(this.tipoPerfil == Constants.TIPO_PROFESIONAL)
                     this.urlApi = Constants.IP_80 + "/assets/lib/Reestablecimiento.php?getCodigoPro=true&correo=" + correo;
 
                 WebServicesAPI enviarCodigo = new WebServicesAPI(output -> {
@@ -61,7 +61,7 @@ public class EmailPassword extends AppCompatActivity {
                             if(jsonObject.getBoolean("valido")){
                                 String token = jsonObject.getString("mensaje");
                                 System.out.println(token);
-                                new SweetAlert(this, SweetAlert.SUCCESS_TYPE, SweetAlert.ESTUDIANTE)
+                                new SweetAlert(this, SweetAlert.SUCCESS_TYPE, SweetAlert.CLIENTE)
                                         .setTitleText("¡GENIAL!")
                                         .setContentText("Email enviado, revisa tus correos no deseados.")
                                         .setConfirmButton("OK", listener ->{
@@ -75,18 +75,18 @@ public class EmailPassword extends AppCompatActivity {
                                         })
                                         .show();
                             }else
-                                msgAlert("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.ESTUDIANTE, SweetAlert.ERROR_TYPE);
+                                msgAlert("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.CLIENTE, SweetAlert.ERROR_TYPE);
                         }else
-                            msgAlert("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.ESTUDIANTE, SweetAlert.ERROR_TYPE);
+                            msgAlert("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.CLIENTE, SweetAlert.ERROR_TYPE);
                     }catch (JSONException ex){
                         ex.printStackTrace();
                     }
-                }, this.urlApi, this, WebServicesAPI.GET, null);
+                }, this.urlApi, WebServicesAPI.GET, null);
                 enviarCodigo.execute();
             }else
-                msgAlert("¡ESPERA!", "Ingresa un correo electronico válido.", SweetAlert.ESTUDIANTE, SweetAlert.WARNING_TYPE);
+                msgAlert("¡ESPERA!", "Ingresa un correo electronico válido.", SweetAlert.CLIENTE, SweetAlert.WARNING_TYPE);
         }else
-            msgAlert("¡ESPERA!", "Ingresa tu correo.", SweetAlert.ESTUDIANTE, SweetAlert.WARNING_TYPE);
+            msgAlert("¡ESPERA!", "Ingresa tu correo.", SweetAlert.CLIENTE, SweetAlert.WARNING_TYPE);
 
     }
 

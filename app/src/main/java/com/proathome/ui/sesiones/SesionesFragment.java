@@ -19,15 +19,18 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterGestionar;
-import com.proathome.servicios.clase.ServicioSesionesPagadas;
-import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
-import com.proathome.servicios.estudiante.ServicioTaskDispinibilidadClase;
-import com.proathome.servicios.estudiante.ServicioTaskSesionesEstudiante;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
+import com.proathome.servicios.servicio.ServicioSesionesPagadas;
+import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
+import com.proathome.servicios.cliente.ServicioTaskSesionesCliente;
 import com.proathome.fragments.NuevaSesionFragment;
 import com.proathome.fragments.PlanesFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.PermisosUbicacion;
 import com.proathome.utils.SweetAlert;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,9 +40,9 @@ import butterknife.Unbinder;
 public class SesionesFragment extends Fragment {
 
     public static ComponentAdapterGestionar myAdapter;
-    private String clasesHttpAddress = Constants.IP +
+    private String serviciosHttpAddress = Constants.IP +
             "/ProAtHome/apiProAtHome/cliente/obtenerSesiones/";
-    private ServicioTaskSesionesEstudiante sesionesTask;
+    private ServicioTaskSesionesCliente sesionesTask;
     private Unbinder mUnbinder;
     private int idCliente = 0;
     public static boolean SESIONES_PAGADAS_FINALIZADAS = false, PLAN_ACTIVO = false, disponibilidad;
@@ -63,7 +66,7 @@ public class SesionesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        sesionesTask = new ServicioTaskSesionesEstudiante(getContext(), clasesHttpAddress, this.idCliente,
+        sesionesTask = new ServicioTaskSesionesCliente(getContext(), serviciosHttpAddress, this.idCliente,
                 Constants.SESIONES_GESTIONAR);
         sesionesTask.execute();
         configAdapter();
@@ -81,7 +84,7 @@ public class SesionesFragment extends Fragment {
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
         SesionesFragment.contexto = getContext();
 
-        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
         if (fila.moveToFirst()) {
             this.idCliente = fila.getInt(0);
             baseDeDatos.close();
@@ -89,13 +92,33 @@ public class SesionesFragment extends Fragment {
             baseDeDatos.close();
         }
 
-        ServicioTaskDispinibilidadClase dispinibilidadClase = new ServicioTaskDispinibilidadClase(getContext(), this.idCliente);
-        dispinibilidadClase.execute();
+
+        webServiceDisponibilidad();
+
         ServicioSesionesPagadas servicioSesionesPagadas = new ServicioSesionesPagadas(this.idCliente);
         servicioSesionesPagadas.execute();
 
         return root;
 
+    }
+
+    private void webServiceDisponibilidad(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try{
+                JSONObject jsonObject = new JSONObject(response);
+                if(jsonObject.getBoolean("respuesta")){
+                    if(jsonObject.getBoolean("disponibilidad")){
+                        SesionesFragment.disponibilidad = true;
+                        SesionesFragment.horasDisponibles = jsonObject.getInt("horasDisponibles");
+                    }else
+                        SesionesFragment.disponibilidad = false;
+                }else
+                    msg("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.ERROR_TYPE);
+            }catch (JSONException ex){
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.DISPONIBILIDAD_SERVICIO + idCliente, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
     }
 
     public void configAdapter(){
@@ -107,7 +130,7 @@ public class SesionesFragment extends Fragment {
     }
 
     private void showAlert() {
-        PermisosUbicacion.showAlert(getContext(), SweetAlert.ESTUDIANTE);
+        PermisosUbicacion.showAlert(getContext(), SweetAlert.CLIENTE);
     }
 
     @OnClick({R.id.fabNuevaSesion, R.id.fabActualizar})
@@ -120,12 +143,12 @@ public class SesionesFragment extends Fragment {
                     NuevaSesionFragment.disponibilidad = true;
                     NuevaSesionFragment.horasDisponibles = SesionesFragment.horasDisponibles;
                     if((SesionesFragment.horasDisponibles / 60) == 1)
-                        msg("¡AVISO!", "Sólo puedes crear una clase con la hora faltante del bloque de la ruta de Aprendizaje Actual.", SweetAlert.WARNING_TYPE);
+                        msg("¡AVISO!", "Sólo puedes crear una servicio con la hora faltante del bloque de la ruta de Aprendizaje Actual.", SweetAlert.WARNING_TYPE);
                     else
                         validarPlan_Monedero();
                 }else{
                     NuevaSesionFragment.disponibilidad = false;
-                    msgError("¡ESPERA!", "El bloque actual tiene todas las horas ocupadas por clases, termina tus clases actuales y regresa por más.", SweetAlert.WARNING_TYPE);
+                    msgError("¡ESPERA!", "El bloque actual tiene todas las horas ocupadas por servicios, termina tus servicios actuales y regresa por más.", SweetAlert.WARNING_TYPE);
                 }
                 break;
             case R.id.fabActualizar:
@@ -136,14 +159,14 @@ public class SesionesFragment extends Fragment {
     }
 
     public void msgError(String titulo, String mensaje, int tipo){
-        new SweetAlert(this.contexto, tipo, SweetAlert.ESTUDIANTE)
+        new SweetAlert(this.contexto, tipo, SweetAlert.CLIENTE)
                 .setTitleText(titulo)
                 .setContentText(mensaje)
                 .show();
     }
 
     public void msg(String titulo, String mensaje, int tipo){
-        new SweetAlert(this.contexto, tipo, SweetAlert.ESTUDIANTE)
+        new SweetAlert(this.contexto, tipo, SweetAlert.CLIENTE)
                 .setTitleText(titulo)
                 .setContentText(mensaje)
                 .setConfirmButton("OK", sweetAlertDialog -> {
@@ -157,7 +180,7 @@ public class SesionesFragment extends Fragment {
         /*TODO FLUJO_PLANES: Verificar que tengamos más de X sesiones PAGADAS Y FINALIZADAS (Antes de dar click) y guardar en Constante.
                    -> SI, ENTONES, ¿Hay un plan distinto a PARTICULAR activo? -> SI, ENTONCES, No mostramos los planes.
                                                                               -> NO, ENTONCES, Mostramos MODAL con PLANES.
-                   -> NO, ENTONCES  Creamos Clase con PLAN -> PARTICULAR (Normal). */
+                   -> NO, ENTONCES  Creamos Servicio con PLAN -> PARTICULAR (Normal). */
         if(SesionesFragment.PLAN_ACTIVO && SesionesFragment.MONEDERO > 0){
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
@@ -182,10 +205,10 @@ public class SesionesFragment extends Fragment {
                 }
             }
         }else if(SesionesFragment.PLAN_ACTIVO && SesionesFragment.MONEDERO == 0){
-            new SweetAlert(getContext(), SweetAlert.WARNING_TYPE, SweetAlert.ESTUDIANTE)
+            new SweetAlert(getContext(), SweetAlert.WARNING_TYPE, SweetAlert.CLIENTE)
                     .setTitleText("¡ESPERA!")
                     .setContentText("Tienes un plan activo pero ya no tienes tiempo disponible," +
-                            " elimina una sesión o espera a que finalicen las clases que creaste.")
+                            " elimina una sesión o espera a que finalicen los servicios que creaste.")
                     .show();
         }else{
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
@@ -214,8 +237,8 @@ public class SesionesFragment extends Fragment {
     }
 
     private void tipoPlanMsg(String plan) {
-       /* new SweetAlert(getContext(), SweetAlert.NORMAL_TYPE, SweetAlert.ESTUDIANTE)
-                .setTitleText("Creación de clases con PLAN: " + plan)
+       /* new SweetAlert(getContext(), SweetAlert.NORMAL_TYPE, SweetAlert.CLIENTE)
+                .setTitleText("Creación de servicios con PLAN: " + plan)
                 .setConfirmButton("OK", sweetAlertDialog -> {
                     sweetAlertDialog.dismissWithAnimation();*/
                     NuevaSesionFragment nueva = new NuevaSesionFragment();

@@ -14,13 +14,13 @@ public class Constants {
 
 
 
-    /*Eliminar sesiones Profesor*/
+    /*Eliminar sesiones Profesional*/
     public static final int SOLICITUD_ELIMINAR = 1;
     public static final int ELIMINAR_SESION = 2;
 
     /*Tipos de usuario*/
-    public static final int TIPO_USUARIO_ESTUDIANTE = 1;
-    public static final int TIPO_USUARIO_PROFESOR = 2;
+    public static final int TIPO_USUARIO_CLIENTE = 1;
+    public static final int TIPO_USUARIO_PROFESIONAL = 2;
 
     /*Datos Fiscales*/
     public static final int GET_DATOS_FISCALES = 1;
@@ -40,10 +40,10 @@ public class Constants {
     public static final int SESIONES_GESTIONAR = 2;
     public static final int INFO_PERFIL = 1;
     public static final int INFO_PERFIl_EDITAR = 2;
-    /*Sincronizar Clases*/
+    /*Sincronizar Servicios*/
     public static final int VERIFICAR_DISPONIBLIDAD = 1;
     public static final int CAMBIAR_DISPONIBILIDAD = 2;
-    public static final int CAMBIAR_ESTATUS_CLASE = 3;
+    public static final int CAMBIAR_ESTATUS_SERVICIO = 3;
     public static final int GUARDAR_PROGRESO = 4;
     public static final int OBTENER_PROGRESO_INFO = 5;
     public static final int ESTATUS_INICIO = 10;
@@ -53,9 +53,9 @@ public class Constants {
     public static final int ESTATUS_ENCURSO_TE = 14;
     public static final int ESTATUS_ENPAUSA_TE = 15;
     public static final int ESTATUS_TERMINADO_TE = 16;
-    public static final int FINALIZAR_CLASE = 1;
-    public static final int VALIDAR_CLASE_FINALIZADA = 2;
-    public static final int VALIDAR_CLASE_FINALIZADA_AMBOS_PERFILES = 3;
+    public static final int FINALIZAR_SERVICIO = 1;
+    public static final int VALIDAR_SERVICIO_FINALIZADA = 2;
+    public static final int VALIDAR_SERVICIO_FINALIZADA_AMBOS_PERFILES = 3;
     /*Fin Sincronizar*/
     /*Examen*/
     public static final int INICIO_EXAMEN  = 1;
@@ -69,8 +69,8 @@ public class Constants {
     public static final int REINICIAR_EXAMEN = 11;
     /*Fin Examen*/
     /*Ayuda*/
-    public static final int TIPO_ESTUDIANTE = 1;
-    public static final int TIPO_PROFESOR = 2;
+    public static final int TIPO_CLIENTE = 1;
+    public static final int TIPO_PROFESIONAL = 2;
     /*Fin Ayuda*/
     /*Ruta de A*/
     public static final int INICIO_RUTA = 1;
@@ -172,10 +172,10 @@ public class Constants {
     public static final  int BLOQUE1_AVANZADO5= 1;
     public static final  int BLOQUE2_AVANZADO5= 2;
     /*FIN RUTA NIVELES*/
-    public static final String IP = "https://www.proathome.com.mx:8181";
-    public static final String IP_80 = "https://www.proathome.com.mx";
-    //public static final String IP = "http://192.168.100.8:8080";
-    //public static final String IP_80 = "http://192.168.100.8/ProAtHome";
+    //public static final String IP = "https://www.proathome.com.mx:8181";
+    //public static final String IP_80 = "https://www.proathome.com.mx";
+    public static final String IP = "http://192.168.100.8:8083";
+    public static final String IP_80 = "http://192.168.100.8/ProAtHome";
 
     /*Prueba Estaticos Singleton*/
 
@@ -187,12 +187,12 @@ public class Constants {
     public static String result_Ticket = null;
     public static URL obtenerURL_Ticket() throws MalformedURLException {
         URL url = null;
-        if(Constants.tipoUsuario_Ticket == Constants.TIPO_USUARIO_ESTUDIANTE){
+        if(Constants.tipoUsuario_Ticket == Constants.TIPO_USUARIO_CLIENTE){
             url = new URL(Constants.linkObtenerMsgTicket + Constants.idUsuario_Ticket + "/" +
-                Constants.TIPO_USUARIO_ESTUDIANTE + "/" + Constants.idTicket_Ticket);
-        }else if(Constants.tipoUsuario_Ticket == Constants.TIPO_USUARIO_PROFESOR){
+                Constants.TIPO_USUARIO_CLIENTE + "/" + Constants.idTicket_Ticket);
+        }else if(Constants.tipoUsuario_Ticket == Constants.TIPO_USUARIO_PROFESIONAL){
             url = new URL(Constants.linkObtenerMsgTicket + Constants.idUsuario_Ticket + "/" +
-                    Constants.TIPO_USUARIO_PROFESOR + "/" + Constants.idTicket_Ticket);
+                    Constants.TIPO_USUARIO_PROFESIONAL + "/" + Constants.idTicket_Ticket);
         }
         return url;
     }
@@ -203,10 +203,10 @@ public class Constants {
     public static boolean TE_activado_DISPONIBILIDAD_PROGRESO;
     public static int progresoSegundosTE_DISPONIBILIDAD_PROGRESO;
     public static int progresoTE_DISPONIBILIDAD_PROGRESO;
-    public static String linkSincronizarEstudiante_DISPONIBILIDAD_PROGRESO = Constants.IP +
-            "/ProAtHome/apiProAtHome/cliente/validarEstatusClase/";
-    public static String linkSincronizarProfesor_DISPONIBILIDAD_PROGRESO = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesor/validarEstatusClase/";
+    public static String linkSincronizarCliente_DISPONIBILIDAD_PROGRESO = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/validarEstatusServicio/";
+    public static String linkSincronizarProfesional_DISPONIBILIDAD_PROGRESO = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesional/validarEstatusServicio/";
     public static int idPerfil_DISPONIBILIDAD_PROGRESO, tipoPerfil_DISPONIBILIDAD_PROGRESO,
             idSesion_DISPONIBILIDAD_PROGRESO;
     public static Context contexto_DISPONIBILIDAD_PROGRESO;
@@ -214,7 +214,7 @@ public class Constants {
     public static String result_DISPONIBILIDAD_PROGRESO;
     public static int progreso_DISPONIBILIDAD_PROGRESO, progresoSegundos_DISPONIBILIDAD_PROGRESO,
             estatus_DISPONIBILIDAD_PROGRESO;
-    public static boolean dispProfesor_DISPONIBILIDAD_PROGRESO, dispEstudiante_DISPONIBILIDAD_PROGRESO;
+    public static boolean dispProfesional_DISPONIBILIDAD_PROGRESO, dispCliente_DISPONIBILIDAD_PROGRESO;
     public static URL obtenerURL_DISPONIBILIDAD_PROGRESO() throws MalformedURLException {
         URL url = new URL(Constants.wsURL_DISPONIBILIDAD_PROGRESO);
         return url;
@@ -222,10 +222,10 @@ public class Constants {
     /*FIN ASYNCTASK SERVICIO OBTENER DISPONIBILIDAD Y PROGRESO*/
 
     /*ASYNCTASK SERVICIO OBTENER PROGRESO*/
-    public static String linkSincronizarEstudiante_PROGRESO = Constants.IP +
-            "/ProAtHome/apiProAtHome/cliente/validarEstatusClase/";
-    public static String linkSincronizarProfesor_PROGRESO = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesor/validarEstatusClase/";
+    public static String linkSincronizarCliente_PROGRESO = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/validarEstatusServicio/";
+    public static String linkSincronizarProfesional_PROGRESO = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesional/validarEstatusServicio/";
     public static int idPerfil_PROGRESO, tipoPerfil_PROGRESO, idSesion_PROGRESO, progresoSegundosS_PROGRESO,
             progresoS_PROGRESO;
     public static Context contexto_PROGRESO;
@@ -239,7 +239,7 @@ public class Constants {
 
     /*ASYNCTASK SERVICIO GUARDAR PROGRESO*/
     public static String linkActualizarProgreso_GUARDAR_PROGRESO = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesor/actualizarProgresoClase/";
+            "/ProAtHome/apiProAtHome/profesional/actualizarProgresoServicio/";
     public static String wsURL_GUARDAR_PROGRESO;
     public static Context contexto_GUARDAR_PROGRESO;
     public static int idPerfil_GUARDAR_PROGRESO, tipoDeTiempo_GUARDAR_PROGRESO, idSesion_GUARDAR_PROGRESO,
@@ -251,11 +251,11 @@ public class Constants {
     }
     /*FIN ASYNCTASK GUARDAR PROGRESO*/
 
-    /*ASYNCTASK CAMBIAR ESTATUS CLASE*/
-    public static String linkCambiarEstatusProfesor_CAMBIAR_ESTATUS = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesor/cambiarEstatusClase/";
-    public static String linkCambiarEstatusEstudiante_CAMBIAR_ESTATUS = Constants.IP +
-            "/ProAtHome/apiProAtHome/cliente/cambiarEstatusClase/";
+    /*ASYNCTASK CAMBIAR ESTATUS SERVICIO*/
+    public static String linkCambiarEstatusProfesional_CAMBIAR_ESTATUS = Constants.IP +
+            "/ProAtHome/apiProAtHome/profesional/cambiarEstatusServicio/";
+    public static String linkCambiarEstatusCliente_CAMBIAR_ESTATUS = Constants.IP +
+            "/ProAtHome/apiProAtHome/cliente/cambiarEstatusServicio/";
     public static Context contexto_CAMBIAR_ESTATUS;
     public static String wsURL_CAMBIAR_ESTATUS;
     public static String result_CAMBIAR_ESTATUS;
@@ -265,6 +265,6 @@ public class Constants {
         URL url = new URL(Constants.wsURL_CAMBIAR_ESTATUS);
         return url;
     }
-    /*ASYNCTASK CAMBIAR ESTATUS CLASE*/
+    /*ASYNCTASK CAMBIAR ESTATUS SERVICIO*/
 
 }

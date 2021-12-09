@@ -52,9 +52,9 @@ public class CodigoEmail extends AppCompatActivity {
         if(!d1S.trim().equals("") && !d2S.trim().equals("") && !d3S.trim().equals("") && !d4S.trim().equals("")){
             String codigo = d1S + d2S + d3S + d4S;
 
-            if(this.tipoPerfil == Constants.TIPO_ESTUDIANTE)
+            if(this.tipoPerfil == Constants.TIPO_CLIENTE)
                 this.urlApi = Constants.IP_80 + "/assets/lib/Reestablecimiento.php?validar=true&correo=" + this.correo + "&codigo=" +  codigo + "&token=" + this.token;
-            else if(this.tipoPerfil == Constants.TIPO_PROFESOR)
+            else if(this.tipoPerfil == Constants.TIPO_PROFESIONAL)
                 this.urlApi = Constants.IP_80 + "/assets/lib/Reestablecimiento.php?validarPro=true&correo=" + this.correo + "&codigo=" +  codigo + "&token=" + this.token;
 
            WebServicesAPI enviarCodigo = new WebServicesAPI(output -> {
@@ -70,16 +70,16 @@ public class CodigoEmail extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }else
-                            msgAlert("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.ESTUDIANTE, SweetAlert.ERROR_TYPE);
+                            msgAlert("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.CLIENTE, SweetAlert.ERROR_TYPE);
                     }else
-                        msgAlert("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.ESTUDIANTE, SweetAlert.ERROR_TYPE);
+                        msgAlert("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.CLIENTE, SweetAlert.ERROR_TYPE);
                 }catch(JSONException ex){
                     ex.printStackTrace();
                 }
-            }, this.urlApi, this, WebServicesAPI.GET, null);
+            }, this.urlApi, WebServicesAPI.GET, null);
             enviarCodigo.execute();
         }else
-            msgAlert("¡ESPERA!", "Ingresa el codigo completo.", SweetAlert.ESTUDIANTE, SweetAlert.WARNING_TYPE);
+            msgAlert("¡ESPERA!", "Ingresa el codigo completo.", SweetAlert.CLIENTE, SweetAlert.WARNING_TYPE);
     }
 
     public void msgAlert(String titulo, String mensaje, int tipoPerfil, int tipoMsg){

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ProAtHome</string>
-    <string name="title_activity_inicio_estudiante">inicioEstudiante</string>
+    <string name="title_activity_inicio_cliente">inicioCliente</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -213,7 +213,7 @@
     <string name="menu_start">Nueva Sesión</string>
     <string name="menu_favorites">Gestionar Sesiones</string>
     <string name="direccion">Dirección:</string>
-    <string name="title_activity_inicio_profesor">inicioProfesor</string>
+    <string name="title_activity_inicio_profesional">inicioProfesional</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
@@ -223,18 +223,18 @@
     <string name="menu_send">Send</string>
     <string name="menu_material">Material</string>
     <string name="cambiar_foto">Cambiar foto</string>
-    <string name="profesor_asignado">Profesor Asignado</string>
+    <string name="profesional_asignado">Profesional Asignado</string>
     <string name="horario">Horario</string>
     <string name="lugar">lugar (Dirección)</string>
     <string name="tiempo">Tiempo</string>
     <string name="nivel">Nivel</string>
-    <string name="tipo">Tipo de Clase</string>
+    <string name="tipo">Tipo de Servicio</string>
     <string name="observaciones">Observaciones</string>
     <string name="solicitar">Solicitar</string>
     <string name="actualizar">Actualizar</string>
     <string name="eliminar">Eliminar</string>
     <string name="menu_ayuda">Ayuda</string>
-    <string name="match">Tomar Clase</string>
+    <string name="match">Tomar Servicio</string>
     <string name="seguir_buscando">Seguir Buscando</string>
     <string name="basico1">Básico 1</string>
     <string name="basico2">Básico 2</string>

@@ -40,7 +40,7 @@ public class ComponentAdapterMsgTickets extends RecyclerView.Adapter<ComponentAd
         holder.tvUsuario.setText(componentMsgTickets.getNombreUsuario());
         holder.tvMsg.setText(componentMsgTickets.getMensaje());
         holder.tipoUsuario = componentMsgTickets.getTipoUsuario();
-        if(holder.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
+        if(holder.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL)
             holder.tvUsuario.setTextColor(holder.contexto.getResources().getColor(R.color.color_secondary));
         if(componentMsgTickets.isOperador())
             holder.cardView.setCardBackgroundColor(Color.GRAY);

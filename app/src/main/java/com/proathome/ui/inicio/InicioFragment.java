@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
-import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
-import com.proathome.servicios.estudiante.ServicioTaskSesionesEstudiante;
+import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
+import com.proathome.servicios.cliente.ServicioTaskSesionesCliente;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapter;
 import com.proathome.utils.Constants;
@@ -23,9 +23,9 @@ import butterknife.Unbinder;
 public class InicioFragment extends Fragment {
 
     public static ComponentAdapter myAdapter;
-    private String clasesHttpAddress = Constants.IP +
+    private String serviciosHttpAddress = Constants.IP +
             "/ProAtHome/apiProAtHome/cliente/obtenerSesiones/";
-    private ServicioTaskSesionesEstudiante sesionesTask;
+    private ServicioTaskSesionesCliente sesionesTask;
     private Unbinder mUnbinder;
     public static LottieAnimationView lottieAnimationView;
     @BindView(R.id.recyclerView)
@@ -39,11 +39,11 @@ public class InicioFragment extends Fragment {
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(),"sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
 
-        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
         int idCliente = 0;
         if (fila.moveToFirst()) {
             idCliente = fila.getInt(0);
-            sesionesTask = new ServicioTaskSesionesEstudiante(getContext(), clasesHttpAddress, idCliente,
+            sesionesTask = new ServicioTaskSesionesCliente(getContext(), serviciosHttpAddress, idCliente,
                     Constants.SESIONES_INICIO);
             sesionesTask.execute();
             configAdapter();

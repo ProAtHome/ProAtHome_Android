@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/common_padding_default"
+            tools:context=".fragments.PreOrdenServicio">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/color_surface">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tvAyuda"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ayudanos a validar tu método de pago."
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+                        style="@style/Titulos"/>
+
+                    <TextView
+                        android:id="@+id/tvMetodoRegistrado"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Método registrado:"
+                        android:layout_marginTop="@dimen/common_padding_middle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvAyuda"
+                        style="@style/Textos"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilTitular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:endIconMode="custom"
+                        app:startIconDrawable="@drawable/ic_account"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvMetodoRegistrado"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etTitular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Titular de la tarjeta"
+                            android:inputType="textPersonName"
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorAzul"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilTarjeta"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilTitular"
+                        app:endIconMode="custom"
+                        app:startIconDrawable="@drawable/ic_card"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etTarjeta"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Número de Tarjeta"
+                            android:inputType="number"
+                            android:maxLength="16"
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorAzul"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilMes"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilTarjeta"
+                        app:endIconMode="custom"
+                        app:startIconDrawable="@drawable/ic_date"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etMes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Mes (MM)"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorAzul"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilAno"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilMes"
+                        app:endIconMode="custom"
+                        app:startIconDrawable="@drawable/ic_date"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etAno"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Año (AA)"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorAzul"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilCvv"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tilAno"
+                        app:endIconMode="custom"
+                        app:startIconDrawable="@drawable/ic_card"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etCvv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="CVV"
+                            android:inputType="number"
+                            android:maxLength="4"
+                            android:fontFamily="@font/din"
+                            android:textColor="@color/colorAzul"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <View
+                        android:id="@+id/divider"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimaryDark"
+                        app:layout_constraintTop_toBottomOf="@id/tilCvv"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="@dimen/common_padding_middle"/>
+
+                    <TextView
+                        android:id="@+id/tvPreOrden"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Pre-Costo de el servicio"
+                        android:layout_marginTop="@dimen/common_padding_default"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/divider"
+                        style="@style/Titulos"/>
+
+                    <TextView
+                        android:id="@+id/tvSesion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_default"
+                        android:text="Servicio: Bloque 1 / Básico 1 / Básico"
+                        app:layout_constraintTop_toBottomOf="@id/tvPreOrden"
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/Textos"/>
+
+                    <TextView
+                        android:id="@+id/tvTiempo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:text="Tiempo: 3 HRS"
+                        app:layout_constraintTop_toBottomOf="@id/tvSesion"
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/Textos"/>
+
+                    <TextView
+                        android:id="@+id/tvCosto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:text="Total: 0.00 MXN"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvTiempo"
+                        style="@style/Titulos"/>
+
+                    <Button
+                        android:id="@+id/validar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:text="VALIDAR"
+                        android:backgroundTint="@color/colorAzul"
+                        android:fontFamily="@font/din"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvCosto"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

@@ -29,10 +29,10 @@
                     tools:context=".MapsFragment" />
 
                 <TextView
-                    android:id="@+id/tuProfesor"
+                    android:id="@+id/tuProfesional"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tu profesor:"
+                    android:text="Tu profesional:"
                     android:layout_margin="@dimen/common_padding_min"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -40,10 +40,10 @@
                     style="@style/Titulos"/>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/perfilEstudianteCard"
+                    android:id="@+id/perfilClienteCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/tuProfesor"
+                    app:layout_constraintTop_toBottomOf="@id/tuProfesional"
                     android:layout_marginStart="@dimen/common_padding_min"
                     android:layout_marginEnd="@dimen/common_padding_min"
                     android:layout_marginTop="@dimen/common_padding_min"
@@ -65,12 +65,12 @@
                             app:layout_constraintTop_toTopOf="parent"/>
 
                         <TextView
-                            android:id="@+id/profesor"
+                            android:id="@+id/profesional"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/common_padding_default"
                             android:layout_marginTop="16dp"
-                            android:text="Nombre de Profesor"
+                            android:text="Nombre de Profesional"
                             app:layout_constraintStart_toEndOf="@id/foto"
                             app:layout_constraintTop_toTopOf="parent"
                             style="@style/Titulos"/>
@@ -79,18 +79,18 @@
                             android:id="@+id/descripcionTV"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Descripcion de Profesor"
+                            android:text="Descripcion de Profesional"
                             android:layout_marginStart="@dimen/common_padding_default"
                             app:layout_constraintStart_toEndOf="@id/foto"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/profesor"
+                            app:layout_constraintTop_toBottomOf="@id/profesional"
                             style="@style/Textos"/>
 
                         <TextView
                             android:id="@+id/correoTV"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Correo de Profesor"
+                            android:text="Correo de Profesional"
                             android:layout_marginStart="@dimen/common_padding_default"
                             android:textColor="@color/colorGris"
                             app:layout_constraintStart_toEndOf="@id/foto"
@@ -107,9 +107,9 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:background="@android:color/darker_gray"
-                    app:layout_constraintStart_toStartOf="@id/perfilEstudianteCard"
-                    app:layout_constraintEnd_toEndOf="@id/perfilEstudianteCard"
-                    app:layout_constraintTop_toBottomOf="@id/perfilEstudianteCard"
+                    app:layout_constraintStart_toStartOf="@id/perfilClienteCard"
+                    app:layout_constraintEnd_toEndOf="@id/perfilClienteCard"
+                    app:layout_constraintTop_toBottomOf="@id/perfilClienteCard"
                     android:layout_marginTop="@dimen/common_padding_min"/>
 
                 <TextView
@@ -230,7 +230,7 @@
                             android:layout_height="wrap_content"/>
 
                         <TextView
-                            android:id="@+id/tipoClase"
+                            android:id="@+id/tipoServicio"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/observaciones"
@@ -243,7 +243,7 @@
                             android:textColor="@color/colorAzul"
                             android:drawablePadding="@dimen/common_padding_min"
                             android:gravity="center_vertical|bottom"
-                            android:text="Tipo Clase"
+                            android:text="Tipo Servicio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
 
@@ -256,7 +256,7 @@
                             android:textStyle="bold|italic"
                             android:layout_marginStart="@dimen/common_padding_min"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tipoClase"
+                            app:layout_constraintTop_toBottomOf="@id/tipoServicio"
                             style="@style/Textos"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -268,7 +268,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/common_padding_min"
-                    android:text="Iniciar Clase"
+                    android:text="Iniciar Servicio"
                     android:layout_margin="@dimen/common_padding_min"
                     android:backgroundTint="@color/colorAzul"
                     android:fontFamily="@font/din"

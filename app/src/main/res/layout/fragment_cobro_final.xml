@@ -85,7 +85,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/common_padding_default"
-                        android:text="Clase: Bloque 1 / Básico 1 / Básico"
+                        android:text="Servicio: Bloque 1 / Básico 1 / Básico"
                         app:layout_constraintTop_toBottomOf="@id/tvPreOrden"
                         app:layout_constraintStart_toStartOf="parent"
                         style="@style/Textos"/>
@@ -118,7 +118,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/common_padding_min"
-                        android:text="PLAN DE CLASE: "
+                        android:text="PLAN DE SERVICIO: "
                         android:textStyle="bold|italic"
                         android:textColor="@color/colorGris"
                         app:layout_constraintTop_toBottomOf="@id/tvTiempoExtra"

@@ -21,16 +21,16 @@ import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 public class ServicioTaskDatosFiscales extends AsyncTask<Void,Void,String> {
 
     private Context contexto;
     private int tipoPerfil, idUsuario, tipoPeticion;
-    private String linkEstudiantesGET = Constants.IP + "/ProAtHome/apiProAtHome/cliente/getDatosFiscales/";
-    private String linkProfesoresGET = Constants.IP + "/ProAtHome/apiProAtHome/profesor/getDatosFiscales/";
-    private String linkEstudiantesUP = Constants.IP + "/ProAtHome/apiProAtHome/cliente/guardarDatosFiscales";
-    private String linkProfesoresUP = Constants.IP + "/ProAtHome/apiProAtHome/profesor/guardarDatosFiscales";
+    private String linkClientesGET = Constants.IP + "/ProAtHome/apiProAtHome/cliente/getDatosFiscales/";
+    private String linkProfesionalesGET = Constants.IP + "/ProAtHome/apiProAtHome/profesional/getDatosFiscales/";
+    private String linkClientesUP = Constants.IP + "/ProAtHome/apiProAtHome/cliente/guardarDatosFiscales";
+    private String linkProfesionalesUP = Constants.IP + "/ProAtHome/apiProAtHome/profesional/guardarDatosFiscales";
     private String razonSocial, tipoPersona, rfc, cfdi;
     private DialogFragment dialogFragment;
 
@@ -61,18 +61,18 @@ public class ServicioTaskDatosFiscales extends AsyncTask<Void,Void,String> {
         if(this.tipoPeticion == Constants.GET_DATOS_FISCALES){
             try{
                 URL url = null;
-                if(this.tipoPerfil == Constants.TIPO_USUARIO_ESTUDIANTE)
-                    url = new URL(this.linkEstudiantesGET + this.idUsuario);
-                else if(this.tipoPerfil == Constants.TIPO_USUARIO_PROFESOR)
-                    url = new URL(this.linkProfesoresGET + this.idUsuario);
-                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+                if(this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE)
+                    url = new URL(this.linkClientesGET + this.idUsuario);
+                else if(this.tipoPerfil == Constants.TIPO_USUARIO_PROFESIONAL)
+                    url = new URL(this.linkProfesionalesGET + this.idUsuario);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
                 urlConnection.setRequestMethod("GET");
                 urlConnection.setConnectTimeout(15000);
                 urlConnection.setReadTimeout(15000);
 
                 int responseCode = urlConnection.getResponseCode();
-                if(responseCode == HttpsURLConnection.HTTP_OK){
+                if(responseCode == HttpURLConnection.HTTP_OK){
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuffer stringBuffer = new StringBuffer("");
                     String linea = "";
@@ -95,17 +95,17 @@ public class ServicioTaskDatosFiscales extends AsyncTask<Void,Void,String> {
         }else if(this.tipoPeticion == Constants.UP_DATOS_FISCALES){
             try{
                 URL url = null;
-                if(this.tipoPerfil == Constants.TIPO_USUARIO_ESTUDIANTE)
-                    url = new URL(this.linkEstudiantesUP);
-                else if(this.tipoPerfil == Constants.TIPO_USUARIO_PROFESOR)
-                    url = new URL(this.linkProfesoresUP);
+                if(this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE)
+                    url = new URL(this.linkClientesUP);
+                else if(this.tipoPerfil == Constants.TIPO_USUARIO_PROFESIONAL)
+                    url = new URL(this.linkProfesionalesUP);
 
-                HttpsURLConnection httpURLConnection = (HttpsURLConnection)url.openConnection();
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
                 JSONObject jsonDatos = new JSONObject();
-                if(this.tipoPerfil == Constants.TIPO_USUARIO_ESTUDIANTE)
-                    jsonDatos.put("idEstudiante", this.idUsuario);
-                else if(this.tipoPerfil == Constants.TIPO_USUARIO_PROFESOR)
-                    jsonDatos.put("idProfesor", this.idUsuario);
+                if(this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE)
+                    jsonDatos.put("idCliente", this.idUsuario);
+                else if(this.tipoPerfil == Constants.TIPO_USUARIO_PROFESIONAL)
+                    jsonDatos.put("idProfesional", this.idUsuario);
                 jsonDatos.put("tipoPersona", this.tipoPersona);
                 jsonDatos.put("razonSocial", this.razonSocial);
                 jsonDatos.put("rfc", this.rfc);
@@ -128,7 +128,7 @@ public class ServicioTaskDatosFiscales extends AsyncTask<Void,Void,String> {
                 outputStream.close();
 
                 int responseCode = httpURLConnection.getResponseCode();
-                if(responseCode == HttpsURLConnection.HTTP_OK){
+                if(responseCode == HttpURLConnection.HTTP_OK){
 
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                             httpURLConnection.getInputStream()));
@@ -179,7 +179,7 @@ public class ServicioTaskDatosFiscales extends AsyncTask<Void,Void,String> {
                             DatosFiscalesFragment.spCFDI.setSelection(1);
                     }
                 }else if(this.tipoPeticion == Constants.UP_DATOS_FISCALES){
-                    new SweetAlert(this.contexto, SweetAlert.SUCCESS_TYPE, this.tipoPerfil == Constants.TIPO_USUARIO_ESTUDIANTE ? SweetAlert.ESTUDIANTE : SweetAlert.PROFESOR)
+                    new SweetAlert(this.contexto, SweetAlert.SUCCESS_TYPE, this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE ? SweetAlert.CLIENTE : SweetAlert.PROFESIONAL)
                             .setTitleText("¡GENIAL!")
                             .setContentText(jsonObject.getString("mensaje"))
                             .setConfirmButton("OK", sweetAlertDialog -> {
@@ -197,7 +197,7 @@ public class ServicioTaskDatosFiscales extends AsyncTask<Void,Void,String> {
     }
 
     public void msgError(String titulo, String mensaje){
-        new SweetAlert(this.contexto, SweetAlert.ERROR_TYPE, this.tipoPerfil == Constants.TIPO_USUARIO_ESTUDIANTE ? SweetAlert.ESTUDIANTE : SweetAlert.PROFESOR)
+        new SweetAlert(this.contexto, SweetAlert.ERROR_TYPE, this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE ? SweetAlert.CLIENTE : SweetAlert.PROFESIONAL)
                 .setTitleText(titulo)
                 .setContentText(mensaje)
                 .show();

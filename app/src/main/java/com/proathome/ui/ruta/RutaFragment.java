@@ -18,9 +18,9 @@ import com.proathome.RutaAvanzado;
 import com.proathome.RutaBasico;
 import com.proathome.R;
 import com.proathome.RutaIntermedio;
-import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
-import com.proathome.servicios.estudiante.ServicioExamenDiagnostico;
-import com.proathome.servicios.estudiante.ServicioTaskRuta;
+import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
+import com.proathome.servicios.cliente.ServicioExamenDiagnostico;
+import com.proathome.servicios.cliente.ServicioTaskRuta;
 import com.proathome.examen.Diagnostico1;
 import com.proathome.utils.Constants;
 import butterknife.ButterKnife;
@@ -54,7 +54,7 @@ public class RutaFragment extends Fragment {
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(),"sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
 
         if (fila.moveToFirst()) {
             idCliente = fila.getInt(0);

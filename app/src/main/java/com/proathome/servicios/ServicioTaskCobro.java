@@ -5,16 +5,11 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import androidx.fragment.app.FragmentTransaction;
-
-import com.proathome.ClaseEstudiante;
+import com.proathome.ServicioCliente;
 import com.proathome.fragments.MasTiempo;
-import com.proathome.servicios.clase.ServicioTaskActPagoTE;
-import com.proathome.servicios.clase.ServicioTaskFinalizarClase;
-import com.proathome.servicios.clase.ServicioTaskMasTiempo;
-import com.proathome.servicios.clase.ServicioTaskSumarClaseRuta;
+import com.proathome.servicios.servicio.ServicioTaskActPagoTE;
+import com.proathome.servicios.servicio.ServicioTaskMasTiempo;
 import com.proathome.fragments.CobroFinalFragment;
-import com.proathome.fragments.DetallesFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
@@ -26,12 +21,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
 
@@ -41,18 +35,18 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
     public static final int ENTENDIDO_TE = 4;
     private String linkCobro = Constants.IP_80 + "/assets/lib/Cargo.php";
     private String linkObtenerToken = Constants.IP + "/ProAtHome/apiProAtHome/cliente/obtenerToken/";
-    private int idSesion, idEstudiante, tipo_boton;
+    private int idSesion, idCliente, tipo_boton;
     private String idCard, deviceId;
     private double cobro;
     private Context contexto;
     private ProgressDialog progressDialog;
 
-    public ServicioTaskCobro(Context contexto, String deviceId, int idSesion, int idEstudiante, String idCard,
+    public ServicioTaskCobro(Context contexto, String deviceId, int idSesion, int idCliente, String idCard,
                              double cobro, int tipo_boton){
         this.contexto = contexto;
         this.deviceId = deviceId;
         this.idSesion = idSesion;
-        this.idEstudiante = idEstudiante;
+        this.idCliente = idCliente;
         this.idCard = idCard;
         this.cobro = cobro;
         this.tipo_boton = tipo_boton;
@@ -71,14 +65,14 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
 
         try {
             URL url = new URL(this.linkCobro);
-            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
             separadoresPersonalizados.setDecimalSeparator('.');
             DecimalFormat formato1 = new DecimalFormat("#.00", separadoresPersonalizados);
             JSONObject parametrosPost= new JSONObject();
             parametrosPost.put("idCard", this.idCard);
-            parametrosPost.put("nombreEstudiante", CobroFinalFragment.nombreEstudiante);
+            parametrosPost.put("nombreCliente", CobroFinalFragment.nombreCliente);
             parametrosPost.put("correo", CobroFinalFragment.correo);
             parametrosPost.put("cobro", formato1.format(this.cobro));
             parametrosPost.put("descripcion", "Cargo ProAtHome - " + CobroFinalFragment.sesion);
@@ -101,7 +95,7 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
             os.close();
 
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == HttpsURLConnection.HTTP_OK){
+            if(responseCode == HttpURLConnection.HTTP_OK){
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer sb= new StringBuffer("");
                 String linea="";
@@ -143,15 +137,15 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
                 actPagoTE.execute();
                 /*
                 if(DetallesFragment.planSesion.equalsIgnoreCase("PARTICULAR")){
-                    ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante,
-                            this.idSesion, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion, ClaseEstudiante.tiempo,
-                            TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ClaseEstudiante.idSeccion,
+                    ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idCliente,
+                            this.idSesion, TabuladorCosto.getCosto(ServicioCliente.idSeccion, ServicioCliente.tiempo,
+                            TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ServicioCliente.idSeccion,
                             CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR),
                             DetallesFragment.planSesion, "Pagado");
                     ordenPago.execute();
                 }else{
-                    ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idEstudiante,
-                            this.idSesion, 0, TabuladorCosto.getCosto(ClaseEstudiante.idSeccion,
+                    ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idCliente,
+                            this.idSesion, 0, TabuladorCosto.getCosto(ServicioCliente.idSeccion,
                             CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR),
                             DetallesFragment.planSesion, "Pagado");
                     ordenPago.execute();
@@ -159,7 +153,7 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
 
                 //Generamos el tiempo extra y la vida sigue.
                 ServicioTaskMasTiempo masTiempo = new ServicioTaskMasTiempo(this.contexto, this.idSesion,
-                        this.idEstudiante, CobroFinalFragment.progresoTotal);
+                        this.idCliente, CobroFinalFragment.progresoTotal);
                 masTiempo.execute();
             }else//Mostramos el error.
                 showMsg("¡ERROR!",jsonObject.getString("mensaje"), SweetAlert.ERROR_TYPE);
@@ -171,7 +165,7 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
     }
 
     public void showMsg(String titulo, String mensaje, int tipo){
-        new SweetAlert(this.contexto, tipo, SweetAlert.ESTUDIANTE)
+        new SweetAlert(this.contexto, tipo, SweetAlert.CLIENTE)
                 .setTitleText(titulo)
                 .setContentText(mensaje)
                 .setConfirmButton("OK", sweetAlertDialog -> {
@@ -180,9 +174,9 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
                     MasTiempo masTiempo = new MasTiempo();
                     Bundle bundle = new Bundle();
                     bundle.putInt("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
-                    bundle.putInt("idEstudiante", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
+                    bundle.putInt("idCliente", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
                     masTiempo.setArguments(bundle);
-                    masTiempo.show(ClaseEstudiante.obtenerFargment(Constants.fragmentActivity), "Tiempo Extra");
+                    masTiempo.show(ServicioCliente.obtenerFargment(Constants.fragmentActivity), "Tiempo Extra");
 
                 })
                 .show();

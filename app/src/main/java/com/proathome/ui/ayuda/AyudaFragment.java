@@ -3,8 +3,7 @@ package com.proathome.ui.ayuda;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +15,7 @@ import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterTicket;
 import com.proathome.fragments.NuevoTicketFragment;
 import com.proathome.servicios.ayuda.ServicioTaskObtenerTickets;
-import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.utils.Constants;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ import butterknife.Unbinder;
 public class AyudaFragment extends Fragment {
 
     private Unbinder mUnbinder;
-    private int idEstudiante;
+    private int idCliente;
     public static ComponentAdapterTicket componentAdapterTicket;
     public static LottieAnimationView lottieAnimationView;
     public static RecyclerView recyclerView;
@@ -44,10 +43,10 @@ public class AyudaFragment extends Fragment {
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
 
         if(fila.moveToFirst())
-            this.idEstudiante = fila.getInt(0);
+            this.idCliente = fila.getInt(0);
         else
             baseDeDatos.close();
 
@@ -56,8 +55,8 @@ public class AyudaFragment extends Fragment {
         configAdapter();
         configRecyclerView();
 
-        ServicioTaskObtenerTickets obtenerTickets = new ServicioTaskObtenerTickets(getContext(), this.idEstudiante,
-                Constants.TIPO_USUARIO_ESTUDIANTE);
+        ServicioTaskObtenerTickets obtenerTickets = new ServicioTaskObtenerTickets(getContext(), this.idCliente,
+                Constants.TIPO_USUARIO_CLIENTE);
         obtenerTickets.execute();
 
         return view;
@@ -66,7 +65,7 @@ public class AyudaFragment extends Fragment {
     @OnClick(R.id.nuevoTopico)
     public void onClick(){
         Bundle bundle = new Bundle();
-        bundle.putInt("tipoUsuario", Constants.TIPO_USUARIO_ESTUDIANTE);
+        bundle.putInt("tipoUsuario", Constants.TIPO_USUARIO_CLIENTE);
         bundle.putInt("idSesion", 0);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         NuevoTicketFragment ticketAyuda = new NuevoTicketFragment();

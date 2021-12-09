@@ -73,10 +73,10 @@ public class DatosFiscalesFragment extends DialogFragment {
         ServicioTaskDatosFiscales datosFiscales = new ServicioTaskDatosFiscales(getContext(), this.tipoPerfil, this.idUsuario, Constants.GET_DATOS_FISCALES);
         datosFiscales.execute();
 
-        if(this.tipoPerfil == Constants.TIPO_USUARIO_ESTUDIANTE){
+        if(this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE){
             toolbar.setBackgroundColor(getResources().getColor(R.color.colorAzul));
             btnActualizar.setBackgroundColor(getResources().getColor(R.color.colorAzul));
-        }else if(this.tipoPerfil == Constants.TIPO_USUARIO_PROFESOR){
+        }else if(this.tipoPerfil == Constants.TIPO_USUARIO_PROFESIONAL){
             toolbar.setBackgroundColor(getResources().getColor(R.color.colorAzul));
             btnActualizar.setBackgroundColor(getResources().getColor(R.color.colorAzul));
         }
@@ -91,7 +91,7 @@ public class DatosFiscalesFragment extends DialogFragment {
             datosFiscales.setUpDatos(spTipoPersona.getSelectedItem().toString(), etRazonSocial.getText().toString(), etRFC.getText().toString(), spCFDI.getSelectedItem().toString(), this);
             datosFiscales.execute();
         }else{
-            new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, this.tipoPerfil == Constants.TIPO_USUARIO_ESTUDIANTE ? SweetAlert.ESTUDIANTE : SweetAlert.PROFESOR)
+            new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE ? SweetAlert.CLIENTE : SweetAlert.PROFESIONAL)
                     .setTitleText("¡ERROR!")
                     .setContentText("Llena todos los campos correctamente.")
                     .show();

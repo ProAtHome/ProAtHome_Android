@@ -15,7 +15,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.servicios.ayuda.ServicioTaskNuevoTicket;
-import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
@@ -59,11 +59,11 @@ public class NuevoTicketFragment extends DialogFragment {
     }
 
     public void setIdUsuario(){
-        if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE){
+        if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE){
             AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null,
                     1);
             SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-            Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+            Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
 
             if(fila.moveToFirst()){
                 this.idUsuario = fila.getInt(0);
@@ -72,11 +72,11 @@ public class NuevoTicketFragment extends DialogFragment {
             }
 
             baseDeDatos.close();
-        }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR){
-            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesionProfesor", null,
+        }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL){
+            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesionProfesional", null,
                     1);
             SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-            Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);
+            Cursor fila = baseDeDatos.rawQuery("SELECT idProfesional FROM sesionProfesional WHERE id = " + 1, null);
 
             if(fila.moveToFirst()){
                 this.idUsuario = fila.getInt(0);
@@ -94,10 +94,10 @@ public class NuevoTicketFragment extends DialogFragment {
             cat = "soporte";
         else if(categorias.getSelectedItem().toString().equalsIgnoreCase("Crédito"))
             cat = "credito";
-        else if(categorias.getSelectedItem().toString().equalsIgnoreCase("Queja a Profesor"))
-            cat = "queja_profesor";
-        else if(categorias.getSelectedItem().toString().equalsIgnoreCase("Queja a Estudiante"))
-            cat = "queja_estudiante";
+        else if(categorias.getSelectedItem().toString().equalsIgnoreCase("Queja a Profesional"))
+            cat = "queja_profesional";
+        else if(categorias.getSelectedItem().toString().equalsIgnoreCase("Queja a Cliente"))
+            cat = "queja_cliente";
 
         return cat;
     }
@@ -113,10 +113,10 @@ public class NuevoTicketFragment extends DialogFragment {
             datos = new String[]{"Soporte Técnico", "Crédito"};
             adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_item, datos);
         }else{
-            if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
-                datos = new String[]{"Soporte Técnico", "Crédito", "Queja a Estudiante"};
-            else if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE)
-                datos = new String[]{"Soporte Técnico", "Crédito", "Queja a Profesor"};
+            if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL)
+                datos = new String[]{"Soporte Técnico", "Crédito", "Queja a Cliente"};
+            else if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE)
+                datos = new String[]{"Soporte Técnico", "Crédito", "Queja a Profesional"};
 
             adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_item, datos);
         }
@@ -142,20 +142,20 @@ public class NuevoTicketFragment extends DialogFragment {
         if(!etTopico.getText().toString().trim().equalsIgnoreCase("") &&
             !etDescripcion.getText().toString().trim().equalsIgnoreCase("")){
             ServicioTaskNuevoTicket nuevoTicket;
-            if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE){
-                nuevoTicket = new ServicioTaskNuevoTicket(getContext(), this.idSesion, Constants.TIPO_USUARIO_ESTUDIANTE,
+            if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE){
+                nuevoTicket = new ServicioTaskNuevoTicket(getContext(), this.idSesion, Constants.TIPO_USUARIO_CLIENTE,
                         etTopico.getText().toString(), etDescripcion.getText().toString(), "2020-12-5",
                         Constants.ESTATUS_SIN_OPERADOR, this.idUsuario, this, getSelectedCategoria());
                 nuevoTicket.execute();
-            }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR){
-                nuevoTicket = new ServicioTaskNuevoTicket(getContext(), this.idSesion, Constants.TIPO_USUARIO_PROFESOR,
+            }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL){
+                nuevoTicket = new ServicioTaskNuevoTicket(getContext(), this.idSesion, Constants.TIPO_USUARIO_PROFESIONAL,
                         etTopico.getText().toString(), etDescripcion.getText().toString(), "2020-12-5",
                         Constants.ESTATUS_SIN_OPERADOR, this.idUsuario, this, getSelectedCategoria());
                 nuevoTicket.execute();
             }
 
         }else{
-            int tipoSweet = this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE ? SweetAlert.ESTUDIANTE : SweetAlert.PROFESOR;
+            int tipoSweet = this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ? SweetAlert.CLIENTE : SweetAlert.PROFESIONAL;
             new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, tipoSweet)
                     .setTitleText("¡ERROR!")
                     .setContentText("Llena los campos correctamente.")

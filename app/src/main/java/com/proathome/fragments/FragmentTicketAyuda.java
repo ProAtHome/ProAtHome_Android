@@ -22,7 +22,7 @@ import com.proathome.adapters.ComponentAdapterMsgTickets;
 import com.proathome.servicios.ayuda.ServicioTaskMsgTicket;
 import com.proathome.servicios.ayuda.ServicioTaskObtenerMsgTicket;
 import com.proathome.servicios.ayuda.ServicioTaskTicketSolucion;
-import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
+import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.utils.ComponentMsgTickets;
 import com.proathome.utils.ComponentTicket;
 import com.proathome.utils.Constants;
@@ -107,10 +107,10 @@ public class FragmentTicketAyuda extends DialogFragment {
 
     public String getCategoria(String categoria){
         String cat = null;
-        if(categoria.equalsIgnoreCase("queja_profesor"))
-            cat = "Queja a Profesor";
-        else if(categoria.equalsIgnoreCase("queja_estudiante"))
-            cat = "Queja a Estudiante";
+        if(categoria.equalsIgnoreCase("queja_profesional"))
+            cat = "Queja a Profesional";
+        else if(categoria.equalsIgnoreCase("queja_cliente"))
+            cat = "Queja a Cliente";
         else if(categoria.equalsIgnoreCase("soporte"))
             cat = "Soporte Técnico";
         else if(categoria.equalsIgnoreCase("credito"))
@@ -136,7 +136,7 @@ public class FragmentTicketAyuda extends DialogFragment {
         setIdUsuario();
 
         System.out.println(bundle.getInt("tipoUsuario"));
-        if(bundle.getInt("tipoUsuario") == Constants.TIPO_USUARIO_PROFESOR){
+        if(bundle.getInt("tipoUsuario") == Constants.TIPO_USUARIO_PROFESIONAL){
             toolbar.setBackgroundColor(getResources().getColor(R.color.color_secondary));
             tvTicket.setTextColor(getResources().getColor(R.color.color_secondary));
             btnEnviarMsg.setBackgroundColor(getResources().getColor(R.color.color_secondary));
@@ -170,11 +170,11 @@ public class FragmentTicketAyuda extends DialogFragment {
     }
 
     public void setIdUsuario(){
-        if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE){
+        if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE){
             AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null,
                     1);
             SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-            Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+            Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
 
             if(fila.moveToFirst()){
                 this.idUsuario = fila.getInt(0);
@@ -183,11 +183,11 @@ public class FragmentTicketAyuda extends DialogFragment {
             }
 
             baseDeDatos.close();
-        }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR){
-            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesionProfesor", null,
+        }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL){
+            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesionProfesional", null,
                     1);
             SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-            Cursor fila = baseDeDatos.rawQuery("SELECT idProfesor FROM sesionProfesor WHERE id = " + 1, null);
+            Cursor fila = baseDeDatos.rawQuery("SELECT idProfesional FROM sesionProfesional WHERE id = " + 1, null);
 
             if(fila.moveToFirst()){
                 this.idUsuario = fila.getInt(0);
@@ -201,8 +201,8 @@ public class FragmentTicketAyuda extends DialogFragment {
 
     @OnClick({R.id.btnEnviarMsg, R.id.btnRegresar, R.id.btnFinalizarTicket})
     public void onClick(View view){
-        int tipoSweet = this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE ?
-                SweetAlert.ESTUDIANTE : SweetAlert.PROFESOR;
+        int tipoSweet = this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ?
+                SweetAlert.CLIENTE : SweetAlert.PROFESIONAL;
         switch (view.getId()){
             case R.id.btnEnviarMsg:
                 if(etEscribeMsg.getText().toString().trim().equalsIgnoreCase("")){

@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class Component {
 
-    private String tipoPlan, fecha, tipoClase, horario, profesor, lugar, observaciones, actualizado,
-            fotoProfesor, descripcionProfesor, correoProfesor;
-    private int photoRes, idClase, idSeccion, idNivel, idBloque, tiempo, idProfesor;
+    private String tipoPlan, fecha, tipoServicio, horario, profesional, lugar, observaciones, actualizado,
+            fotoProfesional, descripcionProfesional, correoProfesional;
+    private int photoRes, idServicio, idSeccion, idNivel, idBloque, tiempo, idProfesional;
     private double latitud, longitud;
     private int type;
     private boolean sumar;
@@ -15,12 +15,12 @@ public class Component {
 
     }
 
-    public int getIdProfesor() {
-        return idProfesor;
+    public int getIdProfesional() {
+        return idProfesional;
     }
 
-    public void setIdProfesor(int idProfesor) {
-        this.idProfesor = idProfesor;
+    public void setIdProfesional(int idProfesional) {
+        this.idProfesional = idProfesional;
     }
 
     public String getTipoPlan() {
@@ -39,28 +39,28 @@ public class Component {
         this.sumar = sumar;
     }
 
-    public String getFotoProfesor() {
-        return fotoProfesor;
+    public String getFotoProfesional() {
+        return fotoProfesional;
     }
 
-    public void setFotoProfesor(String fotoProfesor) {
-        this.fotoProfesor = fotoProfesor;
+    public void setFotoProfesional(String fotoProfesional) {
+        this.fotoProfesional = fotoProfesional;
     }
 
-    public String getDescripcionProfesor() {
-        return descripcionProfesor;
+    public String getDescripcionProfesional() {
+        return descripcionProfesional;
     }
 
-    public void setDescripcionProfesor(String descripcionProfesor) {
-        this.descripcionProfesor = descripcionProfesor;
+    public void setDescripcionProfesional(String descripcionProfesional) {
+        this.descripcionProfesional = descripcionProfesional;
     }
 
-    public String getCorreoProfesor() {
-        return correoProfesor;
+    public String getCorreoProfesional() {
+        return correoProfesional;
     }
 
-    public void setCorreoProfesor(String correoProfesor) {
-        this.correoProfesor = correoProfesor;
+    public void setCorreoProfesional(String correoProfesional) {
+        this.correoProfesional = correoProfesional;
     }
 
     public String getActualizado() {
@@ -71,12 +71,12 @@ public class Component {
         this.actualizado = actualizado;
     }
 
-    public int getIdClase() {
-        return idClase;
+    public int getIdServicio() {
+        return idServicio;
     }
 
-    public void setIdClase(int idClase) {
-        this.idClase = idClase;
+    public void setIdServicio(int idServicio) {
+        this.idServicio = idServicio;
     }
 
     public double getLatitud() {
@@ -95,12 +95,12 @@ public class Component {
         this.longitud = longitud;
     }
 
-    public String getProfesor() {
-        return profesor;
+    public String getProfesional() {
+        return profesional;
     }
 
-    public void setProfesor(String profesor) {
-        this.profesor = profesor;
+    public void setProfesional(String profesional) {
+        this.profesional = profesional;
     }
 
     public String getLugar() {
@@ -143,12 +143,12 @@ public class Component {
         this.type = type;
     }
 
-    public String getTipoClase() {
-        return tipoClase;
+    public String getTipoServicio() {
+        return tipoServicio;
     }
 
-    public void setTipoClase(String tipoClase) {
-        this.tipoClase = tipoClase;
+    public void setTipoServicio(String tipoServicio) {
+        this.tipoServicio = tipoServicio;
     }
 
     public String getHorario() {
@@ -481,13 +481,13 @@ public class Component {
         Component component = (Component) o;
         return photoRes == component.photoRes &&
                 type == component.type &&
-                Objects.equals(tipoClase, component.tipoClase) &&
+                Objects.equals(tipoServicio, component.tipoServicio) &&
                 Objects.equals(horario, component.horario);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(fecha, tipoClase, horario, photoRes, type);
+        return Objects.hash(fecha, tipoServicio, horario, photoRes, type);
     }
 
 }

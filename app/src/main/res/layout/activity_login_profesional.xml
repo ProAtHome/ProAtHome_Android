@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/fondo2"
+    tools:context=".LoginProfesional">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@mipmap/logowhite"
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvProfesionales"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_padding_middle"
+        android:text="Profesionales"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="@id/correoET_ISPL"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        style="@style/Titulos"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/correoET_ISPL"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Correo"
+        app:boxStrokeColor="@android:color/white"
+        app:boxStrokeWidth="2dp"
+        android:inputType="textPersonName"
+        android:textColorHint="@android:color/white"
+        app:endIconMode="clear_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvProfesionales"
+        style="@style/LoginTextInputLayoutStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/correoET_ISP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@android:color/white"
+            android:fontFamily="@font/din"
+            android:textColor="@android:color/white"
+            android:inputType="textPersonName"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/contraET_ISPL"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:hint="Contraseña"
+        android:textColorHint="@android:color/white"
+        app:boxStrokeColor="@android:color/white"
+        app:boxStrokeWidth="2dp"
+        app:endIconMode="password_toggle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/correoET_ISPL"
+        style="@style/LoginTextInputLayoutStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/contraET_ISP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:fontFamily="@font/din"
+            android:textColor="@android:color/white" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvOlvideContraPro"
+        style="@style/Textos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_padding_min"
+        android:text="Olvidé mi contraseña."
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="@id/contraET_ISPL"
+        app:layout_constraintTop_toBottomOf="@id/contraET_ISPL" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/soyClienteBTN"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="soyCliente"
+        android:padding="8dp"
+        android:text="Soy Cliente"
+        android:backgroundTint="@color/colorGris"
+        android:fontFamily="@font/din"
+        app:layout_constraintEnd_toEndOf="@id/entrarBTNP"
+        app:layout_constraintStart_toStartOf="@id/entrarBTNP"
+        app:layout_constraintTop_toBottomOf="@id/registrarseBTN"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/registrarseBTN"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="registrarse"
+        android:padding="8dp"
+        android:backgroundTint="@color/colorAzul"
+        android:fontFamily="@font/din"
+        android:text="Registrarse"
+        app:layout_constraintEnd_toEndOf="@id/entrarBTNP"
+        app:layout_constraintStart_toStartOf="@id/entrarBTNP"
+        app:layout_constraintTop_toBottomOf="@id/entrarBTNP"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/entrarBTNP"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="entrar"
+        android:padding="8dp"
+        android:layout_marginTop="@dimen/common_padding_default"
+        android:text="Iniciar Sesión"
+        android:backgroundTint="@color/colorRosa"
+        android:fontFamily="@font/din"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvOlvideContraPro"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

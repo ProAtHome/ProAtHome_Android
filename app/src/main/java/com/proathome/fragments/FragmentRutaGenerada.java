@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.proathome.R;
-import com.proathome.servicios.estudiante.AdminSQLiteOpenHelper;
-import com.proathome.servicios.estudiante.ServicioTaskRutaExamen;
+import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
+import com.proathome.servicios.cliente.ServicioTaskRutaExamen;
 import com.proathome.examen.EvaluarRuta;
 
 import butterknife.BindView;
@@ -24,7 +24,7 @@ public class FragmentRutaGenerada extends DialogFragment {
     public static MaterialButton ruta;
     public static TextView nivel;
     public static int aciertos = 0;
-    private int idEstudiante = 0;
+    private int idCliente = 0;
     @BindView(R.id.rutainicio)
     MaterialButton rutainicio;
 
@@ -46,10 +46,10 @@ public class FragmentRutaGenerada extends DialogFragment {
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(),"sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idEstudiante FROM sesion WHERE id = " + 1, null);
+        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
 
         if (fila.moveToFirst()) {
-            idEstudiante = fila.getInt(0);
+            idCliente = fila.getInt(0);
         }else{
             baseDeDatos.close();
         }
@@ -64,7 +64,7 @@ public class FragmentRutaGenerada extends DialogFragment {
 
         ruta.setOnClickListener(v ->{
             EvaluarRuta evaluarRuta = new EvaluarRuta(aciertos);
-            ServicioTaskRutaExamen rutaExamen = new ServicioTaskRutaExamen(getContext(), idEstudiante, evaluarRuta.getSeccion(), evaluarRuta.getNivel(), evaluarRuta.getBloque(), 0, true);
+            ServicioTaskRutaExamen rutaExamen = new ServicioTaskRutaExamen(getContext(), idCliente, evaluarRuta.getSeccion(), evaluarRuta.getNivel(), evaluarRuta.getBloque(), 0, true);
             rutaExamen.execute();
             dismiss();
         });

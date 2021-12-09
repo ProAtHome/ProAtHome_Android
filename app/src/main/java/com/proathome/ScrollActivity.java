@@ -27,27 +27,27 @@ public class ScrollActivity extends AppCompatActivity {
         if(savedInstanceState == null){
             nameFragment = getIntent().getStringExtra(Constants.ARG_NAME);
             int tiempo = getIntent().getIntExtra("tiempo", 0);
-            int idClase = getIntent().getIntExtra("idClase" , 0);
+            int idServicio = getIntent().getIntExtra("idServicio" , 0);
             int idSeccion = getIntent().getIntExtra("idSeccion", 0);
             int idNivel = getIntent().getIntExtra("idNivel", 0);
             int idBloque = getIntent().getIntExtra("idBloque", 0);
-            int idProfesor = getIntent().getIntExtra("idProfesor", 0);
-            String profesor = getIntent().getStringExtra("profesor");
+            int idProfesional = getIntent().getIntExtra("idProfesional", 0);
+            String profesional = getIntent().getStringExtra("profesional");
             String lugar = getIntent().getStringExtra("lugar");
             String fecha = getIntent().getStringExtra("fecha");
             String observaciones = getIntent().getStringExtra("observaciones");
-            String tipoClase = getIntent().getStringExtra("tipoClase");
+            String tipoServicio = getIntent().getStringExtra("tipoServicio");
             String horario = getIntent().getStringExtra("horario");
-            String fotoProfesor = getIntent().getStringExtra("fotoProfesor");
-            String correoProfesor = getIntent().getStringExtra("correoProfesor");
-            String descripcionProfesor = getIntent().getStringExtra("descripcionProfesor");
+            String fotoProfesional = getIntent().getStringExtra("fotoProfesional");
+            String correoProfesional = getIntent().getStringExtra("correoProfesional");
+            String descripcionProfesional = getIntent().getStringExtra("descripcionProfesional");
             String tipoPlan = getIntent().getStringExtra("tipoPlan");
             double latitud = getIntent().getDoubleExtra("latitud", 0.0);
             double longitud = getIntent().getDoubleExtra("longitud", 0.0);
             boolean sumar = getIntent().getBooleanExtra("sumar", true);
-            CommonUtils.setFragment(this, nameFragment, R.id.content_scroll, idClase, tipoClase,
-                    horario, profesor, lugar, tiempo, observaciones, latitud, longitud, idSeccion, idNivel,
-                    idBloque, fecha, fotoProfesor, descripcionProfesor, correoProfesor, sumar, tipoPlan, idProfesor);
+            CommonUtils.setFragment(this, nameFragment, R.id.content_scroll, idServicio, tipoServicio,
+                    horario, profesional, lugar, tiempo, observaciones, latitud, longitud, idSeccion, idNivel,
+                    idBloque, fecha, fotoProfesional, descripcionProfesional, correoProfesional, sumar, tipoPlan, idProfesional);
 
         }
 

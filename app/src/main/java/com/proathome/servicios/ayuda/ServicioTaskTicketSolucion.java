@@ -9,14 +9,14 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 public class ServicioTaskTicketSolucion extends AsyncTask<Void, Void, String> {
 
     private Context contexto;
     private int idTicket, tipoUsuario;
     private String linkFinalizarTicket = Constants.IP + "/ProAtHome/apiProAtHome/cliente/finalizarTicket/";
-    private String linkFinalizarTicketProfesor = Constants.IP + "/ProAtHome/apiProAtHome/profesor/finalizarTicket/";
+    private String linkFinalizarTicketProfesional = Constants.IP + "/ProAtHome/apiProAtHome/profesional/finalizarTicket/";
 
     public ServicioTaskTicketSolucion(Context contexto, int idTicket, int tipoUsuario){
         this.contexto = contexto;
@@ -35,19 +35,19 @@ public class ServicioTaskTicketSolucion extends AsyncTask<Void, Void, String> {
 
         try{
             URL url = null;
-            if(this.tipoUsuario == Constants.TIPO_USUARIO_ESTUDIANTE)
+            if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE)
                 url = new URL(this.linkFinalizarTicket + idTicket);
-            else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESOR)
-                url = new URL(this.linkFinalizarTicketProfesor + idTicket);
+            else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL)
+                url = new URL(this.linkFinalizarTicketProfesional + idTicket);
 
-            HttpsURLConnection httpURLConnection = (HttpsURLConnection) url.openConnection();
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
             httpURLConnection.setReadTimeout(15000);
             httpURLConnection.setConnectTimeout(1500);
             httpURLConnection.setRequestMethod("GET");
 
             int responseCode = httpURLConnection.getResponseCode();
-            if(responseCode == HttpsURLConnection.HTTP_OK){
+            if(responseCode == HttpURLConnection.HTTP_OK){
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(httpURLConnection.getInputStream()));
                 StringBuffer stringBuffer = new StringBuffer("");
