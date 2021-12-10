@@ -68,8 +68,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     public static boolean banco = false, disponibilidad;
     public static String planSesion, correoCliente;
     public static DialogFragment dialogFragment;
-    private String registrarSesionREST = Constants.IP +
-            "/ProAtHome/apiProAtHome/cliente/agregarSesion";
     private String linkRESTDatosBancarios = Constants.IP +
             "/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
     private Unbinder mUnbinder;
@@ -299,7 +297,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
             //Guardamos la info de PAGO
             ServicioTaskGuardarPago guardarPago = new ServicioTaskGuardarPago(getContext(), "PLAN - " + SesionesFragment.PLAN,
                     0.0, 0.0, "Pagado", this.idCliente);
-            Bundle bundle = getBundleSesion(registrarSesionREST, idCliente, horario, lugar, tiempo, idSeccion, idNivel, idBloque, extras, tipoServicio, latitud, longitud, actualizado,
+            Bundle bundle = getBundleSesion(idCliente, horario, lugar, tiempo, idSeccion, idNivel, idBloque, extras, tipoServicio, latitud, longitud, actualizado,
                     fecha, sumar, tipoPlan, personas);
             guardarPago.setBundleSesion(bundle);
             guardarPago.execute();
@@ -311,7 +309,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                 PreOrdenServicio.tiempoPasar = obtenerMinutosHorario();
                 PreOrdenServicio.idSeccion = (secciones.getSelectedItemPosition() + 1);
                 //Pre Orden ya que no esta pagada.
-                Bundle bundle = getBundleSesion(registrarSesionREST, idCliente, horario, lugar, tiempo, idSeccion, idNivel, idBloque, extras, tipoServicio, latitud, longitud, actualizado,
+                Bundle bundle = getBundleSesion(idCliente, horario, lugar, tiempo, idSeccion, idNivel, idBloque, extras, tipoServicio, latitud, longitud, actualizado,
                         fecha, sumar, tipoPlan, personas);
                 PreOrdenServicio preOrdenServicio = new PreOrdenServicio();
                 preOrdenServicio.setArguments(bundle);
@@ -320,11 +318,10 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         }
     }
 
-    public Bundle getBundleSesion(String linkAPI, int idCliente, String horario, String lugar,
+    public Bundle getBundleSesion(int idCliente, String horario, String lugar,
                                   int tiempo, int idSeccion, int idNivel, int idBloque, String extras, String tipoServicio,
                                   double latitud, double longitud, String actualizado, String fecha, boolean sumar, String tipoPlan, int personas){
         Bundle bundle = new Bundle();
-        bundle.putString("registrarSesionREST", linkAPI);
         bundle.putInt("idCliente", idCliente);
         bundle.putString("horario", horario);
         bundle.putString("lugar", lugar);

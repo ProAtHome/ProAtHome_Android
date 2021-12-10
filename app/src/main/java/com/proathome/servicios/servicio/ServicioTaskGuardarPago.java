@@ -4,21 +4,22 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.proathome.servicios.cliente.STRegistroSesionesCliente;
+import com.proathome.fragments.NuevaSesionFragment;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
+import com.proathome.servicios.planes.ServicioTaskValidarPlan;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-
 import java.net.URL;
-
 import java.net.HttpURLConnection;
 
 public class ServicioTaskGuardarPago extends AsyncTask<Void, Void, String> {
@@ -110,13 +111,72 @@ public class ServicioTaskGuardarPago extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        STRegistroSesionesCliente registro = new STRegistroSesionesCliente(contexto,
-                bundle.getString("registrarSesionREST"), bundle.getInt("idCliente"), bundle.getString("horario"),
-                bundle.getString("lugar"), bundle.getInt("tiempo"), bundle.getInt("idSeccion"), bundle.getInt("idNivel"),
-                bundle.getInt("idBloque"), bundle.getString("extras"), bundle.getString("tipoServicio"), bundle.getDouble("latitud"),
-                bundle.getDouble("longitud"), bundle.getString("actualizado"), bundle.getString("fecha"), bundle.getBoolean("sumar"),
-                bundle.getString("tipoPlan"), bundle.getInt("personas"), this.token);
-        registro.execute();
+        registrarSesion();
+    }
+
+    private void registrarSesion(){
+        JSONObject parametrosPOST = new JSONObject();
+        try {
+            parametrosPOST.put("idCliente", this.idCliente);
+            parametrosPOST.put("horario", bundle.getString("horario"));
+            parametrosPOST.put("lugar", bundle.getString("lugar"));
+            parametrosPOST.put("tiempo", bundle.getInt("tiempo"));
+            parametrosPOST.put("idSeccion", bundle.getInt("idSeccion"));
+            parametrosPOST.put("idNivel", bundle.getInt("idNivel"));
+            parametrosPOST.put("idBloque", bundle.getInt("idBloque"));
+            parametrosPOST.put("extras", bundle.getString("extras"));
+            parametrosPOST.put("tipoServicio", bundle.getString("tipoServicio"));
+            parametrosPOST.put("latitud", bundle.getDouble("latitud"));
+            parametrosPOST.put("longitud", bundle.getDouble("longitud"));
+            parametrosPOST.put("actualizado", bundle.getString("actualizado"));
+            parametrosPOST.put("fecha",  bundle.getString("fecha"));
+            parametrosPOST.put("sumar", bundle.getBoolean("sumar"));
+            parametrosPOST.put("tipoPlan", bundle.getString("tipoPlan"));
+            parametrosPOST.put("personas", bundle.getInt("personas"));
+            parametrosPOST.put("token", this.token);
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                JSONObject jsonObject = new JSONObject(response);
+                if(jsonObject.getBoolean("respuesta"))
+                    actualizarMonedero(jsonObject);
+                else
+                    showMsg("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.ERROR_TYPE);
+            }, APIEndPoints.REGISTRAR_SESION_CLIENTE, WebServicesAPI.POST, parametrosPOST);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void actualizarMonedero(JSONObject jsonObject) throws JSONException {
+        JSONObject parametrosPUT= new JSONObject();
+        parametrosPUT.put("idCliente", idCliente);
+        parametrosPUT.put("nuevoMonedero", NuevaSesionFragment.nuevoMonedero);
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            ServicioTaskValidarPlan validarPlan = new ServicioTaskValidarPlan(this.contexto, idCliente);
+            validarPlan.execute();
+        }, APIEndPoints.ACTUALIZAR_MONEDERO, WebServicesAPI.PUT, parametrosPUT);
+        webServicesAPI.execute();
+
+        NuevaSesionFragment.nuevoMonedero = 0;
+        showMsg("¡GENIAL!", jsonObject.getString("mensaje"), SweetAlert.SUCCESS_TYPE);
+    }
+
+    private void showMsg(String titulo, String mensaje, int tipo){
+        if(tipo == SweetAlert.ERROR_TYPE){
+            new SweetAlert(this.contexto, tipo, SweetAlert.CLIENTE)
+                    .setTitleText(titulo)
+                    .setContentText(mensaje)
+                    .show();
+        }else if( tipo == SweetAlert.SUCCESS_TYPE){
+            new SweetAlert(this.contexto, tipo, SweetAlert.CLIENTE)
+                    .setTitleText(titulo)
+                    .setContentText(mensaje)
+                    .setConfirmButton("¡VAMOS!", sweetAlertDialog -> {
+                        NuevaSesionFragment.dialogFragment.dismiss();
+                        sweetAlertDialog.dismissWithAnimation();
+                    })
+                    .show();
+        }
     }
 
     public String getPostDataString(JSONObject params) throws Exception {

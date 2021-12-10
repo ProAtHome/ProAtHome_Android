@@ -34,7 +34,6 @@ import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ServicioTaskBancoCliente;
 import com.proathome.servicios.cliente.ServicioTaskPerfilCliente;
-import com.proathome.servicios.cliente.ServicioTaskUpCuentaCliente;
 import com.proathome.servicios.profesional.ServicioTaskReportes;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
@@ -56,14 +55,11 @@ public class EditarPerfilFragment extends Fragment {
             "/ProAtHome/apiProAtHome/cliente/perfilCliente";
     private String linkRESTDatosBancarios = Constants.IP +
             "/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
-    private String linkRESTActualizarBanco = Constants.IP +
-            "/ProAtHome/apiProAtHome/cliente/actualizarCuentaCliente";
     private String imageHttpAddress = Constants.IP_80 + "/assets/img/fotoPerfil/";
     private String linkFoto = Constants.IP_80 + "/assets/lib/ActualizarFotoAndroid.php";
     private Unbinder mUnbinder;
     private ServicioTaskPerfilCliente perfilCliente;
     private ServicioTaskBancoCliente bancoCliente;
-    private ServicioTaskUpCuentaCliente actualizarBanco;
     public static TextView tvNombre;
     public static TextView tvCorreo;
     public static TextInputEditText etCelular;
@@ -256,11 +252,7 @@ public class EditarPerfilFragment extends Fragment {
                 if(CardValidator.validateNumber(etTarjeta.getText().toString())){
                     if(CardValidator.validateExpiryDate(Integer.parseInt(etMes.getText().toString()),
                             Integer.parseInt(etAño.getText().toString()))){
-                        actualizarBanco = new ServicioTaskUpCuentaCliente(getContext(), linkRESTActualizarBanco,
-                                this.idCliente, etNombreTitular.getText().toString(),
-                                etTarjeta.getText().toString(), etMes.getText().toString(),
-                                etAño.getText().toString());
-                        actualizarBanco.execute();
+                                upCuentaCliente();
                     }else
                         mensaje("¡ERROR!", "Fecha de expiración no válida.", SweetAlert.ERROR_TYPE);
                 }else
@@ -269,6 +261,26 @@ public class EditarPerfilFragment extends Fragment {
                 mensaje("¡ERROR!", "Nombre del titular no válido.", SweetAlert.ERROR_TYPE);
         }else
             mensaje("¡ERROR!","Llena todos los campos correctamente.", SweetAlert.ERROR_TYPE);
+    }
+
+    private void upCuentaCliente(){
+        JSONObject parametrosPUT = new JSONObject();
+        try {
+            parametrosPUT.put("idCliente", this.idCliente);
+            parametrosPUT.put("nombreTitular", etNombreTitular.getText().toString());
+            parametrosPUT.put("tarjeta", etTarjeta.getText().toString());
+            parametrosPUT.put("mes", etMes.getText().toString());
+            parametrosPUT.put("ano", etAño.getText().toString());
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                if(response.equalsIgnoreCase("Actualización exitosa."))
+                    mensaje("¡GENIAL!", "Datos actualizados correctamente.",  SweetAlert.SUCCESS_TYPE);
+                else
+                    mensaje("¡OH NO!", response, SweetAlert.WARNING_TYPE);
+            }, APIEndPoints.UPDATE_CUENTA_CLIENTE, WebServicesAPI.PUT, parametrosPUT);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void actualizarFiscales(){

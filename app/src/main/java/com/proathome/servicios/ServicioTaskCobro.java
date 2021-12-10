@@ -4,10 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.proathome.ServicioCliente;
 import com.proathome.fragments.MasTiempo;
-import com.proathome.servicios.servicio.ServicioTaskActPagoTE;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.servicio.ServicioTaskMasTiempo;
 import com.proathome.fragments.CobroFinalFragment;
 import com.proathome.utils.Constants;
@@ -24,7 +26,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-
 import java.net.HttpURLConnection;
 
 public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
@@ -133,8 +134,7 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
             if(jsonObject.getBoolean("respuesta")){
                 System.out.println("Entendido TE");
                 //Actualizar la orden de pago con el costo del TE
-                ServicioTaskActPagoTE actPagoTE = new ServicioTaskActPagoTE(this.contexto, this.cobro, this.idSesion);
-                actPagoTE.execute();
+                actualizarPagoTE();
                 /*
                 if(DetallesFragment.planSesion.equalsIgnoreCase("PARTICULAR")){
                     ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idCliente,
@@ -160,8 +160,17 @@ public class ServicioTaskCobro extends AsyncTask<Void, Void, String> {
         }catch(JSONException ex){
             ex.printStackTrace();
         }
+    }
 
+    private void actualizarPagoTE() throws JSONException {
+        JSONObject parametrosPost= new JSONObject();
+        parametrosPost.put("cobro", this.cobro);
+        parametrosPost.put("idSesion", this.idSesion);
 
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            Toast.makeText(this.contexto, "Pago de Tiempo Extra actualizado.", Toast.LENGTH_SHORT).show();
+        }, APIEndPoints.ACTUALIZAR_PAGO_TE, WebServicesAPI.PUT, parametrosPost);
+        webServicesAPI.execute();
     }
 
     public void showMsg(String titulo, String mensaje, int tipo){
