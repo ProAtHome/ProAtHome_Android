@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/common_padding_default"
-    tools:context=".fragments.DetallesGestionarFragment">
+    tools:context=".ui.fragments.DetallesGestionarFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             map:layout_constraintEnd_toEndOf="parent"
             map:layout_constraintStart_toStartOf="parent"
             map:layout_constraintTop_toTopOf="parent"
-            tools:context=".MapsFragment" />
+            tools:context=".ui.MapsFragment" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilProfesional"

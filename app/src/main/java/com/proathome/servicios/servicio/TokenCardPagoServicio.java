@@ -5,8 +5,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.proathome.fragments.DetallesFragment;
-import com.proathome.fragments.NuevaSesionFragment;
+import com.proathome.ui.fragments.DetallesFragment;
+import com.proathome.ui.fragments.NuevaSesionFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 

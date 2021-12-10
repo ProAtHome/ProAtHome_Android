@@ -5,8 +5,8 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import com.proathome.fragments.DetallesFragment;
-import com.proathome.fragments.DetallesGestionarFragment;
+import com.proathome.ui.fragments.DetallesFragment;
+import com.proathome.ui.fragments.DetallesGestionarFragment;
 
 public class CommonUtils {
 

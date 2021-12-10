@@ -28,7 +28,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
-import com.proathome.fragments.DatosFiscalesFragment;
+import com.proathome.ui.fragments.DatosFiscalesFragment;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;

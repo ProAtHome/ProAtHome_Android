@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import com.proathome.R;
-import com.proathome.RutaAvanzado;
+import com.proathome.ui.RutaAvanzado;
 import com.proathome.ui.ruta.RutaFragment;
 import com.proathome.utils.Constants;
 

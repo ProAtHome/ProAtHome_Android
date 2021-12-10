@@ -9,7 +9,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.proathome.R;
-import com.proathome.fragments.BuscarSesionFragment;
+import com.proathome.ui.fragments.BuscarSesionFragment;
 import com.proathome.utils.Component;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONArray;

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.proathome.fragments.NuevaSesionFragment;
+import com.proathome.ui.fragments.NuevaSesionFragment;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.planes.ServicioTaskValidarPlan;

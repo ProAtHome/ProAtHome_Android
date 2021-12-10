@@ -1,7 +1,7 @@
 package com.proathome.servicios.valoracion;
 
 import android.os.AsyncTask;
-import com.proathome.fragments.EvaluarFragment;
+import com.proathome.ui.fragments.EvaluarFragment;
 import com.proathome.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;

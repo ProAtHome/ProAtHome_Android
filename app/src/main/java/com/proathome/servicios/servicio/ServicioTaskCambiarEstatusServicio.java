@@ -2,8 +2,8 @@ package com.proathome.servicios.servicio;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import com.proathome.fragments.DetallesFragment;
-import com.proathome.fragments.DetallesSesionProfesionalFragment;
+import com.proathome.ui.fragments.DetallesFragment;
+import com.proathome.ui.fragments.DetallesSesionProfesionalFragment;
 import com.proathome.utils.Constants;
 import java.io.BufferedReader;
 import java.io.IOException;

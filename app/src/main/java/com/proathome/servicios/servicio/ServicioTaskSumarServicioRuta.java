@@ -3,7 +3,7 @@ package com.proathome.servicios.servicio;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.proathome.fragments.DetallesFragment;
+import com.proathome.ui.fragments.DetallesFragment;
 import com.proathome.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;

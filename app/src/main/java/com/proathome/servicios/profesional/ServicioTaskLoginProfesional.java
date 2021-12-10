@@ -8,9 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.proathome.PasosActivarCuenta;
-import com.proathome.PerfilBloqueado;
-import com.proathome.InicioProfesional;
+import com.proathome.ui.PasosActivarCuenta;
+import com.proathome.ui.PerfilBloqueado;
+import com.proathome.ui.InicioProfesional;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;

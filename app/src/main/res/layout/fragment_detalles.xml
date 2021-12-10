@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_back"
-    tools:context=".fragments.DetallesFragment">
+    tools:context=".ui.fragments.DetallesFragment">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
                     map:layout_constraintEnd_toEndOf="parent"
                     map:layout_constraintStart_toStartOf="parent"
                     map:layout_constraintTop_toTopOf="parent"
-                    tools:context=".MapsFragment" />
+                    tools:context=".ui.MapsFragment" />
 
                 <TextView
                     android:id="@+id/tuProfesional"

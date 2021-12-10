@@ -2,8 +2,8 @@ package com.proathome.servicios.planes;
 
 import android.os.AsyncTask;
 
-import com.proathome.fragments.DetallesGestionarFragment;
-import com.proathome.fragments.PlanesFragment;
+import com.proathome.ui.fragments.DetallesGestionarFragment;
+import com.proathome.ui.fragments.PlanesFragment;
 import com.proathome.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -4,7 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
-import com.proathome.fragments.FragmentTicketAyuda;
+import com.proathome.ui.fragments.FragmentTicketAyuda;
 import com.proathome.ui.ayuda.AyudaFragment;
 import com.proathome.ui.ayudaProfesional.AyudaProfesionalFragment;
 import com.proathome.utils.ComponentTicket;

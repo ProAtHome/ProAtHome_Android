@@ -2,7 +2,7 @@ package com.proathome.servicios.planes;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import com.proathome.InicioCliente;
+import com.proathome.ui.InicioCliente;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;

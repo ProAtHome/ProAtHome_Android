@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.airbnb.lottie.LottieAnimationView;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterTicket;
-import com.proathome.fragments.NuevoTicketFragment;
+import com.proathome.ui.fragments.NuevoTicketFragment;
 import com.proathome.servicios.ayuda.ServicioTaskObtenerTickets;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.utils.Constants;

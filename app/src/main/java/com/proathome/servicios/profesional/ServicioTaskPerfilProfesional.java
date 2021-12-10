@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import com.proathome.InicioProfesional;
+import com.proathome.ui.InicioProfesional;
 import com.proathome.ui.editarPerfilProfesional.EditarPerfilProfesionalFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;

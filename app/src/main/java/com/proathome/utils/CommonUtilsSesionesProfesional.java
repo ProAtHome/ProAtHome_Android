@@ -6,8 +6,8 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.proathome.fragments.DetallesGestionarProfesionalFragment;
-import com.proathome.fragments.DetallesSesionProfesionalFragment;
+import com.proathome.ui.fragments.DetallesGestionarProfesionalFragment;
+import com.proathome.ui.fragments.DetallesSesionProfesionalFragment;
 
 public class CommonUtilsSesionesProfesional {
 

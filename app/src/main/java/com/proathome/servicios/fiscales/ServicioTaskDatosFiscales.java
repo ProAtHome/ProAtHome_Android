@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 
 import androidx.fragment.app.DialogFragment;
 
-import com.proathome.fragments.DatosFiscalesFragment;
+import com.proathome.ui.fragments.DatosFiscalesFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 

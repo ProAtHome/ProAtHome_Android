@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.proathome.R;
-import com.proathome.ScrollActivity;
+import com.proathome.ui.ScrollActivity;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 import com.proathome.utils.OnClickListener;

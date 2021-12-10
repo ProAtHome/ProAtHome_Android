@@ -2,7 +2,7 @@ package com.proathome.servicios.cliente;
 
 import android.content.Context;
 import com.proathome.R;
-import com.proathome.RutaIntermedio;
+import com.proathome.ui.RutaIntermedio;
 
 public class FuncionesRutaIntermedio {
 

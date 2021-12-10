@@ -29,7 +29,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
-import com.proathome.fragments.DatosFiscalesFragment;
+import com.proathome.ui.fragments.DatosFiscalesFragment;
 import com.proathome.servicios.profesional.AdminSQLiteOpenHelperProfesional;
 import com.proathome.servicios.profesional.ServicioTaskBancoProfesional;
 import com.proathome.servicios.profesional.ServicioTaskPerfilProfesional;

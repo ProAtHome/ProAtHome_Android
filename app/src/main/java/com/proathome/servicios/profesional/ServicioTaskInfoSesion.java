@@ -8,7 +8,7 @@ import android.os.AsyncTask;
 import android.util.JsonReader;
 import android.view.View;
 
-import com.proathome.MatchSesionCliente;
+import com.proathome.ui.MatchSesionCliente;
 import com.proathome.utils.Component;
 import com.proathome.utils.SweetAlert;
 import java.io.BufferedReader;

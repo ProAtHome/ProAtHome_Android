@@ -451,7 +451,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 xmlns:tools="http://schemas.android.com/tools"
-                tools:context=".fragments.BottomNavigationBarFragment"
+                tools:context=".ui.fragments.BottomNavigationBarFragment"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="0dp">
 

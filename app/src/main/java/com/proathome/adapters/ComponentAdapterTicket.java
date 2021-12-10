@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import com.proathome.R;
-import com.proathome.fragments.FragmentTicketAyuda;
+import com.proathome.ui.fragments.FragmentTicketAyuda;
 import com.proathome.ui.ayuda.AyudaFragment;
 import com.proathome.ui.ayudaProfesional.AyudaProfesionalFragment;
 import com.proathome.utils.ComponentTicket;

@@ -4,10 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.proathome.fragments.DetallesFragment;
-import com.proathome.fragments.NuevaSesionFragment;
-import com.proathome.fragments.PlanesFragment;
-import com.proathome.fragments.PreOrdenServicio;
+import com.proathome.ui.fragments.DetallesFragment;
+import com.proathome.ui.fragments.NuevaSesionFragment;
+import com.proathome.ui.fragments.PlanesFragment;
+import com.proathome.ui.fragments.PreOrdenServicio;
 import com.proathome.ui.editarPerfil.EditarPerfilFragment;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;

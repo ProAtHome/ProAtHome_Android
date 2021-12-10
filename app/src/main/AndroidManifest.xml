@@ -21,77 +21,77 @@
         android:theme="@style/MyTheme.DayNight"
         android:usesCleartextTraffic="true"
         tools:replace="android:icon">
-        <activity android:name=".password.CambiarPassword"
+        <activity android:name=".ui.password.CambiarPassword"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".password.CodigoEmail"
+        <activity android:name=".ui.password.CodigoEmail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".password.EmailPassword"
+        <activity android:name=".ui.password.EmailPassword"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".ScrollActivityProfesional"
+            android:name=".ui.ScrollActivityProfesional"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PerfilBloqueado"
+            android:name=".ui.PerfilBloqueado"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PasosActivarCuentaCliente"
+            android:name=".ui.PasosActivarCuentaCliente"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PasosActivarCuenta"
+            android:name=".ui.PasosActivarCuenta"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ServicioProfesional"
+            android:name=".ui.ServicioProfesional"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ServicioCliente"
+            android:name=".ui.ServicioCliente"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SincronizarServicio"
+            android:name=".ui.SincronizarServicio"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".examen.Diagnostico7"
+            android:name=".ui.examen.Diagnostico7"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".examen.Diagnostico6"
+            android:name=".ui.examen.Diagnostico6"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".examen.Diagnostico5"
+            android:name=".ui.examen.Diagnostico5"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".examen.Diagnostico4"
+            android:name=".ui.examen.Diagnostico4"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".examen.Diagnostico3"
+            android:name=".ui.examen.Diagnostico3"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".examen.Diagnostico2"
+            android:name=".ui.examen.Diagnostico2"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".examen.Diagnostico1"
+            android:name=".ui.examen.Diagnostico1"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".RutaAvanzado"
+            android:name=".ui.RutaAvanzado"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RutaIntermedio"
+            android:name=".ui.RutaIntermedio"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RutaBasico"
+            android:name=".ui.RutaBasico"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MatchSesionCliente" />
+        <activity android:name=".ui.MatchSesionCliente" />
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
 
         <activity
-            android:name=".InicioProfesional"
+            android:name=".ui.InicioProfesional"
             android:label="@string/title_activity_inicio_profesional"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeProfesional.NoActionBar" />
@@ -108,7 +108,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsFragment"
+            android:name=".ui.MapsFragment"
             android:label="@string/title_activity_maps_fragment"
             android:screenOrientation="portrait" />
 
@@ -117,32 +117,32 @@
             android:value="AIzaSyDQV0IqvZ7uyhxDCauRWpgAVgfnYu6iuAg" />
 
         <activity
-            android:name=".StaticActivity"
+            android:name=".ui.StaticActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ScrollActivity"
+            android:name=".ui.ScrollActivity"
             android:label="@string/title_activity_scroll"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".InicioCliente"
+            android:name=".ui.InicioCliente"
             android:label="@string/title_activity_inicio_cliente"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RegistrarseCliente"
+            android:name=".ui.RegistrarseCliente"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RegistrarseProfesional"
+            android:name=".ui.RegistrarseProfesional"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".LoginProfesional"
+            android:name=".ui.LoginProfesional"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

@@ -3,8 +3,7 @@ package com.proathome.servicios.ayuda;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.proathome.fragments.FragmentTicketAyuda;
-import com.proathome.ui.ayuda.AyudaFragment;
+import com.proathome.ui.fragments.FragmentTicketAyuda;
 import com.proathome.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;

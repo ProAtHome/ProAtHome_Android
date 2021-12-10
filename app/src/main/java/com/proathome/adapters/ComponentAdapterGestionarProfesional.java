@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.proathome.R;
-import com.proathome.StaticActivity;
+import com.proathome.ui.StaticActivity;
 import com.proathome.utils.Component;
 import com.proathome.utils.ComponentProfesional;
 import com.proathome.utils.Constants;

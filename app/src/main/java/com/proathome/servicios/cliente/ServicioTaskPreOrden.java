@@ -1,8 +1,8 @@
 package com.proathome.servicios.cliente;
 
 import android.os.AsyncTask;
-import com.proathome.fragments.CobroFinalFragment;
-import com.proathome.fragments.PreOrdenServicio;
+import com.proathome.ui.fragments.CobroFinalFragment;
+import com.proathome.ui.fragments.PreOrdenServicio;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 import org.json.JSONException;

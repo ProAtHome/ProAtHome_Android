@@ -6,12 +6,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.proathome.ServicioCliente;
-import com.proathome.fragments.MasTiempo;
+import com.proathome.ui.ServicioCliente;
+import com.proathome.ui.fragments.MasTiempo;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.servicio.ServicioTaskMasTiempo;
-import com.proathome.fragments.CobroFinalFragment;
+import com.proathome.ui.fragments.CobroFinalFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;

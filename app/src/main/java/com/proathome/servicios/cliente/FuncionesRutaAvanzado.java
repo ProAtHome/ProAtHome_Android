@@ -2,7 +2,7 @@ package com.proathome.servicios.cliente;
 
 import android.content.Context;
 import com.proathome.R;
-import com.proathome.RutaAvanzado;
+import com.proathome.ui.RutaAvanzado;
 
 
 public class FuncionesRutaAvanzado {

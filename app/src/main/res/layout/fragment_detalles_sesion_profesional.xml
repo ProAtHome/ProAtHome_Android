@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.DetallesSesionProfesionalFragment">
+    tools:context=".ui.fragments.DetallesSesionProfesionalFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
                 map:layout_constraintEnd_toEndOf="parent"
                 map:layout_constraintStart_toStartOf="parent"
                 map:layout_constraintTop_toTopOf="parent"
-                tools:context=".MapsFragment" />
+                tools:context=".ui.MapsFragment" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/perfilClienteCard"

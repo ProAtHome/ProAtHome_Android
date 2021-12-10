@@ -3,7 +3,7 @@ package com.proathome.servicios.planes;
 import android.content.Context;
 import android.os.AsyncTask;
 import com.proathome.servicios.ServicioTaskCobro;
-import com.proathome.fragments.DatosBancoPlanFragment;
+import com.proathome.ui.fragments.DatosBancoPlanFragment;
 import com.proathome.utils.Constants;
 import mx.openpay.android.OperationCallBack;
 import mx.openpay.android.OperationResult;

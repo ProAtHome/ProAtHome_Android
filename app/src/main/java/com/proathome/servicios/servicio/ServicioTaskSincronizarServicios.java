@@ -3,9 +3,9 @@ package com.proathome.servicios.servicio;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.proathome.SincronizarServicio;
-import com.proathome.fragments.DetallesFragment;
-import com.proathome.fragments.DetallesSesionProfesionalFragment;
+import com.proathome.ui.SincronizarServicio;
+import com.proathome.ui.fragments.DetallesFragment;
+import com.proathome.ui.fragments.DetallesSesionProfesionalFragment;
 import com.proathome.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;

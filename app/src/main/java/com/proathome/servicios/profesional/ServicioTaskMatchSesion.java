@@ -2,7 +2,7 @@ package com.proathome.servicios.profesional;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import com.proathome.fragments.BuscarSesionFragment;
+import com.proathome.ui.fragments.BuscarSesionFragment;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;

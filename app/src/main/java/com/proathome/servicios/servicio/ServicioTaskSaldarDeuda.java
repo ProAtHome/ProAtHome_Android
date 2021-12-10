@@ -1,7 +1,7 @@
 package com.proathome.servicios.servicio;
 
 import android.os.AsyncTask;
-import com.proathome.fragments.PagoPendienteFragment;
+import com.proathome.ui.fragments.PagoPendienteFragment;
 import com.proathome.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;

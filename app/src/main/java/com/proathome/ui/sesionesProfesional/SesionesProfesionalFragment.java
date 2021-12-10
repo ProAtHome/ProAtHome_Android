@@ -17,7 +17,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterGestionarProfesional;
-import com.proathome.fragments.BuscarSesionFragment;
+import com.proathome.ui.fragments.BuscarSesionFragment;
 import com.proathome.servicios.profesional.AdminSQLiteOpenHelperProfesional;
 import com.proathome.servicios.profesional.ServicioTaskSesionesProfesional;
 import com.proathome.utils.Constants;
