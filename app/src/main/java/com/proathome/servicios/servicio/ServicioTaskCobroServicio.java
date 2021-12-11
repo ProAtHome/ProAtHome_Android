@@ -5,6 +5,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
+import com.proathome.servicios.planes.ServicioTaskValidarPlan;
+import com.proathome.ui.fragments.NuevaSesionFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 
@@ -126,16 +130,77 @@ public class ServicioTaskCobroServicio extends AsyncTask<Void, Void, String> {
             //Guardamos el servicio.
             if(jsonObject.getBoolean("respuesta")){
                 //Guardamos la info de PAGO
-                ServicioTaskGuardarPago guardarPago = new ServicioTaskGuardarPago(this.contexto, jsonObject.getString("mensaje"),
-                        this.cobro, 0.0, "Pagado", this.idCliente);
-                guardarPago.setBundleSesion(bundle);
-                guardarPago.execute();
+                guardarPago(bundle, jsonObject.getString("mensaje"));
             }else
                 showMsg("¡ERROR!", s, SweetAlert.ERROR_TYPE);
         }catch(JSONException ex){
             ex.printStackTrace();
         }
         progressDialog.dismiss();
+    }
+
+    private void guardarPago(Bundle bundle, String token){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", token);
+            jsonObject.put("costoServicio", 0.0);
+            jsonObject.put("costoTE", 0.0);
+            jsonObject.put("estatusPago", "Pagado");
+            jsonObject.put("idCliente", this.idCliente);
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                registrarSesion(bundle, token);
+            }, APIEndPoints.GUARDAR_TOKEN_PAGO, WebServicesAPI.PUT, jsonObject);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void registrarSesion(Bundle bundle, String token){
+        JSONObject parametrosPOST = new JSONObject();
+        try {
+            parametrosPOST.put("idCliente", this.idCliente);
+            parametrosPOST.put("horario", bundle.getString("horario"));
+            parametrosPOST.put("lugar", bundle.getString("lugar"));
+            parametrosPOST.put("tiempo", bundle.getInt("tiempo"));
+            parametrosPOST.put("idSeccion", bundle.getInt("idSeccion"));
+            parametrosPOST.put("idNivel", bundle.getInt("idNivel"));
+            parametrosPOST.put("idBloque", bundle.getInt("idBloque"));
+            parametrosPOST.put("extras", bundle.getString("extras"));
+            parametrosPOST.put("tipoServicio", bundle.getString("tipoServicio"));
+            parametrosPOST.put("latitud", bundle.getDouble("latitud"));
+            parametrosPOST.put("longitud", bundle.getDouble("longitud"));
+            parametrosPOST.put("actualizado", bundle.getString("actualizado"));
+            parametrosPOST.put("fecha",  bundle.getString("fecha"));
+            parametrosPOST.put("sumar", bundle.getBoolean("sumar"));
+            parametrosPOST.put("tipoPlan", bundle.getString("tipoPlan"));
+            parametrosPOST.put("personas", bundle.getInt("personas"));
+            parametrosPOST.put("token", token);
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                JSONObject jsonObject = new JSONObject(response);
+                if(jsonObject.getBoolean("respuesta"))
+                    actualizarMonedero(jsonObject);
+                else
+                    showMsg("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.ERROR_TYPE);
+            }, APIEndPoints.REGISTRAR_SESION_CLIENTE, WebServicesAPI.POST, parametrosPOST);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void actualizarMonedero(JSONObject jsonObject) throws JSONException {
+        JSONObject parametrosPUT= new JSONObject();
+        parametrosPUT.put("idCliente", idCliente);
+        parametrosPUT.put("nuevoMonedero", NuevaSesionFragment.nuevoMonedero);
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            ServicioTaskValidarPlan validarPlan = new ServicioTaskValidarPlan(this.contexto, idCliente);
+            validarPlan.execute();
+        }, APIEndPoints.ACTUALIZAR_MONEDERO, WebServicesAPI.PUT, parametrosPUT);
+        webServicesAPI.execute();
+
+        NuevaSesionFragment.nuevoMonedero = 0;
+        showMsg("¡GENIAL!", jsonObject.getString("mensaje"), SweetAlert.SUCCESS_TYPE);
     }
 
     public void showMsg(String titulo, String mensaje, int tipo){

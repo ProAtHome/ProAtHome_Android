@@ -34,9 +34,10 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.ui.InicioCliente;
 import com.proathome.servicios.WorkaroundMapFragment;
-import com.proathome.servicios.servicio.ServicioTaskGuardarPago;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ControladorTomarSesion;
 import com.proathome.servicios.cliente.ServicioTaskBancoCliente;
@@ -46,6 +47,10 @@ import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -295,12 +300,9 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                     Si, entonces, Al iniciar el servicio no mostramos Pre Orden ya que está pagado.*/
         if (!InicioCliente.planActivo.equals("PARTICULAR")) {
             //Guardamos la info de PAGO
-            ServicioTaskGuardarPago guardarPago = new ServicioTaskGuardarPago(getContext(), "PLAN - " + SesionesFragment.PLAN,
-                    0.0, 0.0, "Pagado", this.idCliente);
             Bundle bundle = getBundleSesion(idCliente, horario, lugar, tiempo, idSeccion, idNivel, idBloque, extras, tipoServicio, latitud, longitud, actualizado,
                     fecha, sumar, tipoPlan, personas);
-            guardarPago.setBundleSesion(bundle);
-            guardarPago.execute();
+            guardarPago(bundle, "PLAN - " + SesionesFragment.PLAN);
         }else{
                 PreOrdenServicio.sesion = "Sesión: " + Component.getSeccion(secciones.getSelectedItemPosition() + 1) + " / "
                         + Component.getNivel(secciones.getSelectedItemPosition() + 1, niveles.getSelectedItemPosition() + 1) + " / "
@@ -315,6 +317,88 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                 preOrdenServicio.setArguments(bundle);
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 preOrdenServicio.show(fragmentTransaction, "PreOrden");
+        }
+    }
+
+    private void guardarPago(Bundle bundle, String token){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", token);
+            jsonObject.put("costoServicio", 0.0);
+            jsonObject.put("costoTE", 0.0);
+            jsonObject.put("estatusPago", "Pagado");
+            jsonObject.put("idCliente", this.idCliente);
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                registrarSesion(bundle, token);
+            }, APIEndPoints.GUARDAR_TOKEN_PAGO, WebServicesAPI.PUT, jsonObject);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void registrarSesion(Bundle bundle, String token){
+        JSONObject parametrosPOST = new JSONObject();
+        try {
+            parametrosPOST.put("idCliente", this.idCliente);
+            parametrosPOST.put("horario", bundle.getString("horario"));
+            parametrosPOST.put("lugar", bundle.getString("lugar"));
+            parametrosPOST.put("tiempo", bundle.getInt("tiempo"));
+            parametrosPOST.put("idSeccion", bundle.getInt("idSeccion"));
+            parametrosPOST.put("idNivel", bundle.getInt("idNivel"));
+            parametrosPOST.put("idBloque", bundle.getInt("idBloque"));
+            parametrosPOST.put("extras", bundle.getString("extras"));
+            parametrosPOST.put("tipoServicio", bundle.getString("tipoServicio"));
+            parametrosPOST.put("latitud", bundle.getDouble("latitud"));
+            parametrosPOST.put("longitud", bundle.getDouble("longitud"));
+            parametrosPOST.put("actualizado", bundle.getString("actualizado"));
+            parametrosPOST.put("fecha",  bundle.getString("fecha"));
+            parametrosPOST.put("sumar", bundle.getBoolean("sumar"));
+            parametrosPOST.put("tipoPlan", bundle.getString("tipoPlan"));
+            parametrosPOST.put("personas", bundle.getInt("personas"));
+            parametrosPOST.put("token", token);
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                JSONObject jsonObject = new JSONObject(response);
+                if(jsonObject.getBoolean("respuesta"))
+                    actualizarMonedero(jsonObject);
+                else
+                    showMsg("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.ERROR_TYPE);
+            }, APIEndPoints.REGISTRAR_SESION_CLIENTE, WebServicesAPI.POST, parametrosPOST);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void actualizarMonedero(JSONObject jsonObject) throws JSONException {
+        JSONObject parametrosPUT= new JSONObject();
+        parametrosPUT.put("idCliente", idCliente);
+        parametrosPUT.put("nuevoMonedero", NuevaSesionFragment.nuevoMonedero);
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            ServicioTaskValidarPlan validarPlan = new ServicioTaskValidarPlan(getContext(), idCliente);
+            validarPlan.execute();
+        }, APIEndPoints.ACTUALIZAR_MONEDERO, WebServicesAPI.PUT, parametrosPUT);
+        webServicesAPI.execute();
+
+        NuevaSesionFragment.nuevoMonedero = 0;
+        showMsg("¡GENIAL!", jsonObject.getString("mensaje"), SweetAlert.SUCCESS_TYPE);
+    }
+
+    private void showMsg(String titulo, String mensaje, int tipo){
+        if(tipo == SweetAlert.ERROR_TYPE){
+            new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
+                    .setTitleText(titulo)
+                    .setContentText(mensaje)
+                    .show();
+        }else if( tipo == SweetAlert.SUCCESS_TYPE){
+            new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
+                    .setTitleText(titulo)
+                    .setContentText(mensaje)
+                    .setConfirmButton("¡VAMOS!", sweetAlertDialog -> {
+                        NuevaSesionFragment.dialogFragment.dismiss();
+                        sweetAlertDialog.dismissWithAnimation();
+                    })
+                    .show();
         }
     }
 
@@ -362,17 +446,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
             }
         });
-    }
-
-    public void succesAlert(){
-        new SweetAlert(getContext(), SweetAlert.SUCCESS_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("¡GENIAL!")
-                .setContentText("Revisa tu nueva servicio en Inicio o en Gestión de Sesiones.")
-                .setConfirmButton("¡VAMOS!", sweetAlertDialog -> {
-                    dismiss();
-                    sweetAlertDialog.dismissWithAnimation();
-                })
-                .show();
     }
 
     public int obtenerMinutosHorario() {

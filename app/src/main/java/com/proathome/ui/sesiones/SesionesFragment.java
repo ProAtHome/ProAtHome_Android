@@ -21,7 +21,6 @@ import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterGestionar;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
-import com.proathome.servicios.servicio.ServicioSesionesPagadas;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ServicioTaskSesionesCliente;
 import com.proathome.ui.fragments.NuevaSesionFragment;
@@ -71,8 +70,7 @@ public class SesionesFragment extends Fragment {
         sesionesTask.execute();
         configAdapter();
         configRecyclerView();
-        ServicioSesionesPagadas servicioSesionesPagadas = new ServicioSesionesPagadas(this.idCliente);
-        servicioSesionesPagadas.execute();
+        sesionesPagadas();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -92,14 +90,21 @@ public class SesionesFragment extends Fragment {
             baseDeDatos.close();
         }
 
-
         webServiceDisponibilidad();
-
-        ServicioSesionesPagadas servicioSesionesPagadas = new ServicioSesionesPagadas(this.idCliente);
-        servicioSesionesPagadas.execute();
+        sesionesPagadas();
 
         return root;
 
+    }
+
+    private void sesionesPagadas(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            JSONObject jsonObject = new JSONObject(response);
+            //TODO FLUJO_PLANES_EJECUTAR: Posible cambio de algortimo para obtener plan_activo, verificar la fecha de inicio si es distinto a PARTICULAR.
+            PLAN_ACTIVO = jsonObject.getBoolean("plan_activo");
+            SESIONES_PAGADAS_FINALIZADAS = jsonObject.getBoolean("sesiones_pagadas_finalizadas");
+        }, APIEndPoints.SESIONES_PAGADAS_Y_FINALIZADAS + this.idCliente, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
     }
 
     private void webServiceDisponibilidad(){

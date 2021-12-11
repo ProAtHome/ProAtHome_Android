@@ -12,7 +12,7 @@ import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.planes.ServicioTaskValidarPlan;
-import com.proathome.servicios.servicio.ServicioSesionesPagadas;
+import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
@@ -283,11 +283,20 @@ public class OrdenCompraPlanFragment extends DialogFragment {
         parametrosPost.put("monedero", OrdenCompraPlanFragment.monedero);
         parametrosPost.put("idCliente", this.idCliente);
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            ServicioSesionesPagadas servicioSesionesPagadas = new ServicioSesionesPagadas(OrdenCompraPlanFragment.idCliente);
-            servicioSesionesPagadas.execute();
+            sesionesPagadas();
             ServicioTaskValidarPlan validarPlan = new ServicioTaskValidarPlan(getContext(), this.idCliente);
             validarPlan.execute();
         }, APIEndPoints.GENERAR_PLAN, WebServicesAPI.POST, parametrosPost);
+        webServicesAPI.execute();
+    }
+
+    private void sesionesPagadas(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            JSONObject jsonObject = new JSONObject(response);
+            //TODO FLUJO_PLANES_EJECUTAR: Posible cambio de algortimo para obtener plan_activo, verificar la fecha de inicio si es distinto a PARTICULAR.
+            SesionesFragment.PLAN_ACTIVO = jsonObject.getBoolean("plan_activo");
+            SesionesFragment.SESIONES_PAGADAS_FINALIZADAS = jsonObject.getBoolean("sesiones_pagadas_finalizadas");
+        }, APIEndPoints.SESIONES_PAGADAS_Y_FINALIZADAS + this.idCliente, WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

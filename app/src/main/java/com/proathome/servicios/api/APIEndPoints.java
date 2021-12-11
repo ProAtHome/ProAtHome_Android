@@ -19,6 +19,8 @@ public class APIEndPoints {
     public static final String ACTUALIZAR_PAGO_TE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/actualizarPagoTE";
     public static final String UPDATE_CUENTA_CLIENTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/actualizarCuentaCliente";
     public static final String REGISTRAR_SESION_CLIENTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/agregarSesion";
+    public static final String SESIONES_PAGADAS_Y_FINALIZADAS = Constants.IP + "/ProAtHome/apiProAtHome/cliente/verificarSesionesPagadas/";
+    public static final String GUARDAR_TOKEN_PAGO = Constants.IP + "/ProAtHome/apiProAtHome/cliente/guardarTokenPagoServicio";
 
     public static final String COBROS = Constants.IP_80 + "/assets/lib/Cargo.php";
     public static final String VERIFICACION_CORREO = Constants.IP_80 + "/assets/lib/Verificacion.php?enviar=true";
