@@ -11,7 +11,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
-import com.proathome.servicios.planes.ServicioTaskValidarPlan;
+import com.proathome.servicios.cliente.ServiciosCliente;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
@@ -284,8 +284,7 @@ public class OrdenCompraPlanFragment extends DialogFragment {
         parametrosPost.put("idCliente", this.idCliente);
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             sesionesPagadas();
-            ServicioTaskValidarPlan validarPlan = new ServicioTaskValidarPlan(getContext(), this.idCliente);
-            validarPlan.execute();
+            ServiciosCliente.validarPlan(this.idCliente, getContext());
         }, APIEndPoints.GENERAR_PLAN, WebServicesAPI.POST, parametrosPost);
         webServicesAPI.execute();
     }

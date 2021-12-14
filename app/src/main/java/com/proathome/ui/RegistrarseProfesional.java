@@ -10,15 +10,18 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
-import com.proathome.servicios.profesional.ServicioTaskRegistroProfesional;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,9 +34,6 @@ public class RegistrarseProfesional extends AppCompatActivity {
     private int mDayIni, mMonthIni, mYearIni, sDayIni, sMonthIni, sYearIni;
     public static final int DATE_ID = 0;
     public Calendar calendar = Calendar.getInstance();
-    private ServicioTaskRegistroProfesional servicioTaskRegistroProfesional;
-    private final String registrarProfesionalREST = Constants.IP + "/ProAtHome/apiProAtHome/" +
-            "profesional/agregarProfesional";
     @BindView(R.id.nombreET_R)
     TextInputEditText nombreET;
     @BindView(R.id.paternoET_R)
@@ -138,11 +138,9 @@ public class RegistrarseProfesional extends AppCompatActivity {
             if(contrasenaET.getText().toString().trim().matches(".*\\d.*") && contrasenaET.getText().toString().trim().matches(".*[a-z].*") && contrasenaET.getText().toString().trim().matches(".*[A-Z].*") && contrasenaET.getText().toString().trim().length() >= 8){
                 //Verificar que las contraseñas sean iguales
                 if(contrasenaET.getText().toString().trim().equals(contrasena2ET.getText().toString())) {
-                    if(checkBox.isChecked()){
-                        servicioTaskRegistroProfesional = new ServicioTaskRegistroProfesional(this, registrarProfesionalREST, nombreET.getText().toString(), paternoET.getText().toString(), maternoET.getText().toString(), fechaET.getText().toString(),
-                                celularET.getText().toString(), telefonoET.getText().toString(), direccionET.getText().toString(), genero.getSelectedItem().toString(), correoET.getText().toString(), contrasenaET.getText().toString());
-                        servicioTaskRegistroProfesional.execute();
-                    }else
+                    if(checkBox.isChecked())
+                        registrarProfesional();
+                    else
                         errorMsg("¡ESPERA!", "Debes aceptar los Términos y Condiciones.", SweetAlert.ERROR_TYPE);
                 }else
                     errorMsg("¡ERROR!", "Las contraseñas no coinciden.", SweetAlert.ERROR_TYPE);
@@ -151,6 +149,53 @@ public class RegistrarseProfesional extends AppCompatActivity {
         }else
             errorMsg("¡ERROR!", "Llena todos los campos correctamente.", SweetAlert.ERROR_TYPE);
     }//Fin método registrar.
+
+    private void registrarProfesional(){
+        JSONObject parametrosPost= new JSONObject();
+        try {
+            parametrosPost.put("nombre", nombreET.getText().toString());
+            parametrosPost.put("paterno", paternoET.getText().toString());
+            parametrosPost.put("materno", maternoET.getText().toString());
+            parametrosPost.put("correo", correoET.getText().toString());
+            parametrosPost.put("celular", celularET.getText().toString());
+            parametrosPost.put("telefono", telefonoET.getText().toString());
+            parametrosPost.put("direccion", direccionET.getText().toString());
+            parametrosPost.put("fechaNacimiento", fechaET.getText().toString());
+            parametrosPost.put("genero", genero.getSelectedItem().toString());
+            parametrosPost.put("contrasena", contrasenaET.getText().toString());
+
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                try{
+                    JSONObject jsonObject = new JSONObject(response);
+                    if(jsonObject.getBoolean("respuesta")){
+                        JSONObject post = new JSONObject();
+                        post.put("token", jsonObject.getString("token"));
+                        post.put("correo", correoET.getText().toString());
+                        WebServicesAPI fastServices = new WebServicesAPI(output -> {
+                            new SweetAlert(this, SweetAlert.SUCCESS_TYPE, SweetAlert.PROFESIONAL)
+                                    .setTitleText("¡GENIAL!")
+                                    .setContentText(jsonObject.getString("mensaje"))
+                                    .setConfirmButton("OK", sweetAlertDialog -> {
+                                        startActivity(new Intent(this, LoginProfesional.class));
+                                    })
+                                    .show();
+                        }, Constants.IP_80 + "/assets/lib/Verificacion.php?enviarPro=true", WebServicesAPI.POST, post);
+                        fastServices.execute();
+                    }else{
+                        new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
+                                .setTitleText("¡ERROR!")
+                                .setContentText(jsonObject.getString("mensaje"))
+                                .show();
+                    }
+                }catch(JSONException ex){
+                    ex.printStackTrace();
+                }
+            }, APIEndPoints.REGISTRAR_PROFESIONAL, WebServicesAPI.POST, parametrosPost);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void errorMsg(String titulo, String mensaje, int tipo){
         new SweetAlert(this, tipo, SweetAlert.CLIENTE)

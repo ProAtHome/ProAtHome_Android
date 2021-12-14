@@ -29,16 +29,16 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.ui.fragments.DatosFiscalesFragment;
 import com.proathome.servicios.profesional.AdminSQLiteOpenHelperProfesional;
-import com.proathome.servicios.profesional.ServicioTaskBancoProfesional;
 import com.proathome.servicios.profesional.ServicioTaskPerfilProfesional;
 import com.proathome.servicios.profesional.ServicioTaskReportes;
-import com.proathome.servicios.profesional.ServicioTaskUpCuentaProfesional;
-import com.proathome.servicios.profesional.ServicioTaskUpPerfilProfesional;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
-
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Hashtable;
@@ -52,19 +52,10 @@ public class EditarPerfilProfesionalFragment extends Fragment {
 
     private String linkRESTCargarPerfil = Constants.IP +
             "/ProAtHome/apiProAtHome/profesional/perfilProfesional";
-    private String linkRESTDatosBancarios = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesional/obtenerDatosBancarios";
-    private String linkRESTActualizarPerfil = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesional/actualizarPerfil";
-    private String linkRESTActualizarBanco = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesional/actualizarCuenta";
     private String imageHttpAddress = Constants.IP_80 + "/assets/img/fotoPerfil/";
     private String linkFoto = Constants.IP_80 + "/assets/lib/ActualizarFotoProfesionalAndroid.php";
     private Unbinder mUnbinder;
     private ServicioTaskPerfilProfesional perfilCliente;
-    private ServicioTaskBancoProfesional bancoCliente;
-    private ServicioTaskUpPerfilProfesional actualizarPerfil;
-    private ServicioTaskUpCuentaProfesional actualizarBanco;
     public static TextView tvNombre;
     public static TextView tvCorreo;
     public static TextInputEditText etCelular;
@@ -134,10 +125,7 @@ public class EditarPerfilProfesionalFragment extends Fragment {
         }
 
         btnActualizarInfo.setOnClickListener(view -> {
-            actualizarPerfil = new ServicioTaskUpPerfilProfesional(getContext(), linkRESTActualizarPerfil,
-                    this.idProfesional, etCelular.getText().toString(), etTelefono.getText().toString(), etDireccion.getText().toString(),
-                    etDesc.getText().toString());
-            actualizarPerfil.execute();
+            actualizarPerfil();
             uploadImage();
         });
 
@@ -231,8 +219,7 @@ public class EditarPerfilProfesionalFragment extends Fragment {
             perfilCliente = new ServicioTaskPerfilProfesional(getContext(), linkRESTCargarPerfil,
                     this.imageHttpAddress, this.idProfesional, Constants.INFO_PERFIl_EDITAR);
             perfilCliente.execute();
-            bancoCliente = new ServicioTaskBancoProfesional(getContext(), linkRESTDatosBancarios, this.idProfesional);
-            bancoCliente.execute();
+            getDatosBanco();
         }else{
             baseDeDatos.close();
         }
@@ -241,19 +228,91 @@ public class EditarPerfilProfesionalFragment extends Fragment {
 
     }
 
+    private void actualizarPerfil(){
+        JSONObject parametrosPUT = new JSONObject();
+        try {
+            parametrosPUT.put("idProfesional", this.idProfesional);
+            parametrosPUT.put("celular", etCelular.getText().toString());
+            parametrosPUT.put("telefonoLocal", etTelefono.getText().toString());
+            parametrosPUT.put("direccion", etDireccion.getText().toString());
+            parametrosPUT.put("descripcion", etDesc.getText().toString());
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                try{
+                    JSONObject jsonObject = new JSONObject(response);
+                    if(jsonObject.getBoolean("respuesta"))
+                        msgSweet("¡GENIAL!", jsonObject.getString("mensaje"), SweetAlert.SUCCESS_TYPE);
+                    else
+                        msgSweet("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.WARNING_TYPE);
+                }catch(JSONException ex){
+                    ex.printStackTrace();
+                }
+            }, APIEndPoints.ACTUALIZAR_PERFIL_PROFESIONAL, WebServicesAPI.PUT, parametrosPUT);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getDatosBanco(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                if(jsonObject.getBoolean("respuesta")){
+                    JSONObject jsonDatos = jsonObject.getJSONObject("mensaje");
+                    if(jsonDatos.getBoolean("existe")){
+                        etTitular.setText(jsonDatos.getString("nombreTitular"));
+                        etBanco.setText(jsonDatos.getString("banco"));
+                        etClabe.setText(jsonDatos.getString("clabe"));
+                    }
+                }
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.DATOS_BANCARIOS_PROFESIONAL + this.idProfesional, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
     public void actualizarDatosBancarios(){
         if(!etTitular.getText().toString().trim().equalsIgnoreCase("") && !etBanco.getText().toString().trim().equalsIgnoreCase("")
             && !etClabe.getText().toString().trim().equalsIgnoreCase("")){
-            actualizarBanco = new ServicioTaskUpCuentaProfesional(getContext(), linkRESTActualizarBanco,
-                    this.idProfesional, etTitular.getText().toString(), etBanco.getText().toString(),
-                    etClabe.getText().toString());
-            actualizarBanco.execute();
+            upDatosBancoService();
         }else{
             new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
                     .setTitleText("¡ERROR!")
                     .setContentText("Llena todos los campos correctamente.")
                     .show();
         }
+    }
+
+    private void upDatosBancoService(){
+        JSONObject parametrosPUT = new JSONObject();
+        try {
+            parametrosPUT.put("idProfesional", this.idProfesional);
+            parametrosPUT.put("nombreTitular", etTitular.getText().toString());
+            parametrosPUT.put("banco",  etBanco.getText().toString());
+            parametrosPUT.put("clabe", etClabe.getText().toString().trim());
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                try{
+                    JSONObject jsonObject = new JSONObject(response);
+                    if(jsonObject.getBoolean("respuesta"))
+                        msgSweet("¡GENIAL!", jsonObject.getString("mensaje"), SweetAlert.SUCCESS_TYPE);
+                    else
+                        msgSweet("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.ERROR_TYPE);
+                }catch (JSONException ex){
+                    ex.printStackTrace();
+                }
+            }, APIEndPoints.UPDATE_CUENTA_PROFESIONAL, WebServicesAPI.PUT, parametrosPUT);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void msgSweet(String titulo, String mensaje, int tipo){
+        new SweetAlert(getContext(), tipo, SweetAlert.PROFESIONAL)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .show();
     }
 
     public void actualizarFiscales(){

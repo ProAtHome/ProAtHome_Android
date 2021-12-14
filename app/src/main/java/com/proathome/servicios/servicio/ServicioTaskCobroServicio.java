@@ -4,29 +4,24 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
-import com.proathome.servicios.planes.ServicioTaskValidarPlan;
+import com.proathome.servicios.cliente.ServiciosCliente;
 import com.proathome.ui.fragments.NuevaSesionFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-
 import java.net.HttpURLConnection;
 
 public class ServicioTaskCobroServicio extends AsyncTask<Void, Void, String> {
@@ -194,8 +189,7 @@ public class ServicioTaskCobroServicio extends AsyncTask<Void, Void, String> {
         parametrosPUT.put("idCliente", idCliente);
         parametrosPUT.put("nuevoMonedero", NuevaSesionFragment.nuevoMonedero);
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            ServicioTaskValidarPlan validarPlan = new ServicioTaskValidarPlan(this.contexto, idCliente);
-            validarPlan.execute();
+            ServiciosCliente.validarPlan(idCliente, this.contexto);
         }, APIEndPoints.ACTUALIZAR_MONEDERO, WebServicesAPI.PUT, parametrosPUT);
         webServicesAPI.execute();
 
@@ -203,11 +197,22 @@ public class ServicioTaskCobroServicio extends AsyncTask<Void, Void, String> {
         showMsg("¡GENIAL!", jsonObject.getString("mensaje"), SweetAlert.SUCCESS_TYPE);
     }
 
-    public void showMsg(String titulo, String mensaje, int tipo){
-        new SweetAlert(this.contexto, tipo, SweetAlert.PROFESIONAL)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .show();
+    private void showMsg(String titulo, String mensaje, int tipo){
+        if(tipo == SweetAlert.ERROR_TYPE){
+            new SweetAlert(this.contexto, tipo, SweetAlert.CLIENTE)
+                    .setTitleText(titulo)
+                    .setContentText(mensaje)
+                    .show();
+        }else if( tipo == SweetAlert.SUCCESS_TYPE){
+            new SweetAlert(this.contexto, tipo, SweetAlert.CLIENTE)
+                    .setTitleText(titulo)
+                    .setContentText(mensaje)
+                    .setConfirmButton("¡VAMOS!", sweetAlertDialog -> {
+                        sweetAlertDialog.dismissWithAnimation();
+                        NuevaSesionFragment.dialogFragment.dismiss();
+                    })
+                    .show();
+        }
     }
 
     public void setBundleSesion(Bundle bundle){

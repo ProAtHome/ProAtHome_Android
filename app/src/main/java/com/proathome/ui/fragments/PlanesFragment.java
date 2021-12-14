@@ -14,13 +14,18 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ServicioTaskBancoCliente;
 import com.proathome.servicios.cliente.ServicioTaskSesionActual;
-import com.proathome.servicios.planes.ServicioTaskFechaServidor;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -57,8 +62,7 @@ public class PlanesFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialog);
         setCancelable(false);
-        ServicioTaskFechaServidor fechaServidor = new ServicioTaskFechaServidor();
-        fechaServidor.execute();
+        getFechaServidor();
     }
 
     @Override
@@ -104,6 +108,18 @@ public class PlanesFragment extends DialogFragment {
         });
 
         return view;
+    }
+
+    private void getFechaServidor(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try{
+                JSONObject jsonObject = new JSONObject(response);
+                fechaServidor = jsonObject.getString("fechaServidor");
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.FECHA_SERVIDOR, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
     }
 
     public void verPromo(String titulo, String mensaje, int plan){

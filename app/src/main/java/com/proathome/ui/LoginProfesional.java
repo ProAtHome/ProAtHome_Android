@@ -1,15 +1,24 @@
 package com.proathome.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
+import com.proathome.servicios.profesional.AdminSQLiteOpenHelperProfesional;
 import com.proathome.ui.password.EmailPassword;
-import com.proathome.servicios.profesional.ServicioTaskLoginProfesional;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -18,8 +27,6 @@ import butterknife.Unbinder;
 public class LoginProfesional extends AppCompatActivity {
 
     private Intent intent;
-    private final String iniciarSesionProfesionalREST = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesional/sesionProfesional";
     @BindView(R.id.correoET_ISP)
     TextInputEditText correoET;
     @BindView(R.id.contraET_ISP)
@@ -77,9 +84,7 @@ public class LoginProfesional extends AppCompatActivity {
                 !contrasenaET.getText().toString().trim().equalsIgnoreCase("")){
             String correo = String.valueOf(correoET.getText()).trim();
             String contrasena = String.valueOf(contrasenaET.getText()).trim();
-            ServicioTaskLoginProfesional servicio = new ServicioTaskLoginProfesional(this, iniciarSesionProfesionalREST,
-                    correo, contrasena);
-            servicio.execute();
+            login(correo, contrasena);
         }else{
             new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
                     .setTitleText("¡Error!")
@@ -91,6 +96,59 @@ public class LoginProfesional extends AppCompatActivity {
         }
 
     }//Fin método entrar.
+
+    private void login(String correo, String pass){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try{
+                if(response == null){
+                    errorMsg("Ocurrió un error inesperado, intenta de nuevo.");
+                }else {
+                    if(!response.equals("null")){
+                        JSONObject jsonObject = new JSONObject(response);
+                        if(jsonObject.getString("estado").equalsIgnoreCase("ACTIVO")) {
+                            if(jsonObject.getBoolean("verificado")){
+                                AdminSQLiteOpenHelperProfesional admin = new AdminSQLiteOpenHelperProfesional(this,
+                                        "sesionProfesional", null, 1);
+                                SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+                                ContentValues registro = new ContentValues();
+                                registro.put("id", 1);
+                                registro.put("idProfesional", jsonObject.getInt("idProfesional"));
+                                registro.put("correo" , correo);
+                                registro.put("rangoServicio", jsonObject.getInt("rangoServicio"));
+                                baseDeDatos.insert("sesionProfesional", null, registro);
+                                baseDeDatos.close();
+
+                                startActivity(new Intent(this, InicioProfesional.class));
+                            }else
+                                errorMsg("Aún no verificas tu cuenta de correo electrónico.");
+                        }else if(jsonObject.getString("estado").equalsIgnoreCase("documentacion") ||
+                                jsonObject.getString("estado").equalsIgnoreCase("cita") ||
+                                jsonObject.getString("estado").equalsIgnoreCase("registro")){
+                                    startActivity(new Intent(this, PasosActivarCuenta.class));
+                        }else if(jsonObject.getString("estado").equalsIgnoreCase("BLOQUEADO")){
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("tipoPerfil", Constants.TIPO_USUARIO_PROFESIONAL);
+                            Intent intent = new Intent(this, PerfilBloqueado.class);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+                    }else
+                        errorMsg("Usuario no registrado o tus datos están incorrectos.");
+                }
+            }catch (JSONException ex){
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.INICIAR_SESION_PROFESIONAL + correo + "/" + pass, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
+
+    public void errorMsg(String mensaje){
+        new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
+    }
 
     @Override
     protected void onDestroy() {

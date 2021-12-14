@@ -5,6 +5,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import androidx.fragment.app.FragmentActivity;
+
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.ui.ServicioCliente;
 import com.proathome.ui.ServicioProfesional;
 import com.proathome.R;
@@ -148,8 +151,7 @@ public class ServicioTaskSesionDisponible extends AsyncTask<Void, Void, String> 
                                     finalizarServicio.execute();
                                     //Sumamos la ruta de Aprendizaje.
                                     //TODO FLUJO_EVALUACION: Mostrar modal de evaluación;
-                                    ServicioTaskSumarServicioRuta sumarServicioRuta = new ServicioTaskSumarServicioRuta(Constants.contexto_DISPONIBILIDAD_PROGRESO, Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO, ServicioCliente.idSeccion, ServicioCliente.idNivel, ServicioCliente.idBloque, ServicioCliente.tiempo, ServicioCliente.sumar);
-                                    sumarServicioRuta.execute();
+                                    sumarSevicioRuta();
                                     ServicioCliente.terminado_TE = false;
                                     ServicioCliente.timer.cancel();
                                     ServicioCliente.terminar.setVisibility(View.VISIBLE);
@@ -341,5 +343,25 @@ public class ServicioTaskSesionDisponible extends AsyncTask<Void, Void, String> 
             e.printStackTrace();
         }
 
+    }
+
+    private void sumarSevicioRuta(){
+        JSONObject parametros = new JSONObject();
+        try {
+            parametros.put("idCliente", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
+            parametros.put("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
+            parametros.put("idSeccion", ServicioCliente.idSeccion);
+            parametros.put("idNivel",  ServicioCliente.idNivel);
+            parametros.put("idBloque", ServicioCliente.idBloque);
+            parametros.put("horasA_sumar", ServicioCliente.tiempo);
+            parametros.put("fecha_registro", "Hoy");
+            parametros.put("sumar", ServicioCliente.sumar);
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                DetallesFragment.procedenciaFin = true;
+            }, APIEndPoints.SUMAR_SERVICIO_RUTA, WebServicesAPI.POST, parametros);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

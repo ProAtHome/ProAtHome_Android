@@ -1,6 +1,5 @@
 package com.proathome.servicios.api;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import org.json.JSONException;
 import org.json.JSONObject;

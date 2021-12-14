@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,14 +28,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.ui.MatchSesionCliente;
 import com.proathome.R;
-import com.proathome.servicios.WorkaroundMapFragment;
+import com.proathome.utils.Component;
+import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.profesional.AdminSQLiteOpenHelperProfesional;
-import com.proathome.servicios.profesional.ServicioTaskObtenerSesiones;
-import com.proathome.utils.Constants;
 import com.proathome.utils.PermisosUbicacion;
 import com.proathome.utils.SweetAlert;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
@@ -47,8 +50,6 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
 
     public static final String TAG = "Nueva Sesión";
     public static Context contexto;
-    private String linkAPISesiones = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesional/obtenerSesionesMovil";
     public static int RANGO_BUSQUEDA = 4000;
     private int idProfesional, rangoServicio;
     private double latitud, longitud;
@@ -159,8 +160,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
 
         });
 
-        ServicioTaskObtenerSesiones obtenerSesiones = new ServicioTaskObtenerSesiones(getContext(), this.linkAPISesiones, this.rangoServicio);
-        obtenerSesiones.execute();
+        getSesiones();
 
         BuscarSesionFragment.mMap.setOnMarkerClickListener(marker -> {
             if(marker.getSnippet().equals("profesional")){
@@ -194,8 +194,52 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
 
             return true;
         });
-        BuscarSesionFragment.mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion,15));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion,15));
 
+    }
+
+    private void getSesiones(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            if(response == null){
+                errorMsg("Error del servidor, intente de nuevo más tarde.", SweetAlert.ERROR_TYPE);
+            }else{
+                if(!response.equals("null")){
+                    try{
+                        JSONArray jsonArray = new JSONArray(response);
+                        for (int i = 0; i < jsonArray.length(); i++){
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            LatLng ubicacion = new LatLng(object.getDouble("latitud"), object.getDouble("longitud"));
+                            Marker marker = mMap.addMarker(new MarkerOptions()
+                                    .position(ubicacion).title("Sesion de: " + object.getString("nombre") +
+                                            "\n" + "Nivel: " + Component.getSeccion(object.getInt("idSeccion")) +
+                                            "/" + Component.getNivel(object.getInt("idSeccion"),
+                                            object.getInt("idNivel")) + "\n" + "TIPO DE PLAN: " + object.getString("tipoPlan")).snippet(String.valueOf(
+                                            object.getInt("idSesion"))));
+                            if(!object.getString("tipoPlan").equalsIgnoreCase("PARTICULAR") && !object.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN"))
+                                marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.profplan));
+                            perth.add(marker);
+                        }
+                        LatLng ubicacion = new LatLng(19.4326077, -99.13320799999);
+                        for(Marker marcador: BuscarSesionFragment.perth){
+                            LatLng latLng = marcador.getPosition();
+                            mostrarMarcadores(ubicacion, latLng, marcador);
+                        }
+                    }catch(JSONException ex){
+                        ex.printStackTrace();
+                    }
+                }else
+                    errorMsg("Sin Sesiones disponibles.", SweetAlert.WARNING_TYPE);
+            }
+        }, APIEndPoints.BUSCAR_SESIONES + this.rangoServicio, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
+
+    public void errorMsg(String mensaje, int tipo){
+        new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
     }
 
     private void showAlert() {

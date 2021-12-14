@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import com.proathome.servicios.planes.ServicioTaskValidarPlan;
 import com.proathome.ui.fragments.PlanesFragment;
 import com.proathome.ui.InicioCliente;
 import com.proathome.ui.editarPerfil.EditarPerfilFragment;
@@ -17,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import java.net.HttpURLConnection;
 
 public class ServicioTaskPerfilCliente extends AsyncTask<Void, Void, String> {
@@ -137,8 +135,7 @@ public class ServicioTaskPerfilCliente extends AsyncTask<Void, Void, String> {
                             -Si, entonces, verificar la expiracion y el monedero (En el servidor verificamos el monedero y  la expiración,
                                 y ahí decidimos si finalizamos el plan activo, en cualquier caso regresamos un mensaje validando o avisando que valió verga.
                             -No, entonces, todo sigue el flujo.*/
-                        ServicioTaskValidarPlan validarPlan = new ServicioTaskValidarPlan(this.httpContext, this.idCliente);
-                        validarPlan.execute();
+                        ServiciosCliente.validarPlan(this.idCliente, this.httpContext);
                     }
 
                 }catch(JSONException ex){

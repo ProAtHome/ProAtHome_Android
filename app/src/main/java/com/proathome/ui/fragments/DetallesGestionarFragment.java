@@ -35,17 +35,13 @@ import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ControladorTomarSesion;
-import com.proathome.servicios.cliente.ServicioTaskUpSesion;
-import com.proathome.servicios.WorkaroundMapFragment;
-import com.proathome.servicios.planes.ServicioTaskFechaServidor;
+import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -64,8 +60,6 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     private boolean cambioFecha;
     private GoogleMap mMap;
     private Marker perth;
-    private String linkAPIUpSesion = Constants.IP +
-            "/ProAtHome/apiProAtHome/cliente/actualizarSesion";
     public static final String TAG = "Detalles de la Sesión";
     private int idSeccion, idNivel, idBloque, tiempo, idCliente;
     private String tipoPlanString;
@@ -110,6 +104,12 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getFechaServidor();
+    }
+
     //TODO DETALLES: Ver si podremos actualizar las cosas y depende de que, si hay profesional asignado,
     // si estamos en plan, etc.
     @Override
@@ -117,9 +117,6 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
 
         View view = inflater.inflate(R.layout.fragment_detalles_gestionar, container, false);
         mUnbinder = ButterKnife.bind(this, view);
-
-        ServicioTaskFechaServidor fechaServidor = new ServicioTaskFechaServidor();
-        fechaServidor.execute();
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
@@ -452,6 +449,18 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         }
     }
 
+    private void getFechaServidor(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try{
+                JSONObject jsonObject = new JSONObject(response);
+                fechaServidor = jsonObject.getString("fechaServidor");
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.FECHA_SERVIDOR, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
     private void showAlert() {
         new MaterialAlertDialogBuilder(getActivity(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
                 .setTitle("Permisos de Ubicación")
@@ -689,27 +698,10 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         switch (view.getId()){
 
             case R.id.btnActualizarSesion:
-                Calendar calendar = Calendar.getInstance();
-                SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
-                String strDate =  mdformat.format(calendar.getTime());
-
-                if(cambioFecha){
-                    ServicioTaskUpSesion upSesion = new ServicioTaskUpSesion(getContext(),
-                            this.linkAPIUpSesion, this.idServicio, horarioET.getText().toString(),
-                                lugarET.getText().toString(), tiempo,
-                            tipo.getSelectedItem().toString(), observacionesET.getText().toString(),
-                                this.latitud, this.longitud, strDate, idSeccion, idNivel, idBloque,
-                                    fechaET.getText().toString(), true);
-                    upSesion.execute();
-                }else{
-                    ServicioTaskUpSesion upSesion = new ServicioTaskUpSesion(getContext(),
-                            this.linkAPIUpSesion, this.idServicio, horarioET.getText().toString(),
-                                lugarET.getText().toString(), tiempo,
-                            tipo.getSelectedItem().toString(), observacionesET.getText().toString(),
-                                this.latitud, this.longitud, strDate, idSeccion, idNivel, idBloque,
-                                    fechaET.getText().toString(),false);
-                    upSesion.execute();
-                }
+                if(cambioFecha)
+                    actualizarSesion(true);
+                else
+                    actualizarSesion(false);
 
                 getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 getActivity().finish();
@@ -746,12 +738,52 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
 
     }
 
+    private void actualizarSesion(boolean cambioFecha) {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
+        String strDate =  mdformat.format(calendar.getTime());
+
+        JSONObject jsonDatos = new JSONObject();
+        try {
+            jsonDatos.put("idSesion", this.idServicio);
+            jsonDatos.put("horario", horarioET.getText().toString());
+            jsonDatos.put("lugar", lugarET.getText().toString());
+            jsonDatos.put("tiempo", this.tiempo);
+            jsonDatos.put("tipoServicio",  tipo.getSelectedItem().toString());
+            jsonDatos.put("observaciones",  observacionesET.getText().toString());
+            jsonDatos.put("latitud", this.latitud);
+            jsonDatos.put("longitud", this.longitud);
+            jsonDatos.put("actualizado", strDate);
+            jsonDatos.put("fecha", fechaET.getText().toString());
+            jsonDatos.put("cambioFecha", cambioFecha);
+            jsonDatos.put("idSeccion", this.idSeccion);
+            jsonDatos.put("idNivel", this.idNivel);
+            jsonDatos.put("idBloque", this.idBloque);
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                if(response != null)
+                    msgDialog("¡GENIAL!", response, SweetAlert.SUCCESS_TYPE);
+                else
+                    msgDialog("¡ERROR!", "Error al actualizar el servicio.", SweetAlert.ERROR_TYPE);
+            }, APIEndPoints.ACTUALIZAR_SESION, WebServicesAPI.PUT, jsonDatos);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void msgDialog(String titulo, String mensaje, int tipo){
+        new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .show();
+    }
+
     private void eliminarSesion() throws JSONException {
         JSONObject jsonData = new JSONObject();
         jsonData.put("idSesion", this.idServicio);
         jsonData.put("idCliente", this.idCliente);
-        jsonData.put("tipoPlan", this.tipoPlan);
-        jsonData.put("horas", this.horas);
+        jsonData.put("tipoPlan", this.tipoPlanString);
+        jsonData.put("horas", this.tiempo);
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             new SweetAlert(SesionesFragment.contexto, SweetAlert.WARNING_TYPE, SweetAlert.CLIENTE)
                     .setTitleText("¡AVISO!")

@@ -36,21 +36,19 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
+import com.proathome.servicios.cliente.ServiciosCliente;
 import com.proathome.ui.InicioCliente;
-import com.proathome.servicios.WorkaroundMapFragment;
+import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ControladorTomarSesion;
 import com.proathome.servicios.cliente.ServicioTaskBancoCliente;
 import com.proathome.servicios.cliente.ServicioTaskSesionActual;
-import com.proathome.servicios.planes.ServicioTaskValidarPlan;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -149,8 +147,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         }
         baseDeDatos.close();
 
-        ServicioTaskValidarPlan validarPlan = new ServicioTaskValidarPlan(getContext(), idCliente);
-        validarPlan.execute();
+        ServiciosCliente.validarPlan(idCliente, getContext());
         //Servicio para validar que ya tenemos datos bancarios registrados para lanzar la preOrden.
         ServicioTaskBancoCliente bancoCliente = new ServicioTaskBancoCliente(getContext(),
                 linkRESTDatosBancarios, idCliente, ServicioTaskBancoCliente.VALIDAR_BANCO);
@@ -375,11 +372,9 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         parametrosPUT.put("idCliente", idCliente);
         parametrosPUT.put("nuevoMonedero", NuevaSesionFragment.nuevoMonedero);
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            ServicioTaskValidarPlan validarPlan = new ServicioTaskValidarPlan(getContext(), idCliente);
-            validarPlan.execute();
+            ServiciosCliente.validarPlan(idCliente, getContext());
         }, APIEndPoints.ACTUALIZAR_MONEDERO, WebServicesAPI.PUT, parametrosPUT);
         webServicesAPI.execute();
-
         NuevaSesionFragment.nuevoMonedero = 0;
         showMsg("¡GENIAL!", jsonObject.getString("mensaje"), SweetAlert.SUCCESS_TYPE);
     }
@@ -395,7 +390,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                     .setTitleText(titulo)
                     .setContentText(mensaje)
                     .setConfirmButton("¡VAMOS!", sweetAlertDialog -> {
-                        NuevaSesionFragment.dialogFragment.dismiss();
+                        dismiss();
                         sweetAlertDialog.dismissWithAnimation();
                     })
                     .show();

@@ -11,9 +11,14 @@ import android.widget.Spinner;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
-import com.proathome.servicios.fiscales.ServicioTaskDatosFiscales;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -70,8 +75,7 @@ public class DatosFiscalesFragment extends DialogFragment {
             dismiss();
         });
 
-        ServicioTaskDatosFiscales datosFiscales = new ServicioTaskDatosFiscales(getContext(), this.tipoPerfil, this.idUsuario, Constants.GET_DATOS_FISCALES);
-        datosFiscales.execute();
+        getDatosFiscales();
 
         if(this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE){
             toolbar.setBackgroundColor(getResources().getColor(R.color.colorAzul));
@@ -87,15 +91,85 @@ public class DatosFiscalesFragment extends DialogFragment {
     @OnClick(R.id.btnActualizar)
     public void onClick(){
         if(!etRazonSocial.getText().toString().trim().equalsIgnoreCase("") && !etRFC.getText().toString().trim().equalsIgnoreCase("")){
-            ServicioTaskDatosFiscales datosFiscales = new ServicioTaskDatosFiscales(getContext(), this.tipoPerfil, this.idUsuario, Constants.UP_DATOS_FISCALES);
-            datosFiscales.setUpDatos(spTipoPersona.getSelectedItem().toString(), etRazonSocial.getText().toString(), etRFC.getText().toString(), spCFDI.getSelectedItem().toString(), this);
-            datosFiscales.execute();
+            upDatosFiscales();
         }else{
             new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE ? SweetAlert.CLIENTE : SweetAlert.PROFESIONAL)
                     .setTitleText("¡ERROR!")
                     .setContentText("Llena todos los campos correctamente.")
                     .show();
         }
+    }
+
+    private void upDatosFiscales(){
+        JSONObject jsonDatos = new JSONObject();
+        try{
+            if(this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE)
+                jsonDatos.put("idCliente", this.idUsuario);
+            else if(this.tipoPerfil == Constants.TIPO_USUARIO_PROFESIONAL)
+                jsonDatos.put("idProfesional", this.idUsuario);
+            jsonDatos.put("tipoPersona", spTipoPersona.getSelectedItem().toString());
+            jsonDatos.put("razonSocial", etRazonSocial.getText().toString());
+            jsonDatos.put("rfc", etRFC.getText().toString());
+            jsonDatos.put("cfdi", spCFDI.getSelectedItem().toString());
+
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                try{
+                    JSONObject jsonObject = new JSONObject(response);
+                    if(jsonObject.getBoolean("respuesta")){
+                        new SweetAlert(getContext(), SweetAlert.SUCCESS_TYPE, this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE ? SweetAlert.CLIENTE : SweetAlert.PROFESIONAL)
+                                .setTitleText("¡GENIAL!")
+                                .setContentText(jsonObject.getString("mensaje"))
+                                .setConfirmButton("OK", sweetAlertDialog -> {
+                                    sweetAlertDialog.dismissWithAnimation();
+                                    dismiss();
+                                })
+                                .show();
+                    }else
+                        msgError("¡ERROR!", jsonObject.getString("mensaje"));
+
+                }catch (JSONException ex){
+                    ex.printStackTrace();
+                }
+            }, this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.UPDATE_DATOS_FISCALES_CLIENTE + this.idUsuario : APIEndPoints.UPDATE_DATOS_FISCALES_PROFESIONAL + this.idUsuario, WebServicesAPI.POST, jsonDatos);
+            webServicesAPI.execute();
+        }catch (JSONException ex){
+            ex.printStackTrace();
+        }
+    }
+
+    private void getDatosFiscales(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try{
+                JSONObject jsonObject = new JSONObject(response);
+                if(jsonObject.getBoolean("respuesta")){
+                    JSONObject datos = jsonObject.getJSONObject("mensaje");
+                    if(datos.getBoolean("existe")){
+                        etRFC.setText(datos.getString("rfc"));
+                        etRazonSocial.setText(datos.getString("razonSocial"));
+                        if(datos.getString("tipoPersona").equals("FISICA"))
+                            spTipoPersona.setSelection(0);
+                        else if(datos.getString("tipoPersona").equals("MORAL"))
+                            spTipoPersona.setSelection(1);
+
+                        if(datos.getString("cfdi").equals("POR DEFINIR"))
+                            spCFDI.setSelection(0);
+                        else if(datos.getString("cfdi").equals("POR DEFINIR"))
+                            spCFDI.setSelection(1);
+                    }
+                }else
+                    msgError("¡ERROR!", jsonObject.getString("mensaje"));
+            }catch (JSONException ex){
+                ex.printStackTrace();
+            }
+        }, this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.GET_DATOS_FISCALES_CLIENTE + this.idUsuario : APIEndPoints.GET_DATOS_FISCALES_PROFESIONAL + this.idUsuario, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
+    public void msgError(String titulo, String mensaje){
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE ? SweetAlert.CLIENTE : SweetAlert.PROFESIONAL)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .show();
     }
 
     @Override

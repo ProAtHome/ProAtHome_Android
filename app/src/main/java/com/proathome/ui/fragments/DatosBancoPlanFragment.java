@@ -7,21 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
+import com.proathome.servicios.api.openpay.TokenCardService;
 import com.proathome.ui.ServicioCliente;
 import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
-import com.proathome.servicios.planes.ServicioTaskTokenCard;
-import com.proathome.servicios.servicio.ServicioTaskSaldarDeuda;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -130,7 +126,7 @@ public class DatosBancoPlanFragment extends DialogFragment {
                                 card.cvv2(etCVV.getText().toString());
                                 pagar(card);
                             }else if(this.procedencia == DatosBancoPlanFragment.PROCEDENCIA_PAGO_PLAN){
-                                ServicioTaskTokenCard tokenCard = new ServicioTaskTokenCard(getContext(), etNombreTitular.getText().toString(), etTarjeta.getText().toString(), Integer.parseInt(etMes.getText().toString()), Integer.parseInt(etAno.getText().toString()), etCVV.getText().toString());
+                                TokenCardService tokenCard = new TokenCardService(getContext(), etNombreTitular.getText().toString(), etTarjeta.getText().toString(), Integer.parseInt(etMes.getText().toString()), Integer.parseInt(etAno.getText().toString()), etCVV.getText().toString());
                                 tokenCard.execute();
                                 dismiss();
                             }
@@ -192,8 +188,7 @@ public class DatosBancoPlanFragment extends DialogFragment {
                     WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
                         if(response.equalsIgnoreCase(  "")){
                             //Actualizar Pago en Pagos
-                            ServicioTaskSaldarDeuda saldarDeuda = new ServicioTaskSaldarDeuda(idSesion);
-                            saldarDeuda.execute();
+                            saldarDeuda();
                             msg("¡GENIAL!", "Cobro correcto.", SweetAlert.SUCCESS_TYPE);
                         }else
                             msg("ERROR!", "Error en el cobro - " + response, SweetAlert.ERROR_TYPE);
@@ -204,6 +199,15 @@ public class DatosBancoPlanFragment extends DialogFragment {
                 }
             }
         });
+    }
+
+    private void saldarDeuda() throws JSONException {
+        JSONObject parametrosPUT = new JSONObject();
+        parametrosPUT.put("idSesion", this.idSesion);
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            PagoPendienteFragment.pagoPendiente.dismiss();
+        }, APIEndPoints.SALDAR_DEUDA, WebServicesAPI.PUT, parametrosPUT);
+        webServicesAPI.execute();
     }
 
     private void msg(String titulo, String mensaje, int tipo){

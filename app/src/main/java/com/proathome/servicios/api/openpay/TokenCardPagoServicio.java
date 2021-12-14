@@ -1,10 +1,11 @@
-package com.proathome.servicios.servicio;
+package com.proathome.servicios.api.openpay;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.proathome.servicios.servicio.ServicioTaskCobroServicio;
 import com.proathome.ui.fragments.DetallesFragment;
 import com.proathome.ui.fragments.NuevaSesionFragment;
 import com.proathome.utils.Constants;

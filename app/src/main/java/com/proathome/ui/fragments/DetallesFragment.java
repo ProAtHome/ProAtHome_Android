@@ -33,7 +33,7 @@ import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.servicio.ServicioTaskFinalizarServicio;
 import com.proathome.servicios.servicio.ServicioTaskSincronizarServicios;
-import com.proathome.servicios.WorkaroundMapFragment;
+import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.profesional.ServicioTaskFotoDetalles;
 import com.proathome.servicios.valoracion.ServicioValidarValoracion;

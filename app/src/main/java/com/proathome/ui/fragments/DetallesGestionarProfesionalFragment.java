@@ -29,7 +29,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
-import com.proathome.servicios.WorkaroundMapFragment;
+import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.profesional.ServicioTaskEliminarSesionProfesional;
 import com.proathome.servicios.profesional.ServicioTaskFotoDetalles;

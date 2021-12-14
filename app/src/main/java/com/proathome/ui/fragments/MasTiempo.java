@@ -7,12 +7,18 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.ui.ServicioCliente;
 import com.proathome.R;
 import com.proathome.servicios.servicio.ServicioTaskFinalizarServicio;
-import com.proathome.servicios.servicio.ServicioTaskSumarServicioRuta;
 import com.proathome.servicios.cliente.ServicioTaskPreOrden;
 import com.proathome.utils.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -93,8 +99,7 @@ public class MasTiempo extends DialogFragment {
         //Finalizamos el servicio, sumamos la ruta.
         ServicioTaskFinalizarServicio finalizarServicio = new ServicioTaskFinalizarServicio(this.contexto, this.idSesion, this.idCliente, Constants.FINALIZAR_SERVICIO, DetallesFragment.CLIENTE);
         finalizarServicio.execute();
-        ServicioTaskSumarServicioRuta sumarServicioRuta = new ServicioTaskSumarServicioRuta(this.contexto, this.idSesion, this.idCliente, ServicioCliente.idSeccion, ServicioCliente.idNivel, ServicioCliente.idBloque, ServicioCliente.tiempo, ServicioCliente.sumar);
-        sumarServicioRuta.execute();
+        sumarSevicioRuta();
 
         dismiss();
         /*
@@ -131,6 +136,26 @@ public class MasTiempo extends DialogFragment {
 
         }*/
 
+    }
+
+    private void sumarSevicioRuta(){
+        JSONObject parametros = new JSONObject();
+        try {
+            parametros.put("idCliente", this.idCliente);
+            parametros.put("idSesion", this.idSesion);
+            parametros.put("idSeccion", ServicioCliente.idSeccion);
+            parametros.put("idNivel",  ServicioCliente.idNivel);
+            parametros.put("idBloque", ServicioCliente.idBloque);
+            parametros.put("horasA_sumar", ServicioCliente.tiempo);
+            parametros.put("fecha_registro", "Hoy");
+            parametros.put("sumar", ServicioCliente.sumar);
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                DetallesFragment.procedenciaFin = true;
+            }, APIEndPoints.SUMAR_SERVICIO_RUTA, WebServicesAPI.POST, parametros);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

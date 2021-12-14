@@ -1,4 +1,4 @@
-package com.proathome.servicios.planes;
+package com.proathome.servicios.api.openpay;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -12,13 +12,13 @@ import mx.openpay.android.exceptions.ServiceUnavailableException;
 import mx.openpay.android.model.Card;
 import mx.openpay.android.model.Token;
 
-public class ServicioTaskTokenCard extends AsyncTask<Void, Void, String> {
+public class TokenCardService extends AsyncTask<Void, Void, String> {
 
     private String nombreTitular, tarjeta, cvv;
     private int mes, ano;
     private Context contexto;
 
-    public ServicioTaskTokenCard(Context contexto, String nombreTitular, String tarjeta, int mes, int ano, String cvv){
+    public TokenCardService(Context contexto, String nombreTitular, String tarjeta, int mes, int ano, String cvv){
         this.contexto = contexto;
         this.nombreTitular = nombreTitular;
         this.tarjeta = tarjeta;

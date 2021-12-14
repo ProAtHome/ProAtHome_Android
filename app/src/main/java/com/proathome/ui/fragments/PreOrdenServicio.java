@@ -12,7 +12,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.servicios.TabuladorCosto;
-import com.proathome.servicios.servicio.TokenCardPagoServicio;
+import com.proathome.servicios.api.openpay.TokenCardPagoServicio;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import butterknife.BindView;

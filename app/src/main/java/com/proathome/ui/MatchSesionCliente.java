@@ -4,12 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -21,11 +22,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
 import com.proathome.R;
-import com.proathome.servicios.WorkaroundMapFragment;
+import com.proathome.servicios.api.assets.WebServiceAPIAssets;
+import com.proathome.servicios.cliente.ServiciosCliente;
+import com.proathome.utils.Component;
+import com.proathome.utils.WorkaroundMapFragment;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.profesional.AdminSQLiteOpenHelperProfesional;
-import com.proathome.servicios.profesional.ServicioTaskInfoSesion;
-import com.proathome.servicios.profesional.ServicioTaskMatchSesion;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
+import org.json.JSONException;
+import org.json.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -34,9 +41,6 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyCallback {
 
-    private String linkInfoSesion = Constants.IP + "/ProAtHome/apiProAtHome/profesional/informacionSesionMatch";
-    private String linkAPIMatch = Constants.IP + "/ProAtHome/apiProAtHome/profesional/matchSesion";
-    private String linkFoto = Constants.IP_80 + "/assets/img/fotoPerfil/";
     private Unbinder mUnbinder;
     private GoogleMap mMap;
     private ScrollView mScrollView;
@@ -90,15 +94,10 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
         observacionesTV = findViewById(R.id.observacionesTV);
         horarioTV = findViewById(R.id.horarioTV);
 
-        ServicioTaskInfoSesion sesion = new ServicioTaskInfoSesion(this, this.linkInfoSesion, this.linkFoto, this.idSesion);
-        sesion.execute();
+        getInfoSesion();
 
         matchBTN.setOnClickListener(v -> {
-            if (matchBTN.isEnabled()) {
-                ServicioTaskMatchSesion match = new ServicioTaskMatchSesion(this, this.linkAPIMatch, this.idSesion, this.idProfesional);
-                match.execute();
-                finish();
-            } else {
+            if (!matchBTN.isEnabled()) {
                 new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
                         .setTitleText("¡Espera!")
                         .setConfirmButton("OK", sweetAlertDialog -> {
@@ -106,9 +105,85 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
                         })
                         .setContentText("Ya tiene un profesional asigando.")
                         .show();
-            }
+            }else
+                matchSesion();
         });
 
+    }
+
+    private void getInfoSesion(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            Log.d("TAG1", response);
+            if(response == null){
+                errorMsg("Error, ocurrió un problema con el servidor.");
+            }else {
+                if(!response.equals("null")){
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    if(this.idProfesionalSesion == jsonObject.getInt("idProfesional") || jsonObject.getInt("idProfesional") != 0)
+                        matchBTN.setVisibility(View.INVISIBLE);
+                    else
+                        matchBTN.setVisibility(View.VISIBLE);
+
+                    nombreTV.setText(jsonObject.getString("nombre"));
+                    correoTV.setText(jsonObject.getString("correo"));
+                    descripcionTV.setText(jsonObject.getString("descripcion"));
+                    direccionTV.setText("Dirección: " + jsonObject.getString("lugar"));
+                    tiempoTV.setText("Tiempo de la Sesión: " + ServiciosCliente.obtenerHorario(jsonObject.getInt("tiempo")));
+                    nivelTV.setText("Nivel: " + Component.getSeccion(jsonObject.getInt("idSeccion")) +
+                            "/" + Component.getNivel(jsonObject.getInt("idSeccion"), jsonObject.getInt("idNivel")) + "/" +
+                            Component.getBloque(jsonObject.getInt("idBloque")));
+                    tipoServicioTV.setText("Tipo de servicio: " + jsonObject.getString("tipoServicio"));
+                    observacionesTV.setText("Observaciones: " + jsonObject.getString("extras"));
+                    horarioTV.setText("Horario: " + jsonObject.getString("horario"));
+                    setImageBitmap(jsonObject.getString("foto"));
+                }else
+                    errorMsg("Sin datos, ocurrió un error.");
+            }
+        }, APIEndPoints.INFO_SESION_MATCH  + this.idSesion, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
+    private void setImageBitmap(String foto){
+        WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
+            imageView.setImageBitmap(response);
+        }, APIEndPoints.FOTO_PERFIL, foto);
+        webServiceAPIAssets.execute();
+    }
+
+    public void errorMsg(String mensaje){
+        new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
+    }
+
+    private void matchSesion(){
+        JSONObject parametrosPUT = new JSONObject();
+        try {
+            parametrosPUT.put("idProfesional", this.idProfesional);
+            parametrosPUT.put("idSesion", this.idSesion);
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                if(response != null)
+                    showMsg("¡GENIAL", response, SweetAlert.SUCCESS_TYPE);
+                else
+                    showMsg("¡ERROR!", "Ocurrió un error inesperado", SweetAlert.ERROR_TYPE);
+            }, APIEndPoints.MATCH_SESION, WebServicesAPI.PUT, parametrosPUT);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showMsg(String titulo, String mensaje, int tipo){
+        new SweetAlert(this, tipo, SweetAlert.PROFESIONAL)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .setConfirmButton("OK", listener ->{
+                    listener.dismissWithAnimation();
+                    finish();
+                })
+                .show();
     }
 
     @Override
