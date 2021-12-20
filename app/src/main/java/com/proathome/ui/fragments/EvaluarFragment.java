@@ -13,7 +13,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
-import com.proathome.servicios.valoracion.ServicioTaskValorar;
 import com.proathome.utils.Component;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
@@ -76,12 +75,8 @@ public class EvaluarFragment extends DialogFragment {
                         .setTitleText("¡GENIAL!")
                         .setContentText("Gracias por tu evaluación.")
                         .setConfirmButton("OK", sweetAlertDialog -> {
-                            sweetAlertDialog.dismissWithAnimation();
                             if(this.procedencia == EvaluarFragment.PROCEDENCIA_CLIENTE){
-                                ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesFragment.idCliente,
-                                        DetallesFragment.idProfesional, ratingBar.getRating(), tieComentario.getText().toString(),
-                                        EvaluarFragment.PROCEDENCIA_CLIENTE, DetallesFragment.idSesion);
-                                valorar.execute();
+                                valorar();
                                 //Esta peticion es por que bloquearemos el perfil después de evaluar.
                                 WebServicesAPI bloquearPerfil = new WebServicesAPI(response -> {
                                     try{
@@ -110,14 +105,9 @@ public class EvaluarFragment extends DialogFragment {
                                     }
                                 }, APIEndPoints.BLOQUEAR_PERFIL + "/" + DetallesFragment.idCliente, WebServicesAPI.GET, null);
                                 bloquearPerfil.execute();
-                            }else if(this.procedencia == EvaluarFragment.PROCEDENCIA_PROFESIONAL){
-                                ServicioTaskValorar valorar = new ServicioTaskValorar(DetallesSesionProfesionalFragment.idProfesional,
-                                        DetallesSesionProfesionalFragment.idCliente, ratingBar.getRating(),
-                                        tieComentario.getText().toString(), EvaluarFragment.PROCEDENCIA_PROFESIONAL,
-                                        DetallesSesionProfesionalFragment.idSesion);
-                                valorar.execute();
-                            }
-                            dismiss();
+                            }else if(this.procedencia == EvaluarFragment.PROCEDENCIA_PROFESIONAL)
+                                valorar();
+                            sweetAlertDialog.dismissWithAnimation();
                         })
                         .show();
             }else{
@@ -125,6 +115,30 @@ public class EvaluarFragment extends DialogFragment {
             }
         }else{
             errorMsg("¡ESPERA!","Deja un comentario por favor.", procedencia);
+        }
+    }
+
+    private void valorar(){
+        JSONObject jsonDatos = new JSONObject();
+        try{
+            if(this.procedencia == EvaluarFragment.PROCEDENCIA_PROFESIONAL){
+                jsonDatos.put("idCliente", DetallesSesionProfesionalFragment.idProfesional);
+                jsonDatos.put("idProfesional", DetallesSesionProfesionalFragment.idCliente);
+                jsonDatos.put("idSesion", DetallesSesionProfesionalFragment.idSesion);
+            }else if(this.procedencia == EvaluarFragment.PROCEDENCIA_CLIENTE){
+                jsonDatos.put("idCliente",DetallesFragment.idCliente);
+                jsonDatos.put("idProfesional", DetallesFragment.idProfesional);
+                jsonDatos.put("idSesion", DetallesFragment.idSesion);
+            }
+            jsonDatos.put("valoracion", ratingBar.getRating());
+            jsonDatos.put("comentario", tieComentario.getText().toString());
+
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                dismiss();
+            },this.procedencia == EvaluarFragment.PROCEDENCIA_CLIENTE ? APIEndPoints.VALORAR_PROFESIONAL : APIEndPoints.VALORAR_CLIENTE,WebServicesAPI.POST, jsonDatos);
+            webServicesAPI.execute();
+        }catch (JSONException ex){
+            ex.printStackTrace();
         }
     }
 

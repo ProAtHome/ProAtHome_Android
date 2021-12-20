@@ -26,16 +26,21 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.ui.SincronizarServicio;
 import com.proathome.servicios.servicio.ServicioTaskFinalizarServicio;
 import com.proathome.servicios.servicio.ServicioTaskSincronizarServicios;
 import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.profesional.ServicioTaskFotoDetalles;
-import com.proathome.servicios.valoracion.ServicioValidarValoracion;
 import com.proathome.utils.ComponentSesionesProfesional;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -114,12 +119,10 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
         ServicioTaskFinalizarServicio finalizarServicio = new ServicioTaskFinalizarServicio(getContext(), idSesion, idProfesional, Constants.VALIDAR_SERVICIO_FINALIZADA_AMBOS_PERFILES, DetallesSesionProfesionalFragment.PROFESIONAL);
         finalizarServicio.execute();
         if (procedenciaFin) {
-            ServicioValidarValoracion validarValoracion = new ServicioValidarValoracion(idSesion, idCliente, ServicioValidarValoracion.PROCEDENCIA_PROFESIONAL);
-            validarValoracion.execute();
+            validarValoracionCliente();
             procedenciaFin = false;
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -197,6 +200,26 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
         ServicioTaskFotoDetalles fotoDetalles = new ServicioTaskFotoDetalles(getContext(), this.fotoNombre, PROFESIONAL);
         fotoDetalles.execute();
 
+    }
+
+    private void validarValoracionCliente(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try{
+                JSONObject jsonObject = new JSONObject(response);
+                if(!jsonObject.getBoolean("valorado")){
+                    FragmentTransaction fragmentTransaction = DetallesSesionProfesionalFragment
+                            .fragmentDetallesProf.getFragmentManager().beginTransaction();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("procedencia", EvaluarFragment.PROCEDENCIA_PROFESIONAL);
+                    EvaluarFragment evaluarFragment = new EvaluarFragment();
+                    evaluarFragment.setArguments(bundle);
+                    evaluarFragment.show(fragmentTransaction, "Evaluación");
+                }
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.VALIDAR_VALORACION_CLIENTE + idSesion + "/" + idCliente, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
     }
 
     @OnClick(R.id.perfilClienteCard)

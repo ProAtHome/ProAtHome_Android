@@ -2,9 +2,21 @@ package com.proathome.servicios.api.openpay;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import com.proathome.servicios.ServicioTaskCobro;
+import android.os.Bundle;
+import android.widget.Toast;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
+import com.proathome.servicios.servicio.ServicioTaskMasTiempo;
+import com.proathome.ui.ServicioCliente;
+import com.proathome.ui.fragments.CobroFinalFragment;
 import com.proathome.ui.fragments.DatosBancoPlanFragment;
+import com.proathome.ui.fragments.MasTiempo;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import mx.openpay.android.OperationCallBack;
 import mx.openpay.android.OperationResult;
 import mx.openpay.android.exceptions.OpenpayServiceException;
@@ -56,12 +68,82 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
 
             @Override
             public void onSuccess(OperationResult<Token> operationResult) {
-                ServicioTaskCobro servicioTaskCobro = new ServicioTaskCobro(contexto, DatosBancoPlanFragment.deviceIdString, DatosBancoPlanFragment.idSesion, DatosBancoPlanFragment.idCliente, operationResult.getResult().getId(), DatosBancoPlanFragment.costoTotal, ServicioTaskCobro.ENTENDIDO_TE);
-                servicioTaskCobro.execute();
+                DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
+                separadoresPersonalizados.setDecimalSeparator('.');
+                DecimalFormat formato1 = new DecimalFormat("#.00", separadoresPersonalizados);
+                JSONObject parametrosPost= new JSONObject();
+
+                try{
+                    parametrosPost.put("idCard", operationResult.getResult().getId());
+                    parametrosPost.put("nombreCliente", CobroFinalFragment.nombreCliente);
+                    parametrosPost.put("correo", CobroFinalFragment.correo);
+                    parametrosPost.put("cobro", formato1.format(DatosBancoPlanFragment.costoTotal));
+                    parametrosPost.put("descripcion", "Cargo ProAtHome - " + CobroFinalFragment.sesion);
+                    parametrosPost.put("deviceId", DatosBancoPlanFragment.deviceIdString);
+                    WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if(jsonObject.getBoolean("respuesta")){
+                                //Actualizar la orden de pago con el costo del TE
+                                actualizarPagoTE();
+                                /*
+                                if(DetallesFragment.planSesion.equalsIgnoreCase("PARTICULAR")){
+                                    ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idCliente,
+                                            this.idSesion, TabuladorCosto.getCosto(ServicioCliente.idSeccion, ServicioCliente.tiempo,
+                                            TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ServicioCliente.idSeccion,
+                                            CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR),
+                                            DetallesFragment.planSesion, "Pagado");
+                                    ordenPago.execute();
+                                }else{
+                                    ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idCliente,
+                                            this.idSesion, 0, TabuladorCosto.getCosto(ServicioCliente.idSeccion,
+                                            CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR),
+                                            DetallesFragment.planSesion, "Pagado");
+                                    ordenPago.execute();
+                                }*/
+
+                                //Generamos el tiempo extra y la vida sigue.
+                                ServicioTaskMasTiempo masTiempo = new ServicioTaskMasTiempo(contexto, DatosBancoPlanFragment.idSesion,
+                                        DatosBancoPlanFragment.idCliente, CobroFinalFragment.progresoTotal);
+                                masTiempo.execute();
+                            }else//Mostramos el error.
+                                showMsg("¡ERROR!",jsonObject.getString("mensaje"), SweetAlert.ERROR_TYPE);
+                    }, APIEndPoints.COBROS, WebServicesAPI.POST, parametrosPost);
+                    webServicesAPI.execute();
+                }catch (JSONException ex){
+                    ex.printStackTrace();
+                }
             }
         });
 
         return resultado;
+    }
+
+    private void actualizarPagoTE() throws JSONException {
+        JSONObject parametrosPost= new JSONObject();
+        parametrosPost.put("cobro", DatosBancoPlanFragment.costoTotal);
+        parametrosPost.put("idSesion", DatosBancoPlanFragment.idSesion);
+
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            Toast.makeText(this.contexto, "Pago de Tiempo Extra actualizado.", Toast.LENGTH_SHORT).show();
+        }, APIEndPoints.ACTUALIZAR_PAGO_TE, WebServicesAPI.PUT, parametrosPost);
+        webServicesAPI.execute();
+    }
+
+    public void showMsg(String titulo, String mensaje, int tipo){
+        new SweetAlert(this.contexto, tipo, SweetAlert.CLIENTE)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .setConfirmButton("OK", sweetAlertDialog -> {
+                    sweetAlertDialog.dismissWithAnimation();
+                    //Preguntamos si desea más tiempo Extra.
+                    MasTiempo masTiempo = new MasTiempo();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
+                    bundle.putInt("idCliente", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
+                    masTiempo.setArguments(bundle);
+                    masTiempo.show(ServicioCliente.obtenerFargment(Constants.fragmentActivity), "Tiempo Extra");
+                })
+                .show();
     }
 
     @Override

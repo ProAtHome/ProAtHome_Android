@@ -3,7 +3,6 @@ package com.proathome.ui.ayuda;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,11 +12,17 @@ import android.view.ViewGroup;
 import com.airbnb.lottie.LottieAnimationView;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterTicket;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
+import com.proathome.ui.fragments.FragmentTicketAyuda;
 import com.proathome.ui.fragments.NuevoTicketFragment;
-import com.proathome.servicios.ayuda.ServicioTaskObtenerTickets;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
+import com.proathome.utils.ComponentTicket;
 import com.proathome.utils.Constants;
-
+import com.proathome.utils.SweetAlert;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -54,12 +59,36 @@ public class AyudaFragment extends Fragment {
 
         configAdapter();
         configRecyclerView();
-
-        ServicioTaskObtenerTickets obtenerTickets = new ServicioTaskObtenerTickets(getContext(), this.idCliente,
-                Constants.TIPO_USUARIO_CLIENTE);
-        obtenerTickets.execute();
+        obtenerTickets();
 
         return view;
+    }
+
+    private void obtenerTickets(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try{
+                if(response != null){
+                    JSONArray jsonArray = new JSONArray(response);
+                    for(int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        if (jsonObject.getBoolean("sinTickets")){
+                            lottieAnimationView.setVisibility(View.VISIBLE);
+                        } else{
+                            lottieAnimationView.setVisibility(View.INVISIBLE);
+                            componentAdapterTicket.add(FragmentTicketAyuda.getmInstance(jsonObject.getString("topico"),
+                                    ComponentTicket.validarEstatus(jsonObject.getInt("estatus")),
+                                    jsonObject.getString("fechaCreacion"), jsonObject.getInt("idTicket"),
+                                    jsonObject.getString("descripcion"), jsonObject.getString("noTicket"),
+                                    jsonObject.getInt("estatus"), jsonObject.getInt("tipoUsuario"), jsonObject.getString("categoria")));
+                        }
+                    }
+                }else
+                    msgInfo(SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inseperado, intenta nuevamente.", SweetAlert.PROFESIONAL);
+            }catch (JSONException ex){
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.GET_TICKETS_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
     }
 
     @OnClick(R.id.nuevoTopico)
@@ -75,6 +104,13 @@ public class AyudaFragment extends Fragment {
 
     public static void configAdapter(){
         componentAdapterTicket = new ComponentAdapterTicket(new ArrayList<>());
+    }
+
+    public void msgInfo(int tipo, String titulo, String contenido, int tipoUsuario){
+        new SweetAlert(getContext(), tipo, tipoUsuario)
+                .setTitleText(titulo)
+                .setContentText(contenido)
+                .show();
     }
 
     public static void configRecyclerView(){

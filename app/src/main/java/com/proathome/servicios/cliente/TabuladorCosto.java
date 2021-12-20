@@ -1,4 +1,4 @@
-package com.proathome.servicios;
+package com.proathome.servicios.cliente;
 
 import com.proathome.utils.Constants;
 

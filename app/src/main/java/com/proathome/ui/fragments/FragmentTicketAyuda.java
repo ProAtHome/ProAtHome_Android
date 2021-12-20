@@ -4,7 +4,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,19 +13,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterMsgTickets;
-import com.proathome.servicios.ayuda.ServicioTaskMsgTicket;
-import com.proathome.servicios.ayuda.ServicioTaskObtenerMsgTicket;
-import com.proathome.servicios.ayuda.ServicioTaskTicketSolucion;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.utils.ComponentMsgTickets;
 import com.proathome.utils.ComponentTicket;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -146,9 +150,7 @@ public class FragmentTicketAyuda extends DialogFragment {
 
         recyclerView = view.findViewById(R.id.recyclerMsg);
 
-        ServicioTaskObtenerMsgTicket obtenerMsgTicket = new ServicioTaskObtenerMsgTicket(getContext(), this.idUsuario, this.idTicket, this.tipoUsuario);
-        obtenerMsgTicket.execute();
-
+        obtenerMsgTicket();
         configAdapter();
         configRecyclerView();
 
@@ -167,6 +169,45 @@ public class FragmentTicketAyuda extends DialogFragment {
         }
 
         return view;
+    }
+
+    private void obtenerMsgTicket(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try{
+                JSONArray jsonArray = new JSONArray(response);
+                JSONObject mensajes = jsonArray.getJSONObject(1);
+                JSONArray jsonArrayMensajes = mensajes.getJSONArray("mensajes");
+                boolean entro = true;
+                for(int i = componentAdapterMsgTickets.getItemCount(); i < jsonArrayMensajes.length(); i++){
+                    JSONObject mensaje = jsonArrayMensajes.getJSONObject(i);
+                    System.out.println(mensaje);
+                    componentAdapterMsgTickets.add(FragmentTicketAyuda.getmInstance(
+                            mensaje.getBoolean("operador") ? "Operador - Soporte" : mensaje.getString("nombreUsuario"), mensaje.getString("msg"),
+                            mensaje.getBoolean("operador"), this.tipoUsuario));
+                    if(entro)
+                        recyclerView.getLayoutManager().scrollToPosition(jsonArrayMensajes.length()-1);
+                    entro = false;
+                    mensaje = null;
+                }
+
+                jsonArray = null;
+                mensajes = null;
+                jsonArrayMensajes =  null;
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }, validacionURL_API(), WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
+    private String validacionURL_API(){
+        String url = null;
+        if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE)
+            url = APIEndPoints.GET_MSG_TICKET + this.idUsuario + "/" + Constants.TIPO_USUARIO_CLIENTE + "/" + this.idTicket;
+        else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL)
+            url = APIEndPoints.GET_MSG_TICKET + this.idUsuario + "/" + Constants.TIPO_USUARIO_PROFESIONAL + "/" + this.idTicket;
+
+        return url;
     }
 
     public void setIdUsuario(){
@@ -212,9 +253,7 @@ public class FragmentTicketAyuda extends DialogFragment {
                             .show();
                 }else{
                     FragmentTicketAyuda.recyclerView.getLayoutManager().scrollToPosition(componentAdapterMsgTickets.getItemCount()-1);
-                    ServicioTaskMsgTicket msgTicket = new ServicioTaskMsgTicket(getContext(), etEscribeMsg.getText().toString(), this.idUsuario,
-                            false, this.idTicket, this.tipoUsuario);
-                    msgTicket.execute();
+                    enviarMensaje();
                     etEscribeMsg.setText("");
                 }
                 break;
@@ -226,14 +265,39 @@ public class FragmentTicketAyuda extends DialogFragment {
                         .setTitleText("¡ESPERA!")
                         .setContentText("¿Seguro quieres finalizar el ticket?")
                         .setConfirmButton("SI", sweetAlertDialog -> {
-                            ServicioTaskTicketSolucion ticketSolucion = new ServicioTaskTicketSolucion(getContext(),
-                                    this.idTicket, this.tipoUsuario);
-                            ticketSolucion.execute();
+                            ticketSolucionado();
                             sweetAlertDialog.dismissWithAnimation();
                             dismiss();
                         })
                         .show();
                 break;
+        }
+
+    }
+
+    private void ticketSolucionado(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            Toast.makeText(getContext(), "Ticket Finalizado.", Toast.LENGTH_LONG).show();
+        }, this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.FINALIZAR_TICKET_CLIENTE + this.idTicket : APIEndPoints.FINALIZAR_TICKET_PROFESIONAL + this.idTicket, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
+    private void enviarMensaje(){
+        JSONObject jsonDatos = new JSONObject();
+        try {
+            jsonDatos.put("mensaje", etEscribeMsg.getText().toString());
+            jsonDatos.put("idUsuario", this.idUsuario);
+            jsonDatos.put("operador", false);
+            jsonDatos.put("idTicket", this.idTicket);
+
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                obtenerMsgTicket();
+                configAdapter();
+                configRecyclerView();
+            }, this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.ENVIAR_MSG_TICKET_CLIENTE : APIEndPoints.ENVIAR_MSG_TICKET_PROFESIONAL, WebServicesAPI.POST, jsonDatos);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
     }
@@ -246,13 +310,7 @@ public class FragmentTicketAyuda extends DialogFragment {
             @Override
             public void run() {
                 handler.post(() -> {
-                    try {
-                        ServicioTaskObtenerMsgTicket obtenerMsgTicket =
-                                new ServicioTaskObtenerMsgTicket(getContext(), idUsuario, idTicket, tipoUsuario);
-                        obtenerMsgTicket.execute();
-                    } catch (Exception e) {
-                        Log.e("error", e.getMessage());
-                    }
+                    obtenerMsgTicket();
                 });
             }
         };

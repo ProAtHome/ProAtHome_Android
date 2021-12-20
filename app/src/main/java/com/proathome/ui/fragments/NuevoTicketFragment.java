@@ -10,14 +10,22 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
-import com.proathome.servicios.ayuda.ServicioTaskNuevoTicket;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
+import com.proathome.ui.ayuda.AyudaFragment;
+import com.proathome.ui.ayudaProfesional.AyudaProfesionalFragment;
+import com.proathome.utils.ComponentTicket;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -140,20 +148,8 @@ public class NuevoTicketFragment extends DialogFragment {
 
     public void enviarTicket(){
         if(!etTopico.getText().toString().trim().equalsIgnoreCase("") &&
-            !etDescripcion.getText().toString().trim().equalsIgnoreCase("")){
-            ServicioTaskNuevoTicket nuevoTicket;
-            if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE){
-                nuevoTicket = new ServicioTaskNuevoTicket(getContext(), this.idSesion, Constants.TIPO_USUARIO_CLIENTE,
-                        etTopico.getText().toString(), etDescripcion.getText().toString(), "2020-12-5",
-                        Constants.ESTATUS_SIN_OPERADOR, this.idUsuario, this, getSelectedCategoria());
-                nuevoTicket.execute();
-            }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL){
-                nuevoTicket = new ServicioTaskNuevoTicket(getContext(), this.idSesion, Constants.TIPO_USUARIO_PROFESIONAL,
-                        etTopico.getText().toString(), etDescripcion.getText().toString(), "2020-12-5",
-                        Constants.ESTATUS_SIN_OPERADOR, this.idUsuario, this, getSelectedCategoria());
-                nuevoTicket.execute();
-            }
-
+                !etDescripcion.getText().toString().trim().equalsIgnoreCase("")){
+            nuevoTicket();
         }else{
             int tipoSweet = this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ? SweetAlert.CLIENTE : SweetAlert.PROFESIONAL;
             new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, tipoSweet)
@@ -161,6 +157,94 @@ public class NuevoTicketFragment extends DialogFragment {
                     .setContentText("Llena los campos correctamente.")
                     .show();
         }
+    }
+
+    private void nuevoTicket(){
+        JSONObject jsonDatos = new JSONObject();
+        try {
+            jsonDatos.put("tipoUsuario", this.tipoUsuario);
+            jsonDatos.put("topico", etTopico.getText().toString());
+            jsonDatos.put("descripcion",  etDescripcion.getText().toString());
+            jsonDatos.put("fechaCreacion", "2020-12-5");
+            jsonDatos.put("estatus", Constants.ESTATUS_SIN_OPERADOR);
+            jsonDatos.put("idUsuario", this.idUsuario);
+            jsonDatos.put("categoria", getSelectedCategoria());
+            jsonDatos.put("idSesion", this.idSesion);
+
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                new SweetAlert(getContext(), SweetAlert.SUCCESS_TYPE, this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ?
+                        SweetAlert.CLIENTE : SweetAlert.PROFESIONAL)
+                        .setTitleText("¡GENIAL!")
+                        .setContentText("Tu solicitud será revisada y en breve te contestará soporte.")
+                        .setConfirmButton("OK", sweetAlertDialog -> {
+                            sweetAlertDialog.dismissWithAnimation();
+                            dismiss();
+                            if(this.idSesion == 0){
+                                if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE){
+                                    AyudaFragment.configAdapter();
+                                    AyudaFragment.configRecyclerView();
+                                }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL){
+                                    AyudaProfesionalFragment.configAdapter();
+                                    AyudaProfesionalFragment.configRecyclerView();
+                                }
+                                obtenerTickets();
+                            }
+                        })
+                        .show();
+            }, this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.NUEVO_TICKET_CLIENTE : APIEndPoints.NUEVO_TICKET_PROFESIONAL, WebServicesAPI.POST, jsonDatos);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void obtenerTickets(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try{
+                if(response != null){
+                    JSONArray jsonArray = new JSONArray(response);
+                    for(int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE){
+                            if (jsonObject.getBoolean("sinTickets")){
+                                AyudaFragment.lottieAnimationView.setVisibility(View.VISIBLE);
+                            } else{
+                                AyudaFragment.lottieAnimationView.setVisibility(View.INVISIBLE);
+                                AyudaFragment.componentAdapterTicket.add(FragmentTicketAyuda.getmInstance(jsonObject.getString("topico"),
+                                        ComponentTicket.validarEstatus(jsonObject.getInt("estatus")),
+                                        jsonObject.getString("fechaCreacion"), jsonObject.getInt("idTicket"),
+                                        jsonObject.getString("descripcion"), jsonObject.getString("noTicket"),
+                                        jsonObject.getInt("estatus"), jsonObject.getInt("tipoUsuario"), jsonObject.getString("categoria")));
+                            }
+                        }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL){
+                            if (jsonObject.getBoolean("sinTickets")){
+                                AyudaProfesionalFragment.lottieAnimationView.setVisibility(View.VISIBLE);
+                            } else{
+                                AyudaProfesionalFragment.lottieAnimationView.setVisibility(View.INVISIBLE);
+                                AyudaProfesionalFragment.componentAdapterTicket.add(FragmentTicketAyuda.getmInstance(jsonObject.getString("topico"),
+                                        ComponentTicket.validarEstatus(jsonObject.getInt("estatus")),
+                                        jsonObject.getString("fechaCreacion"), jsonObject.getInt("idTicket"),
+                                        jsonObject.getString("descripcion"), jsonObject.getString("noTicket"),
+                                        jsonObject.getInt("estatus"), jsonObject.getInt("tipoUsuario"), jsonObject.getString("categoria")));
+                            }
+                        }
+
+                    }
+                }else
+                    msgInfo(SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inseperado, intenta nuevamente.", this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ? SweetAlert.CLIENTE : SweetAlert.PROFESIONAL);
+            }catch (JSONException ex){
+                ex.printStackTrace();
+            }
+        }, this.tipoUsuario ==  Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.GET_TICKETS_CLIENTE + this.idUsuario : APIEndPoints.GET_TICKETS_PROFESIONAL + this.idUsuario, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
+
+    public void msgInfo(int tipo, String titulo, String contenido, int tipoUsuario){
+        new SweetAlert(getContext(), tipo, tipoUsuario)
+                .setTitleText(titulo)
+                .setContentText(contenido)
+                .show();
     }
 
     @Override

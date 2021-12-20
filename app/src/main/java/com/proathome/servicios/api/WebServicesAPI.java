@@ -62,6 +62,9 @@ public class WebServicesAPI extends AsyncTask<Void, Void, String> {
                 writer.flush();
                 writer.close();
                 os.close();
+
+                writer = null;
+                os = null;
             }else if(this.tipoPeticion == WebServicesAPI.PUT){
                 urlConnection.setRequestMethod("PUT");
                 urlConnection.setDoInput(true);
@@ -72,10 +75,13 @@ public class WebServicesAPI extends AsyncTask<Void, Void, String> {
                 writer.flush();
                 writer.close();
                 os.close();
+
+                writer = null;
+                os = null;
             }
 
-            int responseCode=urlConnection.getResponseCode();
-            if(responseCode== HttpURLConnection.HTTP_OK){
+            int responseCode = urlConnection.getResponseCode();
+            if(responseCode == HttpURLConnection.HTTP_OK){
                 BufferedReader in= new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 StringBuffer sb= new StringBuffer("");
                 String linea="";
@@ -86,11 +92,14 @@ public class WebServicesAPI extends AsyncTask<Void, Void, String> {
                 }
 
                 in.close();
+                in = null;
                 resultado= sb.toString();
             }
             else
                 resultado = new String("Error: "+ responseCode);
 
+            url = null;
+            urlConnection = null;
         }catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {

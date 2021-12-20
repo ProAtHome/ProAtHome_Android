@@ -179,24 +179,6 @@ public class Constants {
 
     /*Prueba Estaticos Singleton*/
 
-    /*ASYNCTASK SERVICIO MENSAJES TICKET*/
-    public static Context contexto_Ticket;
-    public static int idUsuario_Ticket, idTicket_Ticket, tipoUsuario_Ticket;
-    public static String linkObtenerMsgTicket = Constants.IP +
-            "/ProAtHome/apiProAtHome/admin/obtenerMsgTicket/";
-    public static String result_Ticket = null;
-    public static URL obtenerURL_Ticket() throws MalformedURLException {
-        URL url = null;
-        if(Constants.tipoUsuario_Ticket == Constants.TIPO_USUARIO_CLIENTE){
-            url = new URL(Constants.linkObtenerMsgTicket + Constants.idUsuario_Ticket + "/" +
-                Constants.TIPO_USUARIO_CLIENTE + "/" + Constants.idTicket_Ticket);
-        }else if(Constants.tipoUsuario_Ticket == Constants.TIPO_USUARIO_PROFESIONAL){
-            url = new URL(Constants.linkObtenerMsgTicket + Constants.idUsuario_Ticket + "/" +
-                    Constants.TIPO_USUARIO_PROFESIONAL + "/" + Constants.idTicket_Ticket);
-        }
-        return url;
-    }
-
     /*ASYNCTASK SERVICIO OBTENER DISPONIBILIDAD Y PROGRESO*/
     public static Activity activity;
     public static FragmentActivity fragmentActivity;

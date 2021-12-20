@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.proathome.ui.ServicioCliente;
 import com.proathome.R;
-import com.proathome.servicios.TabuladorCosto;
+import com.proathome.servicios.cliente.TabuladorCosto;
 import com.proathome.servicios.cliente.ServicioTaskPreOrden;
 import com.proathome.utils.Constants;
 import butterknife.BindView;

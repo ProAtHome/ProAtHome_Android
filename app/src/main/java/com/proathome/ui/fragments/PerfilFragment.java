@@ -13,9 +13,14 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterValoraciones;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.profesional.ServicioTaskFotoDetalles;
-import com.proathome.servicios.valoracion.ServicioTaskValoracion;
 import com.proathome.utils.ComponentValoraciones;
+import com.proathome.utils.SweetAlert;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +34,7 @@ public class PerfilFragment extends DialogFragment {
     public static ShapeableImageView foto;
     public static String nombre, correo;
     public static float valoracion;
+    private Bundle bundle;
     public static int PERFIL_PROFESIONAL_EN_CLIENTE = 3, PERFIL_CLIENTE_EN_PROFESIONAL = 4, PERFIL_PROFESIONAL = 1, PERFIL_CLIENTE = 2;
     public static TextView tvNombre;
     public static TextView tvCoreo;
@@ -62,16 +68,14 @@ public class PerfilFragment extends DialogFragment {
         configAdapter();
         configRecyclerView();
 
-        Bundle bundle = getArguments();
+        bundle = getArguments();
 
         if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_CLIENTE) {
-            ServicioTaskValoracion valoracion = new ServicioTaskValoracion(DetallesSesionProfesionalFragment.idCliente, ServicioTaskValoracion.PERFIL_CLIENTE);
-            valoracion.execute();
+            getValoracion(DetallesSesionProfesionalFragment.idCliente);
             ServicioTaskFotoDetalles detalles = new ServicioTaskFotoDetalles(getContext(), DetallesSesionProfesionalFragment.fotoNombre, PerfilFragment.PERFIL_CLIENTE_EN_PROFESIONAL);
             detalles.execute();
         }else if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_PROFESIONAL){
-            ServicioTaskValoracion valoracion = new ServicioTaskValoracion(DetallesFragment.idProfesional, ServicioTaskValoracion.PERFIL_PROFESIONAL);
-            valoracion.execute();
+            getValoracion(DetallesFragment.idProfesional);
             ServicioTaskFotoDetalles detalles = new ServicioTaskFotoDetalles(getContext(), DetallesFragment.fotoNombre, PerfilFragment.PERFIL_PROFESIONAL_EN_CLIENTE);
             detalles.execute();
         }
@@ -91,6 +95,53 @@ public class PerfilFragment extends DialogFragment {
 
 
         return view;
+    }
+
+    private void getValoracion(int idPerfil){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            int numValoraciones = 0;
+            double sumaValoraciones = 0;
+            try{
+                JSONArray jsonArray = new JSONArray(response);
+                if(jsonArray == null){
+                    new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_CLIENTE ? SweetAlert.CLIENTE : SweetAlert.PROFESIONAL)
+                            .setTitleText("¡ERROR!")
+                            .setContentText("Ocurrió un problema, intenta más tarde.")
+                            .setConfirmButton("OK", listener->{
+                                listener.dismissWithAnimation();
+                                dismiss();
+                            })
+                            .show();
+                }else{
+                    for (int i = 0; i < jsonArray.length(); i++){
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        if(jsonObject.getBoolean("valoraciones")){//Valoraciones del profesional
+                            if(!jsonObject.getBoolean("error")){
+                                //Hay error.
+                                //Obtener promedio
+                                numValoraciones++;
+                                sumaValoraciones += Double.parseDouble(jsonObject.get("valoracion").toString());
+                                componentAdapterValoraciones.add(PerfilFragment.getmInstance(jsonObject.getString("comentario"), Float.parseFloat(jsonObject.get("valoracion").toString())));
+                            }else
+                                componentAdapterValoraciones.add(PerfilFragment.getmInstance("El usuario no tiene valoraciones aún.", 0.0f));
+                        }else{//Perfil de profesional
+                            tvNombre.setText(jsonObject.getString("nombre"));
+                            tvCoreo.setText(jsonObject.getString("correo"));
+                            descripcion.setText(jsonObject.getString("descripcion"));
+                        }
+                    }
+                    //Promedio
+                    double promedio = sumaValoraciones / numValoraciones;
+                    if(numValoraciones == 0)
+                        PerfilFragment.tvCalificacion.setText("0.00");
+                    else
+                        PerfilFragment.tvCalificacion.setText(String.format("%.2f", promedio));
+                }
+            }catch (JSONException ex){
+                ex.printStackTrace();
+            }
+        }, bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_CLIENTE ? APIEndPoints.GET_VALORACION_CLIENTE + idPerfil : APIEndPoints.GET_VALORACION_PROFESIONAL + idPerfil, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
     }
 
     public void configAdapter(){

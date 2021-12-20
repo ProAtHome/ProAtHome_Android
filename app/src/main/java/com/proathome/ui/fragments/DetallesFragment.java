@@ -36,7 +36,6 @@ import com.proathome.servicios.servicio.ServicioTaskSincronizarServicios;
 import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.profesional.ServicioTaskFotoDetalles;
-import com.proathome.servicios.valoracion.ServicioValidarValoracion;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
@@ -134,9 +133,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
                 idCliente, Constants.VALIDAR_SERVICIO_FINALIZADA_AMBOS_PERFILES, DetallesFragment.CLIENTE);
         finalizarServicio.execute();
         if (procedenciaFin) {
-            ServicioValidarValoracion validarValoracion = new ServicioValidarValoracion(idSesion, idProfesional,
-                    ServicioValidarValoracion.PROCEDENCIA_CLIENTE);
-            validarValoracion.execute();
+            validarValoracionProfesional();
             procedenciaFin = false;
         } else {
             WebServicesAPI bloquearPerfil = new WebServicesAPI(response -> {
@@ -340,6 +337,27 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         if (!fotoNombre.equalsIgnoreCase("Sin foto"))
             fotoDetalles.execute();
 
+    }
+
+
+    private void validarValoracionProfesional(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try{
+                JSONObject jsonObject = new JSONObject(response);
+                if(!jsonObject.getBoolean("valorado")){
+                    FragmentTransaction fragmentTransaction = DetallesFragment.detallesFragment
+                            .getFragmentManager().beginTransaction();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("procedencia", EvaluarFragment.PROCEDENCIA_CLIENTE);
+                    EvaluarFragment evaluarFragment = new EvaluarFragment();
+                    evaluarFragment.setArguments(bundle);
+                    evaluarFragment.show(fragmentTransaction, "Evaluación");
+                }
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.VALIDAR_VALORACION_PROFESIONAL + idSesion + "/" + idProfesional, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
     }
 
     public void errorBancoMsg(){
