@@ -18,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,9 +30,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
+import com.proathome.servicios.api.assets.WebServiceAPIAssets;
 import com.proathome.ui.fragments.DatosFiscalesFragment;
 import com.proathome.servicios.profesional.AdminSQLiteOpenHelperProfesional;
-import com.proathome.servicios.profesional.ServicioTaskPerfilProfesional;
 import com.proathome.servicios.profesional.ServicioTaskReportes;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
@@ -50,12 +49,7 @@ import butterknife.Unbinder;
 
 public class EditarPerfilProfesionalFragment extends Fragment {
 
-    private String linkRESTCargarPerfil = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesional/perfilProfesional";
-    private String imageHttpAddress = Constants.IP_80 + "/assets/img/fotoPerfil/";
-    private String linkFoto = Constants.IP_80 + "/assets/lib/ActualizarFotoProfesionalAndroid.php";
     private Unbinder mUnbinder;
-    private ServicioTaskPerfilProfesional perfilCliente;
     public static TextView tvNombre;
     public static TextView tvCorreo;
     public static TextInputEditText etCelular;
@@ -216,9 +210,7 @@ public class EditarPerfilProfesionalFragment extends Fragment {
             this.idProfesional = fila.getInt(0);
             ServicioTaskReportes reportes = new ServicioTaskReportes(getContext(), Constants.TIPO_PROFESIONAL, this.idProfesional);
             reportes.execute();
-            perfilCliente = new ServicioTaskPerfilProfesional(getContext(), linkRESTCargarPerfil,
-                    this.imageHttpAddress, this.idProfesional, Constants.INFO_PERFIl_EDITAR);
-            perfilCliente.execute();
+            getDatosPerfil();
             getDatosBanco();
         }else{
             baseDeDatos.close();
@@ -226,6 +218,44 @@ public class EditarPerfilProfesionalFragment extends Fragment {
 
         baseDeDatos.close();
 
+    }
+
+    private void setImageBitmap(String foto){
+        WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
+            ivFoto.setImageBitmap(response);
+        }, APIEndPoints.FOTO_PERFIL, foto);
+        webServiceAPIAssets.execute();
+    }
+
+    private void getDatosPerfil(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            if(response != null){
+                if (!response.equals("null")) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        tvNombre.setText("Nombre: " + jsonObject.getString("nombre"));
+                        tvCorreo.setText("Correo: " + jsonObject.getString("correo"));
+                        etCelular.setText(jsonObject.getString("celular"));
+                        etTelefono.setText(jsonObject.getString("telefonoLocal"));
+                        etDireccion.setText(jsonObject.getString("direccion"));
+                        etDesc.setText(jsonObject.getString("descripcion"));
+                        setImageBitmap(jsonObject.getString("foto"));
+                    } catch (JSONException ex) {
+                        ex.printStackTrace();
+                    }
+                } else
+                    errorMsg("Error en el perfil, intente ingresar más tarde.");
+            }else
+                errorMsg("Error del servidor, intente ingresar más tarde.");
+        }, APIEndPoints.GET_PERFIL_PROFESIONAL + this.idProfesional, WebServicesAPI.GET,  null);
+        webServicesAPI.execute();
+    }
+
+    public void errorMsg(String mensaje){
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
     }
 
     private void actualizarPerfil(){
@@ -349,7 +379,7 @@ public class EditarPerfilProfesionalFragment extends Fragment {
     }
 
     private void uploadImage(){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, linkFoto,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, APIEndPoints.UP_FOTO_PROFESIONAL,
                 response -> {
                 },
                 error -> {

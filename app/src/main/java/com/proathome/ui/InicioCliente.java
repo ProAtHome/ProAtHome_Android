@@ -11,18 +11,23 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.proathome.R;
+import com.proathome.servicios.api.assets.WebServiceAPIAssets;
+import com.proathome.servicios.cliente.ServiciosCliente;
+import com.proathome.ui.editarPerfil.EditarPerfilFragment;
 import com.proathome.ui.fragments.PagoPendienteFragment;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
-import com.proathome.servicios.cliente.ServicioTaskPerfilCliente;
 import com.proathome.ui.fragments.DetallesFragment;
+import com.proathome.ui.fragments.PlanesFragment;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,12 +38,10 @@ public class InicioCliente extends AppCompatActivity{
 
     private AppBarConfiguration mAppBarConfiguration;
     private Intent intent;
-    private String linkRESTCargarPerfil = Constants.IP +
-            "/ProAtHome/apiProAtHome/cliente/perfilCliente";
     private String imageHttpAddress = Constants.IP_80 + "/assets/img/fotoPerfil/";
     public static TextView correoTV, nombreTV, tipoPlan, monedero;
     private int idCliente = 0;
-    public static ImageView foto;
+    public static ImageView fotoPerfil;
     public static String planActivo;
     public static final int PROCEDENCIA_INICIO_CLIENTE = 2;
     public static AppCompatActivity appCompatActivity;
@@ -60,7 +63,7 @@ public class InicioCliente extends AppCompatActivity{
         correoTV = view.findViewById(R.id.correoClienteTV);
         tipoPlan = view.findViewById(R.id.tipoPlan);
         monedero = view.findViewById(R.id.monedero);
-        foto = view.findViewById(R.id.fotoIV);
+        fotoPerfil = view.findViewById(R.id.fotoIV);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_inicio, R.id.nav_editarPerfil, R.id.nav_sesiones,
                 R.id.nav_ruta, R.id.nav_cerrarSesion, R.id.nav_ayuda, R.id.nav_privacidad)
@@ -90,47 +93,92 @@ public class InicioCliente extends AppCompatActivity{
             //TODO FLUJO_PLANES: Crear PLAN al iniciar sesión si no existe registro en la BD.
             /*TODO FLUJO_PANES: Cargamos la info de PLAN, MONEDERO Y PERFIL.*/
             DetallesFragment.procedenciaFin = false;
-            WebServicesAPI bloquearPerfil = new WebServicesAPI(response -> {
-                try{
-                    if(response != null){
-                        JSONObject jsonObject = new JSONObject(response);
-                        PagoPendienteFragment pagoPendienteFragment = new PagoPendienteFragment();
-                        Bundle bundle = new Bundle();
-                        if(jsonObject.getBoolean("bloquear")){
-                            FragmentTransaction fragmentTransaction = null;
-                            bundle.putDouble("deuda", jsonObject.getDouble("deuda"));
-                            bundle.putString("sesion", Component.getSeccion(jsonObject.getInt("idSeccion")) +
-                                    " / " + Component.getNivel(jsonObject.getInt("idSeccion"),
-                                    jsonObject.getInt("idNivel")) + " / " + jsonObject.getInt("idBloque"));
-                            bundle.putString("lugar", jsonObject.getString("lugar"));
-                            bundle.putString("nombre", jsonObject.getString("nombre"));
-                            bundle.putString("correo", jsonObject.getString("correo"));
-                            bundle.putInt("idSesion", jsonObject.getInt("idSesion"));
-                            fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                            pagoPendienteFragment.setArguments(bundle);
-                            pagoPendienteFragment.show(fragmentTransaction, "Pago pendiente");
-                        }
-                    }else{
-                        new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                                .setTitleText("¡ERROR!")
-                                .setContentText("Error al obtener la información de tu historial de pagos, intente de nuevo más tarde.")
-                                .show();
-                    }
-                }catch(JSONException ex){
-                    ex.printStackTrace();
-                }
-            }, APIEndPoints.BLOQUEAR_PERFIL + "/" + idCliente,  WebServicesAPI.GET, null);
-            bloquearPerfil.execute();
 
-            ServicioTaskPerfilCliente perfilCliente = new ServicioTaskPerfilCliente(this,
-                    linkRESTCargarPerfil, this.imageHttpAddress, this.idCliente, Constants.INFO_PERFIL);
-            perfilCliente.execute();
+            checkBloquearPerfil();
+            getDatosPerfil();
         }else{
             baseDeDatos.close();
         }
 
         baseDeDatos.close();
 
+    }
+
+    private void checkBloquearPerfil(){
+        WebServicesAPI bloquearPerfil = new WebServicesAPI(response -> {
+            try{
+                if(response != null){
+                    JSONObject jsonObject = new JSONObject(response);
+                    PagoPendienteFragment pagoPendienteFragment = new PagoPendienteFragment();
+                    Bundle bundle = new Bundle();
+                    if(jsonObject.getBoolean("bloquear")){
+                        FragmentTransaction fragmentTransaction = null;
+                        bundle.putDouble("deuda", jsonObject.getDouble("deuda"));
+                        bundle.putString("sesion", Component.getSeccion(jsonObject.getInt("idSeccion")) +
+                                " / " + Component.getNivel(jsonObject.getInt("idSeccion"),
+                                jsonObject.getInt("idNivel")) + " / " + jsonObject.getInt("idBloque"));
+                        bundle.putString("lugar", jsonObject.getString("lugar"));
+                        bundle.putString("nombre", jsonObject.getString("nombre"));
+                        bundle.putString("correo", jsonObject.getString("correo"));
+                        bundle.putInt("idSesion", jsonObject.getInt("idSesion"));
+                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        pagoPendienteFragment.setArguments(bundle);
+                        pagoPendienteFragment.show(fragmentTransaction, "Pago pendiente");
+                    }
+                }else{
+                    new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
+                            .setTitleText("¡ERROR!")
+                            .setContentText("Error al obtener la información de tu historial de pagos, intente de nuevo más tarde.")
+                            .show();
+                }
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.BLOQUEAR_PERFIL + "/" + idCliente,  WebServicesAPI.GET, null);
+        bloquearPerfil.execute();
+    }
+
+    private void setImageBitmap(String foto){
+        WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
+            fotoPerfil.setImageBitmap(response);
+        }, APIEndPoints.FOTO_PERFIL, foto);
+        webServiceAPIAssets.execute();
+    }
+
+    private void getDatosPerfil(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            if(response != null){
+                if(!response.equals("null")){
+                    try{
+                        Log.d("TAG1", response);
+                        JSONObject jsonObject = new JSONObject(response);
+                        nombreTV.setText(jsonObject.getString("nombre"));
+                        correoTV.setText(jsonObject.getString("correo"));
+                        PlanesFragment.nombreCliente = jsonObject.getString("nombre");
+                        PlanesFragment.correoCliente = jsonObject.getString("correo");
+                    /*TODO FLUJO_EJECUTAR_PLAN: Verificar si hay PLAN distinto a PARTICULAR
+                        -Si, entonces, verificar la expiracion y el monedero (En el servidor verificamos el monedero y  la expiración,
+                            y ahí decidimos si finalizamos el plan activo, en cualquier caso regresamos un mensaje validando o avisando que valió verga.
+                        -No, entonces, todo sigue el flujo.*/
+                        ServiciosCliente.validarPlan(this.idCliente, this);
+                        setImageBitmap(jsonObject.getString("foto"));
+                    }catch(JSONException ex){
+                        ex.printStackTrace();
+                    }
+
+                }else
+                    errorMsg("Error en el perfil, intente ingresar más tarde.");
+            }else
+                errorMsg("Error del servidor, intente ingresar más tarde.");
+        }, APIEndPoints.GET_PERFIL_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
+    public void errorMsg(String mensaje){
+        new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
     }
 
     @Override

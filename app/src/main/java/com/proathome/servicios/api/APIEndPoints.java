@@ -39,6 +39,7 @@ public class APIEndPoints {
     public static final String ENVIAR_MSG_TICKET_CLIENTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/enviarMsgTicket";
     public static final String NUEVO_TICKET_CLIENTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/nuevoTicket";
     public static final String FINALIZAR_TICKET_CLIENTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/finalizarTicket/";
+    public static final String GET_PERFIL_CLIENTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/perfilCliente/";
 
     //PROFESIONALES
     public static final String DATOS_BANCARIOS_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/obtenerDatosBancarios/";
@@ -58,6 +59,8 @@ public class APIEndPoints {
     public static final String ENVIAR_MSG_TICKET_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/enviarMsgTicket";
     public static final String NUEVO_TICKET_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/nuevoTicket";
     public static final String FINALIZAR_TICKET_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/finalizarTicket/";
+    public static final String GET_PERFIL_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/perfilProfesional/";
+    public static final String UP_FOTO_PROFESIONAL = Constants.IP_80 + "/assets/lib/ActualizarFotoProfesionalAndroid.php";
 
     //GENERAL
     public static final String COBROS = Constants.IP_80 + "/assets/lib/Cargo.php";

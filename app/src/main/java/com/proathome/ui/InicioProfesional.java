@@ -11,27 +11,27 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.proathome.R;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
+import com.proathome.servicios.api.assets.WebServiceAPIAssets;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.profesional.AdminSQLiteOpenHelperProfesional;
-import com.proathome.servicios.profesional.ServicioTaskPerfilProfesional;
-import com.proathome.utils.Constants;
+import com.proathome.utils.SweetAlert;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class InicioProfesional extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private Intent intent;
-    private String imageHttpAddress = Constants.IP_80 +
-            "/assets/img/fotoPerfil/";
-    private String linkRESTCargarPerfil = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesional/perfilProfesional";
     public static TextView correoTV, nombreTV;
     private int idProfesional = 0;
-    public static ImageView foto;
+    public ImageView fotoPerfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class InicioProfesional extends AppCompatActivity {
         View view = navigationView.getHeaderView(0);
         correoTV = view.findViewById(R.id.correoProfesionalTV);
         nombreTV = view.findViewById(R.id.nombreProfesionalTV);
-        foto = view.findViewById(R.id.fotoProfesionalIV);
+        fotoPerfil = view.findViewById(R.id.fotoProfesionalIV);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_inicio_profesional, R.id.nav_editarPerfil_profesional, R.id.nav_sesiones_profesional,
                 R.id.nav_material_profesional, R.id.nav_cerrarSesion_Profesional, R.id.nav_ayudaProfesional,
@@ -69,14 +69,46 @@ public class InicioProfesional extends AppCompatActivity {
 
         if(fila.moveToFirst()){
             this.idProfesional = fila.getInt(0);
-            ServicioTaskPerfilProfesional perfilProfesional = new ServicioTaskPerfilProfesional(this, linkRESTCargarPerfil,
-                    this.imageHttpAddress, this.idProfesional, Constants.INFO_PERFIL);
-            perfilProfesional.execute();
+            getDatosPerfil();
             baseDeDatos.close();
         }else{
             baseDeDatos.close();
         }
 
+    }
+
+    private void setImageBitmap(String foto){
+        WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
+            fotoPerfil.setImageBitmap(response);
+        }, APIEndPoints.FOTO_PERFIL, foto);
+        webServiceAPIAssets.execute();
+    }
+
+    private void getDatosPerfil(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            if(response != null){
+                if (!response.equals("null")) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        nombreTV.setText(jsonObject.getString("nombre"));
+                        correoTV.setText(jsonObject.getString("correo"));
+                        setImageBitmap(jsonObject.getString("foto"));
+                    } catch (JSONException ex) {
+                        ex.printStackTrace();
+                    }
+                } else
+                    errorMsg("Error en el perfil, intente ingresar más tarde.");
+            }else
+                errorMsg("Error del servidor, intente ingresar más tarde.");
+        }, APIEndPoints.GET_PERFIL_PROFESIONAL + this.idProfesional, WebServicesAPI.GET,  null);
+        webServicesAPI.execute();
+    }
+
+    public void errorMsg(String mensaje){
+        new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
     }
 
     public void cerrarSesion(View view){

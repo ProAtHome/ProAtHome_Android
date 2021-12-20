@@ -28,13 +28,15 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
+import com.proathome.servicios.api.assets.WebServiceAPIAssets;
+import com.proathome.servicios.cliente.ServiciosCliente;
 import com.proathome.ui.fragments.DatosFiscalesFragment;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ServicioTaskBancoCliente;
-import com.proathome.servicios.cliente.ServicioTaskPerfilCliente;
 import com.proathome.servicios.profesional.ServicioTaskReportes;
+import com.proathome.ui.fragments.PlanesFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
@@ -58,7 +60,6 @@ public class EditarPerfilFragment extends Fragment {
     private String imageHttpAddress = Constants.IP_80 + "/assets/img/fotoPerfil/";
     private String linkFoto = Constants.IP_80 + "/assets/lib/ActualizarFotoAndroid.php";
     private Unbinder mUnbinder;
-    private ServicioTaskPerfilCliente perfilCliente;
     private ServicioTaskBancoCliente bancoCliente;
     public static TextView tvNombre;
     public static TextView tvCorreo;
@@ -232,9 +233,7 @@ public class EditarPerfilFragment extends Fragment {
             this.idCliente = fila.getInt(0);
             ServicioTaskReportes reportes = new ServicioTaskReportes(getContext(), Constants.TIPO_CLIENTE, this.idCliente);
             reportes.execute();
-            perfilCliente = new ServicioTaskPerfilCliente(getContext(), linkRESTCargarPerfil,
-                    this.imageHttpAddress, this.idCliente, Constants.INFO_PERFIl_EDITAR);
-            perfilCliente.execute();
+            getDatosPerfil();
             bancoCliente = new ServicioTaskBancoCliente(getContext(), linkRESTDatosBancarios,
                     this.idCliente, ServicioTaskBancoCliente.OBTENER_DATOS);
             bancoCliente.execute();
@@ -244,6 +243,44 @@ public class EditarPerfilFragment extends Fragment {
 
         baseDeDatos.close();
 
+    }
+
+    private void setImageBitmap(String foto){
+        WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
+            ivFoto.setImageBitmap(response);
+        }, APIEndPoints.FOTO_PERFIL, foto);
+        webServiceAPIAssets.execute();
+    }
+
+    private void getDatosPerfil(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            if(response != null){
+                if(!response.equals("null")){
+                    try{
+                        JSONObject jsonObject = new JSONObject(response);
+                        tvNombre.setText("Nombre: " + jsonObject.getString("nombre"));
+                        tvCorreo.setText("Correo: " + jsonObject.getString("correo"));
+                        etCelular.setText(jsonObject.getString("celular"));
+                        etTelefono.setText(jsonObject.getString("telefonoLocal"));
+                        etDireccion.setText(jsonObject.getString("direccion"));
+                        etDesc.setText(jsonObject.getString("descripcion"));
+                        setImageBitmap(jsonObject.getString("foto"));
+                    }catch(JSONException ex){
+                        ex.printStackTrace();
+                    }
+                }else
+                    errorMsg("Error en el perfil, intente ingresar más tarde.");
+            }else
+                errorMsg("Error del servidor, intente ingresar más tarde.");
+        }, APIEndPoints.GET_PERFIL_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
+    public void errorMsg(String mensaje){
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
     }
 
     public void actualizarDatosBancarios(){
