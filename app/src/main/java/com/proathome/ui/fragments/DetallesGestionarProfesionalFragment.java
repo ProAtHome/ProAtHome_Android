@@ -6,20 +6,17 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,15 +26,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
+import com.proathome.servicios.api.assets.WebServiceAPIAssets;
 import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
-import com.proathome.servicios.profesional.ServicioTaskEliminarSesionProfesional;
-import com.proathome.servicios.profesional.ServicioTaskFotoDetalles;
 import com.proathome.utils.ComponentProfesional;
 import com.proathome.utils.ComponentSesionesProfesional;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
-
+import org.json.JSONException;
+import org.json.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -49,7 +48,7 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
     public static final int GESTION_PROFESIONAL = 5;
     private Unbinder mUnbinder;
     private static ComponentProfesional mInstance;
-    public static ImageView foto;
+    public static ImageView fotoPerfil;
     private int idSesion, tiempoPasar = 0, idCliente, idProfesional;
     private NestedScrollView mScrollView;
     private GoogleMap mMap;
@@ -105,7 +104,7 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
 
         ComponentSesionesProfesional componentSesionesProfesional = new ComponentSesionesProfesional();
         Bundle bun = getArguments();
-        foto = view.findViewById(R.id.foto);
+        fotoPerfil = view.findViewById(R.id.foto);
         idSesion = bun.getInt("idServicio");
         this.fotoNombre = bun.getString("foto");
         latitud = bun.getDouble("latitud");
@@ -149,9 +148,14 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
             }
         }
 
+        setImageBitmap(fotoNombre);
+    }
 
-        ServicioTaskFotoDetalles fotoDetalles = new ServicioTaskFotoDetalles(getContext(), this.fotoNombre, GESTION_PROFESIONAL);
-        fotoDetalles.execute();
+    private void setImageBitmap(String foto){
+        WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
+            fotoPerfil.setImageBitmap(response);
+        }, APIEndPoints.FOTO_PERFIL, foto);
+        webServiceAPIAssets.execute();
     }
 
     private void showAlert() {
@@ -210,8 +214,81 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
 
     @OnClick(R.id.cancelar)
     public void onClick(){
-        ServicioTaskEliminarSesionProfesional eliminar = new ServicioTaskEliminarSesionProfesional(getContext(), this.idSesion, this.idProfesional, Constants.SOLICITUD_ELIMINAR, this);
-        eliminar.execute();
+        solicitudEliminarSesion();
+    }
+
+    private void cancelarSesion(){
+        JSONObject parametrosPUT = new JSONObject();
+        try {
+            parametrosPUT.put("idProfesional", this.idProfesional);
+            parametrosPUT.put("idServicio", this.idSesion);
+
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                try{
+                    JSONObject jsonObject = new JSONObject(response);
+                    if(jsonObject.getBoolean("respuesta")){
+                        new SweetAlert(getContext(), SweetAlert.SUCCESS_TYPE, SweetAlert.PROFESIONAL)
+                                .setTitleText("¡GENIAL!")
+                                .setContentText(jsonObject.getString("mensaje"))
+                                .setConfirmButton("OK", sweetAlertDialog -> {
+                                    sweetAlertDialog.dismissWithAnimation();
+                                    getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+                                    getActivity().finish();
+                                }).show();
+                    }else
+                        errorMsg(jsonObject.getString("mensaje"));
+                }catch(JSONException ex){
+                    ex.printStackTrace();
+                }
+            }, APIEndPoints.CANCELAR_SERVICIO, WebServicesAPI.PUT, parametrosPUT);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void solicitudEliminarSesion(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try{
+                JSONObject jsonObject = new JSONObject(response);
+                if(jsonObject.getBoolean("respuesta")){
+                    JSONObject mensaje = jsonObject.getJSONObject("mensaje");
+                    if(mensaje.getBoolean("eliminar") && mensaje.getBoolean("multa")){
+                        //Mostrar que se puede eliminar pero con multa.
+                        showAlert("Si cancelas esta servicio serás acreedor de una multa, ya que para cancelar libremente deberá ser 3 HRS antes.");
+                    }else if(mensaje.getBoolean("eliminar") && !mensaje.getBoolean("multa")){
+                        //Eliminar sin multa.
+                        showAlert("¿Deseas cancelar el servicio?");
+                    }else if(!mensaje.getBoolean("eliminar")){
+                        //No se puede eliminar
+                        errorMsg("No se puede cancelar el servicio a menos de 24 HRS de esta.");
+                    }
+                }else
+                    errorMsg(jsonObject.getString("mensaje"));
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.SOLICITUD_ELIMINAR_SESION_PROFESIONAL  + this.idSesion + "/" + this.idProfesional, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
+    private void showAlert(String mensaje) {
+        new MaterialAlertDialogBuilder(getContext(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
+                .setTitle("Cancelar Servicio")
+                .setMessage(mensaje)
+                .setPositiveButton("Cancelar Servicio", (dialog, which) -> {
+                    cancelarSesion();
+                })
+                .setNegativeButton("Cerrar", (dialog, which) -> {
+                })
+                .show();
+    }
+
+    private void errorMsg(String mensaje){
+        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
+                .setTitleText("¡ERROR!")
+                .setContentText(mensaje)
+                .show();
     }
 
     @Override

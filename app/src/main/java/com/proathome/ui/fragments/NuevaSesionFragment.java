@@ -13,7 +13,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -41,11 +39,9 @@ import com.proathome.ui.InicioCliente;
 import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ControladorTomarSesion;
-import com.proathome.servicios.cliente.ServicioTaskBancoCliente;
 import com.proathome.servicios.cliente.ServicioTaskSesionActual;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Component;
-import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,8 +67,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     public static boolean banco = false, disponibilidad;
     public static String planSesion, correoCliente;
     public static DialogFragment dialogFragment;
-    private String linkRESTDatosBancarios = Constants.IP +
-            "/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
     private Unbinder mUnbinder;
     public static ControladorTomarSesion tomarSesion;
     @BindView(R.id.text_direccionET)
@@ -149,9 +143,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
         ServiciosCliente.validarPlan(idCliente, getContext());
         //Servicio para validar que ya tenemos datos bancarios registrados para lanzar la preOrden.
-        ServicioTaskBancoCliente bancoCliente = new ServicioTaskBancoCliente(getContext(),
-                linkRESTDatosBancarios, idCliente, ServicioTaskBancoCliente.VALIDAR_BANCO);
-        bancoCliente.execute();
+        validarBanco();
         /*Datos de pre Orden listos para ser lanzados :)
         getPreOrden();*/
 
@@ -204,6 +196,40 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
         return view;
 
+    }
+
+    private void validarBanco(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                if(jsonObject.getBoolean("respuesta")){
+                    JSONObject mensaje = jsonObject.getJSONObject("mensaje");
+                    if(mensaje.getBoolean("existe")){
+                        DetallesFragment.banco = true;
+                        banco = true;
+                        //Datos bancarios Pre Orden.}
+                        PreOrdenServicio.nombreTitular = mensaje.getString("nombreTitular");
+                        PreOrdenServicio.tarjeta = mensaje.get("tarjeta").toString();
+                        PreOrdenServicio.mes = mensaje.get("mes").toString();
+                        PreOrdenServicio.ano = mensaje.get("ano").toString();
+                    }else{
+                        banco = false;
+                        DetallesFragment.banco = false;
+                    }
+                }else
+                    infoMsg("¡ERROR", jsonObject.get("mensaje").toString(), SweetAlert.ERROR_TYPE);
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.GET_DATOS_BANCO_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
+    public void infoMsg(String titulo, String mensaje, int tipo){
+        new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .show();
     }
 
     /*

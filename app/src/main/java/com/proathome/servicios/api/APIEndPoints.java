@@ -26,7 +26,6 @@ public class APIEndPoints {
     public static final String ACTUALIZAR_SESION = Constants.IP + "/ProAtHome/apiProAtHome/cliente/actualizarSesion";
     public static final String SALDAR_DEUDA = Constants.IP + "/ProAtHome/apiProAtHome/cliente/saldarDeuda";
     public static final String VALIDAR_PLAN = Constants.IP + "/ProAtHome/apiProAtHome/cliente/verificarPlan/";
-    public static final String FOTO_PERFIL = Constants.IP_80 + "/assets/img/fotoPerfil/";
     public static final String GET_DATOS_FISCALES_CLIENTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/getDatosFiscales/";
     public static final String UPDATE_DATOS_FISCALES_CLIENTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/guardarDatosFiscales";
     public static final String SUMAR_SERVICIO_RUTA = Constants.IP + "/ProAtHome/apiProAtHome/cliente/sumarServicioRuta";
@@ -43,6 +42,7 @@ public class APIEndPoints {
     public static final String GET_SESIONES_CLIENTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/obtenerSesiones/";
     public static final String GET_PRE_ORDEN = Constants.IP + "/ProAtHome/apiProAtHome/cliente/obtenerPreOrden/";
     public static final String GET_REPORTES_CLIENTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/getReportes/";
+    public static final String GET_DATOS_BANCO_CLIENTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios/";
 
     //PROFESIONALES
     public static final String DATOS_BANCARIOS_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/obtenerDatosBancarios/";
@@ -66,8 +66,11 @@ public class APIEndPoints {
     public static final String UP_FOTO_PROFESIONAL = Constants.IP_80 + "/assets/lib/ActualizarFotoProfesionalAndroid.php";
     public static final String GET_SESIONES_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/obtenerSesionesProfesionalMatch/";
     public static final String GET_REPORTES_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/getReportes/";
+    public static final String SOLICITUD_ELIMINAR_SESION_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/solicitudEliminarSesion/";
+    public static final String CANCELAR_SERVICIO = Constants.IP + "/ProAtHome/apiProAtHome/profesional/cancelarServicio";
 
     //GENERAL
+    public static final String FOTO_PERFIL = Constants.IP_80 + "/assets/img/fotoPerfil/";
     public static final String COBROS = Constants.IP_80 + "/assets/lib/Cargo.php";
     public static final String VERIFICACION_CORREO = Constants.IP_80 + "/assets/lib/Verificacion.php?enviar=true";
     public static final String FECHA_SERVIDOR = Constants.IP + "/ProAtHome/apiProAtHome/admin/fechaServidor";

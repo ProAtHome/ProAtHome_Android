@@ -28,19 +28,17 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
+import com.proathome.servicios.api.assets.WebServiceAPIAssets;
 import com.proathome.ui.SincronizarServicio;
 import com.proathome.servicios.servicio.ServicioTaskFinalizarServicio;
 import com.proathome.servicios.servicio.ServicioTaskSincronizarServicios;
 import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
-import com.proathome.servicios.profesional.ServicioTaskFotoDetalles;
 import com.proathome.utils.ComponentSesionesProfesional;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -57,7 +55,7 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
     private NestedScrollView mScrollView;
     private Unbinder mUnbinder;
     private double longitud = -99.13320799999, latitud = 19.4326077;
-    public static ImageView foto;
+    public static ImageView fotoPerfil;
     public static String fotoNombre;
     public static boolean procedenciaFin = false;
     @BindView(R.id.nombreTV)
@@ -131,7 +129,7 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
         mUnbinder = ButterKnife.bind(this, view);
         Bundle bun = getArguments();
         ComponentSesionesProfesional componentSesionesProfesional = new ComponentSesionesProfesional();
-        foto = view.findViewById(R.id.foto);
+        fotoPerfil = view.findViewById(R.id.foto);
         iniciar = view.findViewById(R.id.iniciar);
 
         fragmentDetallesProf = DetallesSesionProfesionalFragment.this;
@@ -197,9 +195,14 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
             }
         }
 
-        ServicioTaskFotoDetalles fotoDetalles = new ServicioTaskFotoDetalles(getContext(), this.fotoNombre, PROFESIONAL);
-        fotoDetalles.execute();
+        setImageBitmap(fotoNombre);
+    }
 
+    private void setImageBitmap(String foto){
+        WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
+            fotoPerfil.setImageBitmap(response);
+        }, APIEndPoints.FOTO_PERFIL, foto);
+        webServiceAPIAssets.execute();
     }
 
     private void validarValoracionCliente(){

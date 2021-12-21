@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -31,12 +30,10 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.servicios.api.assets.WebServiceAPIAssets;
-import com.proathome.ui.editarPerfilProfesional.EditarPerfilProfesionalFragment;
 import com.proathome.ui.fragments.DatosFiscalesFragment;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
-import com.proathome.servicios.cliente.ServicioTaskBancoCliente;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
@@ -53,14 +50,8 @@ import mx.openpay.android.validation.CardValidator;
 
 public class EditarPerfilFragment extends Fragment {
 
-    private String linkRESTCargarPerfil = Constants.IP +
-            "/ProAtHome/apiProAtHome/cliente/perfilCliente";
-    private String linkRESTDatosBancarios = Constants.IP +
-            "/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios";
-    private String imageHttpAddress = Constants.IP_80 + "/assets/img/fotoPerfil/";
     private String linkFoto = Constants.IP_80 + "/assets/lib/ActualizarFotoAndroid.php";
     private Unbinder mUnbinder;
-    private ServicioTaskBancoCliente bancoCliente;
     public static TextView tvNombre;
     public static TextView tvCorreo;
     public static TextInputEditText etCelular;
@@ -233,15 +224,42 @@ public class EditarPerfilFragment extends Fragment {
             this.idCliente = fila.getInt(0);
             getReportes();
             getDatosPerfil();
-            bancoCliente = new ServicioTaskBancoCliente(getContext(), linkRESTDatosBancarios,
-                    this.idCliente, ServicioTaskBancoCliente.OBTENER_DATOS);
-            bancoCliente.execute();
+            getDatosBanco();
         }else{
             baseDeDatos.close();
         }
 
         baseDeDatos.close();
 
+    }
+
+    private void getDatosBanco(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                if(jsonObject.getBoolean("respuesta")){
+                    JSONObject mensaje = jsonObject.getJSONObject("mensaje");
+                    if(mensaje.getBoolean("existe")){
+                        etNombreTitular.setText(mensaje.getString("nombreTitular"));
+                        etTarjeta.setText(mensaje.getString("tarjeta"));
+                        etMes.setText(mensaje.getString("mes"));
+                        etAño.setText(mensaje.getString("ano"));
+                    }else
+                        infoMsg("¡AVISO!", "No tienes datos bancarios registrados", SweetAlert.WARNING_TYPE);
+                }else
+                    infoMsg("¡ERROR", jsonObject.get("mensaje").toString(), SweetAlert.ERROR_TYPE);
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.GET_DATOS_BANCO_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
+    public void infoMsg(String titulo, String mensaje, int tipo){
+        new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .show();
     }
 
     private void getReportes(){

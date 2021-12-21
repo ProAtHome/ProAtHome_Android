@@ -17,15 +17,12 @@ import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
-import com.proathome.servicios.cliente.ServicioTaskBancoCliente;
 import com.proathome.servicios.cliente.ServicioTaskSesionActual;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -91,8 +88,7 @@ public class PlanesFragment extends DialogFragment {
 
         ServicioTaskSesionActual servicioTaskSesionActual = new ServicioTaskSesionActual(getContext(), idCliente, ServicioTaskSesionActual.PLANES_FRAGMENT);
         servicioTaskSesionActual.execute();
-        ServicioTaskBancoCliente bancoCliente = new ServicioTaskBancoCliente(getContext(), linkRESTDatosBancarios, idCliente, ServicioTaskBancoCliente.DATOS_PLANES);
-        bancoCliente.execute();
+        datosBancariosPagoPlanes();
 
         //TODO FLUJO_COMPRAR_PLANES:  Mostramos la información del Plan (Título, Descripción, Fechas Inicio-Fin, términos y condiciones)
         card1.setOnClickListener(v -> {
@@ -108,6 +104,35 @@ public class PlanesFragment extends DialogFragment {
         });
 
         return view;
+    }
+
+    private void datosBancariosPagoPlanes(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                if(jsonObject.getBoolean("respuesta")){
+                    JSONObject mensaje = jsonObject.getJSONObject("mensaje");
+                    if(mensaje.getBoolean("existe")){
+                        nombreTitular = mensaje.getString("nombreTitular");
+                        tarjeta = mensaje.getString("tarjeta");
+                        mes = mensaje.getString("mes");
+                        ano = mensaje.getString("ano");
+                    }else
+                        infoMsg("¡AVISO!", "No tienes datos bancarios registrados", SweetAlert.WARNING_TYPE);
+                }else
+                    infoMsg("¡ERROR", jsonObject.get("mensaje").toString(), SweetAlert.ERROR_TYPE);
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.GET_DATOS_BANCO_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
+    public void infoMsg(String titulo, String mensaje, int tipo){
+        new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .show();
     }
 
     private void getFechaServidor(){

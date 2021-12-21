@@ -28,6 +28,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
+import com.proathome.servicios.api.assets.WebServiceAPIAssets;
 import com.proathome.ui.SincronizarServicio;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
@@ -35,7 +36,6 @@ import com.proathome.servicios.servicio.ServicioTaskFinalizarServicio;
 import com.proathome.servicios.servicio.ServicioTaskSincronizarServicios;
 import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
-import com.proathome.servicios.profesional.ServicioTaskFotoDetalles;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
@@ -58,7 +58,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
             idNivel = 0, idBloque = 0;
     /*VARIABLE DE EXISTENCIA DE DATOS - BANCO*/
     public static boolean banco, procedenciaFin = false;
-    public static ImageView foto;
+    public static ImageView fotoPerfil;
     public static Context contexto;
     @BindView(R.id.profesional)
     public TextView profesional;
@@ -181,7 +181,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
         Component component = new Component();
         Bundle bun = getArguments();
-        foto = view.findViewById(R.id.foto);
+        fotoPerfil = view.findViewById(R.id.foto);
         iniciar = view.findViewById(R.id.iniciar);
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
@@ -333,12 +333,17 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
             }
         }
 
-        ServicioTaskFotoDetalles fotoDetalles = new ServicioTaskFotoDetalles(getContext(), this.fotoNombre, CLIENTE);
         if (!fotoNombre.equalsIgnoreCase("Sin foto"))
-            fotoDetalles.execute();
+            setImageBitmap(fotoNombre);
 
     }
 
+    private void setImageBitmap(String foto){
+        WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
+            fotoPerfil.setImageBitmap(response);
+        }, APIEndPoints.FOTO_PERFIL, foto);
+        webServiceAPIAssets.execute();
+    }
 
     private void validarValoracionProfesional(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {

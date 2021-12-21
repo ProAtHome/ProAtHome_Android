@@ -15,7 +15,7 @@ import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterValoraciones;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
-import com.proathome.servicios.profesional.ServicioTaskFotoDetalles;
+import com.proathome.servicios.api.assets.WebServiceAPIAssets;
 import com.proathome.utils.ComponentValoraciones;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONArray;
@@ -31,7 +31,7 @@ public class PerfilFragment extends DialogFragment {
     private Unbinder mUnbinder;
     public static ComponentValoraciones componentValoraciones;
     public static ComponentAdapterValoraciones componentAdapterValoraciones;
-    public static ShapeableImageView foto;
+    public static ShapeableImageView fotoPerfil;
     public static String nombre, correo;
     public static float valoracion;
     private Bundle bundle;
@@ -59,7 +59,7 @@ public class PerfilFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
-        foto = view.findViewById(R.id.foto);
+        fotoPerfil = view.findViewById(R.id.foto);
         tvNombre = view.findViewById(R.id.nombre);
         tvCoreo = view.findViewById(R.id.correo);
         tvCalificacion = view.findViewById(R.id.calificacion);
@@ -70,15 +70,12 @@ public class PerfilFragment extends DialogFragment {
 
         bundle = getArguments();
 
-        if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_CLIENTE) {
+        if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_CLIENTE)
             getValoracion(DetallesSesionProfesionalFragment.idCliente);
-            ServicioTaskFotoDetalles detalles = new ServicioTaskFotoDetalles(getContext(), DetallesSesionProfesionalFragment.fotoNombre, PerfilFragment.PERFIL_CLIENTE_EN_PROFESIONAL);
-            detalles.execute();
-        }else if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_PROFESIONAL){
+        else if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_PROFESIONAL)
             getValoracion(DetallesFragment.idProfesional);
-            ServicioTaskFotoDetalles detalles = new ServicioTaskFotoDetalles(getContext(), DetallesFragment.fotoNombre, PerfilFragment.PERFIL_PROFESIONAL_EN_CLIENTE);
-            detalles.execute();
-        }
+
+        setImageBitmap();
 
         if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_CLIENTE) {
             toolbar.setBackgroundColor(getResources().getColor(R.color.colorAzul));
@@ -95,6 +92,14 @@ public class PerfilFragment extends DialogFragment {
 
 
         return view;
+    }
+
+
+    private void setImageBitmap(){
+        WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
+            fotoPerfil.setImageBitmap(response);
+        }, APIEndPoints.FOTO_PERFIL, bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_CLIENTE ? DetallesSesionProfesionalFragment.fotoNombre : DetallesFragment.fotoNombre);
+        webServiceAPIAssets.execute();
     }
 
     private void getValoracion(int idPerfil){
