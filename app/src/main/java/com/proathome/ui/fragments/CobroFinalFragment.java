@@ -4,17 +4,20 @@ import android.content.Context;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.ui.ServicioCliente;
 import com.proathome.R;
 import com.proathome.servicios.cliente.TabuladorCosto;
-import com.proathome.servicios.cliente.ServicioTaskPreOrden;
+import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
+import org.json.JSONException;
+import org.json.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -83,10 +86,28 @@ public class CobroFinalFragment extends DialogFragment {
         costoTotal = (double) TabuladorCosto.getCosto(ServicioCliente.idSeccion, progresoTotal, TabuladorCosto.PARTICULAR);
         tvCostoTotal.setText("Total: " + String.format("%.2f", costoTotal) + " MXN");
 
-        ServicioTaskPreOrden preOrden = new ServicioTaskPreOrden(idCliente, idSesion, ServicioTaskPreOrden.PANTALLA_COBRO_FINAL);
-        preOrden.execute();
+        getPreOrden();
 
         return view;
+    }
+
+    private void getPreOrden(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try{
+                JSONObject jsonObject = new JSONObject(response);
+                nombreTitular = jsonObject.getString("nombreTitular");
+                mes = jsonObject.get("mes").toString();
+                ano = jsonObject.get("ano").toString();
+                metodoRegistrado = jsonObject.getString("tarjeta");
+                sesion = "Sesión: " + Component.getSeccion(jsonObject.getInt("idSeccion")) + " / " + Component.getNivel(jsonObject.getInt("idSeccion"), jsonObject.getInt("idNivel")) + " / " + Component.getBloque(jsonObject.getInt("idBloque"));
+                tiempo = "Tiempo: " + obtenerHorario(jsonObject.getInt("tiempo"));
+                nombreCliente = jsonObject.get("nombreCliente").toString();
+                correo = jsonObject.get("correo").toString();
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.GET_PRE_ORDEN + this.idCliente + "/" + this.idSesion, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
     }
 
     public String obtenerHorario(int tiempo){

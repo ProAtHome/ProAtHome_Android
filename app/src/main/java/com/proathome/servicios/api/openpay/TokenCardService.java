@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
+
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.servicio.ServicioTaskMasTiempo;
@@ -85,21 +86,7 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
                             if(jsonObject.getBoolean("respuesta")){
                                 //Actualizar la orden de pago con el costo del TE
                                 actualizarPagoTE();
-                                /*
-                                if(DetallesFragment.planSesion.equalsIgnoreCase("PARTICULAR")){
-                                    ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idCliente,
-                                            this.idSesion, TabuladorCosto.getCosto(ServicioCliente.idSeccion, ServicioCliente.tiempo,
-                                            TabuladorCosto.PARTICULAR), TabuladorCosto.getCosto(ServicioCliente.idSeccion,
-                                            CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR),
-                                            DetallesFragment.planSesion, "Pagado");
-                                    ordenPago.execute();
-                                }else{
-                                    ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idCliente,
-                                            this.idSesion, 0, TabuladorCosto.getCosto(ServicioCliente.idSeccion,
-                                            CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR),
-                                            DetallesFragment.planSesion, "Pagado");
-                                    ordenPago.execute();
-                                }*/
+                                //generarOrdenPago();
 
                                 //Generamos el tiempo extra y la vida sigue.
                                 ServicioTaskMasTiempo masTiempo = new ServicioTaskMasTiempo(contexto, DatosBancoPlanFragment.idSesion,
@@ -117,6 +104,24 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
 
         return resultado;
     }
+
+    /*
+    private void generarOrdenPago() throws JSONException {
+        JSONObject jsonDatos = new JSONObject();
+        if(DetallesFragment.planSesion.equalsIgnoreCase("PARTICULAR"))
+            jsonDatos.put("costoServicio", TabuladorCosto.getCosto(ServicioCliente.idSeccion, ServicioCliente.tiempo, TabuladorCosto.PARTICULAR));
+        else
+            jsonDatos.put("costoServicio", 0);
+        jsonDatos.put("costoTE", TabuladorCosto.getCosto(ServicioCliente.idSeccion, CobroFinalFragment.progresoTotal, TabuladorCosto.PARTICULAR));
+        jsonDatos.put("idCliente", this.idCliente);
+        jsonDatos.put("idSesion", this.idSesion);
+        jsonDatos.put("estatusPago", "Pagado");
+        jsonDatos.put("tipoPlan", DetallesFragment.planSesion);
+
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            
+        }, APIEndPoints.GENERAR_ORDEN_PAGO, WebServicesAPI.PUT, );
+    }*/
 
     private void actualizarPagoTE() throws JSONException {
         JSONObject parametrosPost= new JSONObject();

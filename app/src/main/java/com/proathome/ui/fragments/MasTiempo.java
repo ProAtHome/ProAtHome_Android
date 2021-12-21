@@ -7,18 +7,15 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.ui.ServicioCliente;
 import com.proathome.R;
 import com.proathome.servicios.servicio.ServicioTaskFinalizarServicio;
-import com.proathome.servicios.cliente.ServicioTaskPreOrden;
+import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -48,10 +45,35 @@ public class MasTiempo extends DialogFragment {
         this.idSesion = bundle.getInt("idSesion", 0);
         this.idCliente = bundle.getInt("idCliente", 0);
         /*Vamos a obtene los datos de la pre orden y usarlos para mostrar el cobro final*/
-        ServicioTaskPreOrden preOrden = new ServicioTaskPreOrden(idCliente, idSesion, ServicioTaskPreOrden.PANTALLA_COBRO_FINAL);
-        preOrden.execute();
+        getPreOrden();
 
         return view;
+    }
+
+    private void getPreOrden(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try{
+                JSONObject jsonObject = new JSONObject(response);
+                CobroFinalFragment.nombreTitular = jsonObject.getString("nombreTitular");
+                CobroFinalFragment.mes = jsonObject.get("mes").toString();
+                CobroFinalFragment.ano = jsonObject.get("ano").toString();
+                CobroFinalFragment.metodoRegistrado = jsonObject.getString("tarjeta");
+                CobroFinalFragment.sesion = "Sesión: " + Component.getSeccion(jsonObject.getInt("idSeccion")) + " / " + Component.getNivel(jsonObject.getInt("idSeccion"), jsonObject.getInt("idNivel")) + " / " + Component.getBloque(jsonObject.getInt("idBloque"));
+                CobroFinalFragment.tiempo = "Tiempo: " + obtenerHorario(jsonObject.getInt("tiempo"));
+                CobroFinalFragment.nombreCliente = jsonObject.get("nombreCliente").toString();
+                CobroFinalFragment.correo = jsonObject.get("correo").toString();
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.GET_PRE_ORDEN + this.idCliente + "/" + this.idSesion, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
+    public String obtenerHorario(int tiempo){
+        String horas = String.valueOf(tiempo/60) + " HRS ";
+        String minutos = String.valueOf(tiempo%60) + " min";
+
+        return horas + minutos;
     }
 
     @OnClick({R.id.quinceMin, R.id.treintaMin})
@@ -124,8 +146,7 @@ public class MasTiempo extends DialogFragment {
             dismiss();
         }else{
             //Actualizar la orden de pago con estatusPago = Pagado.
-            ServicioTaskOrdenPago ordenPago = new ServicioTaskOrdenPago(this.idCliente, this.idSesion, 0, 0, DetallesFragment.planSesion, "Pagado", ServicioTaskOrdenPago.SOLICITUD_COBRO_TE);
-            ordenPago.execute();
+            generarOrdenPago();
             //Finalizamos el servicio, sumamos la ruta.
             ServicioTaskFinalizarServicio finalizarServicio = new ServicioTaskFinalizarServicio(this.contexto, this.idSesion, this.idCliente, Constants.FINALIZAR_SERVICIO, DetallesFragment.CLIENTE);
             finalizarServicio.execute();
@@ -136,6 +157,21 @@ public class MasTiempo extends DialogFragment {
 
         }*/
 
+    }
+
+    private void generarOrdenPago() throws JSONException {
+        JSONObject jsonDatos = new JSONObject();
+        jsonDatos.put("costoServicio", 0);
+        jsonDatos.put("costoTE", 0);
+        jsonDatos.put("idCliente", this.idCliente);
+        jsonDatos.put("idSesion", this.idSesion);
+        jsonDatos.put("estatusPago", "Pagado");
+        jsonDatos.put("tipoPlan", DetallesFragment.planSesion);
+
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+
+        }, APIEndPoints.ORDEN_COMPRA_ACTUALIZAR_PAGO, WebServicesAPI.PUT, jsonDatos);
+        webServicesAPI.execute();
     }
 
     private void sumarSevicioRuta(){

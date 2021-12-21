@@ -153,9 +153,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                 linkRESTDatosBancarios, idCliente, ServicioTaskBancoCliente.VALIDAR_BANCO);
         bancoCliente.execute();
         /*Datos de pre Orden listos para ser lanzados :)
-        ServicioTaskPreOrden preOrden = new ServicioTaskPreOrden(idCliente, idSesion,
-                ServicioTaskPreOrden.PANTALLA_PRE_COBRO);
-        preOrden.execute();*/
+        getPreOrden();*/
 
 
         String[] datosHoras = null;
@@ -207,6 +205,24 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         return view;
 
     }
+
+    /*
+    private void getPreOrden(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try{
+                JSONObject jsonObject = new JSONObject(response);
+                PreOrdenServicio.nombreTitular = jsonObject.getString("nombreTitular");
+                PreOrdenServicio.tarjeta = jsonObject.get("tarjeta").toString();
+                PreOrdenServicio.mes = jsonObject.get("mes").toString();
+                PreOrdenServicio.ano = jsonObject.get("ano").toString();
+                PreOrdenServicio.sesion = "Sesión: " + Component.getSeccion(jsonObject.getInt("idSeccion")) + " / " + Component.getNivel(jsonObject.getInt("idSeccion"), jsonObject.getInt("idNivel")) + " / " + Component.getBloque(jsonObject.getInt("idBloque"));
+                PreOrdenServicio.tiempo = "Tiempo: " + obtenerHorario(jsonObject.getInt("tiempo"));
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.GET_PRE_ORDEN + this.idCliente + "/" + this.idSesion, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }*/
 
     public String obtenerHorario(int tiempo){
         String horas = String.valueOf(tiempo/60) + " HRS ";

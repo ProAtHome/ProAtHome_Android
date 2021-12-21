@@ -17,12 +17,16 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterGestionarProfesional;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.ui.fragments.BuscarSesionFragment;
 import com.proathome.servicios.profesional.AdminSQLiteOpenHelperProfesional;
-import com.proathome.servicios.profesional.ServicioTaskSesionesProfesional;
-import com.proathome.utils.Constants;
+import com.proathome.ui.fragments.DetallesGestionarProfesionalFragment;
 import com.proathome.utils.PermisosUbicacion;
 import com.proathome.utils.SweetAlert;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,9 +38,6 @@ public class SesionesProfesionalFragment extends Fragment {
     private Unbinder mUnbinder;
     public static ComponentAdapterGestionarProfesional myAdapter;
     public static LottieAnimationView lottieAnimationView;
-    private String serviciosHttpAddress = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesional/obtenerSesionesProfesionalMatch/";
-    private ServicioTaskSesionesProfesional sesionesTask;
     private int idProfesional = 0;
     @BindView(R.id.recyclerGestionarProfesional)
     RecyclerView recyclerView;
@@ -68,11 +69,46 @@ public class SesionesProfesionalFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        sesionesTask = new ServicioTaskSesionesProfesional(getContext(), serviciosHttpAddress, this.idProfesional,
-                Constants.SESIONES_GESTIONAR);
-        sesionesTask.execute();
+        getSesiones();
         configAdapter();
         configRecyclerView();
+    }
+
+    private void getSesiones(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            if(response != null){
+                if(!response.equals("[]")){
+                    try{
+                        JSONArray jsonArray = new JSONArray(response);
+
+                        if(jsonArray.length() == 0)
+                            lottieAnimationView.setVisibility(View.VISIBLE);
+
+                        for (int i = 0; i < jsonArray.length(); i++){
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            if(!object.getBoolean("finalizado")){
+                                myAdapter.add(DetallesGestionarProfesionalFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoServicio"), object.getString("horario"),
+                                        object.getString("nombreCliente"), object.getString("correo"), object.getString("descripcion"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
+                                        object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"),
+                                        object.getString("fecha"), object.getString("tipoPlan"), object.getString("foto")));
+                            }
+                        }
+                    }catch(JSONException ex){
+                        ex.printStackTrace();
+                    }
+                }else
+                    errorMsg("¡AVISO!", "Usuario sin servicios disponibles.", SweetAlert.WARNING_TYPE);
+            }else
+                errorMsg("¡ERROR!", "Error en el servidor, intente de nuevo más tarde.", SweetAlert.ERROR_TYPE);
+        }, APIEndPoints.GET_SESIONES_PROFESIONAL  + this.idProfesional, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
+    public void errorMsg(String titulo, String mensaje, int tipo){
+        new SweetAlert(getContext(), tipo, SweetAlert.PROFESIONAL)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .show();
     }
 
     public void configAdapter(){

@@ -22,12 +22,12 @@ import com.proathome.adapters.ComponentAdapterGestionar;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
-import com.proathome.servicios.cliente.ServicioTaskSesionesCliente;
+import com.proathome.ui.fragments.DetallesGestionarFragment;
 import com.proathome.ui.fragments.NuevaSesionFragment;
 import com.proathome.ui.fragments.PlanesFragment;
-import com.proathome.utils.Constants;
 import com.proathome.utils.PermisosUbicacion;
 import com.proathome.utils.SweetAlert;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -39,9 +39,6 @@ import butterknife.Unbinder;
 public class SesionesFragment extends Fragment {
 
     public static ComponentAdapterGestionar myAdapter;
-    private String serviciosHttpAddress = Constants.IP +
-            "/ProAtHome/apiProAtHome/cliente/obtenerSesiones/";
-    private ServicioTaskSesionesCliente sesionesTask;
     private Unbinder mUnbinder;
     private int idCliente = 0;
     public static boolean SESIONES_PAGADAS_FINALIZADAS = false, PLAN_ACTIVO = false, disponibilidad;
@@ -65,9 +62,7 @@ public class SesionesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        sesionesTask = new ServicioTaskSesionesCliente(getContext(), serviciosHttpAddress, this.idCliente,
-                Constants.SESIONES_GESTIONAR);
-        sesionesTask.execute();
+        getSesiones();
         configAdapter();
         configRecyclerView();
         sesionesPagadas();
@@ -95,6 +90,56 @@ public class SesionesFragment extends Fragment {
 
         return root;
 
+    }
+
+    private void iniciarProcesoRuta() throws JSONException {
+        JSONObject parametros = new JSONObject();
+        parametros.put("idCliente", this.idCliente);
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+
+        }, APIEndPoints.INICIAR_PROCESO_RUTA, WebServicesAPI.POST, parametros);
+        webServicesAPI.execute();
+    }
+
+    private void getSesiones(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            if(response != null){
+                try{
+                    iniciarProcesoRuta();
+
+                    if(!response.equals("null")){
+                        JSONObject jsonObject = new JSONObject(response);
+                        JSONArray jsonArray = jsonObject.getJSONArray("sesiones");
+
+                        if(jsonArray.length() == 0)
+                            lottieAnimationView.setVisibility(View.VISIBLE);
+
+                        for (int i = 0; i < jsonArray.length(); i++){
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            //TODO FLUJO_PLANES: Nota - Si el servicio está finalizada no se puede eliminar ni editar (No mostrar en Gestión)
+                            if(!object.getBoolean("finalizado")){
+                                myAdapter.add(DetallesGestionarFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoServicio"), object.getString("horario"),
+                                        object.getString("profesional"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
+                                        object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"),
+                                        object.getString("fecha"), object.getString("tipoPlan")));
+                            }
+                        }
+                    }else
+                        errorMsg("¡AVISO!","Usuario sin servicios disponibles.", SweetAlert.WARNING_TYPE);
+                }catch(JSONException ex){
+                    ex.printStackTrace();
+                }
+            }else
+                errorMsg("¡ERROR!", "Error del servidor, intente de nuevo más tarde.", SweetAlert.ERROR_TYPE);
+        }, APIEndPoints.GET_SESIONES_CLIENTE  + this.idCliente, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+    }
+
+    public void errorMsg(String titulo, String mensaje, int tipo){
+        new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
+                .setTitleText(titulo)
+                .setContentText(mensaje)
+                .show();
     }
 
     private void sesionesPagadas(){

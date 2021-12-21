@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -31,9 +33,9 @@ import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.api.assets.WebServiceAPIAssets;
+import com.proathome.ui.editarPerfil.EditarPerfilFragment;
 import com.proathome.ui.fragments.DatosFiscalesFragment;
 import com.proathome.servicios.profesional.AdminSQLiteOpenHelperProfesional;
-import com.proathome.servicios.profesional.ServicioTaskReportes;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
@@ -208,8 +210,7 @@ public class EditarPerfilProfesionalFragment extends Fragment {
 
         if(fila.moveToFirst()){
             this.idProfesional = fila.getInt(0);
-            ServicioTaskReportes reportes = new ServicioTaskReportes(getContext(), Constants.TIPO_PROFESIONAL, this.idProfesional);
-            reportes.execute();
+            getReportes();
             getDatosPerfil();
             getDatosBanco();
         }else{
@@ -218,6 +219,35 @@ public class EditarPerfilProfesionalFragment extends Fragment {
 
         baseDeDatos.close();
 
+    }
+
+    private void getReportes(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                if(jsonObject.getBoolean("respuesta")){
+                    JSONObject mensaje = jsonObject.getJSONObject("mensaje");
+                    if(mensaje.getInt("reportes") == 0){
+                        //ocultamos avisos
+                        tvAviso.setVisibility(View.INVISIBLE);
+                        imgAviso.setVisibility(View.INVISIBLE);
+                        cardValoracion.setVisibility(View.INVISIBLE);
+                    }else if(mensaje.getInt("reportes") > 0){
+                        int numReportes = mensaje.getInt("reportes");
+                        String descripcion = mensaje.getString("aviso");
+                        //mostramos aviso
+                        tvAviso.setVisibility(View.VISIBLE);
+                        imgAviso.setVisibility(View.VISIBLE);
+                        cardValoracion.setVisibility(View.VISIBLE);
+                        tvAviso.setText("Aviso No. " + numReportes + ": " + descripcion);
+                    }
+                }else
+                    Toast.makeText(getContext(), "Error al obtener Reportes.", Toast.LENGTH_SHORT).show();
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.GET_REPORTES_PROFESIONAL + this.idProfesional, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
     }
 
     private void setImageBitmap(String foto){
