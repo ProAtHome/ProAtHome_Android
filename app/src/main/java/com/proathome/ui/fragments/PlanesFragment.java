@@ -17,7 +17,7 @@ import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
-import com.proathome.servicios.cliente.ServicioTaskSesionActual;
+import com.proathome.servicios.cliente.ServiciosCliente;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
@@ -86,8 +86,7 @@ public class PlanesFragment extends DialogFragment {
 
         //TODO FLUJO_COMPRAR_PLANES: Obtener fecha de inicio y término del servidor.
 
-        ServicioTaskSesionActual servicioTaskSesionActual = new ServicioTaskSesionActual(getContext(), idCliente, ServicioTaskSesionActual.PLANES_FRAGMENT);
-        servicioTaskSesionActual.execute();
+        ServiciosCliente.getSesionActual(ServiciosCliente.PLANES_FRAGMENT, idCliente, getContext());
         datosBancariosPagoPlanes();
 
         //TODO FLUJO_COMPRAR_PLANES:  Mostramos la información del Plan (Título, Descripción, Fechas Inicio-Fin, términos y condiciones)

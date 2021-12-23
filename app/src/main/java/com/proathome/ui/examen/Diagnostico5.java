@@ -11,7 +11,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
-import com.proathome.servicios.cliente.ServicioExamenDiagnostico;
+import com.proathome.servicios.cliente.ServiciosExamenDiagnostico;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
@@ -95,9 +95,7 @@ public class Diagnostico5 extends AppCompatActivity {
             int idCliente = 0;
             if (fila.moveToFirst()) {
                 idCliente = fila.getInt(0);
-                ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(this, idCliente, Diagnostico5.this,
-                                Diagnostico6.class, Constants.ENCURSO_EXAMEN, puntuacion, 50);
-                examen.execute();
+                ServiciosExamenDiagnostico.actualizarEstatusExamen(Constants.ENCURSO_EXAMEN, idCliente, puntuacion, 50, this, Diagnostico5.this,  Diagnostico6.class);
             }else{
                 baseDeDatos.close();
             }

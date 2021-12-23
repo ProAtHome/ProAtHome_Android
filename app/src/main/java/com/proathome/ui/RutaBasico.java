@@ -9,10 +9,20 @@ import android.os.Bundle;
 import android.view.View;
 import com.google.android.material.button.MaterialButton;
 import com.proathome.R;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
-import com.proathome.servicios.cliente.ServicioTaskRuta;
+import com.proathome.servicios.cliente.ControladorRutaAvanzado;
+import com.proathome.servicios.cliente.ControladorRutaBasico;
+import com.proathome.servicios.cliente.ControladorRutaIntermedio;
+import com.proathome.servicios.cliente.ControladorRutaSecciones;
 import com.proathome.ui.fragments.DetallesBloque;
+import com.proathome.ui.ruta.RutaFragment;
 import com.proathome.utils.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -116,13 +126,32 @@ public class RutaBasico extends AppCompatActivity {
 
         if (fila.moveToFirst()) {
             idCliente = fila.getInt(0);
-            ServicioTaskRuta ruta = new ServicioTaskRuta(this, idCliente, Constants.ESTADO_RUTA, NIVEL_BASICO);
-            ruta.execute();
+            getEstadoRuta();
         }else{
             baseDeDatos.close();
         }
 
         baseDeDatos.close();
+    }
+
+    private void getEstadoRuta(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try{
+                JSONObject rutaJSON = new JSONObject(response);
+                int estado = rutaJSON.getInt("estado");
+            /*if(estado == Constants.INICIO_RUTA){
+    }else */    if(estado == Constants.RUTA_ENCURSO) {
+                    int idBloque = rutaJSON.getInt("idBloque");
+                    int idNivel = rutaJSON.getInt("idNivel");
+                    int idSeccion = rutaJSON.getInt("idSeccion");
+                    ControladorRutaBasico rutaAprendizaje = new ControladorRutaBasico(this, idBloque, idNivel, idSeccion);
+                    rutaAprendizaje.evaluarNivelBasico();
+                }
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.GET_ESTADO_RUTA + this.idCliente + "/" + NIVEL_BASICO, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
     }
 
     private void verBloque(String contenido, String bloque, String horas){

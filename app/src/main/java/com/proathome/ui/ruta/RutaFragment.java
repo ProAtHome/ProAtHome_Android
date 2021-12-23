@@ -14,15 +14,20 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.proathome.servicios.api.APIEndPoints;
+import com.proathome.servicios.api.WebServicesAPI;
+import com.proathome.servicios.cliente.ControladorRutaSecciones;
+import com.proathome.servicios.cliente.ServiciosCliente;
+import com.proathome.servicios.cliente.ServiciosExamenDiagnostico;
 import com.proathome.ui.RutaAvanzado;
 import com.proathome.ui.RutaBasico;
 import com.proathome.R;
 import com.proathome.ui.RutaIntermedio;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
-import com.proathome.servicios.cliente.ServicioExamenDiagnostico;
-import com.proathome.servicios.cliente.ServicioTaskRuta;
 import com.proathome.ui.examen.Diagnostico1;
 import com.proathome.utils.Constants;
+import org.json.JSONException;
+import org.json.JSONObject;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -58,11 +63,8 @@ public class RutaFragment extends Fragment {
 
         if (fila.moveToFirst()) {
             idCliente = fila.getInt(0);
-            ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(getContext(), idCliente,
-                    Constants.ESTATUS_EXAMEN);
-            examen.execute();
-            ServicioTaskRuta ruta = new ServicioTaskRuta(getContext(), idCliente, Constants.ESTADO_RUTA, SECCIONES);
-            ruta.execute();
+            ServiciosExamenDiagnostico.getEstatusExamen(idCliente, getContext());
+            getEstadoRuta();
         }else{
             baseDeDatos.close();
         }
@@ -78,11 +80,7 @@ public class RutaFragment extends Fragment {
 
                     })
                     .setPositiveButton("EVALUAR", ((dialog, which) -> {
-                        ServicioExamenDiagnostico examen = new ServicioExamenDiagnostico(getContext(),
-                                idCliente, Constants.REINICIAR_EXAMEN);
-                        examen.execute();
-                        Intent intent = new Intent(getContext(), Diagnostico1.class);
-                        startActivity(intent);
+                        ServiciosExamenDiagnostico.reiniciarExamen(idCliente, getContext());
                     }))
                     .setOnCancelListener(dialog -> {
 
@@ -91,6 +89,26 @@ public class RutaFragment extends Fragment {
         });
 
         return root;
+    }
+
+    private void getEstadoRuta(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            try{
+                JSONObject rutaJSON = new JSONObject(response);
+                int estado = rutaJSON.getInt("estado");
+            /*if(estado == Constants.INICIO_RUTA){
+    }else */    if(estado == Constants.RUTA_ENCURSO) {
+                    int idBloque = rutaJSON.getInt("idBloque");
+                    int idNivel = rutaJSON.getInt("idNivel");
+                    int idSeccion = rutaJSON.getInt("idSeccion");
+                    ControladorRutaSecciones rutaAprendizaje = new ControladorRutaSecciones(getContext(), idBloque, idNivel, idSeccion);
+                    rutaAprendizaje.evaluarRuta();
+                }
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.GET_ESTADO_RUTA + this.idCliente + "/" + SECCIONES, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
     }
 
     @OnClick({R.id.btnBasico, R.id.btnIntermedio, R.id.btnAvanzado})

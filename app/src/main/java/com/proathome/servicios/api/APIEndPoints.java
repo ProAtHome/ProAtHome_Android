@@ -43,6 +43,14 @@ public class APIEndPoints {
     public static final String GET_PRE_ORDEN = Constants.IP + "/ProAtHome/apiProAtHome/cliente/obtenerPreOrden/";
     public static final String GET_REPORTES_CLIENTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/getReportes/";
     public static final String GET_DATOS_BANCO_CLIENTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/obtenerDatosBancarios/";
+    public static final String GET_ESTADO_RUTA = Constants.IP + "/ProAtHome/apiProAtHome/cliente/estadoRutaAprendizaje/";
+    public static final String GET_SESION_ACTUAL = Constants.IP + "/ProAtHome/apiProAtHome/cliente/obtenerSesionActual/";
+    public static final String REINICIAR_EXAMEN_DIAGNOSTICO = Constants.IP + "/ProAtHome/apiProAtHome/cliente/reiniciarExamenDiagnostico";
+    public static final String GET_ESTATUS_EXAMEN_DIAGNOSTICO = Constants.IP + "/ProAtHome/apiProAtHome/cliente/estatusExamenDiagnostico/";
+    public static final String GET_INFO_EXAMEN_FINAL = Constants.IP + "/ProAtHome/apiProAtHome/cliente/infoExamenDiagnosticoFinal/";
+    public static final String EN_CURSO_EXAMEN_DIAGNOSTICO = Constants.IP + "/ProAtHome/apiProAtHome/cliente/enCursoExamenDiagnostico";
+    public static final String INICIO_O_CANCELAR_EXAMEN_DIAGNOSTICO = Constants.IP + "/ProAtHome/apiProAtHome/cliente/examenDiagnostico";
+    public static final String GET_INFO_EXAMEN_DIAGNOSTICO = Constants.IP + "/ProAtHome/apiProAtHome/cliente/infoExamenDiagnostico/";
 
     //PROFESIONALES
     public static final String DATOS_BANCARIOS_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/obtenerDatosBancarios/";

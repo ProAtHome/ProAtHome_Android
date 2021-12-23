@@ -39,7 +39,6 @@ import com.proathome.ui.InicioCliente;
 import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ControladorTomarSesion;
-import com.proathome.servicios.cliente.ServicioTaskSesionActual;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Component;
 import com.proathome.utils.SweetAlert;
@@ -133,9 +132,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         if (fila.moveToFirst()) {
             this.idCliente = fila.getInt(0);
             this.correoCliente = fila.getString(1);
-            ServicioTaskSesionActual servicioTaskSesionActual =
-                    new ServicioTaskSesionActual(getContext(), idCliente, ServicioTaskSesionActual.NUEVA_SESION_FRAGMENT);
-            servicioTaskSesionActual.execute();
+            ServiciosCliente.getSesionActual(ServiciosCliente.NUEVA_SESION_FRAGMENT, idCliente, getContext());
         } else {
             baseDeDatos.close();
         }
