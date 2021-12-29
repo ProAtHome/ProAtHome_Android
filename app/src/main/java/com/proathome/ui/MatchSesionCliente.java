@@ -98,13 +98,9 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
 
         matchBTN.setOnClickListener(v -> {
             if (!matchBTN.isEnabled()) {
-                new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("¡Espera!")
-                        .setConfirmButton("OK", sweetAlertDialog -> {
-                            sweetAlertDialog.dismissWithAnimation();
-                        })
-                        .setContentText("Ya tiene un profesional asigando.")
-                        .show();
+                SweetAlert.showMsg(this,  SweetAlert.ERROR_TYPE, "¡Espera!", "Ya tiene un profesional asigando.",
+                        true, "OK", ()->{
+                        });
             }else
                 matchSesion();
         });
@@ -115,7 +111,7 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             Log.d("TAG1", response);
             if(response == null){
-                errorMsg("Error, ocurrió un problema con el servidor.");
+                SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error, ocurrió un problema con el servidor.", false, null, null);
             }else {
                 if(!response.equals("null")){
                     JSONObject jsonObject = new JSONObject(response);
@@ -138,7 +134,7 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
                     horarioTV.setText("Horario: " + jsonObject.getString("horario"));
                     setImageBitmap(jsonObject.getString("foto"));
                 }else
-                    errorMsg("Sin datos, ocurrió un error.");
+                    SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Sin datos, ocurrió un error.", false, null, null);
             }
         }, APIEndPoints.INFO_SESION_MATCH  + this.idSesion, WebServicesAPI.GET, null);
         webServicesAPI.execute();
@@ -151,39 +147,28 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
         webServiceAPIAssets.execute();
     }
 
-    public void errorMsg(String mensaje){
-        new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
-                .setTitleText("¡ERROR!")
-                .setContentText(mensaje)
-                .show();
-    }
-
     private void matchSesion(){
         JSONObject parametrosPUT = new JSONObject();
         try {
             parametrosPUT.put("idProfesional", this.idProfesional);
             parametrosPUT.put("idSesion", this.idSesion);
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-                if(response != null)
-                    showMsg("¡GENIAL", response, SweetAlert.SUCCESS_TYPE);
-                else
-                    showMsg("¡ERROR!", "Ocurrió un error inesperado", SweetAlert.ERROR_TYPE);
+                if(response != null){
+                    SweetAlert.showMsg(this, SweetAlert.SUCCESS_TYPE, "¡GENIAL", response,
+                            true, "OK", ()->{
+                                finish();
+                            });
+                }else{
+                    SweetAlert.showMsg(this,  SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inesperado",
+                            true, "OK", ()->{
+                                finish();
+                            });
+                }
             }, APIEndPoints.MATCH_SESION, WebServicesAPI.PUT, parametrosPUT);
             webServicesAPI.execute();
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public void showMsg(String titulo, String mensaje, int tipo){
-        new SweetAlert(this, tipo, SweetAlert.PROFESIONAL)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .setConfirmButton("OK", listener ->{
-                    listener.dismissWithAnimation();
-                    finish();
-                })
-                .show();
     }
 
     @Override

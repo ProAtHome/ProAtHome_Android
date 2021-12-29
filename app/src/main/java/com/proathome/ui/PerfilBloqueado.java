@@ -26,13 +26,7 @@ public class PerfilBloqueado extends AppCompatActivity {
         setContentView(R.layout.activity_perfil_bloqueado);
         mUnbinder = ButterKnife.bind(this);
 
-        Bundle bundle = getIntent().getExtras();
-        if(bundle.getInt("tipoPerfil") == Constants.TIPO_USUARIO_CLIENTE)
-            tvBloqueado.setTextColor(getResources().getColor(R.color.color_primary));
-        else if(bundle.getInt("tipoPerfil") == Constants.TIPO_USUARIO_PROFESIONAL)
-            tvBloqueado.setTextColor(getResources().getColor(R.color.color_secondary));
-
-            tvDescripcion.setText("Lo sentimos, este perfil esta temporalmente bloqueado, comunícate a soporte para atender tu situación y pronto reactivar tu cuenta.");
+        tvDescripcion.setText("Lo sentimos, este perfil esta temporalmente bloqueado, comunícate a soporte para atender tu situación y pronto reactivar tu cuenta.");
     }
 
     @Override

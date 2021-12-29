@@ -479,14 +479,10 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     }
 
     public void errorMsg() {
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("¡OH NO!")
-                .setContentText("No podemos continuar sin el permiso de ubicación.")
-                .setConfirmButton("OK", sweetAlertDialog -> {
+        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡OH NO!",
+                "No podemos continuar sin el permiso de ubicación.", true, "OK", ()->{
                     getFragmentManager().beginTransaction().detach(this).commit();
-                    sweetAlertDialog.dismissWithAnimation();
-                })
-                .show();
+                });
     }
 
     public static Component getmInstance(int idServicio, String tipoServicio, String horario, String profesional,
@@ -719,17 +715,17 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                     Date fechaServidor = sdf.parse(DetallesGestionarFragment.fechaServidor);
                     if(fechaActual.equals(fechaServidor)){
                         if(fechaActual.equals(fechaSesionFin)){
-                            errorServicioMsg("La sesión sólo podía ser eliminada el " +
-                                    "día anterior al servicio.");
+                            SweetAlert.showMsg(SesionesFragment.contexto, SweetAlert.WARNING_TYPE, "¡ERROR!", "La sesión sólo podía ser eliminada el " +
+                                    "día anterior al servicio.", false, null, null);
                         }else if(fechaActual.before(fechaSesionFin)){
                             eliminarSesion();
                             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                             getActivity().finish();
                         }
 
-                    }else{
-                        errorServicioMsg("Fecha del dispositivo erronea.");
-                    }
+                    }else
+                        SweetAlert.showMsg(SesionesFragment.contexto, SweetAlert.WARNING_TYPE, "¡ERROR!", "Fecha del dispositivo erronea.", false, null, null);
+
                 }catch(ParseException | JSONException ex){
                     ex.printStackTrace();
                 }
@@ -761,21 +757,14 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
             jsonDatos.put("idBloque", this.idBloque);
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
                 if(response != null)
-                    msgDialog("¡GENIAL!", response, SweetAlert.SUCCESS_TYPE);
+                    SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", response, false, null, null);
                 else
-                    msgDialog("¡ERROR!", "Error al actualizar el servicio.", SweetAlert.ERROR_TYPE);
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error al actualizar el servicio.", false, null, null);
             }, APIEndPoints.ACTUALIZAR_SESION, WebServicesAPI.PUT, jsonDatos);
             webServicesAPI.execute();
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    private void msgDialog(String titulo, String mensaje, int tipo){
-        new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .show();
     }
 
     private void eliminarSesion() throws JSONException {
@@ -785,19 +774,9 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         jsonData.put("tipoPlan", this.tipoPlanString);
         jsonData.put("horas", this.tiempo);
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            new SweetAlert(SesionesFragment.contexto, SweetAlert.WARNING_TYPE, SweetAlert.CLIENTE)
-                    .setTitleText("¡AVISO!")
-                    .setContentText(response)
-                    .show();
+            SweetAlert.showMsg(SesionesFragment.contexto, SweetAlert.WARNING_TYPE, "¡AVISO!", response, false, null, null);
         }, APIEndPoints.ELIMINAR_SESION, WebServicesAPI.POST, jsonData);
         webServicesAPI.execute();
-    }
-
-    public void errorServicioMsg(String mensaje){
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("¡ERROR!")
-                .setContentText(mensaje)
-                .show();
     }
 
     public int obtenerMinutosHorario(){

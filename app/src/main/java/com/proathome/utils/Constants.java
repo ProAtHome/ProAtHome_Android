@@ -13,7 +13,6 @@ public class Constants {
             "pk_db3401afe85245d3b9bbec82324ba58c", false);
 
 
-
     /*Eliminar sesiones Profesional*/
     public static final int SOLICITUD_ELIMINAR = 1;
     public static final int ELIMINAR_SESION = 2;
@@ -204,10 +203,6 @@ public class Constants {
     /*FIN ASYNCTASK SERVICIO OBTENER DISPONIBILIDAD Y PROGRESO*/
 
     /*ASYNCTASK SERVICIO OBTENER PROGRESO*/
-    public static String linkSincronizarCliente_PROGRESO = Constants.IP +
-            "/ProAtHome/apiProAtHome/cliente/validarEstatusServicio/";
-    public static String linkSincronizarProfesional_PROGRESO = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesional/validarEstatusServicio/";
     public static int idPerfil_PROGRESO, tipoPerfil_PROGRESO, idSesion_PROGRESO, progresoSegundosS_PROGRESO,
             progresoS_PROGRESO;
     public static Context contexto_PROGRESO;
@@ -220,8 +215,6 @@ public class Constants {
     /*FIN ASYNCTASK SERVICIO OBTENER PROGRESO*/
 
     /*ASYNCTASK SERVICIO GUARDAR PROGRESO*/
-    public static String linkActualizarProgreso_GUARDAR_PROGRESO = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesional/actualizarProgresoServicio/";
     public static String wsURL_GUARDAR_PROGRESO;
     public static Context contexto_GUARDAR_PROGRESO;
     public static int idPerfil_GUARDAR_PROGRESO, tipoDeTiempo_GUARDAR_PROGRESO, idSesion_GUARDAR_PROGRESO,
@@ -234,8 +227,6 @@ public class Constants {
     /*FIN ASYNCTASK GUARDAR PROGRESO*/
 
     /*ASYNCTASK CAMBIAR ESTATUS SERVICIO*/
-    public static String linkCambiarEstatusProfesional_CAMBIAR_ESTATUS = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesional/cambiarEstatusServicio/";
     public static String linkCambiarEstatusCliente_CAMBIAR_ESTATUS = Constants.IP +
             "/ProAtHome/apiProAtHome/cliente/cambiarEstatusServicio/";
     public static Context contexto_CAMBIAR_ESTATUS;

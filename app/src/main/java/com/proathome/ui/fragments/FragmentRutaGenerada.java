@@ -2,6 +2,7 @@ package com.proathome.ui.fragments;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -14,9 +15,13 @@ import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.ui.examen.EvaluarRuta;
+import com.proathome.utils.FechaActual;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,7 +87,7 @@ public class FragmentRutaGenerada extends DialogFragment {
             parametros.put("idNivel", evaluarRuta.getNivel());
             parametros.put("idBloque", evaluarRuta.getBloque());
             parametros.put("horas", 0);
-            parametros.put("fecha_registro", "Hoy");
+            parametros.put("fecha_registro", FechaActual.getFechaActual());
             parametros.put("sumar", true);
 
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {

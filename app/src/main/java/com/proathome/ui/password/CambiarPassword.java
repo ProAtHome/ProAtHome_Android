@@ -38,8 +38,7 @@ public class CambiarPassword extends AppCompatActivity {
         this.token = intent.getStringExtra("token");
         this.codigo = intent.getStringExtra("codigo");
         this.tipoPerfil = intent.getIntExtra("tipoPerfil", 1);
-        msgAlert("¡RECUERDA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.",
-                SweetAlert.CLIENTE, SweetAlert.WARNING_TYPE);
+        SweetAlert.showMsg(this, SweetAlert.WARNING_TYPE, "¡RECUERDA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.", false, null, null);
     }
 
     @OnClick(R.id.guardarPassBTN)
@@ -60,23 +59,19 @@ public class CambiarPassword extends AppCompatActivity {
                         jsonObject.put("codigo", this.codigo);
 
                         if(this.tipoPerfil == Constants.TIPO_CLIENTE)
-                            this.urlApi = Constants.IP_80 + "/assets/lib/Reestablecimiento.php?guardar=true";
+                            this.urlApi = Constants.IP_80 + "/assets/lib/Restablecimiento.php?guardar=true";
                         else if(this.tipoPerfil == Constants.TIPO_PROFESIONAL)
-                            this.urlApi = Constants.IP_80 + "/assets/lib/Reestablecimiento.php?guardarPro=true";
+                            this.urlApi = Constants.IP_80 + "/assets/lib/Restablecimiento.php?guardarPro=true";
 
                         WebServicesAPI enviarCodigo = new WebServicesAPI(output -> {
                             try{
                                 JSONObject respuesta = new JSONObject(output);
                                 if(respuesta.getBoolean("respuesta")){
-                                    new SweetAlert(this, SweetAlert.SUCCESS_TYPE, SweetAlert.CLIENTE)
-                                            .setTitleText("¡GENIAL!")
-                                            .setContentText(respuesta.getString("mensaje"))
-                                            .setConfirmButton("OK", listener ->{
-                                                listener.dismiss();
-                                                finish();
-                                            }).show();
+                                    SweetAlert.showMsg(this, SweetAlert.SUCCESS_TYPE, "¡GENIAL!", respuesta.getString("mensaje"), true, "OK", ()->{
+                                        finish();
+                                    });
                                 }else
-                                    msgAlert("¡ERROR!", respuesta.getString("mensaje"), SweetAlert.CLIENTE, SweetAlert.ERROR_TYPE);
+                                    SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", respuesta.getString("mensaje"), false, null, null);
                             }catch (JSONException ex){
                                 ex.printStackTrace();
                             }
@@ -86,11 +81,11 @@ public class CambiarPassword extends AppCompatActivity {
                         ex.printStackTrace();
                     }
                 }else
-                    msgAlert("¡ERROR!", "Las contraseñas no coinciden.", SweetAlert.CLIENTE, SweetAlert.WARNING_TYPE);
+                    SweetAlert.showMsg(this, SweetAlert.WARNING_TYPE, "¡ERROR!", "Las contraseñas no coinciden.", false, null, null);
             }else
-                msgAlert("¡ESPERA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.", SweetAlert.CLIENTE, SweetAlert.WARNING_TYPE);
+                SweetAlert.showMsg(this, SweetAlert.WARNING_TYPE, "¡ESPERA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.", false, null, null);
         }else
-            msgAlert("¡ESPERA!", "Escribe tu nueva contraseña.", SweetAlert.CLIENTE, SweetAlert.WARNING_TYPE);
+            SweetAlert.showMsg(this, SweetAlert.WARNING_TYPE, "¡ESPERA!", "Escribe tu nueva contraseña.", false, null, null);
     }
 
     @Override
@@ -99,10 +94,4 @@ public class CambiarPassword extends AppCompatActivity {
         mUnbinder.unbind();
     }
 
-    public void msgAlert(String titulo, String mensaje, int tipoPerfil, int tipoMsg){
-        new SweetAlert(this, tipoMsg, tipoPerfil)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .show();
-    }
 }

@@ -1,6 +1,8 @@
 package com.proathome.ui.examen;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ServiciosExamenDiagnostico;
+import com.proathome.ui.MainActivity;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
@@ -93,10 +96,10 @@ public class Diagnostico3 extends AppCompatActivity {
                         finish();
                     })
                     .setPositiveButton("Cancelar", ((dialog, which) -> {
-                        salirMsg();
+                        SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, ()->{ });
                     }))
                     .setOnCancelListener(dialog -> {
-                        salirMsg();
+                        SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, ()->{ });
                     })
                     .show();
         });
@@ -202,12 +205,6 @@ public class Diagnostico3 extends AppCompatActivity {
             secundario.setChecked(false);
             terciario.setChecked(false);
         });
-    }
-
-    public void salirMsg(){
-        new SweetAlert(this, SweetAlert.NORMAL_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("¡NO TE RINDAS!")
-                .show();
     }
 
     @Override

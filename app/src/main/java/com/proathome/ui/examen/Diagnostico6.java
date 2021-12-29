@@ -90,10 +90,10 @@ public class Diagnostico6 extends AppCompatActivity {
                         finish();
                     })
                     .setPositiveButton("Cancelar", ((dialog, which) -> {
-                        salirMsg();
+                        SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, ()->{ });
                     }))
                     .setOnCancelListener(dialog -> {
-                        salirMsg();
+                        SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, ()->{ });
                     })
                     .show();
         });
@@ -148,12 +148,6 @@ public class Diagnostico6 extends AppCompatActivity {
         checkeableChips(chip_r11_1, chip_r11_2);
         checkeableChips(chip_r11_2, chip_r11_1);
 
-    }
-
-    public void salirMsg(){
-        new SweetAlert(this, SweetAlert.NORMAL_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("¡NO TE RINDAS!")
-                .show();
     }
 
     public void checkeableChips(Chip principal, Chip secundario){

@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
-        android:id="@+id/tvReestablecimiento"
+        android:id="@+id/tvRestablecimiento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/common_padding_middle"
@@ -35,7 +35,7 @@
         android:id="@+id/Linear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tvReestablecimiento"
+        app:layout_constraintTop_toBottomOf="@id/tvRestablecimiento"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 

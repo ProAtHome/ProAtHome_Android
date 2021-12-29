@@ -2,6 +2,7 @@ package com.proathome.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -32,6 +33,7 @@ public class LoginProfesional extends AppCompatActivity {
     @BindView(R.id.contraET_ISP)
     TextInputEditText contrasenaET;
     private Unbinder mUnbinder;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,23 +87,18 @@ public class LoginProfesional extends AppCompatActivity {
             String correo = String.valueOf(correoET.getText()).trim();
             String contrasena = String.valueOf(contrasenaET.getText()).trim();
             login(correo, contrasena);
-        }else{
-            new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
-                    .setTitleText("¡Error!")
-                    .setConfirmButton("OK", sweetAlertDialog -> {
-                        sweetAlertDialog.dismissWithAnimation();
-                    })
-                    .setContentText("Llena todos los campos.")
-                    .show();
-        }
+        }else
+            SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos.", true, "OK", ()->{});
 
     }//Fin método entrar.
 
     private void login(String correo, String pass){
+        progressDialog = ProgressDialog.show(this, "Iniciando Sesión", "Por favor, espere...");
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            progressDialog.dismiss();
             try{
                 if(response == null){
-                    errorMsg("Ocurrió un error inesperado, intenta de nuevo.");
+                    SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inesperado, intenta de nuevo.", false, null, null);
                 }else {
                     if(!response.equals("null")){
                         JSONObject jsonObject = new JSONObject(response);
@@ -120,7 +117,7 @@ public class LoginProfesional extends AppCompatActivity {
 
                                 startActivity(new Intent(this, InicioProfesional.class));
                             }else
-                                errorMsg("Aún no verificas tu cuenta de correo electrónico.");
+                                SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Aún no verificas tu cuenta de correo electrónico.", false, null, null);
                         }else if(jsonObject.getString("estado").equalsIgnoreCase("documentacion") ||
                                 jsonObject.getString("estado").equalsIgnoreCase("cita") ||
                                 jsonObject.getString("estado").equalsIgnoreCase("registro")){
@@ -133,21 +130,13 @@ public class LoginProfesional extends AppCompatActivity {
                             startActivity(intent);
                         }
                     }else
-                        errorMsg("Usuario no registrado o tus datos están incorrectos.");
+                        SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Usuario no registrado o tus datos están incorrectos.", false, null, null);
                 }
             }catch (JSONException ex){
                 ex.printStackTrace();
             }
         }, APIEndPoints.INICIAR_SESION_PROFESIONAL + correo + "/" + pass, WebServicesAPI.GET, null);
         webServicesAPI.execute();
-    }
-
-
-    public void errorMsg(String mensaje){
-        new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
-                .setTitleText("¡ERROR!")
-                .setContentText(mensaje)
-                .show();
     }
 
     @Override

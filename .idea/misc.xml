@@ -5,22 +5,92 @@
       <map>
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2203125" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2203125" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_cambiar_password.xml" value="0.21574074074074073" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_codigo_email.xml" value="0.21574074074074073" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_diagnostico1.xml" value="0.21574074074074073" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_diagnostico2.xml" value="0.21574074074074073" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_diagnostico3.xml" value="0.21574074074074073" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_diagnostico4.xml" value="0.21574074074074073" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_diagnostico5.xml" value="0.21574074074074073" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_diagnostico6.xml" value="0.21574074074074073" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_diagnostico7.xml" value="0.21574074074074073" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_email_password.xml" value="0.21574074074074073" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_inicio_cliente.xml" value="0.4" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_inicio_profesional.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_login_profesional.xml" value="0.275" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_main.xml" value="0.2490740740740741" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_match_sesion_cliente.xml" value="0.275" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_pasos_activar_cuenta.xml" value="0.24166666666666667" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_pasos_activar_cuenta_cliente.xml" value="0.24166666666666667" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_perfil_bloqueado.xml" value="0.22" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_registrarse_cliente.xml" value="0.24351851851851852" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_registrarse_profesional.xml" value="0.24166666666666667" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_ruta_avanzado.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_ruta_intermedio.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_scroll.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_scroll_profesional.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_servicio_cliente.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_servicio_profesional.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_sincronizar_servicio.xml" value="0.275" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_static.xml" value="0.1109375" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/alert_dialog_custom.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/app_bar_inicio_cliente.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/app_bar_inicio_profesional.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/content_inicio_cliente.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/content_inicio_profesional.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/content_scroll.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/content_scroll_profesional.xml" value="0.275" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/content_static.xml" value="0.1109375" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_ayuda.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_ayuda_profesional.xml" value="0.275" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_buscar_sesion.xml" value="0.2324074074074074" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_cerrar_sesion.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_cerrar_sesion_profesional.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_cobro_final.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_contacto.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_datos_banco_plan.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_datos_fiscales.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_detalles.xml" value="0.2" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_detalles_bloque.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_detalles_gestionar.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_detalles_gestionar_profesional.xml" value="0.275" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_detalles_sesion_profesional.xml" value="0.25416666666666665" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_editar_perfil.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_editar_perfil_profesional.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_evaluar.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_inicio.xml" value="0.20416666666666666" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_inicio_profesional.xml" value="0.20416666666666666" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_mas_tiempo.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_material.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_material_profesional.xml" value="0.275" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_nueva_sesion.xml" value="0.2324074074074074" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_nuevo_ticket.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_orden_compra_plan.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_pago_pendiente.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_perfil.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_planes.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_pre_orden_servicio.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_privacidad.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_privacidad_profesional.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_ruta.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_ruta_generada.xml" value="0.275" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_sesiones.xml" value="0.2361111111111111" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_sesiones_profesional.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_ticket_ayuda.xml" value="0.275" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/item_component.xml" value="0.2361111111111111" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/item_component_gestionar.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/item_component_gestionar_profesional.xml" value="0.275" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/item_component_profesional.xml" value="0.25416666666666665" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/item_msg_ticket.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/item_topico.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/item_valoraciones.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/nav_header_inicio_cliente.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/nav_header_inicio_profesional.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/ruta_basico.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/spinner_item.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/spinner_item_white.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/menu/activity_inicio_cliente_drawer.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/menu/activity_inicio_profesional_drawer.xml" value="0.275" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
       </map>

@@ -10,12 +10,9 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.proathome.R;
+import com.proathome.servicios.sesiones.ServiciosSesion;
 import com.proathome.ui.fragments.DetallesSesionProfesionalFragment;
-import com.proathome.servicios.servicio.ServicioTaskCambiarEstatusServicio;
-import com.proathome.servicios.servicio.ServicioTaskSesionDisponible;
-import com.proathome.servicios.servicio.ServicioTaskFinalizarServicio;
-import com.proathome.servicios.servicio.ServicioTaskGuardarProgreso;
-import com.proathome.servicios.servicio.ServicioTaskSincronizarServicios;
+import com.proathome.servicios.sesiones.ServicioSesionDisponible;
 import com.proathome.ui.fragments.MaterialFragment;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
@@ -61,9 +58,7 @@ public class ServicioProfesional extends AppCompatActivity {
         bloqueTV.setText(Component.getBloque(idBloque));
 
         terminar.setOnClickListener(v -> {
-            ServicioTaskFinalizarServicio finalizarServicio = new ServicioTaskFinalizarServicio(this,
-                    idSesion, idProfesional, Constants.VALIDAR_SERVICIO_FINALIZADA, DetallesSesionProfesionalFragment.PROFESIONAL);
-            finalizarServicio.execute();
+            ServiciosSesion.validarServicioFinalizadoEnClase(idSesion, idProfesional, this);
         });
 
         material.setOnClickListener(v -> {
@@ -76,27 +71,17 @@ public class ServicioProfesional extends AppCompatActivity {
             nueva.show(transaction, "Material Didáctico");
         });
 
-
-        ServicioTaskCambiarEstatusServicio servicioTaskCambiarEstatusServicio1 =
-                new ServicioTaskCambiarEstatusServicio(getApplicationContext(), idSesion, idProfesional,
-                        DetallesSesionProfesionalFragment.PROFESIONAL, Constants.ESTATUS_ENCURSO);
-        servicioTaskCambiarEstatusServicio1.execute();
+        ServiciosSesion.cambiarEstatusServicio(Constants.ESTATUS_ENCURSO, this.idSesion, this.idProfesional);
 
         pausa_start.setOnClickListener(v -> {
             if (mTimerRunning) {
-                ServicioTaskCambiarEstatusServicio servicioTaskCambiarEstatus =
-                        new ServicioTaskCambiarEstatusServicio(getApplicationContext(), idSesion, idProfesional,
-                                DetallesSesionProfesionalFragment.PROFESIONAL, Constants.ESTATUS_ENPAUSA);
-                servicioTaskCambiarEstatus.execute();
+                ServiciosSesion.cambiarEstatusServicio(Constants.ESTATUS_ENPAUSA, this.idSesion, this.idProfesional);
                 pauseTimer();
                 mTimerRunning = false;
                 pausa_start.setText("Start");
                 pausa_start.setIcon(this.getDrawable(R.drawable.play));
             } else {
-                ServicioTaskCambiarEstatusServicio servicioTaskCambiarEstatusServicio =
-                        new ServicioTaskCambiarEstatusServicio(getApplicationContext(), idSesion, idProfesional,
-                                DetallesSesionProfesionalFragment.PROFESIONAL, Constants.ESTATUS_ENCURSO);
-                servicioTaskCambiarEstatusServicio.execute();
+                ServiciosSesion.cambiarEstatusServicio(Constants.ESTATUS_ENCURSO, this.idSesion, this.idProfesional);
                 startTimer();
                 pausa_start.setText("Pausar");
                 pausa_start.setIcon(this.getDrawable(R.drawable.pause));
@@ -115,11 +100,8 @@ public class ServicioProfesional extends AppCompatActivity {
             public void run() {
                 handler3.post(() -> {
                     try {
-                        ServicioTaskGuardarProgreso servicioTaskGuardarProgreso =
-                                new ServicioTaskGuardarProgreso(getApplicationContext(), idSesion,
-                                        idProfesional, (int) (ServicioProfesional.mTimeLeftMillis / 1000 / 60),
-                                            (int) (ServicioProfesional.mTimeLeftMillis / 1000 % 60), 2);
-                        servicioTaskGuardarProgreso.execute();
+                        ServiciosSesion.guardarProgreso(idSesion, idProfesional, (int) (ServicioProfesional.mTimeLeftMillis / 1000 / 60),
+                                (int) (ServicioProfesional.mTimeLeftMillis / 1000 % 60), 2);
                     } catch (Exception e) {
                         Log.e("error", e.getMessage());
                     }
@@ -132,11 +114,8 @@ public class ServicioProfesional extends AppCompatActivity {
             public void run() {
                 handler.post(() -> {
                     try {
-                        ServicioTaskGuardarProgreso servicioTaskGuardarProgreso =
-                                new ServicioTaskGuardarProgreso(getApplicationContext(), idSesion,
-                                        idProfesional, (int) (ServicioProfesional.mTimeLeftMillis / 1000 / 60),
-                                            (int) (ServicioProfesional.mTimeLeftMillis / 1000 % 60), 1);
-                        servicioTaskGuardarProgreso.execute();
+                        ServiciosSesion.guardarProgreso(idSesion, idProfesional, (int) (ServicioProfesional.mTimeLeftMillis / 1000 / 60),
+                                (int) (ServicioProfesional.mTimeLeftMillis / 1000 % 60), 1);
                     } catch (Exception e) {
                         Log.e("error", e.getMessage());
                     }
@@ -149,10 +128,10 @@ public class ServicioProfesional extends AppCompatActivity {
             public void run() {
                 handler2.post(() -> {
                     try {
-                        ServicioTaskSesionDisponible servicioTaskSesionDisponible =
-                                new ServicioTaskSesionDisponible(getApplicationContext(), idSesion, idProfesional,
+                        ServicioSesionDisponible servicioSesionDisponible =
+                                new ServicioSesionDisponible(getApplicationContext(), idSesion, idProfesional,
                                         DetallesSesionProfesionalFragment.PROFESIONAL, ServicioProfesional.this);
-                        servicioTaskSesionDisponible.execute();
+                        servicioSesionDisponible.execute();
                     } catch (Exception e) {
                         Log.e("error", e.getMessage());
                     }
@@ -222,8 +201,7 @@ public class ServicioProfesional extends AppCompatActivity {
         timer.cancel();
         timer2.cancel();
         timerSchedule.cancel();
-        ServicioTaskSincronizarServicios sincronizarServicios = new ServicioTaskSincronizarServicios(getApplicationContext(), idSesion, idProfesional, DetallesSesionProfesionalFragment.PROFESIONAL, Constants.CAMBIAR_DISPONIBILIDAD, false);
-        sincronizarServicios.execute();
+        ServiciosSesion.cambiarDisponibilidadProfesional(idSesion, idProfesional, false);
     }
 
 }

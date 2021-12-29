@@ -1,5 +1,6 @@
 package com.proathome.ui;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
@@ -10,17 +11,16 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.proathome.R;
-import com.proathome.servicios.servicio.ServicioTaskSesionDisponible;
-import com.proathome.servicios.servicio.ServicioTaskSincronizarServicios;
+import com.proathome.servicios.sesiones.ServicioSesionDisponible;
+import com.proathome.servicios.sesiones.ServiciosSesion;
 import com.proathome.ui.fragments.DetallesFragment;
 import com.proathome.ui.fragments.MaterialFragment;
 import com.proathome.utils.Component;
-import com.proathome.utils.Constants;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ServicioCliente extends FragmentActivity {
+public class ServicioCliente extends AppCompatActivity {
 
     private int idSesion = 0, idCliente = 0;
     public static CountDownTimer countDownTimer;
@@ -79,10 +79,10 @@ public class ServicioCliente extends FragmentActivity {
             public void run() {
                 handler.post(() -> {
                     try {
-                        ServicioTaskSesionDisponible servicioTaskSesionDisponible =
-                                new ServicioTaskSesionDisponible(getApplicationContext(), idSesion,
+                        ServicioSesionDisponible servicioSesionDisponible =
+                                new ServicioSesionDisponible(getApplicationContext(), idSesion,
                                         idCliente, DetallesFragment.CLIENTE, ServicioCliente.this);
-                        servicioTaskSesionDisponible.execute();
+                        servicioSesionDisponible.execute();
                     } catch (Exception e) {
                         Log.e("error", e.getMessage());
                     }
@@ -141,9 +141,6 @@ public class ServicioCliente extends FragmentActivity {
         if(countDownTimer != null)
             countDownTimer.cancel();
         timer.cancel();
-        ServicioTaskSincronizarServicios sincronizarServicios =
-                new ServicioTaskSincronizarServicios(getApplicationContext(), idSesion, idCliente,
-                        DetallesFragment.CLIENTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
-        sincronizarServicios.execute();
+        ServiciosSesion.cambiarDisponibilidadCliente(idSesion, idCliente, false);
     }
 }

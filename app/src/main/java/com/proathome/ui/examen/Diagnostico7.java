@@ -57,10 +57,10 @@ public class Diagnostico7 extends AppCompatActivity {
                             finish();
                         })
                         .setPositiveButton("Cancelar", ((dialog, which) -> {
-                            salirMsg();
+                            SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, null);
                         }))
                         .setOnCancelListener(dialog -> {
-                            salirMsg();
+                            SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, null);
                         })
                         .show();
             }
@@ -99,12 +99,6 @@ public class Diagnostico7 extends AppCompatActivity {
 
         });
 
-    }
-
-    public void salirMsg(){
-        new SweetAlert(this, SweetAlert.NORMAL_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("¡NO TE RINDAS!")
-                .show();
     }
 
     public int validarRespuestas(){

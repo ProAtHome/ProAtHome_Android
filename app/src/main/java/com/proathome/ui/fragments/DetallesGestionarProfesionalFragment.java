@@ -126,14 +126,10 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
     }
 
     public void errorMsg(){
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
-                .setTitleText("¡OH NO!")
-                .setContentText("No podemos continuar sin el permiso de ubicación.")
-                .setConfirmButton("OK", sweetAlertDialog -> {
+        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡OH NO!", "No podemos continuar sin el permiso de ubicación.",
+                true, "OK", ()->{
                     getFragmentManager().beginTransaction().detach(this).commit();
-                    sweetAlertDialog.dismissWithAnimation();
-                })
-                .show();
+                });
     }
 
     @Override
@@ -227,16 +223,13 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
                 try{
                     JSONObject jsonObject = new JSONObject(response);
                     if(jsonObject.getBoolean("respuesta")){
-                        new SweetAlert(getContext(), SweetAlert.SUCCESS_TYPE, SweetAlert.PROFESIONAL)
-                                .setTitleText("¡GENIAL!")
-                                .setContentText(jsonObject.getString("mensaje"))
-                                .setConfirmButton("OK", sweetAlertDialog -> {
-                                    sweetAlertDialog.dismissWithAnimation();
+                        SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", jsonObject.getString("mensaje"),
+                                true, "OK", ()->{
                                     getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                                     getActivity().finish();
-                                }).show();
+                                });
                     }else
-                        errorMsg(jsonObject.getString("mensaje"));
+                        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
                 }catch(JSONException ex){
                     ex.printStackTrace();
                 }
@@ -261,10 +254,10 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
                         showAlert("¿Deseas cancelar el servicio?");
                     }else if(!mensaje.getBoolean("eliminar")){
                         //No se puede eliminar
-                        errorMsg("No se puede cancelar el servicio a menos de 24 HRS de esta.");
+                        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "No se puede cancelar el servicio a menos de 24 HRS de esta.", false, null, null);
                     }
                 }else
-                    errorMsg(jsonObject.getString("mensaje"));
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
             }catch(JSONException ex){
                 ex.printStackTrace();
             }
@@ -281,13 +274,6 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
                 })
                 .setNegativeButton("Cerrar", (dialog, which) -> {
                 })
-                .show();
-    }
-
-    private void errorMsg(String mensaje){
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
-                .setTitleText("¡ERROR!")
-                .setContentText(mensaje)
                 .show();
     }
 

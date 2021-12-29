@@ -44,8 +44,6 @@ public class ComponentAdapterTicket extends RecyclerView.Adapter<ComponentAdapte
         holder.topico = "Tópico: " + componentTicket.getTituloTopico();
         holder.descripcion = "Problema: " + componentTicket.getDescripcion();
         holder.noTicket = "No. de Ticket: " + componentTicket.getNoTicket();
-        if(componentTicket.getTipoUsuario() == Constants.TIPO_USUARIO_PROFESIONAL)
-            holder.tvEstatus.setTextColor(holder.contexto.getResources().getColor(R.color.color_secondary));
         holder.tvEstatus.setText("Estatus: " + componentTicket.getEstatus());
         holder.estatus = componentTicket.getEstatusINT();
         holder.fechaCreacion.setText("Fecha de Creación: " + componentTicket.getFechaCreacion());

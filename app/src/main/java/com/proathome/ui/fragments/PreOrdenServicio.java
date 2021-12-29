@@ -26,6 +26,7 @@ public class PreOrdenServicio extends DialogFragment {
     public static String nombreTitular, tarjeta, mes, ano, tiempo, sesion, deviceID, correo;
     public static int idSeccion, tiempoPasar;
     public Bundle bundle;
+    public static DialogFragment dialogFragment;
     @BindView(R.id.etTitular)
     TextInputEditText etNombreTitular;
     @BindView(R.id.etTarjeta)
@@ -53,6 +54,7 @@ public class PreOrdenServicio extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         deviceID = Constants.openpay.getDeviceCollectorDefaultImpl().setup(getActivity());
+        dialogFragment = this;
     }
 
     @Override
@@ -97,30 +99,17 @@ public class PreOrdenServicio extends DialogFragment {
                                     etCVV.getText().toString(), NuevaSesionFragment.idCliente);
                             servicioTaskCard.setBundleSesion(bundle);
                             servicioTaskCard.execute();
-                            dismiss();
-                        }else{
-                            errorMsg("CVV no válido.");
-                        }
-                    }else{
-                        errorMsg("Fecha de expiración no válida.");
-                    }
-                }else{
-                    errorMsg("Tarjeta no válida.");
-                }
-            }else{
-                errorMsg("Nombre del titular no válido.");
-            }
-        }else {
-            errorMsg("Llena todos los campos correctamente.");
-        }
+                        }else
+                            SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "CVV no válido.", false, null, null);
+                    }else
+                        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Fecha de expiración no válida.", false, null, null);
+                }else
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Tarjeta no válida.", false, null, null);
+            }else
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Nombre del titular no válido.", false, null, null);
+        }else
+            SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos correctamente.", false, null, null);
 
-    }
-
-    public void errorMsg(String mensaje){
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("¡ERROR!")
-                .setContentText(mensaje)
-                .show();
     }
 
     @Override

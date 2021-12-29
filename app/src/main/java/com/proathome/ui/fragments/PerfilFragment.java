@@ -77,13 +77,11 @@ public class PerfilFragment extends DialogFragment {
 
         setImageBitmap();
 
-        if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_CLIENTE) {
-            toolbar.setBackgroundColor(getResources().getColor(R.color.colorAzul));
-            toolbar.setTitle("Perfil - CLIENTE");
-        }else if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_PROFESIONAL){
-            toolbar.setBackgroundColor(getResources().getColor(R.color.colorAzul));
-            toolbar.setTitle("Perfil - PROFESIONAL");
-        }
+        if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_CLIENTE)
+            toolbar.setTitle("Perfil - Cliente");
+        else if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_PROFESIONAL)
+            toolbar.setTitle("Perfil - Profesional");
+
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setNavigationIcon(R.drawable.ic_close);
         toolbar.setNavigationOnClickListener(v ->{
@@ -109,14 +107,9 @@ public class PerfilFragment extends DialogFragment {
             try{
                 JSONArray jsonArray = new JSONArray(response);
                 if(jsonArray == null){
-                    new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_CLIENTE ? SweetAlert.CLIENTE : SweetAlert.PROFESIONAL)
-                            .setTitleText("¡ERROR!")
-                            .setContentText("Ocurrió un problema, intenta más tarde.")
-                            .setConfirmButton("OK", listener->{
-                                listener.dismissWithAnimation();
-                                dismiss();
-                            })
-                            .show();
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un problema, intenta más tarde.", true, "OK", ()->{
+                        dismiss();
+                    });
                 }else{
                     for (int i = 0; i < jsonArray.length(); i++){
                         JSONObject jsonObject = jsonArray.getJSONObject(i);

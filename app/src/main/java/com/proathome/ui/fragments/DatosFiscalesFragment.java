@@ -92,12 +92,8 @@ public class DatosFiscalesFragment extends DialogFragment {
     public void onClick(){
         if(!etRazonSocial.getText().toString().trim().equalsIgnoreCase("") && !etRFC.getText().toString().trim().equalsIgnoreCase("")){
             upDatosFiscales();
-        }else{
-            new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE ? SweetAlert.CLIENTE : SweetAlert.PROFESIONAL)
-                    .setTitleText("¡ERROR!")
-                    .setContentText("Llena todos los campos correctamente.")
-                    .show();
-        }
+        }else
+            SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos correctamente.", false, null, null);
     }
 
     private void upDatosFiscales(){
@@ -116,16 +112,12 @@ public class DatosFiscalesFragment extends DialogFragment {
                 try{
                     JSONObject jsonObject = new JSONObject(response);
                     if(jsonObject.getBoolean("respuesta")){
-                        new SweetAlert(getContext(), SweetAlert.SUCCESS_TYPE, this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE ? SweetAlert.CLIENTE : SweetAlert.PROFESIONAL)
-                                .setTitleText("¡GENIAL!")
-                                .setContentText(jsonObject.getString("mensaje"))
-                                .setConfirmButton("OK", sweetAlertDialog -> {
-                                    sweetAlertDialog.dismissWithAnimation();
+                        SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", jsonObject.getString("mensaje"),
+                                true, "OK", ()->{
                                     dismiss();
-                                })
-                                .show();
+                                });
                     }else
-                        msgError("¡ERROR!", jsonObject.getString("mensaje"));
+                        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
 
                 }catch (JSONException ex){
                     ex.printStackTrace();
@@ -157,19 +149,13 @@ public class DatosFiscalesFragment extends DialogFragment {
                             spCFDI.setSelection(1);
                     }
                 }else
-                    msgError("¡ERROR!", jsonObject.getString("mensaje"));
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
+
             }catch (JSONException ex){
                 ex.printStackTrace();
             }
         }, this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.GET_DATOS_FISCALES_CLIENTE + this.idUsuario : APIEndPoints.GET_DATOS_FISCALES_PROFESIONAL + this.idUsuario, WebServicesAPI.GET, null);
         webServicesAPI.execute();
-    }
-
-    public void msgError(String titulo, String mensaje){
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE ? SweetAlert.CLIENTE : SweetAlert.PROFESIONAL)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .show();
     }
 
     @Override

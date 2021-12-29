@@ -51,6 +51,12 @@ public class APIEndPoints {
     public static final String EN_CURSO_EXAMEN_DIAGNOSTICO = Constants.IP + "/ProAtHome/apiProAtHome/cliente/enCursoExamenDiagnostico";
     public static final String INICIO_O_CANCELAR_EXAMEN_DIAGNOSTICO = Constants.IP + "/ProAtHome/apiProAtHome/cliente/examenDiagnostico";
     public static final String GET_INFO_EXAMEN_DIAGNOSTICO = Constants.IP + "/ProAtHome/apiProAtHome/cliente/infoExamenDiagnostico/";
+    public static final String ACTIVAR_TIEMPO_EXTRA = Constants.IP + "/ProAtHome/apiProAtHome/cliente/activarTE/";
+    public static final String GET_PROGRESO_CLIENTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/validarEstatusServicio/";
+    public static final String CAMBIAR_DISPONIBILIDAD_CLIENTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/servicioDisponible/";
+    public static final String VERIFICAR_DISPONIBILIDAD_DE_PROFESIONAL =  Constants.IP + "/ProAtHome/apiProAtHome/cliente/sincronizarServicio/";
+    public static final String VALIDAR_SERVICIO_FINALIZADO_CLIENTE = Constants.IP + "/ProAtHome/apiProAtHome/cliente/validarServicioFinalizada/";
+    public static final String FINALIZAR_SERVICIO = Constants.IP + "/ProAtHome/apiProAtHome/cliente/finalizarServicio/";
 
     //PROFESIONALES
     public static final String DATOS_BANCARIOS_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/obtenerDatosBancarios/";
@@ -76,6 +82,12 @@ public class APIEndPoints {
     public static final String GET_REPORTES_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/getReportes/";
     public static final String SOLICITUD_ELIMINAR_SESION_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/solicitudEliminarSesion/";
     public static final String CANCELAR_SERVICIO = Constants.IP + "/ProAtHome/apiProAtHome/profesional/cancelarServicio";
+    public static final String CAMBIAR_ESTATUS_SERVICIO_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/cambiarEstatusServicio/";
+    public static final String GUARDAR_PROGRESO_SERVICIO_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/actualizarProgresoServicio/";
+    public static final String GET_PROGRESO_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/validarEstatusServicio/";
+    public static final String CAMBIAR_DISPONIBILIDAD_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/servicioDisponible/";
+    public static final String VERIFICAR_DISPONIBILIDAD_DE_CLIENTE = Constants.IP + "/ProAtHome/apiProAtHome/profesional/sincronizarServicio/";
+    public static final String VALIDAR_SERVICIO_FINALIZADO_PROFESIONAL = Constants.IP + "/ProAtHome/apiProAtHome/profesional/validarServicioFinalizada/";
 
     //GENERAL
     public static final String FOTO_PERFIL = Constants.IP_80 + "/assets/img/fotoPerfil/";

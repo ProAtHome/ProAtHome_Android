@@ -29,9 +29,8 @@ import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.api.assets.WebServiceAPIAssets;
+import com.proathome.servicios.sesiones.ServiciosSesion;
 import com.proathome.ui.SincronizarServicio;
-import com.proathome.servicios.servicio.ServicioTaskFinalizarServicio;
-import com.proathome.servicios.servicio.ServicioTaskSincronizarServicios;
 import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.utils.ComponentSesionesProfesional;
@@ -112,10 +111,8 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
     @Override
     public void onResume() {
         super.onResume();
-        ServicioTaskSincronizarServicios sincronizarServicios = new ServicioTaskSincronizarServicios(getContext(), idSesion, idProfesional, DetallesSesionProfesionalFragment.PROFESIONAL, Constants.CAMBIAR_DISPONIBILIDAD, false);
-        sincronizarServicios.execute();
-        ServicioTaskFinalizarServicio finalizarServicio = new ServicioTaskFinalizarServicio(getContext(), idSesion, idProfesional, Constants.VALIDAR_SERVICIO_FINALIZADA_AMBOS_PERFILES, DetallesSesionProfesionalFragment.PROFESIONAL);
-        finalizarServicio.execute();
+        ServiciosSesion.cambiarDisponibilidadProfesional(idSesion, idProfesional, false);
+        ServiciosSesion.validarServicioFinalizadoProfesional(idSesion, idProfesional);
         if (procedenciaFin) {
             validarValoracionCliente();
             procedenciaFin = false;
@@ -164,8 +161,7 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
         baseDeDatos.close();
 
         iniciar.setOnClickListener(v -> {
-            ServicioTaskSincronizarServicios sincronizarServicios = new ServicioTaskSincronizarServicios(getContext(), idSesion, idProfesional, DetallesSesionProfesionalFragment.PROFESIONAL, Constants.CAMBIAR_DISPONIBILIDAD, true);
-            sincronizarServicios.execute();
+            ServiciosSesion.cambiarDisponibilidadProfesional(idSesion, idProfesional, true);
 
             Intent intent = new Intent(getContext(), SincronizarServicio.class);
             intent.putExtra("perfil", PROFESIONAL);
@@ -253,14 +249,10 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
     }
 
     public void errorMsg(){
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
-                .setTitleText("¡OH NO!")
-                .setContentText("No podemos continuar sin el permiso de ubicación.")
-                .setConfirmButton("OK", sweetAlertDialog -> {
+        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡OH NO!",
+                "No podemos continuar sin el permiso de ubicación.", true, "OK", ()->{
                     getFragmentManager().beginTransaction().detach(this).commit();
-                    sweetAlertDialog.dismissWithAnimation();
-                })
-                .show();
+                });
     }
 
     @OnClick(R.id.nuevoTopico)

@@ -69,7 +69,7 @@ public class Diagnostico5 extends AppCompatActivity {
         setContentView(R.layout.activity_diagnostico5);
         mUnbinder = ButterKnife.bind(this);
 
-        cerrarExamen.setOnClickListener(v ->{
+        cerrarExamen.setOnClickListener(v -> {
             new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
                     .setTitle("EXÁMEN DIAGNÓSTICO")
                     .setMessage("Al salir durante el examen perderás el progreso de ésta sección.")
@@ -77,26 +77,26 @@ public class Diagnostico5 extends AppCompatActivity {
                         finish();
                     })
                     .setPositiveButton("Cancelar", ((dialog, which) -> {
-                        salirMsg();
+                        SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, ()->{ });
                     }))
                     .setOnCancelListener(dialog -> {
-                        salirMsg();
+                        SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, ()->{ });
                     })
                     .show();
         });
 
-        btnContinuar.setOnClickListener(v ->{
+        btnContinuar.setOnClickListener(v -> {
             int puntuacion = respuesta1 + respuesta2 + respuesta3 + respuesta4 + respuesta5 + evaluarParte1();
 
-            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"sesion", null, 1);
+            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesion", null, 1);
             SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
             Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
 
             int idCliente = 0;
             if (fila.moveToFirst()) {
                 idCliente = fila.getInt(0);
-                ServiciosExamenDiagnostico.actualizarEstatusExamen(Constants.ENCURSO_EXAMEN, idCliente, puntuacion, 50, this, Diagnostico5.this,  Diagnostico6.class);
-            }else{
+                ServiciosExamenDiagnostico.actualizarEstatusExamen(Constants.ENCURSO_EXAMEN, idCliente, puntuacion, 50, this, Diagnostico5.this, Diagnostico6.class);
+            } else {
                 baseDeDatos.close();
             }
 
@@ -119,12 +119,6 @@ public class Diagnostico5 extends AppCompatActivity {
         checkeableChips(chip_p5_1, chip_p5_2);
         checkeableChips(chip_p5_2, chip_p5_1);
 
-    }
-
-    public void salirMsg(){
-        new SweetAlert(this, SweetAlert.NORMAL_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("¡NO TE RINDAS!")
-                .show();
     }
 
     public int evaluarParte1(){

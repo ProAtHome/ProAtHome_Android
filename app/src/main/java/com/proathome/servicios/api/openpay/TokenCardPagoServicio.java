@@ -4,7 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import com.proathome.servicios.servicio.ServicioTaskCobroServicio;
+
+import com.proathome.servicios.sesiones.ServiciosSesion;
 import com.proathome.ui.fragments.DetallesFragment;
 import com.proathome.ui.fragments.NuevaSesionFragment;
 import com.proathome.utils.Constants;
@@ -53,23 +54,23 @@ public class TokenCardPagoServicio extends AsyncTask<Void, Void, String> {
         Constants.openpay.createToken(card, new OperationCallBack<Token>() {
             @Override
             public void onError(OpenpayServiceException e) {
-                errorMsg(e.toString());
+                SweetAlert.showMsg(DetallesFragment.contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", e.toString(), false, null, null);
+                progressDialog.dismiss();
             }
 
             @Override
             public void onCommunicationError(ServiceUnavailableException e) {
-                errorMsg(e.toString());
+                SweetAlert.showMsg(DetallesFragment.contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", e.toString(), false, null, null);
+                progressDialog.dismiss();
             }
 
             @Override
             public void onSuccess(OperationResult<Token> operationResult) {
                 String idCard = operationResult.getResult().getId();
                 //Cobro de Servicio
-                ServicioTaskCobroServicio cobroServicio = new ServicioTaskCobroServicio(contexto, idCard, nombreTitular,
-                        NuevaSesionFragment.correoCliente, Double.parseDouble(bundle.getString("costoTotal")), "Cargo ProAtHome - " + bundle.getString("sesion"),
-                        bundle.getString("deviceID"), idCliente);
-                cobroServicio.setBundleSesion(bundle);
-                cobroServicio.execute();
+                ServiciosSesion.cobroServicio(idCard, nombreTitular, NuevaSesionFragment.correoCliente,
+                        Double.parseDouble(bundle.getString("costoTotal")), "Cargo ProAtHome - " + bundle.getString("sesion"),
+                        bundle.getString("deviceID"), idCliente, bundle, contexto);
                 progressDialog.dismiss();
             }
         });
@@ -87,11 +88,4 @@ public class TokenCardPagoServicio extends AsyncTask<Void, Void, String> {
 
     }
 
-    public void errorMsg(String mensaje){
-        new SweetAlert(DetallesFragment.contexto, SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("¡ERROR!")
-                .setContentText(mensaje)
-                .show();
-        progressDialog.dismiss();
-    }
 }

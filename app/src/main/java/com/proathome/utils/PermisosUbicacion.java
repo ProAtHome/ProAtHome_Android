@@ -19,16 +19,10 @@ public class PermisosUbicacion {
                     context.startActivity(myIntent);
                 })
                 .setNegativeButton("Cancelar", (dialog, which) -> {
-                    new SweetAlert(context, SweetAlert.ERROR_TYPE, tipoPerfil)
-                            .setTitleText("¡OH NO!")
-                            .setContentText("No podemos continuar sin el permiso de ubicación.")
-                            .show();
+                    SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡OH NO!", "No podemos continuar sin el permiso de ubicación.", false, null, null);
                 })
                 .setOnCancelListener(dialog -> {
-                    new SweetAlert(context, SweetAlert.ERROR_TYPE, tipoPerfil)
-                            .setTitleText("¡OH NO!")
-                            .setContentText("No podemos continuar sin el permiso de ubicación.")
-                            .show();
+                    SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡OH NO!", "No podemos continuar sin el permiso de ubicación.", false, null, null);
                 })
                 .show();
     }
@@ -42,22 +36,14 @@ public class PermisosUbicacion {
                     context.startActivity(myIntent);
                 })
                 .setNegativeButton("Cancelar", (dialog, which) -> {
-                    new SweetAlert(context, SweetAlert.ERROR_TYPE, tipoPerfil)
-                            .setTitleText("¡OH NO!")
-                            .setContentText("No podemos continuar sin el permiso de ubicación.")
-                            .setConfirmButton("OK", sweetAlertDialog -> {
-                                activity.finish();
-                            })
-                            .show();
+                    SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡OH NO!", "No podemos continuar sin el permiso de ubicación.", true, "OK", ()->{
+                        activity.finish();
+                    });
                 })
                 .setOnCancelListener(dialog -> {
-                    new SweetAlert(context, SweetAlert.ERROR_TYPE, tipoPerfil)
-                            .setTitleText("¡OH NO!")
-                            .setContentText("No podemos continuar sin el permiso de ubicación.")
-                            .setConfirmButton("OK", sweetAlertDialog -> {
-                                activity.finish();
-                            })
-                            .show();
+                    SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡OH NO!", "No podemos continuar sin el permiso de ubicación.", true, "OK", ()->{
+                        activity.finish();
+                    });
                 })
                 .show();
     }

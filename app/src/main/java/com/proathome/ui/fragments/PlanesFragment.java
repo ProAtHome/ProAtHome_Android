@@ -117,21 +117,14 @@ public class PlanesFragment extends DialogFragment {
                         mes = mensaje.getString("mes");
                         ano = mensaje.getString("ano");
                     }else
-                        infoMsg("¡AVISO!", "No tienes datos bancarios registrados", SweetAlert.WARNING_TYPE);
+                        SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡AVISO!", "No tienes datos bancarios registrados", false, null, null);
                 }else
-                    infoMsg("¡ERROR", jsonObject.get("mensaje").toString(), SweetAlert.ERROR_TYPE);
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR", jsonObject.get("mensaje").toString(), false, null, null);
             } catch (JSONException ex) {
                 ex.printStackTrace();
             }
         }, APIEndPoints.GET_DATOS_BANCO_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
         webServicesAPI.execute();
-    }
-
-    public void infoMsg(String titulo, String mensaje, int tipo){
-        new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .show();
     }
 
     private void getFechaServidor(){
@@ -176,12 +169,8 @@ public class PlanesFragment extends DialogFragment {
                             }
 
                             ordenCompraPlanFragment.show(transaction, "Orden de Compra");
-                        }else{
-                            new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                                    .setTitleText("¡ERROR!")
-                                    .setContentText("Fecha de dispositivo alterada.")
-                                    .show();
-                        }
+                        }else
+                            SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Fecha de dispositivo alterada.", false, null, null);
                     }catch(ParseException ex){
                         ex.printStackTrace();
                     }
@@ -196,18 +185,15 @@ public class PlanesFragment extends DialogFragment {
 
     @OnClick(R.id.btnCancelar)
     public void OnClick(){
-        new SweetAlert(SesionesFragment.contexto, SweetAlert.NORMAL_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("SERVICIO CON PLAN: PARTICULAR")
-                .setConfirmButton("OK", sweetAlertDialog -> {
+        SweetAlert.showMsg(SesionesFragment.contexto, SweetAlert.NORMAL_TYPE, "SERVICIO CON PLAN: PARTICULAR", "",
+                true, "OK", ()->{
                     //TODO FLUJO_PLANES: Aquí iremos por nuevo servicio PARTICULAR.
                     dismiss();
                     //TODO FLUJO_EJECUTAR_PLAN: Pasar por Bundle el tipo de PLAN en nuevaSesionFragment.
                     NuevaSesionFragment nueva = new NuevaSesionFragment();
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                     nueva.show(transaction, NuevaSesionFragment.TAG);
-                    sweetAlertDialog.dismissWithAnimation();
-                })
-                .show();
+                });
     }
 
     @Override

@@ -81,9 +81,6 @@ public class SesionesProfesionalFragment extends Fragment {
                     try{
                         JSONArray jsonArray = new JSONArray(response);
 
-                        if(jsonArray.length() == 0)
-                            lottieAnimationView.setVisibility(View.VISIBLE);
-
                         for (int i = 0; i < jsonArray.length(); i++){
                             JSONObject object = jsonArray.getJSONObject(i);
                             if(!object.getBoolean("finalizado")){
@@ -96,19 +93,14 @@ public class SesionesProfesionalFragment extends Fragment {
                     }catch(JSONException ex){
                         ex.printStackTrace();
                     }
-                }else
-                    errorMsg("¡AVISO!", "Usuario sin servicios disponibles.", SweetAlert.WARNING_TYPE);
+                }else{
+                    lottieAnimationView.setVisibility(View.VISIBLE);
+                    SweetAlert.showMsg(getContext(),  SweetAlert.WARNING_TYPE, "¡AVISO!",  "Usuario sin servicios disponibles.", false, null, null);
+                }
             }else
-                errorMsg("¡ERROR!", "Error en el servidor, intente de nuevo más tarde.", SweetAlert.ERROR_TYPE);
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!",  "Error en el servidor, intente de nuevo más tarde.", false, null, null);
         }, APIEndPoints.GET_SESIONES_PROFESIONAL  + this.idProfesional, WebServicesAPI.GET, null);
         webServicesAPI.execute();
-    }
-
-    public void errorMsg(String titulo, String mensaje, int tipo){
-        new SweetAlert(getContext(), tipo, SweetAlert.PROFESIONAL)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .show();
     }
 
     public void configAdapter(){

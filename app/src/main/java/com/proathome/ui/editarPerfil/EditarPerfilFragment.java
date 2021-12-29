@@ -245,21 +245,14 @@ public class EditarPerfilFragment extends Fragment {
                         etMes.setText(mensaje.getString("mes"));
                         etAño.setText(mensaje.getString("ano"));
                     }else
-                        infoMsg("¡AVISO!", "No tienes datos bancarios registrados", SweetAlert.WARNING_TYPE);
+                        SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡AVISO!", "No tienes datos bancarios registrados", false, null, null);
                 }else
-                    infoMsg("¡ERROR", jsonObject.get("mensaje").toString(), SweetAlert.ERROR_TYPE);
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.get("mensaje").toString(), false, null, null);
             } catch (JSONException ex) {
                 ex.printStackTrace();
             }
         }, APIEndPoints.GET_DATOS_BANCO_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
         webServicesAPI.execute();
-    }
-
-    public void infoMsg(String titulo, String mensaje, int tipo){
-        new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .show();
     }
 
     private void getReportes(){
@@ -315,18 +308,11 @@ public class EditarPerfilFragment extends Fragment {
                         ex.printStackTrace();
                     }
                 }else
-                    errorMsg("Error en el perfil, intente ingresar más tarde.");
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error en el perfil, intente ingresar más tarde.", false, null, null);
             }else
-                errorMsg("Error del servidor, intente ingresar más tarde.");
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente ingresar más tarde.", false, null, null);
         }, APIEndPoints.GET_PERFIL_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
         webServicesAPI.execute();
-    }
-
-    public void errorMsg(String mensaje){
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("¡ERROR!")
-                .setContentText(mensaje)
-                .show();
     }
 
     public void actualizarDatosBancarios(){
@@ -337,13 +323,13 @@ public class EditarPerfilFragment extends Fragment {
                             Integer.parseInt(etAño.getText().toString()))){
                                 upCuentaCliente();
                     }else
-                        mensaje("¡ERROR!", "Fecha de expiración no válida.", SweetAlert.ERROR_TYPE);
+                        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Fecha de expiración no válida.", false, null, null);
                 }else
-                    mensaje("¡ERROR!","Tarjeta no válida.", SweetAlert.ERROR_TYPE);
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Tarjeta no válida.", false, null, null);
             }else
-                mensaje("¡ERROR!", "Nombre del titular no válido.", SweetAlert.ERROR_TYPE);
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Nombre del titular no válido.", false, null, null);
         }else
-            mensaje("¡ERROR!","Llena todos los campos correctamente.", SweetAlert.ERROR_TYPE);
+            SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos correctamente.", false, null, null);
     }
 
     private void upCuentaCliente(){
@@ -356,9 +342,9 @@ public class EditarPerfilFragment extends Fragment {
             parametrosPUT.put("ano", etAño.getText().toString());
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
                 if(response.equalsIgnoreCase("Actualización exitosa."))
-                    mensaje("¡GENIAL!", "Datos actualizados correctamente.",  SweetAlert.SUCCESS_TYPE);
+                    SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Datos actualizados correctamente.", false, null, null);
                 else
-                    mensaje("¡OH NO!", response, SweetAlert.WARNING_TYPE);
+                    SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡OH NO!", response, false, null, null);
             }, APIEndPoints.UPDATE_CUENTA_CLIENTE, WebServicesAPI.PUT, parametrosPUT);
             webServicesAPI.execute();
         } catch (JSONException e) {
@@ -392,9 +378,9 @@ public class EditarPerfilFragment extends Fragment {
             try{
                 JSONObject jsonObject = new JSONObject(response);
                 if(jsonObject.getBoolean("respuesta"))
-                    mensaje("¡GENIAL!", jsonObject.getString("mensaje"), SweetAlert.SUCCESS_TYPE);
+                    SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", jsonObject.getString("mensaje"), false, null, null);
                 else
-                    mensaje("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.WARNING_TYPE);
+                    SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
             }catch(JSONException ex){
                 ex.printStackTrace();
             }
@@ -478,13 +464,6 @@ public class EditarPerfilFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-    }
-
-    public void mensaje(String titulo, String mensaje, int tipo){
-        new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .show();
     }
 
     @Override

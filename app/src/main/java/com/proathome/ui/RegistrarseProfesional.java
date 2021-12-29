@@ -2,6 +2,7 @@ package com.proathome.ui;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -34,6 +35,7 @@ public class RegistrarseProfesional extends AppCompatActivity {
     private int mDayIni, mMonthIni, mYearIni, sDayIni, sMonthIni, sYearIni;
     public static final int DATE_ID = 0;
     public Calendar calendar = Calendar.getInstance();
+    private ProgressDialog progressDialog;
     @BindView(R.id.nombreET_R)
     TextInputEditText nombreET;
     @BindView(R.id.paternoET_R)
@@ -123,7 +125,7 @@ public class RegistrarseProfesional extends AppCompatActivity {
     }//Fin método verDatePicker.
 
     public void iniciarSesion(View view){
-        intent = new Intent(this, MainActivity.class);
+        intent = new Intent(this, LoginProfesional.class);
         startActivity(intent);
         finish();
     }//Fin método iniciarSesion.
@@ -141,13 +143,13 @@ public class RegistrarseProfesional extends AppCompatActivity {
                     if(checkBox.isChecked())
                         registrarProfesional();
                     else
-                        errorMsg("¡ESPERA!", "Debes aceptar los Términos y Condiciones.", SweetAlert.ERROR_TYPE);
+                        SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Debes aceptar los Términos y Condiciones.", true, "OK", ()->{});
                 }else
-                    errorMsg("¡ERROR!", "Las contraseñas no coinciden.", SweetAlert.ERROR_TYPE);
+                    SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Las contraseñas no coinciden.", true, "OK", ()->{});
             }else
-                errorMsg("¡ESPERA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.", SweetAlert.WARNING_TYPE);
+                SweetAlert.showMsg(this, SweetAlert.WARNING_TYPE, "¡ESPERA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.", true, "OK", ()->{});
         }else
-            errorMsg("¡ERROR!", "Llena todos los campos correctamente.", SweetAlert.ERROR_TYPE);
+            SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos correctamente.", true, "OK", ()->{});
     }//Fin método registrar.
 
     private void registrarProfesional(){
@@ -156,7 +158,7 @@ public class RegistrarseProfesional extends AppCompatActivity {
             parametrosPost.put("nombre", nombreET.getText().toString());
             parametrosPost.put("paterno", paternoET.getText().toString());
             parametrosPost.put("materno", maternoET.getText().toString());
-            parametrosPost.put("correo", correoET.getText().toString());
+            parametrosPost.put("correo", correoET.getText().toString().trim());
             parametrosPost.put("celular", celularET.getText().toString());
             parametrosPost.put("telefono", telefonoET.getText().toString());
             parametrosPost.put("direccion", direccionET.getText().toString());
@@ -164,6 +166,7 @@ public class RegistrarseProfesional extends AppCompatActivity {
             parametrosPost.put("genero", genero.getSelectedItem().toString());
             parametrosPost.put("contrasena", contrasenaET.getText().toString());
 
+            progressDialog = ProgressDialog.show(this, "Registrando", "Por favor, espere...");
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
                 try{
                     JSONObject jsonObject = new JSONObject(response);
@@ -172,21 +175,16 @@ public class RegistrarseProfesional extends AppCompatActivity {
                         post.put("token", jsonObject.getString("token"));
                         post.put("correo", correoET.getText().toString());
                         WebServicesAPI fastServices = new WebServicesAPI(output -> {
-                            new SweetAlert(this, SweetAlert.SUCCESS_TYPE, SweetAlert.PROFESIONAL)
-                                    .setTitleText("¡GENIAL!")
-                                    .setContentText(jsonObject.getString("mensaje"))
-                                    .setConfirmButton("OK", sweetAlertDialog -> {
+                            progressDialog.dismiss();
+                            SweetAlert.showMsg(this, SweetAlert.SUCCESS_TYPE, "¡GENIAL!",
+                                    jsonObject.getString("mensaje"), true, "OK", ()->{
                                         startActivity(new Intent(this, LoginProfesional.class));
-                                    })
-                                    .show();
+                                    });
                         }, Constants.IP_80 + "/assets/lib/Verificacion.php?enviarPro=true", WebServicesAPI.POST, post);
                         fastServices.execute();
-                    }else{
-                        new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
-                                .setTitleText("¡ERROR!")
-                                .setContentText(jsonObject.getString("mensaje"))
-                                .show();
-                    }
+                    }else
+                        SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
+
                 }catch(JSONException ex){
                     ex.printStackTrace();
                 }
@@ -195,16 +193,6 @@ public class RegistrarseProfesional extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public void errorMsg(String titulo, String mensaje, int tipo){
-        new SweetAlert(this, tipo, SweetAlert.CLIENTE)
-                .setTitleText(titulo)
-                .setConfirmButton("OK", sweetAlertDialog -> {
-                    sweetAlertDialog.dismissWithAnimation();
-                })
-                .setContentText(mensaje)
-                .show();
     }
 
     @OnClick(R.id.btnTCP)

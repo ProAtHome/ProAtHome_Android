@@ -139,15 +139,6 @@ public class FragmentTicketAyuda extends DialogFragment {
 
         setIdUsuario();
 
-        System.out.println(bundle.getInt("tipoUsuario"));
-        if(bundle.getInt("tipoUsuario") == Constants.TIPO_USUARIO_PROFESIONAL){
-            toolbar.setBackgroundColor(getResources().getColor(R.color.color_secondary));
-            tvTicket.setTextColor(getResources().getColor(R.color.color_secondary));
-            btnEnviarMsg.setBackgroundColor(getResources().getColor(R.color.color_secondary));
-            btnFinalizarTicket.setBackgroundColor(getResources().getColor(R.color.color_secondary));
-            btnRegresar.setBackgroundColor(getResources().getColor(R.color.color_secondary));
-        }
-
         recyclerView = view.findViewById(R.id.recyclerMsg);
 
         obtenerMsgTicket();
@@ -247,10 +238,7 @@ public class FragmentTicketAyuda extends DialogFragment {
         switch (view.getId()){
             case R.id.btnEnviarMsg:
                 if(etEscribeMsg.getText().toString().trim().equalsIgnoreCase("")){
-                    new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, tipoSweet)
-                            .setTitleText("¡ERROR!")
-                            .setContentText("Escribe un mensaje para el operador.")
-                            .show();
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Escribe un mensaje para el operador.", false, null, null);
                 }else{
                     FragmentTicketAyuda.recyclerView.getLayoutManager().scrollToPosition(componentAdapterMsgTickets.getItemCount()-1);
                     enviarMensaje();
@@ -261,15 +249,11 @@ public class FragmentTicketAyuda extends DialogFragment {
                 dismiss();
                 break;
             case R.id.btnFinalizarTicket:
-                new SweetAlert(getContext(), SweetAlert.WARNING_TYPE, tipoSweet)
-                        .setTitleText("¡ESPERA!")
-                        .setContentText("¿Seguro quieres finalizar el ticket?")
-                        .setConfirmButton("SI", sweetAlertDialog -> {
+                SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ESPERA!", "¿Seguro quieres finalizar el ticket?",
+                        true, "SI", ()->{
                             ticketSolucionado();
-                            sweetAlertDialog.dismissWithAnimation();
                             dismiss();
-                        })
-                        .show();
+                        });
                 break;
         }
 

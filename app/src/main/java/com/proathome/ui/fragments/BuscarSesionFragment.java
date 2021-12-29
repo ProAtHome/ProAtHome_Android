@@ -201,7 +201,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
     private void getSesiones(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             if(response == null){
-                errorMsg("Error del servidor, intente de nuevo más tarde.", SweetAlert.ERROR_TYPE);
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente de nuevo más tarde.", false, null, null);
             }else{
                 if(!response.equals("null")){
                     try{
@@ -228,18 +228,10 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
                         ex.printStackTrace();
                     }
                 }else
-                    errorMsg("Sin Sesiones disponibles.", SweetAlert.WARNING_TYPE);
+                    SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ERROR!", "Sin Sesiones disponibles.", false, null, null);
             }
         }, APIEndPoints.BUSCAR_SESIONES + this.rangoServicio, WebServicesAPI.GET, null);
         webServicesAPI.execute();
-    }
-
-
-    public void errorMsg(String mensaje, int tipo){
-        new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
-                .setTitleText("¡ERROR!")
-                .setContentText(mensaje)
-                .show();
     }
 
     private void showAlert() {

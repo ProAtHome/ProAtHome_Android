@@ -3,6 +3,7 @@ package com.proathome.ui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +11,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.ui.password.EmailPassword;
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.contraET_IS)
     TextInputEditText contrasenaET;
     private Unbinder mUnbinder;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,10 +110,12 @@ public class MainActivity extends AppCompatActivity {
                 String correo = correoET.getText().toString().trim();
                 String contrasena = contrasenaET.getText().toString().trim();
 
+                progressDialog = ProgressDialog.show(this, "Iniciando Sesión", "Por favor, espere ...");
                 WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                    progressDialog.dismiss();
                     try{
                         if(response == null){
-                            errorMsg("Ocurrió un error inesperado, intenta de nuevo.");
+                            SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inesperado, intenta de nuevo.", false, null, null);
                         }else {
                             if(!response.equals("null")){
                                 JSONObject jsonObject = new JSONObject(response);
@@ -128,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         startActivity(new Intent(this, InicioCliente.class));
                                     }else
-                                        errorMsg("Aún no verificas tu cuenta de correo electrónico.");
+                                        SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Aún no verificas tu cuenta de correo electrónico.", false, null, null);
                                 }else if(jsonObject.getString("estado").equalsIgnoreCase("DOCUMENTACION") ||
                                         jsonObject.getString("estado").equalsIgnoreCase("REGISTRO")){
                                     startActivity(new Intent(this, PasosActivarCuentaCliente.class));
@@ -140,30 +146,18 @@ public class MainActivity extends AppCompatActivity {
                                     startActivity(intent);
                                 }
 
-                            }else{
-                                errorMsg("Usuario no registrado o tus datos están incorrectos.");
-                            }
+                            }else
+                                SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Usuario no registrado o tus datos están incorrectos.", false, null, null);
                         }
                     }catch(JSONException ex){
                         ex.printStackTrace();
                     }
                 }, APIEndPoints.INICIAR_SESION_CLIENTE + "/" + correo + "/" + contrasena, WebServicesAPI.GET, null);
                 webServicesAPI.execute();
-            }else{
-                new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                        .setTitleText("¡ERROR!")
-                        .setContentText("Llena todos los campos.")
-                        .show();
-            }
+            }else
+                SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos.", false, null, null);
         }
     }//Fin método entrar.
-
-    public void errorMsg(String mensaje){
-        new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("¡ERROR!")
-                .setContentText(mensaje)
-                .show();
-    }
 
     @Override
     protected void onDestroy() {

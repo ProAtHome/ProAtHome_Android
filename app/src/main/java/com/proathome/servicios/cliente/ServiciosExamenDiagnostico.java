@@ -64,19 +64,15 @@ public class ServiciosExamenDiagnostico {
                     JSONObject jsonObject = new JSONObject(response);
                     int estatusBD = jsonObject.getInt("estatus");
                     if(estatusBD == Constants.EXAMEN_GUARDADO){
-                        new SweetAlert(context, SweetAlert.NORMAL_TYPE, SweetAlert.CLIENTE)
-                                .setTitleText("Puntuación guardada.")
-                                .setConfirmButton("Continuar", sweetAlertDialog -> {
-                                    sweetAlertDialog.dismissWithAnimation();
-                                    if(!Diagnostico7.ultimaPagina){
-                                        activity.startActivityForResult(new Intent(context, activitySiguiente), 1, ActivityOptions.makeSceneTransitionAnimation(activity)
-                                                .toBundle());
-                                        activity.finish();
-                                    }else{
-                                        Diagnostico7.ultimaPagina = false;
-                                    }
-                                })
-                                .show();
+                        SweetAlert.showMsg(context, SweetAlert.NORMAL_TYPE, "Puntuación guardada.", "¡Continúa!", true, "OK", ()->{
+                            if(!Diagnostico7.ultimaPagina){
+                                activity.startActivityForResult(new Intent(context, activitySiguiente), 1, ActivityOptions.makeSceneTransitionAnimation(activity)
+                                        .toBundle());
+                                activity.finish();
+                            }else{
+                                Diagnostico7.ultimaPagina = false;
+                            }
+                        });
                     }
                 }catch(JSONException ex){
                     ex.printStackTrace();
@@ -103,19 +99,15 @@ public class ServiciosExamenDiagnostico {
                     JSONObject jsonObject = new JSONObject(response);
                     int estatusBD = jsonObject.getInt("estatus");
                     if(estatusBD == Constants.EXAMEN_GUARDADO){
-                        new SweetAlert(context, SweetAlert.NORMAL_TYPE, SweetAlert.CLIENTE)
-                                .setTitleText("Puntuación guardada.")
-                                .setConfirmButton("Continuar", sweetAlertDialog -> {
-                                    sweetAlertDialog.dismissWithAnimation();
-                                    if(!Diagnostico7.ultimaPagina){
-                                        activity.startActivityForResult(new Intent(context, activitySiguiente), 1, ActivityOptions.makeSceneTransitionAnimation(activity)
-                                                .toBundle());
-                                        activity.finish();
-                                    }else{
-                                        Diagnostico7.ultimaPagina = false;
-                                    }
-                                })
-                                .show();
+                        SweetAlert.showMsg(context, SweetAlert.NORMAL_TYPE, "Puntuación guardada.", "¡Continúa!", true, "OK", ()->{
+                            if(!Diagnostico7.ultimaPagina){
+                                activity.startActivityForResult(new Intent(context, activitySiguiente), 1, ActivityOptions.makeSceneTransitionAnimation(activity)
+                                        .toBundle());
+                                activity.finish();
+                            }else{
+                                Diagnostico7.ultimaPagina = false;
+                            }
+                        });
                     }
                 }catch(JSONException ex){
                     ex.printStackTrace();
@@ -167,15 +159,13 @@ public class ServiciosExamenDiagnostico {
 
                             })
                             .show();
-                }else if(estatus == Constants.ENCURSO_EXAMEN){
+                }else if(estatus == Constants.ENCURSO_EXAMEN)
                     ServiciosExamenDiagnostico.continuarExamen(idCliente, contexto);
-                }else if(estatus == Constants.CANCELADO_EXAMEN){
+                else if(estatus == Constants.CANCELADO_EXAMEN)
                     RutaFragment.imgExamen.setVisibility(View.VISIBLE);
-                }else if(estatus == Constants.EXAMEN_FINALIZADO) {
-                    new SweetAlert(contexto, SweetAlert.NORMAL_TYPE, SweetAlert.CLIENTE)
-                            .setTitleText("Ya tenemos tu diagnóstico.")
-                            .show();
-                }
+                else if(estatus == Constants.EXAMEN_FINALIZADO)
+                    SweetAlert.showMsg(contexto, SweetAlert.NORMAL_TYPE, "Ya tenemos tu diagnóstico.", "", false, null, null);
+
             }catch(JSONException ex){
                 ex.printStackTrace();
             }
@@ -223,15 +213,10 @@ public class ServiciosExamenDiagnostico {
                     JSONObject jsonObject = new JSONObject(response);
                     int estatus = jsonObject.getInt("estatus");
                     if(estatus == Constants.REINICIAR_EXAMEN) {
-                        new SweetAlert(context, SweetAlert.SUCCESS_TYPE, SweetAlert.CLIENTE)
-                                .setTitleText("¡GENIAL!")
-                                .setContentText("Examen reiniciado, suerte.")
-                                .setConfirmButton("VAMOS", listener ->{
-                                    RutaFragment.imgExamen.setVisibility(View.INVISIBLE);
-                                    listener.dismissWithAnimation();
-                                    context.startActivity(new Intent(context, Diagnostico1.class));
-                                })
-                                .show();
+                        SweetAlert.showMsg(context, SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Examen reiniciado, suerte.", true, "VAMOS", ()->{
+                            RutaFragment.imgExamen.setVisibility(View.INVISIBLE);
+                            context.startActivity(new Intent(context, Diagnostico1.class));
+                        });
                     }
                 }catch(JSONException ex){
                     ex.printStackTrace();

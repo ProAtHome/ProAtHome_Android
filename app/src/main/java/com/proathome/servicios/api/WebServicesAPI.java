@@ -13,6 +13,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 
 public class WebServicesAPI extends AsyncTask<Void, Void, String> {
 
@@ -123,6 +125,8 @@ public class WebServicesAPI extends AsyncTask<Void, Void, String> {
     
 
     public String getPostDataString(JSONObject params) throws Exception {
+        if(params == null)
+            return "";
         return params.toString();
     }
 }

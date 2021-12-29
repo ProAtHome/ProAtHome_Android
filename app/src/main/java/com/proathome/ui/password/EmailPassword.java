@@ -50,9 +50,9 @@ public class EmailPassword extends AppCompatActivity {
             if(mather.find()) {
 
                 if(this.tipoPerfil == Constants.TIPO_CLIENTE)
-                    this.urlApi = Constants.IP_80 + "/assets/lib/Reestablecimiento.php?getCodigo=true&correo=" + correo;
+                    this.urlApi = Constants.IP_80 + "/assets/lib/Restablecimiento.php?getCodigo=true&correo=" + correo;
                 else if(this.tipoPerfil == Constants.TIPO_PROFESIONAL)
-                    this.urlApi = Constants.IP_80 + "/assets/lib/Reestablecimiento.php?getCodigoPro=true&correo=" + correo;
+                    this.urlApi = Constants.IP_80 + "/assets/lib/Restablecimiento.php?getCodigoPro=true&correo=" + correo;
 
                 WebServicesAPI enviarCodigo = new WebServicesAPI(output -> {
                     try {
@@ -60,41 +60,30 @@ public class EmailPassword extends AppCompatActivity {
                         if(jsonObject.getBoolean("respuesta")){
                             if(jsonObject.getBoolean("valido")){
                                 String token = jsonObject.getString("mensaje");
-                                System.out.println(token);
-                                new SweetAlert(this, SweetAlert.SUCCESS_TYPE, SweetAlert.CLIENTE)
-                                        .setTitleText("¡GENIAL!")
-                                        .setContentText("Email enviado, revisa tus correos no deseados.")
-                                        .setConfirmButton("OK", listener ->{
+
+                                SweetAlert.showMsg(this, SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Email enviado, revisa tus correos no deseados.",
+                                        true, "OK", ()->{
                                             Intent intent = new Intent(this, CodigoEmail.class);
                                             intent.putExtra("tipoPerfil", this.tipoPerfil);
                                             intent.putExtra("token", token);
                                             intent.putExtra("correo", correo);
                                             startActivity(intent);
-                                            listener.dismiss();
                                             finish();
-                                        })
-                                        .show();
+                                        });
                             }else
-                                msgAlert("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.CLIENTE, SweetAlert.ERROR_TYPE);
+                                SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
                         }else
-                            msgAlert("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.CLIENTE, SweetAlert.ERROR_TYPE);
+                            SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
                     }catch (JSONException ex){
                         ex.printStackTrace();
                     }
                 }, this.urlApi, WebServicesAPI.GET, null);
                 enviarCodigo.execute();
             }else
-                msgAlert("¡ESPERA!", "Ingresa un correo electronico válido.", SweetAlert.CLIENTE, SweetAlert.WARNING_TYPE);
+                SweetAlert.showMsg(this, SweetAlert.WARNING_TYPE, "¡ESPERA!", "Ingresa un correo electronico válido.", false, null, null);
         }else
-            msgAlert("¡ESPERA!", "Ingresa tu correo.", SweetAlert.CLIENTE, SweetAlert.WARNING_TYPE);
+            SweetAlert.showMsg(this, SweetAlert.WARNING_TYPE, "¡ESPERA!", "Ingresa tu correo.", false, null, null);
 
-    }
-
-    public void msgAlert(String titulo, String mensaje, int tipoPerfil, int tipoMsg){
-        new SweetAlert(this, tipoMsg, tipoPerfil)
-        .setTitleText(titulo)
-        .setContentText(mensaje)
-        .show();
     }
 
     @Override

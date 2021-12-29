@@ -20,6 +20,7 @@ import com.proathome.ui.ayuda.AyudaFragment;
 import com.proathome.ui.ayudaProfesional.AyudaProfesionalFragment;
 import com.proathome.utils.ComponentTicket;
 import com.proathome.utils.Constants;
+import com.proathome.utils.FechaActual;
 import com.proathome.utils.SweetAlert;
 
 import org.json.JSONArray;
@@ -150,13 +151,8 @@ public class NuevoTicketFragment extends DialogFragment {
         if(!etTopico.getText().toString().trim().equalsIgnoreCase("") &&
                 !etDescripcion.getText().toString().trim().equalsIgnoreCase("")){
             nuevoTicket();
-        }else{
-            int tipoSweet = this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ? SweetAlert.CLIENTE : SweetAlert.PROFESIONAL;
-            new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, tipoSweet)
-                    .setTitleText("¡ERROR!")
-                    .setContentText("Llena los campos correctamente.")
-                    .show();
-        }
+        }else
+            SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena los campos correctamente.", false, null, null);
     }
 
     private void nuevoTicket(){
@@ -165,19 +161,15 @@ public class NuevoTicketFragment extends DialogFragment {
             jsonDatos.put("tipoUsuario", this.tipoUsuario);
             jsonDatos.put("topico", etTopico.getText().toString());
             jsonDatos.put("descripcion",  etDescripcion.getText().toString());
-            jsonDatos.put("fechaCreacion", "2020-12-5");
+            jsonDatos.put("fechaCreacion", FechaActual.getFechaActual());
             jsonDatos.put("estatus", Constants.ESTATUS_SIN_OPERADOR);
             jsonDatos.put("idUsuario", this.idUsuario);
             jsonDatos.put("categoria", getSelectedCategoria());
             jsonDatos.put("idSesion", this.idSesion);
 
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-                new SweetAlert(getContext(), SweetAlert.SUCCESS_TYPE, this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ?
-                        SweetAlert.CLIENTE : SweetAlert.PROFESIONAL)
-                        .setTitleText("¡GENIAL!")
-                        .setContentText("Tu solicitud será revisada y en breve te contestará soporte.")
-                        .setConfirmButton("OK", sweetAlertDialog -> {
-                            sweetAlertDialog.dismissWithAnimation();
+                SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!",
+                        "Tu solicitud será revisada y en breve te contestará soporte.", true, "OK", ()->{
                             dismiss();
                             if(this.idSesion == 0){
                                 if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE){
@@ -189,8 +181,7 @@ public class NuevoTicketFragment extends DialogFragment {
                                 }
                                 obtenerTickets();
                             }
-                        })
-                        .show();
+                        });
             }, this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.NUEVO_TICKET_CLIENTE : APIEndPoints.NUEVO_TICKET_PROFESIONAL, WebServicesAPI.POST, jsonDatos);
             webServicesAPI.execute();
         } catch (JSONException e) {
@@ -231,20 +222,12 @@ public class NuevoTicketFragment extends DialogFragment {
 
                     }
                 }else
-                    msgInfo(SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inseperado, intenta nuevamente.", this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ? SweetAlert.CLIENTE : SweetAlert.PROFESIONAL);
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inseperado, intenta nuevamente.", false, null, null);
             }catch (JSONException ex){
                 ex.printStackTrace();
             }
         }, this.tipoUsuario ==  Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.GET_TICKETS_CLIENTE + this.idUsuario : APIEndPoints.GET_TICKETS_PROFESIONAL + this.idUsuario, WebServicesAPI.GET, null);
         webServicesAPI.execute();
-    }
-
-
-    public void msgInfo(int tipo, String titulo, String contenido, int tipoUsuario){
-        new SweetAlert(getContext(), tipo, tipoUsuario)
-                .setTitleText(titulo)
-                .setContentText(contenido)
-                .show();
     }
 
     @Override

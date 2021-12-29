@@ -131,45 +131,38 @@ public class DatosBancoPlanFragment extends DialogFragment {
                                 dismiss();
                             }
                         }else{
-                            errorMsg("CVV no válido.");
+                            SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "CVV no válido.", false, null, null);
                             validarDatos.setEnabled(true);
                         }
                     }else{
-                        errorMsg("Fecha de expiración no válida.");
+                        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Fecha de expiración no válida.", false, null, null);
                         validarDatos.setEnabled(true);
                     }
                 }else{
-                    errorMsg("Tarjeta no válida.");
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Tarjeta no válida.", false, null, null);
                     validarDatos.setEnabled(true);
                 }
             }else{
-                errorMsg("Nombre del titular no válido.");
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Nombre del titular no válido.", false, null, null);
                 validarDatos.setEnabled(true);
             }
         }else {
-            errorMsg("Llena todos los campos correctamente.");
+            SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos correctamente.", false, null, null);
             validarDatos.setEnabled(true);
         }
 
-    }
-
-    public void errorMsg(String mensaje){
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("¡ERROR!")
-                .setContentText(mensaje)
-                .show();
     }
 
     public void pagar(Card card){
         Constants.openpay.createToken(card, new OperationCallBack<Token>() {
             @Override
             public void onError(OpenpayServiceException e) {
-                errorMsg(e.toString());
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", e.toString(), false, null, null);
             }
 
             @Override
             public void onCommunicationError(ServiceUnavailableException e) {
-                errorMsg(e.toString());
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", e.toString(), false, null, null);
             }
 
             @Override
@@ -189,9 +182,16 @@ public class DatosBancoPlanFragment extends DialogFragment {
                         if(response.equalsIgnoreCase(  "")){
                             //Actualizar Pago en Pagos
                             saldarDeuda();
-                            msg("¡GENIAL!", "Cobro correcto.", SweetAlert.SUCCESS_TYPE);
-                        }else
-                            msg("ERROR!", "Error en el cobro - " + response, SweetAlert.ERROR_TYPE);
+                            SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Cobro correcto.", true,
+                                    "OK", ()->{
+                                        dismiss();
+                                    });
+                        }else{
+                            SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error en el cobro - " + response, true,
+                                    "OK", ()->{
+                                        dismiss();
+                                    });
+                        }
                     }, APIEndPoints.COBROS, WebServicesAPI.POST, parametrosPost);
                     webServicesAPI.execute();
                 } catch (JSONException e) {
@@ -208,17 +208,6 @@ public class DatosBancoPlanFragment extends DialogFragment {
             PagoPendienteFragment.pagoPendiente.dismiss();
         }, APIEndPoints.SALDAR_DEUDA, WebServicesAPI.PUT, parametrosPUT);
         webServicesAPI.execute();
-    }
-
-    private void msg(String titulo, String mensaje, int tipo){
-        new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .setConfirmButton("OK", sweetAlertDialog -> {
-                    sweetAlertDialog.dismissWithAnimation();
-                    dismiss();
-                })
-                .show();
     }
 
     @Override

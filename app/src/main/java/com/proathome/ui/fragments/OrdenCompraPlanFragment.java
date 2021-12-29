@@ -97,21 +97,16 @@ public class OrdenCompraPlanFragment extends DialogFragment {
                                 card.expirationYear(Integer.parseInt(etAno.getText().toString()));
                                 card.cvv2(etCVV.getText().toString());
                                 comprar(card);
-                            }else{
-                                errorMsg("CVV no válido.");
-                            }
-                        }else{
-                            errorMsg("Fecha de expiración no válida.");
-                        }
-                    }else{
-                        errorMsg("Tarjeta no válida.");
-                    }
-                }else{
-                    errorMsg("Nombre del titular no válido.");
-                }
-            }else {
-                errorMsg("Llena todos los campos correctamente.");
-            }
+                            }else
+                                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "CVV no válido.", false, null, null);
+                        }else
+                            SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Fecha de expiración no válida.", false, null, null);
+                    }else
+                        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Tarjeta no válida.", false, null, null);
+                }else
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Nombre del titular no válido.", false, null, null);
+            }else
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos correctamente.", false, null, null);
         });
         Bundle bundle = getArguments();
         String plan = bundle.getString("PLAN");
@@ -199,13 +194,6 @@ public class OrdenCompraPlanFragment extends DialogFragment {
         return view;
     }
 
-    public void errorMsg(String mensaje){
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("¡ERROR!")
-                .setContentText(mensaje)
-                .show();
-    }
-
     @OnClick(R.id.cancelar)
     public void onClick(){
         dismiss();
@@ -215,12 +203,12 @@ public class OrdenCompraPlanFragment extends DialogFragment {
         Constants.openpay.createToken(card, new OperationCallBack<Token>() {
             @Override
             public void onError(OpenpayServiceException e) {
-                errorMsg(e.toString());
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", e.toString(), false, null, null);
             }
 
             @Override
             public void onCommunicationError(ServiceUnavailableException e) {
-                errorMsg(e.toString());
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", e.toString(), false, null, null);
             }
 
             @Override
@@ -244,27 +232,19 @@ public class OrdenCompraPlanFragment extends DialogFragment {
                         JSONObject jsonObject = new JSONObject(response);
                         if(jsonObject.getBoolean("respuesta")){
                             generarPlan();
-                            new SweetAlert(getContext(), SweetAlert.SUCCESS_TYPE, SweetAlert.CLIENTE)
-                                    .setTitleText("¡GENIAL!")
-                                    .setContentText("Pago correcto de PLAN.")
-                                    .setConfirmButton("OK", sweetAlertDialog -> {
-                        /*TODO FLUJO_COBRO_PLAN: Activamos el PLAN correspondiente en el perfil y generamos las horas en monedero.
-                            Guardamos el PLAN  en el historial.
-                                Vamos a NuevaSesionFragment con el PLAN activo.*/
+                            SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Pago correcto de PLAN.",
+                                    true, "OK", ()->{
+                                /*TODO FLUJO_COBRO_PLAN: Activamos el PLAN correspondiente en el perfil y generamos las horas en monedero.
+                                            Guardamos el PLAN  en el historial.
+                                                Vamos a NuevaSesionFragment con el PLAN activo.*/
                                         dismiss();
                                         PlanesFragment.planesFragment.dismiss();
-                                        sweetAlertDialog.dismissWithAnimation();
-                                    })
-                                    .show();
+                                    });
                         }else{
-                            new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                                    .setTitleText("¡ERROR!")
-                                    .setContentText("Fallo en la transacción - " + response)
-                                    .setConfirmButton("OK", sweetAlertDialog -> {
+                            SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Fallo en la transacción - " + response,
+                                    true, "OK", ()->{
                                         OrdenCompraPlanFragment.comprar.setEnabled(true);
-                                        sweetAlertDialog.dismissWithAnimation();
-                                    })
-                                    .show();
+                                    });
                         }
                     }catch(JSONException ex){
                         ex.printStackTrace();

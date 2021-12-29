@@ -176,11 +176,11 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                     if(banco)
                         validacionPlanes_Ruta();
                     else
-                        errorMsg("¡AVISO!","Sin datos bancarios.");
+                        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡AVISO!","Sin datos bancarios.", false, null, null);
                 } else
-                    errorMsg("¡ERROR!", "Elige el tiempo de duración de el servicio.");
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Elige el tiempo de duración de el servicio.", false, null, null);
             } else
-                errorMsg("¡ERROR!", "Llena todos los campos.");
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos.", false, null, null);
         });
 
         toolbar.setTitle("Nueva Sesión");
@@ -214,19 +214,12 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                         DetallesFragment.banco = false;
                     }
                 }else
-                    infoMsg("¡ERROR", jsonObject.get("mensaje").toString(), SweetAlert.ERROR_TYPE);
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.get("mensaje").toString(), false, null, null);
             } catch (JSONException ex) {
                 ex.printStackTrace();
             }
         }, APIEndPoints.GET_DATOS_BANCO_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
         webServicesAPI.execute();
-    }
-
-    public void infoMsg(String titulo, String mensaje, int tipo){
-        new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .show();
     }
 
     /*
@@ -252,13 +245,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         String minutos = String.valueOf(tiempo%60) + " min";
 
         return horas + minutos;
-    }
-
-    public void errorMsg(String titulo, String mensaje){
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .show();
     }
 
     public void validacionPlanes_Ruta(){
@@ -292,12 +278,12 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                         else
                             mensaje = "Elige un tiempo de servicio a corde a tus horas disponibles de tu plan activo.";
 
-                        errorMsg("¡ERROR!", mensaje);
+                        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", mensaje, false, null, null);
                     }
                 }
 
             } else
-                errorMsg("¡ERROR!", "Elige un tiempo de servicio a corde a el tiempo faltante del bloque en curso.");
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Elige un tiempo de servicio a corde a el tiempo faltante del bloque en curso.", false, null, null);
         } else {
             /*TODO FLUJO_EJECUTAR_PLAN: Validaciones correspondientes en el FragmentNuevaSesion
                 (Verificar que el tiempo sea acorde a las horas diponibles si hay PLAN activo)
@@ -322,7 +308,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                     else
                         mensaje = "Elige un tiempo de servicio a corde a tus horas disponibles de tu plan activo.";
 
-                    errorMsg("¡ERROR!", mensaje);
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", mensaje, false, null, null);
                 }
             }
         }
@@ -398,7 +384,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                 if(jsonObject.getBoolean("respuesta"))
                     actualizarMonedero(jsonObject);
                 else
-                    showMsg("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.ERROR_TYPE);
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
             }, APIEndPoints.REGISTRAR_SESION_CLIENTE, WebServicesAPI.POST, parametrosPOST);
             webServicesAPI.execute();
         } catch (JSONException e) {
@@ -415,25 +401,10 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         }, APIEndPoints.ACTUALIZAR_MONEDERO, WebServicesAPI.PUT, parametrosPUT);
         webServicesAPI.execute();
         NuevaSesionFragment.nuevoMonedero = 0;
-        showMsg("¡GENIAL!", jsonObject.getString("mensaje"), SweetAlert.SUCCESS_TYPE);
-    }
-
-    private void showMsg(String titulo, String mensaje, int tipo){
-        if(tipo == SweetAlert.ERROR_TYPE){
-            new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
-                    .setTitleText(titulo)
-                    .setContentText(mensaje)
-                    .show();
-        }else if( tipo == SweetAlert.SUCCESS_TYPE){
-            new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
-                    .setTitleText(titulo)
-                    .setContentText(mensaje)
-                    .setConfirmButton("¡VAMOS!", sweetAlertDialog -> {
-                        dismiss();
-                        sweetAlertDialog.dismissWithAnimation();
-                    })
-                    .show();
-        }
+        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡GENIAL!", jsonObject.getString("mensaje"),
+                true, "¡VAMOS!", ()->{
+                    dismiss();
+                });
     }
 
     public Bundle getBundleSesion(int idCliente, String horario, String lugar,

@@ -29,11 +29,10 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
 import com.proathome.servicios.api.assets.WebServiceAPIAssets;
+import com.proathome.servicios.sesiones.ServiciosSesion;
 import com.proathome.ui.SincronizarServicio;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
-import com.proathome.servicios.servicio.ServicioTaskFinalizarServicio;
-import com.proathome.servicios.servicio.ServicioTaskSincronizarServicios;
 import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.utils.Component;
@@ -126,12 +125,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onResume() {
         super.onResume();
-        ServicioTaskSincronizarServicios sincronizarServicios = new ServicioTaskSincronizarServicios(getContext(),
-                idSesion, idCliente, DetallesFragment.CLIENTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
-        sincronizarServicios.execute();
-        ServicioTaskFinalizarServicio finalizarServicio = new ServicioTaskFinalizarServicio(getContext(), idSesion,
-                idCliente, Constants.VALIDAR_SERVICIO_FINALIZADA_AMBOS_PERFILES, DetallesFragment.CLIENTE);
-        finalizarServicio.execute();
+        ServiciosSesion.cambiarDisponibilidadCliente(idSesion, idCliente, false);
+        ServiciosSesion.validarServicioFinalizadoCliente(idSesion, idCliente);
         if (procedenciaFin) {
             validarValoracionProfesional();
             procedenciaFin = false;
@@ -156,12 +151,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
                             pagoPendienteFragment.setArguments(bundle);
                             pagoPendienteFragment.show(fragmentTransaction, "Pago pendiente");
                         }
-                    }else{
-                        new SweetAlert(this.contexto, SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                                .setTitleText("¡ERROR!")
-                                .setContentText("Error al obtener la información de tu historial de pagos, intente de nuevo más tarde.")
-                                .show();
-                    }
+                    }else
+                        SweetAlert.showMsg(this.contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error al obtener la información de tu historial de pagos, intente de nuevo más tarde.", false, null, null);
                 }catch(JSONException ex){
                     ex.printStackTrace();
                 }
@@ -239,11 +230,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
 
         iniciar.setOnClickListener(v -> {
-
-            ServicioTaskSincronizarServicios sincronizarServicios =
-                    new ServicioTaskSincronizarServicios(getContext(), idSesion, idCliente,
-                            DetallesFragment.CLIENTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
-            sincronizarServicios.execute();
+            ServiciosSesion.cambiarDisponibilidadCliente(idSesion, idCliente, true);
 
             Intent intent = new Intent(getContext(), SincronizarServicio.class);
             intent.putExtra("perfil", CLIENTE);
@@ -260,10 +247,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
 
             if (!this.planSesion.equalsIgnoreCase("PARTICULAR")) {
                 if (banco) {
-                    ServicioTaskSincronizarServicios sincronizarServicios =
-                            new ServicioTaskSincronizarServicios(getContext(), idSesion, idCliente,
-                                    DetallesFragment.CLIENTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
-                    sincronizarServicios.execute();
+                    ServiciosSesion.cambiarDisponibilidadCliente(true)
 
                     Intent intent = new Intent(getContext(), SincronizarServicio.class);
                     intent.putExtra("perfil", CLIENTE);
@@ -290,10 +274,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
                         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                         preOrdenServicio.show(fragmentTransaction, "PreOrden");
                     } else {
-                        ServicioTaskSincronizarServicios sincronizarServicios =
-                                new ServicioTaskSincronizarServicios(getContext(), idSesion, idCliente,
-                                        DetallesFragment.CLIENTE, Constants.CAMBIAR_DISPONIBILIDAD, true);
-                        sincronizarServicios.execute();
+
+                        ServiciosSesion.cambiarDisponibilidadCliente(true)
 
                         Intent intent = new Intent(getContext(), SincronizarServicio.class);
                         intent.putExtra("perfil", CLIENTE);
@@ -365,13 +347,6 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         webServicesAPI.execute();
     }
 
-    public void errorBancoMsg(){
-        new SweetAlert(getContext(), SweetAlert.WARNING_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("¡AVISO!")
-                .setContentText("Revisa que tus datos bancarios estén registrados en EDITAR PERFIL.")
-                .show();
-    }
-
     private void showAlert() {
         new MaterialAlertDialogBuilder(getActivity(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
                 .setTitle("Permisos de Ubicación")
@@ -381,21 +356,16 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
                     startActivity(myIntent);
                 })
                 .setNegativeButton("Cancelar", (dialog, which) -> {
-                    errorMsg();
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡OH NO!", "No podemos continuar sin el permiso de ubicación.",
+                            true, "OK", ()->{
+                                getFragmentManager().beginTransaction().detach(this).commit();
+                            });
                 })
                 .setOnCancelListener(dialog -> {
-                    errorMsg();
-                })
-                .show();
-    }
-
-    public void errorMsg() {
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("¡OH NO!")
-                .setContentText("No podemos continuar sin el permiso de ubicación.")
-                .setConfirmButton("OK", sweetAlertDialog -> {
-                    getFragmentManager().beginTransaction().detach(this).commit();
-                    sweetAlertDialog.dismissWithAnimation();
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡OH NO!", "No podemos continuar sin el permiso de ubicación.",
+                            true, "OK", ()->{
+                                getFragmentManager().beginTransaction().detach(this).commit();
+                            });
                 })
                 .show();
     }

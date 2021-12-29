@@ -83,7 +83,7 @@ public class AyudaFragment extends Fragment {
                         }
                     }
                 }else
-                    msgInfo(SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inseperado, intenta nuevamente.", SweetAlert.PROFESIONAL);
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inseperado, intenta nuevamente.", false, null, null);
             }catch (JSONException ex){
                 ex.printStackTrace();
             }
@@ -104,13 +104,6 @@ public class AyudaFragment extends Fragment {
 
     public static void configAdapter(){
         componentAdapterTicket = new ComponentAdapterTicket(new ArrayList<>());
-    }
-
-    public void msgInfo(int tipo, String titulo, String contenido, int tipoUsuario){
-        new SweetAlert(getContext(), tipo, tipoUsuario)
-                .setTitleText(titulo)
-                .setContentText(contenido)
-                .show();
     }
 
     public static void configRecyclerView(){

@@ -53,9 +53,9 @@ public class CodigoEmail extends AppCompatActivity {
             String codigo = d1S + d2S + d3S + d4S;
 
             if(this.tipoPerfil == Constants.TIPO_CLIENTE)
-                this.urlApi = Constants.IP_80 + "/assets/lib/Reestablecimiento.php?validar=true&correo=" + this.correo + "&codigo=" +  codigo + "&token=" + this.token;
+                this.urlApi = Constants.IP_80 + "/assets/lib/Restablecimiento.php?validar=true&correo=" + this.correo + "&codigo=" +  codigo + "&token=" + this.token;
             else if(this.tipoPerfil == Constants.TIPO_PROFESIONAL)
-                this.urlApi = Constants.IP_80 + "/assets/lib/Reestablecimiento.php?validarPro=true&correo=" + this.correo + "&codigo=" +  codigo + "&token=" + this.token;
+                this.urlApi = Constants.IP_80 + "/assets/lib/Restablecimiento.php?validarPro=true&correo=" + this.correo + "&codigo=" +  codigo + "&token=" + this.token;
 
            WebServicesAPI enviarCodigo = new WebServicesAPI(output -> {
                 try {
@@ -70,23 +70,16 @@ public class CodigoEmail extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }else
-                            msgAlert("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.CLIENTE, SweetAlert.ERROR_TYPE);
+                            SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
                     }else
-                        msgAlert("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.CLIENTE, SweetAlert.ERROR_TYPE);
+                        SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
                 }catch(JSONException ex){
                     ex.printStackTrace();
                 }
             }, this.urlApi, WebServicesAPI.GET, null);
             enviarCodigo.execute();
         }else
-            msgAlert("¡ESPERA!", "Ingresa el codigo completo.", SweetAlert.CLIENTE, SweetAlert.WARNING_TYPE);
-    }
-
-    public void msgAlert(String titulo, String mensaje, int tipoPerfil, int tipoMsg){
-        new SweetAlert(this, tipoMsg, tipoPerfil)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .show();
+            SweetAlert.showMsg(this,SweetAlert.WARNING_TYPE, "¡ESPERA!", "Ingresa el codigo completo.", false, null, null);
     }
 
     @Override

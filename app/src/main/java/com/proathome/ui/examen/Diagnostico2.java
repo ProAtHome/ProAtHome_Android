@@ -119,10 +119,10 @@ public class Diagnostico2 extends AppCompatActivity {
                         finish();
                     })
                     .setPositiveButton("Cancelar", ((dialog, which) -> {
-                        salirMsg();
+                        SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, ()->{ });
                     }))
                     .setOnCancelListener(dialog -> {
-                        salirMsg();
+                        SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, ()->{ });
                     })
                     .show();
         });
@@ -159,13 +159,6 @@ public class Diagnostico2 extends AppCompatActivity {
         tvTerciario.setText(terciario);
         tvTerciario.setTextColor(getResources().getColor(R.color.colorPersonalDark));
     }
-
-    public void salirMsg(){
-        new SweetAlert(this, SweetAlert.NORMAL_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("¡NO TE RINDAS!")
-                .show();
-    }
-
 
     private void configRespuesta2(String principal, TextView tvPrincipal, String secundario, TextView tvSecundario){
         SpannableString mitextoU = new SpannableString(principal);

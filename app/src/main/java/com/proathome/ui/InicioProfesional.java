@@ -97,18 +97,11 @@ public class InicioProfesional extends AppCompatActivity {
                         ex.printStackTrace();
                     }
                 } else
-                    errorMsg("Error en el perfil, intente ingresar más tarde.");
+                    SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error en el perfil, intente ingresar más tarde.", false, null, null);
             }else
-                errorMsg("Error del servidor, intente ingresar más tarde.");
+                SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente ingresar más tarde.", false, null, null);
         }, APIEndPoints.GET_PERFIL_PROFESIONAL + this.idProfesional, WebServicesAPI.GET,  null);
         webServicesAPI.execute();
-    }
-
-    public void errorMsg(String mensaje){
-        new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
-                .setTitleText("¡ERROR!")
-                .setContentText(mensaje)
-                .show();
     }
 
     public void cerrarSesion(View view){

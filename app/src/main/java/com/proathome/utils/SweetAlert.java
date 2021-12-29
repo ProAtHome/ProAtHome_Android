@@ -95,9 +95,33 @@ public class SweetAlert extends Dialog implements View.OnClickListener {
     public final static int BUTTON_CANCEL = DialogInterface.BUTTON_NEGATIVE;
     ;
 
+    public static void showMsg(Context context, int tipo, String titulo, String mensaje, boolean boton, String tituloBoton, ConfirmButton confirmButton){
+        if(boton){
+            new SweetAlert(context, tipo, SweetAlert.CLIENTE)
+                    .setTitleText(titulo)
+                    .setConfirmButton(tituloBoton, sweetAlertDialog -> {
+                        confirmButton.content();
+                        sweetAlertDialog.dismissWithAnimation();
+                    })
+                    .setContentText(mensaje)
+                    .show();
+        }else{
+            new SweetAlert(context, tipo, SweetAlert.CLIENTE)
+                    .setTitleText(titulo)
+                    .setContentText(mensaje)
+                    .show();
+        }
+
+
+    }
+
     public SweetAlert hideConfirmButton() {
         this.mHideConfirmButton = true;
         return this;
+    }
+
+    public interface ConfirmButton{
+        void content();
     }
 
     public interface OnSweetClickListener {
@@ -197,12 +221,6 @@ public class SweetAlert extends Dialog implements View.OnClickListener {
         mNeutralButton.setOnClickListener(this);
         mNeutralButton.setOnTouchListener(Constants.FOCUS_TOUCH_LISTENER);
         mProgressHelper.setProgressWheel((ProgressWheel) findViewById(R.id.progressWheel));
-
-        if(this.tipoPerfil == SweetAlert.PROFESIONAL){
-            mCancelButton.setBackgroundColor(getContext().getResources().getColor(R.color.color_secondary));
-            mConfirmButton.setBackgroundColor(getContext().getResources().getColor(R.color.color_secondary));
-            mNeutralButton.setBackgroundColor(getContext().getResources().getColor(R.color.color_secondary));
-        }
 
         setTitleText(mTitleText);
         setContentText(mContentText);

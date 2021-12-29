@@ -274,18 +274,11 @@ public class EditarPerfilProfesionalFragment extends Fragment {
                         ex.printStackTrace();
                     }
                 } else
-                    errorMsg("Error en el perfil, intente ingresar más tarde.");
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error en el perfil, intente ingresar más tarde.", false, null, null);
             }else
-                errorMsg("Error del servidor, intente ingresar más tarde.");
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente ingresar más tarde.", false, null, null);
         }, APIEndPoints.GET_PERFIL_PROFESIONAL + this.idProfesional, WebServicesAPI.GET,  null);
         webServicesAPI.execute();
-    }
-
-    public void errorMsg(String mensaje){
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
-                .setTitleText("¡ERROR!")
-                .setContentText(mensaje)
-                .show();
     }
 
     private void actualizarPerfil(){
@@ -300,9 +293,9 @@ public class EditarPerfilProfesionalFragment extends Fragment {
                 try{
                     JSONObject jsonObject = new JSONObject(response);
                     if(jsonObject.getBoolean("respuesta"))
-                        msgSweet("¡GENIAL!", jsonObject.getString("mensaje"), SweetAlert.SUCCESS_TYPE);
+                        SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", jsonObject.getString("mensaje"), false, null, null);
                     else
-                        msgSweet("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.WARNING_TYPE);
+                        SweetAlert.showMsg(getContext(),  SweetAlert.WARNING_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
                 }catch(JSONException ex){
                     ex.printStackTrace();
                 }
@@ -336,12 +329,8 @@ public class EditarPerfilProfesionalFragment extends Fragment {
         if(!etTitular.getText().toString().trim().equalsIgnoreCase("") && !etBanco.getText().toString().trim().equalsIgnoreCase("")
             && !etClabe.getText().toString().trim().equalsIgnoreCase("")){
             upDatosBancoService();
-        }else{
-            new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, SweetAlert.PROFESIONAL)
-                    .setTitleText("¡ERROR!")
-                    .setContentText("Llena todos los campos correctamente.")
-                    .show();
-        }
+        }else
+            SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos correctamente.", false, null, null);
     }
 
     private void upDatosBancoService(){
@@ -355,9 +344,9 @@ public class EditarPerfilProfesionalFragment extends Fragment {
                 try{
                     JSONObject jsonObject = new JSONObject(response);
                     if(jsonObject.getBoolean("respuesta"))
-                        msgSweet("¡GENIAL!", jsonObject.getString("mensaje"), SweetAlert.SUCCESS_TYPE);
+                        SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", jsonObject.getString("mensaje"), false, null, null);
                     else
-                        msgSweet("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.ERROR_TYPE);
+                        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
                 }catch (JSONException ex){
                     ex.printStackTrace();
                 }
@@ -366,13 +355,6 @@ public class EditarPerfilProfesionalFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public void msgSweet(String titulo, String mensaje, int tipo){
-        new SweetAlert(getContext(), tipo, SweetAlert.PROFESIONAL)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .show();
     }
 
     public void actualizarFiscales(){

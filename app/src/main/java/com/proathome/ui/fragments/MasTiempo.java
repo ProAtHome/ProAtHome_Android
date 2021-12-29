@@ -9,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
+import com.proathome.servicios.sesiones.ServiciosSesion;
 import com.proathome.ui.ServicioCliente;
 import com.proathome.R;
-import com.proathome.servicios.servicio.ServicioTaskFinalizarServicio;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
+import com.proathome.utils.FechaActual;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import butterknife.ButterKnife;
@@ -119,8 +121,7 @@ public class MasTiempo extends DialogFragment {
         //TODO FLUJO_EJECUTAR_PLAN:  Cobramos sólo el TE elegido, crear otro MODAL Cobro Final MODO PLAN,
         // y poner las funciones de finalización de servicio que están en ServicioTaskCobro, etc.
         //Finalizamos el servicio, sumamos la ruta.
-        ServicioTaskFinalizarServicio finalizarServicio = new ServicioTaskFinalizarServicio(this.contexto, this.idSesion, this.idCliente, Constants.FINALIZAR_SERVICIO, DetallesFragment.CLIENTE);
-        finalizarServicio.execute();
+        ServiciosSesion.finalizar(idSesion, idCliente);
         sumarSevicioRuta();
 
         dismiss();
@@ -148,8 +149,7 @@ public class MasTiempo extends DialogFragment {
             //Actualizar la orden de pago con estatusPago = Pagado.
             generarOrdenPago();
             //Finalizamos el servicio, sumamos la ruta.
-            ServicioTaskFinalizarServicio finalizarServicio = new ServicioTaskFinalizarServicio(this.contexto, this.idSesion, this.idCliente, Constants.FINALIZAR_SERVICIO, DetallesFragment.CLIENTE);
-            finalizarServicio.execute();
+            ServicioSesion.finalizarServicio();
             ServicioTaskSumarServicioRuta sumarServicioRuta = new ServicioTaskSumarServicioRuta(this.contexto, this.idSesion, this.idCliente, ServicioCliente.idSeccion, ServicioCliente.idNivel, ServicioCliente.idBloque, ServicioCliente.tiempo, ServicioCliente.sumar);
             sumarServicioRuta.execute();
 
@@ -183,7 +183,7 @@ public class MasTiempo extends DialogFragment {
             parametros.put("idNivel",  ServicioCliente.idNivel);
             parametros.put("idBloque", ServicioCliente.idBloque);
             parametros.put("horasA_sumar", ServicioCliente.tiempo);
-            parametros.put("fecha_registro", "Hoy");
+            parametros.put("fecha_registro", FechaActual.getFechaActual());
             parametros.put("sumar", ServicioCliente.sumar);
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
                 DetallesFragment.procedenciaFin = true;

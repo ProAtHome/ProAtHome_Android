@@ -9,6 +9,7 @@ import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.ui.InicioCliente;
 import com.proathome.ui.fragments.NuevaSesionFragment;
 import com.proathome.ui.fragments.PlanesFragment;
+import com.proathome.ui.fragments.PreOrdenServicio;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
@@ -20,16 +21,14 @@ public class ServiciosCliente {
     private static boolean primeraVezI1 = true, primeraVezI2 = true, primeraVezI3 = true, primeraVezI4 = true, primeraVezI5 = true;
     private static boolean primeraVezA1 = true, primeraVezA2 = true, primeraVezA3 = true, primeraVezA4 = true, primeraVezA5 = true;
     private static boolean primeraVezB1 = true, primeraVezB2 = true, primeraVezB3 = true, primeraVezB4 = true, primeraVezB5 = true;
+
     public static int NUEVA_SESION_FRAGMENT = 1, PLANES_FRAGMENT = 2;
 
     public static void validarPlan(int idCliente, Context contexto){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try{
                 if(response == null){
-                    new SweetAlert(contexto, SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                            .setTitleText("¡ERROR!")
-                            .setContentText("Error al obtener la información.")
-                            .show();
+                    SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error al obtener la información.", false, null, null);
                 }else{
                     JSONObject jsonDatos = new JSONObject(response);
                     SesionesFragment.PLAN =  jsonDatos.getString("tipoPlan");

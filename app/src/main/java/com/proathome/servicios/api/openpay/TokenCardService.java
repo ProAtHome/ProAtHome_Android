@@ -4,10 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
-
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
-import com.proathome.servicios.servicio.ServicioTaskMasTiempo;
 import com.proathome.ui.ServicioCliente;
 import com.proathome.ui.fragments.CobroFinalFragment;
 import com.proathome.ui.fragments.DatosBancoPlanFragment;
@@ -89,11 +87,18 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
                                 //generarOrdenPago();
 
                                 //Generamos el tiempo extra y la vida sigue.
-                                ServicioTaskMasTiempo masTiempo = new ServicioTaskMasTiempo(contexto, DatosBancoPlanFragment.idSesion,
-                                        DatosBancoPlanFragment.idCliente, CobroFinalFragment.progresoTotal);
-                                masTiempo.execute();
-                            }else//Mostramos el error.
-                                showMsg("¡ERROR!",jsonObject.getString("mensaje"), SweetAlert.ERROR_TYPE);
+                                activarTiempoExtra();
+                            }else {//Mostramos el error.
+                                SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), true, "OK", ()->{
+                                    //Preguntamos si desea más tiempo Extra.
+                                    MasTiempo masTiempo = new MasTiempo();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putInt("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
+                                    bundle.putInt("idCliente", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
+                                    masTiempo.setArguments(bundle);
+                                    masTiempo.show(ServicioCliente.obtenerFargment(Constants.fragmentActivity), "Tiempo Extra");
+                                });
+                            }
                     }, APIEndPoints.COBROS, WebServicesAPI.POST, parametrosPost);
                     webServicesAPI.execute();
                 }catch (JSONException ex){
@@ -103,6 +108,13 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
         });
 
         return resultado;
+    }
+
+    private void activarTiempoExtra(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            Toast.makeText(contexto, "Tiempo Extra en Curso.", Toast.LENGTH_SHORT).show();
+        }, APIEndPoints.ACTIVAR_TIEMPO_EXTRA + DatosBancoPlanFragment.idSesion + "/" + DatosBancoPlanFragment.idCliente + "/" + CobroFinalFragment.progresoTotal, WebServicesAPI.PUT, new JSONObject());
+        webServicesAPI.execute();
     }
 
     /*
@@ -132,23 +144,6 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
             Toast.makeText(this.contexto, "Pago de Tiempo Extra actualizado.", Toast.LENGTH_SHORT).show();
         }, APIEndPoints.ACTUALIZAR_PAGO_TE, WebServicesAPI.PUT, parametrosPost);
         webServicesAPI.execute();
-    }
-
-    public void showMsg(String titulo, String mensaje, int tipo){
-        new SweetAlert(this.contexto, tipo, SweetAlert.CLIENTE)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .setConfirmButton("OK", sweetAlertDialog -> {
-                    sweetAlertDialog.dismissWithAnimation();
-                    //Preguntamos si desea más tiempo Extra.
-                    MasTiempo masTiempo = new MasTiempo();
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
-                    bundle.putInt("idCliente", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
-                    masTiempo.setArguments(bundle);
-                    masTiempo.show(ServicioCliente.obtenerFargment(Constants.fragmentActivity), "Tiempo Extra");
-                })
-                .show();
     }
 
     @Override

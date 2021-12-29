@@ -125,21 +125,14 @@ public class SesionesFragment extends Fragment {
                             }
                         }
                     }else
-                        errorMsg("¡AVISO!","Usuario sin servicios disponibles.", SweetAlert.WARNING_TYPE);
+                        SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡AVISO!", "Usuario sin servicios disponibles.", false, null, null);
                 }catch(JSONException ex){
                     ex.printStackTrace();
                 }
             }else
-                errorMsg("¡ERROR!", "Error del servidor, intente de nuevo más tarde.", SweetAlert.ERROR_TYPE);
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente de nuevo más tarde.", false, null, null);
         }, APIEndPoints.GET_SESIONES_CLIENTE  + this.idCliente, WebServicesAPI.GET, null);
         webServicesAPI.execute();
-    }
-
-    public void errorMsg(String titulo, String mensaje, int tipo){
-        new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .show();
     }
 
     private void sesionesPagadas(){
@@ -162,8 +155,11 @@ public class SesionesFragment extends Fragment {
                         SesionesFragment.horasDisponibles = jsonObject.getInt("horasDisponibles");
                     }else
                         SesionesFragment.disponibilidad = false;
-                }else
-                    msg("¡ERROR!", jsonObject.getString("mensaje"), SweetAlert.ERROR_TYPE);
+                }else{
+                    SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), true, "OK", ()->{
+                        validarPlan_Monedero();
+                    });
+                }
             }catch (JSONException ex){
                 ex.printStackTrace();
             }
@@ -192,13 +188,15 @@ public class SesionesFragment extends Fragment {
                 if(SesionesFragment.disponibilidad){
                     NuevaSesionFragment.disponibilidad = true;
                     NuevaSesionFragment.horasDisponibles = SesionesFragment.horasDisponibles;
-                    if((SesionesFragment.horasDisponibles / 60) == 1)
-                        msg("¡AVISO!", "Sólo puedes crear una servicio con la hora faltante del bloque de la ruta de Aprendizaje Actual.", SweetAlert.WARNING_TYPE);
-                    else
+                    if((SesionesFragment.horasDisponibles / 60) == 1){
+                        SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡AVISO!", "Sólo puedes crear una servicio con la hora faltante del bloque de la ruta de Aprendizaje Actual.", true, "OK", ()->{
+                            validarPlan_Monedero();
+                        });
+                    }else
                         validarPlan_Monedero();
                 }else{
                     NuevaSesionFragment.disponibilidad = false;
-                    msgError("¡ESPERA!", "El bloque actual tiene todas las horas ocupadas por servicios, termina tus servicios actuales y regresa por más.", SweetAlert.WARNING_TYPE);
+                    SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ESPERA!", "El bloque actual tiene todas las horas ocupadas por servicios, termina tus servicios actuales y regresa por más.", false, null, null);
                 }
                 break;
             case R.id.fabActualizar:
@@ -206,24 +204,6 @@ public class SesionesFragment extends Fragment {
                 break;
         }
 
-    }
-
-    public void msgError(String titulo, String mensaje, int tipo){
-        new SweetAlert(this.contexto, tipo, SweetAlert.CLIENTE)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .show();
-    }
-
-    public void msg(String titulo, String mensaje, int tipo){
-        new SweetAlert(this.contexto, tipo, SweetAlert.CLIENTE)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .setConfirmButton("OK", sweetAlertDialog -> {
-                    sweetAlertDialog.dismissWithAnimation();
-                    validarPlan_Monedero();
-                })
-                .show();
     }
 
     public void validarPlan_Monedero(){
@@ -255,11 +235,8 @@ public class SesionesFragment extends Fragment {
                 }
             }
         }else if(SesionesFragment.PLAN_ACTIVO && SesionesFragment.MONEDERO == 0){
-            new SweetAlert(getContext(), SweetAlert.WARNING_TYPE, SweetAlert.CLIENTE)
-                    .setTitleText("¡ESPERA!")
-                    .setContentText("Tienes un plan activo pero ya no tienes tiempo disponible," +
-                            " elimina una sesión o espera a que finalicen los servicios que creaste.")
-                    .show();
+            SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ESPERA!", "Tienes un plan activo pero ya no tienes tiempo disponible," +
+                    " elimina una sesión o espera a que finalicen los servicios que creaste.", false, null, null);
         }else{
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
                     PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
@@ -287,15 +264,13 @@ public class SesionesFragment extends Fragment {
     }
 
     private void tipoPlanMsg(String plan) {
-       /* new SweetAlert(getContext(), SweetAlert.NORMAL_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("Creación de servicios con PLAN: " + plan)
-                .setConfirmButton("OK", sweetAlertDialog -> {
-                    sweetAlertDialog.dismissWithAnimation();*/
-                    NuevaSesionFragment nueva = new NuevaSesionFragment();
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    nueva.show(transaction, NuevaSesionFragment.TAG);
-                /*})
-                .show();*/
+       /*
+       SweetAlert.showMsg(getContext(), SweetAlert.NORMAL_TYPE, "Creación de servicios con PLAN: " + plan, "", true, "OK", ()->{
+
+       });*/
+        NuevaSesionFragment nueva = new NuevaSesionFragment();
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        nueva.show(transaction, NuevaSesionFragment.TAG);
     }
 
     @Override

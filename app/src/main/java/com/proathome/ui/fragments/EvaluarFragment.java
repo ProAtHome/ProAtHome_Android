@@ -54,15 +54,11 @@ public class EvaluarFragment extends DialogFragment {
 
         Bundle bundle = getArguments();
         procedencia = bundle.getInt("procedencia");
-        if(bundle.getInt("procedencia") == EvaluarFragment.PROCEDENCIA_CLIENTE){
-            tvEvaluar.setText("Evalúa a tu pofesor");
-            tvEvaluar.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-            btnEnviar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-        }else if(bundle.getInt("procedencia") == EvaluarFragment.PROCEDENCIA_PROFESIONAL){
+        if(bundle.getInt("procedencia") == EvaluarFragment.PROCEDENCIA_CLIENTE)
+            tvEvaluar.setText("Evalúa a tu pofesional");
+        else if(bundle.getInt("procedencia") == EvaluarFragment.PROCEDENCIA_PROFESIONAL)
             tvEvaluar.setText("Evalúa a tu cliente");
-            tvEvaluar.setTextColor(getResources().getColor(R.color.color_secondary));
-            btnEnviar.setBackgroundColor(getResources().getColor(R.color.color_secondary));
-        }
+
 
         return view;
     }
@@ -71,10 +67,8 @@ public class EvaluarFragment extends DialogFragment {
     public void onClick(){
         if(!tieComentario.getText().toString().trim().equalsIgnoreCase("")){
             if(ratingBar.getRating() != 0.0){
-                new SweetAlert(getContext(), SweetAlert.SUCCESS_TYPE, procedencia)
-                        .setTitleText("¡GENIAL!")
-                        .setContentText("Gracias por tu evaluación.")
-                        .setConfirmButton("OK", sweetAlertDialog -> {
+                SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!",
+                        "Gracias por tu evaluación.", true, "OK", ()->{
                             if(this.procedencia == EvaluarFragment.PROCEDENCIA_CLIENTE){
                                 valorar();
                                 //Esta peticion es por que bloquearemos el perfil después de evaluar.
@@ -99,7 +93,7 @@ public class EvaluarFragment extends DialogFragment {
                                                 pagoPendienteFragment.show(fragmentTransaction, "Pago pendiente");
                                             }
                                         }else
-                                            errorMsg("¡ERROR!", "Error al obtener la información de tu historial de pagos, intente de nuevo más tarde.", SweetAlert.ERROR_TYPE);
+                                            SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error al obtener la información de tu historial de pagos, intente de nuevo más tarde.", false, null, null);
                                     }catch(JSONException ex){
                                         ex.printStackTrace();
                                     }
@@ -107,23 +101,19 @@ public class EvaluarFragment extends DialogFragment {
                                 bloquearPerfil.execute();
                             }else if(this.procedencia == EvaluarFragment.PROCEDENCIA_PROFESIONAL)
                                 valorar();
-                            sweetAlertDialog.dismissWithAnimation();
-                        })
-                        .show();
-            }else{
-                errorMsg("¡ESPERA!","Da una puntuación por favor.", procedencia);
-            }
-        }else{
-            errorMsg("¡ESPERA!","Deja un comentario por favor.", procedencia);
-        }
+                        });
+            }else
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ESPERA!", "Da una puntuación por favor.", false, null, null);
+        }else
+            SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ESPERA!", "Deja un comentario por favor.", false, null, null);
     }
 
     private void valorar(){
         JSONObject jsonDatos = new JSONObject();
         try{
             if(this.procedencia == EvaluarFragment.PROCEDENCIA_PROFESIONAL){
-                jsonDatos.put("idCliente", DetallesSesionProfesionalFragment.idProfesional);
-                jsonDatos.put("idProfesional", DetallesSesionProfesionalFragment.idCliente);
+                jsonDatos.put("idCliente", DetallesSesionProfesionalFragment.idCliente);
+                jsonDatos.put("idProfesional", DetallesSesionProfesionalFragment.idProfesional);
                 jsonDatos.put("idSesion", DetallesSesionProfesionalFragment.idSesion);
             }else if(this.procedencia == EvaluarFragment.PROCEDENCIA_CLIENTE){
                 jsonDatos.put("idCliente",DetallesFragment.idCliente);
@@ -140,13 +130,6 @@ public class EvaluarFragment extends DialogFragment {
         }catch (JSONException ex){
             ex.printStackTrace();
         }
-    }
-
-    public void errorMsg(String titulo, String mensaje, int tipo){
-        new SweetAlert(getContext(), SweetAlert.ERROR_TYPE, tipo)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .show();
     }
 
     @Override

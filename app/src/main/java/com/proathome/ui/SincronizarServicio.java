@@ -7,8 +7,9 @@ import android.util.Log;
 import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.proathome.R;
+import com.proathome.servicios.api.WebServicesAPI;
+import com.proathome.servicios.sesiones.ServiciosSesion;
 import com.proathome.ui.fragments.DetallesSesionProfesionalFragment;
-import com.proathome.servicios.servicio.ServicioTaskSincronizarServicios;
 import com.proathome.ui.fragments.DetallesFragment;
 import com.proathome.utils.Constants;
 import java.util.Timer;
@@ -50,15 +51,10 @@ public class SincronizarServicio extends AppCompatActivity {
         idBloque = getIntent().getIntExtra("idBloque", 0);
         sumar = getIntent().getBooleanExtra("sumar", true);
 
-        if(tipoPerfil == DetallesFragment.CLIENTE){
-            cancelar.setBackgroundColor(getResources().getColor(R.color.colorPersonalDark));
-            esperando.setTextColor(getResources().getColor(R.color.colorPersonalDark));
+        if(tipoPerfil == DetallesFragment.CLIENTE)
             esperando.setText("Buscando la conexión del profesional...");
-        }else if(tipoPerfil == DetallesSesionProfesionalFragment.PROFESIONAL){
-            cancelar.setBackgroundColor(getResources().getColor(R.color.color_secondary));
-            esperando.setTextColor(getResources().getColor(R.color.color_secondary));
+        else if(tipoPerfil == DetallesSesionProfesionalFragment.PROFESIONAL)
             esperando.setText("Buscando la conexión del cliente...");
-        }
 
         final Handler handler = new Handler();
         timer = new Timer();
@@ -69,21 +65,10 @@ public class SincronizarServicio extends AppCompatActivity {
                 handler.post(new Runnable() {
                     public void run() {
                         try {
-                            if (tipoPerfil == DetallesFragment.CLIENTE){
-                                ServicioTaskSincronizarServicios sincronizarServicios =
-                                        new ServicioTaskSincronizarServicios(getApplicationContext(),
-                                                idSesion, idPerfil, DetallesFragment.CLIENTE,
-                                                    Constants.VERIFICAR_DISPONIBLIDAD, true);
-                                sincronizarServicios.execute();
-                                sincronizarServicios = null;
-                            }else if(tipoPerfil == DetallesSesionProfesionalFragment.PROFESIONAL){
-                                ServicioTaskSincronizarServicios sincronizarServicios =
-                                        new ServicioTaskSincronizarServicios(getApplicationContext(), idSesion,
-                                                idPerfil, DetallesSesionProfesionalFragment.PROFESIONAL,
-                                                    Constants.VERIFICAR_DISPONIBLIDAD, true);
-                                sincronizarServicios.execute();
-                                sincronizarServicios = null;
-                            }
+                            if (tipoPerfil == DetallesFragment.CLIENTE)
+                                ServiciosSesion.verificarDisponibilidadProfesional(idSesion, idPerfil, getApplicationContext());
+                            else if(tipoPerfil == DetallesSesionProfesionalFragment.PROFESIONAL)
+                                ServiciosSesion.verificarDisponibilidadCliente(idSesion, idPerfil, getApplicationContext());
                         } catch (Exception e) {
                             Log.e("error", e.getMessage());
                         }
@@ -98,19 +83,11 @@ public class SincronizarServicio extends AppCompatActivity {
 
     @OnClick(R.id.cancelar)
     public void onClick(){
+        if (tipoPerfil == DetallesFragment.CLIENTE)
+            ServiciosSesion.cambiarDisponibilidadCliente(idSesion, idPerfil, false);
+        else if(tipoPerfil == DetallesSesionProfesionalFragment.PROFESIONAL)
+            ServiciosSesion.cambiarDisponibilidadProfesional(idSesion, idPerfil, false);
         finish();
-        if (tipoPerfil == DetallesFragment.CLIENTE){
-            ServicioTaskSincronizarServicios sincronizarServicios =
-                    new ServicioTaskSincronizarServicios(getApplicationContext(), idSesion, idPerfil,
-                            DetallesFragment.CLIENTE, Constants.CAMBIAR_DISPONIBILIDAD, false);
-            sincronizarServicios.execute();
-        }else if(tipoPerfil == DetallesSesionProfesionalFragment.PROFESIONAL){
-            ServicioTaskSincronizarServicios sincronizarServicios =
-                    new ServicioTaskSincronizarServicios(getApplicationContext(), idSesion, idPerfil,
-                            DetallesSesionProfesionalFragment.PROFESIONAL, Constants.CAMBIAR_DISPONIBILIDAD,
-                            false);
-            sincronizarServicios.execute();
-        }
         //CAMBIAR A FALSE EN BD.
     }
 

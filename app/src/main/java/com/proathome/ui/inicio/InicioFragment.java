@@ -90,21 +90,14 @@ public class InicioFragment extends Fragment {
                                     object.getString("tipoPlan"), object.getInt("profesionales_idprofesionales")));
                         }
                     }else
-                        errorMsg("¡AVISO!","Usuario sin servicios disponibles.", SweetAlert.WARNING_TYPE);
+                        SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡AVISO!", "Usuario sin servicios disponibles.", false, null, null);
                 }catch(JSONException ex){
                     ex.printStackTrace();
                 }
             }else
-                errorMsg("¡ERROR!", "Error del servidor, intente de nuevo más tarde.", SweetAlert.ERROR_TYPE);
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!",  "Error del servidor, intente de nuevo más tarde.", false, null, null);
         }, APIEndPoints.GET_SESIONES_CLIENTE  + this.idCliente, WebServicesAPI.GET, null);
         webServicesAPI.execute();
-    }
-
-    public void errorMsg(String titulo, String mensaje, int tipo){
-        new SweetAlert(getContext(), tipo, SweetAlert.CLIENTE)
-                .setTitleText(titulo)
-                .setContentText(mensaje)
-                .show();
     }
 
     public void configAdapter(){

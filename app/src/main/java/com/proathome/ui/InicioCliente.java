@@ -126,10 +126,9 @@ public class InicioCliente extends AppCompatActivity{
                         pagoPendienteFragment.show(fragmentTransaction, "Pago pendiente");
                     }
                 }else{
-                    new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                            .setTitleText("¡ERROR!")
-                            .setContentText("Error al obtener la información de tu historial de pagos, intente de nuevo más tarde.")
-                            .show();
+                    SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!",
+                            "Error al obtener la información de tu historial de pagos, intente de nuevo más tarde.",
+                            false, null ,null);
                 }
             }catch(JSONException ex){
                 ex.printStackTrace();
@@ -167,18 +166,11 @@ public class InicioCliente extends AppCompatActivity{
                     }
 
                 }else
-                    errorMsg("Error en el perfil, intente ingresar más tarde.");
+                    SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error en el perfil, intente ingresar más tarde.", false, null, null);
             }else
-                errorMsg("Error del servidor, intente ingresar más tarde.");
+                SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente ingresar más tarde.", false, null, null);
         }, APIEndPoints.GET_PERFIL_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
         webServicesAPI.execute();
-    }
-
-    public void errorMsg(String mensaje){
-        new SweetAlert(this, SweetAlert.ERROR_TYPE, SweetAlert.CLIENTE)
-                .setTitleText("¡ERROR!")
-                .setContentText(mensaje)
-                .show();
     }
 
     @Override
