@@ -101,14 +101,11 @@ public class RegistrarseCliente extends AppCompatActivity {
     protected Dialog onCreateDialog(int id) {
         switch (id){
             case DATE_ID:
-                DatePickerDialog dialog = new DatePickerDialog(this, android.R.style.Theme_Holo_Dialog, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        mYearIni = year;
-                        mMonthIni = month;
-                        mDayIni = day;
-                        colocarFecha();
-                    }
+                DatePickerDialog dialog = new DatePickerDialog(this, android.R.style.Theme_Holo_Dialog, (datePicker, year, month, day) -> {
+                    mYearIni = year;
+                    mMonthIni = month;
+                    mDayIni = day;
+                    colocarFecha();
                 }, sYearIni, sMonthIni, sDayIni);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 

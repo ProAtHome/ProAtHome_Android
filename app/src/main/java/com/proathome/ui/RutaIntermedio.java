@@ -14,6 +14,7 @@ import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ControladorRutaBasico;
 import com.proathome.servicios.cliente.ControladorRutaIntermedio;
+import com.proathome.servicios.cliente.ServiciosCliente;
 import com.proathome.ui.fragments.DetallesBloque;
 import com.proathome.utils.Constants;
 
@@ -126,6 +127,7 @@ public class RutaIntermedio extends AppCompatActivity {
 
         baseDeDatos.close();
 
+        ServiciosCliente.avisoContenidoRuta(this);
     }
 
     private void getEstadoRuta(){

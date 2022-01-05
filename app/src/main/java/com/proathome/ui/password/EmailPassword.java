@@ -2,6 +2,7 @@ package com.proathome.ui.password;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.textfield.TextInputEditText;
@@ -25,6 +26,7 @@ public class EmailPassword extends AppCompatActivity {
     private Unbinder mUnbinder;
     private int tipoPerfil;
     private String urlApi;
+    private ProgressDialog progressDialog;
     @BindView(R.id.correoCodigoET_IS)
     TextInputEditText correoCodigo;
 
@@ -54,7 +56,9 @@ public class EmailPassword extends AppCompatActivity {
                 else if(this.tipoPerfil == Constants.TIPO_PROFESIONAL)
                     this.urlApi = Constants.IP_80 + "/assets/lib/Restablecimiento.php?getCodigoPro=true&correo=" + correo;
 
+                progressDialog = ProgressDialog.show(this, "Enviando código", "Por favor, espere...");
                 WebServicesAPI enviarCodigo = new WebServicesAPI(output -> {
+                    progressDialog.dismiss();
                     try {
                         JSONObject jsonObject = new JSONObject(output);
                         if(jsonObject.getBoolean("respuesta")){
@@ -66,7 +70,7 @@ public class EmailPassword extends AppCompatActivity {
                                             Intent intent = new Intent(this, CodigoEmail.class);
                                             intent.putExtra("tipoPerfil", this.tipoPerfil);
                                             intent.putExtra("token", token);
-                                            intent.putExtra("correo", correo);
+                                            intent.putExtra("correo", correo.trim());
                                             startActivity(intent);
                                             finish();
                                         });

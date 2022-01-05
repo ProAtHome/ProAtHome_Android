@@ -186,6 +186,7 @@ public class MasTiempo extends DialogFragment {
             parametros.put("fecha_registro", FechaActual.getFechaActual());
             parametros.put("sumar", ServicioCliente.sumar);
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                //TODO AQUI PODEMOS PONER UN ANUNCIO DE FIN DE RUTA CUANDO LA VAR ultimaSesion SEA TRUE.
                 DetallesFragment.procedenciaFin = true;
             }, APIEndPoints.SUMAR_SERVICIO_RUTA, WebServicesAPI.POST, parametros);
             webServicesAPI.execute();

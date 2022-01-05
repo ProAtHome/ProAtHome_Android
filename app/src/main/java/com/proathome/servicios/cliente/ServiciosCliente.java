@@ -1,9 +1,14 @@
 package com.proathome.servicios.cliente;
 
 import android.content.Context;
+import android.content.Intent;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.ui.InicioCliente;
@@ -55,6 +60,7 @@ public class ServiciosCliente {
                 int nivel = rutaJSON.getInt("idNivel");
                 int bloque = rutaJSON.getInt("idBloque");
                 int minutos_horas = rutaJSON.getInt("horas");
+                //ANUNCIO DE REPASO DE LECCIONES POR RUTA FINALIZADA
 
                 if(tipoSolicitud == NUEVA_SESION_FRAGMENT){
                     //Iniciamos los adaptadores con el nivel actual.
@@ -344,6 +350,12 @@ public class ServiciosCliente {
 
                         }
                     });
+
+                    if(rutaJSON.getBoolean("rutaFinalizada")){
+                        NuevaSesionFragment.rutaFinalizada = true;
+                        SweetAlert.showMsg(contexto, SweetAlert.WARNING_TYPE,"¡AVISO!", "La Ruta de Aprendizaje fue finalizada, pero puedes repasar tus lecciones.", false, null, null);
+                        NuevaSesionFragment.horasDisponiblesTV.setVisibility(View.INVISIBLE);
+                    }
                 }else if(tipoSolicitud == PLANES_FRAGMENT){
                     PlanesFragment.idSeccion = seccion;
                     PlanesFragment.idNivel = nivel;
@@ -362,6 +374,20 @@ public class ServiciosCliente {
         String minutos = String.valueOf(tiempo%60) + " min";
 
         return horas + minutos;
+    }
+
+    public static void avisoContenidoRuta(Context context){
+        new MaterialAlertDialogBuilder(context, R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
+                .setTitle("¡AVISO!")
+                .setMessage("Los presentes temas son una sugerencia y meramente informativos o de guía para el cliente y el profesional," +
+                        " en ningún momento es obligatorio seguir dichos temas," +
+                        " PRO AT HOME de ninguna forma sugiere o indica que estos son o serán parte de sus políticas o contenido por el cual" +
+                        " recibe un pago, toda vez que este es por el almacenamiento de datos, cuentas, enlaces con clientes y profesionales," +
+                        " así como por el uso y mantenimiento de la plataforma.")
+                .setPositiveButton("Entendido", (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .show();
     }
 
 }

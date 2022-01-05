@@ -55,16 +55,25 @@
         app:lottie_loop="true"
         app:lottie_autoPlay="true"/>
 
+    <TextView
+        android:id="@+id/tvAvisoRuta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NOTAS:  *Si tu nivel en la Ruta de Aprendizaje actual es mayor, este se mantendrá y sólo usa esta recomendación como guía."
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/animation_view"
+        style="@style/Textos"/>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/rutainicio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Emprezar de 0"
+        android:text="CANCELAR"
         android:fontFamily="@font/din"
         android:backgroundTint="@color/colorRosa"
         android:textColor="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/animation_view"
+        app:layout_constraintTop_toBottomOf="@id/tvAvisoRuta"
         style="@style/Widget.MaterialComponents.Button"/>
 
     <com.google.android.material.button.MaterialButton
@@ -75,7 +84,7 @@
         android:textColor="@android:color/white"
         android:backgroundTint="@color/colorAzul"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/animation_view"
+        app:layout_constraintTop_toBottomOf="@id/tvAvisoRuta"
         style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

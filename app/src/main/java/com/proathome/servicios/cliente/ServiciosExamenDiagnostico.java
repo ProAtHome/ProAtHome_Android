@@ -143,29 +143,33 @@ public class ServiciosExamenDiagnostico {
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try{
                 JSONObject jsonObject = new JSONObject(response);
-                int estatus = jsonObject.getInt("estatus");
-                if(estatus == Constants.INICIO_EXAMEN){
-                    new MaterialAlertDialogBuilder(contexto, R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
-                            .setTitle("EXÁMEN DIAGNÓSTICO")
-                            .setMessage("Tenemos un exámen para evaluar tus habilidades y colocarte en la ruta de aprendizaje de" +
-                                    " acuerdo a tus conocimientos, si no deseas realizar el exámen sigue tu camino desde un inicio.")
-                            .setNegativeButton("Cerrar", (dialog, which) -> {
-                                ServiciosExamenDiagnostico.cancelarExamen(idCliente);
-                            })
-                            .setPositiveButton("EVALUAR", ((dialog, which) -> {
-                                contexto.startActivity(new Intent(contexto, Diagnostico1.class));
-                            }))
-                            .setOnCancelListener(dialog -> {
 
-                            })
-                            .show();
-                }else if(estatus == Constants.ENCURSO_EXAMEN)
-                    ServiciosExamenDiagnostico.continuarExamen(idCliente, contexto);
-                else if(estatus == Constants.CANCELADO_EXAMEN)
-                    RutaFragment.imgExamen.setVisibility(View.VISIBLE);
-                else if(estatus == Constants.EXAMEN_FINALIZADO)
-                    SweetAlert.showMsg(contexto, SweetAlert.NORMAL_TYPE, "Ya tenemos tu diagnóstico.", "", false, null, null);
+                //VALIDAMOS QUE LAS SESIONES ESTEN FINALZIADAS PARA EVITAR CRUCE DE NIVELES
+                if(jsonObject.getBoolean("sesionesFinalizadas")){
+                    int estatus = jsonObject.getInt("estatus");
+                    if(estatus == Constants.INICIO_EXAMEN){
+                        new MaterialAlertDialogBuilder(contexto, R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
+                                .setTitle("EXÁMEN DIAGNÓSTICO")
+                                .setMessage("Tenemos un exámen para evaluar tus habilidades y colocarte en la ruta de aprendizaje de" +
+                                        " acuerdo a tus conocimientos, si no deseas realizar el exámen sigue tu camino desde un inicio.")
+                                .setNegativeButton("Cerrar", (dialog, which) -> {
+                                    ServiciosExamenDiagnostico.cancelarExamen(idCliente);
+                                })
+                                .setPositiveButton("EVALUAR", ((dialog, which) -> {
+                                    contexto.startActivity(new Intent(contexto, Diagnostico1.class));
+                                }))
+                                .setOnCancelListener(dialog -> {
 
+                                })
+                                .show();
+                    }else if(estatus == Constants.ENCURSO_EXAMEN)
+                        ServiciosExamenDiagnostico.continuarExamen(idCliente, contexto);
+                    else if(estatus == Constants.CANCELADO_EXAMEN)
+                        RutaFragment.imgExamen.setVisibility(View.VISIBLE);
+                    else if(estatus == Constants.EXAMEN_FINALIZADO)
+                        SweetAlert.showMsg(contexto, SweetAlert.NORMAL_TYPE, "Ya tenemos tu diagnóstico.", "", false, null, null);
+                }else
+                    SweetAlert.showMsg(contexto, SweetAlert.WARNING_TYPE, "¡AVISO!", "Para realizar el examen diagnóstico finaliza todos tus servicios.", false, null, null);
             }catch(JSONException ex){
                 ex.printStackTrace();
             }

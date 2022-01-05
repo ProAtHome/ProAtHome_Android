@@ -16,6 +16,7 @@ import com.proathome.servicios.cliente.ControladorRutaAvanzado;
 import com.proathome.servicios.cliente.ControladorRutaBasico;
 import com.proathome.servicios.cliente.ControladorRutaIntermedio;
 import com.proathome.servicios.cliente.ControladorRutaSecciones;
+import com.proathome.servicios.cliente.ServiciosCliente;
 import com.proathome.ui.fragments.DetallesBloque;
 import com.proathome.ui.ruta.RutaFragment;
 import com.proathome.utils.Constants;
@@ -132,6 +133,8 @@ public class RutaBasico extends AppCompatActivity {
         }
 
         baseDeDatos.close();
+
+        ServiciosCliente.avisoContenidoRuta(this);
     }
 
     private void getEstadoRuta(){

@@ -260,7 +260,7 @@ public class ServiciosSesion {
             parametrosPOST.put("longitud", bundle.getDouble("longitud"));
             parametrosPOST.put("actualizado", bundle.getString("actualizado"));
             parametrosPOST.put("fecha",  bundle.getString("fecha"));
-            parametrosPOST.put("sumar", bundle.getBoolean("sumar"));
+            parametrosPOST.put("sumar", NuevaSesionFragment.rutaFinalizada ? false : bundle.getBoolean("sumar"));
             parametrosPOST.put("tipoPlan", bundle.getString("tipoPlan"));
             parametrosPOST.put("personas", bundle.getInt("personas"));
             parametrosPOST.put("token", token);

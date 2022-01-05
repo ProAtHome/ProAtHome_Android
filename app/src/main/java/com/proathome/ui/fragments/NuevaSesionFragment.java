@@ -57,7 +57,7 @@ import butterknife.Unbinder;
 public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCallback {
 
     public static final String TAG = "Nueva Sesión";
-    public static boolean basicoVisto, intermedioVisto, avanzadoVisto;
+    public static boolean basicoVisto, intermedioVisto, avanzadoVisto, rutaFinalizada;
     public static int idCliente = 0, horasDisponibles = 0;
     private GoogleMap mMap;
     private Marker perth;
@@ -192,7 +192,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         listenerPersonas();
 
         return view;
-
     }
 
     private void validarBanco(){
@@ -204,7 +203,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                     if(mensaje.getBoolean("existe")){
                         DetallesFragment.banco = true;
                         banco = true;
-                        //Datos bancarios Pre Orden.}
+                        //Datos bancarios Pre Orden.
                         PreOrdenServicio.nombreTitular = mensaje.getString("nombreTitular");
                         PreOrdenServicio.tarjeta = mensaje.get("tarjeta").toString();
                         PreOrdenServicio.mes = mensaje.get("mes").toString();
@@ -375,7 +374,8 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
             parametrosPOST.put("longitud", bundle.getDouble("longitud"));
             parametrosPOST.put("actualizado", bundle.getString("actualizado"));
             parametrosPOST.put("fecha",  bundle.getString("fecha"));
-            parametrosPOST.put("sumar", bundle.getBoolean("sumar"));
+            //SI LA RUTA YA ESTÁ FINALZADA NO IMPORTA LO QUE VENGA ES FALSE EL SUMAR.
+            parametrosPOST.put("sumar", NuevaSesionFragment.rutaFinalizada ? false : bundle.getBoolean("sumar"));
             parametrosPOST.put("tipoPlan", bundle.getString("tipoPlan"));
             parametrosPOST.put("personas", bundle.getInt("personas"));
             parametrosPOST.put("token", token);

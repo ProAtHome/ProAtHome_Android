@@ -74,8 +74,7 @@ public class RutaFragment extends Fragment {
         imgExamen.setOnClickListener(v ->{
             new MaterialAlertDialogBuilder(getContext(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
                     .setTitle("EXÁMEN DIAGNÓSTICO")
-                    .setMessage("Tenemos un exámen para evaluar tus habilidades y colocarte en la ruta de aprendizaje de" +
-                            " acuerdo a tus conocimientos, si no deseas realizar el exámen sigue tu camino desde un inicio.")
+                    .setMessage("Realiza nuestro examen diagnostico para poderte colocar en la mejor posición de acuerdo a tus conocimientos.")
                     .setNegativeButton("Cerrar", (dialog, which) -> {
 
                     })
