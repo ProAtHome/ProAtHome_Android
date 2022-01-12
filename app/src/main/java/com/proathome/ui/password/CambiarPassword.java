@@ -2,6 +2,7 @@ package com.proathome.ui.password;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.textfield.TextInputEditText;
@@ -21,6 +22,7 @@ public class CambiarPassword extends AppCompatActivity {
 
     private Unbinder mUnbinder;
     private String correo, token, codigo, urlApi;
+    private ProgressDialog progressDialog;
     private int tipoPerfil;
     @BindView(R.id.nuevaPassET_IS)
     TextInputEditText nuevaPass;
@@ -63,7 +65,9 @@ public class CambiarPassword extends AppCompatActivity {
                         else if(this.tipoPerfil == Constants.TIPO_PROFESIONAL)
                             this.urlApi = Constants.IP_80 + "/assets/lib/Restablecimiento.php?guardarPro=true";
 
+                        progressDialog = ProgressDialog.show(this, "Validando", "Espere, por favor...");
                         WebServicesAPI enviarCodigo = new WebServicesAPI(output -> {
+                            progressDialog.dismiss();
                             try{
                                 JSONObject respuesta = new JSONObject(output);
                                 if(respuesta.getBoolean("respuesta")){

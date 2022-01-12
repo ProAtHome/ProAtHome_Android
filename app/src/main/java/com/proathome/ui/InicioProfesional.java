@@ -16,6 +16,7 @@ import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.api.assets.WebServiceAPIAssets;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.profesional.AdminSQLiteOpenHelperProfesional;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -61,20 +62,8 @@ public class InicioProfesional extends AppCompatActivity {
     }
 
     public void cargarPerfil(){
-
-        AdminSQLiteOpenHelperProfesional admin = new AdminSQLiteOpenHelperProfesional(this, "sesionProfesional",
-                null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idProfesional FROM sesionProfesional WHERE id = " + 1, null);
-
-        if(fila.moveToFirst()){
-            this.idProfesional = fila.getInt(0);
-            getDatosPerfil();
-            baseDeDatos.close();
-        }else{
-            baseDeDatos.close();
-        }
-
+        this.idProfesional = SharedPreferencesManager.getInstance(this).getIDProfesional();
+        getDatosPerfil();
     }
 
     private void setImageBitmap(String foto){
@@ -105,12 +94,14 @@ public class InicioProfesional extends AppCompatActivity {
     }
 
     public void cerrarSesion(View view){
-
+        /*
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesionProfesional",
                 null, 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
         baseDeDatos.delete("sesionProfesional", "id=1", null);
-        baseDeDatos.close();
+        baseDeDatos.close();*/
+
+        SharedPreferencesManager.getInstance(this).logout();
 
         intent = new Intent(this, LoginProfesional.class);
         startActivity(intent);

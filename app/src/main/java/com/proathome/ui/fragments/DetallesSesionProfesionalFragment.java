@@ -31,6 +31,7 @@ import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.api.assets.WebServiceAPIAssets;
 import com.proathome.servicios.sesiones.ServiciosSesion;
 import com.proathome.ui.SincronizarServicio;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.utils.ComponentSesionesProfesional;
@@ -147,18 +148,7 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
         horarioTV.setText(bun.getString("horario"));
         observacionesTV.setText(bun.getString("observaciones"));
         idCliente = bun.getInt("idCliente");
-
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesionProfesional", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idProfesional FROM sesionProfesional WHERE id = " + 1, null);
-
-        if (fila.moveToFirst()) {
-            idProfesional = fila.getInt(0);
-        } else {
-            baseDeDatos.close();
-        }
-
-        baseDeDatos.close();
+        idProfesional = SharedPreferencesManager.getInstance(getContext()).getIDProfesional();
 
         iniciar.setOnClickListener(v -> {
             ServiciosSesion.cambiarDisponibilidadProfesional(idSesion, idProfesional, true);

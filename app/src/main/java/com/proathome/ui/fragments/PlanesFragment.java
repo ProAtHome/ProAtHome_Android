@@ -20,6 +20,7 @@ import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ServiciosCliente;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,18 +72,8 @@ public class PlanesFragment extends DialogFragment {
         toolbar.setTitle("Promociones Disponibles");
         toolbar.setTitleTextColor(Color.WHITE);
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
-
-        if(fila.moveToFirst()){
-            idCliente = fila.getInt(0);
-            OrdenCompraPlanFragment.idCliente = idCliente;
-        }else{
-            baseDeDatos.close();
-        }
-
-        baseDeDatos.close();
+        idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
+        OrdenCompraPlanFragment.idCliente = idCliente;
 
         //TODO FLUJO_COMPRAR_PLANES: Obtener fecha de inicio y término del servidor.
 

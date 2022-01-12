@@ -14,6 +14,7 @@ import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ServiciosExamenDiagnostico;
 import com.proathome.ui.fragments.FragmentRutaGenerada;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,7 +68,6 @@ public class Diagnostico7 extends AppCompatActivity {
         });
 
         btnFinalizar.setOnClickListener(v ->{
-
             resp1.setEnabled(false);
             resp2.setEnabled(false);
             resp3.setEnabled(false);
@@ -82,21 +82,9 @@ public class Diagnostico7 extends AppCompatActivity {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             rutaGenerada.show(fragmentTransaction, "Ruta");
 
-            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"sesion", null, 1);
-            SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-            Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
-
-            int idCliente = 0;
-            if (fila.moveToFirst()) {
-                idCliente = fila.getInt(0);
-                ServiciosExamenDiagnostico.getInfoExamenFinal(idCliente, validarRespuestas());
-                ServiciosExamenDiagnostico.actualizarEstatusExamen(Constants.EXAMEN_FINALIZADO, idCliente, validarRespuestas(), 65, this,Diagnostico7.this, Diagnostico7.class);
-            }else{
-                baseDeDatos.close();
-            }
-
-            baseDeDatos.close();
-
+            int idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
+            ServiciosExamenDiagnostico.getInfoExamenFinal(idCliente, validarRespuestas());
+            ServiciosExamenDiagnostico.actualizarEstatusExamen(Constants.EXAMEN_FINALIZADO, idCliente, validarRespuestas(), 65, this,Diagnostico7.this, Diagnostico7.class);
         });
 
     }

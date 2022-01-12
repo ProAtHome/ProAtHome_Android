@@ -16,6 +16,7 @@ import com.proathome.R;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ServiciosExamenDiagnostico;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -250,20 +251,8 @@ public class Diagnostico1 extends AppCompatActivity {
                 puntuacion++;
             }
 
-            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"sesion", null, 1);
-            SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-            Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
-
-            int idCliente = 0;
-            if (fila.moveToFirst()) {
-                idCliente = fila.getInt(0);
-                ServiciosExamenDiagnostico.inicioExamen(idCliente, puntuacion, 10, this, Diagnostico1.this, Diagnostico2.class);
-            }else{
-                baseDeDatos.close();
-            }
-
-            baseDeDatos.close();
-
+            int idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
+            ServiciosExamenDiagnostico.inicioExamen(idCliente, puntuacion, 10, this, Diagnostico1.this, Diagnostico2.class);
         });
 
         pregunta1.addTextChangedListener(new TextWatcher() {

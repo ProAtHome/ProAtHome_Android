@@ -26,6 +26,7 @@ import com.proathome.ui.fragments.DetallesGestionarFragment;
 import com.proathome.ui.fragments.NuevaSesionFragment;
 import com.proathome.ui.fragments.PlanesFragment;
 import com.proathome.utils.PermisosUbicacion;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,22 +70,12 @@ public class SesionesFragment extends Fragment {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View root = inflater.inflate(R.layout.fragment_sesiones, container, false);
         lottieAnimationView = root.findViewById(R.id.animation_viewSesiones);
         mUnbinder = ButterKnife.bind(this, root);
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(),"sesion", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
+        this.idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
+
         SesionesFragment.contexto = getContext();
-
-        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
-        if (fila.moveToFirst()) {
-            this.idCliente = fila.getInt(0);
-            baseDeDatos.close();
-        } else {
-            baseDeDatos.close();
-        }
-
         webServiceDisponibilidad();
         sesionesPagadas();
 

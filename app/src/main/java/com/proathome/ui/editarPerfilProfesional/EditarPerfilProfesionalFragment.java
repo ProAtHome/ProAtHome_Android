@@ -1,5 +1,6 @@
 package com.proathome.ui.editarPerfilProfesional;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -37,6 +38,7 @@ import com.proathome.ui.editarPerfil.EditarPerfilFragment;
 import com.proathome.ui.fragments.DatosFiscalesFragment;
 import com.proathome.servicios.profesional.AdminSQLiteOpenHelperProfesional;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,6 +76,7 @@ public class EditarPerfilProfesionalFragment extends Fragment {
     private String KEY_IMAGEN = "foto";
     private String KEY_NOMBRE = "nombre";
     private String ID_PROFESIONAL = "";
+    private ProgressDialog progressDialog;
     @BindView(R.id.bottomNavigationPerfil)
     BottomNavigationView bottomNavigationPerfil;
     @BindView(R.id.btnFoto)
@@ -106,19 +109,9 @@ public class EditarPerfilProfesionalFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_editar_perfil_profesional, container, false);
         mUnbinder = ButterKnife.bind(this, root);
 
-        AdminSQLiteOpenHelperProfesional admin = new AdminSQLiteOpenHelperProfesional(getContext(), "sesionProfesional",
-                null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idProfesional, correo FROM sesionProfesional WHERE id = " + 1,
-                null);
-
-        if(fila.moveToFirst()){
-            this.idProfesional = fila.getInt(0);
-            this.ID_PROFESIONAL = String.valueOf(fila.getInt(0));
-            this.correo = fila.getString(1);
-        }else{
-            baseDeDatos.close();
-        }
+        this.idProfesional = SharedPreferencesManager.getInstance(getContext()).getIDProfesional();
+        this.ID_PROFESIONAL = String.valueOf(SharedPreferencesManager.getInstance(getContext()).getIDProfesional());
+        this.correo = SharedPreferencesManager.getInstance(getContext()).getCorreoProfesional();
 
         btnActualizarInfo.setOnClickListener(view -> {
             actualizarPerfil();
@@ -203,22 +196,10 @@ public class EditarPerfilProfesionalFragment extends Fragment {
         imgAviso = getView().findViewById(R.id.imgAviso);
         cardValoracion = getView().findViewById(R.id.cardValoracion);
 
-        AdminSQLiteOpenHelperProfesional admin = new AdminSQLiteOpenHelperProfesional(getContext(), "sesionProfesional",
-                null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idProfesional FROM sesionProfesional WHERE id = " + 1, null);
-
-        if(fila.moveToFirst()){
-            this.idProfesional = fila.getInt(0);
-            getReportes();
-            getDatosPerfil();
-            getDatosBanco();
-        }else{
-            baseDeDatos.close();
-        }
-
-        baseDeDatos.close();
-
+        this.idProfesional = SharedPreferencesManager.getInstance(getContext()).getIDProfesional();
+        getReportes();
+        getDatosPerfil();
+        getDatosBanco();
     }
 
     private void getReportes(){
@@ -253,11 +234,13 @@ public class EditarPerfilProfesionalFragment extends Fragment {
     private void setImageBitmap(String foto){
         WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
             ivFoto.setImageBitmap(response);
+            progressDialog.dismiss();
         }, APIEndPoints.FOTO_PERFIL, foto);
         webServiceAPIAssets.execute();
     }
 
     private void getDatosPerfil(){
+        progressDialog = ProgressDialog.show(getContext(), "Cargando Perfil", "Espere, por favor...");
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             if(response != null){
                 if (!response.equals("null")) {
@@ -289,7 +272,9 @@ public class EditarPerfilProfesionalFragment extends Fragment {
             parametrosPUT.put("telefonoLocal", etTelefono.getText().toString());
             parametrosPUT.put("direccion", etDireccion.getText().toString());
             parametrosPUT.put("descripcion", etDesc.getText().toString());
+            progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere, por favor...");
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                progressDialog.dismiss();
                 try{
                     JSONObject jsonObject = new JSONObject(response);
                     if(jsonObject.getBoolean("respuesta"))
@@ -340,7 +325,9 @@ public class EditarPerfilProfesionalFragment extends Fragment {
             parametrosPUT.put("nombreTitular", etTitular.getText().toString());
             parametrosPUT.put("banco",  etBanco.getText().toString());
             parametrosPUT.put("clabe", etClabe.getText().toString().trim());
+            progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere, por favor...");
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                progressDialog.dismiss();
                 try{
                     JSONObject jsonObject = new JSONObject(response);
                     if(jsonObject.getBoolean("respuesta"))

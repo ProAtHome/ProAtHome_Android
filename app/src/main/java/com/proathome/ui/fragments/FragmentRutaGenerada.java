@@ -16,6 +16,7 @@ import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.ui.examen.EvaluarRuta;
 import com.proathome.utils.FechaActual;
+import com.proathome.utils.SharedPreferencesManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,17 +54,7 @@ public class FragmentRutaGenerada extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_ruta_generada, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(),"sesion", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
-
-        if (fila.moveToFirst()) {
-            idCliente = fila.getInt(0);
-        }else{
-            baseDeDatos.close();
-        }
-
-        baseDeDatos.close();
+        idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
 
         ruta = view.findViewById(R.id.ruta);
         nivel = view.findViewById(R.id.nivel);

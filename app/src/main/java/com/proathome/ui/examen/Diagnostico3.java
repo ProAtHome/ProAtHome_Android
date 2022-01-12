@@ -16,6 +16,7 @@ import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ServiciosExamenDiagnostico;
 import com.proathome.ui.MainActivity;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -107,21 +108,8 @@ public class Diagnostico3 extends AppCompatActivity {
         btnContinuar.setOnClickListener(v ->{
             int puntuacionSecc2 = validarSeccion2();
             int puntuacionTotal = respuesta1 + respuesta2 + respuesta3 + respuesta4 + respuesta5 + puntuacionSecc2;
-
-            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"sesion", null, 1);
-            SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-            Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
-
-            int idCliente = 0;
-            if (fila.moveToFirst()) {
-                idCliente = fila.getInt(0);
-                ServiciosExamenDiagnostico.actualizarEstatusExamen(Constants.ENCURSO_EXAMEN, idCliente, puntuacionTotal, 30, this, Diagnostico3.this, Diagnostico4.class);
-            }else{
-                baseDeDatos.close();
-            }
-
-            baseDeDatos.close();
-
+            int idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
+            ServiciosExamenDiagnostico.actualizarEstatusExamen(Constants.ENCURSO_EXAMEN, idCliente, puntuacionTotal, 30, this, Diagnostico3.this, Diagnostico4.class);
         });
 
         chekeableChips(chip_p1_1, chip_p1_2, chip_p1_3);

@@ -1,5 +1,6 @@
 package com.proathome.ui.inicioProfesional;
 
+import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.proathome.ui.fragments.DetallesGestionarProfesionalFragment;
 import com.proathome.ui.fragments.DetallesSesionProfesionalFragment;
 import com.proathome.ui.sesionesProfesional.SesionesProfesionalFragment;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 
 import org.json.JSONArray;
@@ -37,6 +39,7 @@ public class InicioProfesionalFragment extends Fragment {
     private Unbinder mUnbinder;
     public static LottieAnimationView lottieAnimationView;
     private int idProfesional = 0;
+    private ProgressDialog progressDialog;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
@@ -45,26 +48,19 @@ public class InicioProfesionalFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_inicio_profesional, container, false);
         mUnbinder = ButterKnife.bind(this, root);
         lottieAnimationView = root.findViewById(R.id.animation_view);
-        AdminSQLiteOpenHelperProfesional admin = new AdminSQLiteOpenHelperProfesional(getContext(),
-                "sesionProfesional", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
 
-        Cursor fila = baseDeDatos.rawQuery("SELECT idProfesional FROM sesionProfesional WHERE id = " + 1, null);
-        if (fila.moveToFirst()) {
-            idProfesional = fila.getInt(0);
-            getSesiones();
-            configAdapter();
-            configRecyclerView();
-            baseDeDatos.close();
-        } else {
-            baseDeDatos.close();
-        }
+        idProfesional = SharedPreferencesManager.getInstance(getContext()).getIDProfesional();
+        getSesiones();
+        configAdapter();
+        configRecyclerView();
 
         return root;
     }
 
     private void getSesiones(){
+        progressDialog = ProgressDialog.show(getContext(), "Cargando Servicios", "Espere, por favor...");
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            progressDialog.dismiss();
             if(response != null){
                 if(!response.equals("[]")){
                     try{

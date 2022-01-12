@@ -15,6 +15,7 @@ import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.profesional.AdminSQLiteOpenHelperProfesional;
 import com.proathome.ui.password.EmailPassword;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 
 import org.json.JSONException;
@@ -104,6 +105,7 @@ public class LoginProfesional extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject(response);
                         if(jsonObject.getString("estado").equalsIgnoreCase("ACTIVO")) {
                             if(jsonObject.getBoolean("verificado")){
+                                /*
                                 AdminSQLiteOpenHelperProfesional admin = new AdminSQLiteOpenHelperProfesional(this,
                                         "sesionProfesional", null, 1);
                                 SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
@@ -113,7 +115,11 @@ public class LoginProfesional extends AppCompatActivity {
                                 registro.put("correo" , correo);
                                 registro.put("rangoServicio", jsonObject.getInt("rangoServicio"));
                                 baseDeDatos.insert("sesionProfesional", null, registro);
-                                baseDeDatos.close();
+                                baseDeDatos.close();*/
+
+                                //TODO PRUBAS SHARED PREFERENCES
+                                SharedPreferencesManager.getInstance(this).logout();
+                                SharedPreferencesManager.getInstance(this).guardarSesionProfesional(jsonObject.getInt("idProfesional"), correo, jsonObject.getInt("rangoServicio"));
 
                                 startActivity(new Intent(this, InicioProfesional.class));
                             }else

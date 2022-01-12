@@ -128,8 +128,10 @@ public class RegistrarseCliente extends AppCompatActivity {
                     });
                 }, APIEndPoints.VERIFICACION_CORREO, WebServicesAPI.POST, post);
                 webServicesAPI.execute();
-            }else
+            }else{
+                progressDialog.dismiss();
                 SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
+            }
         }catch(JSONException ex){
             ex.printStackTrace();
         }

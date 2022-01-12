@@ -1,5 +1,6 @@
 package com.proathome.ui.editarPerfil;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -35,6 +36,7 @@ import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,6 +77,7 @@ public class EditarPerfilFragment extends Fragment {
     private String KEY_NOMBRE = "nombre";
     private String ID_CLIENTE = "";
     private WebServicesAPI webServicesAPI;
+    private ProgressDialog progressDialog;
     @BindView(R.id.bottomNavigationPerfil)
     BottomNavigationView bottomNavigationPerfil;
     @BindView(R.id.btnFoto)
@@ -107,21 +110,12 @@ public class EditarPerfilFragment extends Fragment {
     MaterialButton btnActualizarFiscales;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View root = inflater.inflate(R.layout.fragment_editar_perfil, container, false);
         mUnbinder = ButterKnife.bind(this, root);
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente, correo FROM sesion WHERE id = " + 1, null);
-
-        if(fila.moveToFirst()){
-            this.idCliente = fila.getInt(0);
-            this.ID_CLIENTE = String.valueOf(fila.getInt(0));
-            this.correo = fila.getString(1);
-        }else{
-            baseDeDatos.close();
-        }
+        this.idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
+        this.ID_CLIENTE = String.valueOf(SharedPreferencesManager.getInstance(getContext()).getIDCliente());
+        this.correo = SharedPreferencesManager.getInstance(getContext()).getCorreoCliente();
 
         bottomNavigationPerfil.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()){
@@ -216,21 +210,10 @@ public class EditarPerfilFragment extends Fragment {
         imgAviso = getView().findViewById(R.id.imgAviso);
         cardValoracion = getView().findViewById(R.id.cardValoracion);
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
-
-        if(fila.moveToFirst()){
-            this.idCliente = fila.getInt(0);
-            getReportes();
-            getDatosPerfil();
-            getDatosBanco();
-        }else{
-            baseDeDatos.close();
-        }
-
-        baseDeDatos.close();
-
+        this.idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
+        getReportes();
+        getDatosPerfil();
+        getDatosBanco();
     }
 
     private void getDatosBanco(){
@@ -287,11 +270,13 @@ public class EditarPerfilFragment extends Fragment {
     private void setImageBitmap(String foto){
         WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
             ivFoto.setImageBitmap(response);
+            progressDialog.dismiss();
         }, APIEndPoints.FOTO_PERFIL, foto);
         webServiceAPIAssets.execute();
     }
 
     private void getDatosPerfil(){
+        progressDialog = ProgressDialog.show(getContext(), "Cargando Perfil", "Espere, por favor...");
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             if(response != null){
                 if(!response.equals("null")){
@@ -333,6 +318,7 @@ public class EditarPerfilFragment extends Fragment {
     }
 
     private void upCuentaCliente(){
+        progressDialog = ProgressDialog.show(getContext(), "Validando", "Espere, por favor...");
         JSONObject parametrosPUT = new JSONObject();
         try {
             parametrosPUT.put("idCliente", this.idCliente);
@@ -341,10 +327,12 @@ public class EditarPerfilFragment extends Fragment {
             parametrosPUT.put("mes", etMes.getText().toString());
             parametrosPUT.put("ano", etAño.getText().toString());
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-                if(response.equalsIgnoreCase("Actualización exitosa."))
+                progressDialog.dismiss();
+                JSONObject jsonObject = new JSONObject(response);
+                if(jsonObject.getBoolean("respuesta"))
                     SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Datos actualizados correctamente.", false, null, null);
                 else
-                    SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡OH NO!", response, false, null, null);
+                    SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡OH NO!", jsonObject.getString("mensaje"), false, null, null);
             }, APIEndPoints.UPDATE_CUENTA_CLIENTE, WebServicesAPI.PUT, parametrosPUT);
             webServicesAPI.execute();
         } catch (JSONException e) {
@@ -374,7 +362,9 @@ public class EditarPerfilFragment extends Fragment {
             e.printStackTrace();
         }
 
+        progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere, por favor...");
         webServicesAPI = new WebServicesAPI(response -> {
+            progressDialog.dismiss();
             try{
                 JSONObject jsonObject = new JSONObject(response);
                 if(jsonObject.getBoolean("respuesta"))

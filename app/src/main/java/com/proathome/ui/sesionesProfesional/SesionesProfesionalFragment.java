@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Shader;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.proathome.ui.fragments.BuscarSesionFragment;
 import com.proathome.servicios.profesional.AdminSQLiteOpenHelperProfesional;
 import com.proathome.ui.fragments.DetallesGestionarProfesionalFragment;
 import com.proathome.utils.PermisosUbicacion;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,17 +53,7 @@ public class SesionesProfesionalFragment extends Fragment {
         mUnbinder = ButterKnife.bind(this, root);
         lottieAnimationView = root.findViewById(R.id.animation_view);
 
-        AdminSQLiteOpenHelperProfesional admin = new AdminSQLiteOpenHelperProfesional(getContext(),
-                "sesionProfesional", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-
-        Cursor fila = baseDeDatos.rawQuery("SELECT idProfesional FROM sesionProfesional WHERE id = " + 1, null);
-        this.idProfesional = 0;
-        if (fila.moveToFirst()) {
-            this.idProfesional = fila.getInt(0);
-            baseDeDatos.close();
-        } else
-            baseDeDatos.close();
+        this.idProfesional = SharedPreferencesManager.getInstance(getContext()).getIDProfesional();
 
         return root;
     }

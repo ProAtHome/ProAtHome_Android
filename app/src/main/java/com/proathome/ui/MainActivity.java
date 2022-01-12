@@ -22,6 +22,7 @@ import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.profesional.AdminSQLiteOpenHelperProfesional;
 import com.proathome.utils.Constants;
 import com.proathome.utils.PermisosUbicacion;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,18 +46,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mUnbinder = ButterKnife.bind(this);
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesion", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        baseDeDatos.delete("sesion", "id=1", null);
-        baseDeDatos.close();
-
-        AdminSQLiteOpenHelperProfesional admin2 = new AdminSQLiteOpenHelperProfesional(this, "sesionProfesional", null, 1);
-        SQLiteDatabase baseDeDatos2 = admin2.getWritableDatabase();
-        baseDeDatos2.delete("sesionProfesional", "id=1", null);
-        baseDeDatos2.close();
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             PermisosUbicacion.showAlert(this, MainActivity.this, SweetAlert.CLIENTE);
+        }else{
+            //EVALUAR SESION EXISTENTE DE CLIENTE
+            if(SharedPreferencesManager.getInstance(this).getIDCliente() != 0){
+                startActivity(new Intent(this, InicioCliente.class));
+                finish();
+            }else if(SharedPreferencesManager.getInstance(this).getIDProfesional() != 0){
+                startActivity(new Intent(this, InicioProfesional.class));
+                finish();
+            }
+        }
     }
 
     @Override
@@ -122,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                                 System.out.println(jsonObject);
                                 if(jsonObject.getString("estado").equalsIgnoreCase("ACTIVO")){
                                     if(jsonObject.getBoolean("verificado")){
+                                        /*
                                         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesion",
                                                 null, 1);
                                         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
@@ -130,7 +132,11 @@ public class MainActivity extends AppCompatActivity {
                                         registro.put("idCliente", jsonObject.getInt("idCliente"));
                                         registro.put("correo", correo);
                                         baseDeDatos.insert("sesion", null, registro);
-                                        baseDeDatos.close();
+                                        baseDeDatos.close();*/
+
+                                        //TODO PRUBAS SHARED PREFERENCES
+                                        SharedPreferencesManager.getInstance(this).logout();
+                                        SharedPreferencesManager.getInstance(this).guardarSesionCliente(jsonObject.getInt("idCliente"), correo);
 
                                         startActivity(new Intent(this, InicioCliente.class));
                                     }else

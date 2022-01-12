@@ -214,7 +214,7 @@ public class ServiciosSesion {
                     JSONObject jsonObject = new JSONObject(response);
                     //Guardamos el servicio.
                     if(jsonObject.getBoolean("respuesta"))//Guardamos la info de PAGO
-                        guardarPago(bundle, jsonObject.getString("mensaje"), idCliente, context);
+                        guardarPago(bundle, jsonObject.getString("mensaje"), idCliente, context, cobro, 0.0);
                     else
                         SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡ERROR!", response, false, null, null);
                 }catch(JSONException ex){
@@ -227,12 +227,12 @@ public class ServiciosSesion {
         }
     }
 
-    private static void guardarPago(Bundle bundle, String token, int idCliente, Context context){
+    private static void guardarPago(Bundle bundle, String token, int idCliente, Context context, double costoServicio, double costoTE){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("token", token);
-            jsonObject.put("costoServicio", 0.0);
-            jsonObject.put("costoTE", 0.0);
+            jsonObject.put("costoServicio", costoServicio);
+            jsonObject.put("costoTE", costoTE);
             jsonObject.put("estatusPago", "Pagado");
             jsonObject.put("idCliente", idCliente);
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {

@@ -19,6 +19,7 @@ import com.proathome.ui.fragments.NuevoTicketFragment;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.utils.ComponentTicket;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,16 +47,7 @@ public class AyudaFragment extends Fragment {
         lottieAnimationView = view.findViewById(R.id.animation_viewAyuda);
         ayudaFragment = this;
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
-
-        if(fila.moveToFirst())
-            this.idCliente = fila.getInt(0);
-        else
-            baseDeDatos.close();
-
-        baseDeDatos.close();
+        this.idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
 
         configAdapter();
         configRecyclerView();

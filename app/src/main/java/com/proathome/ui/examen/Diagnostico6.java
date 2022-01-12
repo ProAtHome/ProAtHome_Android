@@ -12,6 +12,7 @@ import com.proathome.R;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ServiciosExamenDiagnostico;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -101,21 +102,8 @@ public class Diagnostico6 extends AppCompatActivity {
         btnContinuar.setOnClickListener(v ->{
             int puntuacion = respuesta11 + respuesta2 + respuesta3 + respuesta4 + respuesta5 + respuesta6 +
                     respuesta7 + respuesta8 + respuesta9 + respuesta10;
-
-            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"sesion", null, 1);
-            SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-            Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
-
-            int idCliente = 0;
-            if (fila.moveToFirst()) {
-                idCliente = fila.getInt(0);
-                ServiciosExamenDiagnostico.actualizarEstatusExamen(Constants.ENCURSO_EXAMEN, idCliente, puntuacion, 60, this,  Diagnostico6.this,  Diagnostico7.class);
-            }else{
-                baseDeDatos.close();
-            }
-
-            baseDeDatos.close();
-
+            int idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
+            ServiciosExamenDiagnostico.actualizarEstatusExamen(Constants.ENCURSO_EXAMEN, idCliente, puntuacion, 60, this,  Diagnostico6.this,  Diagnostico7.class);
         });
 
         checkeableChips(chip_r2_1, chip_r2_2);

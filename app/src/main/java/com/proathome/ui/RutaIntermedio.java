@@ -17,6 +17,7 @@ import com.proathome.servicios.cliente.ControladorRutaIntermedio;
 import com.proathome.servicios.cliente.ServiciosCliente;
 import com.proathome.ui.fragments.DetallesBloque;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,19 +115,8 @@ public class RutaIntermedio extends AppCompatActivity {
         btnI5_Bloque5 = findViewById(R.id.bloque5_i5);
         btnI5_Bloque6 = findViewById(R.id.bloque6_i5);
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"sesion", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
-
-        if (fila.moveToFirst()) {
-            idCliente = fila.getInt(0);
-            getEstadoRuta();
-        }else{
-            baseDeDatos.close();
-        }
-
-        baseDeDatos.close();
-
+        idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
+        getEstadoRuta();
         ServiciosCliente.avisoContenidoRuta(this);
     }
 

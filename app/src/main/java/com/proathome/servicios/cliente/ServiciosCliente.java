@@ -21,6 +21,10 @@ import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ServiciosCliente {
 
     private static boolean primeraVezI1 = true, primeraVezI2 = true, primeraVezI3 = true, primeraVezI4 = true, primeraVezI5 = true;
@@ -28,6 +32,21 @@ public class ServiciosCliente {
     private static boolean primeraVezB1 = true, primeraVezB2 = true, primeraVezB3 = true, primeraVezB4 = true, primeraVezB5 = true;
 
     public static int NUEVA_SESION_FRAGMENT = 1, PLANES_FRAGMENT = 2;
+
+    public static void validarExpiracionServicio(String fechaServidor, String fechaServicio, Context context){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date dateServidor = sdf.parse(fechaServidor);
+            Date dateServicio = sdf.parse(fechaServicio);
+
+            if(dateServidor.after(dateServicio))
+                SweetAlert.showMsg(context, SweetAlert.WARNING_TYPE, "¡AVISO!", "Esta sesión requerie que actualices la fecha.", false, null, null);
+            else if(dateServidor.equals(dateServicio))
+                SweetAlert.showMsg(context, SweetAlert.WARNING_TYPE, "¡AVISO!", "Esta sesión tiene fecha límite de hoy, si no se te asigna un profesor a tiempo comunicate con nosotros.", false, null, null);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void validarPlan(int idCliente, Context contexto){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {

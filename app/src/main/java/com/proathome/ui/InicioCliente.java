@@ -22,6 +22,7 @@ import com.proathome.ui.fragments.DetallesFragment;
 import com.proathome.ui.fragments.PlanesFragment;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,12 +39,10 @@ public class InicioCliente extends AppCompatActivity{
 
     private AppBarConfiguration mAppBarConfiguration;
     private Intent intent;
-    private String imageHttpAddress = Constants.IP_80 + "/assets/img/fotoPerfil/";
     public static TextView correoTV, nombreTV, tipoPlan, monedero;
     private int idCliente = 0;
     public static ImageView fotoPerfil;
     public static String planActivo;
-    public static final int PROCEDENCIA_INICIO_CLIENTE = 2;
     public static AppCompatActivity appCompatActivity;
 
     @Override
@@ -81,27 +80,12 @@ public class InicioCliente extends AppCompatActivity{
     }
 
     public void cargarPerfil(){
-
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesion", null,
-                1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1,
-                null);
-
-        if(fila.moveToFirst()){
-            this.idCliente = fila.getInt(0);
+            this.idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
             //TODO FLUJO_PLANES: Crear PLAN al iniciar sesión si no existe registro en la BD.
             /*TODO FLUJO_PANES: Cargamos la info de PLAN, MONEDERO Y PERFIL.*/
             DetallesFragment.procedenciaFin = false;
-
             checkBloquearPerfil();
             getDatosPerfil();
-        }else{
-            baseDeDatos.close();
-        }
-
-        baseDeDatos.close();
-
     }
 
     private void checkBloquearPerfil(){
@@ -181,12 +165,14 @@ public class InicioCliente extends AppCompatActivity{
     }
 
     public void cerrarSesion(View view){
-
+/*
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "sesion", null,
                 1);
         SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
         baseDeDatos.delete("sesion", "id=1", null);
-        baseDeDatos.close();
+        baseDeDatos.close();*/
+
+        SharedPreferencesManager.getInstance(this).logout();
 
         intent = new Intent(this, MainActivity.class);
         startActivity(intent);

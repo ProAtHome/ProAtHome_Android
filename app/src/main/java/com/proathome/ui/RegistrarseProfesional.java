@@ -182,8 +182,10 @@ public class RegistrarseProfesional extends AppCompatActivity {
                                     });
                         }, Constants.IP_80 + "/assets/lib/Verificacion.php?enviarPro=true", WebServicesAPI.POST, post);
                         fastServices.execute();
-                    }else
+                    }else{
+                        progressDialog.dismiss();
                         SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
+                    }
 
                 }catch(JSONException ex){
                     ex.printStackTrace();

@@ -33,6 +33,7 @@ import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.ui.MatchSesionCliente;
 import com.proathome.R;
 import com.proathome.utils.Component;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.profesional.AdminSQLiteOpenHelperProfesional;
 import com.proathome.utils.PermisosUbicacion;
@@ -266,23 +267,8 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
     }
 
     public void cargarPerfil(){
-
-        AdminSQLiteOpenHelperProfesional admin = new AdminSQLiteOpenHelperProfesional(getContext(), "sesionProfesional",
-                null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idProfesional, rangoServicio FROM sesionProfesional WHERE id = " + 1, null);
-
-        if(fila.moveToFirst()){
-            //Recorremos el cursor hasta que no haya más registros
-            do {
-                this.idProfesional = fila.getInt(0);
-                this.rangoServicio = fila.getInt(1);
-            } while(fila.moveToNext());
-            baseDeDatos.close();
-        }else{
-            baseDeDatos.close();
-        }
-
+        this.idProfesional = SharedPreferencesManager.getInstance(getContext()).getIDProfesional();
+        this.rangoServicio = SharedPreferencesManager.getInstance(getContext()).getRangoServicioProfeisonal();
     }
 
     @Override

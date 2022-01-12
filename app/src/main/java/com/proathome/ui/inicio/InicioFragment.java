@@ -1,5 +1,6 @@
 package com.proathome.ui.inicio;
 
+import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.proathome.ui.fragments.DetallesFragment;
 import com.proathome.ui.fragments.DetallesGestionarFragment;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 
 import org.json.JSONArray;
@@ -35,26 +37,19 @@ public class InicioFragment extends Fragment {
     private Unbinder mUnbinder;
     public static LottieAnimationView lottieAnimationView;
     private int idCliente = 0;
+    private ProgressDialog progressDialog;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View root = inflater.inflate(R.layout.fragment_inicio, container, false);
         mUnbinder = ButterKnife.bind(this, root);
         lottieAnimationView = root.findViewById(R.id.animation_view);
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(),"sesion", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
 
-        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
-        if (fila.moveToFirst()) {
-            idCliente = fila.getInt(0);
-            getSesiones();
-            configAdapter();
-            configRecyclerView();
-            baseDeDatos.close();
-        } else
-            baseDeDatos.close();
+        idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
+        getSesiones();
+        configAdapter();
+        configRecyclerView();
 
         return root;
     }
@@ -69,7 +64,9 @@ public class InicioFragment extends Fragment {
     }
 
     private void getSesiones(){
+        progressDialog = ProgressDialog.show(getContext(), "Cargando Sesiones", "Espere, por favor...");
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            progressDialog.dismiss();
             if(response != null){
                 try{
                     iniciarProcesoRuta();

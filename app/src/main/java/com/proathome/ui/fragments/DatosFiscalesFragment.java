@@ -1,8 +1,11 @@
 package com.proathome.ui.fragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +35,7 @@ public class DatosFiscalesFragment extends DialogFragment {
     public static TextInputEditText etRFC;
     public static Spinner spCFDI;
     private int idUsuario, tipoPerfil;
+    private ProgressDialog progressDialog;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.btnActualizar)
@@ -108,8 +112,11 @@ public class DatosFiscalesFragment extends DialogFragment {
             jsonDatos.put("rfc", etRFC.getText().toString());
             jsonDatos.put("cfdi", spCFDI.getSelectedItem().toString());
 
+            progressDialog = ProgressDialog.show(getContext(), "Validando", "Espere, por favor...");
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                progressDialog.dismiss();
                 try{
+                    Log.d("FISCO", response);
                     JSONObject jsonObject = new JSONObject(response);
                     if(jsonObject.getBoolean("respuesta")){
                         SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", jsonObject.getString("mensaje"),
@@ -122,7 +129,7 @@ public class DatosFiscalesFragment extends DialogFragment {
                 }catch (JSONException ex){
                     ex.printStackTrace();
                 }
-            }, this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.UPDATE_DATOS_FISCALES_CLIENTE + this.idUsuario : APIEndPoints.UPDATE_DATOS_FISCALES_PROFESIONAL + this.idUsuario, WebServicesAPI.POST, jsonDatos);
+            }, this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.UPDATE_DATOS_FISCALES_CLIENTE : APIEndPoints.UPDATE_DATOS_FISCALES_PROFESIONAL, WebServicesAPI.POST, jsonDatos);
             webServicesAPI.execute();
         }catch (JSONException ex){
             ex.printStackTrace();
@@ -130,7 +137,9 @@ public class DatosFiscalesFragment extends DialogFragment {
     }
 
     private void getDatosFiscales(){
+        progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere, por favor...");
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            progressDialog.dismiss();
             try{
                 JSONObject jsonObject = new JSONObject(response);
                 if(jsonObject.getBoolean("respuesta")){

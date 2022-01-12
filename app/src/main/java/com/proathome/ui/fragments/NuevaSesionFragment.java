@@ -36,6 +36,7 @@ import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.ServiciosCliente;
 import com.proathome.ui.InicioCliente;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ControladorTomarSesion;
@@ -125,25 +126,15 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         bloques = view.findViewById(R.id.bloques);
         horasDisponiblesTV = view.findViewById(R.id.horasDisponibles);
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente, correo FROM sesion WHERE id = " + 1, null);
-
-        if (fila.moveToFirst()) {
-            this.idCliente = fila.getInt(0);
-            this.correoCliente = fila.getString(1);
-            ServiciosCliente.getSesionActual(ServiciosCliente.NUEVA_SESION_FRAGMENT, idCliente, getContext());
-        } else {
-            baseDeDatos.close();
-        }
-        baseDeDatos.close();
+        this.idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
+        this.correoCliente = SharedPreferencesManager.getInstance(getContext()).getCorreoCliente();
+        ServiciosCliente.getSesionActual(ServiciosCliente.NUEVA_SESION_FRAGMENT, idCliente, getContext());
 
         ServiciosCliente.validarPlan(idCliente, getContext());
         //Servicio para validar que ya tenemos datos bancarios registrados para lanzar la preOrden.
         validarBanco();
         /*Datos de pre Orden listos para ser lanzados :)
         getPreOrden();*/
-
 
         String[] datosHoras = null;
         if((NuevaSesionFragment.horasDisponibles / 60) == 1)

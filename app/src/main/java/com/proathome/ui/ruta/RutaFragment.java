@@ -26,6 +26,8 @@ import com.proathome.ui.RutaIntermedio;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.ui.examen.Diagnostico1;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import butterknife.ButterKnife;
@@ -57,19 +59,9 @@ public class RutaFragment extends Fragment {
         textIntermedio = root.findViewById(R.id.textIntermedio);
         textAvanzado = root.findViewById(R.id.textAvanzado);
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(),"sesion", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
-
-        if (fila.moveToFirst()) {
-            idCliente = fila.getInt(0);
-            ServiciosExamenDiagnostico.getEstatusExamen(idCliente, getContext());
-            getEstadoRuta();
-        }else{
-            baseDeDatos.close();
-        }
-
-        baseDeDatos.close();
+        idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
+        ServiciosExamenDiagnostico.getEstatusExamen(idCliente, getContext());
+        getEstadoRuta();
 
         imgExamen.setOnClickListener(v ->{
             new MaterialAlertDialogBuilder(getContext(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)

@@ -33,6 +33,7 @@ import com.proathome.servicios.sesiones.ServiciosSesion;
 import com.proathome.ui.SincronizarServicio;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.utils.Component;
@@ -175,17 +176,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
         fotoPerfil = view.findViewById(R.id.foto);
         iniciar = view.findViewById(R.id.iniciar);
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
-
-        if (fila.moveToFirst()) {
-            idCliente = fila.getInt(0);
-        } else {
-            baseDeDatos.close();
-        }
-
-        baseDeDatos.close();
+        idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
 
         if (bun.getString("fotoProfesional").equalsIgnoreCase("Sin foto")) {
             iniciar.setEnabled(false);

@@ -29,6 +29,7 @@ import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.api.assets.WebServiceAPIAssets;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.utils.ComponentProfesional;
@@ -91,16 +92,7 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
         View view = inflater.inflate(R.layout.fragment_detalles_gestionar_profesional, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesionProfesional", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idProfesional FROM sesionProfesional WHERE id = " + 1, null);
-
-        if (fila.moveToFirst())
-            this.idProfesional = fila.getInt(0);
-        else
-            baseDeDatos.close();
-
-        baseDeDatos.close();
+        this.idProfesional = SharedPreferencesManager.getInstance(getContext()).getIDProfesional();
 
         ComponentSesionesProfesional componentSesionesProfesional = new ComponentSesionesProfesional();
         Bundle bun = getArguments();

@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,8 @@ import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.AdminSQLiteOpenHelper;
 import com.proathome.servicios.cliente.ControladorTomarSesion;
+import com.proathome.servicios.cliente.ServiciosCliente;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Component;
@@ -114,19 +117,10 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     // si estamos en plan, etc.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_detalles_gestionar, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
-
-        if (fila.moveToFirst()) {
-            idCliente = fila.getInt(0);
-        } else {
-            baseDeDatos.close();
-        }
+        idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
 
         String[] datosHoras = new String[]{"0 HRS", "1 HRS", "2 HRS", "3 HRS"};
         ArrayAdapter<String> adapterHoras = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item,
@@ -454,6 +448,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
             try{
                 JSONObject jsonObject = new JSONObject(response);
                 fechaServidor = jsonObject.getString("fechaServidor");
+                ServiciosCliente.validarExpiracionServicio(fechaServidor, fechaSesion, getContext());
             }catch(JSONException ex){
                 ex.printStackTrace();
             }
@@ -579,13 +574,15 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         //Si estamos en plan activo, ajustar rango de fecha hasta fin de expiración
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date fechaFin = null;
-        try {
-            fechaFin = sdf.parse(SesionesFragment.FECHA_FIN);
-        }catch (ParseException ex){
-            ex.printStackTrace();
-        }
-        if(!SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR") && !SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR_PLAN"))
+
+        if(!SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR") && !SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR_PLAN")){
+            try {
+                fechaFin = sdf.parse(SesionesFragment.FECHA_FIN);
+            }catch (ParseException ex){
+                ex.printStackTrace();
+            }
             dialog.getDatePicker().setMaxDate(fechaFin.getTime());
+        }
 
         calendar.add(Calendar.YEAR, 0);
         dialog.show();
@@ -756,10 +753,11 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
             jsonDatos.put("idNivel", this.idNivel);
             jsonDatos.put("idBloque", this.idBloque);
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                Log.d("TAG1", response);
                 if(response != null)
-                    SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", response, false, null, null);
+                    SweetAlert.showMsg(SesionesFragment.contexto, SweetAlert.SUCCESS_TYPE, "¡GENIAL!", response, false, null, null);
                 else
-                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error al actualizar el servicio.", false, null, null);
+                    SweetAlert.showMsg(SesionesFragment.contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error al actualizar el servicio.", false, null, null);
             }, APIEndPoints.ACTUALIZAR_SESION, WebServicesAPI.PUT, jsonDatos);
             webServicesAPI.execute();
         } catch (JSONException e) {
