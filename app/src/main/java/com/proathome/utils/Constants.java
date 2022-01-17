@@ -172,7 +172,7 @@ public class Constants {
     /*FIN RUTA NIVELES*/
     //public static final String IP = "https://www.proathome.com.mx:8181";
     //public static final String IP_80 = "https://www.proathome.com.mx";
-    public static final String IP = "http://192.168.100.8:8083";
+    public static final String IP = "http://192.168.100.8:8080";
     public static final String IP_80 = "http://192.168.100.8/ProAtHome";
 
     /*Prueba Estaticos Singleton*/
@@ -184,9 +184,9 @@ public class Constants {
     public static int progresoSegundosTE_DISPONIBILIDAD_PROGRESO;
     public static int progresoTE_DISPONIBILIDAD_PROGRESO;
     public static String linkSincronizarCliente_DISPONIBILIDAD_PROGRESO = Constants.IP +
-            "/ProAtHome/apiProAtHome/cliente/validarEstatusServicio/";
+            "/ProAtHome/api/cliente/validarEstatusServicio/";
     public static String linkSincronizarProfesional_DISPONIBILIDAD_PROGRESO = Constants.IP +
-            "/ProAtHome/apiProAtHome/profesional/validarEstatusServicio/";
+            "/ProAtHome/api/profesional/validarEstatusServicio/";
     public static int idPerfil_DISPONIBILIDAD_PROGRESO, tipoPerfil_DISPONIBILIDAD_PROGRESO,
             idSesion_DISPONIBILIDAD_PROGRESO;
     public static Context contexto_DISPONIBILIDAD_PROGRESO;
@@ -226,8 +226,6 @@ public class Constants {
     /*FIN ASYNCTASK GUARDAR PROGRESO*/
 
     /*ASYNCTASK CAMBIAR ESTATUS SERVICIO*/
-    public static String linkCambiarEstatusCliente_CAMBIAR_ESTATUS = Constants.IP +
-            "/ProAtHome/apiProAtHome/cliente/cambiarEstatusServicio/";
     public static Context contexto_CAMBIAR_ESTATUS;
     public static String wsURL_CAMBIAR_ESTATUS;
     public static String result_CAMBIAR_ESTATUS;

@@ -3,6 +3,7 @@ package com.proathome.servicios.cliente;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import com.proathome.ui.fragments.PlanesFragment;
 import com.proathome.ui.fragments.PreOrdenServicio;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,23 +53,25 @@ public class ServiciosCliente {
     public static void validarPlan(int idCliente, Context contexto){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try{
-                if(response == null){
+                JSONObject jsonDatos = new JSONObject(response);
+                Log.d("TAG1PLAN", jsonDatos.toString());
+                if(!jsonDatos.getBoolean("respuesta")){
                     SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error al obtener la información.", false, null, null);
                 }else{
-                    JSONObject jsonDatos = new JSONObject(response);
-                    SesionesFragment.PLAN =  jsonDatos.getString("tipoPlan");
-                    SesionesFragment.MONEDERO = jsonDatos.getInt("monedero");
-                    SesionesFragment.FECHA_INICIO = jsonDatos.getString("fechaInicio");
-                    SesionesFragment.FECHA_FIN = jsonDatos.getString("fechaFin");
-                    InicioCliente.tipoPlan.setText("PLAN ACTUAL: " + (jsonDatos.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN") ? "PARTICULAR" : jsonDatos.getString("tipoPlan")));
+                    JSONObject body = jsonDatos.getJSONObject("mensaje");
+                    SesionesFragment.PLAN =  body.getString("tipoPlan");
+                    SesionesFragment.MONEDERO = body.getInt("monedero");
+                    SesionesFragment.FECHA_INICIO = body.getString("fechaInicio");
+                    SesionesFragment.FECHA_FIN = body.getString("fechaFin");
+                    InicioCliente.tipoPlan.setText("PLAN ACTUAL: " + (body.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN") ? "PARTICULAR" : body.getString("tipoPlan")));
                     InicioCliente.monedero.setText("HORAS DISPONIBLES:                      " +
-                            obtenerHorario(jsonDatos.getInt("monedero")));
-                    InicioCliente.planActivo = jsonDatos.getString("tipoPlan").toString();
+                            obtenerHorario(body.getInt("monedero")));
+                    InicioCliente.planActivo = body.getString("tipoPlan");
                 }
             }catch(JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.VALIDAR_PLAN + idCliente, WebServicesAPI.GET, null);
+        }, APIEndPoints.VALIDAR_PLAN + idCliente + "/" + SharedPreferencesManager.getInstance(contexto).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

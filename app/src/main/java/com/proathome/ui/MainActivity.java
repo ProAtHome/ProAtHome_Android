@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         //TODO PRUBAS SHARED PREFERENCES
                                         SharedPreferencesManager.getInstance(this).logout();
-                                        SharedPreferencesManager.getInstance(this).guardarSesionCliente(jsonObject.getInt("idCliente"), correo);
+                                        SharedPreferencesManager.getInstance(this).guardarSesionCliente(jsonObject.getInt("idCliente"), correo, jsonObject.getString("token"));
 
                                         startActivity(new Intent(this, InicioCliente.class));
                                     }else

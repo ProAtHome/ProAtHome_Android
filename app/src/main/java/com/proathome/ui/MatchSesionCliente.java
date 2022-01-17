@@ -25,6 +25,7 @@ import com.proathome.R;
 import com.proathome.servicios.api.assets.WebServiceAPIAssets;
 import com.proathome.servicios.cliente.ServiciosCliente;
 import com.proathome.utils.Component;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.WorkaroundMapFragment;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
@@ -60,18 +61,7 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
         setContentView(R.layout.activity_match_sesion_cliente);
         mUnbinder = ButterKnife.bind(this);
 
-        AdminSQLiteOpenHelperProfesional admin = new AdminSQLiteOpenHelperProfesional(this, "sesionProfesional", null, 1);
-        SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-        Cursor cursor = baseDeDatos.rawQuery("SELECT idProfesional FROM sesionProfesional WHERE id = " + 1, null);
-
-        if (cursor.moveToFirst()) {
-            this.idProfesional = cursor.getInt(0);
-            idProfesionalSesion = this.idProfesional;
-        } else {
-            baseDeDatos.close();
-        }
-
-        baseDeDatos.close();
+        this.idProfesional = SharedPreferencesManager.getInstance(this).getIDProfesional();
 
         this.idSesion = Integer.parseInt(getIntent().getStringExtra("idSesion"));
         latitud = getIntent().getDoubleExtra("latitud", 19.4326077);
@@ -109,14 +99,14 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
 
     private void getInfoSesion(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            Log.d("TAG1", response);
+            Log.d("TAG1", response + " Mi ID: " + this.idProfesional);
             if(response == null){
                 SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error, ocurrió un problema con el servidor.", false, null, null);
             }else {
                 if(!response.equals("null")){
                     JSONObject jsonObject = new JSONObject(response);
 
-                    if(this.idProfesionalSesion == jsonObject.getInt("idProfesional") || jsonObject.getInt("idProfesional") != 0)
+                    if(this.idProfesional == jsonObject.getInt("idProfesional") || jsonObject.getInt("idProfesional") != 0)
                         matchBTN.setVisibility(View.INVISIBLE);
                     else
                         matchBTN.setVisibility(View.VISIBLE);

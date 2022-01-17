@@ -119,7 +119,7 @@ public class LoginProfesional extends AppCompatActivity {
 
                                 //TODO PRUBAS SHARED PREFERENCES
                                 SharedPreferencesManager.getInstance(this).logout();
-                                SharedPreferencesManager.getInstance(this).guardarSesionProfesional(jsonObject.getInt("idProfesional"), correo, jsonObject.getInt("rangoServicio"));
+                                SharedPreferencesManager.getInstance(this).guardarSesionProfesional(jsonObject.getInt("idProfesional"), correo, jsonObject.getInt("rangoServicio"), jsonObject.getString("token"));
 
                                 startActivity(new Intent(this, InicioProfesional.class));
                             }else

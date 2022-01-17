@@ -3,9 +3,12 @@ package com.proathome.ui.fragments;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -13,6 +16,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -474,8 +479,11 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
             return;
         }
         mMap.setMyLocationEnabled(true);
+        LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Log.d("TAG1", location.getLatitude() + " " + location.getLongitude());
 
-        agregarMarca(googleMap, 19.4326077, -99.13320799999);
+        agregarMarca(googleMap, location.getLatitude(), location.getLongitude());
     }
 
     public void agregarMarca(GoogleMap googleMap, double lat, double longi){

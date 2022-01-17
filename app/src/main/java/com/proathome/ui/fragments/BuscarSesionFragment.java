@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -118,7 +120,9 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
             return;
         }
         mMap.setMyLocationEnabled(true);
-        LatLng ubicacion = new LatLng(19.4326077, -99.13320799999);
+        LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        LatLng ubicacion = new LatLng(location.getLatitude(), location.getLongitude());
         profesionalPerth = mMap.addMarker(new MarkerOptions().position(ubicacion)
                 .title("Mueve el marcador para elegir el radio a buscar.").snippet("profesional").draggable(true));
         profesionalPerth.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.profubb));

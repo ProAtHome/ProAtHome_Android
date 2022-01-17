@@ -252,7 +252,6 @@ public class FragmentTicketAyuda extends DialogFragment {
                 SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ESPERA!", "¿Seguro quieres finalizar el ticket?",
                         true, "SI", ()->{
                             ticketSolucionado();
-                            dismiss();
                         });
                 break;
         }
@@ -262,6 +261,7 @@ public class FragmentTicketAyuda extends DialogFragment {
     private void ticketSolucionado(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             Toast.makeText(getContext(), "Ticket Finalizado.", Toast.LENGTH_LONG).show();
+            dismiss();
         }, this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.FINALIZAR_TICKET_CLIENTE + this.idTicket : APIEndPoints.FINALIZAR_TICKET_PROFESIONAL + this.idTicket, WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
