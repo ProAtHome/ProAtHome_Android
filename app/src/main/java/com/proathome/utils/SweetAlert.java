@@ -100,8 +100,8 @@ public class SweetAlert extends Dialog implements View.OnClickListener {
             new SweetAlert(context, tipo, SweetAlert.CLIENTE)
                     .setTitleText(titulo)
                     .setConfirmButton(tituloBoton, sweetAlertDialog -> {
-                        confirmButton.content();
                         sweetAlertDialog.dismissWithAnimation();
+                        confirmButton.content();
                     })
                     .setContentText(mensaje)
                     .show();
@@ -109,6 +109,9 @@ public class SweetAlert extends Dialog implements View.OnClickListener {
             new SweetAlert(context, tipo, SweetAlert.CLIENTE)
                     .setTitleText(titulo)
                     .setContentText(mensaje)
+                    .setConfirmButton("OK", sweetAlertDialog -> {
+                        sweetAlertDialog.dismissWithAnimation();
+                    })
                     .show();
         }
 

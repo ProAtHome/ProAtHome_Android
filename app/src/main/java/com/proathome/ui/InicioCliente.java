@@ -173,11 +173,8 @@ public class InicioCliente extends AppCompatActivity{
         baseDeDatos.close();*/
 
         SharedPreferencesManager.getInstance(this).logout();
-
-        intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, MainActivity.class));
         finish();
-
     }//Fin método cerrarSesion.
 
 }

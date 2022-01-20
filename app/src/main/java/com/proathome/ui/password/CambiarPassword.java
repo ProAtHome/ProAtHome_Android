@@ -4,15 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
+import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.utils.Constants;
 import com.proathome.utils.SweetAlert;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -70,11 +75,9 @@ public class CambiarPassword extends AppCompatActivity {
                             progressDialog.dismiss();
                             try{
                                 JSONObject respuesta = new JSONObject(output);
-                                if(respuesta.getBoolean("respuesta")){
-                                    SweetAlert.showMsg(this, SweetAlert.SUCCESS_TYPE, "¡GENIAL!", respuesta.getString("mensaje"), true, "OK", ()->{
-                                        finish();
-                                    });
-                                }else
+                                if(respuesta.getBoolean("respuesta"))
+                                    informeCorreo(respuesta);
+                                else
                                     SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", respuesta.getString("mensaje"), false, null, null);
                             }catch (JSONException ex){
                                 ex.printStackTrace();
@@ -92,10 +95,32 @@ public class CambiarPassword extends AppCompatActivity {
             SweetAlert.showMsg(this, SweetAlert.WARNING_TYPE, "¡ESPERA!", "Escribe tu nueva contraseña.", false, null, null);
     }
 
+    private void informeCorreo(JSONObject respuesta) throws JSONException {
+        JSONObject informe = new JSONObject();
+        informe.put("titulo", "Reestablecimiento de Contraseña");
+        informe.put("correo", this.correo);
+        //OBTENEMOS INFO DE DISPOSITIVO
+        String dispositivo = Build.DEVICE + " " + Build.MODEL + " " + Build.VERSION.BASE_OS;
+        informe.put("dispositivo", dispositivo);
+        //OBTENEMOS FECHA Y HORA
+        String currentDateTimeString = java.text.DateFormat.getDateTimeInstance().format(new Date());
+        informe.put("datetime", currentDateTimeString);
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            SweetAlert.showMsg(this, SweetAlert.SUCCESS_TYPE, "¡GENIAL!", respuesta.getString("mensaje"), true, "OK", ()->{
+                finish();
+            });
+        }, Constants.IP_80 + "/assets/lib/Restablecimiento.php?informeCorreo=true", WebServicesAPI.POST, informe);
+        webServicesAPI.execute();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
     }
 
 }

@@ -13,6 +13,7 @@ import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.ui.InicioCliente;
+import com.proathome.ui.MainActivity;
 import com.proathome.ui.fragments.NuevaSesionFragment;
 import com.proathome.ui.fragments.PlanesFragment;
 import com.proathome.ui.fragments.PreOrdenServicio;
@@ -56,7 +57,10 @@ public class ServiciosCliente {
                 JSONObject jsonDatos = new JSONObject(response);
                 Log.d("TAG1PLAN", jsonDatos.toString());
                 if(!jsonDatos.getBoolean("respuesta")){
-                    SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error al obtener la información.", false, null, null);
+                    SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error al obtener la información.", true, "OK", ()->{
+                        SharedPreferencesManager.getInstance(contexto).logout();
+                        contexto.startActivity(new Intent(contexto, MainActivity.class));
+                    });
                 }else{
                     JSONObject body = jsonDatos.getJSONObject("mensaje");
                     SesionesFragment.PLAN =  body.getString("tipoPlan");

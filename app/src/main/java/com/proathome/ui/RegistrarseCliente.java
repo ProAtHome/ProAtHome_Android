@@ -173,19 +173,19 @@ public class RegistrarseCliente extends AppCompatActivity {
                 //Verificar que las contraseñas sean iguales
                 if(contrasenaET.getText().toString().trim().equals(contrasena2ET.getText().toString())){
                     if(checkBox.isChecked()){
-                        progressDialog = ProgressDialog.show(this, "Registrando", "Por favor, espere...");
+                        progressDialog = ProgressDialog.show(RegistrarseCliente.this, "Registrando", "Por favor, espere...");
                         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
                             verificacionCorreo(response);
                         }, APIEndPoints.REGISTRAR_CLIENTE, WebServicesAPI.POST, getRegistro());
                         webServicesAPI.execute();
                     }else
-                        SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Debes aceptar los Términos y Condiciones.", true, "OK", ()->{});
+                        SweetAlert.showMsg(RegistrarseCliente.this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Debes aceptar los Términos y Condiciones.", true, "OK", ()->{});
                 }else
-                    SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Las contraseñas no coinciden.", true, "OK", ()->{});
+                    SweetAlert.showMsg(RegistrarseCliente.this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Las contraseñas no coinciden.", true, "OK", ()->{});
             }else
-                SweetAlert.showMsg(this, SweetAlert.WARNING_TYPE, "¡ESPERA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.", true, "OK", ()->{});
+                SweetAlert.showMsg(RegistrarseCliente.this, SweetAlert.WARNING_TYPE, "¡ESPERA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.", true, "OK", ()->{});
         }else
-            SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Llena todos los campos correctamente.", true, "OK", ()->{});
+            SweetAlert.showMsg(RegistrarseCliente.this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Llena todos los campos correctamente.", true, "OK", ()->{});
 
     }//Fin método registrar.
 
@@ -220,5 +220,9 @@ public class RegistrarseCliente extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
     }
 }

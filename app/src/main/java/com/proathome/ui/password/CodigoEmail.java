@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
 import com.proathome.servicios.api.WebServicesAPI;
@@ -17,6 +20,7 @@ import org.json.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import butterknife.Unbinder;
 
 public class CodigoEmail extends AppCompatActivity {
@@ -43,6 +47,21 @@ public class CodigoEmail extends AppCompatActivity {
         this.token = intent.getStringExtra("token");
         this.correo = intent.getStringExtra("correo");
         this.tipoPerfil = intent.getIntExtra("tipoPerfil", 1);
+    }
+
+    @OnTextChanged(R.id.d1ET_IS)
+    public void onTextChanged(){
+        d2.requestFocus();
+    }
+
+    @OnTextChanged(R.id.d2ET_IS)
+    public void onTextChanged2(){
+        d3.requestFocus();
+    }
+
+    @OnTextChanged(R.id.d3ET_IS)
+    public void onTextChanged3(){
+        d4.requestFocus();
     }
 
     @OnClick(R.id.validarCodigoBTN)
@@ -92,5 +111,9 @@ public class CodigoEmail extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
     }
 }

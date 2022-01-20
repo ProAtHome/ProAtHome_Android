@@ -143,13 +143,13 @@ public class RegistrarseProfesional extends AppCompatActivity {
                     if(checkBox.isChecked())
                         registrarProfesional();
                     else
-                        SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Debes aceptar los Términos y Condiciones.", true, "OK", ()->{});
+                        SweetAlert.showMsg(RegistrarseProfesional.this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Debes aceptar los Términos y Condiciones.", true, "OK", ()->{});
                 }else
-                    SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Las contraseñas no coinciden.", true, "OK", ()->{});
+                    SweetAlert.showMsg(RegistrarseProfesional.this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Las contraseñas no coinciden.", true, "OK", ()->{});
             }else
-                SweetAlert.showMsg(this, SweetAlert.WARNING_TYPE, "¡ESPERA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.", true, "OK", ()->{});
+                SweetAlert.showMsg(RegistrarseProfesional.this, SweetAlert.WARNING_TYPE, "¡ESPERA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.", true, "OK", ()->{});
         }else
-            SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos correctamente.", true, "OK", ()->{});
+            SweetAlert.showMsg(RegistrarseProfesional.this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos correctamente.", true, "OK", ()->{});
     }//Fin método registrar.
 
     private void registrarProfesional(){
@@ -166,7 +166,7 @@ public class RegistrarseProfesional extends AppCompatActivity {
             parametrosPost.put("genero", genero.getSelectedItem().toString());
             parametrosPost.put("contrasena", contrasenaET.getText().toString());
 
-            progressDialog = ProgressDialog.show(this, "Registrando", "Por favor, espere...");
+            progressDialog = ProgressDialog.show(RegistrarseProfesional.this, "Registrando", "Por favor, espere...");
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
                 try{
                     JSONObject jsonObject = new JSONObject(response);
@@ -184,7 +184,7 @@ public class RegistrarseProfesional extends AppCompatActivity {
                         fastServices.execute();
                     }else{
                         progressDialog.dismiss();
-                        SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
+                        SweetAlert.showMsg(RegistrarseProfesional.this, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
                     }
 
                 }catch(JSONException ex){

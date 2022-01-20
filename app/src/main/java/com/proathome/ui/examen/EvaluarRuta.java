@@ -25,7 +25,7 @@ public class EvaluarRuta {
 
     public int getRuta(){
         int ruta = 0;
-        if(this.aciertos >= 1 && this.aciertos <= 4)
+        if(this.aciertos >= 0 && this.aciertos <= 4)
             ruta = EvaluarRuta.BASIC1;
         else if(this.aciertos >=5 && this.aciertos <= 8)
             ruta = EvaluarRuta.BASIC2;

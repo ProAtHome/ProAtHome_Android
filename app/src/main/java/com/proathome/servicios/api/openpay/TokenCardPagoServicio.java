@@ -85,7 +85,6 @@ public class TokenCardPagoServicio extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-
     }
 
 }
