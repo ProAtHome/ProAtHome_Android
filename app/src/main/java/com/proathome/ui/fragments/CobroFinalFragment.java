@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.material.button.MaterialButton;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
@@ -16,6 +18,8 @@ import com.proathome.R;
 import com.proathome.servicios.cliente.TabuladorCosto;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import butterknife.BindView;
@@ -94,19 +98,23 @@ public class CobroFinalFragment extends DialogFragment {
     private void getPreOrden(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try{
-                JSONObject jsonObject = new JSONObject(response);
-                nombreTitular = jsonObject.getString("nombreTitular");
-                mes = jsonObject.get("mes").toString();
-                ano = jsonObject.get("ano").toString();
-                metodoRegistrado = jsonObject.getString("tarjeta");
-                sesion = "Sesión: " + Component.getSeccion(jsonObject.getInt("idSeccion")) + " / " + Component.getNivel(jsonObject.getInt("idSeccion"), jsonObject.getInt("idNivel")) + " / " + Component.getBloque(jsonObject.getInt("idBloque"));
-                tiempo = "Tiempo: " + obtenerHorario(jsonObject.getInt("tiempo"));
-                nombreCliente = jsonObject.get("nombreCliente").toString();
-                correo = jsonObject.get("correo").toString();
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONObject jsonObject = data.getJSONObject("mensaje");
+                    nombreTitular = jsonObject.getString("nombreTitular");
+                    mes = jsonObject.get("mes").toString();
+                    ano = jsonObject.get("ano").toString();
+                    metodoRegistrado = jsonObject.getString("tarjeta");
+                    sesion = "Sesión: " + Component.getSeccion(jsonObject.getInt("idSeccion")) + " / " + Component.getNivel(jsonObject.getInt("idSeccion"), jsonObject.getInt("idNivel")) + " / " + Component.getBloque(jsonObject.getInt("idBloque"));
+                    tiempo = "Tiempo: " + obtenerHorario(jsonObject.getInt("tiempo"));
+                    nombreCliente = jsonObject.get("nombreCliente").toString();
+                    correo = jsonObject.get("correo").toString();
+                }else
+                    Toast.makeText(getContext(), data.getString("mensaje"), Toast.LENGTH_LONG).show();
             }catch(JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.GET_PRE_ORDEN + this.idCliente + "/" + this.idSesion, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_PRE_ORDEN + this.idCliente + "/" + this.idSesion + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

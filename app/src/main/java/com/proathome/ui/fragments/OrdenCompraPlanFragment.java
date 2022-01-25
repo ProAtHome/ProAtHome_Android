@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
@@ -14,6 +16,7 @@ import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.cliente.ServiciosCliente;
 import com.proathome.ui.sesiones.SesionesFragment;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -271,11 +274,15 @@ public class OrdenCompraPlanFragment extends DialogFragment {
 
     private void sesionesPagadas(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            JSONObject jsonObject = new JSONObject(response);
-            //TODO FLUJO_PLANES_EJECUTAR: Posible cambio de algortimo para obtener plan_activo, verificar la fecha de inicio si es distinto a PARTICULAR.
-            SesionesFragment.PLAN_ACTIVO = jsonObject.getBoolean("plan_activo");
-            SesionesFragment.SESIONES_PAGADAS_FINALIZADAS = jsonObject.getBoolean("sesiones_pagadas_finalizadas");
-        }, APIEndPoints.SESIONES_PAGADAS_Y_FINALIZADAS + this.idCliente, WebServicesAPI.GET, null);
+            JSONObject data = new JSONObject(response);
+            if(data.getBoolean("respuesta")){
+                JSONObject jsonObject = data.getJSONObject("mensaje");
+                //TODO FLUJO_PLANES_EJECUTAR: Posible cambio de algortimo para obtener plan_activo, verificar la fecha de inicio si es distinto a PARTICULAR.
+                SesionesFragment.PLAN_ACTIVO = jsonObject.getBoolean("plan_activo");
+                SesionesFragment.SESIONES_PAGADAS_FINALIZADAS = jsonObject.getBoolean("sesiones_pagadas_finalizadas");
+            }else
+                Toast.makeText(getContext(), data.getString("mensaje"), Toast.LENGTH_LONG).show();
+        }, APIEndPoints.SESIONES_PAGADAS_Y_FINALIZADAS + this.idCliente + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

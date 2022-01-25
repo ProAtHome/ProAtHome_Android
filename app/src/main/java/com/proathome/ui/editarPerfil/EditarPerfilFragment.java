@@ -263,7 +263,7 @@ public class EditarPerfilFragment extends Fragment {
             }catch(JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.GET_REPORTES_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_REPORTES_CLIENTE + this.idCliente + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

@@ -115,12 +115,12 @@ public class MainActivity extends AppCompatActivity {
                 String correo = correoET.getText().toString().trim();
                 String contrasena = contrasenaET.getText().toString().trim();
 
-                progressDialog = ProgressDialog.show(this, "Iniciando Sesión", "Por favor, espere ...");
+                progressDialog = ProgressDialog.show(MainActivity.this, "Iniciando Sesión", "Por favor, espere ...");
                 WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
                     progressDialog.dismiss();
                     try{
                         if(response == null){
-                            SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inesperado, intenta de nuevo.", false, null, null);
+                            SweetAlert.showMsg(MainActivity.this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inesperado, intenta de nuevo.", false, null, null);
                         }else {
                             if(!response.equals("null")){
                                 JSONObject jsonObject = new JSONObject(response);
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         startActivity(new Intent(this, InicioCliente.class));
                                     }else
-                                        SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Aún no verificas tu cuenta de correo electrónico.", false, null, null);
+                                        SweetAlert.showMsg(MainActivity.this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Aún no verificas tu cuenta de correo electrónico.", false, null, null);
                                 }else if(jsonObject.getString("estado").equalsIgnoreCase("DOCUMENTACION") ||
                                         jsonObject.getString("estado").equalsIgnoreCase("REGISTRO")){
                                     startActivity(new Intent(this, PasosActivarCuentaCliente.class));
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
                             }else
-                                SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Usuario no registrado o tus datos están incorrectos.", false, null, null);
+                                SweetAlert.showMsg(MainActivity.this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Usuario no registrado o tus datos están incorrectos.", false, null, null);
                         }
                     }catch(JSONException ex){
                         ex.printStackTrace();
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                 }, APIEndPoints.INICIAR_SESION_CLIENTE + "/" + correo + "/" + contrasena, WebServicesAPI.GET, null);
                 webServicesAPI.execute();
             }else
-                SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos.", false, null, null);
+                SweetAlert.showMsg(MainActivity.this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos.", false, null, null);
         }
     }//Fin método entrar.
 

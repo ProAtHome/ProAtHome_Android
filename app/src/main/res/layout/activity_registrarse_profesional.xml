@@ -357,11 +357,20 @@
 
             </com.google.android.material.checkbox.MaterialCheckBox>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnTCP"
+             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnTerminos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="T&amp;C y Aviso de Privacidad"
+                android:text="Términos y Condiciones"
+                android:fontFamily="@font/din"
+                 android:textColor="@android:color/white"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPrivacidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Aviso de Privacidad"
                 android:fontFamily="@font/din"
                 android:textColor="@android:color/white"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"/>

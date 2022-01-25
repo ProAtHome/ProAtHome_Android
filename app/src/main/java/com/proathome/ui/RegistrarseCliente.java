@@ -189,7 +189,12 @@ public class RegistrarseCliente extends AppCompatActivity {
 
     }//Fin método registrar.
 
-    public void btnTC(){
+    public void btnTerminos(){
+        Uri uri = Uri.parse("https://proathome.com.mx/T&C/doc");
+        startActivity(new Intent(Intent.ACTION_VIEW, uri));
+    }
+
+    private void btnPrivacidad(){
         Uri uri = Uri.parse("https://proathome.com.mx/avisoprivacidad/cliente");
         startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
@@ -198,11 +203,14 @@ public class RegistrarseCliente extends AppCompatActivity {
         showDialog(DATE_ID);
     }//Fin método verDatePicker.
 
-    @OnClick({R.id.btnTC, R.id.btnFecha, R.id.registrarseBTN, R.id.btnIniciarSesion})
+    @OnClick({R.id.btnTerminos, R.id.btnPrivacidad, R.id.btnFecha, R.id.registrarseBTN, R.id.btnIniciarSesion})
     public void onClick(View view){
         switch (view.getId()){
-            case R.id.btnTC:
-                btnTC();
+            case R.id.btnTerminos:
+                btnTerminos();
+                break;
+            case R.id.btnPrivacidad:
+                btnPrivacidad();
                 break;
             case R.id.btnFecha:
                 verDatePicker();

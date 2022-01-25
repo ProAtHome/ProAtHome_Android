@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.servicios.sesiones.ServiciosSesion;
@@ -15,6 +17,7 @@ import com.proathome.R;
 import com.proathome.utils.Component;
 import com.proathome.utils.Constants;
 import com.proathome.utils.FechaActual;
+import com.proathome.utils.SharedPreferencesManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,19 +58,23 @@ public class MasTiempo extends DialogFragment {
     private void getPreOrden(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try{
-                JSONObject jsonObject = new JSONObject(response);
-                CobroFinalFragment.nombreTitular = jsonObject.getString("nombreTitular");
-                CobroFinalFragment.mes = jsonObject.get("mes").toString();
-                CobroFinalFragment.ano = jsonObject.get("ano").toString();
-                CobroFinalFragment.metodoRegistrado = jsonObject.getString("tarjeta");
-                CobroFinalFragment.sesion = "Sesión: " + Component.getSeccion(jsonObject.getInt("idSeccion")) + " / " + Component.getNivel(jsonObject.getInt("idSeccion"), jsonObject.getInt("idNivel")) + " / " + Component.getBloque(jsonObject.getInt("idBloque"));
-                CobroFinalFragment.tiempo = "Tiempo: " + obtenerHorario(jsonObject.getInt("tiempo"));
-                CobroFinalFragment.nombreCliente = jsonObject.get("nombreCliente").toString();
-                CobroFinalFragment.correo = jsonObject.get("correo").toString();
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONObject jsonObject = data.getJSONObject("mensaje");
+                    CobroFinalFragment.nombreTitular = jsonObject.getString("nombreTitular");
+                    CobroFinalFragment.mes = jsonObject.get("mes").toString();
+                    CobroFinalFragment.ano = jsonObject.get("ano").toString();
+                    CobroFinalFragment.metodoRegistrado = jsonObject.getString("tarjeta");
+                    CobroFinalFragment.sesion = "Sesión: " + Component.getSeccion(jsonObject.getInt("idSeccion")) + " / " + Component.getNivel(jsonObject.getInt("idSeccion"), jsonObject.getInt("idNivel")) + " / " + Component.getBloque(jsonObject.getInt("idBloque"));
+                    CobroFinalFragment.tiempo = "Tiempo: " + obtenerHorario(jsonObject.getInt("tiempo"));
+                    CobroFinalFragment.nombreCliente = jsonObject.get("nombreCliente").toString();
+                    CobroFinalFragment.correo = jsonObject.get("correo").toString();
+                }else
+                    Toast.makeText(getContext(), data.getString("mensaje"), Toast.LENGTH_LONG).show();
             }catch(JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.GET_PRE_ORDEN + this.idCliente + "/" + this.idSesion, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_PRE_ORDEN + this.idCliente + "/" + this.idSesion + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

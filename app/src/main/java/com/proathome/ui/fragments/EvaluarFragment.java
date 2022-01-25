@@ -14,6 +14,7 @@ import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.utils.Component;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,29 +76,33 @@ public class EvaluarFragment extends DialogFragment {
                                 WebServicesAPI bloquearPerfil = new WebServicesAPI(response -> {
                                     try{
                                         if(response != null){
-                                            JSONObject jsonObject = new JSONObject(response);
-                                            PagoPendienteFragment pagoPendienteFragment = new PagoPendienteFragment();
-                                            Bundle bundle = new Bundle();
-                                            if(jsonObject.getBoolean("bloquear")){
-                                                FragmentTransaction fragmentTransaction = null;
-                                                bundle.putDouble("deuda", jsonObject.getDouble("deuda"));
-                                                bundle.putString("sesion", Component.getSeccion(jsonObject.getInt("idSeccion")) +
-                                                        " / " + Component.getNivel(jsonObject.getInt("idSeccion"),
-                                                        jsonObject.getInt("idNivel")) + " / " + jsonObject.getInt("idBloque"));
-                                                bundle.putString("lugar", jsonObject.getString("lugar"));
-                                                bundle.putString("nombre", jsonObject.getString("nombre"));
-                                                bundle.putString("correo", jsonObject.getString("correo"));
-                                                bundle.putInt("idSesion", jsonObject.getInt("idSesion"));
-                                                fragmentTransaction = getFragmentManager().beginTransaction();
-                                                pagoPendienteFragment.setArguments(bundle);
-                                                pagoPendienteFragment.show(fragmentTransaction, "Pago pendiente");
-                                            }
+                                            JSONObject data = new JSONObject(response);
+                                            if(data.getBoolean("respuesta")){
+                                                JSONObject jsonObject = data.getJSONObject("mensaje");
+                                                PagoPendienteFragment pagoPendienteFragment = new PagoPendienteFragment();
+                                                Bundle bundle = new Bundle();
+                                                if(jsonObject.getBoolean("bloquear")){
+                                                    FragmentTransaction fragmentTransaction = null;
+                                                    bundle.putDouble("deuda", jsonObject.getDouble("deuda"));
+                                                    bundle.putString("sesion", Component.getSeccion(jsonObject.getInt("idSeccion")) +
+                                                            " / " + Component.getNivel(jsonObject.getInt("idSeccion"),
+                                                            jsonObject.getInt("idNivel")) + " / " + jsonObject.getInt("idBloque"));
+                                                    bundle.putString("lugar", jsonObject.getString("lugar"));
+                                                    bundle.putString("nombre", jsonObject.getString("nombre"));
+                                                    bundle.putString("correo", jsonObject.getString("correo"));
+                                                    bundle.putInt("idSesion", jsonObject.getInt("idSesion"));
+                                                    fragmentTransaction = getFragmentManager().beginTransaction();
+                                                    pagoPendienteFragment.setArguments(bundle);
+                                                    pagoPendienteFragment.show(fragmentTransaction, "Pago pendiente");
+                                                }
+                                            }else
+                                                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error al obtener la información de tu historial de pagos, intente de nuevo más tarde.", false, null, null);
                                         }else
                                             SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error al obtener la información de tu historial de pagos, intente de nuevo más tarde.", false, null, null);
                                     }catch(JSONException ex){
                                         ex.printStackTrace();
                                     }
-                                }, APIEndPoints.BLOQUEAR_PERFIL + "/" + DetallesFragment.idCliente, WebServicesAPI.GET, null);
+                                }, APIEndPoints.BLOQUEAR_PERFIL + "/" + DetallesFragment.idCliente + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
                                 bloquearPerfil.execute();
                             }else if(this.procedencia == EvaluarFragment.PROCEDENCIA_PROFESIONAL)
                                 valorar();

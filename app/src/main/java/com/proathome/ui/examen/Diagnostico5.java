@@ -78,10 +78,10 @@ public class Diagnostico5 extends AppCompatActivity {
                         finish();
                     })
                     .setPositiveButton("Cancelar", ((dialog, which) -> {
-                        SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, ()->{ });
+                        SweetAlert.showMsg(Diagnostico5.this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, ()->{ });
                     }))
                     .setOnCancelListener(dialog -> {
-                        SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, ()->{ });
+                        SweetAlert.showMsg(Diagnostico5.this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, ()->{ });
                     })
                     .show();
         });
@@ -89,7 +89,7 @@ public class Diagnostico5 extends AppCompatActivity {
         btnContinuar.setOnClickListener(v -> {
             int puntuacion = respuesta1 + respuesta2 + respuesta3 + respuesta4 + respuesta5 + evaluarParte1();
             int idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
-            ServiciosExamenDiagnostico.actualizarEstatusExamen(Constants.ENCURSO_EXAMEN, idCliente, puntuacion, 50, this, Diagnostico5.this, Diagnostico6.class);
+            ServiciosExamenDiagnostico.actualizarEstatusExamen(Constants.ENCURSO_EXAMEN, idCliente, puntuacion, 50, Diagnostico5.this, Diagnostico5.this, Diagnostico6.class);
         });
 
         checkeableChips(chip_p1_1, chip_p1_2);

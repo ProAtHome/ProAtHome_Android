@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterTicket;
@@ -60,26 +62,30 @@ public class AyudaFragment extends Fragment {
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try{
                 if(response != null){
-                    JSONArray jsonArray = new JSONArray(response);
-                    for(int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        if (jsonObject.getBoolean("sinTickets")){
-                            lottieAnimationView.setVisibility(View.VISIBLE);
-                        } else{
-                            lottieAnimationView.setVisibility(View.INVISIBLE);
-                            componentAdapterTicket.add(FragmentTicketAyuda.getmInstance(jsonObject.getString("topico"),
-                                    ComponentTicket.validarEstatus(jsonObject.getInt("estatus")),
-                                    jsonObject.getString("fechaCreacion"), jsonObject.getInt("idTicket"),
-                                    jsonObject.getString("descripcion"), jsonObject.getString("noTicket"),
-                                    jsonObject.getInt("estatus"), jsonObject.getInt("tipoUsuario"), jsonObject.getString("categoria")));
+                    JSONObject data = new JSONObject(response);
+                    if(data.getBoolean("respuesta")){
+                        JSONArray jsonArray = data.getJSONArray("mensaje");
+                        for(int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            if (jsonObject.getBoolean("sinTickets")){
+                                lottieAnimationView.setVisibility(View.VISIBLE);
+                            } else{
+                                lottieAnimationView.setVisibility(View.INVISIBLE);
+                                componentAdapterTicket.add(FragmentTicketAyuda.getmInstance(jsonObject.getString("topico"),
+                                        ComponentTicket.validarEstatus(jsonObject.getInt("estatus")),
+                                        jsonObject.getString("fechaCreacion"), jsonObject.getInt("idTicket"),
+                                        jsonObject.getString("descripcion"), jsonObject.getString("noTicket"),
+                                        jsonObject.getInt("estatus"), jsonObject.getInt("tipoUsuario"), jsonObject.getString("categoria")));
+                            }
                         }
-                    }
+                    }else
+                        Toast.makeText(getContext(), "Error al obtener tickets.", Toast.LENGTH_SHORT).show();
                 }else
                     SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inseperado, intenta nuevamente.", false, null, null);
             }catch (JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.GET_TICKETS_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_TICKETS_CLIENTE + this.idCliente  + "/" +  SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

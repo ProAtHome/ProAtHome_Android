@@ -17,6 +17,7 @@ import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 
 import org.json.JSONException;
@@ -137,6 +138,9 @@ public class DatosFiscalesFragment extends DialogFragment {
     }
 
     private void getDatosFiscales(){
+        String apiDatos = this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.GET_DATOS_FISCALES_CLIENTE + this.idUsuario
+                + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente() : APIEndPoints.GET_DATOS_FISCALES_PROFESIONAL +
+                this.idUsuario;
         progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere, por favor...");
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             progressDialog.dismiss();
@@ -163,7 +167,7 @@ public class DatosFiscalesFragment extends DialogFragment {
             }catch (JSONException ex){
                 ex.printStackTrace();
             }
-        }, this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.GET_DATOS_FISCALES_CLIENTE + this.idUsuario : APIEndPoints.GET_DATOS_FISCALES_PROFESIONAL + this.idUsuario, WebServicesAPI.GET, null);
+        }, apiDatos, WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

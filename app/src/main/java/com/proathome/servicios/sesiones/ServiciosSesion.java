@@ -1,8 +1,10 @@
 package com.proathome.servicios.sesiones;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
@@ -15,6 +17,7 @@ import com.proathome.ui.fragments.DetallesSesionProfesionalFragment;
 import com.proathome.ui.fragments.NuevaSesionFragment;
 import com.proathome.ui.fragments.PreOrdenServicio;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 
 import org.json.JSONException;
@@ -24,6 +27,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 public class ServiciosSesion {
+
+    private static ProgressDialog progressDialog;
 
     public static void finalizar(int idSesion, int idPerfil){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
@@ -48,20 +53,24 @@ public class ServiciosSesion {
         webServicesAPI.execute();
     }
 
-    public static void validarServicioFinalizadoCliente(int idSesion, int idPerfil){
+    public static void validarServicioFinalizadoCliente(int idSesion, int idPerfil, Context context){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try{
-                JSONObject jsonObject = new JSONObject(response);
-                boolean finalizado = jsonObject.getBoolean("finalizado");
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONObject jsonObject = data.getJSONObject("mensaje");
+                    boolean finalizado = jsonObject.getBoolean("finalizado");
 
-                if(finalizado){
-                    DetallesFragment.iniciar.setEnabled(false);
-                    DetallesFragment.iniciar.setText("Servicio finalizado");
-                }
+                    if(finalizado){
+                        DetallesFragment.iniciar.setEnabled(false);
+                        DetallesFragment.iniciar.setText("Servicio finalizado");
+                    }
+                }else
+                    Toast.makeText(context, data.getString("mensaje"), Toast.LENGTH_LONG).show();
             }catch (JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.VALIDAR_SERVICIO_FINALIZADO_CLIENTE + idSesion + "/" + idPerfil, WebServicesAPI.GET, null);
+        }, APIEndPoints.VALIDAR_SERVICIO_FINALIZADO_CLIENTE + idSesion + "/" + idPerfil + "/" + SharedPreferencesManager.getInstance(context).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 
@@ -85,32 +94,40 @@ public class ServiciosSesion {
     public static void verificarDisponibilidadProfesional(int idSesion, int idPerfil, Context context){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try {
-                JSONObject resultado = new JSONObject(response);
-                boolean disponibilidad = resultado.getBoolean("dispProfesional");
-                if(disponibilidad) {
-                    SincronizarServicio.timer.cancel();
-                    getProgresoCliente(idSesion, idPerfil, context);
-                }
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONObject resultado = data.getJSONObject("mensaje");
+                    boolean disponibilidad = resultado.getBoolean("dispProfesional");
+                    if(disponibilidad) {
+                        SincronizarServicio.timer.cancel();
+                        getProgresoCliente(idSesion, idPerfil, context);
+                    }
+                }else
+                    Toast.makeText(context, data.getString("mensaje"), Toast.LENGTH_LONG).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, APIEndPoints.VERIFICAR_DISPONIBILIDAD_DE_PROFESIONAL + idSesion + "/" + idPerfil, WebServicesAPI.GET, null);
+        }, APIEndPoints.VERIFICAR_DISPONIBILIDAD_DE_PROFESIONAL + idSesion + "/" + idPerfil + "/" + SharedPreferencesManager.getInstance(context).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 
     public static void verificarDisponibilidadCliente(int idSesion, int idPerfil, Context context){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try {
-                JSONObject resultado = new JSONObject(response);
-                boolean disponibilidad = resultado.getBoolean("dispCliente");
-                if(disponibilidad) {
-                    SincronizarServicio.timer.cancel();
-                    ServiciosSesion.getProgresoProfesional(idSesion, idPerfil, context);
-                }
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONObject resultado = data.getJSONObject("mensaje");
+                    boolean disponibilidad = resultado.getBoolean("dispCliente");
+                    if(disponibilidad) {
+                        SincronizarServicio.timer.cancel();
+                        ServiciosSesion.getProgresoProfesional(idSesion, idPerfil, context);
+                    }
+                }else
+                    Toast.makeText(context, data.getString("mensaje"), Toast.LENGTH_LONG).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, APIEndPoints.VERIFICAR_DISPONIBILIDAD_DE_CLIENTE + idSesion + "/" + idPerfil, WebServicesAPI.GET, null);
+        }, APIEndPoints.VERIFICAR_DISPONIBILIDAD_DE_CLIENTE + idSesion + "/" + idPerfil + "/" + SharedPreferencesManager.getInstance(context).getTokenProfesional(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 
@@ -129,56 +146,64 @@ public class ServiciosSesion {
     public static void getProgresoCliente(int idSesion, int idPerfil, Context context){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try {
-            /*Aquí vamos a obtener el progreso inicial de el servicio dependiendo el perfil PROFESIONAL o CLIENTE para iniciar
-             las variables correspondientes antes de entrar en la Actividad de el Servicio.*/
-                JSONObject jsonObject = new JSONObject(response);
-                Intent intent = new Intent(context, ServicioCliente.class);
-                if(jsonObject.getBoolean("TE"))
-                    ServicioCliente.mTimeLeftMillis = (jsonObject.getInt("progresoTE") * 60 * 1000) + (jsonObject.getInt("progresoSegundosTE") * 1000);
-                else
-                    ServicioCliente.mTimeLeftMillis = (jsonObject.getInt("progreso") * 60 * 1000) + (jsonObject.getInt("progresoSegundos") * 1000);
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    /*Aquí vamos a obtener el progreso inicial de el servicio dependiendo el perfil PROFESIONAL o CLIENTE para iniciar
+                        las variables correspondientes antes de entrar en la Actividad de el Servicio.*/
+                    JSONObject jsonObject = data.getJSONObject("mensaje");
+                    Intent intent = new Intent(context, ServicioCliente.class);
+                    if(jsonObject.getBoolean("TE"))
+                        ServicioCliente.mTimeLeftMillis = (jsonObject.getInt("progresoTE") * 60 * 1000) + (jsonObject.getInt("progresoSegundosTE") * 1000);
+                    else
+                        ServicioCliente.mTimeLeftMillis = (jsonObject.getInt("progreso") * 60 * 1000) + (jsonObject.getInt("progresoSegundos") * 1000);
 
-                intent.putExtra("idSesion", idSesion);
-                intent.putExtra("idCliente", idPerfil);
-                intent.putExtra("idSeccion", SincronizarServicio.idSeccion);
-                intent.putExtra("idNivel", SincronizarServicio.idNivel);
-                intent.putExtra("idBloque", SincronizarServicio.idBloque);
-                intent.putExtra("sumar", SincronizarServicio.sumar);
-                intent.putExtra("tiempo", SincronizarServicio.tiempo);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-                jsonObject = null;
+                    intent.putExtra("idSesion", idSesion);
+                    intent.putExtra("idCliente", idPerfil);
+                    intent.putExtra("idSeccion", SincronizarServicio.idSeccion);
+                    intent.putExtra("idNivel", SincronizarServicio.idNivel);
+                    intent.putExtra("idBloque", SincronizarServicio.idBloque);
+                    intent.putExtra("sumar", SincronizarServicio.sumar);
+                    intent.putExtra("tiempo", SincronizarServicio.tiempo);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                    jsonObject = null;
+                }else
+                    Toast.makeText(context, data.getString("mensaje"), Toast.LENGTH_LONG).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, APIEndPoints.GET_PROGRESO_CLIENTE + idSesion + "/" + idPerfil, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_PROGRESO_CLIENTE + idSesion + "/" + idPerfil + "/" + SharedPreferencesManager.getInstance(context).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 
     public static void getProgresoProfesional(int idSesion, int idPerfil, Context context){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try {
-            /*Aquí vamos a obtener el progreso inicial de el servicio dependiendo el perfil PROFESIONAL o CLIENTE para iniciar
-             las variables correspondientes antes de entrar en la Actividad de el Servicio.*/
-                JSONObject jsonObject = new JSONObject(response);
-                Intent intent = new Intent(context, ServicioProfesional.class);
-                if(jsonObject.getBoolean("TE"))
-                    ServicioProfesional.mTimeLeftMillis = (jsonObject.getInt("progresoTE") * 60 * 1000) + (jsonObject.getInt("progresoSegundosTE") * 1000);
-                else
-                    ServicioProfesional.mTimeLeftMillis = (jsonObject.getInt("progreso") * 60 * 1000) + (jsonObject.getInt("progresoSegundos") * 1000);
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    /*Aquí vamos a obtener el progreso inicial de el servicio dependiendo el perfil PROFESIONAL o CLIENTE para iniciar
+                            las variables correspondientes antes de entrar en la Actividad de el Servicio.*/
+                    JSONObject jsonObject = data.getJSONObject("mensaje");
+                    Intent intent = new Intent(context, ServicioProfesional.class);
+                    if(jsonObject.getBoolean("TE"))
+                        ServicioProfesional.mTimeLeftMillis = (jsonObject.getInt("progresoTE") * 60 * 1000) + (jsonObject.getInt("progresoSegundosTE") * 1000);
+                    else
+                        ServicioProfesional.mTimeLeftMillis = (jsonObject.getInt("progreso") * 60 * 1000) + (jsonObject.getInt("progresoSegundos") * 1000);
 
-                intent.putExtra("idSesion", idSesion);
-                intent.putExtra("idProfesional", idPerfil);
-                intent.putExtra("idSeccion", SincronizarServicio.idSeccion);
-                intent.putExtra("idNivel", SincronizarServicio.idNivel);
-                intent.putExtra("idBloque", SincronizarServicio.idBloque);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-                jsonObject = null;
+                    intent.putExtra("idSesion", idSesion);
+                    intent.putExtra("idProfesional", idPerfil);
+                    intent.putExtra("idSeccion", SincronizarServicio.idSeccion);
+                    intent.putExtra("idNivel", SincronizarServicio.idNivel);
+                    intent.putExtra("idBloque", SincronizarServicio.idBloque);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                    jsonObject = null;
+                }else
+                    Toast.makeText(context, data.getString("mensaje"), Toast.LENGTH_LONG).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, APIEndPoints.GET_PROGRESO_PROFESIONAL + idSesion + "/" + idPerfil, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_PROGRESO_PROFESIONAL + idSesion + "/" + idPerfil + "/" + SharedPreferencesManager.getInstance(context).getTokenProfesional(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 
@@ -208,15 +233,17 @@ public class ServiciosSesion {
             parametrosPost.put("cobro", formato1.format(cobro));
             parametrosPost.put("descripcion", descripcion);
             parametrosPost.put("deviceId", PreOrdenServicio.deviceID);
-
+            progressDialog = ProgressDialog.show(context, "Generando Cobro", "Por favor, espere...");
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
                 try{
                     JSONObject jsonObject = new JSONObject(response);
                     //Guardamos el servicio.
                     if(jsonObject.getBoolean("respuesta"))//Guardamos la info de PAGO
                         guardarPago(bundle, jsonObject.getString("mensaje"), idCliente, context, cobro, 0.0);
-                    else
+                    else{
+                        progressDialog.dismiss();
                         SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡ERROR!", response, false, null, null);
+                    }
                 }catch(JSONException ex){
                     ex.printStackTrace();
                 }
@@ -266,6 +293,8 @@ public class ServiciosSesion {
             parametrosPOST.put("token", token);
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
                 JSONObject jsonObject = new JSONObject(response);
+                progressDialog.dismiss();
+                progressDialog = null;
                 if(jsonObject.getBoolean("respuesta")){
                     //EL FLUJO DE COBRO SERVICIO LLEGA HASTA ACA, CERRAMEOS EL DIALOG QUE LO GENERO.
                     PreOrdenServicio.dialogFragment.dismiss();

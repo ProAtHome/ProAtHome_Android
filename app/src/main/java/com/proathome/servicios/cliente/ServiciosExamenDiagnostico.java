@@ -5,6 +5,8 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
@@ -20,6 +22,7 @@ import com.proathome.ui.examen.EvaluarRuta;
 import com.proathome.ui.fragments.FragmentRutaGenerada;
 import com.proathome.ui.ruta.RutaFragment;
 import com.proathome.utils.Constants;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -142,38 +145,41 @@ public class ServiciosExamenDiagnostico {
     public static void getEstatusExamen(int idCliente, Context contexto){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try{
-                JSONObject jsonObject = new JSONObject(response);
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONObject jsonObject = data.getJSONObject("mensaje");
+                    //VALIDAMOS QUE LAS SESIONES ESTEN FINALZIADAS PARA EVITAR CRUCE DE NIVELES
+                    if(jsonObject.getBoolean("sesionesFinalizadas")){
+                        int estatus = jsonObject.getInt("estatus");
+                        if(estatus == Constants.INICIO_EXAMEN){
+                            new MaterialAlertDialogBuilder(contexto, R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
+                                    .setTitle("CUSTIONARIO DIAGNÓSTICO")
+                                    .setMessage("Tenemos un cuestionario para evaluar tus habilidades y colocarte en la ruta de aprendizaje de" +
+                                            " acuerdo a tus conocimientos, si no deseas realizar el Cuestionario sigue tu camino desde un inicio.")
+                                    .setNegativeButton("Cerrar", (dialog, which) -> {
+                                        ServiciosExamenDiagnostico.cancelarExamen(idCliente);
+                                    })
+                                    .setPositiveButton("EVALUAR", ((dialog, which) -> {
+                                        contexto.startActivity(new Intent(contexto, Diagnostico1.class));
+                                    }))
+                                    .setOnCancelListener(dialog -> {
 
-                //VALIDAMOS QUE LAS SESIONES ESTEN FINALZIADAS PARA EVITAR CRUCE DE NIVELES
-                if(jsonObject.getBoolean("sesionesFinalizadas")){
-                    int estatus = jsonObject.getInt("estatus");
-                    if(estatus == Constants.INICIO_EXAMEN){
-                        new MaterialAlertDialogBuilder(contexto, R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
-                                .setTitle("EXÁMEN DIAGNÓSTICO")
-                                .setMessage("Tenemos un exámen para evaluar tus habilidades y colocarte en la ruta de aprendizaje de" +
-                                        " acuerdo a tus conocimientos, si no deseas realizar el exámen sigue tu camino desde un inicio.")
-                                .setNegativeButton("Cerrar", (dialog, which) -> {
-                                    ServiciosExamenDiagnostico.cancelarExamen(idCliente);
-                                })
-                                .setPositiveButton("EVALUAR", ((dialog, which) -> {
-                                    contexto.startActivity(new Intent(contexto, Diagnostico1.class));
-                                }))
-                                .setOnCancelListener(dialog -> {
-
-                                })
-                                .show();
-                    }else if(estatus == Constants.ENCURSO_EXAMEN)
-                        ServiciosExamenDiagnostico.continuarExamen(idCliente, contexto);
-                    else if(estatus == Constants.CANCELADO_EXAMEN)
-                        RutaFragment.imgExamen.setVisibility(View.VISIBLE);
-                    else if(estatus == Constants.EXAMEN_FINALIZADO)
-                        SweetAlert.showMsg(contexto, SweetAlert.NORMAL_TYPE, "Ya tenemos tu diagnóstico.", "", false, null, null);
+                                    })
+                                    .show();
+                        }else if(estatus == Constants.ENCURSO_EXAMEN)
+                            ServiciosExamenDiagnostico.continuarExamen(idCliente, contexto);
+                        else if(estatus == Constants.CANCELADO_EXAMEN)
+                            RutaFragment.imgExamen.setVisibility(View.VISIBLE);
+                        else if(estatus == Constants.EXAMEN_FINALIZADO)
+                            SweetAlert.showMsg(contexto, SweetAlert.NORMAL_TYPE, "Ya tenemos tu diagnóstico.", "", false, null, null);
+                    }else
+                        SweetAlert.showMsg(contexto, SweetAlert.WARNING_TYPE, "¡AVISO!", "Para realizar el cuestionario diagnóstico finaliza todos tus servicios.", false, null, null);
                 }else
-                    SweetAlert.showMsg(contexto, SweetAlert.WARNING_TYPE, "¡AVISO!", "Para realizar el examen diagnóstico finaliza todos tus servicios.", false, null, null);
+                    Toast.makeText(contexto, data.getString("mensaje"), Toast.LENGTH_LONG).show();
             }catch(JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.GET_ESTATUS_EXAMEN_DIAGNOSTICO + idCliente, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_ESTATUS_EXAMEN_DIAGNOSTICO + idCliente + "/" + SharedPreferencesManager.getInstance(contexto).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 
@@ -217,7 +223,7 @@ public class ServiciosExamenDiagnostico {
                     JSONObject jsonObject = new JSONObject(response);
                     int estatus = jsonObject.getInt("estatus");
                     if(estatus == Constants.REINICIAR_EXAMEN) {
-                        SweetAlert.showMsg(context, SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Examen reiniciado, suerte.", true, "VAMOS", ()->{
+                        SweetAlert.showMsg(context, SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Cuestionario reiniciado, suerte.", true, "VAMOS", ()->{
                             RutaFragment.imgExamen.setVisibility(View.INVISIBLE);
                             context.startActivity(new Intent(context, Diagnostico1.class));
                         });

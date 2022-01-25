@@ -89,17 +89,17 @@ public class LoginProfesional extends AppCompatActivity {
             String contrasena = String.valueOf(contrasenaET.getText()).trim();
             login(correo, contrasena);
         }else
-            SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos.", true, "OK", ()->{});
+            SweetAlert.showMsg(LoginProfesional.this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos.", true, "OK", ()->{});
 
     }//Fin método entrar.
 
     private void login(String correo, String pass){
-        progressDialog = ProgressDialog.show(this, "Iniciando Sesión", "Por favor, espere...");
+        progressDialog = ProgressDialog.show(LoginProfesional.this, "Iniciando Sesión", "Por favor, espere...");
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             progressDialog.dismiss();
             try{
                 if(response == null){
-                    SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inesperado, intenta de nuevo.", false, null, null);
+                    SweetAlert.showMsg(LoginProfesional.this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inesperado, intenta de nuevo.", false, null, null);
                 }else {
                     if(!response.equals("null")){
                         JSONObject jsonObject = new JSONObject(response);
@@ -123,7 +123,7 @@ public class LoginProfesional extends AppCompatActivity {
 
                                 startActivity(new Intent(this, InicioProfesional.class));
                             }else
-                                SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Aún no verificas tu cuenta de correo electrónico.", false, null, null);
+                                SweetAlert.showMsg(LoginProfesional.this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Aún no verificas tu cuenta de correo electrónico.", false, null, null);
                         }else if(jsonObject.getString("estado").equalsIgnoreCase("documentacion") ||
                                 jsonObject.getString("estado").equalsIgnoreCase("cita") ||
                                 jsonObject.getString("estado").equalsIgnoreCase("registro")){
@@ -136,7 +136,7 @@ public class LoginProfesional extends AppCompatActivity {
                             startActivity(intent);
                         }
                     }else
-                        SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Usuario no registrado o tus datos están incorrectos.", false, null, null);
+                        SweetAlert.showMsg(LoginProfesional.this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Usuario no registrado o tus datos están incorrectos.", false, null, null);
                 }
             }catch (JSONException ex){
                 ex.printStackTrace();

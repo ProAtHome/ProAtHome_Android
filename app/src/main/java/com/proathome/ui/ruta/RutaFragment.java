@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.google.android.material.button.MaterialButton;
@@ -85,20 +87,24 @@ public class RutaFragment extends Fragment {
     private void getEstadoRuta(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try{
-                JSONObject rutaJSON = new JSONObject(response);
-                int estado = rutaJSON.getInt("estado");
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONObject rutaJSON = data.getJSONObject("mensaje");
+                    int estado = rutaJSON.getInt("estado");
             /*if(estado == Constants.INICIO_RUTA){
-    }else */    if(estado == Constants.RUTA_ENCURSO) {
-                    int idBloque = rutaJSON.getInt("idBloque");
-                    int idNivel = rutaJSON.getInt("idNivel");
-                    int idSeccion = rutaJSON.getInt("idSeccion");
-                    ControladorRutaSecciones rutaAprendizaje = new ControladorRutaSecciones(getContext(), idBloque, idNivel, idSeccion);
-                    rutaAprendizaje.evaluarRuta();
-                }
+    }else */        if(estado == Constants.RUTA_ENCURSO) {
+                        int idBloque = rutaJSON.getInt("idBloque");
+                        int idNivel = rutaJSON.getInt("idNivel");
+                        int idSeccion = rutaJSON.getInt("idSeccion");
+                        ControladorRutaSecciones rutaAprendizaje = new ControladorRutaSecciones(getContext(), idBloque, idNivel, idSeccion);
+                        rutaAprendizaje.evaluarRuta();
+                    }
+                }else
+                    Toast.makeText(getContext(), data.getString("mensaje"), Toast.LENGTH_LONG).show();
             }catch(JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.GET_ESTADO_RUTA + this.idCliente + "/" + SECCIONES, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_ESTADO_RUTA + this.idCliente + "/" + SECCIONES + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
 import com.google.android.material.button.MaterialButton;
 import com.proathome.R;
 import com.proathome.servicios.api.APIEndPoints;
@@ -130,20 +132,24 @@ public class RutaBasico extends AppCompatActivity {
     private void getEstadoRuta(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try{
-                JSONObject rutaJSON = new JSONObject(response);
-                int estado = rutaJSON.getInt("estado");
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONObject rutaJSON = data.getJSONObject("mensaje");
+                    int estado = rutaJSON.getInt("estado");
             /*if(estado == Constants.INICIO_RUTA){
-    }else */    if(estado == Constants.RUTA_ENCURSO) {
-                    int idBloque = rutaJSON.getInt("idBloque");
-                    int idNivel = rutaJSON.getInt("idNivel");
-                    int idSeccion = rutaJSON.getInt("idSeccion");
-                    ControladorRutaBasico rutaAprendizaje = new ControladorRutaBasico(this, idBloque, idNivel, idSeccion);
-                    rutaAprendizaje.evaluarNivelBasico();
-                }
+    }else */        if(estado == Constants.RUTA_ENCURSO) {
+                        int idBloque = rutaJSON.getInt("idBloque");
+                        int idNivel = rutaJSON.getInt("idNivel");
+                        int idSeccion = rutaJSON.getInt("idSeccion");
+                        ControladorRutaBasico rutaAprendizaje = new ControladorRutaBasico(this, idBloque, idNivel, idSeccion);
+                        rutaAprendizaje.evaluarNivelBasico();
+                    }
+                }else
+                    Toast.makeText(this, data.getString("mensaje"), Toast.LENGTH_LONG).show();
             }catch(JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.GET_ESTADO_RUTA + this.idCliente + "/" + NIVEL_BASICO, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_ESTADO_RUTA + this.idCliente + "/" + NIVEL_BASICO + "/" + SharedPreferencesManager.getInstance(this).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

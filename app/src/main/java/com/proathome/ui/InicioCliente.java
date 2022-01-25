@@ -92,22 +92,29 @@ public class InicioCliente extends AppCompatActivity{
         WebServicesAPI bloquearPerfil = new WebServicesAPI(response -> {
             try{
                 if(response != null){
-                    JSONObject jsonObject = new JSONObject(response);
-                    PagoPendienteFragment pagoPendienteFragment = new PagoPendienteFragment();
-                    Bundle bundle = new Bundle();
-                    if(jsonObject.getBoolean("bloquear")){
-                        FragmentTransaction fragmentTransaction = null;
-                        bundle.putDouble("deuda", jsonObject.getDouble("deuda"));
-                        bundle.putString("sesion", Component.getSeccion(jsonObject.getInt("idSeccion")) +
-                                " / " + Component.getNivel(jsonObject.getInt("idSeccion"),
-                                jsonObject.getInt("idNivel")) + " / " + jsonObject.getInt("idBloque"));
-                        bundle.putString("lugar", jsonObject.getString("lugar"));
-                        bundle.putString("nombre", jsonObject.getString("nombre"));
-                        bundle.putString("correo", jsonObject.getString("correo"));
-                        bundle.putInt("idSesion", jsonObject.getInt("idSesion"));
-                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        pagoPendienteFragment.setArguments(bundle);
-                        pagoPendienteFragment.show(fragmentTransaction, "Pago pendiente");
+                    JSONObject data = new JSONObject(response);
+                    if(data.getBoolean("respuesta")){
+                        JSONObject jsonObject = data.getJSONObject("mensaje");
+                        PagoPendienteFragment pagoPendienteFragment = new PagoPendienteFragment();
+                        Bundle bundle = new Bundle();
+                        if(jsonObject.getBoolean("bloquear")){
+                            FragmentTransaction fragmentTransaction = null;
+                            bundle.putDouble("deuda", jsonObject.getDouble("deuda"));
+                            bundle.putString("sesion", Component.getSeccion(jsonObject.getInt("idSeccion")) +
+                                    " / " + Component.getNivel(jsonObject.getInt("idSeccion"),
+                                    jsonObject.getInt("idNivel")) + " / " + jsonObject.getInt("idBloque"));
+                            bundle.putString("lugar", jsonObject.getString("lugar"));
+                            bundle.putString("nombre", jsonObject.getString("nombre"));
+                            bundle.putString("correo", jsonObject.getString("correo"));
+                            bundle.putInt("idSesion", jsonObject.getInt("idSesion"));
+                            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                            pagoPendienteFragment.setArguments(bundle);
+                            pagoPendienteFragment.show(fragmentTransaction, "Pago pendiente");
+                        }
+                    }else{
+                        SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!",
+                                "Error al obtener la información de tu historial de pagos, intente de nuevo más tarde.",
+                                false, null ,null);
                     }
                 }else{
                     SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!",
@@ -117,7 +124,7 @@ public class InicioCliente extends AppCompatActivity{
             }catch(JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.BLOQUEAR_PERFIL + "/" + idCliente,  WebServicesAPI.GET, null);
+        }, APIEndPoints.BLOQUEAR_PERFIL + "/" + idCliente + "/" +  SharedPreferencesManager.getInstance(InicioCliente.this).getTokenCliente(),  WebServicesAPI.GET, null);
         bloquearPerfil.execute();
     }
 

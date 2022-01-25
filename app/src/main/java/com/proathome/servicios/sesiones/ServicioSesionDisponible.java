@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
 import androidx.fragment.app.FragmentActivity;
 import com.proathome.servicios.api.APIEndPoints;
 import com.proathome.servicios.api.WebServicesAPI;
@@ -15,6 +17,7 @@ import com.proathome.ui.fragments.DetallesSesionProfesionalFragment;
 import com.proathome.ui.fragments.MasTiempo;
 import com.proathome.utils.Constants;
 import com.proathome.utils.FechaActual;
+import com.proathome.utils.SharedPreferencesManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,11 +49,14 @@ public class ServicioSesionDisponible extends AsyncTask<Void, Void, String> {
             /*VALIDAMOS que tipo de perfil, profesional o cliente está pidiendo ver la disponibilidad de el servicio o el progreso de ésta
              y seleccionamos la URI correspondiente a el perfil.*/
             if(Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO == DetallesFragment.CLIENTE){
-                Constants.wsURL_DISPONIBILIDAD_PROGRESO = Constants.linkSincronizarCliente_DISPONIBILIDAD_PROGRESO + Constants.idSesion_DISPONIBILIDAD_PROGRESO + "/" + Constants.idPerfil_DISPONIBILIDAD_PROGRESO;
+                Constants.wsURL_DISPONIBILIDAD_PROGRESO = Constants.linkSincronizarCliente_DISPONIBILIDAD_PROGRESO +
+                        Constants.idSesion_DISPONIBILIDAD_PROGRESO + "/" + Constants.idPerfil_DISPONIBILIDAD_PROGRESO + "/" + SharedPreferencesManager.getInstance(Constants.contexto_DISPONIBILIDAD_PROGRESO).getTokenCliente();
             }else if(Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO == DetallesSesionProfesionalFragment.PROFESIONAL){
-                Constants.wsURL_DISPONIBILIDAD_PROGRESO = Constants.linkSincronizarProfesional_DISPONIBILIDAD_PROGRESO + Constants.idSesion_DISPONIBILIDAD_PROGRESO + "/" + Constants.idPerfil_DISPONIBILIDAD_PROGRESO;
+                Constants.wsURL_DISPONIBILIDAD_PROGRESO = Constants.linkSincronizarProfesional_DISPONIBILIDAD_PROGRESO +
+                        Constants.idSesion_DISPONIBILIDAD_PROGRESO + "/" + Constants.idPerfil_DISPONIBILIDAD_PROGRESO + "/" + SharedPreferencesManager.getInstance(Constants.contexto_DISPONIBILIDAD_PROGRESO).getTokenProfesional();
             }
 
+        System.out.println(Constants.wsURL_DISPONIBILIDAD_PROGRESO);
             try{
 
                 HttpURLConnection urlConnection = (HttpURLConnection) Constants.obtenerURL_DISPONIBILIDAD_PROGRESO().openConnection();
@@ -102,8 +108,9 @@ public class ServicioSesionDisponible extends AsyncTask<Void, Void, String> {
         super.onPostExecute(s);
 
         try {
-
-            JSONObject jsonObject = new JSONObject(s);
+            JSONObject data = new JSONObject(s);
+            if(data.getBoolean("respuesta")){
+                JSONObject jsonObject = data.getJSONObject("mensaje");
 
                 if (Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO == DetallesFragment.CLIENTE) {//Si el tipo de PERFIL es = CLIENTE
 
@@ -333,12 +340,12 @@ public class ServicioSesionDisponible extends AsyncTask<Void, Void, String> {
                         }
                     }
 
-            }
-
+                }
+            }else
+                Toast.makeText(Constants.contexto_DISPONIBILIDAD_PROGRESO, data.getString("mensaje"), Toast.LENGTH_LONG).show();
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     private void sumarSevicioRuta(){

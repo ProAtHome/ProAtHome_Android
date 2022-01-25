@@ -210,10 +210,10 @@ public class Diagnostico1 extends AppCompatActivity {
                         finish();
                     })
                     .setPositiveButton("Cancelar", ((dialog, which) -> {
-                        SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, ()->{ });
+                        SweetAlert.showMsg(Diagnostico1.this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, ()->{ });
                     }))
                     .setOnCancelListener(dialog -> {
-                        SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, ()->{ });
+                        SweetAlert.showMsg(Diagnostico1.this, SweetAlert.NORMAL_TYPE, "¡EY!", "¡NO TE RINDAS!", false, null, ()->{ });
                     })
                     .show();
         });
@@ -252,7 +252,7 @@ public class Diagnostico1 extends AppCompatActivity {
             }
 
             int idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
-            ServiciosExamenDiagnostico.inicioExamen(idCliente, puntuacion, 10, this, Diagnostico1.this, Diagnostico2.class);
+            ServiciosExamenDiagnostico.inicioExamen(idCliente, puntuacion, 10, Diagnostico1.this, Diagnostico1.this, Diagnostico2.class);
         });
 
         pregunta1.addTextChangedListener(new TextWatcher() {

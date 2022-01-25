@@ -123,7 +123,6 @@
                 android:id="@+id/btnFecha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="verDatePicker"
                 android:backgroundTint="@color/colorRosa"
                 android:fontFamily="@font/din"
                 android:text="Fecha de Nacimiento"
@@ -352,10 +351,18 @@
             </com.google.android.material.checkbox.MaterialCheckBox>
             
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnTC"
+                android:id="@+id/btnTerminos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="T&amp;C y Aviso de Privacidad"
+                android:text="Términos y Condiciones"
+                android:fontFamily="@font/din"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPrivacidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Aviso de Privacidad"
                 android:fontFamily="@font/din"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"/>
 
@@ -363,7 +370,6 @@
                 android:id="@+id/registrarseBTN"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="registrar"
                 android:backgroundTint="@color/colorRosa"
                 android:fontFamily="@font/din"
                 android:text="Registrarse" />
@@ -372,7 +378,6 @@
                 android:id="@+id/btnIniciarSesion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="iniciarSesion"
                 android:backgroundTint="@color/colorAzul"
                 android:fontFamily="@font/din"
                 android:text="Iniciar Sesión" />

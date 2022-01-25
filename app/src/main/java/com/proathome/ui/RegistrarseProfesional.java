@@ -197,11 +197,26 @@ public class RegistrarseProfesional extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.btnTCP)
-    public void onClick(){
+    @OnClick({R.id.btnTerminos, R.id.btnPrivacidad})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.btnTerminos:
+                btnTerminos();
+                break;
+            case R.id.btnPrivacidad:
+                btnPrivacidad();
+                break;
+        }
+    }
+
+    private void btnTerminos(){
+        Uri uri = Uri.parse("https://proathome.com.mx/T&C/doc");
+        startActivity(new Intent(Intent.ACTION_VIEW, uri));
+    }
+
+    private void btnPrivacidad(){
         Uri uri = Uri.parse("https://proathome.com.mx/avisoprivacidad/profesional");
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        startActivity(intent);
+        startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 
     @Override

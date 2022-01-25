@@ -1,6 +1,7 @@
 package com.proathome.ui.sesiones;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -9,6 +10,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -48,6 +51,7 @@ public class SesionesFragment extends Fragment {
     public static int MONEDERO = 0, horasDisponibles;
     public static LottieAnimationView lottieAnimationView;
     public static Context contexto;
+    private ProgressDialog progressDialog;
     @BindView(R.id.recyclerGestionar)
     RecyclerView recyclerView;
     @BindView(R.id.fabNuevaSesion)
@@ -66,7 +70,6 @@ public class SesionesFragment extends Fragment {
         getSesiones();
         configAdapter();
         configRecyclerView();
-        sesionesPagadas();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,7 +80,6 @@ public class SesionesFragment extends Fragment {
 
         SesionesFragment.contexto = getContext();
         webServiceDisponibilidad();
-        sesionesPagadas();
 
         return root;
 
@@ -93,6 +95,7 @@ public class SesionesFragment extends Fragment {
     }
 
     private void getSesiones(){
+        progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere por favor...");
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             if(response != null){
                 try{
@@ -119,42 +122,50 @@ public class SesionesFragment extends Fragment {
                         SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡AVISO!", "Usuario sin servicios disponibles.", false, null, null);
                 }catch(JSONException ex){
                     ex.printStackTrace();
+                    progressDialog.dismiss();
                 }
             }else
                 SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente de nuevo más tarde.", false, null, null);
+            sesionesPagadas();
         }, APIEndPoints.GET_SESIONES_CLIENTE  + this.idCliente, WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 
     private void sesionesPagadas(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            JSONObject jsonObject = new JSONObject(response);
-            //TODO FLUJO_PLANES_EJECUTAR: Posible cambio de algortimo para obtener plan_activo, verificar la fecha de inicio si es distinto a PARTICULAR.
-            PLAN_ACTIVO = jsonObject.getBoolean("plan_activo");
-            SESIONES_PAGADAS_FINALIZADAS = jsonObject.getBoolean("sesiones_pagadas_finalizadas");
-        }, APIEndPoints.SESIONES_PAGADAS_Y_FINALIZADAS + this.idCliente, WebServicesAPI.GET, null);
+            JSONObject data = new JSONObject(response);
+            if(data.getBoolean("respuesta")){
+                JSONObject jsonObject = data.getJSONObject("mensaje");
+                //TODO FLUJO_PLANES_EJECUTAR: Posible cambio de algortimo para obtener plan_activo, verificar la fecha de inicio si es distinto a PARTICULAR.
+                PLAN_ACTIVO = jsonObject.getBoolean("plan_activo");
+                SESIONES_PAGADAS_FINALIZADAS = jsonObject.getBoolean("sesiones_pagadas_finalizadas");
+                progressDialog.dismiss();
+            }else
+                Toast.makeText(getContext(), data.getString("mensaje"), Toast.LENGTH_LONG).show();
+        }, APIEndPoints.SESIONES_PAGADAS_Y_FINALIZADAS + this.idCliente + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 
     private void webServiceDisponibilidad(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try{
-                JSONObject jsonObject = new JSONObject(response);
-                if(jsonObject.getBoolean("respuesta")){
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONObject jsonObject = data.getJSONObject("mensaje");
                     if(jsonObject.getBoolean("disponibilidad")){
                         SesionesFragment.disponibilidad = true;
                         SesionesFragment.horasDisponibles = jsonObject.getInt("horasDisponibles");
                     }else
                         SesionesFragment.disponibilidad = false;
                 }else{
-                    SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), true, "OK", ()->{
+                    SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ERROR!", data.getString("mensaje"), true, "OK", ()->{
                         validarPlan_Monedero();
                     });
                 }
             }catch (JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.DISPONIBILIDAD_SERVICIO + idCliente, WebServicesAPI.GET, null);
+        }, APIEndPoints.DISPONIBILIDAD_SERVICIO + idCliente + "/" +  SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 
@@ -268,6 +279,10 @@ public class SesionesFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
     }
 
 }
