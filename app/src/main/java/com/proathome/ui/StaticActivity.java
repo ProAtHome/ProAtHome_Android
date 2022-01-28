@@ -33,7 +33,7 @@ public class StaticActivity extends AppCompatActivity {
             Log.d("tag1", nameFragment);
             int idServicio = getIntent().getIntExtra("idServicio" , 0);
             String profesional = getIntent().getStringExtra("profesional");
-            String cliente = getIntent().getStringExtra("nombreCliente");
+            String cliente = getIntent().getStringExtra("cliente");
             String correo = getIntent().getStringExtra("correo");
             String descripcion = getIntent().getStringExtra("descripcion");
             String foto = getIntent().getStringExtra("foto");

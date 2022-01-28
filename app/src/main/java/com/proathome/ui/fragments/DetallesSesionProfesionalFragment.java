@@ -136,8 +136,7 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
         this.fotoNombre = bun.getString("foto");
         latitud = bun.getDouble("latitud");
         longitud = bun.getDouble("longitud");
-        nombreTV.setText(bun.getString("nombreCliente"));
-        System.out.println("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY: " + bun.getString("nombreCliente"));
+        nombreTV.setText(bun.getString("cliente"));
         descripcionTV.setText(bun.getString("descripcion"));
         correoTV.setText(bun.getString("correo"));
         direccionTV.setText(bun.getString("lugar"));

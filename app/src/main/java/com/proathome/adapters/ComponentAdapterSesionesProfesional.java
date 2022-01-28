@@ -111,7 +111,7 @@ public class ComponentAdapterSesionesProfesional extends RecyclerView.Adapter<Co
             Intent intent = new Intent(context, StaticActivity.class);
             intent.putExtra(Constants.ARG_NAME, "Detalles del Servicio");
             intent.putExtra("idServicio", this.idServicio);
-            intent.putExtra("nombreCliente", this.nombreCliente);
+            intent.putExtra("cliente", this.nombreCliente);
             intent.putExtra("descripcion", this.descripcion);
             intent.putExtra("correo", this.correo);
             intent.putExtra("foto", this.foto);

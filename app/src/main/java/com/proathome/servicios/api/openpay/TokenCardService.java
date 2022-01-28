@@ -1,5 +1,6 @@
 package com.proathome.servicios.api.openpay;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
     private String nombreTitular, tarjeta, cvv;
     private int mes, ano;
     private Context contexto;
+    private ProgressDialog progressDialog;
 
     public TokenCardService(Context contexto, String nombreTitular, String tarjeta, int mes, int ano, String cvv){
         this.contexto = contexto;
@@ -41,6 +43,7 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        progressDialog = ProgressDialog.show(contexto, "Validando Tarjeta", "Por favor, espere...");
     }
 
     @Override
@@ -57,16 +60,17 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
         Constants.openpay.createToken(card, new OperationCallBack<Token>() {
             @Override
             public void onError(OpenpayServiceException e) {
-
+                progressDialog.dismiss();
             }
 
             @Override
             public void onCommunicationError(ServiceUnavailableException e) {
-
+                progressDialog.dismiss();
             }
 
             @Override
             public void onSuccess(OperationResult<Token> operationResult) {
+                progressDialog.dismiss();
                 DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
                 separadoresPersonalizados.setDecimalSeparator('.');
                 DecimalFormat formato1 = new DecimalFormat("#.00", separadoresPersonalizados);
@@ -79,7 +83,9 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
                     parametrosPost.put("cobro", formato1.format(DatosBancoPlanFragment.costoTotal));
                     parametrosPost.put("descripcion", "Cargo ProAtHome - " + CobroFinalFragment.sesion);
                     parametrosPost.put("deviceId", DatosBancoPlanFragment.deviceIdString);
+                    ProgressDialog progressDialog = ProgressDialog.show(contexto, "Generando Cobro", "Por favor, espere...");
                     WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                        progressDialog.dismiss();
                             JSONObject jsonObject = new JSONObject(response);
                             if(jsonObject.getBoolean("respuesta")){
                                 //Actualizar la orden de pago con el costo del TE

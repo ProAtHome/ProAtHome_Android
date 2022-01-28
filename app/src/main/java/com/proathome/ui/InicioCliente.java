@@ -75,8 +75,7 @@ public class InicioCliente extends AppCompatActivity{
         /*TODO FLUJO_PLANES: Verificar si el perfil debe ser Bloqueado o no.
             ->Si no está bloqueado entonces obtenemos el PLAN ACTUAL y el Monedero.
             (Dentro de la función de cargarPerfil)*/
-        cargarPerfil();
-
+        validarTokenSesion();
     }
 
     public void cargarPerfil(){
@@ -126,6 +125,22 @@ public class InicioCliente extends AppCompatActivity{
             }
         }, APIEndPoints.BLOQUEAR_PERFIL + "/" + idCliente + "/" +  SharedPreferencesManager.getInstance(InicioCliente.this).getTokenCliente(),  WebServicesAPI.GET, null);
         bloquearPerfil.execute();
+    }
+
+    private void validarTokenSesion(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            JSONObject data = new JSONObject(response);
+            if(data.getBoolean("respuesta")){
+                cargarPerfil();
+            }else{
+                SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "OH NO!", "Tu sesión expiró, vuelve a iniciar sesión.", true, "VAMOS", ()->{
+                    SharedPreferencesManager.getInstance(this).logout();
+                    startActivity(new Intent(this, MainActivity.class));
+                    finish();
+                });
+            }
+        }, APIEndPoints.VALIDAR_TOKEN_SESION + SharedPreferencesManager.getInstance(InicioCliente.this).getIDCliente() + "/" + SharedPreferencesManager.getInstance(InicioCliente.this).getTokenCliente(), WebServicesAPI.GET, null);
+        webServicesAPI.execute();
     }
 
     private void setImageBitmap(String foto){

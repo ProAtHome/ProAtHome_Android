@@ -397,7 +397,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         }, APIEndPoints.ACTUALIZAR_MONEDERO, WebServicesAPI.PUT, parametrosPUT);
         webServicesAPI.execute();
         NuevaSesionFragment.nuevoMonedero = 0;
-        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡GENIAL!", jsonObject.getString("mensaje"),
+        SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", jsonObject.getString("mensaje"),
                 true, "¡VAMOS!", ()->{
                     dismiss();
                 });

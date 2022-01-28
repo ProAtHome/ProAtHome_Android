@@ -120,6 +120,7 @@ public class SesionesFragment extends Fragment {
                         }
                     }else
                         SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡AVISO!", "Usuario sin servicios disponibles.", false, null, null);
+                    progressDialog.dismiss();
                 }catch(JSONException ex){
                     ex.printStackTrace();
                     progressDialog.dismiss();
@@ -139,7 +140,6 @@ public class SesionesFragment extends Fragment {
                 //TODO FLUJO_PLANES_EJECUTAR: Posible cambio de algortimo para obtener plan_activo, verificar la fecha de inicio si es distinto a PARTICULAR.
                 PLAN_ACTIVO = jsonObject.getBoolean("plan_activo");
                 SESIONES_PAGADAS_FINALIZADAS = jsonObject.getBoolean("sesiones_pagadas_finalizadas");
-                progressDialog.dismiss();
             }else
                 Toast.makeText(getContext(), data.getString("mensaje"), Toast.LENGTH_LONG).show();
         }, APIEndPoints.SESIONES_PAGADAS_Y_FINALIZADAS + this.idCliente + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
@@ -237,7 +237,7 @@ public class SesionesFragment extends Fragment {
                 }
             }
         }else if(SesionesFragment.PLAN_ACTIVO && SesionesFragment.MONEDERO == 0){
-            SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ESPERA!", "Tienes un plan activo pero ya no tienes tiempo disponible," +
+            SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ESPERA!", "Tienes un plan activo pero ya no tienes tiempo disponible, o solicitaste un servicio con saldo de tu monedero previamente," +
                     " elimina una sesión o espera a que finalicen los servicios que creaste.", false, null, null);
         }else{
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
@@ -279,10 +279,6 @@ public class SesionesFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-            progressDialog = null;
-        }
     }
 
 }

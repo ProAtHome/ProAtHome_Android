@@ -1,5 +1,6 @@
 package com.proathome.ui.fragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -48,6 +49,7 @@ public class DatosBancoPlanFragment extends DialogFragment {
     Button validarDatos;
     @BindView(R.id.btnCancelar)
     Button cancelar;
+    private ProgressDialog progressDialog;
     public static String deviceIdString, descripcion, nombre, correo;
     public static int idSesion, idCliente, procedencia;
     public static double costoTotal, deuda;
@@ -154,19 +156,23 @@ public class DatosBancoPlanFragment extends DialogFragment {
     }
 
     public void pagar(Card card){
+        progressDialog = ProgressDialog.show(getContext(), "Validando tarjeta", "Por favor, espere...");
         Constants.openpay.createToken(card, new OperationCallBack<Token>() {
             @Override
             public void onError(OpenpayServiceException e) {
+                progressDialog.dismiss();
                 SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", e.toString(), false, null, null);
             }
 
             @Override
             public void onCommunicationError(ServiceUnavailableException e) {
+                progressDialog.dismiss();
                 SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", e.toString(), false, null, null);
             }
 
             @Override
             public void onSuccess(OperationResult<Token> operationResult) {
+                progressDialog.dismiss();
                 DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
                 separadoresPersonalizados.setDecimalSeparator('.');
                 DecimalFormat formato1 = new DecimalFormat("#.00", separadoresPersonalizados);

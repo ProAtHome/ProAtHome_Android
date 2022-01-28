@@ -8,6 +8,7 @@ public class APIEndPoints {
     public static final String LATIDO_SQL = Constants.IP + "/ProAtHome/api/admin/latidoSQL";
 
     //CLIENTES
+    public static final String VALIDAR_TOKEN_SESION = Constants.IP + "/ProAtHome/api/cliente/validarTokenSesion/";
     public static final String INICIAR_SESION_CLIENTE = Constants.IP + "/ProAtHome/api/cliente/sesionCliente";
     public static final String REGISTRAR_CLIENTE = Constants.IP + "/ProAtHome/api/cliente/agregarCliente";
     public static final String INICIAR_PROCESO_RUTA = Constants.IP + "/ProAtHome/api/cliente/iniciarProcesoRuta";
@@ -59,6 +60,7 @@ public class APIEndPoints {
     public static final String FINALIZAR_SERVICIO = Constants.IP + "/ProAtHome/api/cliente/finalizarServicio/";
 
     //PROFESIONALES
+    public static final String VALIDAR_TOKEN_SESION_PROFESIONAL = Constants.IP + "/ProAtHome/api/profesional/validarTokenSesion/";
     public static final String DATOS_BANCARIOS_PROFESIONAL = Constants.IP + "/ProAtHome/api/profesional/obtenerDatosBancarios/";
     public static final String MATCH_SESION = Constants.IP + "/ProAtHome/api/profesional/matchSesion";
     public static final String UPDATE_CUENTA_PROFESIONAL = Constants.IP + "/ProAtHome/api/profesional/actualizarCuenta";

@@ -57,7 +57,7 @@ public class InicioProfesional extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        cargarPerfil();
+        validarTokenSesion();
 
     }
 
@@ -90,6 +90,22 @@ public class InicioProfesional extends AppCompatActivity {
             }else
                 SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente ingresar más tarde.", false, null, null);
         }, APIEndPoints.GET_PERFIL_PROFESIONAL + this.idProfesional, WebServicesAPI.GET,  null);
+        webServicesAPI.execute();
+    }
+
+    private void validarTokenSesion(){
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            JSONObject data = new JSONObject(response);
+            if(data.getBoolean("respuesta")){
+                cargarPerfil();
+            }else{
+                SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "OH NO!", "Tu sesión expiró, vuelve a iniciar sesión.", true, "VAMOS", ()->{
+                    SharedPreferencesManager.getInstance(this).logout();
+                    startActivity(new Intent(this, MainActivity.class));
+                    finish();
+                });
+            }
+        }, APIEndPoints.VALIDAR_TOKEN_SESION_PROFESIONAL + SharedPreferencesManager.getInstance(InicioProfesional.this).getIDProfesional() + "/" + SharedPreferencesManager.getInstance(InicioProfesional.this).getTokenProfesional(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

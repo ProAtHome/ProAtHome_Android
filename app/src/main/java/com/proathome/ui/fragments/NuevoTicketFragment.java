@@ -21,6 +21,7 @@ import com.proathome.ui.ayudaProfesional.AyudaProfesionalFragment;
 import com.proathome.utils.ComponentTicket;
 import com.proathome.utils.Constants;
 import com.proathome.utils.FechaActual;
+import com.proathome.utils.SharedPreferencesManager;
 import com.proathome.utils.SweetAlert;
 
 import org.json.JSONArray;
@@ -68,33 +69,10 @@ public class NuevoTicketFragment extends DialogFragment {
     }
 
     public void setIdUsuario(){
-        if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE){
-            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesion", null,
-                    1);
-            SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-            Cursor fila = baseDeDatos.rawQuery("SELECT idCliente FROM sesion WHERE id = " + 1, null);
-
-            if(fila.moveToFirst()){
-                this.idUsuario = fila.getInt(0);
-            }else{
-                baseDeDatos.close();
-            }
-
-            baseDeDatos.close();
-        }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL){
-            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "sesionProfesional", null,
-                    1);
-            SQLiteDatabase baseDeDatos = admin.getWritableDatabase();
-            Cursor fila = baseDeDatos.rawQuery("SELECT idProfesional FROM sesionProfesional WHERE id = " + 1, null);
-
-            if(fila.moveToFirst()){
-                this.idUsuario = fila.getInt(0);
-            }else{
-                baseDeDatos.close();
-            }
-
-            baseDeDatos.close();
-        }
+        if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE)
+            this.idUsuario = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
+        else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL)
+            this.idUsuario = SharedPreferencesManager.getInstance(getContext()).getIDProfesional();
     }
 
     public String getSelectedCategoria(){

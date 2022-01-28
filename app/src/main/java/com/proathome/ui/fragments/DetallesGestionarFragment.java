@@ -21,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -712,7 +714,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                     Date fechaServidor = sdf.parse(DetallesGestionarFragment.fechaServidor);
                     if(fechaActual.equals(fechaServidor)){
                         if(fechaActual.equals(fechaSesionFin)){
-                            SweetAlert.showMsg(SesionesFragment.contexto, SweetAlert.WARNING_TYPE, "¡ERROR!", "La sesión sólo podía ser eliminada el " +
+                            SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ERROR!", "La sesión sólo podía ser eliminada el " +
                                     "día anterior al servicio.", false, null, null);
                         }else if(fechaActual.before(fechaSesionFin)){
                             eliminarSesion();
@@ -772,7 +774,11 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         jsonData.put("tipoPlan", this.tipoPlanString);
         jsonData.put("horas", this.tiempo);
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            SweetAlert.showMsg(SesionesFragment.contexto, SweetAlert.WARNING_TYPE, "¡AVISO!", response, false, null, null);
+            JSONObject jsonObject = new JSONObject(response);
+            if(jsonObject.getBoolean("respuesta"))
+                SweetAlert.showMsg(SesionesFragment.contexto, SweetAlert.WARNING_TYPE, "¡AVISO!", jsonObject.getString("mensaje"), false, null, null);
+            else
+                Toast.makeText(getContext(), jsonObject.getString("mensaje"), Toast.LENGTH_LONG).show();
         }, APIEndPoints.ELIMINAR_SESION, WebServicesAPI.POST, jsonData);
         webServicesAPI.execute();
     }

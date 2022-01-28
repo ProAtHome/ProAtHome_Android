@@ -1,5 +1,6 @@
 package com.proathome.ui.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
@@ -46,6 +47,7 @@ public class CobroFinalFragment extends DialogFragment {
     TextView tvCostoTotal;
     @BindView(R.id.tvTipoPlan)
     TextView tvTipoPlan;
+    private ProgressDialog progressDialog;
     public static String metodoRegistrado, sesion, tiempo, deviceIdString, nombreCliente, correo, tipoPlan;
     //Datos tarjeta para modo PLAN.
     public static String nombreTitular, tarjeta, mes, ano;
@@ -96,7 +98,9 @@ public class CobroFinalFragment extends DialogFragment {
     }
 
     private void getPreOrden(){
+        progressDialog = ProgressDialog.show(getContext(), "Cargando", "Por favor, espere...");
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            progressDialog.dismiss();
             try{
                 JSONObject data = new JSONObject(response);
                 if(data.getBoolean("respuesta")){
@@ -190,5 +194,9 @@ public class CobroFinalFragment extends DialogFragment {
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
+        if(progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
     }
 }
