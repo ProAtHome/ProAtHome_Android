@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.proathome.R;
 import com.proathome.adapters.ComponentAdapterTicket;
@@ -58,8 +60,9 @@ public class AyudaProfesionalFragment extends Fragment {
     private void obtenerTickets(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try{
-                if(response != null){
-                    JSONArray jsonArray = new JSONArray(response);
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONArray jsonArray = data.getJSONArray("mensaje");
                     for(int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         if (jsonObject.getBoolean("sinTickets")){
@@ -74,11 +77,11 @@ public class AyudaProfesionalFragment extends Fragment {
                         }
                     }
                 }else
-                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inseperado, intenta nuevamente.", false, null, null);
+                    Toast.makeText(getContext(), data.getString("mensaje"), Toast.LENGTH_LONG).show();
             }catch (JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.GET_TICKETS_PROFESIONAL + this.idProfesional, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_TICKETS_PROFESIONAL + this.idProfesional + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenProfesional(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

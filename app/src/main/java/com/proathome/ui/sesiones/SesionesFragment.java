@@ -97,38 +97,37 @@ public class SesionesFragment extends Fragment {
     private void getSesiones(){
         progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere por favor...");
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            if(response != null){
-                try{
-                    iniciarProcesoRuta();
+            try{
+                iniciarProcesoRuta();
 
-                    if(!response.equals("null")){
-                        JSONObject jsonObject = new JSONObject(response);
-                        JSONArray jsonArray = jsonObject.getJSONArray("sesiones");
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONObject jsonObject = data.getJSONObject("mensaje");
+                    JSONArray jsonArray = jsonObject.getJSONArray("sesiones");
 
-                        if(jsonArray.length() == 0)
-                            lottieAnimationView.setVisibility(View.VISIBLE);
+                    if(jsonArray.length() == 0)
+                        lottieAnimationView.setVisibility(View.VISIBLE);
 
-                        for (int i = 0; i < jsonArray.length(); i++){
-                            JSONObject object = jsonArray.getJSONObject(i);
-                            //TODO FLUJO_PLANES: Nota - Si el servicio está finalizada no se puede eliminar ni editar (No mostrar en Gestión)
-                            if(!object.getBoolean("finalizado")){
-                                myAdapter.add(DetallesGestionarFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoServicio"), object.getString("horario"),
-                                        object.getString("profesional"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
-                                        object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"),
-                                        object.getString("fecha"), object.getString("tipoPlan")));
-                            }
+                    for (int i = 0; i < jsonArray.length(); i++){
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        //TODO FLUJO_PLANES: Nota - Si el servicio está finalizada no se puede eliminar ni editar (No mostrar en Gestión)
+                        if(!object.getBoolean("finalizado")){
+                            myAdapter.add(DetallesGestionarFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoServicio"), object.getString("horario"),
+                                    object.getString("profesional"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
+                                    object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"),
+                                    object.getString("fecha"), object.getString("tipoPlan")));
                         }
-                    }else
-                        SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡AVISO!", "Usuario sin servicios disponibles.", false, null, null);
-                    progressDialog.dismiss();
-                }catch(JSONException ex){
-                    ex.printStackTrace();
-                    progressDialog.dismiss();
-                }
-            }else
-                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente de nuevo más tarde.", false, null, null);
+                    }
+                }else
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", data.getString("mensaje"), false, null, null);
+
+                progressDialog.dismiss();
+            }catch(JSONException ex){
+                ex.printStackTrace();
+                progressDialog.dismiss();
+            }
             sesionesPagadas();
-        }, APIEndPoints.GET_SESIONES_CLIENTE  + this.idCliente, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_SESIONES_CLIENTE  + this.idCliente + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

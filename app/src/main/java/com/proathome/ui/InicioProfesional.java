@@ -89,7 +89,7 @@ public class InicioProfesional extends AppCompatActivity {
                     SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error en el perfil, intente ingresar más tarde.", false, null, null);
             }else
                 SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente ingresar más tarde.", false, null, null);
-        }, APIEndPoints.GET_PERFIL_PROFESIONAL + this.idProfesional, WebServicesAPI.GET,  null);
+        }, APIEndPoints.GET_PERFIL_PROFESIONAL + this.idProfesional + "/" + SharedPreferencesManager.getInstance(InicioProfesional.this).getTokenProfesional(), WebServicesAPI.GET,  null);
         webServicesAPI.execute();
     }
 

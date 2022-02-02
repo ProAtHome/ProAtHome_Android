@@ -69,30 +69,29 @@ public class SesionesProfesionalFragment extends Fragment {
 
     private void getSesiones(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            if(response != null){
-                if(!response.equals("[]")){
-                    try{
-                        JSONArray jsonArray = new JSONArray(response);
+            JSONObject data = new JSONObject(response);
+            if(data.getBoolean("respuesta")){
+                try{
+                    JSONArray jsonArray = data.getJSONArray("mensaje");
 
-                        for (int i = 0; i < jsonArray.length(); i++){
-                            JSONObject object = jsonArray.getJSONObject(i);
-                            if(!object.getBoolean("finalizado")){
-                                myAdapter.add(DetallesGestionarProfesionalFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoServicio"), object.getString("horario"),
-                                        object.getString("nombreCliente"), object.getString("correo"), object.getString("descripcion"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
-                                        object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"),
-                                        object.getString("fecha"), object.getString("tipoPlan"), object.getString("foto")));
-                            }
+                    if(jsonArray.length() == 0)
+                        lottieAnimationView.setVisibility(View.VISIBLE);
+
+                    for (int i = 0; i < jsonArray.length(); i++){
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        if(!object.getBoolean("finalizado")){
+                            myAdapter.add(DetallesGestionarProfesionalFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoServicio"), object.getString("horario"),
+                                    object.getString("nombreCliente"), object.getString("correo"), object.getString("descripcion"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
+                                    object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"),
+                                    object.getString("fecha"), object.getString("tipoPlan"), object.getString("foto")));
                         }
-                    }catch(JSONException ex){
-                        ex.printStackTrace();
                     }
-                }else{
-                    lottieAnimationView.setVisibility(View.VISIBLE);
-                    SweetAlert.showMsg(getContext(),  SweetAlert.WARNING_TYPE, "¡AVISO!",  "Usuario sin servicios disponibles.", false, null, null);
+                }catch(JSONException ex){
+                    ex.printStackTrace();
                 }
             }else
-                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!",  "Error en el servidor, intente de nuevo más tarde.", false, null, null);
-        }, APIEndPoints.GET_SESIONES_PROFESIONAL  + this.idProfesional, WebServicesAPI.GET, null);
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!",  data.getString("mensaje"), false, null, null);
+        }, APIEndPoints.GET_SESIONES_PROFESIONAL  + this.idProfesional + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenProfesional(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

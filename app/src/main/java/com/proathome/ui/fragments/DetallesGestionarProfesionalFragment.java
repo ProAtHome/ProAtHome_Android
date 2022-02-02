@@ -255,7 +255,7 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
             }catch(JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.SOLICITUD_ELIMINAR_SESION_PROFESIONAL  + this.idSesion + "/" + this.idProfesional, WebServicesAPI.GET, null);
+        }, APIEndPoints.SOLICITUD_ELIMINAR_SESION_PROFESIONAL  + this.idSesion + "/" + this.idProfesional + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenProfesional(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

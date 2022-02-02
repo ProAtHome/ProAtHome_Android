@@ -32,6 +32,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -175,7 +177,7 @@ public class InicioCliente extends AppCompatActivity{
                     SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error en el perfil, intente ingresar más tarde.", false, null, null);
             }else
                 SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente ingresar más tarde.", false, null, null);
-        }, APIEndPoints.GET_PERFIL_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_PERFIL_CLIENTE + this.idCliente + "/" + SharedPreferencesManager.getInstance(InicioCliente.this).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

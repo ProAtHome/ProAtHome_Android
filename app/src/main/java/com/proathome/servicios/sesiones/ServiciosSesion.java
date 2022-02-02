@@ -36,20 +36,24 @@ public class ServiciosSesion {
         webServicesAPI.execute();
     }
 
-    public static void validarServicioFinalizadoProfesional(int idSesion, int idPerfil){
+    public static void validarServicioFinalizadoProfesional(int idSesion, int idPerfil, Context context){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try{
-                JSONObject jsonObject = new JSONObject(response);
-                boolean finalizado = jsonObject.getBoolean("finalizado");
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONObject jsonObject = data.getJSONObject("mensaje");
+                    boolean finalizado = jsonObject.getBoolean("finalizado");
 
-                if(finalizado){
-                    DetallesSesionProfesionalFragment.iniciar.setEnabled(false);
-                    DetallesSesionProfesionalFragment.iniciar.setText("Servicio finalizado");
-                }
+                    if(finalizado){
+                        DetallesSesionProfesionalFragment.iniciar.setEnabled(false);
+                        DetallesSesionProfesionalFragment.iniciar.setText("Servicio finalizado");
+                    }
+                }else
+                    Toast.makeText(context, data.getString("mensaje"), Toast.LENGTH_LONG).show();
             }catch (JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.VALIDAR_SERVICIO_FINALIZADO_PROFESIONAL + idSesion + "/" + idPerfil, WebServicesAPI.GET, null);
+        }, APIEndPoints.VALIDAR_SERVICIO_FINALIZADO_PROFESIONAL + idSesion + "/" + idPerfil + "/" + SharedPreferencesManager.getInstance(context).getTokenProfesional(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 
@@ -77,17 +81,21 @@ public class ServiciosSesion {
     public static void validarServicioFinalizadoEnClase(int idSesion, int idPerfil, Context context){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try{
-                JSONObject jsonObject = new JSONObject(response);
-                boolean finalizado = jsonObject.getBoolean("finalizado");
-                if(finalizado){
-                    Constants.fragmentActivity.finish();
-                    DetallesSesionProfesionalFragment.procedenciaFin = true;
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONObject jsonObject = data.getJSONObject("mensaje");
+                    boolean finalizado = jsonObject.getBoolean("finalizado");
+                    if(finalizado){
+                        Constants.fragmentActivity.finish();
+                        DetallesSesionProfesionalFragment.procedenciaFin = true;
+                    }else
+                        SweetAlert.showMsg(context, SweetAlert.WARNING_TYPE, "¡ESPERA!", "El cliente todavia no decide si tomar tiempo extra o finalizar el servicio.", false, null, null);
                 }else
-                    SweetAlert.showMsg(context, SweetAlert.WARNING_TYPE, "¡ESPERA!", "El cliente todavia no decide si tomar tiempo extra o finalizar el servicio.", false, null, null);
+                    Toast.makeText(context, data.getString("mensaje"), Toast.LENGTH_LONG).show();
             }catch (JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.VALIDAR_SERVICIO_FINALIZADO_PROFESIONAL + idSesion + "/" + idPerfil, WebServicesAPI.GET, null);
+        }, APIEndPoints.VALIDAR_SERVICIO_FINALIZADO_PROFESIONAL + idSesion + "/" + idPerfil + "/" + SharedPreferencesManager.getInstance(context).getTokenProfesional(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

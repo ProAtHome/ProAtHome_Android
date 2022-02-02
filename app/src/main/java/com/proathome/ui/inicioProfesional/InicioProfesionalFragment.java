@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,26 +63,26 @@ public class InicioProfesionalFragment extends Fragment {
         progressDialog = ProgressDialog.show(getContext(), "Cargando Servicios", "Espere, por favor...");
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             progressDialog.dismiss();
-            if(response != null){
-                if(!response.equals("[]")){
-                    try{
-                        JSONArray jsonArray = new JSONArray(response);
-                        for (int i = 0; i < jsonArray.length(); i++){
-                            JSONObject object = jsonArray.getJSONObject(i);
-                            myAdapter.add(DetallesSesionProfesionalFragment.getmInstance(object.getInt("idsesiones"), object.getString("nombreCliente"), object.getString("descripcion"), object.getString("correo"), object.getString("foto"),  object.getString("tipoServicio"), object.getString("horario"),
-                                        "Soy yo", object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
-                                        object.getDouble("longitud"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getInt("idCliente")));
-                        }
-                    }catch(JSONException ex){
-                        ex.printStackTrace();
+            JSONObject data = new JSONObject(response);
+            if(data.getBoolean("respuesta")){
+                try{
+                    JSONArray jsonArray = data.getJSONArray("mensaje");
+
+                    if(jsonArray.length() == 0)
+                        lottieAnimationView.setVisibility(View.VISIBLE);
+
+                    for (int i = 0; i < jsonArray.length(); i++){
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        myAdapter.add(DetallesSesionProfesionalFragment.getmInstance(object.getInt("idsesiones"), object.getString("nombreCliente"), object.getString("descripcion"), object.getString("correo"), object.getString("foto"),  object.getString("tipoServicio"), object.getString("horario"),
+                                "Soy yo", object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
+                                object.getDouble("longitud"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getInt("idCliente")));
                     }
-                }else{
-                    lottieAnimationView.setVisibility(View.VISIBLE);
-                    SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡AVISO!", "Usuario sin servicios disponibles.", false, null, null);
+                }catch(JSONException ex){
+                    ex.printStackTrace();
                 }
             }else
-                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error en el servidor, intente de nuevo más tarde.", false, null, null);
-        }, APIEndPoints.GET_SESIONES_PROFESIONAL  + this.idProfesional, WebServicesAPI.GET, null);
+                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!",  data.getString("mensaje"), false, null, null);
+        }, APIEndPoints.GET_SESIONES_PROFESIONAL  + this.idProfesional + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenProfesional(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

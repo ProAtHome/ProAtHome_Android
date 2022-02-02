@@ -227,7 +227,7 @@ public class EditarPerfilProfesionalFragment extends Fragment {
             }catch(JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.GET_REPORTES_PROFESIONAL + this.idProfesional, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_REPORTES_PROFESIONAL + this.idProfesional + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenProfesional(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 
@@ -260,7 +260,7 @@ public class EditarPerfilProfesionalFragment extends Fragment {
                     SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error en el perfil, intente ingresar más tarde.", false, null, null);
             }else
                 SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente ingresar más tarde.", false, null, null);
-        }, APIEndPoints.GET_PERFIL_PROFESIONAL + this.idProfesional, WebServicesAPI.GET,  null);
+        }, APIEndPoints.GET_PERFIL_PROFESIONAL + this.idProfesional + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenProfesional(), WebServicesAPI.GET,  null);
         webServicesAPI.execute();
     }
 
@@ -306,7 +306,7 @@ public class EditarPerfilProfesionalFragment extends Fragment {
             } catch (JSONException ex) {
                 ex.printStackTrace();
             }
-        }, APIEndPoints.DATOS_BANCARIOS_PROFESIONAL + this.idProfesional, WebServicesAPI.GET, null);
+        }, APIEndPoints.DATOS_BANCARIOS_PROFESIONAL + this.idProfesional + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenProfesional(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

@@ -234,7 +234,7 @@ public class EditarPerfilFragment extends Fragment {
             } catch (JSONException ex) {
                 ex.printStackTrace();
             }
-        }, APIEndPoints.GET_DATOS_BANCO_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_DATOS_BANCO_CLIENTE + this.idCliente + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 
@@ -296,7 +296,7 @@ public class EditarPerfilFragment extends Fragment {
                     SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error en el perfil, intente ingresar más tarde.", false, null, null);
             }else
                 SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente ingresar más tarde.", false, null, null);
-        }, APIEndPoints.GET_PERFIL_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_PERFIL_CLIENTE + this.idCliente + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

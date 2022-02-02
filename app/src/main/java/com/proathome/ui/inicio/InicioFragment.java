@@ -67,33 +67,31 @@ public class InicioFragment extends Fragment {
         progressDialog = ProgressDialog.show(getContext(), "Cargando Sesiones", "Espere, por favor...");
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             progressDialog.dismiss();
-            if(response != null){
-                try{
-                    iniciarProcesoRuta();
+            try{
+                iniciarProcesoRuta();
 
-                    if(!response.equals("null")){
-                        JSONObject jsonObject = new JSONObject(response);
-                        JSONArray jsonArray = jsonObject.getJSONArray("sesiones");
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONObject jsonObject = data.getJSONObject("mensaje");
+                    JSONArray jsonArray = jsonObject.getJSONArray("sesiones");
 
-                        if(jsonArray.length() == 0)
-                            lottieAnimationView.setVisibility(View.VISIBLE);
+                    if(jsonArray.length() == 0)
+                        lottieAnimationView.setVisibility(View.VISIBLE);
 
-                        for (int i = 0; i < jsonArray.length(); i++){
-                            JSONObject object = jsonArray.getJSONObject(i);
-                            myAdapter.add(DetallesFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoServicio"), object.getString("horario"),
-                                    object.getString("profesional"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
-                                    object.getDouble("longitud"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getString("fecha"),
-                                    object.getString("fotoProfesional"), object.getString("descripcionProfesional"), object.getString("correoProfesional"), object.getBoolean("sumar"),
-                                    object.getString("tipoPlan"), object.getInt("profesionales_idprofesionales")));
-                        }
-                    }else
-                        SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡AVISO!", "Usuario sin servicios disponibles.", false, null, null);
-                }catch(JSONException ex){
-                    ex.printStackTrace();
-                }
-            }else
-                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!",  "Error del servidor, intente de nuevo más tarde.", false, null, null);
-        }, APIEndPoints.GET_SESIONES_CLIENTE  + this.idCliente, WebServicesAPI.GET, null);
+                    for (int i = 0; i < jsonArray.length(); i++){
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        myAdapter.add(DetallesFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoServicio"), object.getString("horario"),
+                                object.getString("profesional"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
+                                object.getDouble("longitud"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getString("fecha"),
+                                object.getString("fotoProfesional"), object.getString("descripcionProfesional"), object.getString("correoProfesional"), object.getBoolean("sumar"),
+                                object.getString("tipoPlan"), object.getInt("profesionales_idprofesionales")));
+                    }
+                }else
+                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!",  data.getString("mensaje"), false, null, null);
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }, APIEndPoints.GET_SESIONES_CLIENTE + this.idCliente + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

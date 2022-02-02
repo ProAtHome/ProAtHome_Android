@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.R;
@@ -170,8 +172,9 @@ public class NuevoTicketFragment extends DialogFragment {
     private void obtenerTickets(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try{
-                if(response != null){
-                    JSONArray jsonArray = new JSONArray(response);
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONArray jsonArray = data.getJSONArray("mensaje");
                     for(int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE){
@@ -200,11 +203,11 @@ public class NuevoTicketFragment extends DialogFragment {
 
                     }
                 }else
-                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inseperado, intenta nuevamente.", false, null, null);
+                    Toast.makeText(getContext(), data.getString("mensaje"), Toast.LENGTH_LONG).show();
             }catch (JSONException ex){
                 ex.printStackTrace();
             }
-        }, this.tipoUsuario ==  Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.GET_TICKETS_CLIENTE + this.idUsuario : APIEndPoints.GET_TICKETS_PROFESIONAL + this.idUsuario, WebServicesAPI.GET, null);
+        }, this.tipoUsuario ==  Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.GET_TICKETS_CLIENTE + this.idUsuario + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente() : APIEndPoints.GET_TICKETS_PROFESIONAL + this.idUsuario + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenProfesional(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

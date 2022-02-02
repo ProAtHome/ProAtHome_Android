@@ -140,7 +140,7 @@ public class DatosFiscalesFragment extends DialogFragment {
     private void getDatosFiscales(){
         String apiDatos = this.tipoPerfil == Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.GET_DATOS_FISCALES_CLIENTE + this.idUsuario
                 + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente() : APIEndPoints.GET_DATOS_FISCALES_PROFESIONAL +
-                this.idUsuario;
+                this.idUsuario + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenProfesional();
         progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere, por favor...");
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             progressDialog.dismiss();

@@ -83,7 +83,7 @@ public class Diagnostico7 extends AppCompatActivity {
             rutaGenerada.show(fragmentTransaction, "Ruta");
 
             int idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
-            ServiciosExamenDiagnostico.getInfoExamenFinal(idCliente, validarRespuestas());
+            ServiciosExamenDiagnostico.getInfoExamenFinal(idCliente, validarRespuestas(), Diagnostico7.this);
             ServiciosExamenDiagnostico.actualizarEstatusExamen(Constants.EXAMEN_FINALIZADO, idCliente, validarRespuestas(), 65, Diagnostico7.this,Diagnostico7.this, Diagnostico7.class);
         });
 

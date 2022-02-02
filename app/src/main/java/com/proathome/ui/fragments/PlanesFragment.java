@@ -113,7 +113,7 @@ public class PlanesFragment extends DialogFragment {
             } catch (JSONException ex) {
                 ex.printStackTrace();
             }
-        }, APIEndPoints.GET_DATOS_BANCO_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_DATOS_BANCO_CLIENTE + this.idCliente + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

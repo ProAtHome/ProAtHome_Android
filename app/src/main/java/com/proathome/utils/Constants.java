@@ -170,10 +170,10 @@ public class Constants {
     public static final  int BLOQUE1_AVANZADO5= 1;
     public static final  int BLOQUE2_AVANZADO5= 2;
     /*FIN RUTA NIVELES*/
-    public static final String IP = "https://www.proathome.com.mx:8181";
-    public static final String IP_80 = "https://www.proathome.com.mx";
-    //public static final String IP = "http://192.168.100.8:8080";
-    //public static final String IP_80 = "http://192.168.100.8/ProAtHome";
+    //public static final String IP = "https://www.proathome.com.mx:8181";
+    //public static final String IP_80 = "https://www.proathome.com.mx";
+    public static final String IP = "http://192.168.100.36:8080";
+    public static final String IP_80 = "http://192.168.100.36/ProAtHome";
 
     /*Prueba Estaticos Singleton*/
 

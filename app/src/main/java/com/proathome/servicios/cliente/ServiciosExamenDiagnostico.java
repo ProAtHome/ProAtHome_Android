@@ -122,23 +122,27 @@ public class ServiciosExamenDiagnostico {
         }
     }
 
-    public static void getInfoExamenFinal(int idCliente, int puntacionAsumar){
+    public static void getInfoExamenFinal(int idCliente, int puntacionAsumar, Context context){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try{
-                JSONObject jsonObject = new JSONObject(response);
-                int estatus = jsonObject.getInt("estatus");
-                if(estatus == Constants.INFO_EXAMEN_FINAL){
-                    int aciertos = jsonObject.getInt("aciertos");
-                    int puntuacionTotal = puntacionAsumar + aciertos;
-                    EvaluarRuta evaluarRuta = new EvaluarRuta(puntuacionTotal);
-                    FragmentRutaGenerada.ruta.setText(evaluarRuta.getRutaString(evaluarRuta.getRuta()));
-                    FragmentRutaGenerada.nivel.setText("Nivel: " + evaluarRuta.getRutaString(evaluarRuta.getRuta()));
-                    FragmentRutaGenerada.aciertos = puntuacionTotal;
-                }
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONObject jsonObject = data.getJSONObject("mensaje");
+                    int estatus = jsonObject.getInt("estatus");
+                    if(estatus == Constants.INFO_EXAMEN_FINAL){
+                        int aciertos = jsonObject.getInt("aciertos");
+                        int puntuacionTotal = puntacionAsumar + aciertos;
+                        EvaluarRuta evaluarRuta = new EvaluarRuta(puntuacionTotal);
+                        FragmentRutaGenerada.ruta.setText(evaluarRuta.getRutaString(evaluarRuta.getRuta()));
+                        FragmentRutaGenerada.nivel.setText("Nivel: " + evaluarRuta.getRutaString(evaluarRuta.getRuta()));
+                        FragmentRutaGenerada.aciertos = puntuacionTotal;
+                    }
+                }else
+                    Toast.makeText(context, data.getString("mensaje"), Toast.LENGTH_LONG).show();
             }catch(JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.GET_INFO_EXAMEN_FINAL + idCliente, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_INFO_EXAMEN_FINAL + idCliente + "/" + SharedPreferencesManager.getInstance(context).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 
@@ -186,27 +190,31 @@ public class ServiciosExamenDiagnostico {
     public static void continuarExamen(int idCliente, Context contexto){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             try {
-                JSONObject jsonObject = new JSONObject(response);
-                int estatus = jsonObject.getInt("estatus");
-                if(estatus == Constants.CONTINUAR_EXAMEN){
-                    int pregunta = jsonObject.getInt("preguntaActual");
-                    if(pregunta == 10)
-                        contexto.startActivity(new Intent(contexto, Diagnostico2.class));
-                    else if(pregunta == 20)
-                        contexto.startActivity(new Intent(contexto, Diagnostico3.class));
-                    else if(pregunta == 30)
-                        contexto.startActivity(new Intent(contexto, Diagnostico4.class));
-                    else if(pregunta == 40)
-                        contexto.startActivity(new Intent(contexto, Diagnostico5.class));
-                    else if(pregunta == 50)
-                        contexto.startActivity(new Intent(contexto, Diagnostico6.class));
-                    else if(pregunta == 60)
-                        contexto.startActivity(new Intent(contexto, Diagnostico7.class));
-                }
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONObject jsonObject = data.getJSONObject("mensaje");
+                    int estatus = jsonObject.getInt("estatus");
+                    if(estatus == Constants.CONTINUAR_EXAMEN){
+                        int pregunta = jsonObject.getInt("preguntaActual");
+                        if(pregunta == 10)
+                            contexto.startActivity(new Intent(contexto, Diagnostico2.class));
+                        else if(pregunta == 20)
+                            contexto.startActivity(new Intent(contexto, Diagnostico3.class));
+                        else if(pregunta == 30)
+                            contexto.startActivity(new Intent(contexto, Diagnostico4.class));
+                        else if(pregunta == 40)
+                            contexto.startActivity(new Intent(contexto, Diagnostico5.class));
+                        else if(pregunta == 50)
+                            contexto.startActivity(new Intent(contexto, Diagnostico6.class));
+                        else if(pregunta == 60)
+                            contexto.startActivity(new Intent(contexto, Diagnostico7.class));
+                    }
+                }else
+                    Toast.makeText(contexto, data.getString("mensaje"), Toast.LENGTH_LONG).show();
             }catch (JSONException ex){
                 ex.printStackTrace();
             }
-        }, APIEndPoints.GET_INFO_EXAMEN_DIAGNOSTICO + idCliente, WebServicesAPI.GET, null);
+        }, APIEndPoints.GET_INFO_EXAMEN_DIAGNOSTICO + idCliente + "/" + SharedPreferencesManager.getInstance(contexto).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

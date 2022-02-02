@@ -113,7 +113,7 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
     public void onResume() {
         super.onResume();
         ServiciosSesion.cambiarDisponibilidadProfesional(idSesion, idProfesional, false);
-        ServiciosSesion.validarServicioFinalizadoProfesional(idSesion, idProfesional);
+        ServiciosSesion.validarServicioFinalizadoProfesional(idSesion, idProfesional, getContext());
         if (procedenciaFin) {
             validarValoracionCliente();
             procedenciaFin = false;
