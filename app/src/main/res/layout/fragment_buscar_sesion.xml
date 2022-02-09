@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.BuscarSesionFragment">
+    tools:context=".Views.profesional.fragments.BuscarSesionFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -41,13 +41,13 @@
                 <fragment
                     xmlns:map="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/map"
-                    class="com.proathome.utils.WorkaroundMapFragment"
+                    class="com.proathome.Utils.WorkaroundMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     map:layout_constraintEnd_toEndOf="parent"
                     map:layout_constraintStart_toStartOf="parent"
                     map:layout_constraintTop_toTopOf="parent"
-                    tools:context=".ui.MapsFragment" />
+                    tools:context=".Views.fragments_compartidos.MapsFragment" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

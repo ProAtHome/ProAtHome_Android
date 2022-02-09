@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_back"
-    tools:context=".ui.fragments.DetallesFragment">
+    tools:context=".Views.cliente.fragments.DetallesFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,13 +20,13 @@
             <fragment
                 xmlns:map="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/mapsGestionarProfesional"
-                class="com.proathome.utils.WorkaroundMapFragment"
+                class="com.proathome.Utils.WorkaroundMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
                 map:layout_constraintEnd_toEndOf="parent"
                 map:layout_constraintStart_toStartOf="parent"
                 map:layout_constraintTop_toTopOf="parent"
-                tools:context=".ui.MapsFragment" />
+                tools:context=".Views.fragments_compartidos.MapsFragment" />
 
             <TextView
                 android:id="@+id/tuCliente"

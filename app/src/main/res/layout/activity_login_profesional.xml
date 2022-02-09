@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/fondo2"
-    tools:context=".ui.LoginProfesional">
+    tools:context=".Views.profesional.LoginProfesional">
 
     <ImageView
         android:id="@+id/logo"
@@ -111,7 +111,6 @@
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="registrarse"
         android:padding="8dp"
         android:backgroundTint="@color/colorAzul"
         android:fontFamily="@font/din"
@@ -125,7 +124,6 @@
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="entrar"
         android:padding="8dp"
         android:layout_marginTop="@dimen/common_padding_default"
         android:text="Iniciar Sesión"

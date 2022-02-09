@@ -7,42 +7,42 @@
 
     <fragment
         android:id="@+id/nav_inicio_profesional"
-        android:name="com.proathome.ui.inicioProfesional.InicioProfesionalFragment"
+        android:name="com.proathome.Views.profesional.navigator.inicioProfesional.InicioProfesionalFragment"
         android:label="@string/menu_inicio"
         tools:layout="@layout/fragment_inicio_profesional" />
     <fragment
         android:id="@+id/nav_editarPerfil_profesional"
-        android:name="com.proathome.ui.editarPerfilProfesional.EditarPerfilProfesionalFragment"
+        android:name="com.proathome.Views.profesional.navigator.editarPerfilProfesional.EditarPerfilProfesionalFragment"
         android:label="@string/menu_editarPerfil"
         tools:layout="@layout/fragment_editar_perfil_profesional" />
 
     <fragment
         android:id="@+id/nav_sesiones_profesional"
-        android:name="com.proathome.ui.sesionesProfesional.SesionesProfesionalFragment"
+        android:name="com.proathome.Views.profesional.navigator.sesionesProfesional.SesionesProfesionalFragment"
         android:label="@string/menu_sesiones"
         tools:layout="@layout/fragment_sesiones_profesional" />
 
     <fragment
         android:id="@+id/nav_material_profesional"
-        android:name="com.proathome.ui.materialProfesional.MaterialProfesionalFragment"
+        android:name="com.proathome.Views.profesional.navigator.materialProfesional.MaterialProfesionalFragment"
         android:label="@string/menu_material"
         tools:layout="@layout/fragment_material_profesional" />
 
     <fragment
         android:id="@+id/nav_cerrarSesion_Profesional"
-        android:name="com.proathome.ui.cerrarSesionProfesional.CerrarSesionProfesionalFragment"
+        android:name="com.proathome.Views.profesional.navigator.cerrarSesionProfesional.CerrarSesionProfesionalFragment"
         android:label="@string/menu_cerrarSesion"
         tools:layout="@layout/fragment_cerrar_sesion_profesional" />
 
     <fragment
         android:id="@+id/nav_ayudaProfesional"
-        android:name="com.proathome.ui.ayudaProfesional.AyudaProfesionalFragment"
+        android:name="com.proathome.Views.profesional.navigator.ayudaProfesional.AyudaProfesionalFragment"
         android:label="@string/menu_ayuda"
         tools:layout="@layout/fragment_ayuda_profesional" />
 
     <fragment
         android:id="@+id/nav_privacidadProfesional"
-        android:name="com.proathome.ui.privacidadProfesional.PrivacidadProfesionalFragment"
+        android:name="com.proathome.Views.profesional.navigator.privacidadProfesional.PrivacidadProfesionalFragment"
         android:label="@string/menu_privacidad"
         tools:layout="@layout/fragment_privacidad_profesional"/>
 

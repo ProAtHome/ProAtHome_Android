@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="10dp"
-    tools:context=".ui.fragments.FragmentRutaGenerada">
+    tools:context=".Views.cliente.fragments.FragmentRutaGenerada">
 
     <TextView
         android:id="@+id/enohora"

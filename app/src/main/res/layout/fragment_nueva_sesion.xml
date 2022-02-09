@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.NuevaSesionFragment">
+    tools:context=".Views.cliente.fragments.NuevaSesionFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                 <fragment
                     xmlns:map="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/mapNueva"
-                    class="com.proathome.utils.WorkaroundMapFragment"
+                    class="com.proathome.Utils.WorkaroundMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="500dp"
                     map:layout_constraintEnd_toEndOf="parent"

@@ -7,43 +7,43 @@
 
     <fragment
         android:id="@+id/nav_inicio"
-        android:name="com.proathome.ui.inicio.InicioFragment"
+        android:name="com.proathome.Views.cliente.navigator.inicio.InicioFragment"
         android:label="@string/menu_inicio"
         tools:layout="@layout/fragment_inicio" />
 
     <fragment
         android:id="@+id/nav_editarPerfil"
-        android:name="com.proathome.ui.editarPerfil.EditarPerfilFragment"
+        android:name="com.proathome.Views.cliente.navigator.editarPerfil.EditarPerfilFragment"
         android:label="@string/menu_editarPerfil"
         tools:layout="@layout/fragment_editar_perfil" />
 
     <fragment
         android:id="@+id/nav_sesiones"
-        android:name="com.proathome.ui.sesiones.SesionesFragment"
+        android:name="com.proathome.Views.cliente.navigator.sesiones.SesionesFragment"
         android:label="@string/menu_sesiones"
         tools:layout="@layout/fragment_sesiones" />
 
     <fragment
         android:id="@+id/nav_ruta"
-        android:name="com.proathome.ui.ruta.RutaFragment"
+        android:name="com.proathome.Views.cliente.navigator.ruta.RutaFragment"
         android:label="@string/menu_ruta"
         tools:layout="@layout/fragment_ruta" />
 
     <fragment
         android:id="@+id/nav_cerrarSesion"
-        android:name="com.proathome.ui.cerrarSesion.CerrarSesionFragment"
+        android:name="com.proathome.Views.cliente.navigator.cerrarSesion.CerrarSesionFragment"
         android:label="@string/menu_cerrarSesion"
         tools:layout="@layout/fragment_cerrar_sesion" />
 
     <fragment
         android:id="@+id/nav_ayuda"
-        android:name="com.proathome.ui.ayuda.AyudaFragment"
+        android:name="com.proathome.Views.cliente.navigator.ayuda.AyudaFragment"
         android:label="@string/menu_ayuda"
         tools:layout="@layout/fragment_ayuda" />
 
     <fragment
         android:id="@+id/nav_privacidad"
-        android:name="com.proathome.ui.privacidad.PrivacidadFragment"
+        android:name="com.proathome.Views.cliente.navigator.privacidad.PrivacidadFragment"
         android:label="@string/menu_privacidad"
         tools:layout="@layout/fragment_privacidad"/>
 

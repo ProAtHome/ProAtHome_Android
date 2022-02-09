@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@mipmap/fondo1"
     android:padding="@dimen/common_padding_default"
-    tools:context=".ui.RegistrarseCliente">
+    tools:context=".Views.cliente.RegistrarseCliente">
 
     <ScrollView
         android:layout_width="match_parent"

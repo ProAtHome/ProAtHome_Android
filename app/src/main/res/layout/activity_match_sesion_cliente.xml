@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/common_padding_default"
-            tools:context=".ui.MatchSesionCliente">
+            tools:context=".Views.profesional.MatchSesionCliente">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardPerfil"
@@ -93,13 +93,13 @@
                     <fragment
                         android:id="@+id/mapsDetallesMatch"
                         xmlns:map="http://schemas.android.com/apk/res-auto"
-                        class="com.proathome.utils.WorkaroundMapFragment"
+                        class="com.proathome.Utils.WorkaroundMapFragment"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
                         map:layout_constraintEnd_toEndOf="parent"
                         map:layout_constraintStart_toStartOf="parent"
                         map:layout_constraintTop_toTopOf="parent"
-                        tools:context=".ui.MapsFragment" />
+                        tools:context=".Views.fragments_compartidos.MapsFragment" />
 
                     <TextView
                         android:id="@+id/direccionTV"

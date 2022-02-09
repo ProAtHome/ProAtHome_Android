@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.examen.Diagnostico1">
+        tools:context=".Views.cliente.examen.Diagnostico1">
 
         <LinearLayout
             android:orientation="vertical"

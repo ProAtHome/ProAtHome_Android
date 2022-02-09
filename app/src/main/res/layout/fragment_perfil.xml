@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.PerfilFragment"
+    tools:context=".Views.fragments_compartidos.PerfilFragment"
     android:backgroundTint="@android:color/holo_red_dark">
 
     <com.google.android.material.appbar.AppBarLayout
