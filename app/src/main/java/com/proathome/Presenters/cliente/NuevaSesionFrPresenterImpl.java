@@ -69,8 +69,9 @@ public class NuevaSesionFrPresenterImpl implements NuevaSesionPresenter {
     }
 
     @Override
-    public void guardarPago(int idCliente, String token, Bundle bundle, boolean rutaFinalizada, Context context) {
-        nuevaSesionInteractor.guardarPago(idCliente, token, bundle, rutaFinalizada, context);
+    public void guardarPago(int idCliente, String token, Bundle bundle, boolean rutaFinalizada, int nuevoMonedero, Context context) {
+        //nuevaSesionInteractor.guardarPago(idCliente, token, bundle, rutaFinalizada, context);
+        nuevaSesionInteractor.registrarServicio(idCliente, token, bundle, rutaFinalizada, nuevoMonedero, context);
     }
 
     @Override

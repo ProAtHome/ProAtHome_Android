@@ -58,6 +58,7 @@ public class APIEndPoints {
     public static final String VERIFICAR_DISPONIBILIDAD_DE_PROFESIONAL =  Constants.IP + "/ProAtHome/api/cliente/sincronizarServicio/";
     public static final String VALIDAR_SERVICIO_FINALIZADO_CLIENTE = Constants.IP + "/ProAtHome/api/cliente/validarServicioFinalizada/";
     public static final String FINALIZAR_SERVICIO = Constants.IP + "/ProAtHome/api/cliente/finalizarServicio/";
+    public static final String REGISTRAR_SERVICIO = Constants.IP + "/ProAtHome/api/cliente/registrarServicio";
 
     //PROFESIONALES
     public static final String VALIDAR_TOKEN_SESION_PROFESIONAL = Constants.IP + "/ProAtHome/api/profesional/validarTokenSesion/";

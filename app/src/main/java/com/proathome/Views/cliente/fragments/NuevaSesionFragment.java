@@ -276,7 +276,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     }
 
     private void guardarPago(Bundle bundle, String token){
-        nuevaSesionPresenter.guardarPago(idCliente, token, bundle, rutaFinalizada, getContext());
+        nuevaSesionPresenter.guardarPago(idCliente, token, bundle, rutaFinalizada, nuevoMonedero, getContext());
     }
 
     public Bundle getBundleSesion(int idCliente, String horario, String lugar,

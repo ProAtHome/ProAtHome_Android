@@ -11,6 +11,8 @@ public interface NuevaSesionInteractor {
 
     void validarBanco(int idCliente, Context context);
 
-    void guardarPago(int idCliente, String token, Bundle bundle, boolean rutaFinalizada, Context context);
+    //void guardarPago(int idCliente, String token, Bundle bundle, boolean rutaFinalizada, Context context);
+
+    void registrarServicio(int idCliente, String token, Bundle bundle, boolean rutaFinalizada, int nuevoMonedero, Context context);
 
 }

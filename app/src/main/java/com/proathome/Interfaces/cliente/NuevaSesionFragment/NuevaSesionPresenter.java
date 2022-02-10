@@ -23,7 +23,7 @@ public interface NuevaSesionPresenter {
 
     void setBanco(boolean valor);
 
-    void guardarPago(int idCliente, String token, Bundle bundle, boolean rutaFinalizada, Context context);
+    void guardarPago(int idCliente, String token, Bundle bundle, boolean rutaFinalizada, int nuevoMonedero, Context context);
 
     void showError(String error);
 

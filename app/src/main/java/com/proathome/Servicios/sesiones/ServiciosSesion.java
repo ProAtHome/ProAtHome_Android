@@ -4,12 +4,15 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.proathome.Servicios.api.APIEndPoints;
 import com.proathome.Servicios.api.WebServicesAPI;
 import com.proathome.Servicios.cliente.ServiciosCliente;
+import com.proathome.Views.cliente.InicioCliente;
 import com.proathome.Views.cliente.ServicioCliente;
+import com.proathome.Views.cliente.navigator.sesiones.SesionesFragment;
 import com.proathome.Views.profesional.ServicioProfesional;
 import com.proathome.Views.activitys_compartidos.SincronizarServicio;
 import com.proathome.Views.cliente.fragments.DetallesFragment;
@@ -247,7 +250,8 @@ public class ServiciosSesion {
                     JSONObject jsonObject = new JSONObject(response);
                     //Guardamos el servicio.
                     if(jsonObject.getBoolean("respuesta"))//Guardamos la info de PAGO
-                        guardarPago(bundle, jsonObject.getString("mensaje"), idCliente, context, cobro, 0.0);
+                        registrarServicio(bundle, jsonObject.getString("mensaje"), idCliente, context, cobro, 0.0);
+                        //guardarPago(bundle, jsonObject.getString("mensaje"), idCliente, context, cobro, 0.0);
                     else{
                         progressDialog.dismiss();
                         SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡ERROR!", response, false, null, null);
@@ -262,6 +266,68 @@ public class ServiciosSesion {
         }
     }
 
+    private static void registrarServicio(Bundle bundle, String token, int idCliente, Context context, double costoServicio, double costoTE){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", token);
+            jsonObject.put("costoServicio", costoServicio);
+            jsonObject.put("costoTE", costoTE);
+            jsonObject.put("estatusPago", "Pagado");
+            jsonObject.put("idCliente", idCliente);
+            jsonObject.put("horario", bundle.getString("horario"));
+            jsonObject.put("lugar", bundle.getString("lugar"));
+            jsonObject.put("tiempo", bundle.getInt("tiempo"));
+            jsonObject.put("idSeccion", bundle.getInt("idSeccion"));
+            jsonObject.put("idNivel", bundle.getInt("idNivel"));
+            jsonObject.put("idBloque", bundle.getInt("idBloque"));
+            jsonObject.put("extras", bundle.getString("extras"));
+            jsonObject.put("tipoServicio", bundle.getString("tipoServicio"));
+            jsonObject.put("latitud", bundle.getDouble("latitud"));
+            jsonObject.put("longitud", bundle.getDouble("longitud"));
+            jsonObject.put("actualizado", bundle.getString("actualizado"));
+            jsonObject.put("fecha",  bundle.getString("fecha"));
+            jsonObject.put("sumar", NuevaSesionFragment.rutaFinalizada ? false : bundle.getBoolean("sumar"));
+            jsonObject.put("tipoPlan", bundle.getString("tipoPlan"));
+            jsonObject.put("personas", bundle.getInt("personas"));
+            jsonObject.put("nuevoMonedero", NuevaSesionFragment.nuevoMonedero);
+
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                //registrarSesion(bundle, token, idCliente, context);
+                Log.d("TAG1", response);
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONObject responseOneProvisional = data.getJSONObject("mensaje");
+                    JSONObject body = responseOneProvisional.getJSONObject("mensaje");
+                    SesionesFragment.PLAN =  body.getString("tipoPlan");
+                    SesionesFragment.MONEDERO = body.getInt("monedero");
+                    SesionesFragment.FECHA_INICIO = body.getString("fechaInicio");
+                    SesionesFragment.FECHA_FIN = body.getString("fechaFin");
+                    InicioCliente.tipoPlan.setText("PLAN ACTUAL: " + (body.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN") ? "PARTICULAR" : body.getString("tipoPlan")));
+                    InicioCliente.monedero.setText("HORAS DISPONIBLES:                      " +
+                            ServiciosCliente.obtenerHorario(body.getInt("monedero")));
+                    InicioCliente.planActivo = body.getString("tipoPlan");
+                    //EL FLUJO DE COBRO SERVICIO LLEGA HASTA ACA, CERRAMEOS EL DIALOG QUE LO GENERO.
+                    progressDialog.dismiss();
+                    progressDialog = null;
+                    NuevaSesionFragment.nuevoMonedero = 0;
+
+                    SweetAlert.showMsg(context, SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Servicio registrado exitosamente", true, "¡VAMOS!", ()->{
+                        PreOrdenServicio.dialogFragment.dismiss();
+                        NuevaSesionFragment.dialogFragment.dismiss();
+                    });
+
+                    //actualizarMonedero(data, idCliente, context);
+                }else
+                    SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
+            }, APIEndPoints.REGISTRAR_SERVICIO, WebServicesAPI.POST, jsonObject);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(context, "Ocurrio un error, intenta de nuevo mas tarde", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /*
     private static void guardarPago(Bundle bundle, String token, int idCliente, Context context, double costoServicio, double costoTE){
         JSONObject jsonObject = new JSONObject();
         try {
@@ -277,8 +343,9 @@ public class ServiciosSesion {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
+    /*
     private static void registrarSesion(Bundle bundle, String token, int idCliente, Context context){
         JSONObject parametrosPOST = new JSONObject();
         try {
@@ -329,6 +396,6 @@ public class ServiciosSesion {
         SweetAlert.showMsg(contexto, SweetAlert.SUCCESS_TYPE, "¡GENIAL!", jsonObject.getString("mensaje"), true, "¡VAMOS!", ()->{
             NuevaSesionFragment.dialogFragment.dismiss();
         });
-    }
+    }*/
 
 }

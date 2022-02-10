@@ -5,9 +5,10 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -18,14 +19,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
+import com.proathome.Interfaces.profesional.MatchSesion.MatchSesionPresenter;
+import com.proathome.Interfaces.profesional.MatchSesion.MatchSesionView;
+import com.proathome.Presenters.profesional.MatchSesionPresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.api.assets.WebServiceAPIAssets;
 import com.proathome.Servicios.cliente.ServiciosCliente;
 import com.proathome.Utils.pojos.Component;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.WorkaroundMapFragment;
-import com.proathome.Servicios.api.APIEndPoints;
-import com.proathome.Servicios.api.WebServicesAPI;
 import com.proathome.Utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,130 +35,98 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyCallback {
+public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyCallback, MatchSesionView {
 
     private Unbinder mUnbinder;
     private GoogleMap mMap;
     private ScrollView mScrollView;
-    public static TextView nombreTV, correoTV, descripcionTV, direccionTV, tiempoTV, nivelTV, tipoServicioTV, observacionesTV, horarioTV;
-    public static AppCompatImageView imageView;
     private double longitud, latitud;
-    public static int idProfesionalSesion;
     public int idProfesional, idSesion;
-    public static MaterialButton matchBTN;
+    private ProgressDialog progressDialog;
+    private MatchSesionPresenter matchSesionPresenter;
+
     @BindView(R.id.seguirBuscandoBTN)
     MaterialButton seguirBuscandoBTN;
+    @BindView(R.id.matchBTN)
+    MaterialButton matchBTN;
+    @BindView(R.id.nombreTV)
+    TextView nombreTV;
+    @BindView(R.id.correoTV)
+    TextView correoTV;
+    @BindView(R.id.descripcionTV)
+    TextView descripcionTV;
+    @BindView(R.id.direccionTV)
+    TextView direccionTV;
+    @BindView(R.id.tiempoTV)
+    TextView tiempoTV;
+    @BindView(R.id.nivelTV)
+    TextView nivelTV;
+    @BindView(R.id.tipoTV)
+    TextView tipoServicioTV;
+    @BindView(R.id.observacionesTV)
+    TextView observacionesTV;
+    @BindView(R.id.horarioTV)
+    TextView horarioTV;
+    @BindView(R.id.fotoCliente)
+    AppCompatImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_sesion_cliente);
         mUnbinder = ButterKnife.bind(this);
 
-        this.idProfesional = SharedPreferencesManager.getInstance(this).getIDProfesional();
+        matchSesionPresenter = new MatchSesionPresenterImpl(this);
 
-        this.idSesion = Integer.parseInt(getIntent().getStringExtra("idSesion"));
+        idProfesional = SharedPreferencesManager.getInstance(this).getIDProfesional();
+        idSesion = Integer.parseInt(getIntent().getStringExtra("idSesion"));
         latitud = getIntent().getDoubleExtra("latitud", 19.4326077);
         longitud = getIntent().getDoubleExtra("longitud", -99.13320799999);
 
+        matchSesionPresenter.getInfoSesion(idSesion);
+    }
+
+    public void agregarMarca(double lat, double longi){
+        LatLng ubicacion = new LatLng(lat, longi);
+        mMap.addMarker(new MarkerOptions().position(ubicacion).title("Aquí será el servicio con el cliente."));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion,15));
+    }
+
+    public void btnMatch(){
+        if (!matchBTN.isEnabled()) {
+            SweetAlert.showMsg(this,  SweetAlert.ERROR_TYPE, "¡Espera!", "Ya tiene un profesional asigando.",
+                    true, "OK", ()->{
+                    });
+        }else
+            matchSesionPresenter.matchSesion(idProfesional, idSesion);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         if (mMap == null) {
             SupportMapFragment mapFragment = (WorkaroundMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapsDetallesMatch);
             mapFragment.getMapAsync(this);
         }
-
-        matchBTN = findViewById(R.id.matchBTN);
-        nombreTV = findViewById(R.id.nombreTV);
-        imageView = findViewById(R.id.fotoCliente);
-        correoTV = findViewById(R.id.correoTV);
-        descripcionTV = findViewById(R.id.descripcionTV);
-        direccionTV = findViewById(R.id.direccionTV);
-        tiempoTV = findViewById(R.id.tiempoTV);
-        nivelTV = findViewById(R.id.nivelTV);
-        tipoServicioTV = findViewById(R.id.tipoTV);
-        observacionesTV = findViewById(R.id.observacionesTV);
-        horarioTV = findViewById(R.id.horarioTV);
-
-        getInfoSesion();
-
-        matchBTN.setOnClickListener(v -> {
-            if (!matchBTN.isEnabled()) {
-                SweetAlert.showMsg(this,  SweetAlert.ERROR_TYPE, "¡Espera!", "Ya tiene un profesional asigando.",
-                        true, "OK", ()->{
-                        });
-            }else
-                matchSesion();
-        });
-
     }
 
-    private void getInfoSesion(){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            Log.d("TAG1", response + " Mi ID: " + this.idProfesional);
-            if(response == null){
-                SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error, ocurrió un problema con el servidor.", false, null, null);
-            }else {
-                if(!response.equals("null")){
-                    JSONObject jsonObject = new JSONObject(response);
-
-                    if(this.idProfesional == jsonObject.getInt("idProfesional") || jsonObject.getInt("idProfesional") != 0)
-                        matchBTN.setVisibility(View.INVISIBLE);
-                    else
-                        matchBTN.setVisibility(View.VISIBLE);
-
-                    nombreTV.setText(jsonObject.getString("nombre"));
-                    correoTV.setText(jsonObject.getString("correo"));
-                    descripcionTV.setText(jsonObject.getString("descripcion"));
-                    direccionTV.setText("Dirección: " + jsonObject.getString("lugar"));
-                    tiempoTV.setText("Tiempo de la Sesión: " + ServiciosCliente.obtenerHorario(jsonObject.getInt("tiempo")));
-                    nivelTV.setText("Nivel: " + Component.getSeccion(jsonObject.getInt("idSeccion")) +
-                            "/" + Component.getNivel(jsonObject.getInt("idSeccion"), jsonObject.getInt("idNivel")) + "/" +
-                            Component.getBloque(jsonObject.getInt("idBloque")));
-                    tipoServicioTV.setText("Tipo de servicio: " + jsonObject.getString("tipoServicio"));
-                    observacionesTV.setText("Observaciones: " + jsonObject.getString("extras"));
-                    horarioTV.setText("Horario: " + jsonObject.getString("horario"));
-                    setImageBitmap(jsonObject.getString("foto"));
-                }else
-                    SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Sin datos, ocurrió un error.", false, null, null);
-            }
-        }, APIEndPoints.INFO_SESION_MATCH  + this.idSesion, WebServicesAPI.GET, null);
-        webServicesAPI.execute();
+    @Override
+    public void setImageBitmap(Bitmap bitmap){
+        imageView.setImageBitmap(bitmap);
     }
 
-    private void setImageBitmap(String foto){
-        WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
-            imageView.setImageBitmap(response);
-        }, APIEndPoints.FOTO_PERFIL, foto);
-        webServiceAPIAssets.execute();
+    @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(MatchSesionCliente.this, "Cargando", "Por favor, espere...");
     }
 
-    private void matchSesion(){
-        JSONObject parametrosPUT = new JSONObject();
-        try {
-            parametrosPUT.put("idProfesional", this.idProfesional);
-            parametrosPUT.put("idSesion", this.idSesion);
-            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-                if(response != null){
-                    SweetAlert.showMsg(MatchSesionCliente.this, SweetAlert.SUCCESS_TYPE, "¡GENIAL", response,
-                            true, "OK", ()->{
-                                finish();
-                            });
-                }else{
-                    SweetAlert.showMsg(MatchSesionCliente.this,  SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un error inesperado",
-                            true, "OK", ()->{
-                                finish();
-                            });
-                }
-            }, APIEndPoints.MATCH_SESION, WebServicesAPI.PUT, parametrosPUT);
-            webServicesAPI.execute();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
@@ -169,22 +138,17 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
         ((WorkaroundMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapsDetallesMatch))
                 .setListener(() -> mScrollView.requestDisallowInterceptTouchEvent(true));
 
-        agregarMarca(googleMap, latitud, longitud);
-
+        agregarMarca(latitud, longitud);
     }
 
-    public void agregarMarca(GoogleMap googleMap, double lat, double longi){
-        LatLng ubicacion = new LatLng(lat, longi);
-        mMap.addMarker(new MarkerOptions().position(ubicacion).title("Aquí será el servicio con el cliente."));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion,15));
-    }
-
-    @OnClick(R.id.seguirBuscandoBTN)
+    @OnClick({R.id.seguirBuscandoBTN, R.id.matchBTN})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.seguirBuscandoBTN:
                 finish();
                 break;
+            case R.id.matchBTN:
+                btnMatch();
         }
     }
 
@@ -199,6 +163,48 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
                     .remove(fragment)
                     .commit();
         }
+        if(progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
+    }
+
+    @Override
+    public void showError(String error) {
+        SweetAlert.showMsg(MatchSesionCliente.this, SweetAlert.ERROR_TYPE, "¡ERROR!", error, false, null, null);
+    }
+
+    @Override
+    public void setInfoSesion(JSONObject jsonObject) {
+        try {
+            if(this.idProfesional == jsonObject.getInt("idProfesional") || jsonObject.getInt("idProfesional") != 0)
+                matchBTN.setVisibility(View.INVISIBLE);
+            else
+                matchBTN.setVisibility(View.VISIBLE);
+
+            nombreTV.setText(jsonObject.getString("nombre"));
+            correoTV.setText(jsonObject.getString("correo"));
+            descripcionTV.setText(jsonObject.getString("descripcion"));
+            direccionTV.setText("Dirección: " + jsonObject.getString("lugar"));
+            tiempoTV.setText("Tiempo de la Sesión: " + ServiciosCliente.obtenerHorario(jsonObject.getInt("tiempo")));
+            nivelTV.setText("Nivel: " + Component.getSeccion(jsonObject.getInt("idSeccion")) +
+                    "/" + Component.getNivel(jsonObject.getInt("idSeccion"), jsonObject.getInt("idNivel")) + "/" +
+                    Component.getBloque(jsonObject.getInt("idBloque")));
+            tipoServicioTV.setText("Tipo de servicio: " + jsonObject.getString("tipoServicio"));
+            observacionesTV.setText("Observaciones: " + jsonObject.getString("extras"));
+            horarioTV.setText("Horario: " + jsonObject.getString("horario"));
+            matchSesionPresenter.getImage(jsonObject.getString("foto"));
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void successMatch(String mensaje) {
+        SweetAlert.showMsg(MatchSesionCliente.this, SweetAlert.SUCCESS_TYPE, "¡GENIAL", mensaje,
+                true, "OK", ()->{
+                    finish();
+                });
     }
 
 }

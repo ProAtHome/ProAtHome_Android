@@ -125,6 +125,7 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
         webServicesAPI.execute();
     }
 
+    /*
     @Override
     public void guardarPago(int idCliente, String token, Bundle bundle, boolean rutaFinalizada, Context context) {
         JSONObject jsonObject = new JSONObject();
@@ -141,8 +142,64 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }*/
+
+    @Override
+    public void registrarServicio(int idCliente, String token, Bundle bundle, boolean rutaFinalizada, int nuevoMonedero, Context context) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", token);
+            jsonObject.put("costoServicio", 0.0);
+            jsonObject.put("costoTE", 0.0);
+            jsonObject.put("estatusPago", "Pagado");
+            jsonObject.put("idCliente", idCliente);
+            jsonObject.put("horario", bundle.getString("horario"));
+            jsonObject.put("lugar", bundle.getString("lugar"));
+            jsonObject.put("tiempo", bundle.getInt("tiempo"));
+            jsonObject.put("idSeccion", bundle.getInt("idSeccion"));
+            jsonObject.put("idNivel", bundle.getInt("idNivel"));
+            jsonObject.put("idBloque", bundle.getInt("idBloque"));
+            jsonObject.put("extras", bundle.getString("extras"));
+            jsonObject.put("tipoServicio", bundle.getString("tipoServicio"));
+            jsonObject.put("latitud", bundle.getDouble("latitud"));
+            jsonObject.put("longitud", bundle.getDouble("longitud"));
+            jsonObject.put("actualizado", bundle.getString("actualizado"));
+            jsonObject.put("fecha",  bundle.getString("fecha"));
+            jsonObject.put("sumar", rutaFinalizada ? false : bundle.getBoolean("sumar"));
+            jsonObject.put("tipoPlan", bundle.getString("tipoPlan"));
+            jsonObject.put("personas", bundle.getInt("personas"));
+            jsonObject.put("nuevoMonedero", nuevoMonedero);
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                if(response != null){
+                    JSONObject respuesta = new JSONObject(response);
+                    if(respuesta.getBoolean("respuesta")){
+                        JSONObject responseOneProvisional = respuesta.getJSONObject("mensaje");
+                        JSONObject body = responseOneProvisional.getJSONObject("mensaje");
+                        SesionesFragment.PLAN =  body.getString("tipoPlan");
+                        SesionesFragment.MONEDERO = body.getInt("monedero");
+                        SesionesFragment.FECHA_INICIO = body.getString("fechaInicio");
+                        SesionesFragment.FECHA_FIN = body.getString("fechaFin");
+                        InicioCliente.tipoPlan.setText("PLAN ACTUAL: " + (body.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN") ? "PARTICULAR" : body.getString("tipoPlan")));
+                        InicioCliente.monedero.setText("HORAS DISPONIBLES:                      " + obtenerHorario(body.getInt("monedero")));
+                        InicioCliente.planActivo = body.getString("tipoPlan");
+                        NuevaSesionFragment.nuevoMonedero = 0;
+
+                        SweetAlert.showMsg(context, SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Servicio registrado exitosamente",
+                                true, "¡VAMOS!", ()->{
+                                    nuevaSesionPresenter.finishFragment();
+                                });
+                    }else
+                        nuevaSesionPresenter.showError(respuesta.getString("mensaje"));
+                }else
+                    nuevaSesionPresenter.showError("Ocurrio un error al guardar el servicio, comunica este error al soporte Tecnico.");
+            }, APIEndPoints.REGISTRAR_SERVICIO, WebServicesAPI.POST, jsonObject);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
+    /*
     private void registrarSesion(Bundle bundle, String token, int idCliente, boolean rutaFinalizada, Context context){
         JSONObject parametrosPOST = new JSONObject();
         try {
@@ -175,8 +232,9 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
+    /*
     private void actualizarMonedero(JSONObject jsonObject, int idCliente, Context context) throws JSONException {
         JSONObject parametrosPUT= new JSONObject();
         parametrosPUT.put("idCliente", idCliente);
@@ -190,7 +248,7 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
                 true, "¡VAMOS!", ()->{
                     nuevaSesionPresenter.finishFragment();
                 });
-    }
+    }*/
 
     public String obtenerHorario(int tiempo){
         String horas = (tiempo/60) + " HRS ";

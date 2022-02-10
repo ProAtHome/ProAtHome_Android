@@ -12,28 +12,28 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
-
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputEditText;
+import com.proathome.Interfaces.cliente.Registrarse.RegistrarsePresenter;
+import com.proathome.Interfaces.cliente.Registrarse.RegistrarseView;
+import com.proathome.Presenters.cliente.RegistrarsePresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.api.APIEndPoints;
-import com.proathome.Servicios.api.WebServicesAPI;
 import com.proathome.Utils.SweetAlert;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.util.Calendar;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class RegistrarseCliente extends AppCompatActivity {
+public class RegistrarseCliente extends AppCompatActivity implements RegistrarseView {
 
     private int mDayIni, mMonthIni, mYearIni, sDayIni, sMonthIni, sYearIni;
     public static final int DATE_ID = 0;
     public Calendar calendar = Calendar.getInstance();
     private ProgressDialog progressDialog;
+    private RegistrarsePresenter registrarsePresenter;
+    private Unbinder mUnbinder;
+
     @BindView(R.id.nombreET_R)
     TextInputEditText nombreET;
     @BindView(R.id.paternoET_R)
@@ -58,7 +58,6 @@ public class RegistrarseCliente extends AppCompatActivity {
     TextInputEditText contrasena2ET;
     @BindView(R.id.checkTC)
     MaterialCheckBox checkBox;
-    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +72,8 @@ public class RegistrarseCliente extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 R.layout.spinner_item, datos);
         genero.setAdapter(adapter);
+
+        registrarsePresenter = new RegistrarsePresenterImpl(this);
     }
 
     private void colocarFecha(){
@@ -117,50 +118,6 @@ public class RegistrarseCliente extends AppCompatActivity {
         return null;
     }
 
-    public void verificacionCorreo(String response){
-        try{
-            JSONObject jsonObject = new JSONObject(response);
-            if(jsonObject.getBoolean("respuesta")){
-                JSONObject post = new JSONObject();
-                post.put("token", jsonObject.getString("token"));
-                post.put("correo", correoET.getText().toString().trim());
-                WebServicesAPI webServicesAPI = new WebServicesAPI(responseVerficacion -> {
-                    progressDialog.dismiss();
-                    SweetAlert.showMsg(this, SweetAlert.SUCCESS_TYPE, "¡GENIAL!", jsonObject.getString("mensaje"), true, "OK", ()->{
-                        startActivity(new Intent(this, MainActivity.class));
-                    });
-                }, APIEndPoints.VERIFICACION_CORREO, WebServicesAPI.POST, post);
-                webServicesAPI.execute();
-            }else{
-                progressDialog.dismiss();
-                SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
-            }
-        }catch(JSONException ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public JSONObject getRegistro(){
-        JSONObject parametrosPost= new JSONObject();
-
-        try{
-            parametrosPost.put("nombre", nombreET.getText().toString());
-            parametrosPost.put("paterno", paternoET.getText().toString());
-            parametrosPost.put("materno", maternoET.getText().toString());
-            parametrosPost.put("correo", correoET.getText().toString().trim());
-            parametrosPost.put("celular", celularET.getText().toString());
-            parametrosPost.put("telefono", telefonoET.getText().toString());
-            parametrosPost.put("direccion", direccionET.getText().toString());
-            parametrosPost.put("fechaNacimiento", fechaET.getText().toString());
-            parametrosPost.put("genero", genero.getSelectedItem().toString());
-            parametrosPost.put("contrasena", contrasenaET.getText().toString());
-        }catch (JSONException ex){
-            ex.printStackTrace();
-        }
-
-        return  parametrosPost;
-    }
-
     public void iniciarSesion(){
         startActivity(new Intent(this, MainActivity.class));
         finish();
@@ -176,11 +133,8 @@ public class RegistrarseCliente extends AppCompatActivity {
                 //Verificar que las contraseñas sean iguales
                 if(contrasenaET.getText().toString().trim().equals(contrasena2ET.getText().toString())){
                     if(checkBox.isChecked()){
-                        progressDialog = ProgressDialog.show(RegistrarseCliente.this, "Registrando", "Por favor, espere...");
-                        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-                            verificacionCorreo(response);
-                        }, APIEndPoints.REGISTRAR_CLIENTE, WebServicesAPI.POST, getRegistro());
-                        webServicesAPI.execute();
+                        registrarsePresenter.registrar(nombreET.getText().toString(), paternoET.getText().toString(), maternoET.getText().toString(), correoET.getText().toString().trim(), celularET.getText().toString(),
+                                telefonoET.getText().toString(), direccionET.getText().toString(), fechaET.getText().toString(), genero.getSelectedItem().toString(), contrasenaET.getText().toString());
                     }else
                         SweetAlert.showMsg(RegistrarseCliente.this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Debes aceptar los Términos y Condiciones.", true, "OK", ()->{});
                 }else
@@ -236,4 +190,27 @@ public class RegistrarseCliente extends AppCompatActivity {
             progressDialog = null;
         }
     }
+
+    @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(RegistrarseCliente.this, "Registrando", "Por favor, espere...");
+    }
+
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showError(String error) {
+        SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", error, false, null, null);
+    }
+
+    @Override
+    public void success(String mensaje) {
+        SweetAlert.showMsg(this, SweetAlert.SUCCESS_TYPE, "¡GENIAL!",  mensaje,true, "OK", ()->{
+            startActivity(new Intent(this, MainActivity.class));
+        });
+    }
+
 }
