@@ -5,11 +5,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -18,17 +17,20 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.proathome.Interfaces.cliente.Sesiones.SesionesPresenter;
+import com.proathome.Interfaces.cliente.Sesiones.SesionesView;
+import com.proathome.Presenters.cliente.SesionesPresenterImpl;
 import com.proathome.R;
 import com.proathome.Adapters.ComponentAdapterGestionar;
-import com.proathome.Servicios.api.APIEndPoints;
-import com.proathome.Servicios.api.WebServicesAPI;
+import com.proathome.Views.cliente.InicioCliente;
+import com.proathome.Views.cliente.fragments.DetallesFragment;
 import com.proathome.Views.cliente.fragments.DetallesGestionarFragment;
 import com.proathome.Views.cliente.fragments.NuevaSesionFragment;
 import com.proathome.Views.cliente.fragments.PlanesFragment;
 import com.proathome.Utils.PermisosUbicacion;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.SweetAlert;
-import org.json.JSONArray;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -37,18 +39,22 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class SesionesFragment extends Fragment {
+public class SesionesFragment extends Fragment implements SesionesView {
 
     public static ComponentAdapterGestionar myAdapter;
     private Unbinder mUnbinder;
-    private int idCliente = 0;
-    public static boolean SESIONES_PAGADAS_FINALIZADAS = false, PLAN_ACTIVO = false, disponibilidad;
+    private String nombreTitular = null, tarjeta = null, mes = null, ano = null;
+    public static boolean SESIONES_PAGADAS_FINALIZADAS = false, PLAN_ACTIVO = false, disponibilidad, banco, rutaFinalizada;
     public static String PLAN = "";
     public static String FECHA_INICIO = "", FECHA_FIN = "";
     public static int MONEDERO = 0, horasDisponibles;
     public static LottieAnimationView lottieAnimationView;
     public static Context contexto;
+    private SesionesPresenter sesionesPresenter;
+    public static Fragment fragment;
+    private int seccion, nivel, bloque, minutos_horas;
     private ProgressDialog progressDialog;
+
     @BindView(R.id.recyclerGestionar)
     RecyclerView recyclerView;
     @BindView(R.id.fabNuevaSesion)
@@ -59,12 +65,14 @@ public class SesionesFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sesionesPresenter = new SesionesPresenterImpl(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getSesiones();
+        sesionesPresenter.getInfoInicioSesiones(SharedPreferencesManager.getInstance(getContext()).getIDCliente());
+        sesionesPresenter.getSesiones(SharedPreferencesManager.getInstance(getContext()).getIDCliente(), getContext());
         configAdapter();
         configRecyclerView();
     }
@@ -73,96 +81,12 @@ public class SesionesFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_sesiones, container, false);
         lottieAnimationView = root.findViewById(R.id.animation_viewSesiones);
         mUnbinder = ButterKnife.bind(this, root);
-        this.idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
 
         SesionesFragment.contexto = getContext();
-        webServiceDisponibilidad();
+        fragment = this;
+        //sesionesPresenter.getDisponibilidadServicio(idCliente, getContext());
 
         return root;
-
-    }
-
-    private void iniciarProcesoRuta() throws JSONException {
-        JSONObject parametros = new JSONObject();
-        parametros.put("idCliente", this.idCliente);
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-
-        }, APIEndPoints.INICIAR_PROCESO_RUTA, WebServicesAPI.POST, parametros);
-        webServicesAPI.execute();
-    }
-
-    private void getSesiones(){
-        progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere por favor...");
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                iniciarProcesoRuta();
-
-                JSONObject data = new JSONObject(response);
-                if(data.getBoolean("respuesta")){
-                    JSONObject jsonObject = data.getJSONObject("mensaje");
-                    JSONArray jsonArray = jsonObject.getJSONArray("sesiones");
-
-                    if(jsonArray.length() == 0)
-                        lottieAnimationView.setVisibility(View.VISIBLE);
-
-                    for (int i = 0; i < jsonArray.length(); i++){
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        //TODO FLUJO_PLANES: Nota - Si el servicio está finalizada no se puede eliminar ni editar (No mostrar en Gestión)
-                        if(!object.getBoolean("finalizado")){
-                            myAdapter.add(DetallesGestionarFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoServicio"), object.getString("horario"),
-                                    object.getString("profesional"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
-                                    object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"),
-                                    object.getString("fecha"), object.getString("tipoPlan")));
-                        }
-                    }
-                }else
-                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", data.getString("mensaje"), false, null, null);
-
-                progressDialog.dismiss();
-            }catch(JSONException ex){
-                ex.printStackTrace();
-                progressDialog.dismiss();
-            }
-            sesionesPagadas();
-        }, APIEndPoints.GET_SESIONES_CLIENTE  + this.idCliente + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
-    }
-
-    private void sesionesPagadas(){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            JSONObject data = new JSONObject(response);
-            if(data.getBoolean("respuesta")){
-                JSONObject jsonObject = data.getJSONObject("mensaje");
-                //TODO FLUJO_PLANES_EJECUTAR: Posible cambio de algortimo para obtener plan_activo, verificar la fecha de inicio si es distinto a PARTICULAR.
-                PLAN_ACTIVO = jsonObject.getBoolean("plan_activo");
-                SESIONES_PAGADAS_FINALIZADAS = jsonObject.getBoolean("sesiones_pagadas_finalizadas");
-            }else
-                Toast.makeText(getContext(), data.getString("mensaje"), Toast.LENGTH_LONG).show();
-        }, APIEndPoints.SESIONES_PAGADAS_Y_FINALIZADAS + this.idCliente + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
-    }
-
-    private void webServiceDisponibilidad(){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                JSONObject data = new JSONObject(response);
-                if(data.getBoolean("respuesta")){
-                    JSONObject jsonObject = data.getJSONObject("mensaje");
-                    if(jsonObject.getBoolean("disponibilidad")){
-                        SesionesFragment.disponibilidad = true;
-                        SesionesFragment.horasDisponibles = jsonObject.getInt("horasDisponibles");
-                    }else
-                        SesionesFragment.disponibilidad = false;
-                }else{
-                    SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ERROR!", data.getString("mensaje"), true, "OK", ()->{
-                        validarPlan_Monedero();
-                    });
-                }
-            }catch (JSONException ex){
-                ex.printStackTrace();
-            }
-        }, APIEndPoints.DISPONIBILIDAD_SERVICIO + idCliente + "/" +  SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
     }
 
     public void configAdapter(){
@@ -179,14 +103,13 @@ public class SesionesFragment extends Fragment {
 
     @OnClick({R.id.fabNuevaSesion, R.id.fabActualizar})
     public void onClicked(View view){
-
         switch (view.getId()){
             case R.id.fabNuevaSesion:
                 //Validar si puedes crear otra sesion dependiendo las horas del bloque.
-                if(SesionesFragment.disponibilidad){
+                if(disponibilidad){
                     NuevaSesionFragment.disponibilidad = true;
                     NuevaSesionFragment.horasDisponibles = SesionesFragment.horasDisponibles;
-                    if((SesionesFragment.horasDisponibles / 60) == 1){
+                    if((horasDisponibles / 60) == 1){
                         SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡AVISO!", "Sólo puedes crear una servicio con la hora faltante del bloque de la ruta de Aprendizaje Actual.", true, "OK", ()->{
                             validarPlan_Monedero();
                         });
@@ -201,7 +124,6 @@ public class SesionesFragment extends Fragment {
                 getFragmentManager().beginTransaction().detach(this).attach(this).commit();
                 break;
         }
-
     }
 
     public void validarPlan_Monedero(){
@@ -218,19 +140,14 @@ public class SesionesFragment extends Fragment {
                 if(SesionesFragment.SESIONES_PAGADAS_FINALIZADAS){
                     if(SesionesFragment.PLAN_ACTIVO){
                         //TODO FLUJO_EJECUTAR_PLAN: Pasar por Bundle el tipo de PLAN en nuevaSesionFragment.
-                        tipoPlanMsg(SesionesFragment.PLAN);
+                        toNuevaSesion();
                     }else{
                         PlanesFragment planesFragment = new PlanesFragment();
                         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                         planesFragment.show(transaction, "Planes Disponibles");
                     }
-                }else{
-                    if(SesionesFragment.PLAN_ACTIVO){
-                        tipoPlanMsg(SesionesFragment.PLAN);
-                    }else{
-                        tipoPlanMsg("PARTICULAR");
-                    }
-                }
+                }else
+                    toNuevaSesion();
             }
         }else if(SesionesFragment.PLAN_ACTIVO && SesionesFragment.MONEDERO == 0){
             SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ESPERA!", "Tienes un plan activo pero ya no tienes tiempo disponible, o solicitaste un servicio con saldo de tu monedero previamente," +
@@ -244,30 +161,38 @@ public class SesionesFragment extends Fragment {
                 if(SesionesFragment.SESIONES_PAGADAS_FINALIZADAS){
                     if(SesionesFragment.PLAN_ACTIVO){
                         //TODO FLUJO_EJECUTAR_PLAN: Pasar por Bundle el tipo de PLAN en nuevaSesionFragment.
-                        tipoPlanMsg(SesionesFragment.PLAN);
+                        toNuevaSesion();
                     }else{
                         PlanesFragment planesFragment = new PlanesFragment();
                         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                         planesFragment.show(transaction, "Planes Disponibles");
                     }
-                }else{
-                    if(SesionesFragment.PLAN_ACTIVO){
-                        tipoPlanMsg(SesionesFragment.PLAN);
-                    }else{
-                        tipoPlanMsg("PARTICULAR");
-                    }
-                }
+                }else
+                    toNuevaSesion();
             }
         }
     }
 
-    private void tipoPlanMsg(String plan) {
-       /*
-       SweetAlert.showMsg(getContext(), SweetAlert.NORMAL_TYPE, "Creación de servicios con PLAN: " + plan, "", true, "OK", ()->{
+    private void toNuevaSesion() {
+        Bundle bundle = new Bundle();
+        //TODO PASAR INFO BANCO
+        bundle.putString("nombreTitular", nombreTitular);
+        bundle.putString("tarjeta", tarjeta);
+        bundle.putString("mes", mes);
+        bundle.putString("ano", ano);
+        bundle.putBoolean("banco", banco);
+        //TODO PASAR INFO RUTA ACTUAL
+        bundle.putInt("idSeccion", seccion);
+        bundle.putInt("idNivel", nivel);
+        bundle.putInt("idBloque", bloque);
+        bundle.putInt("horas", minutos_horas);
+        bundle.putBoolean("rutaFinalizada", rutaFinalizada);
 
-       });*/
+        Log.d("TAGFRAG", bundle.toString());
+
         NuevaSesionFragment nueva = new NuevaSesionFragment();
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        nueva.setArguments(bundle);
         nueva.show(transaction, NuevaSesionFragment.TAG);
     }
 
@@ -275,6 +200,108 @@ public class SesionesFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
+    }
+
+    @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere por favor...");
+    }
+
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void setVisibilityLottie() {
+        lottieAnimationView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setMyAdapter(JSONObject object) {
+        try {
+            myAdapter.add(DetallesGestionarFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoServicio"), object.getString("horario"),
+                    object.getString("profesional"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
+                    object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"),
+                    object.getString("fecha"), object.getString("tipoPlan")));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void showError(String error) {
+        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", error, false, null, null);
+    }
+
+    @Override
+    public void setEstatusSesionesPagadas(boolean planActivo, boolean sesionesPagadas) {
+        PLAN_ACTIVO = planActivo;
+        SESIONES_PAGADAS_FINALIZADAS = sesionesPagadas;
+    }
+
+    @Override
+    public void setDisponibilidadEstatus(boolean disponibilidad, int horas) {
+        this.disponibilidad = disponibilidad;
+        if(horas != 0)
+            horasDisponibles = horas;
+    }
+
+    @Override
+    public void setInfoPlan(JSONObject jsonObject) {
+        try {
+            PLAN =  jsonObject.getString("tipoPlan");
+            MONEDERO = jsonObject.getInt("monedero");
+            FECHA_INICIO = jsonObject.getString("fechaInicio");
+            FECHA_FIN = jsonObject.getString("fechaFin");
+            InicioCliente.tipoPlan.setText("PLAN ACTUAL: " + (jsonObject.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN") ? "PARTICULAR" : jsonObject.getString("tipoPlan")));
+            InicioCliente.monedero.setText("HORAS DISPONIBLES:                      " + obtenerHorario(jsonObject.getInt("monedero")));
+            InicioCliente.planActivo = jsonObject.getString("tipoPlan");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setRutaActual(JSONObject jsonObject) {
+        try {
+            seccion = jsonObject.getInt("idSeccion");
+            nivel = jsonObject.getInt("idNivel");
+            bloque = jsonObject.getInt("idBloque");
+            minutos_horas = jsonObject.getInt("horas");
+
+            if(jsonObject.getBoolean("rutaFinalizada"))
+                rutaFinalizada = true;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setDatosBanco(JSONObject jsonObject) {
+        try {
+            if(jsonObject.getBoolean("existe")){
+                DetallesFragment.banco = true;
+                banco = true;
+                //Datos bancarios Pre Orden.
+                nombreTitular = jsonObject.getString("nombreTitular");
+                tarjeta = jsonObject.get("tarjeta").toString();
+                mes = jsonObject.get("mes").toString();
+                ano = jsonObject.get("ano").toString();
+            }else{
+                banco = false;
+                DetallesFragment.banco = false;
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
+
+    public String obtenerHorario(int tiempo){
+        String horas = (tiempo/60) + " HRS ";
+        String minutos = (tiempo%60) + " min";
+
+        return horas + minutos;
     }
 
 }

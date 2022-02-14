@@ -40,6 +40,7 @@ public class APIEndPoints {
     public static final String NUEVO_TICKET_CLIENTE = Constants.IP + "/ProAtHome/api/cliente/nuevoTicket";
     public static final String FINALIZAR_TICKET_CLIENTE = Constants.IP + "/ProAtHome/api/cliente/finalizarTicket/";
     public static final String GET_PERFIL_CLIENTE = Constants.IP + "/ProAtHome/api/cliente/perfilCliente/";
+    public static final String INICIAR_PERFIL_CLIENTE = Constants.IP + "/ProAtHome/api/cliente/iniciarPerfil/";
     public static final String GET_SESIONES_CLIENTE = Constants.IP + "/ProAtHome/api/cliente/obtenerSesiones/";
     public static final String GET_PRE_ORDEN = Constants.IP + "/ProAtHome/api/cliente/obtenerPreOrden/";
     public static final String GET_REPORTES_CLIENTE = Constants.IP + "/ProAtHome/api/cliente/getReportes/";
@@ -59,6 +60,7 @@ public class APIEndPoints {
     public static final String VALIDAR_SERVICIO_FINALIZADO_CLIENTE = Constants.IP + "/ProAtHome/api/cliente/validarServicioFinalizada/";
     public static final String FINALIZAR_SERVICIO = Constants.IP + "/ProAtHome/api/cliente/finalizarServicio/";
     public static final String REGISTRAR_SERVICIO = Constants.IP + "/ProAtHome/api/cliente/registrarServicio";
+    public static final String GET_INFO_INICIO_SESIONES = Constants.IP + "/ProAtHome/api/cliente/getInicioSesion/";
 
     //PROFESIONALES
     public static final String VALIDAR_TOKEN_SESION_PROFESIONAL = Constants.IP + "/ProAtHome/api/profesional/validarTokenSesion/";

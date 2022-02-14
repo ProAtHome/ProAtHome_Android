@@ -2,7 +2,6 @@ package com.proathome.Views.cliente;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -10,31 +9,26 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.proathome.R;
 import com.proathome.Servicios.api.assets.WebServiceAPIAssets;
-import com.proathome.Servicios.cliente.ServiciosCliente;
-import com.proathome.Views.cliente.fragments.PagoPendienteFragment;
 import com.proathome.Servicios.api.APIEndPoints;
 import com.proathome.Servicios.api.WebServicesAPI;
 import com.proathome.Views.cliente.fragments.DetallesFragment;
 import com.proathome.Views.cliente.fragments.PlanesFragment;
-import com.proathome.Utils.pojos.Component;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.SweetAlert;
+import com.proathome.Views.cliente.navigator.sesiones.SesionesFragment;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class InicioCliente extends AppCompatActivity{
 
     private AppBarConfiguration mAppBarConfiguration;
-    private Intent intent;
     public static TextView correoTV, nombreTV, tipoPlan, monedero;
     private int idCliente = 0;
     public static ImageView fotoPerfil;
@@ -43,7 +37,6 @@ public class InicioCliente extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_cliente);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -75,14 +68,51 @@ public class InicioCliente extends AppCompatActivity{
     }
 
     public void cargarPerfil(){
-            this.idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
-            //TODO FLUJO_PLANES: Crear PLAN al iniciar sesión si no existe registro en la BD.
-            /*TODO FLUJO_PANES: Cargamos la info de PLAN, MONEDERO Y PERFIL.*/
-            DetallesFragment.procedenciaFin = false;
-            checkBloquearPerfil();
-            getDatosPerfil();
+        this.idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
+        //TODO FLUJO_PLANES: Crear PLAN al iniciar sesión si no existe registro en la BD.
+        /*TODO FLUJO_PANES: Cargamos la info de PLAN, MONEDERO Y PERFIL.*/
+        DetallesFragment.procedenciaFin = false;
+
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            if(response != null){
+                try{
+                    Log.d("TAG2", response);
+                    JSONObject jsonObject = new JSONObject(response);
+                    if(jsonObject.getBoolean("respuesta")){
+                        jsonObject = jsonObject.getJSONObject("mensaje");
+                        nombreTV.setText(jsonObject.getString("nombre"));
+                        correoTV.setText(jsonObject.getString("correo"));
+                        PlanesFragment.nombreCliente = jsonObject.getString("nombre");
+                        PlanesFragment.correoCliente = jsonObject.getString("correo");
+
+                /*TODO FLUJO_EJECUTAR_PLAN: Verificar si hay PLAN distinto a PARTICULAR
+                    -Si, entonces, verificar la expiracion y el monedero (En el servidor verificamos el monedero y  la expiración,
+                        y ahí decidimos si finalizamos el plan activo, en cualquier caso regresamos un mensaje validando o avisando que valió verga.
+                    -No, entonces, todo sigue el flujo.*/
+                        SesionesFragment.PLAN =  jsonObject.getString("tipoPlan");
+                        SesionesFragment.MONEDERO = jsonObject.getInt("monedero");
+                        SesionesFragment.FECHA_INICIO = jsonObject.getString("fechaInicio");
+                        SesionesFragment.FECHA_FIN = jsonObject.getString("fechaFin");
+
+                        tipoPlan.setText("PLAN ACTUAL: " + (jsonObject.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN") ? "PARTICULAR" : jsonObject.getString("tipoPlan")));
+                        monedero.setText("HORAS DISPONIBLES:                      " + obtenerHorario(jsonObject.getInt("monedero")));
+                        planActivo = jsonObject.getString("tipoPlan");
+
+                        setImageBitmap(jsonObject.getString("foto"));
+                    }else{
+                        SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente ingresar más tarde.", false, null, null);
+                    }
+                }catch(JSONException ex){
+                    ex.printStackTrace();
+                }
+            }else
+                SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente ingresar más tarde.", false, null, null);
+        }, APIEndPoints.INICIAR_PERFIL_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
+        webServicesAPI.execute();
+            //getDatosPerfil();
     }
 
+    /*  TODO POR EL MOMENTO YA NO USAMOS LA VALIDACION DE PAGOS EN DEUDA
     private void checkBloquearPerfil(){
         WebServicesAPI bloquearPerfil = new WebServicesAPI(response -> {
             try{
@@ -121,7 +151,7 @@ public class InicioCliente extends AppCompatActivity{
             }
         }, APIEndPoints.BLOQUEAR_PERFIL + "/" + idCliente + "/" +  SharedPreferencesManager.getInstance(InicioCliente.this).getTokenCliente(),  WebServicesAPI.GET, null);
         bloquearPerfil.execute();
-    }
+    }*/
 
     private void validarTokenSesion(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
@@ -146,6 +176,14 @@ public class InicioCliente extends AppCompatActivity{
         webServiceAPIAssets.execute();
     }
 
+    public static String obtenerHorario(int tiempo){
+        String horas = (tiempo/60) + " HRS ";
+        String minutos = (tiempo%60) + " min";
+
+        return horas + minutos;
+    }
+
+    /*
     private void getDatosPerfil(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             if(response != null){
@@ -157,23 +195,18 @@ public class InicioCliente extends AppCompatActivity{
                         correoTV.setText(jsonObject.getString("correo"));
                         PlanesFragment.nombreCliente = jsonObject.getString("nombre");
                         PlanesFragment.correoCliente = jsonObject.getString("correo");
-                    /*TODO FLUJO_EJECUTAR_PLAN: Verificar si hay PLAN distinto a PARTICULAR
-                        -Si, entonces, verificar la expiracion y el monedero (En el servidor verificamos el monedero y  la expiración,
-                            y ahí decidimos si finalizamos el plan activo, en cualquier caso regresamos un mensaje validando o avisando que valió verga.
-                        -No, entonces, todo sigue el flujo.*/
                         ServiciosCliente.validarPlan(this.idCliente, this);
                         setImageBitmap(jsonObject.getString("foto"));
                     }catch(JSONException ex){
                         ex.printStackTrace();
                     }
-
                 }else
                     SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error en el perfil, intente ingresar más tarde.", false, null, null);
             }else
                 SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente ingresar más tarde.", false, null, null);
         }, APIEndPoints.GET_PERFIL_CLIENTE + this.idCliente + "/" + SharedPreferencesManager.getInstance(InicioCliente.this).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
-    }
+    }*/
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -186,6 +219,6 @@ public class InicioCliente extends AppCompatActivity{
         SharedPreferencesManager.getInstance(this).logout();
         startActivity(new Intent(this, MainActivity.class));
         finish();
-    }//Fin método cerrarSesion.
+    }
 
 }

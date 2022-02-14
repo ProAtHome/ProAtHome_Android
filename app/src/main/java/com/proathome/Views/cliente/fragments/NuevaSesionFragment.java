@@ -6,7 +6,6 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -15,7 +14,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,16 +29,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.Interfaces.cliente.NuevaSesionFragment.NuevaSesionPresenter;
 import com.proathome.Interfaces.cliente.NuevaSesionFragment.NuevaSesionView;
 import com.proathome.Presenters.cliente.NuevaSesionFrPresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.api.APIEndPoints;
-import com.proathome.Servicios.api.WebServicesAPI;
-import com.proathome.Servicios.cliente.ServiciosCliente;
 import com.proathome.Utils.Constants;
 import com.proathome.Views.cliente.InicioCliente;
 import com.proathome.Utils.SharedPreferencesManager;
@@ -49,8 +43,6 @@ import com.proathome.Servicios.cliente.ControladorTomarSesion;
 import com.proathome.Views.cliente.navigator.sesiones.SesionesFragment;
 import com.proathome.Utils.pojos.Component;
 import com.proathome.Utils.SweetAlert;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -68,16 +60,17 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     private boolean primeraVezB1 = true, primeraVezB2 = true, primeraVezB3 = true, primeraVezB4 = true, primeraVezB5 = true;
     public static final String TAG = "Nueva Sesión";
     private String[] datosHoras = null, datosTipo = new String[]{"Personal", "Grupal"}, datosPersonas = new String[]{"1"};
-    public static boolean basicoVisto, intermedioVisto, avanzadoVisto, rutaFinalizada, disponibilidad;
+    public static boolean basicoVisto, intermedioVisto, avanzadoVisto, rutaFinalizada, disponibilidad, banco;
     public static int idCliente = 0, horasDisponibles = 0;
+    private int seccion, nivel, bloque, minutos_horas;
     private GoogleMap mMap;
     private Marker perth;
     private ScrollView mScrollView;
     private double latitud, longitud;
-    private boolean banco = false;
     public static String correoCliente;
     public static DialogFragment dialogFragment;
     public static ControladorTomarSesion tomarSesion;
+    private String nombreTitular = null, tarjeta = null, mes = null, ano = null;
     private NuevaSesionPresenter nuevaSesionPresenter;
     private Unbinder mUnbinder;
 
@@ -118,7 +111,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialog);
-
         nuevaSesionPresenter = new NuevaSesionFrPresenterImpl(this);
     }
 
@@ -141,10 +133,34 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         this.idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
         this.correoCliente = SharedPreferencesManager.getInstance(getContext()).getCorreoCliente();
 
-        nuevaSesionPresenter.getSesionActual(idCliente, getContext());
-        nuevaSesionPresenter.validarPlan(idCliente, getContext());
+        Bundle bundle = getArguments();
+        //DATOS BANCO
+        PreOrdenServicio.nombreTitular = bundle.getString("nombreTitular");
+        PreOrdenServicio.tarjeta = bundle.getString("tarjeta");
+        PreOrdenServicio.mes = bundle.getString("mes");
+        PreOrdenServicio.ano = bundle.getString("ano");
+        banco = bundle.getBoolean("banco");
+        //DATOS RUTA
+        seccion = bundle.getInt("idSeccion");
+        nivel = bundle.getInt("idNivel");
+        bloque = bundle.getInt("idBloque");
+        minutos_horas = bundle.getInt("horas");
+        rutaFinalizada = bundle.getBoolean("rutaFinalizada");
+
+        setAdapters(seccion, nivel, bloque, minutos_horas);
+        setSeccionesListener(seccion, nivel, bloque, minutos_horas);
+        setNivelesListener(seccion, nivel, bloque, minutos_horas);
+        setBloquesListener(seccion, nivel, bloque, minutos_horas);
+
+        if(rutaFinalizada){
+            SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE,"¡AVISO!", "La Ruta de Aprendizaje fue finalizada, pero puedes repasar tus lecciones.", false, null, null);
+            horasDisponiblesTV.setVisibility(View.INVISIBLE);
+        }
+
+        //nuevaSesionPresenter.getSesionActual(idCliente, getContext());
+        //nuevaSesionPresenter.validarPlan(idCliente, getContext());
         //Servicio para validar que ya tenemos datos bancarios registrados para lanzar la preOrden.
-        nuevaSesionPresenter.validarBanco(idCliente, getContext());
+        //nuevaSesionPresenter.validarBanco(idCliente, getContext());
 
         setAdaptersInfoGeneral();
         listenerPersonas();
@@ -754,13 +770,6 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     }
 
     @Override
-    public void setEstatusRutaFinalizada() {
-        rutaFinalizada = true;
-        SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE,"¡AVISO!", "La Ruta de Aprendizaje fue finalizada, pero puedes repasar tus lecciones.", false, null, null);
-        horasDisponiblesTV.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
     public void setBanco(boolean valor) {
         banco = valor;
     }
@@ -802,6 +811,8 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                     .remove(fragment)
                     .commit();
         }
+
+        SesionesFragment.fragment.getFragmentManager().beginTransaction().detach(SesionesFragment.fragment).attach(SesionesFragment.fragment).commit();
     }
 
 }

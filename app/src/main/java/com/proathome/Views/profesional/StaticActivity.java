@@ -1,7 +1,6 @@
 package com.proathome.Views.profesional;
 
 import android.os.Bundle;
-
 import com.proathome.R;
 import com.proathome.Utils.profesional.CommonUtilsSesionesProfesional;
 import com.proathome.Utils.Constants;
@@ -9,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.util.Log;
 import android.view.MenuItem;
 import butterknife.BindView;

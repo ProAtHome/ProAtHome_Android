@@ -30,6 +30,7 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
         this.nuevaSesionPresenter = nuevaSesionPresenter;
     }
 
+    /*
     @Override
     public void getSesionActual(int idCliente, Context context) {
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
@@ -44,7 +45,7 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
                         int minutos_horas = rutaJSON.getInt("horas");
                         //ANUNCIO DE REPASO DE LECCIONES POR RUTA FINALIZADA
 
-                        //Iniciamos los adaptadores con el nivel actual.
+                        //Iniciamos los adaptadores con el nivel actual TODO ESTARAN EN EL ON_CREATE.
                         nuevaSesionPresenter.setAdapters(seccion, nivel, bloque, minutos_horas);
                         nuevaSesionPresenter.setSeccionesListener(seccion, nivel, bloque, minutos_horas);
                         nuevaSesionPresenter.setNivelesListener(seccion, nivel, bloque, minutos_horas);
@@ -62,8 +63,9 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
             }
         }, APIEndPoints.GET_SESION_ACTUAL + idCliente + "/" + SharedPreferencesManager.getInstance(context).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
-    }
+    }*/
 
+    /*
     @Override
     public void validarPlan(int idCliente, Context context) {
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
@@ -92,8 +94,9 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
             }
         }, APIEndPoints.VALIDAR_PLAN + idCliente + "/" + SharedPreferencesManager.getInstance(context).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
-    }
+    }*/
 
+    /*
     @Override
     public void validarBanco(int idCliente, Context context) {
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
@@ -104,6 +107,7 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
                         JSONObject mensaje = jsonObject.getJSONObject("mensaje");
                         if(mensaje.getBoolean("existe")){
                             DetallesFragment.banco = true;
+                            //TODO ESTARA EN ON_CREATE
                             nuevaSesionPresenter.setBanco(true);
                             //Datos bancarios Pre Orden.
                             PreOrdenServicio.nombreTitular = mensaje.getString("nombreTitular");
@@ -123,7 +127,7 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
             }
         }, APIEndPoints.GET_DATOS_BANCO_CLIENTE + idCliente + "/" + SharedPreferencesManager.getInstance(context).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
-    }
+    }*/
 
     /*
     @Override
@@ -256,4 +260,5 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
 
         return horas + minutos;
     }
+
 }

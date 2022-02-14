@@ -12,7 +12,6 @@ import com.proathome.Views.cliente.ServicioCliente;
 import com.proathome.Views.profesional.fragments.DetallesSesionProfesionalFragment;
 import com.proathome.Views.cliente.fragments.DetallesFragment;
 import com.proathome.Views.profesional.ServicioProfesional;
-
 import java.util.Timer;
 import java.util.TimerTask;
 import butterknife.BindView;

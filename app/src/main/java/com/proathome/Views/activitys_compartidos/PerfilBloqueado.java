@@ -1,12 +1,9 @@
 package com.proathome.Views.activitys_compartidos;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.TextView;
-
 import com.proathome.R;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -17,6 +14,7 @@ public class PerfilBloqueado extends AppCompatActivity {
     TextView tvDescripcion;
     @BindView(R.id.tvPerfilBloqueado)
     TextView tvBloqueado;
+
     private Unbinder mUnbinder;
 
     @Override

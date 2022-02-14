@@ -1,7 +1,6 @@
 package com.proathome.Views.cliente;
 
 import android.os.Bundle;
-
 import com.proathome.R;
 import com.proathome.Utils.cliente.CommonUtils;
 import com.proathome.Utils.Constants;

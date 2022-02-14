@@ -1,32 +1,29 @@
 package com.proathome.Views.activitys_compartidos.password;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.google.android.material.textfield.TextInputEditText;
+import com.proathome.Interfaces.activitys_compartidos.CodigoEmail.CodigoEmailPresenter;
+import com.proathome.Interfaces.activitys_compartidos.CodigoEmail.CodigoEmailView;
+import com.proathome.Presenters.activitys_compartidos.CodigoEmailPresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.api.WebServicesAPI;
-import com.proathome.Utils.Constants;
 import com.proathome.Utils.SweetAlert;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import butterknife.Unbinder;
 
-public class CodigoEmail extends AppCompatActivity {
+public class CodigoEmail extends AppCompatActivity implements CodigoEmailView {
 
     private Unbinder mUnbinder;
-    private String token, correo, urlApi;
+    private String token, correo;
     private ProgressDialog progressDialog;
     private int tipoPerfil;
+    private CodigoEmailPresenter codigoEmailPresenter;
+
     @BindView(R.id.d1ET_IS)
     TextInputEditText d1;
     @BindView(R.id.d2ET_IS)
@@ -41,10 +38,12 @@ public class CodigoEmail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_codigo_email);
         mUnbinder = ButterKnife.bind(this);
-        Intent intent = getIntent();
-        this.token = intent.getStringExtra("token");
-        this.correo = intent.getStringExtra("correo");
-        this.tipoPerfil = intent.getIntExtra("tipoPerfil", 1);
+
+        codigoEmailPresenter = new CodigoEmailPresenterImpl(this);
+
+        token = getIntent().getStringExtra("token");
+        correo = getIntent().getStringExtra("correo");
+        tipoPerfil = getIntent().getIntExtra("tipoPerfil", 1);
     }
 
     @OnTextChanged(R.id.d1ET_IS)
@@ -69,40 +68,33 @@ public class CodigoEmail extends AppCompatActivity {
         String d3S = d3.getText().toString();
         String d4S = d4.getText().toString();
 
-        if(!d1S.trim().equals("") && !d2S.trim().equals("") && !d3S.trim().equals("") && !d4S.trim().equals("")){
-            String codigo = d1S + d2S + d3S + d4S;
+        codigoEmailPresenter.validarCodigo(d1S, d2S, d3S, d4S, tipoPerfil, correo, token);
+    }
 
-            if(this.tipoPerfil == Constants.TIPO_CLIENTE)
-                this.urlApi = Constants.IP_80 + "/assets/lib/Restablecimiento.php?validar=true&correo=" + this.correo + "&codigo=" +  codigo + "&token=" + this.token;
-            else if(this.tipoPerfil == Constants.TIPO_PROFESIONAL)
-                this.urlApi = Constants.IP_80 + "/assets/lib/Restablecimiento.php?validarPro=true&correo=" + this.correo + "&codigo=" +  codigo + "&token=" + this.token;
+    @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(this, "Validando", "Espere, por favor...");
+    }
 
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
 
-            progressDialog = ProgressDialog.show(this, "Validando", "Espere, por favor...");
-           WebServicesAPI enviarCodigo = new WebServicesAPI(output -> {
-               progressDialog.dismiss();
-                try {
-                    JSONObject jsonObject = new JSONObject(output);
-                    if(jsonObject.getBoolean("respuesta")) {
-                        if(jsonObject.getBoolean("valido")) {
-                            Intent intent = new Intent(this, CambiarPassword.class);
-                            intent.putExtra("tipoPerfil", this.tipoPerfil);
-                            intent.putExtra("correo", this.correo);
-                            intent.putExtra("token", this.token);
-                            intent.putExtra("codigo", codigo);
-                            startActivity(intent);
-                            finish();
-                        }else
-                            SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
-                    }else
-                        SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
-                }catch(JSONException ex){
-                    ex.printStackTrace();
-                }
-            }, this.urlApi, WebServicesAPI.GET, null);
-            enviarCodigo.execute();
-        }else
-            SweetAlert.showMsg(this,SweetAlert.WARNING_TYPE, "¡ESPERA!", "Ingresa el codigo completo.", false, null, null);
+    @Override
+    public void showError(String error) {
+        SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", error, false, null, null);
+    }
+
+    @Override
+    public void successCode(String codigo) {
+        Intent intent = new Intent(this, CambiarPassword.class);
+        intent.putExtra("tipoPerfil", this.tipoPerfil);
+        intent.putExtra("correo", this.correo);
+        intent.putExtra("token", this.token);
+        intent.putExtra("codigo", codigo);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -114,4 +106,5 @@ public class CodigoEmail extends AppCompatActivity {
             progressDialog = null;
         }
     }
+
 }

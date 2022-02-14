@@ -1,9 +1,7 @@
 package com.proathome.Views.profesional;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-
 import com.proathome.R;
 
 public class PasosActivarCuenta extends AppCompatActivity {

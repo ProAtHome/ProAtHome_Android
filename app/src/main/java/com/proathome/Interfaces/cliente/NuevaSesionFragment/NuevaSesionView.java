@@ -10,7 +10,7 @@ public interface NuevaSesionView {
 
     void setBloquesListener(int seccion, int nivel, int bloque, int minutos_horas);
 
-    void setEstatusRutaFinalizada();
+    //void setEstatusRutaFinalizada();
 
     void setBanco(boolean valor);
 

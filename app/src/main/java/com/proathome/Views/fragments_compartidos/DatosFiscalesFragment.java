@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +18,8 @@ import com.proathome.Servicios.api.WebServicesAPI;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.SweetAlert;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -37,6 +34,7 @@ public class DatosFiscalesFragment extends DialogFragment {
     public static Spinner spCFDI;
     private int idUsuario, tipoPerfil;
     private ProgressDialog progressDialog;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.btnActualizar)

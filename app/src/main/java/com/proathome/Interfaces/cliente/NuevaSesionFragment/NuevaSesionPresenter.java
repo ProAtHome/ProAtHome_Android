@@ -15,7 +15,7 @@ public interface NuevaSesionPresenter {
 
     void setBloquesListener(int seccion, int nivel, int bloque, int minutos_horas);
 
-    void setEstatusRutaFinalizada();
+    //void setEstatusRutaFinalizada();
 
     void validarPlan(int idCliente, Context context);
 

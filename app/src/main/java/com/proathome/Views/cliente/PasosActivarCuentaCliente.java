@@ -1,9 +1,7 @@
 package com.proathome.Views.cliente;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-
 import com.proathome.R;
 
 public class PasosActivarCuentaCliente extends AppCompatActivity {

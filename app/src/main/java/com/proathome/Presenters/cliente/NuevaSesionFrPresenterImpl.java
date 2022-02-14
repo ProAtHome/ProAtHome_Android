@@ -19,7 +19,7 @@ public class NuevaSesionFrPresenterImpl implements NuevaSesionPresenter {
 
     @Override
     public void getSesionActual(int idCliente, Context context) {
-        nuevaSesionInteractor.getSesionActual(idCliente, context);
+        //nuevaSesionInteractor.getSesionActual(idCliente, context);
     }
 
     @Override
@@ -46,20 +46,21 @@ public class NuevaSesionFrPresenterImpl implements NuevaSesionPresenter {
             nuevaSesionView.setBloquesListener(seccion, nivel, bloque, minutos_horas);
     }
 
+    /*
     @Override
     public void setEstatusRutaFinalizada() {
         if(nuevaSesionView != null)
             nuevaSesionView.setEstatusRutaFinalizada();
-    }
+    }*/
 
     @Override
     public void validarPlan(int idCliente, Context context) {
-        nuevaSesionInteractor.validarPlan(idCliente, context);
+        //nuevaSesionInteractor.validarPlan(idCliente, context);
     }
 
     @Override
     public void validarBanco(int idCliente, Context context) {
-        nuevaSesionInteractor.validarBanco(idCliente, context);
+        //nuevaSesionInteractor.validarBanco(idCliente, context);
     }
 
     @Override

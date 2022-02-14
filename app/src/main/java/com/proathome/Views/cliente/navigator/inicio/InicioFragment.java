@@ -16,7 +16,6 @@ import com.proathome.Adapters.ComponentAdapter;
 import com.proathome.Views.cliente.fragments.DetallesFragment;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.SweetAlert;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +47,7 @@ public class InicioFragment extends Fragment {
         return root;
     }
 
+    /*
     private void iniciarProcesoRuta() throws JSONException {
         JSONObject parametros = new JSONObject();
         parametros.put("idCliente", this.idCliente);
@@ -55,14 +55,14 @@ public class InicioFragment extends Fragment {
 
         }, APIEndPoints.INICIAR_PROCESO_RUTA, WebServicesAPI.POST, parametros);
         webServicesAPI.execute();
-    }
+    }*/
 
     private void getSesiones(){
         progressDialog = ProgressDialog.show(getContext(), "Cargando Sesiones", "Espere, por favor...");
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             progressDialog.dismiss();
             try{
-                iniciarProcesoRuta();
+                //iniciarProcesoRuta();
 
                 JSONObject data = new JSONObject(response);
                 if(data.getBoolean("respuesta")){

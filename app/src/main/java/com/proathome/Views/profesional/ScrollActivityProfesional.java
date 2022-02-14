@@ -4,14 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.os.Bundle;
 import android.view.MenuItem;
-
 import com.proathome.R;
 import com.proathome.Utils.profesional.CommonUtilsSesionesProfesional;
 import com.proathome.Utils.Constants;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
