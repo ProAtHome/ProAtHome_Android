@@ -71,7 +71,7 @@ public class SesionesFragment extends Fragment implements SesionesView {
     @Override
     public void onResume() {
         super.onResume();
-        sesionesPresenter.getInfoInicioSesiones(SharedPreferencesManager.getInstance(getContext()).getIDCliente());
+        sesionesPresenter.getInfoInicioSesiones(SharedPreferencesManager.getInstance(getContext()).getIDCliente(), getContext());
         sesionesPresenter.getSesiones(SharedPreferencesManager.getInstance(getContext()).getIDCliente(), getContext());
         configAdapter();
         configRecyclerView();

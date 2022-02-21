@@ -246,19 +246,22 @@ public class ServiciosSesion {
             parametrosPost.put("deviceId", PreOrdenServicio.deviceID);
             progressDialog = ProgressDialog.show(context, "Generando Cobro", "Por favor, espere...");
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-                try{
-                    JSONObject jsonObject = new JSONObject(response);
-                    //Guardamos el servicio.
-                    if(jsonObject.getBoolean("respuesta"))//Guardamos la info de PAGO
-                        registrarServicio(bundle, jsonObject.getString("mensaje"), idCliente, context, cobro, 0.0);
-                        //guardarPago(bundle, jsonObject.getString("mensaje"), idCliente, context, cobro, 0.0);
-                    else{
-                        progressDialog.dismiss();
-                        SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡ERROR!", response, false, null, null);
+                if(response != null){
+                    try{
+                        JSONObject jsonObject = new JSONObject(response);
+                        //Guardamos el servicio.
+                        if(jsonObject.getBoolean("respuesta"))//Guardamos la info de PAGO
+                            registrarServicio(bundle, jsonObject.getString("mensaje"), idCliente, context, cobro, 0.0);
+                            //guardarPago(bundle, jsonObject.getString("mensaje"), idCliente, context, cobro, 0.0);
+                        else{
+                            progressDialog.dismiss();
+                            SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡ERROR!", response, false, null, null);
+                        }
+                    }catch(JSONException ex){
+                        ex.printStackTrace();
                     }
-                }catch(JSONException ex){
-                    ex.printStackTrace();
-                }
+                }else
+                    SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrio un error, intente de nuevo mas tarde.", false, null, null);
             }, APIEndPoints.COBROS, WebServicesAPI.POST, parametrosPost);
             webServicesAPI.execute();
         } catch (JSONException e) {

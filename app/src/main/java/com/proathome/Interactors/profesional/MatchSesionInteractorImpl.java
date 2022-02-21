@@ -57,7 +57,10 @@ public class MatchSesionInteractorImpl implements MatchSesionInteractor {
     @Override
     public void setImage(String foto) {
         WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
-            matchSesionPresenter.setImageBitmap(response);
+            if(response != null)
+                matchSesionPresenter.setImageBitmap(response);
+            else
+                matchSesionPresenter.showError("No pudimos cargar la foto de perfil.");
         }, APIEndPoints.FOTO_PERFIL, foto);
         webServiceAPIAssets.execute();
     }

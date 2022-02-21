@@ -23,7 +23,7 @@ public interface SesionesPresenter {
 
     void setDisponibilidadEstatus(boolean disponibilidad, int horas);
 
-    void getInfoInicioSesiones(int idCliente);
+    void getInfoInicioSesiones(int idCliente, Context context);
 
     void setInfoPlan(JSONObject jsonObject);
 

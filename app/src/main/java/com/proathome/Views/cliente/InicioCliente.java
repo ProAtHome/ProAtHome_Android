@@ -1,39 +1,36 @@
 package com.proathome.Views.cliente;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
+import com.proathome.Interfaces.cliente.Inicio.InicioPresenter;
+import com.proathome.Interfaces.cliente.Inicio.InicioView;
+import com.proathome.Presenters.cliente.inicio.InicioPresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.api.assets.WebServiceAPIAssets;
-import com.proathome.Servicios.api.APIEndPoints;
-import com.proathome.Servicios.api.WebServicesAPI;
-import com.proathome.Views.cliente.fragments.DetallesFragment;
-import com.proathome.Views.cliente.fragments.PlanesFragment;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.SweetAlert;
-import com.proathome.Views.cliente.navigator.sesiones.SesionesFragment;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class InicioCliente extends AppCompatActivity{
+public class InicioCliente extends AppCompatActivity implements InicioView {
 
     private AppBarConfiguration mAppBarConfiguration;
     public static TextView correoTV, nombreTV, tipoPlan, monedero;
-    private int idCliente = 0;
-    public static ImageView fotoPerfil;
+    private ImageView fotoPerfil;
     public static String planActivo;
     public static AppCompatActivity appCompatActivity;
+    private InicioPresenter inicioPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +38,8 @@ public class InicioCliente extends AppCompatActivity{
         setContentView(R.layout.activity_inicio_cliente);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        inicioPresenter = new InicioPresenterImpl(this);
 
         appCompatActivity = InicioCliente.this;
 
@@ -64,53 +63,9 @@ public class InicioCliente extends AppCompatActivity{
         /*TODO FLUJO_PLANES: Verificar si el perfil debe ser Bloqueado o no.
             ->Si no está bloqueado entonces obtenemos el PLAN ACTUAL y el Monedero.
             (Dentro de la función de cargarPerfil)*/
-        validarTokenSesion();
+        inicioPresenter.validarTokenSesion(SharedPreferencesManager.getInstance(this).getIDCliente(), InicioCliente.this);
     }
 
-    public void cargarPerfil(){
-        this.idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
-        //TODO FLUJO_PLANES: Crear PLAN al iniciar sesión si no existe registro en la BD.
-        /*TODO FLUJO_PANES: Cargamos la info de PLAN, MONEDERO Y PERFIL.*/
-        DetallesFragment.procedenciaFin = false;
-
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            if(response != null){
-                try{
-                    Log.d("TAG2", response);
-                    JSONObject jsonObject = new JSONObject(response);
-                    if(jsonObject.getBoolean("respuesta")){
-                        jsonObject = jsonObject.getJSONObject("mensaje");
-                        nombreTV.setText(jsonObject.getString("nombre"));
-                        correoTV.setText(jsonObject.getString("correo"));
-                        PlanesFragment.nombreCliente = jsonObject.getString("nombre");
-                        PlanesFragment.correoCliente = jsonObject.getString("correo");
-
-                /*TODO FLUJO_EJECUTAR_PLAN: Verificar si hay PLAN distinto a PARTICULAR
-                    -Si, entonces, verificar la expiracion y el monedero (En el servidor verificamos el monedero y  la expiración,
-                        y ahí decidimos si finalizamos el plan activo, en cualquier caso regresamos un mensaje validando o avisando que valió verga.
-                    -No, entonces, todo sigue el flujo.*/
-                        SesionesFragment.PLAN =  jsonObject.getString("tipoPlan");
-                        SesionesFragment.MONEDERO = jsonObject.getInt("monedero");
-                        SesionesFragment.FECHA_INICIO = jsonObject.getString("fechaInicio");
-                        SesionesFragment.FECHA_FIN = jsonObject.getString("fechaFin");
-
-                        tipoPlan.setText("PLAN ACTUAL: " + (jsonObject.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN") ? "PARTICULAR" : jsonObject.getString("tipoPlan")));
-                        monedero.setText("HORAS DISPONIBLES:                      " + obtenerHorario(jsonObject.getInt("monedero")));
-                        planActivo = jsonObject.getString("tipoPlan");
-
-                        setImageBitmap(jsonObject.getString("foto"));
-                    }else{
-                        SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente ingresar más tarde.", false, null, null);
-                    }
-                }catch(JSONException ex){
-                    ex.printStackTrace();
-                }
-            }else
-                SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente ingresar más tarde.", false, null, null);
-        }, APIEndPoints.INICIAR_PERFIL_CLIENTE + this.idCliente, WebServicesAPI.GET, null);
-        webServicesAPI.execute();
-            //getDatosPerfil();
-    }
 
     /*  TODO POR EL MOMENTO YA NO USAMOS LA VALIDACION DE PAGOS EN DEUDA
     private void checkBloquearPerfil(){
@@ -153,36 +108,6 @@ public class InicioCliente extends AppCompatActivity{
         bloquearPerfil.execute();
     }*/
 
-    private void validarTokenSesion(){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            JSONObject data = new JSONObject(response);
-            if(data.getBoolean("respuesta")){
-                cargarPerfil();
-            }else{
-                SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "OH NO!", "Tu sesión expiró, vuelve a iniciar sesión.", true, "VAMOS", ()->{
-                    SharedPreferencesManager.getInstance(this).logout();
-                    startActivity(new Intent(this, MainActivity.class));
-                    finish();
-                });
-            }
-        }, APIEndPoints.VALIDAR_TOKEN_SESION + SharedPreferencesManager.getInstance(InicioCliente.this).getIDCliente() + "/" + SharedPreferencesManager.getInstance(InicioCliente.this).getTokenCliente(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
-    }
-
-    private void setImageBitmap(String foto){
-        WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
-            fotoPerfil.setImageBitmap(response);
-        }, APIEndPoints.FOTO_PERFIL, foto);
-        webServiceAPIAssets.execute();
-    }
-
-    public static String obtenerHorario(int tiempo){
-        String horas = (tiempo/60) + " HRS ";
-        String minutos = (tiempo%60) + " min";
-
-        return horas + minutos;
-    }
-
     /*
     private void getDatosPerfil(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
@@ -211,7 +136,7 @@ public class InicioCliente extends AppCompatActivity{
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        cargarPerfil();
+        inicioPresenter.cargarPerfil(SharedPreferencesManager.getInstance(this).getIDCliente(), InicioCliente.this);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
 
@@ -219,6 +144,45 @@ public class InicioCliente extends AppCompatActivity{
         SharedPreferencesManager.getInstance(this).logout();
         startActivity(new Intent(this, MainActivity.class));
         finish();
+    }
+
+    @Override
+    public void setFoto(Bitmap bitmap) {
+        fotoPerfil.setImageBitmap(bitmap);
+    }
+
+    @Override
+    public void toMainActivity() {
+        SweetAlert.showMsg(this, SweetAlert.NORMAL_TYPE, "OH NO!", "Tu sesión expiró, vuelve a iniciar sesión.", true, "VAMOS", ()->{
+            SharedPreferencesManager.getInstance(InicioCliente.this).logout();
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        });
+    }
+
+    @Override
+    public void setInfoPerfil(JSONObject jsonObject) {
+        try {
+            nombreTV.setText(jsonObject.getString("nombre"));
+            correoTV.setText(jsonObject.getString("correo"));
+            tipoPlan.setText("PLAN ACTUAL: " + (jsonObject.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN") ? "PARTICULAR" : jsonObject.getString("tipoPlan")));
+            monedero.setText("HORAS DISPONIBLES:                      " + obtenerHorario(jsonObject.getInt("monedero")));
+            planActivo = jsonObject.getString("tipoPlan");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void showError(String error) {
+        SweetAlert.showMsg(this, SweetAlert.ERROR_TYPE, "¡ERROR!", error, false, null, null);
+    }
+
+    public static String obtenerHorario(int tiempo){
+        String horas = (tiempo/60) + " HRS ";
+        String minutos = (tiempo%60) + " min";
+
+        return horas + minutos;
     }
 
 }

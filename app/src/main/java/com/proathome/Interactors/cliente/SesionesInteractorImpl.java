@@ -26,31 +26,34 @@ public class SesionesInteractorImpl implements SesionesInteractor {
     public void getSesiones(int idCliente, Context context) {
         sesionesPresenter.showProgress();
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                //iniciarProcesoRuta();
+            if(response != null){
+                try{
+                    //iniciarProcesoRuta();
+                    JSONObject data = new JSONObject(response);
+                    if(data.getBoolean("respuesta")){
+                        JSONObject jsonObject = data.getJSONObject("mensaje");
+                        JSONArray jsonArray = jsonObject.getJSONArray("sesiones");
 
-                JSONObject data = new JSONObject(response);
-                if(data.getBoolean("respuesta")){
-                    JSONObject jsonObject = data.getJSONObject("mensaje");
-                    JSONArray jsonArray = jsonObject.getJSONArray("sesiones");
+                        if(jsonArray.length() == 0)
+                            sesionesPresenter.setVisibilityLottie();
 
-                    if(jsonArray.length() == 0)
-                        sesionesPresenter.setVisibilityLottie();
+                        for (int i = 0; i < jsonArray.length(); i++){
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            //TODO FLUJO_PLANES: Nota - Si el servicio está finalizada no se puede eliminar ni editar (No mostrar en Gestión)
+                            if(!object.getBoolean("finalizado"))
+                                sesionesPresenter.setMyAdapter(object);
+                        }
+                    }else
+                        sesionesPresenter.showError(data.getString("mensaje"));
 
-                    for (int i = 0; i < jsonArray.length(); i++){
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        //TODO FLUJO_PLANES: Nota - Si el servicio está finalizada no se puede eliminar ni editar (No mostrar en Gestión)
-                        if(!object.getBoolean("finalizado"))
-                            sesionesPresenter.setMyAdapter(object);
-                    }
-                }else
-                    sesionesPresenter.showError(data.getString("mensaje"));
-
-                sesionesPresenter.hideProgress();
-            }catch(JSONException ex){
-                ex.printStackTrace();
-                sesionesPresenter.hideProgress();
-            }
+                    sesionesPresenter.hideProgress();
+                }catch(JSONException ex){
+                    ex.printStackTrace();
+                    sesionesPresenter.hideProgress();
+                    sesionesPresenter.showError("Ocurrio un error, intente de nuevo mas tarde.");
+                }
+            }else
+                sesionesPresenter.showError("Ocurrio un error, intente de nuevo mas tarde.");
             //sesionesPagadas(idCliente, context);
         }, APIEndPoints.GET_SESIONES_CLIENTE  + idCliente + "/" + SharedPreferencesManager.getInstance(context).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
@@ -83,35 +86,37 @@ public class SesionesInteractorImpl implements SesionesInteractor {
     }*/
 
     @Override
-    public void getInfoInicioSesiones(int idCliente) {
+    public void getInfoInicioSesiones(int idCliente, Context context) {
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            JSONObject data = new JSONObject(response);
-            if(data.getBoolean("respuesta")){
-                JSONObject body  = data.getJSONObject("mensaje");
+            if(response != null){
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta")){
+                    JSONObject body  = data.getJSONObject("mensaje");
+                    //DISPONIBILIDAD SERVICIO
+                    if(body.getBoolean("disponibilidad"))
+                        sesionesPresenter.setDisponibilidadEstatus(true, body.getInt("horasDisponibles"));
+                    else
+                        sesionesPresenter.setDisponibilidadEstatus(false, 0);
 
-                //DISPONIBILIDAD SERVICIO
-                if(body.getBoolean("disponibilidad"))
-                    sesionesPresenter.setDisponibilidadEstatus(true, body.getInt("horasDisponibles"));
-                else
-                    sesionesPresenter.setDisponibilidadEstatus(false, 0);
+                    //SESIONES PAGADAS Y FINALIZADAS
+                    sesionesPresenter.setEstatusSesionesPagadas(body.getBoolean("plan_activo"), body.getBoolean("sesiones_pagadas_finalizadas"));
 
-                //SESIONES PAGADAS Y FINALIZADAS
-                sesionesPresenter.setEstatusSesionesPagadas(body.getBoolean("plan_activo"), body.getBoolean("sesiones_pagadas_finalizadas"));
+                    //VALIDAR PLAN
+                    JSONObject bodyPlan = body.getJSONObject("plan");
+                    sesionesPresenter.setInfoPlan(bodyPlan);
 
-                //VALIDAR PLAN
-                JSONObject bodyPlan = body.getJSONObject("plan");
-                sesionesPresenter.setInfoPlan(bodyPlan);
+                    //SESION ACTUAL
+                    sesionesPresenter.setRutaActual(body);
 
-                //SESION ACTUAL
-                sesionesPresenter.setRutaActual(body);
+                    //DATOS BANCO
+                    JSONObject bodyDatos = body.getJSONObject("datosBancarios");
+                    sesionesPresenter.setDatosBanco(bodyDatos);
 
-                //DATOS BANCO
-                JSONObject bodyDatos = body.getJSONObject("datosBancarios");
-                sesionesPresenter.setDatosBanco(bodyDatos);
-
+                }else
+                    sesionesPresenter.showError(data.getString("mensaje"));
             }else
-                sesionesPresenter.showError(data.getString("mensaje"));
-        }, APIEndPoints.GET_INFO_INICIO_SESIONES + idCliente, WebServicesAPI.GET, null);
+                sesionesPresenter.showError("Ocurrio un error, intente de nuevo mas tarde.");
+        }, APIEndPoints.GET_INFO_INICIO_SESIONES + idCliente + "/" + SharedPreferencesManager.getInstance(context).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 

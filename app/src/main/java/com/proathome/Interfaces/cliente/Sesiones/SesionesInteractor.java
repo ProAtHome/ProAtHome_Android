@@ -8,6 +8,6 @@ public interface SesionesInteractor {
 
     //void getDisponibilidadServicio(int idCliente, Context context);
 
-    void getInfoInicioSesiones(int idCliente);
+    void getInfoInicioSesiones(int idCliente, Context context);
 
 }

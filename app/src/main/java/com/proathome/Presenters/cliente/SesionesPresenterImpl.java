@@ -70,8 +70,8 @@ public class SesionesPresenterImpl implements SesionesPresenter {
     }
 
     @Override
-    public void getInfoInicioSesiones(int idCliente) {
-        sesionesInteractor.getInfoInicioSesiones(idCliente);
+    public void getInfoInicioSesiones(int idCliente, Context context) {
+        sesionesInteractor.getInfoInicioSesiones(idCliente, context);
     }
 
     @Override

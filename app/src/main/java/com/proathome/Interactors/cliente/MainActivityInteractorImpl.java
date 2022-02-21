@@ -31,7 +31,6 @@ public class MainActivityInteractorImpl implements MainActivityInteractor {
     @Override
     public void latidoSQL() {
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            Log.d("TAG1", "Latido SQL");
         }, APIEndPoints.LATIDO_SQL, WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
