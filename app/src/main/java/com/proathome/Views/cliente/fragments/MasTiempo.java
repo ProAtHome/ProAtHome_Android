@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.proathome.Interfaces.cliente.MasTiempo.MasTiempoPresenter;
+import com.proathome.Interfaces.cliente.MasTiempo.MasTiempoView;
 import com.proathome.Servicios.api.APIEndPoints;
 import com.proathome.Servicios.api.WebServicesAPI;
 import com.proathome.Servicios.sesiones.ServiciosSesion;
@@ -25,11 +27,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class MasTiempo extends DialogFragment {
+public class MasTiempo extends DialogFragment implements MasTiempoView {
 
     private Unbinder mUnbinder;
     private int idSesion, idCliente;
     public static Context contexto = null;
+    private MasTiempoPresenter masTiempoPresenter;
 
     public MasTiempo() {
     }

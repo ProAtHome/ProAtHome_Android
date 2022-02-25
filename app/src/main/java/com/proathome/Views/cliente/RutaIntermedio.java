@@ -3,34 +3,31 @@ package com.proathome.Views.cliente;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
-
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
 import com.google.android.material.button.MaterialButton;
+import com.proathome.Interfaces.cliente.RutaIntermedio.RutaIntermedioPresenter;
+import com.proathome.Interfaces.cliente.RutaIntermedio.RutaIntermedioView;
+import com.proathome.Presenters.cliente.RutaIntermedioPresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.api.APIEndPoints;
-import com.proathome.Servicios.api.WebServicesAPI;
 import com.proathome.Servicios.cliente.ControladorRutaIntermedio;
 import com.proathome.Servicios.cliente.ServiciosCliente;
 import com.proathome.Views.cliente.fragments.DetallesBloque;
-import com.proathome.Utils.Constants;
 import com.proathome.Utils.SharedPreferencesManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class RutaIntermedio extends AppCompatActivity {
+public class RutaIntermedio extends AppCompatActivity implements RutaIntermedioView {
 
     private Unbinder mUnbinder;
     public static final int NIVEL_INTERMEDIO = 3;
-    private int idCliente = 0;
+    private ProgressDialog progressDialog;
+    private RutaIntermedioPresenter rutaIntermedioPresenter;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.cerrar)
@@ -78,6 +75,8 @@ public class RutaIntermedio extends AppCompatActivity {
         setContentView(R.layout.activity_ruta_intermedio);
         mUnbinder = ButterKnife.bind(this);
 
+        rutaIntermedioPresenter = new RutaIntermedioPresenterImpl(this);
+
         btnI1_Bloque1 = findViewById(R.id.bloque1);
         btnI1_Bloque2 = findViewById(R.id.bloque2);
         btnI1_Bloque3 = findViewById(R.id.bloque3);
@@ -114,33 +113,8 @@ public class RutaIntermedio extends AppCompatActivity {
         btnI5_Bloque5 = findViewById(R.id.bloque5_i5);
         btnI5_Bloque6 = findViewById(R.id.bloque6_i5);
 
-        idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
-        getEstadoRuta();
+        rutaIntermedioPresenter.getEstadoRuta(SharedPreferencesManager.getInstance(this).getIDCliente(), NIVEL_INTERMEDIO, SharedPreferencesManager.getInstance(this).getTokenCliente());
         ServiciosCliente.avisoContenidoRuta(this);
-    }
-
-    private void getEstadoRuta(){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                JSONObject data = new JSONObject(response);
-                if(data.getBoolean("respuesta")){
-                    JSONObject rutaJSON = data.getJSONObject("mensaje");
-                    int estado = rutaJSON.getInt("estado");
-            /*if(estado == Constants.INICIO_RUTA){
-    }else */        if(estado == Constants.RUTA_ENCURSO) {
-                        int idBloque = rutaJSON.getInt("idBloque");
-                        int idNivel = rutaJSON.getInt("idNivel");
-                        int idSeccion = rutaJSON.getInt("idSeccion");
-                        ControladorRutaIntermedio rutaAprendizaje = new ControladorRutaIntermedio(this, idBloque, idNivel, idSeccion);
-                        rutaAprendizaje.evaluarNivelIntermedio();
-                    }
-                }else
-                    Toast.makeText(this, data.getString("mensaje"), Toast.LENGTH_LONG).show();
-            }catch(JSONException ex){
-                ex.printStackTrace();
-            }
-        }, APIEndPoints.GET_ESTADO_RUTA + this.idCliente + "/" + NIVEL_INTERMEDIO + "/" + SharedPreferencesManager.getInstance(this).getTokenCliente(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
     }
 
     private void verBloque(String contenido, String bloque, String horas){
@@ -327,6 +301,27 @@ public class RutaIntermedio extends AppCompatActivity {
                         "forms/Fame/Sentence stress.", "6", "11HRS");
                 break;
         }
+    }
+
+    @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(RutaIntermedio.this, "Cargando", "Espere...");
+    }
+
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showError(String error) {
+        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void evaluarNivel(int idSeccion, int idNivel, int idBloque) {
+        ControladorRutaIntermedio rutaAprendizaje = new ControladorRutaIntermedio(this, idBloque, idNivel, idSeccion);
+        rutaAprendizaje.evaluarNivelIntermedio();
     }
 
     @Override

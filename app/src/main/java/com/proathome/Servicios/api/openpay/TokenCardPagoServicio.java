@@ -54,13 +54,13 @@ public class TokenCardPagoServicio extends AsyncTask<Void, Void, String> {
         Constants.openpay.createToken(card, new OperationCallBack<Token>() {
             @Override
             public void onError(OpenpayServiceException e) {
-                SweetAlert.showMsg(DetallesFragment.contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", e.toString(), false, null, null);
+                SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", e.getMessage(), false, null, null);
                 progressDialog.dismiss();
             }
 
             @Override
             public void onCommunicationError(ServiceUnavailableException e) {
-                SweetAlert.showMsg(DetallesFragment.contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", e.toString(), false, null, null);
+                SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", e.getMessage(), false, null, null);
                 progressDialog.dismiss();
             }
 

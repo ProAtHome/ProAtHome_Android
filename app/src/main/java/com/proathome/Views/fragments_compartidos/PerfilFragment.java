@@ -1,5 +1,7 @@
 package com.proathome.Views.fragments_compartidos;
 
+import android.app.ProgressDialog;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
@@ -11,24 +13,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.proathome.Interfaces.fragments_compartidos.Perfil.PerfilPresenter;
+import com.proathome.Interfaces.fragments_compartidos.Perfil.PerfilView;
+import com.proathome.Presenters.fragments_compartidos.PerfilPresenterImpl;
 import com.proathome.R;
 import com.proathome.Adapters.ComponentAdapterValoraciones;
-import com.proathome.Servicios.api.APIEndPoints;
-import com.proathome.Servicios.api.WebServicesAPI;
-import com.proathome.Servicios.api.assets.WebServiceAPIAssets;
 import com.proathome.Views.cliente.fragments.DetallesFragment;
 import com.proathome.Views.profesional.fragments.DetallesSesionProfesionalFragment;
 import com.proathome.Utils.pojos.ComponentValoraciones;
 import com.proathome.Utils.SweetAlert;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class PerfilFragment extends DialogFragment {
+public class PerfilFragment extends DialogFragment implements PerfilView {
 
     private Unbinder mUnbinder;
     public static ComponentValoraciones componentValoraciones;
@@ -37,11 +36,14 @@ public class PerfilFragment extends DialogFragment {
     public static String nombre, correo;
     public static float valoracion;
     private Bundle bundle;
-    public static int PERFIL_PROFESIONAL_EN_CLIENTE = 3, PERFIL_CLIENTE_EN_PROFESIONAL = 4, PERFIL_PROFESIONAL = 1, PERFIL_CLIENTE = 2;
+    public static int PERFIL_PROFESIONAL = 1, PERFIL_CLIENTE = 2;
     public static TextView tvNombre;
     public static TextView tvCoreo;
     public static TextView tvCalificacion;
-    public static TextView descripcion;
+    public static TextView tvDescripcion;
+    private ProgressDialog progressDialog;
+    private PerfilPresenter perfilPresenter;
+
     @BindView(R.id.toolbarPerfil)
     MaterialToolbar toolbar;
     @BindView(R.id.recyclerViewPerfil)
@@ -61,11 +63,13 @@ public class PerfilFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
+        perfilPresenter = new PerfilPresenterImpl(this);
+
         fotoPerfil = view.findViewById(R.id.foto);
         tvNombre = view.findViewById(R.id.nombre);
         tvCoreo = view.findViewById(R.id.correo);
         tvCalificacion = view.findViewById(R.id.calificacion);
-        descripcion = view.findViewById(R.id.descripcion);
+        tvDescripcion = view.findViewById(R.id.descripcion);
 
         configAdapter();
         configRecyclerView();
@@ -73,11 +77,11 @@ public class PerfilFragment extends DialogFragment {
         bundle = getArguments();
 
         if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_CLIENTE)
-            getValoracion(DetallesSesionProfesionalFragment.idCliente);
+            perfilPresenter.getValoracion(DetallesSesionProfesionalFragment.idCliente, bundle.getInt("tipoPerfil"));
         else if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_PROFESIONAL)
-            getValoracion(DetallesFragment.idProfesional);
+            perfilPresenter.getValoracion(DetallesFragment.idProfesional, bundle.getInt("tipoPerfil"));
 
-        setImageBitmap();
+        perfilPresenter.getFotoPerfil(bundle.getInt("tipoPerfil"));
 
         if(bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_CLIENTE)
             toolbar.setTitle("Perfil - Cliente");
@@ -92,56 +96,6 @@ public class PerfilFragment extends DialogFragment {
 
 
         return view;
-    }
-
-
-    private void setImageBitmap(){
-        WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
-            fotoPerfil.setImageBitmap(response);
-        }, APIEndPoints.FOTO_PERFIL, bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_CLIENTE ? DetallesSesionProfesionalFragment.fotoNombre : DetallesFragment.fotoNombre);
-        webServiceAPIAssets.execute();
-    }
-
-    private void getValoracion(int idPerfil){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            int numValoraciones = 0;
-            double sumaValoraciones = 0;
-            try{
-                JSONArray jsonArray = new JSONArray(response);
-                if(jsonArray == null){
-                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrió un problema, intenta más tarde.", true, "OK", ()->{
-                        dismiss();
-                    });
-                }else{
-                    for (int i = 0; i < jsonArray.length(); i++){
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        if(jsonObject.getBoolean("valoraciones")){//Valoraciones del profesional
-                            if(!jsonObject.getBoolean("error")){
-                                //Hay error.
-                                //Obtener promedio
-                                numValoraciones++;
-                                sumaValoraciones += Double.parseDouble(jsonObject.get("valoracion").toString());
-                                componentAdapterValoraciones.add(PerfilFragment.getmInstance(jsonObject.getString("comentario"), Float.parseFloat(jsonObject.get("valoracion").toString())));
-                            }else
-                                componentAdapterValoraciones.add(PerfilFragment.getmInstance("El usuario no tiene valoraciones aún.", 0.0f));
-                        }else{//Perfil de profesional
-                            tvNombre.setText(jsonObject.getString("nombre"));
-                            tvCoreo.setText(jsonObject.getString("correo"));
-                            descripcion.setText(jsonObject.getString("descripcion"));
-                        }
-                    }
-                    //Promedio
-                    double promedio = sumaValoraciones / numValoraciones;
-                    if(numValoraciones == 0)
-                        PerfilFragment.tvCalificacion.setText("0.00");
-                    else
-                        PerfilFragment.tvCalificacion.setText(String.format("%.2f", promedio));
-                }
-            }catch (JSONException ex){
-                ex.printStackTrace();
-            }
-        }, bundle.getInt("tipoPerfil") == PerfilFragment.PERFIL_CLIENTE ? APIEndPoints.GET_VALORACION_CLIENTE + idPerfil : APIEndPoints.GET_VALORACION_PROFESIONAL + idPerfil, WebServicesAPI.GET, null);
-        webServicesAPI.execute();
     }
 
     public void configAdapter(){
@@ -163,8 +117,46 @@ public class PerfilFragment extends DialogFragment {
     }
 
     @Override
+    public void showError(String error) {
+        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", error, true, "OK", ()->{
+            dismiss();
+        });
+    }
+
+    @Override
+    public void setAdapter(String comentario, float valoracion) {
+        componentAdapterValoraciones.add(PerfilFragment.getmInstance(comentario, valoracion));
+    }
+
+    @Override
+    public void setInfoPerfil(String nombre, String correo, String descripcion) {
+        tvNombre.setText(nombre);
+        tvCoreo.setText(correo);
+        tvDescripcion.setText(descripcion);
+    }
+
+    @Override
+    public void setFoto(Bitmap bitmap) {
+        fotoPerfil.setImageBitmap(bitmap);
+    }
+
+    @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere...");
+    }
+
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if(progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
         mUnbinder.unbind();
     }
 

@@ -3,34 +3,31 @@ package com.proathome.Views.cliente;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
-
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
 import com.google.android.material.button.MaterialButton;
+import com.proathome.Interfaces.cliente.RutaAvanzado.RutaAvanzadoPresenter;
+import com.proathome.Interfaces.cliente.RutaAvanzado.RutaAvanzadoView;
+import com.proathome.Presenters.cliente.RutaAvanzadoPresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.api.APIEndPoints;
-import com.proathome.Servicios.api.WebServicesAPI;
 import com.proathome.Servicios.cliente.ControladorRutaAvanzado;
 import com.proathome.Servicios.cliente.ServiciosCliente;
 import com.proathome.Views.cliente.fragments.DetallesBloque;
-import com.proathome.Utils.Constants;
 import com.proathome.Utils.SharedPreferencesManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class RutaAvanzado extends AppCompatActivity {
+public class RutaAvanzado extends AppCompatActivity implements RutaAvanzadoView {
 
     private Unbinder mUnbinder;
-    private int idCliente = 0;
+    private ProgressDialog progressDialog;
     public static final int NIVEL_AVANZADO = 4;
+    private RutaAvanzadoPresenter rutaAvanzadoPresenter;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.cerrar)
@@ -57,6 +54,8 @@ public class RutaAvanzado extends AppCompatActivity {
         setContentView(R.layout.activity_ruta_avanzado);
         mUnbinder = ButterKnife.bind(this);
 
+        rutaAvanzadoPresenter = new RutaAvanzadoPresenterImpl(this);
+
         btnA1_Bloque1 = findViewById(R.id.bloque1);
         btnA1_Bloque2 = findViewById(R.id.bloque2);
 
@@ -72,35 +71,9 @@ public class RutaAvanzado extends AppCompatActivity {
         btnA5_Bloque1 = findViewById(R.id.bloque_1_a5);
         btnA5_Bloque2 = findViewById(R.id.bloque2_a5);
 
-        idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
-        getEstadoRuta();
-
+        rutaAvanzadoPresenter.getEstadoRuta(SharedPreferencesManager.getInstance(this).getIDCliente(), NIVEL_AVANZADO, SharedPreferencesManager.getInstance(this).getTokenCliente());
         ServiciosCliente.avisoContenidoRuta(this);
 
-    }
-
-    private void getEstadoRuta(){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                JSONObject data = new JSONObject(response);
-                if(data.getBoolean("respuesta")){
-                    JSONObject rutaJSON = data.getJSONObject("mensaje");
-                    int estado = rutaJSON.getInt("estado");
-            /*if(estado == Constants.INICIO_RUTA){
-    }else */        if(estado == Constants.RUTA_ENCURSO) {
-                        int idBloque = rutaJSON.getInt("idBloque");
-                        int idNivel = rutaJSON.getInt("idNivel");
-                        int idSeccion = rutaJSON.getInt("idSeccion");
-                        ControladorRutaAvanzado rutaAvanzado = new ControladorRutaAvanzado(this, idBloque, idNivel, idSeccion);
-                        rutaAvanzado.evaluarNivelAvanzado();
-                    }
-                }else
-                    Toast.makeText(this, data.getString("mensaje"), Toast.LENGTH_LONG).show();
-            }catch(JSONException ex){
-                ex.printStackTrace();
-            }
-        }, APIEndPoints.GET_ESTADO_RUTA + this.idCliente + "/" + NIVEL_AVANZADO + "/" + SharedPreferencesManager.getInstance(this).getTokenCliente(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
     }
 
     private void verBloque(String contenido, String bloque, String horas){
@@ -190,6 +163,27 @@ public class RutaAvanzado extends AppCompatActivity {
                         " wordspot: well.", "2", "13HRS");
                 break;
         }
+    }
+
+    @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(RutaAvanzado.this, "Cargando", "Espere...");
+    }
+
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showError(String error) {
+        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void evaluarNivel(int idSeccion, int idNivel, int idBloque) {
+        ControladorRutaAvanzado rutaAvanzado = new ControladorRutaAvanzado(this, idBloque, idNivel, idSeccion);
+        rutaAvanzado.evaluarNivelAvanzado();
     }
 
     @Override
