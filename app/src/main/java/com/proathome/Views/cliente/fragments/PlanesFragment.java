@@ -1,5 +1,6 @@
 package com.proathome.Views.cliente.fragments;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -11,15 +12,13 @@ import android.view.ViewGroup;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.proathome.Interfaces.cliente.Planes.PlanesPresenter;
+import com.proathome.Interfaces.cliente.Planes.PlanesView;
+import com.proathome.Presenters.cliente.PlanesPresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.api.APIEndPoints;
-import com.proathome.Servicios.api.WebServicesAPI;
-import com.proathome.Servicios.cliente.ServiciosCliente;
 import com.proathome.Views.cliente.navigator.sesiones.SesionesFragment;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.SweetAlert;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,13 +28,16 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class PlanesFragment extends DialogFragment {
+public class PlanesFragment extends DialogFragment implements PlanesView {
 
     private Unbinder mUnbinder;
     public static final int PLAN_SEMANAL = 1, PLAN_MENSUAL = 2, PLAN_BIMESTRAL = 3;
     public static String tarjeta, nombreTitular, mes, ano, nombreCliente, correoCliente, fechaServidor;
     public static int idCliente, idSeccion, idNivel, idBloque;
     public static DialogFragment planesFragment;
+    private PlanesPresenter planesPresenter;
+    private ProgressDialog progressDialog;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.btnCancelar)
@@ -55,7 +57,6 @@ public class PlanesFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialog);
         setCancelable(false);
-        getFechaServidor();
     }
 
     @Override
@@ -63,19 +64,16 @@ public class PlanesFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_planes, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
+        planesPresenter = new PlanesPresenterImpl(this);
+        //TODO FLUJO_COMPRAR_PLANES: Obtener fecha de inicio y término del servidor.
+        planesPresenter.getFechaServidor(SharedPreferencesManager.getInstance(getContext()).getIDCliente(), SharedPreferencesManager.getInstance(getContext()).getTokenCliente());
+
         planesFragment = PlanesFragment.this;
         toolbar.setTitle("Promociones Disponibles");
         toolbar.setTitleTextColor(Color.WHITE);
 
-        idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
-        OrdenCompraPlanFragment.idCliente = idCliente;
+        OrdenCompraPlanFragment.idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
 
-        //TODO FLUJO_COMPRAR_PLANES: Obtener fecha de inicio y término del servidor.
-
-        ServiciosCliente.getSesionActual(ServiciosCliente.PLANES_FRAGMENT, idCliente, getContext());
-        datosBancariosPagoPlanes();
-
-        //TODO FLUJO_COMPRAR_PLANES:  Mostramos la información del Plan (Título, Descripción, Fechas Inicio-Fin, términos y condiciones)
         card1.setOnClickListener(v -> {
             verPromo("PLAN SEMANAL", "Descripción de plan Semanal.", PlanesFragment.PLAN_SEMANAL);
         });
@@ -89,40 +87,6 @@ public class PlanesFragment extends DialogFragment {
         });
 
         return view;
-    }
-
-    private void datosBancariosPagoPlanes(){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try {
-                JSONObject jsonObject = new JSONObject(response);
-                if(jsonObject.getBoolean("respuesta")){
-                    JSONObject mensaje = jsonObject.getJSONObject("mensaje");
-                    if(mensaje.getBoolean("existe")){
-                        nombreTitular = mensaje.getString("nombreTitular");
-                        tarjeta = mensaje.getString("tarjeta");
-                        mes = mensaje.getString("mes");
-                        ano = mensaje.getString("ano");
-                    }else
-                        SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡AVISO!", "No tienes datos bancarios registrados", false, null, null);
-                }else
-                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR", jsonObject.get("mensaje").toString(), false, null, null);
-            } catch (JSONException ex) {
-                ex.printStackTrace();
-            }
-        }, APIEndPoints.GET_DATOS_BANCO_CLIENTE + this.idCliente + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
-    }
-
-    private void getFechaServidor(){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                JSONObject jsonObject = new JSONObject(response);
-                fechaServidor = jsonObject.getString("fechaServidor");
-            }catch(JSONException ex){
-                ex.printStackTrace();
-            }
-        }, APIEndPoints.FECHA_SERVIDOR, WebServicesAPI.GET, null);
-        webServicesAPI.execute();
     }
 
     public void verPromo(String titulo, String mensaje, int plan){
@@ -183,8 +147,48 @@ public class PlanesFragment extends DialogFragment {
     }
 
     @Override
+    public void setFechaServidor(String fecha) {
+        fechaServidor = fecha;
+    }
+
+    @Override
+    public void setSesionActual(int idSeccion, int idNivel, int idBloque) {
+        this.idSeccion = idSeccion;
+        this.idNivel = idNivel;
+        this.idBloque = idBloque;
+    }
+
+    @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espera...");
+    }
+
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showError(String error) {
+        SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡AVISO!", error, false, null, null);
+    }
+
+    @Override
+    public void setDatosBancarios(String nombreTitular, String tarjeta, String mes, String ano) {
+        this.nombreTitular = nombreTitular;
+        this.tarjeta = tarjeta;
+        this.mes = mes;
+        this.ano = ano;
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if(progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
         mUnbinder.unbind();
     }
+
 }

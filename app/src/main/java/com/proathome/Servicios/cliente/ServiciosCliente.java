@@ -73,32 +73,6 @@ public class ServiciosCliente {
         webServicesAPI.execute();
     }
 
-    public static void getSesionActual(int tipoSolicitud, int idCliente, Context contexto){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                JSONObject data = new JSONObject(response);
-                if(data.getBoolean("respuesta")){
-                    JSONObject rutaJSON = data.getJSONObject("mensaje");
-                    int seccion = rutaJSON.getInt("idSeccion");
-                    int nivel = rutaJSON.getInt("idNivel");
-                    int bloque = rutaJSON.getInt("idBloque");
-                    int minutos_horas = rutaJSON.getInt("horas");
-                    //ANUNCIO DE REPASO DE LECCIONES POR RUTA FINALIZADA
-
-                    if(tipoSolicitud == PLANES_FRAGMENT){
-                        PlanesFragment.idSeccion = seccion;
-                        PlanesFragment.idNivel = nivel;
-                        PlanesFragment.idBloque = bloque;
-                    }
-                }else
-                    Toast.makeText(contexto, data.getString("mensaje"), Toast.LENGTH_LONG).show();
-            }catch (JSONException ex){
-                ex.printStackTrace();
-            }
-        }, APIEndPoints.GET_SESION_ACTUAL + idCliente + "/" + SharedPreferencesManager.getInstance(contexto).getTokenCliente(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
-    }
-
     public static String obtenerHorario(int tiempo){
         String horas = String.valueOf(tiempo/60) + " HRS ";
         String minutos = String.valueOf(tiempo%60) + " min";

@@ -1,15 +1,20 @@
 package com.proathome.Views.cliente.examen;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.ActivityOptions;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.proathome.Interfaces.cliente.Examen.Diagnostico5.Diagnostico5Presenter;
+import com.proathome.Interfaces.cliente.Examen.Diagnostico5.Diagnostico5View;
+import com.proathome.Presenters.cliente.examen.Diagnostico5PresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.cliente.ServiciosExamenDiagnostico;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.SweetAlert;
@@ -17,14 +22,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class Diagnostico5 extends AppCompatActivity {
+public class Diagnostico5 extends AppCompatActivity implements Diagnostico5View {
 
     private Unbinder mUnbinder;
-    private int respuesta1 = 0;
-    private int respuesta2 = 0;
-    private int respuesta3 = 0;
-    private int respuesta4 = 0;
-    private int respuesta5 = 0;
+    private int respuesta1 = 0, respuesta2 = 0, respuesta3 = 0, respuesta4 = 0, respuesta5 = 0;
+    private ProgressDialog progressDialog;
+    private Diagnostico5Presenter diagnostico5Presenter;
+
     /*Primera sección¨*/
     @BindView(R.id.resp1)
     TextInputEditText r1;
@@ -68,6 +72,8 @@ public class Diagnostico5 extends AppCompatActivity {
         setContentView(R.layout.activity_diagnostico5);
         mUnbinder = ButterKnife.bind(this);
 
+        diagnostico5Presenter = new Diagnostico5PresenterImpl(this);
+
         cerrarExamen.setOnClickListener(v -> {
             new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
                     .setTitle("EXÁMEN DIAGNÓSTICO")
@@ -87,7 +93,7 @@ public class Diagnostico5 extends AppCompatActivity {
         btnContinuar.setOnClickListener(v -> {
             int puntuacion = respuesta1 + respuesta2 + respuesta3 + respuesta4 + respuesta5 + evaluarParte1();
             int idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
-            ServiciosExamenDiagnostico.actualizarEstatusExamen(Constants.ENCURSO_EXAMEN, idCliente, puntuacion, 50, Diagnostico5.this, Diagnostico5.this, Diagnostico6.class);
+            diagnostico5Presenter.actualizarEstatusExamen(Constants.ENCURSO_EXAMEN, idCliente, puntuacion, 50);
         });
 
         checkeableChips(chip_p1_1, chip_p1_2);
@@ -157,8 +163,40 @@ public class Diagnostico5 extends AppCompatActivity {
     }
 
     @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(Diagnostico5.this, "Cargando", "Espere...");
+    }
+
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showError(String mensaje) {
+        Toast.makeText(Diagnostico5.this, mensaje, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void examenGuardado() {
+        SweetAlert.showMsg(Diagnostico5.this, SweetAlert.NORMAL_TYPE, "Puntuación guardada.", "¡Continúa!", true, "OK", ()->{
+            if(!Diagnostico7.ultimaPagina){
+                startActivityForResult(new Intent(Diagnostico5.this, Diagnostico6.class), 1, ActivityOptions.makeSceneTransitionAnimation(Diagnostico5.this)
+                        .toBundle());
+                finish();
+            }else
+                Diagnostico7.ultimaPagina = false;
+        });
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
         mUnbinder.unbind();
     }
+
 }

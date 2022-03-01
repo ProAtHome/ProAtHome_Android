@@ -6,12 +6,13 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.proathome.Interfaces.cliente.ServicioCliente.ServicioClientePresenter;
+import com.proathome.Interfaces.cliente.ServicioCliente.ServicioClienteView;
+import com.proathome.Presenters.cliente.ServicioClientePresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.sesiones.ServicioSesionDisponible;
 import com.proathome.Servicios.sesiones.ServiciosSesion;
 import com.proathome.Views.cliente.fragments.DetallesFragment;
 import com.proathome.Views.fragments_compartidos.MaterialFragment;
@@ -19,9 +20,13 @@ import com.proathome.Utils.pojos.Component;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
-public class ServicioCliente extends AppCompatActivity {
+public class ServicioCliente extends AppCompatActivity implements ServicioClienteView{
 
+    private Unbinder mUnbinder;
     private int idSesion = 0, idCliente = 0;
     public static CountDownTimer countDownTimer;
     public static boolean mTimerRunning, sumar, encurso = true, enpausa = true, inicio = true,
@@ -30,33 +35,26 @@ public class ServicioCliente extends AppCompatActivity {
     public static TextView temporizador;
     public static Timer timer;
     public static MaterialButton terminar;
-    private FloatingActionButton material;
     public static int idSeccion, idNivel, idBloque, tiempo;
     public TextView seccionTV, nivelTV, bloqueTV;
+    private ServicioClientePresenter servicioClientePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_servicio_cliente);
+        mUnbinder = ButterKnife.bind(this);
+
+        servicioClientePresenter = new ServicioClientePresenterImpl(this);
+
         temporizador = findViewById(R.id.temporizador);
         terminar = findViewById(R.id.terminar);
-        material = findViewById(R.id.material);
         seccionTV = findViewById(R.id.seccion);
         nivelTV = findViewById(R.id.nivel);
         bloqueTV = findViewById(R.id.bloque);
 
         terminar.setOnClickListener(v ->{
             finish();
-        });
-
-        material.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            String idPDF = idSeccion + "_" + idNivel + "_" + idBloque + ".pdf";
-            bundle.putString("idPDF", idPDF);
-            MaterialFragment nueva = new MaterialFragment();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            nueva.setArguments(bundle);
-            nueva.show(transaction, "Material Didáctico");
         });
 
         idCliente = getIntent().getIntExtra("idCliente", 0);
@@ -78,20 +76,24 @@ public class ServicioCliente extends AppCompatActivity {
             @Override
             public void run() {
                 handler.post(() -> {
-                    try {
-                        ServicioSesionDisponible servicioSesionDisponible =
-                                new ServicioSesionDisponible(getApplicationContext(), idSesion,
-                                        idCliente, DetallesFragment.CLIENTE, ServicioCliente.this);
-                        servicioSesionDisponible.execute();
-                    } catch (Exception e) {
-                        Log.e("error", e.getMessage());
-                    }
+                    servicioClientePresenter.servicioDisponible(getApplicationContext(), idSesion, idCliente, DetallesFragment.CLIENTE, ServicioCliente.this);
                 });
             }
         };
 
         timer.schedule(task, 0, 3000);
 
+    }
+
+    @OnClick(R.id.material)
+    public void onClick(View view){
+        Bundle bundle = new Bundle();
+        String idPDF = idSeccion + "_" + idNivel + "_" + idBloque + ".pdf";
+        bundle.putString("idPDF", idPDF);
+        MaterialFragment nueva = new MaterialFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        nueva.setArguments(bundle);
+        nueva.show(transaction, "Material Didáctico");
     }
 
     public static FragmentTransaction obtenerFargment(FragmentActivity activity){
@@ -141,6 +143,8 @@ public class ServicioCliente extends AppCompatActivity {
         if(countDownTimer != null)
             countDownTimer.cancel();
         timer.cancel();
-        ServiciosSesion.cambiarDisponibilidadCliente(idSesion, idCliente, false);
+        servicioClientePresenter.cambiarDisponibilidadCliente(idSesion, idCliente, false);
+        mUnbinder.unbind();
     }
+
 }

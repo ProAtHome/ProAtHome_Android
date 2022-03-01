@@ -1,42 +1,39 @@
 package com.proathome.Views.fragments_compartidos;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.proathome.Interfaces.fragments_compartidos.TicketAyuda.TicketAyudaPresenter;
+import com.proathome.Interfaces.fragments_compartidos.TicketAyuda.TicketAyudaView;
+import com.proathome.Presenters.fragments_compartidos.TicketAyudaPresenterImpl;
 import com.proathome.R;
 import com.proathome.Adapters.ComponentAdapterMsgTickets;
-import com.proathome.Servicios.api.APIEndPoints;
-import com.proathome.Servicios.api.WebServicesAPI;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.pojos.ComponentMsgTickets;
 import com.proathome.Utils.pojos.ComponentTicket;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.SweetAlert;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class FragmentTicketAyuda extends DialogFragment {
+public class FragmentTicketAyuda extends DialogFragment implements TicketAyudaView {
 
     private Unbinder mUnbinder;
     private static ComponentTicket mComponentTicket;
@@ -44,9 +41,10 @@ public class FragmentTicketAyuda extends DialogFragment {
     public static boolean primeraVez = true;
     public static RecyclerView recyclerView;
     public static ComponentAdapterMsgTickets componentAdapterMsgTickets;
-    private int idUsuario, idTicket, estatus;
-    public Timer timer;
-    private int tipoUsuario;
+    private int idUsuario, idTicket, estatus, tipoUsuario;
+    private ProgressDialog progressDialog;
+    private TicketAyudaPresenter ticketAyudaPresenter;
+
     @BindView(R.id.btnEnviarMsg)
     MaterialButton btnEnviarMsg;
     @BindView(R.id.etEscribeMsg)
@@ -125,6 +123,8 @@ public class FragmentTicketAyuda extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_ticket_ayuda, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
+        recyclerView = view.findViewById(R.id.recyclerMsg);
+
         Bundle bundle = getArguments();
         this.idTicket = bundle.getInt("idTicket");
         this.estatus = bundle.getInt("estatus");
@@ -136,9 +136,9 @@ public class FragmentTicketAyuda extends DialogFragment {
 
         setIdUsuario();
 
-        recyclerView = view.findViewById(R.id.recyclerMsg);
+        ticketAyudaPresenter = new TicketAyudaPresenterImpl(this);
+        ticketAyudaPresenter.obtenerMsgTicket(this.tipoUsuario, this.idUsuario, this.idTicket);
 
-        obtenerMsgTicket();
         configAdapter();
         configRecyclerView();
 
@@ -153,49 +153,10 @@ public class FragmentTicketAyuda extends DialogFragment {
                 tvEstatus.setText("Estatus: Sin operador asignado.");
             else if(this.estatus == Constants.ESTATUS_EN_CURSO)
                 tvEstatus.setText("Estatus: En curso de solución.");
-            nuevosMensajes();
+            ticketAyudaPresenter.nuevosMensajes(this.tipoUsuario, this.idUsuario, this.idTicket);
         }
 
         return view;
-    }
-
-    private void obtenerMsgTicket(){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                JSONArray jsonArray = new JSONArray(response);
-                JSONObject mensajes = jsonArray.getJSONObject(1);
-                JSONArray jsonArrayMensajes = mensajes.getJSONArray("mensajes");
-                boolean entro = true;
-                for(int i = componentAdapterMsgTickets.getItemCount(); i < jsonArrayMensajes.length(); i++){
-                    JSONObject mensaje = jsonArrayMensajes.getJSONObject(i);
-                    System.out.println(mensaje);
-                    componentAdapterMsgTickets.add(FragmentTicketAyuda.getmInstance(
-                            mensaje.getBoolean("operador") ? "Operador - Soporte" : mensaje.getString("nombreUsuario"), mensaje.getString("msg"),
-                            mensaje.getBoolean("operador"), this.tipoUsuario));
-                    if(entro)
-                        recyclerView.getLayoutManager().scrollToPosition(jsonArrayMensajes.length()-1);
-                    entro = false;
-                    mensaje = null;
-                }
-
-                jsonArray = null;
-                mensajes = null;
-                jsonArrayMensajes =  null;
-            }catch(JSONException ex){
-                ex.printStackTrace();
-            }
-        }, validacionURL_API(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
-    }
-
-    private String validacionURL_API(){
-        String url = null;
-        if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE)
-            url = APIEndPoints.GET_MSG_TICKET + this.idUsuario + "/" + Constants.TIPO_USUARIO_CLIENTE + "/" + this.idTicket;
-        else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL)
-            url = APIEndPoints.GET_MSG_TICKET + this.idUsuario + "/" + Constants.TIPO_USUARIO_PROFESIONAL + "/" + this.idTicket;
-
-        return url;
     }
 
     public void setIdUsuario(){
@@ -207,15 +168,13 @@ public class FragmentTicketAyuda extends DialogFragment {
 
     @OnClick({R.id.btnEnviarMsg, R.id.btnRegresar, R.id.btnFinalizarTicket})
     public void onClick(View view){
-        int tipoSweet = this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ?
-                SweetAlert.CLIENTE : SweetAlert.PROFESIONAL;
         switch (view.getId()){
             case R.id.btnEnviarMsg:
                 if(etEscribeMsg.getText().toString().trim().equalsIgnoreCase("")){
                     SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Escribe un mensaje para el operador.", false, null, null);
                 }else{
-                    FragmentTicketAyuda.recyclerView.getLayoutManager().scrollToPosition(componentAdapterMsgTickets.getItemCount()-1);
-                    enviarMensaje();
+                    recyclerView.getLayoutManager().scrollToPosition(componentAdapterMsgTickets.getItemCount()-1);
+                    ticketAyudaPresenter.enviarMensaje(etEscribeMsg.getText().toString(), this.idUsuario, this.tipoUsuario, false, this.idTicket);
                     etEscribeMsg.setText("");
                 }
                 break;
@@ -225,58 +184,13 @@ public class FragmentTicketAyuda extends DialogFragment {
             case R.id.btnFinalizarTicket:
                 SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ESPERA!", "¿Seguro quieres finalizar el ticket?",
                         true, "SI", ()->{
-                            ticketSolucionado();
+                            ticketAyudaPresenter.ticketSolucionado(this.tipoUsuario, this.idUsuario, this.idTicket);
                         });
                 break;
         }
-
     }
 
-    private void ticketSolucionado(){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            Toast.makeText(getContext(), "Ticket Finalizado.", Toast.LENGTH_LONG).show();
-            dismiss();
-        }, this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.FINALIZAR_TICKET_CLIENTE + this.idTicket : APIEndPoints.FINALIZAR_TICKET_PROFESIONAL + this.idTicket, WebServicesAPI.GET, null);
-        webServicesAPI.execute();
-    }
-
-    private void enviarMensaje(){
-        JSONObject jsonDatos = new JSONObject();
-        try {
-            jsonDatos.put("mensaje", etEscribeMsg.getText().toString());
-            jsonDatos.put("idUsuario", this.idUsuario);
-            jsonDatos.put("operador", false);
-            jsonDatos.put("idTicket", this.idTicket);
-
-            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-                obtenerMsgTicket();
-                configAdapter();
-                configRecyclerView();
-            }, this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.ENVIAR_MSG_TICKET_CLIENTE : APIEndPoints.ENVIAR_MSG_TICKET_PROFESIONAL, WebServicesAPI.POST, jsonDatos);
-            webServicesAPI.execute();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void nuevosMensajes(){
-        final Handler handler = new Handler();
-        timer = new Timer();
-
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(() -> {
-                    obtenerMsgTicket();
-                });
-            }
-        };
-
-        timer.schedule(task, 0, 3000);
-    }
-
-    public static void configAdapter(){
+    public void configAdapter(){
         componentAdapterMsgTickets = new ComponentAdapterMsgTickets(new ArrayList<>());
     }
 
@@ -285,11 +199,52 @@ public class FragmentTicketAyuda extends DialogFragment {
     }
 
     @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere...");
+    }
+
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void ticketFinalizado() {
+        Toast.makeText(getContext(), "Ticket Finalizado.", Toast.LENGTH_LONG).show();
+        dismiss();
+    }
+
+    @Override
+    public void resetAdapter() {
+        configAdapter();
+        configRecyclerView();
+    }
+
+    @Override
+    public void setAdapterMsg(JSONArray jsonArrayMensajes) {
+        boolean entro = true;
+        try{
+            for(int i = componentAdapterMsgTickets.getItemCount(); i < jsonArrayMensajes.length(); i++){
+                JSONObject mensaje = jsonArrayMensajes.getJSONObject(i);
+                componentAdapterMsgTickets.add(FragmentTicketAyuda.getmInstance(
+                        mensaje.getBoolean("operador") ? "Operador - Soporte" : mensaje.getString("nombreUsuario"), mensaje.getString("msg"),
+                        mensaje.getBoolean("operador"), this.tipoUsuario));
+                if(entro)
+                    recyclerView.getLayoutManager().scrollToPosition(jsonArrayMensajes.length()-1);
+                entro = false;
+                mensaje = null;
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
         if(this.estatus != Constants.ESTATUS_SOLUCIONADO)
-            timer.cancel();
+            ticketAyudaPresenter.cancelTime();
     }
 
 }

@@ -1,5 +1,6 @@
 package com.proathome.Views.fragments_compartidos;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -9,33 +10,32 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.proathome.Interfaces.fragments_compartidos.NuevoTicket.NuevoTicketPresenter;
+import com.proathome.Interfaces.fragments_compartidos.NuevoTicket.NuevoTicketView;
+import com.proathome.Presenters.fragments_compartidos.NuevoTicketPresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.api.APIEndPoints;
-import com.proathome.Servicios.api.WebServicesAPI;
 import com.proathome.Views.cliente.navigator.ayuda.AyudaFragment;
 import com.proathome.Views.profesional.navigator.ayudaProfesional.AyudaProfesionalFragment;
-import com.proathome.Utils.pojos.ComponentTicket;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.FechaActual;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.SweetAlert;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class NuevoTicketFragment extends DialogFragment {
+public class NuevoTicketFragment extends DialogFragment implements NuevoTicketView {
 
     private Unbinder mUnbinder;
     private int idUsuario, tipoUsuario, idSesion;
+    private NuevoTicketPresenter nuevoTicketPresenter;
+    private ProgressDialog progressDialog;
+
     @BindView(R.id.etTopico)
     TextInputEditText etTopico;
     @BindView(R.id.etDescripcion)
@@ -60,18 +60,20 @@ public class NuevoTicketFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_AppCompat_DayNight_Dialog_Alert);
 
+        nuevoTicketPresenter = new NuevoTicketPresenterImpl(this);
+
         Bundle bundle = getArguments();
-        this.tipoUsuario = bundle.getInt("tipoUsuario");
-        this.idSesion = bundle.getInt("idSesion");
+        tipoUsuario = bundle.getInt("tipoUsuario");
+        idSesion = bundle.getInt("idSesion");
 
         setIdUsuario();
     }
 
     public void setIdUsuario(){
-        if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE)
-            this.idUsuario = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
-        else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL)
-            this.idUsuario = SharedPreferencesManager.getInstance(getContext()).getIDProfesional();
+        if(tipoUsuario == Constants.TIPO_USUARIO_CLIENTE)
+            idUsuario = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
+        else if(tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL)
+            idUsuario = SharedPreferencesManager.getInstance(getContext()).getIDProfesional();
     }
 
     public String getSelectedCategoria(){
@@ -144,68 +146,45 @@ public class NuevoTicketFragment extends DialogFragment {
             jsonDatos.put("categoria", getSelectedCategoria());
             jsonDatos.put("idSesion", this.idSesion);
 
-            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-                SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!",
-                        "Tu solicitud será revisada y en breve te contestará soporte.", true, "OK", ()->{
-                            dismiss();
-                            if(this.idSesion == 0){
-                                if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE){
-                                    AyudaFragment.configAdapter();
-                                    AyudaFragment.configRecyclerView();
-                                }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL){
-                                    AyudaProfesionalFragment.configAdapter();
-                                    AyudaProfesionalFragment.configRecyclerView();
-                                }
-                                obtenerTickets();
-                            }
-                        });
-            }, this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.NUEVO_TICKET_CLIENTE : APIEndPoints.NUEVO_TICKET_PROFESIONAL, WebServicesAPI.POST, jsonDatos);
-            webServicesAPI.execute();
+            nuevoTicketPresenter.nuevoTicket(jsonDatos, tipoUsuario);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private void obtenerTickets(){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                JSONObject data = new JSONObject(response);
-                if(data.getBoolean("respuesta")){
-                    JSONArray jsonArray = data.getJSONArray("mensaje");
-                    for(int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        if(this.tipoUsuario == Constants.TIPO_USUARIO_CLIENTE){
-                            if (jsonObject.getBoolean("sinTickets")){
-                                AyudaFragment.lottieAnimationView.setVisibility(View.VISIBLE);
-                            } else{
-                                AyudaFragment.lottieAnimationView.setVisibility(View.INVISIBLE);
-                                AyudaFragment.componentAdapterTicket.add(FragmentTicketAyuda.getmInstance(jsonObject.getString("topico"),
-                                        ComponentTicket.validarEstatus(jsonObject.getInt("estatus")),
-                                        jsonObject.getString("fechaCreacion"), jsonObject.getInt("idTicket"),
-                                        jsonObject.getString("descripcion"), jsonObject.getString("noTicket"),
-                                        jsonObject.getInt("estatus"), jsonObject.getInt("tipoUsuario"), jsonObject.getString("categoria")));
-                            }
-                        }else if(this.tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL){
-                            if (jsonObject.getBoolean("sinTickets")){
-                                AyudaProfesionalFragment.lottieAnimationView.setVisibility(View.VISIBLE);
-                            } else{
-                                AyudaProfesionalFragment.lottieAnimationView.setVisibility(View.INVISIBLE);
-                                AyudaProfesionalFragment.componentAdapterTicket.add(FragmentTicketAyuda.getmInstance(jsonObject.getString("topico"),
-                                        ComponentTicket.validarEstatus(jsonObject.getInt("estatus")),
-                                        jsonObject.getString("fechaCreacion"), jsonObject.getInt("idTicket"),
-                                        jsonObject.getString("descripcion"), jsonObject.getString("noTicket"),
-                                        jsonObject.getInt("estatus"), jsonObject.getInt("tipoUsuario"), jsonObject.getString("categoria")));
-                            }
-                        }
+    @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere..");
+    }
 
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showError(String error) {
+        Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void successTicket(String mensaje) {
+        SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!",
+                mensaje, true, "OK", ()->{
+                    dismiss();
+                    if(idSesion == 0){
+                        if(tipoUsuario == Constants.TIPO_USUARIO_CLIENTE){
+                            AyudaFragment.configAdapter();
+                            AyudaFragment.configRecyclerView();
+                        }else if(tipoUsuario == Constants.TIPO_USUARIO_PROFESIONAL){
+                            AyudaProfesionalFragment.configAdapter();
+                            AyudaProfesionalFragment.configRecyclerView();
+                        }
+                        nuevoTicketPresenter.obtenerTickets(tipoUsuario, idUsuario, tipoUsuario == Constants.TIPO_USUARIO_CLIENTE ?
+                                SharedPreferencesManager.getInstance(getContext()).getTokenCliente() :
+                                SharedPreferencesManager.getInstance(getContext()).getTokenProfesional());
                     }
-                }else
-                    Toast.makeText(getContext(), data.getString("mensaje"), Toast.LENGTH_LONG).show();
-            }catch (JSONException ex){
-                ex.printStackTrace();
-            }
-        }, this.tipoUsuario ==  Constants.TIPO_USUARIO_CLIENTE ? APIEndPoints.GET_TICKETS_CLIENTE + this.idUsuario + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente() : APIEndPoints.GET_TICKETS_PROFESIONAL + this.idUsuario + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenProfesional(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
+                });
     }
 
     @Override

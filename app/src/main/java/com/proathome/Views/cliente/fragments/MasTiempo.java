@@ -1,5 +1,6 @@
 package com.proathome.Views.cliente.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
@@ -8,21 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.proathome.Interfaces.cliente.MasTiempo.MasTiempoPresenter;
 import com.proathome.Interfaces.cliente.MasTiempo.MasTiempoView;
-import com.proathome.Servicios.api.APIEndPoints;
-import com.proathome.Servicios.api.WebServicesAPI;
-import com.proathome.Servicios.sesiones.ServiciosSesion;
+import com.proathome.Presenters.cliente.MasTiempoPresenterImpl;
 import com.proathome.Views.cliente.ServicioCliente;
 import com.proathome.R;
-import com.proathome.Utils.pojos.Component;
 import com.proathome.Utils.Constants;
-import com.proathome.Utils.FechaActual;
 import com.proathome.Utils.SharedPreferencesManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -32,6 +25,7 @@ public class MasTiempo extends DialogFragment implements MasTiempoView {
     private Unbinder mUnbinder;
     private int idSesion, idCliente;
     public static Context contexto = null;
+    private ProgressDialog progressDialog;
     private MasTiempoPresenter masTiempoPresenter;
 
     public MasTiempo() {
@@ -49,43 +43,15 @@ public class MasTiempo extends DialogFragment implements MasTiempoView {
         View view = inflater.inflate(R.layout.fragment_mas_tiempo, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
+        masTiempoPresenter = new MasTiempoPresenterImpl(this);
+
         Bundle bundle = getArguments();
-        this.idSesion = bundle.getInt("idSesion", 0);
-        this.idCliente = bundle.getInt("idCliente", 0);
+        idSesion = bundle.getInt("idSesion", 0);
+        idCliente = bundle.getInt("idCliente", 0);
         /*Vamos a obtene los datos de la pre orden y usarlos para mostrar el cobro final*/
-        getPreOrden();
+        masTiempoPresenter.getPreOrden(idCliente, idSesion, SharedPreferencesManager.getInstance(getContext()).getTokenCliente());
 
         return view;
-    }
-
-    private void getPreOrden(){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                JSONObject data = new JSONObject(response);
-                if(data.getBoolean("respuesta")){
-                    JSONObject jsonObject = data.getJSONObject("mensaje");
-                    CobroFinalFragment.nombreTitular = jsonObject.getString("nombreTitular");
-                    CobroFinalFragment.mes = jsonObject.get("mes").toString();
-                    CobroFinalFragment.ano = jsonObject.get("ano").toString();
-                    CobroFinalFragment.metodoRegistrado = jsonObject.getString("tarjeta");
-                    CobroFinalFragment.sesion = "Sesión: " + Component.getSeccion(jsonObject.getInt("idSeccion")) + " / " + Component.getNivel(jsonObject.getInt("idSeccion"), jsonObject.getInt("idNivel")) + " / " + Component.getBloque(jsonObject.getInt("idBloque"));
-                    CobroFinalFragment.tiempo = "Tiempo: " + obtenerHorario(jsonObject.getInt("tiempo"));
-                    CobroFinalFragment.nombreCliente = jsonObject.get("nombreCliente").toString();
-                    CobroFinalFragment.correo = jsonObject.get("correo").toString();
-                }else
-                    Toast.makeText(getContext(), data.getString("mensaje"), Toast.LENGTH_LONG).show();
-            }catch(JSONException ex){
-                ex.printStackTrace();
-            }
-        }, APIEndPoints.GET_PRE_ORDEN + this.idCliente + "/" + this.idSesion + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
-    }
-
-    public String obtenerHorario(int tiempo){
-        String horas = String.valueOf(tiempo/60) + " HRS ";
-        String minutos = String.valueOf(tiempo%60) + " min";
-
-        return horas + minutos;
     }
 
     @OnClick({R.id.quinceMin, R.id.treintaMin})
@@ -131,10 +97,8 @@ public class MasTiempo extends DialogFragment implements MasTiempoView {
         //TODO FLUJO_EJECUTAR_PLAN:  Cobramos sólo el TE elegido, crear otro MODAL Cobro Final MODO PLAN,
         // y poner las funciones de finalización de servicio que están en ServicioTaskCobro, etc.
         //Finalizamos el servicio, sumamos la ruta.
-        ServiciosSesion.finalizar(idSesion, idCliente);
-        sumarSevicioRuta();
+        masTiempoPresenter.finalizar(idCliente, idSesion);
 
-        dismiss();
         /*
         if(DetallesFragment.planSesion.equalsIgnoreCase("PARTICULAR")){
             Bundle bundle = new Bundle();
@@ -169,45 +133,33 @@ public class MasTiempo extends DialogFragment implements MasTiempoView {
 
     }
 
-    private void generarOrdenPago() throws JSONException {
-        JSONObject jsonDatos = new JSONObject();
-        jsonDatos.put("costoServicio", 0);
-        jsonDatos.put("costoTE", 0);
-        jsonDatos.put("idCliente", this.idCliente);
-        jsonDatos.put("idSesion", this.idSesion);
-        jsonDatos.put("estatusPago", "Pagado");
-        jsonDatos.put("tipoPlan", DetallesFragment.planSesion);
-
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-
-        }, APIEndPoints.ORDEN_COMPRA_ACTUALIZAR_PAGO, WebServicesAPI.PUT, jsonDatos);
-        webServicesAPI.execute();
+    @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere...");
     }
 
-    private void sumarSevicioRuta(){
-        JSONObject parametros = new JSONObject();
-        try {
-            parametros.put("idCliente", this.idCliente);
-            parametros.put("idSesion", this.idSesion);
-            parametros.put("idSeccion", ServicioCliente.idSeccion);
-            parametros.put("idNivel",  ServicioCliente.idNivel);
-            parametros.put("idBloque", ServicioCliente.idBloque);
-            parametros.put("horasA_sumar", ServicioCliente.tiempo);
-            parametros.put("fecha_registro", FechaActual.getFechaActual());
-            parametros.put("sumar", ServicioCliente.sumar);
-            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-                //TODO AQUI PODEMOS PONER UN ANUNCIO DE FIN DE RUTA CUANDO LA VAR ultimaSesion SEA TRUE.
-                DetallesFragment.procedenciaFin = true;
-            }, APIEndPoints.SUMAR_SERVICIO_RUTA, WebServicesAPI.POST, parametros);
-            webServicesAPI.execute();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showError(String error) {
+        Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void cerrarFragment() {
+        dismiss();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if(progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
         mUnbinder.unbind();
     }
 

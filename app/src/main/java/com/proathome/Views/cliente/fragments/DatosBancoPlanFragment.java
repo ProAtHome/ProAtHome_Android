@@ -8,11 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
-import com.proathome.Servicios.api.openpay.TokenCardService;
+import com.proathome.Interfaces.cliente.DatosBancoPlan.DatosBancoPlanPresenter;
+import com.proathome.Interfaces.cliente.DatosBancoPlan.DatosBancoPlanView;
+import com.proathome.Presenters.cliente.DatosBancoPlanPresenterImpl;
 import com.proathome.Views.cliente.ServicioCliente;
 import com.proathome.R;
-import com.proathome.Servicios.api.APIEndPoints;
-import com.proathome.Servicios.api.WebServicesAPI;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.SweetAlert;
 import org.json.JSONException;
@@ -23,15 +23,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import mx.openpay.android.OperationCallBack;
-import mx.openpay.android.OperationResult;
-import mx.openpay.android.exceptions.OpenpayServiceException;
-import mx.openpay.android.exceptions.ServiceUnavailableException;
-import mx.openpay.android.model.Card;
-import mx.openpay.android.model.Token;
-import mx.openpay.android.validation.CardValidator;
 
-public class DatosBancoPlanFragment extends DialogFragment {
+public class DatosBancoPlanFragment extends DialogFragment implements DatosBancoPlanView {
 
     private Unbinder mUnbinder;
     public static String nombreTitular, tarjeta, mes, ano, tiempo, sesion;
@@ -49,6 +42,8 @@ public class DatosBancoPlanFragment extends DialogFragment {
     Button validarDatos;
     @BindView(R.id.btnCancelar)
     Button cancelar;
+
+    private DatosBancoPlanPresenter datosBancoPlanPresenter;
     private ProgressDialog progressDialog;
     public static String deviceIdString, descripcion, nombre, correo;
     public static int idSesion, idCliente, procedencia;
@@ -71,6 +66,8 @@ public class DatosBancoPlanFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_datos_banco_plan, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+
+        datosBancoPlanPresenter = new DatosBancoPlanPresenterImpl(this);
 
         Bundle bundle = getArguments();
         procedencia = bundle.getInt("procedencia");
@@ -110,115 +107,64 @@ public class DatosBancoPlanFragment extends DialogFragment {
     public void onClick(){
         validarDatos.setEnabled(false);
         /*Checamos los campos de la perra tarjeta*/
-        if(!etNombreTitular.getText().toString().trim().equalsIgnoreCase("") && !etTarjeta.getText().toString().trim().equalsIgnoreCase("") &&
-                !etMes.getText().toString().trim().equalsIgnoreCase("") && !etAno.getText().toString().trim().equalsIgnoreCase("") && !etCVV.getText().toString().trim().equalsIgnoreCase("")){
-            if(CardValidator.validateHolderName(etNombreTitular.getText().toString())){
-                if(CardValidator.validateNumber(etTarjeta.getText().toString())){
-                    if(CardValidator.validateExpiryDate(Integer.parseInt(etMes.getText().toString()), Integer.parseInt(etAno.getText().toString()))){
-                        if(CardValidator.validateCVV(etCVV.getText().toString(), etTarjeta.getText().toString())){
-                            /*Vamos a crear un perro y poderoso token de tarjeta*/
-                            if(this.procedencia == DatosBancoPlanFragment.PROCEDENCIA_PAGO_PENDIENTE){
-                                validarDatos.setEnabled(false);
-                                /*Vamos a crear un perro y poderoso token de tarjeta*/
-                                Card card = new Card();
-                                card.holderName(etNombreTitular.getText().toString());
-                                card.cardNumber(etTarjeta.getText().toString());
-                                card.expirationMonth(Integer.parseInt(etMes.getText().toString()));
-                                card.expirationYear(Integer.parseInt(etAno.getText().toString()));
-                                card.cvv2(etCVV.getText().toString());
-                                pagar(card);
-                            }else if(this.procedencia == DatosBancoPlanFragment.PROCEDENCIA_PAGO_PLAN){
-                                TokenCardService tokenCard = new TokenCardService(getContext(), etNombreTitular.getText().toString(), etTarjeta.getText().toString(), Integer.parseInt(etMes.getText().toString()), Integer.parseInt(etAno.getText().toString()), etCVV.getText().toString());
-                                tokenCard.execute();
-                                dismiss();
-                            }
-                        }else{
-                            SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "CVV no válido.", false, null, null);
-                            validarDatos.setEnabled(true);
-                        }
-                    }else{
-                        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Fecha de expiración no válida.", false, null, null);
-                        validarDatos.setEnabled(true);
-                    }
-                }else{
-                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Tarjeta no válida.", false, null, null);
-                    validarDatos.setEnabled(true);
-                }
-            }else{
-                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Nombre del titular no válido.", false, null, null);
-                validarDatos.setEnabled(true);
-            }
-        }else {
-            SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos correctamente.", false, null, null);
-            validarDatos.setEnabled(true);
+        try {
+            DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
+            separadoresPersonalizados.setDecimalSeparator('.');
+            DecimalFormat formato1 = new DecimalFormat("#.00", separadoresPersonalizados);
+            JSONObject parametrosPost= new JSONObject();
+            parametrosPost.put("nombreCliente", nombre);
+            parametrosPost.put("correo", correo);
+            parametrosPost.put("cobro", formato1.format(deuda));
+            parametrosPost.put("descripcion", descripcion);
+            parametrosPost.put("deviceId", deviceId);
+            datosBancoPlanPresenter.validarDatos(etNombreTitular.getText().toString(), etTarjeta.getText().toString(),
+                    etMes.getText().toString(), etAno.getText().toString(), etCVV.getText().toString(), procedencia, getContext(),
+                    parametrosPost, idSesion);
+        }catch (JSONException e){
+            e.printStackTrace();
         }
-
     }
 
-    public void pagar(Card card){
+    @Override
+    public void showProgress() {
         progressDialog = ProgressDialog.show(getContext(), "Validando tarjeta", "Por favor, espere...");
-        Constants.openpay.createToken(card, new OperationCallBack<Token>() {
-            @Override
-            public void onError(OpenpayServiceException e) {
-                progressDialog.dismiss();
-                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", e.toString(), false, null, null);
-            }
-
-            @Override
-            public void onCommunicationError(ServiceUnavailableException e) {
-                progressDialog.dismiss();
-                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", e.toString(), false, null, null);
-            }
-
-            @Override
-            public void onSuccess(OperationResult<Token> operationResult) {
-                progressDialog.dismiss();
-                DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
-                separadoresPersonalizados.setDecimalSeparator('.');
-                DecimalFormat formato1 = new DecimalFormat("#.00", separadoresPersonalizados);
-                JSONObject parametrosPost= new JSONObject();
-                try {
-                    parametrosPost.put("idCard", operationResult.getResult().getId());
-                    parametrosPost.put("nombreCliente", nombre);
-                    parametrosPost.put("correo", correo);
-                    parametrosPost.put("cobro", formato1.format(deuda));
-                    parametrosPost.put("descripcion", descripcion);
-                    parametrosPost.put("deviceId", deviceId);
-                    WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-                        if(response.equalsIgnoreCase(  "")){
-                            //Actualizar Pago en Pagos
-                            saldarDeuda();
-                            SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Cobro correcto.", true,
-                                    "OK", ()->{
-                                        dismiss();
-                                    });
-                        }else{
-                            SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error en el cobro - " + response, true,
-                                    "OK", ()->{
-                                        dismiss();
-                                    });
-                        }
-                    }, APIEndPoints.COBROS, WebServicesAPI.POST, parametrosPost);
-                    webServicesAPI.execute();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
-    private void saldarDeuda() throws JSONException {
-        JSONObject parametrosPUT = new JSONObject();
-        parametrosPUT.put("idSesion", this.idSesion);
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            PagoPendienteFragment.pagoPendiente.dismiss();
-        }, APIEndPoints.SALDAR_DEUDA, WebServicesAPI.PUT, parametrosPUT);
-        webServicesAPI.execute();
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showError(String mensaje) {
+        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", mensaje, false, null, null);
+    }
+
+    @Override
+    public void setEstatusButtonValidarDatos(boolean estatus) {
+        validarDatos.setEnabled(false);
+    }
+
+    @Override
+    public void cerrarFragment() {
+        dismiss();
+    }
+
+    @Override
+    public void successOperation(String mensaje, String titulo, int tipo) {
+        SweetAlert.showMsg(getContext(), tipo, titulo, mensaje, true,
+                "OK", ()->{
+                    dismiss();
+                });
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if(progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
         mUnbinder.unbind();
     }
 

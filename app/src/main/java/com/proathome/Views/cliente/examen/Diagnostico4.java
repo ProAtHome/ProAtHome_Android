@@ -1,19 +1,24 @@
 package com.proathome.Views.cliente.examen;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.ActivityOptions;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.proathome.Interfaces.cliente.Examen.Diagnostico4.Diagnostico4Presenter;
+import com.proathome.Interfaces.cliente.Examen.Diagnostico4.Diagnostico4View;
+import com.proathome.Presenters.cliente.examen.Diagnostico4PresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.cliente.ServiciosExamenDiagnostico;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.SweetAlert;
@@ -22,14 +27,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class Diagnostico4 extends AppCompatActivity {
+public class Diagnostico4 extends AppCompatActivity implements Diagnostico4View {
 
     private Unbinder mUnbinder;
-    private int respuesta1 = 0;
-    private int respuesta2 = 0;
-    private int respuesta3 = 0;
-    private int respuesta4 = 0;
-    private int respuesta5 = 0;
+    private int respuesta1 = 0, respuesta2 = 0, respuesta3 = 0, respuesta4 = 0, respuesta5 = 0;
+    private ProgressDialog progressDialog;
+    private Diagnostico4Presenter diagnostico4Presenter;
+
     @BindView(R.id.r1)
     TextInputEditText res1;
     @BindView(R.id.r2)
@@ -88,6 +92,8 @@ public class Diagnostico4 extends AppCompatActivity {
         setContentView(R.layout.activity_diagnostico4);
         mUnbinder = ButterKnife.bind(this);
 
+        diagnostico4Presenter = new Diagnostico4PresenterImpl(this);
+
         cerrarExamen.setOnClickListener(v ->{
             new MaterialAlertDialogBuilder(this,
                     R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
@@ -108,7 +114,7 @@ public class Diagnostico4 extends AppCompatActivity {
         btnContinuar.setOnClickListener(v ->{
             int puntuacion = respuesta1 + respuesta2 + respuesta3 + respuesta4 + respuesta5 + validarSeccion1();
             int idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
-            ServiciosExamenDiagnostico.actualizarEstatusExamen(Constants.ENCURSO_EXAMEN, idCliente, puntuacion, 40, Diagnostico4.this, Diagnostico4.this, Diagnostico5.class);
+            diagnostico4Presenter.actualizarEstatusExamen(Constants.ENCURSO_EXAMEN, idCliente, puntuacion, 40);
         });
 
     }
@@ -266,8 +272,39 @@ public class Diagnostico4 extends AppCompatActivity {
     }
 
     @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(Diagnostico4.this, "Cargando", "Espere...");
+    }
+
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showError(String mensaje) {
+        Toast.makeText(Diagnostico4.this, mensaje, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void examenGuardado() {
+        SweetAlert.showMsg(Diagnostico4.this, SweetAlert.NORMAL_TYPE, "Puntuación guardada.", "¡Continúa!", true, "OK", ()->{
+            if(!Diagnostico7.ultimaPagina){
+                startActivityForResult(new Intent(Diagnostico4.this, Diagnostico5.class), 1, ActivityOptions.makeSceneTransitionAnimation(Diagnostico4.this)
+                        .toBundle());
+                finish();
+            }else
+                Diagnostico7.ultimaPagina = false;
+        });
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
         mUnbinder.unbind();
     }
 

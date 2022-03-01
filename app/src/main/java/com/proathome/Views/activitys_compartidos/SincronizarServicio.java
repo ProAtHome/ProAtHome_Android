@@ -6,8 +6,10 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
+import com.proathome.Interfaces.activitys_compartidos.SincronizarServicio.SincronizarServicioPresenter;
+import com.proathome.Interfaces.activitys_compartidos.SincronizarServicio.SincronizarServicioView;
+import com.proathome.Presenters.activitys_compartidos.SincronizarServicioPresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.sesiones.ServiciosSesion;
 import com.proathome.Views.cliente.ServicioCliente;
 import com.proathome.Views.profesional.fragments.DetallesSesionProfesionalFragment;
 import com.proathome.Views.cliente.fragments.DetallesFragment;
@@ -19,28 +21,27 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class SincronizarServicio extends AppCompatActivity {
+public class SincronizarServicio extends AppCompatActivity implements SincronizarServicioView {
 
-    private Unbinder mUnbinder;
     @BindView(R.id.cancelar)
     MaterialButton cancelar;
     @BindView(R.id.esperando)
     TextView esperando;
-    public static Timer timer;
-    private int tipoPerfil = 0;
-    private int idSesion = 0;
-    private int idPerfil = 0;
-    public static int tiempo = 0;
-    public static int idSeccion = 0;
-    public static int idNivel = 0;
-    public static int idBloque = 0;
+
+    private Unbinder mUnbinder;
+    private Timer timer;
+    public static int tipoPerfil = 0, idSesion = 0, idPerfil = 0, tiempo = 0,
+            idSeccion = 0, idNivel = 0, idBloque = 0;
     public static boolean sumar;
+    private SincronizarServicioPresenter sincronizarServicioPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sincronizar_servicio);
         mUnbinder = ButterKnife.bind(this);
+
+        sincronizarServicioPresenter = new SincronizarServicioPresenterImpl(this);
 
         tipoPerfil = getIntent().getIntExtra("perfil", 0);
         idSesion = getIntent().getIntExtra("idSesion", 0);
@@ -62,16 +63,14 @@ public class SincronizarServicio extends AppCompatActivity {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                handler.post(new Runnable() {
-                    public void run() {
-                        try {
-                            if (tipoPerfil == DetallesFragment.CLIENTE)
-                                ServiciosSesion.verificarDisponibilidadProfesional(idSesion, idPerfil, getApplicationContext());
-                            else if(tipoPerfil == DetallesSesionProfesionalFragment.PROFESIONAL)
-                                ServiciosSesion.verificarDisponibilidadCliente(idSesion, idPerfil, getApplicationContext());
-                        } catch (Exception e) {
-                            Log.e("error", e.getMessage());
-                        }
+                handler.post(() -> {
+                    try {
+                        if (tipoPerfil == DetallesFragment.CLIENTE)
+                            sincronizarServicioPresenter.verificarDisponibilidadProfesional(idSesion, idPerfil, getApplicationContext());
+                        else if(tipoPerfil == DetallesSesionProfesionalFragment.PROFESIONAL)
+                            sincronizarServicioPresenter.verificarDisponibilidadCliente(idSesion, idPerfil, getApplicationContext());
+                    } catch (Exception e) {
+                        Log.e("error", e.getMessage());
                     }
                 });
             }
@@ -84,9 +83,9 @@ public class SincronizarServicio extends AppCompatActivity {
     @OnClick(R.id.cancelar)
     public void onClick(){
         if (tipoPerfil == DetallesFragment.CLIENTE)
-            ServiciosSesion.cambiarDisponibilidadCliente(idSesion, idPerfil, false);
+            sincronizarServicioPresenter.cambiarDisponibilidadCliente(idSesion, idPerfil, false);
         else if(tipoPerfil == DetallesSesionProfesionalFragment.PROFESIONAL)
-            ServiciosSesion.cambiarDisponibilidadProfesional(idSesion, idPerfil, false);
+            sincronizarServicioPresenter.cambiarDisponibilidadProfesional(idSesion, idPerfil, false);
         finish();
         //CAMBIAR A FALSE EN BD.
     }
@@ -108,6 +107,11 @@ public class SincronizarServicio extends AppCompatActivity {
         ServicioProfesional.terminado_TE = true;
         ServicioProfesional.schedule = true;
         finish();
+    }
+
+    @Override
+    public void cancelTime() {
+        timer.cancel();
     }
 
     @Override

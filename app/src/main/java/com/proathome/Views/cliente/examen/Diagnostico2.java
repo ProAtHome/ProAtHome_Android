@@ -1,18 +1,23 @@
 package com.proathome.Views.cliente.examen;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.ActivityOptions;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.proathome.Interfaces.cliente.Examen.Diagnostico2.Diagnostico2Presenter;
+import com.proathome.Interfaces.cliente.Examen.Diagnostico2.Diagnostico2View;
+import com.proathome.Presenters.cliente.examen.Diagnostico2PresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.cliente.ServiciosExamenDiagnostico;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.SweetAlert;
@@ -21,19 +26,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class Diagnostico2 extends AppCompatActivity {
+public class Diagnostico2 extends AppCompatActivity implements Diagnostico2View {
 
     private Unbinder mUnbinder;
-    private int respuesta1 = 0;
-    private int respuesta2 = 0;
-    private int respuesta3 = 0;
-    private int respuesta4 = 0;
-    private int respuesta5 = 0;
-    private int respuesta6 = 0;
-    private int respuesta7 = 0;
-    private int respuesta8 = 0;
-    private int respuesta9 = 0;
-    private int respuesta10 = 0;
+    private int respuesta1 = 0, respuesta2 = 0, respuesta3 = 0, respuesta4 = 0, respuesta5 = 0,
+            respuesta6 = 0, respuesta7 = 0, respuesta8 = 0, respuesta9 = 0, respuesta10 = 0;
+    private ProgressDialog progressDialog;
+    private Diagnostico2Presenter diagnostico2Presenter;
+
     /*Pregunta 11*/
     @BindView(R.id.under1)
     TextView under1;
@@ -109,6 +109,8 @@ public class Diagnostico2 extends AppCompatActivity {
         setContentView(R.layout.activity_diagnostico2);
         mUnbinder = ButterKnife.bind(this);
 
+        diagnostico2Presenter = new Diagnostico2PresenterImpl(this);
+
         cerrarExamen.setOnClickListener(v ->{
             new MaterialAlertDialogBuilder(this,
                     R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
@@ -130,7 +132,7 @@ public class Diagnostico2 extends AppCompatActivity {
             int puntuacion = respuesta1 + respuesta2 + respuesta3 + respuesta4 + respuesta5 + respuesta6 +
                     respuesta7 + respuesta8 + respuesta9 + respuesta10;
             int idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
-            ServiciosExamenDiagnostico.actualizarEstatusExamen(Constants.ENCURSO_EXAMEN, idCliente, puntuacion, 20, Diagnostico2.this, Diagnostico2.this, Diagnostico3.class);
+            diagnostico2Presenter.actualizarEstatusExamen(Constants.ENCURSO_EXAMEN, idCliente, puntuacion, 20);
         });
     }
 
@@ -157,7 +159,6 @@ public class Diagnostico2 extends AppCompatActivity {
 
     @OnClick({R.id.under1, R.id.under2, R.id.under3})
     public void onClick1(View view){
-        SpannableString mitextoU;
         switch (view.getId()){
             case R.id.under1:
                 configRespuesta("withdraw", under1, "withdrew", under2,
@@ -344,8 +345,40 @@ public class Diagnostico2 extends AppCompatActivity {
     }
 
     @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(Diagnostico2.this, "Cargando", "Espere...");
+    }
+
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showError(String mensaje) {
+        Toast.makeText(Diagnostico2.this, mensaje, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void examenGuardado() {
+        SweetAlert.showMsg(Diagnostico2.this, SweetAlert.NORMAL_TYPE, "Puntuación guardada.", "¡Continúa!", true, "OK", ()->{
+            if(!Diagnostico7.ultimaPagina){
+                startActivityForResult(new Intent(Diagnostico2.this, Diagnostico3.class), 1, ActivityOptions.makeSceneTransitionAnimation(Diagnostico2.this)
+                        .toBundle());
+                finish();
+            }else
+                Diagnostico7.ultimaPagina = false;
+        });
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
         mUnbinder.unbind();
     }
+
 }

@@ -1,14 +1,19 @@
 package com.proathome.Views.cliente.examen;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.ActivityOptions;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.proathome.Interfaces.cliente.Examen.Diagnostico6.Diagnostico6Presenter;
+import com.proathome.Interfaces.cliente.Examen.Diagnostico6.Diagnostico6View;
+import com.proathome.Presenters.cliente.examen.Diagnostico6PresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.cliente.ServiciosExamenDiagnostico;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.SweetAlert;
@@ -16,19 +21,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class Diagnostico6 extends AppCompatActivity {
+public class Diagnostico6 extends AppCompatActivity implements Diagnostico6View {
 
     private Unbinder mUnbinder;
-    private int respuesta2 = 0;
-    private int respuesta3 = 0;
-    private int respuesta4 = 0;
-    private int respuesta5 = 0;
-    private int respuesta6 = 0;
-    private int respuesta7 = 0;
-    private int respuesta8 = 0;
-    private int respuesta9 = 0;
-    private int respuesta10 = 0;
-    private  int respuesta11 = 0;
+    private int respuesta2 = 0, respuesta3 = 0, respuesta4 = 0, respuesta5 = 0, respuesta6 = 0,
+            respuesta7 = 0, respuesta8 = 0, respuesta9 = 0, respuesta10 = 0, respuesta11 = 0;
+    private ProgressDialog progressDialog;
+    private Diagnostico6Presenter diagnostico6Presenter;
+
     @BindView(R.id.chip_r2_1)
     Chip chip_r2_1;
     @BindView(R.id.chip_r2_2)
@@ -80,6 +80,8 @@ public class Diagnostico6 extends AppCompatActivity {
         setContentView(R.layout.activity_diagnostico6);
         mUnbinder = ButterKnife.bind(this);
 
+        diagnostico6Presenter = new Diagnostico6PresenterImpl(this);
+
         cerrarExamen.setOnClickListener(v ->{
             new MaterialAlertDialogBuilder(this,
                     R.style.MaterialAlertDialog_MaterialComponents_Title_Icon_CenterStacked)
@@ -101,7 +103,7 @@ public class Diagnostico6 extends AppCompatActivity {
             int puntuacion = respuesta11 + respuesta2 + respuesta3 + respuesta4 + respuesta5 + respuesta6 +
                     respuesta7 + respuesta8 + respuesta9 + respuesta10;
             int idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
-            ServiciosExamenDiagnostico.actualizarEstatusExamen(Constants.ENCURSO_EXAMEN, idCliente, puntuacion, 60, Diagnostico6.this,  Diagnostico6.this,  Diagnostico7.class);
+            diagnostico6Presenter.actualizarEstatusExamen(Constants.ENCURSO_EXAMEN, idCliente, puntuacion, 60);
         });
 
         checkeableChips(chip_r2_1, chip_r2_2);
@@ -196,8 +198,40 @@ public class Diagnostico6 extends AppCompatActivity {
     }
 
     @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(Diagnostico6.this, "Cargando", "Espere...");
+    }
+
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showError(String mensaje) {
+        Toast.makeText(Diagnostico6.this, mensaje, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void examenGuardado() {
+        SweetAlert.showMsg(Diagnostico6.this, SweetAlert.NORMAL_TYPE, "Puntuación guardada.", "¡Continúa!", true, "OK", ()->{
+            if(!Diagnostico7.ultimaPagina){
+                startActivityForResult(new Intent(Diagnostico6.this, Diagnostico7.class), 1, ActivityOptions.makeSceneTransitionAnimation(Diagnostico6.this)
+                        .toBundle());
+                finish();
+            }else
+                Diagnostico7.ultimaPagina = false;
+        });
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
         mUnbinder.unbind();
     }
+
 }

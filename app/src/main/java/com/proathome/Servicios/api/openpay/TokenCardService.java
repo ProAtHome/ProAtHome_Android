@@ -85,7 +85,8 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
                     parametrosPost.put("deviceId", DatosBancoPlanFragment.deviceIdString);
                     ProgressDialog progressDialog = ProgressDialog.show(contexto, "Generando Cobro", "Por favor, espere...");
                     WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-                        progressDialog.dismiss();
+                        if(response != null){
+                            progressDialog.dismiss();
                             JSONObject jsonObject = new JSONObject(response);
                             if(jsonObject.getBoolean("respuesta")){
                                 //Actualizar la orden de pago con el costo del TE
@@ -105,10 +106,13 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
                                     masTiempo.show(ServicioCliente.obtenerFargment(Constants.fragmentActivity), "Tiempo Extra");
                                 });
                             }
+                        }else
+                            SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrio un error, intente de nuevo mas tarde.", false, null, null);
                     }, APIEndPoints.COBROS, WebServicesAPI.POST, parametrosPost);
                     webServicesAPI.execute();
                 }catch (JSONException ex){
                     ex.printStackTrace();
+                    SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrio un error, intente de nuevo mas tarde.", false, null, null);
                 }
             }
         });

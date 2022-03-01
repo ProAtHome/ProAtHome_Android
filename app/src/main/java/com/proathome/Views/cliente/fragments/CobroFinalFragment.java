@@ -10,17 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.material.button.MaterialButton;
-import com.proathome.Servicios.api.APIEndPoints;
-import com.proathome.Servicios.api.WebServicesAPI;
+import com.proathome.Interfaces.cliente.CobroFinal.CobroFinalPresenter;
+import com.proathome.Interfaces.cliente.CobroFinal.CobroFinalView;
+import com.proathome.Presenters.cliente.inicio.CobroFinalPresenterImpl;
 import com.proathome.Views.cliente.ServicioCliente;
 import com.proathome.R;
 import com.proathome.Servicios.cliente.TabuladorCosto;
 import com.proathome.Utils.pojos.Component;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.SharedPreferencesManager;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import butterknife.BindView;
@@ -28,7 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class CobroFinalFragment extends DialogFragment {
+public class CobroFinalFragment extends DialogFragment implements CobroFinalView {
 
     private Unbinder mUnbinder;
     @BindView(R.id.entendido)
@@ -47,6 +46,8 @@ public class CobroFinalFragment extends DialogFragment {
     TextView tvCostoTotal;
     @BindView(R.id.tvTipoPlan)
     TextView tvTipoPlan;
+
+    private CobroFinalPresenter cobroFinalPresenter;
     private ProgressDialog progressDialog;
     public static String metodoRegistrado, sesion, tiempo, deviceIdString, nombreCliente, correo, tipoPlan;
     //Datos tarjeta para modo PLAN.
@@ -74,6 +75,8 @@ public class CobroFinalFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_cobro_final, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
+        cobroFinalPresenter = new CobroFinalPresenterImpl(this);
+
         /*Obtenemos los datos para manejar el cobro final*/
         Bundle bundle = getArguments();
         idSesion = bundle.getInt("idSesion");
@@ -92,39 +95,14 @@ public class CobroFinalFragment extends DialogFragment {
         costoTotal = (double) TabuladorCosto.getCosto(ServicioCliente.idSeccion, progresoTotal, TabuladorCosto.PARTICULAR);
         tvCostoTotal.setText("Total: " + String.format("%.2f", costoTotal) + " MXN");
 
-        getPreOrden();
+        cobroFinalPresenter.getPreOrden(idCliente, idSesion, SharedPreferencesManager.getInstance(getContext()).getTokenCliente());
 
         return view;
     }
 
-    private void getPreOrden(){
-        progressDialog = ProgressDialog.show(getContext(), "Cargando", "Por favor, espere...");
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            progressDialog.dismiss();
-            try{
-                JSONObject data = new JSONObject(response);
-                if(data.getBoolean("respuesta")){
-                    JSONObject jsonObject = data.getJSONObject("mensaje");
-                    nombreTitular = jsonObject.getString("nombreTitular");
-                    mes = jsonObject.get("mes").toString();
-                    ano = jsonObject.get("ano").toString();
-                    metodoRegistrado = jsonObject.getString("tarjeta");
-                    sesion = "Sesión: " + Component.getSeccion(jsonObject.getInt("idSeccion")) + " / " + Component.getNivel(jsonObject.getInt("idSeccion"), jsonObject.getInt("idNivel")) + " / " + Component.getBloque(jsonObject.getInt("idBloque"));
-                    tiempo = "Tiempo: " + obtenerHorario(jsonObject.getInt("tiempo"));
-                    nombreCliente = jsonObject.get("nombreCliente").toString();
-                    correo = jsonObject.get("correo").toString();
-                }else
-                    Toast.makeText(getContext(), data.getString("mensaje"), Toast.LENGTH_LONG).show();
-            }catch(JSONException ex){
-                ex.printStackTrace();
-            }
-        }, APIEndPoints.GET_PRE_ORDEN + this.idCliente + "/" + this.idSesion + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
-    }
-
     public String obtenerHorario(int tiempo){
-        String horas = String.valueOf(tiempo/60) + " HRS ";
-        String minutos = String.valueOf(tiempo%60) + " min";
+        String horas = (tiempo/60) + " HRS ";
+        String minutos = (tiempo%60) + " min";
 
         return horas + minutos;
     }
@@ -191,6 +169,37 @@ public class CobroFinalFragment extends DialogFragment {
     }
 
     @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere...");
+    }
+
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showError(String error) {
+        Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void setDatosPreOrden(JSONObject jsonObject) {
+        try {
+            nombreTitular = jsonObject.getString("nombreTitular");
+            mes = jsonObject.get("mes").toString();
+            ano = jsonObject.get("ano").toString();
+            metodoRegistrado = jsonObject.getString("tarjeta");
+            sesion = "Sesión: " + Component.getSeccion(jsonObject.getInt("idSeccion")) + " / " + Component.getNivel(jsonObject.getInt("idSeccion"), jsonObject.getInt("idNivel")) + " / " + Component.getBloque(jsonObject.getInt("idBloque"));
+            tiempo = "Tiempo: " + obtenerHorario(jsonObject.getInt("tiempo"));
+            nombreCliente = jsonObject.get("nombreCliente").toString();
+            correo = jsonObject.get("correo").toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
@@ -199,4 +208,5 @@ public class CobroFinalFragment extends DialogFragment {
             progressDialog = null;
         }
     }
+
 }

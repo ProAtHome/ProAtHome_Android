@@ -2,14 +2,19 @@ package com.proathome.Views.cliente.examen;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-
+import android.app.ActivityOptions;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.proathome.Interfaces.cliente.Examen.Diagnostico7.Diagnostico7Presenter;
+import com.proathome.Interfaces.cliente.Examen.Diagnostico7.Diagnostico7View;
+import com.proathome.Presenters.cliente.examen.Diagnostico7PresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.cliente.ServiciosExamenDiagnostico;
 import com.proathome.Views.cliente.fragments.FragmentRutaGenerada;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.SharedPreferencesManager;
@@ -18,11 +23,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class Diagnostico7 extends AppCompatActivity {
+public class Diagnostico7 extends AppCompatActivity implements Diagnostico7View {
 
     private Unbinder mUnbinder;
     private boolean finalizado = false;
     public static boolean ultimaPagina = false;
+    private Diagnostico7Presenter diagnostico7Presenter;
+    private ProgressDialog progressDialog;
+
     @BindView(R.id.resp1)
     TextInputEditText resp1;
     @BindView(R.id.resp2)
@@ -43,6 +51,8 @@ public class Diagnostico7 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diagnostico7);
         mUnbinder = ButterKnife.bind(this);
+
+        diagnostico7Presenter = new Diagnostico7PresenterImpl(this);
 
         cerrarExamen.setOnClickListener(v ->{
             if(finalizado){
@@ -74,15 +84,15 @@ public class Diagnostico7 extends AppCompatActivity {
             btnFinalizar.setEnabled(false);
             finalizado = true;
 
-            Diagnostico7.ultimaPagina = true;
+            ultimaPagina = true;
 
             FragmentRutaGenerada rutaGenerada = new FragmentRutaGenerada();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             rutaGenerada.show(fragmentTransaction, "Ruta");
 
             int idCliente = SharedPreferencesManager.getInstance(this).getIDCliente();
-            ServiciosExamenDiagnostico.getInfoExamenFinal(idCliente, validarRespuestas(), Diagnostico7.this);
-            ServiciosExamenDiagnostico.actualizarEstatusExamen(Constants.EXAMEN_FINALIZADO, idCliente, validarRespuestas(), 65, Diagnostico7.this,Diagnostico7.this, Diagnostico7.class);
+            diagnostico7Presenter.getInfoExamenFinal(idCliente, validarRespuestas(), Diagnostico7.this);
+            diagnostico7Presenter.actualizarEstatusExamen(Constants.EXAMEN_FINALIZADO, idCliente, validarRespuestas(), 65);
         });
 
     }
@@ -106,8 +116,40 @@ public class Diagnostico7 extends AppCompatActivity {
     }
 
     @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(Diagnostico7.this, "Cargando", "Espere...");
+    }
+
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showError(String mensaje) {
+        Toast.makeText(Diagnostico7.this, mensaje, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void examenGuardado() {
+        SweetAlert.showMsg(Diagnostico7.this, SweetAlert.NORMAL_TYPE, "Puntuación guardada.", "¡Continúa!", true, "OK", ()->{
+            if(!ultimaPagina){
+                startActivityForResult(new Intent(Diagnostico7.this, Diagnostico7.class), 1, ActivityOptions.makeSceneTransitionAnimation(Diagnostico7.this)
+                        .toBundle());
+                finish();
+            }else
+                ultimaPagina = false;
+        });
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
         mUnbinder.unbind();
     }
+
 }

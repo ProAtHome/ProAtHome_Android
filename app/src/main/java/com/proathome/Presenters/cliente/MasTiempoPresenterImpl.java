@@ -15,4 +15,38 @@ public class MasTiempoPresenterImpl implements MasTiempoPresenter {
         masTiempoInteractor = new MasTiempoInteractorImpl(this);
     }
 
+    @Override
+    public void showProgress() {
+        if(masTiempoView != null)
+            masTiempoView.showProgress();
+    }
+
+    @Override
+    public void hideProgress() {
+        if(masTiempoView != null)
+            masTiempoView.hideProgress();
+    }
+
+    @Override
+    public void showError(String error) {
+        if(masTiempoView != null)
+            masTiempoView.showError(error);
+    }
+
+    @Override
+    public void getPreOrden(int idCliente, int idSesion, String token) {
+        masTiempoInteractor.getPreOrden(idCliente, idSesion, token);
+    }
+
+    @Override
+    public void finalizar(int idCliente, int idSesion) {
+        masTiempoInteractor.finalizar(idCliente, idSesion);
+    }
+
+    @Override
+    public void cerrarFragment() {
+        if(masTiempoView != null)
+            masTiempoView.cerrarFragment();
+    }
+
 }

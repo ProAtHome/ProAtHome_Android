@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
 import androidx.fragment.app.FragmentActivity;
 import com.proathome.Servicios.api.APIEndPoints;
 import com.proathome.Servicios.api.WebServicesAPI;
@@ -18,7 +17,6 @@ import com.proathome.Views.cliente.fragments.MasTiempo;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.FechaActual;
 import com.proathome.Utils.SharedPreferencesManager;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -26,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.HttpURLConnection;
-
 
 public class ServicioSesionDisponible extends AsyncTask<Void, Void, String> {
 

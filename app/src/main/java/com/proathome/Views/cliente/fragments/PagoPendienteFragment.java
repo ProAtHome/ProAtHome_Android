@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.proathome.R;
-
 import java.text.DecimalFormat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,6 +22,7 @@ public class PagoPendienteFragment extends DialogFragment {
     public static DialogFragment pagoPendiente;
     public static String deviceIdString;
     private int idSesion;
+
     @BindView(R.id.tvMonto)
     TextView tvMonto;
 
