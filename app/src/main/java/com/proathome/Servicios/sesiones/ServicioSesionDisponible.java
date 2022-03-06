@@ -103,246 +103,248 @@ public class ServicioSesionDisponible extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        if(s != null){
+            try {
+                JSONObject data = new JSONObject(s);
+                if(data.getBoolean("respuesta")){
+                    JSONObject jsonObject = data.getJSONObject("mensaje");
 
-        try {
-            JSONObject data = new JSONObject(s);
-            if(data.getBoolean("respuesta")){
-                JSONObject jsonObject = data.getJSONObject("mensaje");
+                    if (Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO == DetallesFragment.CLIENTE) {//Si el tipo de PERFIL es = CLIENTE
 
-                if (Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO == DetallesFragment.CLIENTE) {//Si el tipo de PERFIL es = CLIENTE
+                        //Iniciamos la variables correspondiente con el profreso de el servicio
+                        Constants.dispProfesional_DISPONIBILIDAD_PROGRESO = jsonObject.getBoolean("profDisponible");
+                        Constants.progreso_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progreso");
+                        Constants.estatus_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("estatus");
+                        Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progresoSegundos");
+                        Constants.progresoTE_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progresoTE");
+                        Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progresoSegundosTE");
+                        Constants.TE_activado_DISPONIBILIDAD_PROGRESO = jsonObject.getBoolean("TE");
 
-                    //Iniciamos la variables correspondiente con el profreso de el servicio
-                    Constants.dispProfesional_DISPONIBILIDAD_PROGRESO = jsonObject.getBoolean("profDisponible");
-                    Constants.progreso_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progreso");
-                    Constants.estatus_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("estatus");
-                    Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progresoSegundos");
-                    Constants.progresoTE_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progresoTE");
-                    Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progresoSegundosTE");
-                    Constants.TE_activado_DISPONIBILIDAD_PROGRESO = jsonObject.getBoolean("TE");
+                        if(Constants.TE_activado_DISPONIBILIDAD_PROGRESO){// Si tenemos tiempo en TE (Si estamos en tiempo extra)
 
-                    if(Constants.TE_activado_DISPONIBILIDAD_PROGRESO){// Si tenemos tiempo en TE (Si estamos en tiempo extra)
+                            if(Constants.dispProfesional_DISPONIBILIDAD_PROGRESO){//Si el profesional está en conexión.
 
-                        if(Constants.dispProfesional_DISPONIBILIDAD_PROGRESO){//Si el profesional está en conexión.
+                                if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENPAUSA_TE) {//Si el estatus de la SERVICIO - TE = PAUSA.
 
-                            if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENPAUSA_TE) {//Si el estatus de la SERVICIO - TE = PAUSA.
+                                    if (ServicioCliente.enpausa_TE) {
+                                        ServicioCliente.mTimeLeftMillis = (Constants.progresoTE_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO * 1000);
+                                        ServicioCliente.updateCountDownText();
+                                        ServicioCliente.pauseTimer();
+                                        ServicioCliente.encurso_TE = true;
+                                        ServicioCliente.enpausa_TE = false;
+                                        ServicioCliente.inicio_TE = true;
+                                    }
 
-                                if (ServicioCliente.enpausa_TE) {
-                                    ServicioCliente.mTimeLeftMillis = (Constants.progresoTE_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO * 1000);
-                                    ServicioCliente.updateCountDownText();
-                                    ServicioCliente.pauseTimer();
-                                    ServicioCliente.encurso_TE = true;
-                                    ServicioCliente.enpausa_TE = false;
-                                    ServicioCliente.inicio_TE = true;
+                                } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO_TE) {//Si el estatus de la SERVICIO - TE = EN CURSO.
+
+                                    if (ServicioCliente.encurso_TE) {
+                                        ServicioCliente.mTimeLeftMillis = (Constants.progresoTE_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO * 1000);
+                                        ServicioCliente.startTimer();
+                                        ServicioCliente.encurso_TE = false;
+                                        ServicioCliente.enpausa_TE = true;
+                                        ServicioCliente.inicio_TE = true;
+                                    }
+
+                                } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO_TE) {//Si el estatus de la SERVICIO - TE = FINALLIZADO.
+
+                                    if(ServicioCliente.terminado_TE){
+                                        //Finalizamos el Servicio.
+                                        DetallesFragment.procedenciaFin = true;
+                                        ServiciosSesion.finalizar(Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
+                                        //Sumamos la ruta de Aprendizaje.
+                                        //TODO FLUJO_EVALUACION: Mostrar modal de evaluación;
+                                        sumarSevicioRuta();
+                                        ServicioCliente.terminado_TE = false;
+                                        ServicioCliente.timer.cancel();
+                                        ServicioCliente.terminar.setVisibility(View.VISIBLE);
+                                    }
+
                                 }
 
-                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO_TE) {//Si el estatus de la SERVICIO - TE = EN CURSO.
-
-                                if (ServicioCliente.encurso_TE) {
-                                    ServicioCliente.mTimeLeftMillis = (Constants.progresoTE_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO * 1000);
-                                    ServicioCliente.startTimer();
-                                    ServicioCliente.encurso_TE = false;
-                                    ServicioCliente.enpausa_TE = true;
-                                    ServicioCliente.inicio_TE = true;
-                                }
-
-                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO_TE) {//Si el estatus de la SERVICIO - TE = FINALLIZADO.
-
-                                if(ServicioCliente.terminado_TE){
-                                    //Finalizamos el Servicio.
-                                    DetallesFragment.procedenciaFin = true;
-                                    ServiciosSesion.finalizar(Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
-                                    //Sumamos la ruta de Aprendizaje.
-                                    //TODO FLUJO_EVALUACION: Mostrar modal de evaluación;
-                                    sumarSevicioRuta();
-                                    ServicioCliente.terminado_TE = false;
-                                    ServicioCliente.timer.cancel();
-                                    ServicioCliente.terminar.setVisibility(View.VISIBLE);
-                                }
-
+                            }else{
+                                Constants.fragmentActivity.finish();
                             }
 
-                        }else{
-                            Constants.fragmentActivity.finish();
-                        }
+                        }else{//Si el tiempo es normal en CLIENTE
+                            if(Constants.dispProfesional_DISPONIBILIDAD_PROGRESO){//Si el profesional está en conexión.
 
-                    }else{//Si el tiempo es normal en CLIENTE
-                        if(Constants.dispProfesional_DISPONIBILIDAD_PROGRESO){//Si el profesional está en conexión.
+                                if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO) {//Si el estatus de la SERVICIO = EN CURSO.
 
-                            if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO) {//Si el estatus de la SERVICIO = EN CURSO.
+                                    if (ServicioCliente.encurso) {
+                                        ServicioCliente.mTimeLeftMillis = (Constants.progreso_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO * 1000);
+                                        ServicioCliente.startTimer();
+                                        ServicioCliente.encurso = false;
+                                        ServicioCliente.enpausa = true;
+                                        ServicioCliente.inicio = true;
+                                    }
 
-                                if (ServicioCliente.encurso) {
-                                    ServicioCliente.mTimeLeftMillis = (Constants.progreso_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO * 1000);
-                                    ServicioCliente.startTimer();
-                                    ServicioCliente.encurso = false;
-                                    ServicioCliente.enpausa = true;
-                                    ServicioCliente.inicio = true;
+                                }else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENPAUSA) {//Si el estatus de la SERVICIO = PAUSA.
+
+                                    if (ServicioCliente.enpausa) {
+                                        ServicioCliente.mTimeLeftMillis = (Constants.progreso_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO * 1000);
+                                        ServicioCliente.updateCountDownText();
+                                        ServicioCliente.pauseTimer();
+                                        ServicioCliente.encurso = true;
+                                        ServicioCliente.enpausa = false;
+                                        ServicioCliente.inicio = true;
+                                    }
+
+                                }else if(Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO){//Si el estatus de la SERVICIO = FINALIZADO ANTES DE VERIFICAR TE.
+                                    if(ServicioCliente.terminado){
+                                        ServicioCliente.terminado = false;
+                                        //Preguntamos si desea más tiempo Extra.
+                                        MasTiempo masTiempo = new MasTiempo();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putInt("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
+                                        bundle.putInt("idCliente", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
+                                        masTiempo.setArguments(bundle);
+                                        masTiempo.show(ServicioCliente.obtenerFargment(Constants.fragmentActivity), "Tiempo Extra");
+                                    }
                                 }
-
-                            }else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENPAUSA) {//Si el estatus de la SERVICIO = PAUSA.
-
-                                if (ServicioCliente.enpausa) {
-                                    ServicioCliente.mTimeLeftMillis = (Constants.progreso_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO * 1000);
-                                    ServicioCliente.updateCountDownText();
-                                    ServicioCliente.pauseTimer();
-                                    ServicioCliente.encurso = true;
-                                    ServicioCliente.enpausa = false;
-                                    ServicioCliente.inicio = true;
-                                }
-
-                            }else if(Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO){//Si el estatus de la SERVICIO = FINALIZADO ANTES DE VERIFICAR TE.
-                                if(ServicioCliente.terminado){
-                                    ServicioCliente.terminado = false;
-                                    //Preguntamos si desea más tiempo Extra.
-                                    MasTiempo masTiempo = new MasTiempo();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putInt("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
-                                    bundle.putInt("idCliente", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
-                                    masTiempo.setArguments(bundle);
-                                    masTiempo.show(ServicioCliente.obtenerFargment(Constants.fragmentActivity), "Tiempo Extra");
-                                }
+                            }else{
+                                Constants.fragmentActivity.finish();
                             }
-                        }else{
-                            Constants.fragmentActivity.finish();
                         }
+
+                    } else if (Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO == DetallesSesionProfesionalFragment.PROFESIONAL) {//Si el tipo de Perfil = PROFESIONAL.
+
+                        //Iniciamos las variables correspondientes a la info progreso de el servicio.
+                        Constants.dispCliente_DISPONIBILIDAD_PROGRESO = jsonObject.getBoolean("estDisponible");
+                        Constants.progreso_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progreso");
+                        Constants.estatus_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("estatus");
+                        Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progresoSegundos");
+                        Constants.progresoTE_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progresoTE");
+                        Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progresoSegundosTE");
+                        Constants.TE_activado_DISPONIBILIDAD_PROGRESO = jsonObject.getBoolean("TE");
+
+                        if(Constants.TE_activado_DISPONIBILIDAD_PROGRESO){//Si tenemos tiempo en TE (Si estamos en tiempo extra)
+
+                            if(ServicioProfesional.schedule) {//Banderas para iniciar una sola vez el contador.
+                                ServicioProfesional.mTimeLeftMillis = (Constants.progresoTE_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO * 1000);
+                                ServicioProfesional.timer.cancel();
+                                if(!ServicioProfesional.primeraVez){
+                                    ServicioProfesional.countDownTimer = null;
+                                    ServicioProfesional.startTimer();
+                                }
+                                ServicioProfesional.startSchedule();
+
+                            }
+                            ServicioProfesional.schedule = false;
+
+                            //Cambiamos los botones de Inicio.
+                            ServicioProfesional.pausa_start.setVisibility(View.VISIBLE);
+                            ServicioProfesional.terminar.setVisibility(View.INVISIBLE);
+
+                            if (Constants.dispCliente_DISPONIBILIDAD_PROGRESO) {//Si el cliente está en conexión.
+
+                                if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENPAUSA_TE) {//Si el estatus de la SERVICIO - TE = PAUSA.
+
+                                    if (ServicioProfesional.enpausa_TE) {
+                                        ServicioProfesional.pausa_start.setText("Start");
+                                        ServicioProfesional.pausa_start.setIcon(Constants.contexto_DISPONIBILIDAD_PROGRESO.getDrawable(R.drawable.play));
+                                        ServicioProfesional.mTimeLeftMillis = (Constants.progresoTE_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO * 1000);
+                                        ServicioProfesional.updateCountDownText();
+                                        ServicioProfesional.encurso_TE = true;
+                                        ServicioProfesional.enpausa_TE = false;
+                                        ServicioProfesional.inicio_TE = true;
+                                        DetallesSesionProfesionalFragment.procedenciaFin = false;
+                                    }
+
+                                } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO_TE) {//Si el estatus de la SERVICIO - TE = EN CURSO.
+
+                                    if (ServicioProfesional.encurso_TE) {
+                                        ServicioProfesional.pausa_start.setText("Pausar");
+                                        ServicioProfesional.pausa_start.setIcon(Constants.contexto_DISPONIBILIDAD_PROGRESO.getDrawable(R.drawable.pause));
+                                        ServicioProfesional.mTimeLeftMillis = (Constants.progresoTE_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO * 1000);
+                                        ServicioProfesional.encurso_TE = false;
+                                        ServicioProfesional.enpausa_TE = true;
+                                        ServicioProfesional.inicio_TE = true;
+                                        DetallesSesionProfesionalFragment.procedenciaFin = false;
+                                    }
+
+                                } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO_TE) {//Si el estatus de la SERVICIO - TE = FINALIZADO.
+
+                                    if (ServicioProfesional.terminado_TE) {
+                                        ServicioProfesional.terminado_TE = false;
+                                        ServicioProfesional.timerSchedule.cancel();
+                                        ServicioProfesional.timer2.cancel();
+                                        DetallesSesionProfesionalFragment.procedenciaFin = true;
+                                    }
+
+                                }
+
+                            }else{
+                                Constants.fragmentActivity.finish();
+                            }
+
+                            //Vamos a verificar el progreso del Tiempo extra acabó para cambiar el estatus de el servicio.
+                            if (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO <= 1 && Constants.progresoTE_DISPONIBILIDAD_PROGRESO < 1) {
+                                ServiciosSesion.cambiarEstatusServicio(Constants.ESTATUS_TERMINADO_TE,  Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
+                                ServicioProfesional.pausa_start.setVisibility(View.INVISIBLE);
+                                ServicioProfesional.terminar.setVisibility(View.VISIBLE);
+                                DetallesSesionProfesionalFragment.procedenciaFin = true;
+                            }
+
+                        }else{//Tiempo normal en PROFESIONAL
+
+                            ServicioProfesional.primeraVez = false;
+                            //Vamos a verificar el progreso del Tiempo normal para cambiar el estatus de el servicio.
+                            if (Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO <= 1 && Constants.progreso_DISPONIBILIDAD_PROGRESO < 1) {
+                                ServiciosSesion.cambiarEstatusServicio(Constants.ESTATUS_TERMINADO, Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
+                                ServicioProfesional.timer.cancel();
+                                ServicioProfesional.pausa_start.setVisibility(View.INVISIBLE);
+                                ServicioProfesional.terminar.setVisibility(View.VISIBLE);
+                                DetallesSesionProfesionalFragment.procedenciaFin = true;
+                            }
+
+                            if (Constants.dispCliente_DISPONIBILIDAD_PROGRESO) {// Si el cliente está en conexión.
+
+                                if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENPAUSA) {//Si el estatus de la SERVICIO = PAUSA.
+
+                                    if (ServicioProfesional.enpausa) {
+                                        ServicioProfesional.pausa_start.setText("Start");
+                                        ServicioProfesional.pausa_start.setIcon(Constants.contexto_DISPONIBILIDAD_PROGRESO.getDrawable(R.drawable.play));
+                                        ServicioProfesional.mTimeLeftMillis = (Constants.progreso_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO * 1000);
+                                        ServicioProfesional.updateCountDownText();
+                                        ServicioProfesional.encurso = true;
+                                        ServicioProfesional.enpausa = false;
+                                        ServicioProfesional.inicio = true;
+                                        DetallesSesionProfesionalFragment.procedenciaFin = false;
+                                    }
+
+                                } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO) {//Si el estatus de la SERVICIO = EN CURSO.
+
+                                    if (ServicioProfesional.encurso) {
+                                        ServicioProfesional.pausa_start.setText("Pausar");
+                                        ServicioProfesional.pausa_start.setIcon(Constants.contexto_DISPONIBILIDAD_PROGRESO.getDrawable(R.drawable.pause));
+                                        ServicioProfesional.mTimeLeftMillis = (Constants.progreso_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO * 1000);
+                                        ServicioProfesional.encurso = false;
+                                        ServicioProfesional.enpausa = true;
+                                        ServicioProfesional.inicio = true;
+                                        DetallesSesionProfesionalFragment.procedenciaFin = false;
+                                    }
+
+                                } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO) {//Si el estatus de la SERVICIO = FINALIZADO.
+
+                                    if (ServicioProfesional.terminado) {
+                                        ServicioProfesional.terminado = false;
+                                        DetallesSesionProfesionalFragment.procedenciaFin = true;
+                                    }
+
+                                }
+                            } else {
+                                Constants.fragmentActivity.finish();
+                            }
+                        }
+
                     }
-
-                } else if (Constants.tipoPerfil_DISPONIBILIDAD_PROGRESO == DetallesSesionProfesionalFragment.PROFESIONAL) {//Si el tipo de Perfil = PROFESIONAL.
-
-                    //Iniciamos las variables correspondientes a la info progreso de el servicio.
-                    Constants.dispCliente_DISPONIBILIDAD_PROGRESO = jsonObject.getBoolean("estDisponible");
-                    Constants.progreso_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progreso");
-                    Constants.estatus_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("estatus");
-                    Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progresoSegundos");
-                    Constants.progresoTE_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progresoTE");
-                    Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO = jsonObject.getInt("progresoSegundosTE");
-                    Constants.TE_activado_DISPONIBILIDAD_PROGRESO = jsonObject.getBoolean("TE");
-
-                    if(Constants.TE_activado_DISPONIBILIDAD_PROGRESO){//Si tenemos tiempo en TE (Si estamos en tiempo extra)
-
-                        if(ServicioProfesional.schedule) {//Banderas para iniciar una sola vez el contador.
-                            ServicioProfesional.mTimeLeftMillis = (Constants.progresoTE_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO * 1000);
-                            ServicioProfesional.timer.cancel();
-                            if(!ServicioProfesional.primeraVez){
-                                ServicioProfesional.countDownTimer = null;
-                                ServicioProfesional.startTimer();
-                            }
-                            ServicioProfesional.startSchedule();
-
-                        }
-                        ServicioProfesional.schedule = false;
-
-                        //Cambiamos los botones de Inicio.
-                        ServicioProfesional.pausa_start.setVisibility(View.VISIBLE);
-                        ServicioProfesional.terminar.setVisibility(View.INVISIBLE);
-
-                        if (Constants.dispCliente_DISPONIBILIDAD_PROGRESO) {//Si el cliente está en conexión.
-
-                            if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENPAUSA_TE) {//Si el estatus de la SERVICIO - TE = PAUSA.
-
-                                if (ServicioProfesional.enpausa_TE) {
-                                    ServicioProfesional.pausa_start.setText("Start");
-                                    ServicioProfesional.pausa_start.setIcon(Constants.contexto_DISPONIBILIDAD_PROGRESO.getDrawable(R.drawable.play));
-                                    ServicioProfesional.mTimeLeftMillis = (Constants.progresoTE_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO * 1000);
-                                    ServicioProfesional.updateCountDownText();
-                                    ServicioProfesional.encurso_TE = true;
-                                    ServicioProfesional.enpausa_TE = false;
-                                    ServicioProfesional.inicio_TE = true;
-                                    DetallesSesionProfesionalFragment.procedenciaFin = false;
-                                }
-
-                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO_TE) {//Si el estatus de la SERVICIO - TE = EN CURSO.
-
-                                if (ServicioProfesional.encurso_TE) {
-                                    ServicioProfesional.pausa_start.setText("Pausar");
-                                    ServicioProfesional.pausa_start.setIcon(Constants.contexto_DISPONIBILIDAD_PROGRESO.getDrawable(R.drawable.pause));
-                                    ServicioProfesional.mTimeLeftMillis = (Constants.progresoTE_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO * 1000);
-                                    ServicioProfesional.encurso_TE = false;
-                                    ServicioProfesional.enpausa_TE = true;
-                                    ServicioProfesional.inicio_TE = true;
-                                    DetallesSesionProfesionalFragment.procedenciaFin = false;
-                                }
-
-                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO_TE) {//Si el estatus de la SERVICIO - TE = FINALIZADO.
-
-                                if (ServicioProfesional.terminado_TE) {
-                                    ServicioProfesional.terminado_TE = false;
-                                    ServicioProfesional.timerSchedule.cancel();
-                                    ServicioProfesional.timer2.cancel();
-                                    DetallesSesionProfesionalFragment.procedenciaFin = true;
-                                }
-
-                            }
-
-                        }else{
-                            Constants.fragmentActivity.finish();
-                        }
-
-                        //Vamos a verificar el progreso del Tiempo extra acabó para cambiar el estatus de el servicio.
-                        if (Constants.progresoSegundosTE_DISPONIBILIDAD_PROGRESO <= 1 && Constants.progresoTE_DISPONIBILIDAD_PROGRESO < 1) {
-                            ServiciosSesion.cambiarEstatusServicio(Constants.ESTATUS_TERMINADO_TE,  Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
-                            ServicioProfesional.pausa_start.setVisibility(View.INVISIBLE);
-                            ServicioProfesional.terminar.setVisibility(View.VISIBLE);
-                            DetallesSesionProfesionalFragment.procedenciaFin = true;
-                        }
-
-                    }else{//Tiempo normal en PROFESIONAL
-
-                        ServicioProfesional.primeraVez = false;
-                        //Vamos a verificar el progreso del Tiempo normal para cambiar el estatus de el servicio.
-                        if (Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO <= 1 && Constants.progreso_DISPONIBILIDAD_PROGRESO < 1) {
-                            ServiciosSesion.cambiarEstatusServicio(Constants.ESTATUS_TERMINADO, Constants.idSesion_DISPONIBILIDAD_PROGRESO, Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
-                            ServicioProfesional.timer.cancel();
-                            ServicioProfesional.pausa_start.setVisibility(View.INVISIBLE);
-                            ServicioProfesional.terminar.setVisibility(View.VISIBLE);
-                            DetallesSesionProfesionalFragment.procedenciaFin = true;
-                        }
-
-                        if (Constants.dispCliente_DISPONIBILIDAD_PROGRESO) {// Si el cliente está en conexión.
-
-                            if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENPAUSA) {//Si el estatus de la SERVICIO = PAUSA.
-
-                                if (ServicioProfesional.enpausa) {
-                                    ServicioProfesional.pausa_start.setText("Start");
-                                    ServicioProfesional.pausa_start.setIcon(Constants.contexto_DISPONIBILIDAD_PROGRESO.getDrawable(R.drawable.play));
-                                    ServicioProfesional.mTimeLeftMillis = (Constants.progreso_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO * 1000);
-                                    ServicioProfesional.updateCountDownText();
-                                    ServicioProfesional.encurso = true;
-                                    ServicioProfesional.enpausa = false;
-                                    ServicioProfesional.inicio = true;
-                                    DetallesSesionProfesionalFragment.procedenciaFin = false;
-                                }
-
-                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_ENCURSO) {//Si el estatus de la SERVICIO = EN CURSO.
-
-                                if (ServicioProfesional.encurso) {
-                                    ServicioProfesional.pausa_start.setText("Pausar");
-                                    ServicioProfesional.pausa_start.setIcon(Constants.contexto_DISPONIBILIDAD_PROGRESO.getDrawable(R.drawable.pause));
-                                    ServicioProfesional.mTimeLeftMillis = (Constants.progreso_DISPONIBILIDAD_PROGRESO * 60 * 1000) + (Constants.progresoSegundos_DISPONIBILIDAD_PROGRESO * 1000);
-                                    ServicioProfesional.encurso = false;
-                                    ServicioProfesional.enpausa = true;
-                                    ServicioProfesional.inicio = true;
-                                    DetallesSesionProfesionalFragment.procedenciaFin = false;
-                                }
-
-                            } else if (Constants.estatus_DISPONIBILIDAD_PROGRESO == Constants.ESTATUS_TERMINADO) {//Si el estatus de la SERVICIO = FINALIZADO.
-
-                                if (ServicioProfesional.terminado) {
-                                    ServicioProfesional.terminado = false;
-                                    DetallesSesionProfesionalFragment.procedenciaFin = true;
-                                }
-
-                            }
-                        } else {
-                            Constants.fragmentActivity.finish();
-                        }
-                    }
-
-                }
-            }else
-                Toast.makeText(Constants.contexto_DISPONIBILIDAD_PROGRESO, data.getString("mensaje"), Toast.LENGTH_LONG).show();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+                }else
+                    Toast.makeText(Constants.contexto_DISPONIBILIDAD_PROGRESO, data.getString("mensaje"), Toast.LENGTH_LONG).show();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else
+            Toast.makeText(Constants.contexto_DISPONIBILIDAD_PROGRESO, "Ocurrio un error, intente de nuevo mas tarde.", Toast.LENGTH_LONG).show();
     }
 
     private void sumarSevicioRuta(){

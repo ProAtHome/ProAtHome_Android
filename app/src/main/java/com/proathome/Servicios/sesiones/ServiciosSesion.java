@@ -34,64 +34,51 @@ public class ServiciosSesion {
 
     public static void validarServicioFinalizadoProfesional(int idSesion, int idPerfil, Context context){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                JSONObject data = new JSONObject(response);
-                if(data.getBoolean("respuesta")){
-                    JSONObject jsonObject = data.getJSONObject("mensaje");
-                    boolean finalizado = jsonObject.getBoolean("finalizado");
+            if(response != null){
+                try{
+                    JSONObject data = new JSONObject(response);
+                    if(data.getBoolean("respuesta")){
+                        JSONObject jsonObject = data.getJSONObject("mensaje");
+                        boolean finalizado = jsonObject.getBoolean("finalizado");
 
-                    if(finalizado){
-                        DetallesSesionProfesionalFragment.iniciar.setEnabled(false);
-                        DetallesSesionProfesionalFragment.iniciar.setText("Servicio finalizado");
-                    }
-                }else
-                    Toast.makeText(context, data.getString("mensaje"), Toast.LENGTH_LONG).show();
-            }catch (JSONException ex){
-                ex.printStackTrace();
-            }
+                        if(finalizado){
+                            DetallesSesionProfesionalFragment.iniciar.setEnabled(false);
+                            DetallesSesionProfesionalFragment.iniciar.setText("Servicio finalizado");
+                        }
+                    }else
+                        Toast.makeText(context, data.getString("mensaje"), Toast.LENGTH_LONG).show();
+                }catch (JSONException ex){
+                    ex.printStackTrace();
+                    Toast.makeText(context, "Ocurrio un error, intente de nuevo mas tarde.", Toast.LENGTH_LONG).show();
+                }
+            }else
+                Toast.makeText(context, "Ocurrio un error, intente de nuevo mas tarde.", Toast.LENGTH_LONG).show();
         }, APIEndPoints.VALIDAR_SERVICIO_FINALIZADO_PROFESIONAL + idSesion + "/" + idPerfil + "/" + SharedPreferencesManager.getInstance(context).getTokenProfesional(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 
     public static void validarServicioFinalizadoCliente(int idSesion, int idPerfil, Context context){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                JSONObject data = new JSONObject(response);
-                if(data.getBoolean("respuesta")){
-                    JSONObject jsonObject = data.getJSONObject("mensaje");
-                    boolean finalizado = jsonObject.getBoolean("finalizado");
+            if(response != null){
+                try{
+                    JSONObject data = new JSONObject(response);
+                    if(data.getBoolean("respuesta")){
+                        JSONObject jsonObject = data.getJSONObject("mensaje");
+                        boolean finalizado = jsonObject.getBoolean("finalizado");
 
-                    if(finalizado){
-                        DetallesFragment.iniciar.setEnabled(false);
-                        DetallesFragment.iniciar.setText("Servicio finalizado");
-                    }
-                }else
-                    Toast.makeText(context, data.getString("mensaje"), Toast.LENGTH_LONG).show();
-            }catch (JSONException ex){
-                ex.printStackTrace();
-            }
-        }, APIEndPoints.VALIDAR_SERVICIO_FINALIZADO_CLIENTE + idSesion + "/" + idPerfil + "/" + SharedPreferencesManager.getInstance(context).getTokenCliente(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
-    }
-
-    public static void validarServicioFinalizadoEnClase(int idSesion, int idPerfil, Context context){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                JSONObject data = new JSONObject(response);
-                if(data.getBoolean("respuesta")){
-                    JSONObject jsonObject = data.getJSONObject("mensaje");
-                    boolean finalizado = jsonObject.getBoolean("finalizado");
-                    if(finalizado){
-                        Constants.fragmentActivity.finish();
-                        DetallesSesionProfesionalFragment.procedenciaFin = true;
+                        if(finalizado){
+                            DetallesFragment.iniciar.setEnabled(false);
+                            DetallesFragment.iniciar.setText("Servicio finalizado");
+                        }
                     }else
-                        SweetAlert.showMsg(context, SweetAlert.WARNING_TYPE, "¡ESPERA!", "El cliente todavia no decide si tomar tiempo extra o finalizar el servicio.", false, null, null);
-                }else
-                    Toast.makeText(context, data.getString("mensaje"), Toast.LENGTH_LONG).show();
-            }catch (JSONException ex){
-                ex.printStackTrace();
-            }
-        }, APIEndPoints.VALIDAR_SERVICIO_FINALIZADO_PROFESIONAL + idSesion + "/" + idPerfil + "/" + SharedPreferencesManager.getInstance(context).getTokenProfesional(), WebServicesAPI.GET, null);
+                        Toast.makeText(context, data.getString("mensaje"), Toast.LENGTH_LONG).show();
+                }catch (JSONException ex){
+                    ex.printStackTrace();
+                    Toast.makeText(context, "Ocurrio un error, intente de nuevo mas tarde.", Toast.LENGTH_LONG).show();
+                }
+            }else
+                Toast.makeText(context, "Ocurrio un error, intente de nuevo mas tarde.", Toast.LENGTH_LONG).show();
+        }, APIEndPoints.VALIDAR_SERVICIO_FINALIZADO_CLIENTE + idSesion + "/" + idPerfil + "/" + SharedPreferencesManager.getInstance(context).getTokenCliente(), WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }
 
@@ -104,12 +91,6 @@ public class ServiciosSesion {
     public static void cambiarDisponibilidadCliente(int idSesion, int idPerfil, boolean disponible){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
         }, APIEndPoints.CAMBIAR_DISPONIBILIDAD_CLIENTE + idSesion + "/" + idPerfil + "/" + disponible, WebServicesAPI.PUT, null);
-        webServicesAPI.execute();
-    }
-
-    public static void guardarProgreso(int idSesion, int idPerfil, int progreso, int progresoSegundos, int tipoDeTiempo){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-        }, APIEndPoints.GUARDAR_PROGRESO_SERVICIO_PROFESIONAL + idSesion + "/" + idPerfil + "/" + progreso + "/" + progresoSegundos + "/" + tipoDeTiempo, WebServicesAPI.PUT, null);
         webServicesAPI.execute();
     }
 
@@ -185,32 +166,35 @@ public class ServiciosSesion {
 
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
                 //registrarSesion(bundle, token, idCliente, context);
-                Log.d("TAG1", response);
-                JSONObject data = new JSONObject(response);
-                if(data.getBoolean("respuesta")){
-                    JSONObject responseOneProvisional = data.getJSONObject("mensaje");
-                    JSONObject body = responseOneProvisional.getJSONObject("mensaje");
-                    SesionesFragment.PLAN =  body.getString("tipoPlan");
-                    SesionesFragment.MONEDERO = body.getInt("monedero");
-                    SesionesFragment.FECHA_INICIO = body.getString("fechaInicio");
-                    SesionesFragment.FECHA_FIN = body.getString("fechaFin");
-                    InicioCliente.tipoPlan.setText("PLAN ACTUAL: " + (body.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN") ? "PARTICULAR" : body.getString("tipoPlan")));
-                    InicioCliente.monedero.setText("HORAS DISPONIBLES:                      " +
-                            ServiciosCliente.obtenerHorario(body.getInt("monedero")));
-                    InicioCliente.planActivo = body.getString("tipoPlan");
-                    //EL FLUJO DE COBRO SERVICIO LLEGA HASTA ACA, CERRAMEOS EL DIALOG QUE LO GENERO.
-                    progressDialog.dismiss();
-                    progressDialog = null;
-                    NuevaSesionFragment.nuevoMonedero = 0;
+                if(response != null){
+                    Log.d("TAG1", response);
+                    JSONObject data = new JSONObject(response);
+                    if(data.getBoolean("respuesta")){
+                        JSONObject responseOneProvisional = data.getJSONObject("mensaje");
+                        JSONObject body = responseOneProvisional.getJSONObject("mensaje");
+                        SesionesFragment.PLAN =  body.getString("tipoPlan");
+                        SesionesFragment.MONEDERO = body.getInt("monedero");
+                        SesionesFragment.FECHA_INICIO = body.getString("fechaInicio");
+                        SesionesFragment.FECHA_FIN = body.getString("fechaFin");
+                        InicioCliente.tipoPlan.setText("PLAN ACTUAL: " + (body.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN") ? "PARTICULAR" : body.getString("tipoPlan")));
+                        InicioCliente.monedero.setText("HORAS DISPONIBLES:                      " +
+                                ServiciosCliente.obtenerHorario(body.getInt("monedero")));
+                        InicioCliente.planActivo = body.getString("tipoPlan");
+                        //EL FLUJO DE COBRO SERVICIO LLEGA HASTA ACA, CERRAMEOS EL DIALOG QUE LO GENERO.
+                        progressDialog.dismiss();
+                        progressDialog = null;
+                        NuevaSesionFragment.nuevoMonedero = 0;
 
-                    SweetAlert.showMsg(context, SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Servicio registrado exitosamente", true, "¡VAMOS!", ()->{
-                        PreOrdenServicio.dialogFragment.dismiss();
-                        NuevaSesionFragment.dialogFragment.dismiss();
-                    });
+                        SweetAlert.showMsg(context, SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Servicio registrado exitosamente", true, "¡VAMOS!", ()->{
+                            PreOrdenServicio.dialogFragment.dismiss();
+                            NuevaSesionFragment.dialogFragment.dismiss();
+                        });
 
-                    //actualizarMonedero(data, idCliente, context);
+                        //actualizarMonedero(data, idCliente, context);
+                    }else
+                        SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
                 }else
-                    SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
+                    SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrio un error, intente de nuevo mas tarde.", false, null, null);
             }, APIEndPoints.REGISTRAR_SERVICIO, WebServicesAPI.POST, jsonObject);
             webServicesAPI.execute();
         } catch (JSONException e) {

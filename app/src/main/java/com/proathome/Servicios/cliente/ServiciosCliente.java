@@ -45,37 +45,9 @@ public class ServiciosCliente {
         }
     }
 
-    public static void validarPlan(int idCliente, Context contexto){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                JSONObject jsonDatos = new JSONObject(response);
-                Log.d("TAG1PLAN", jsonDatos.toString());
-                if(!jsonDatos.getBoolean("respuesta")){
-                    SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error al obtener la información.", true, "OK", ()->{
-                        SharedPreferencesManager.getInstance(contexto).logout();
-                        contexto.startActivity(new Intent(contexto, MainActivity.class));
-                    });
-                }else{
-                    JSONObject body = jsonDatos.getJSONObject("mensaje");
-                    SesionesFragment.PLAN =  body.getString("tipoPlan");
-                    SesionesFragment.MONEDERO = body.getInt("monedero");
-                    SesionesFragment.FECHA_INICIO = body.getString("fechaInicio");
-                    SesionesFragment.FECHA_FIN = body.getString("fechaFin");
-                    InicioCliente.tipoPlan.setText("PLAN ACTUAL: " + (body.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN") ? "PARTICULAR" : body.getString("tipoPlan")));
-                    InicioCliente.monedero.setText("HORAS DISPONIBLES:                      " +
-                            obtenerHorario(body.getInt("monedero")));
-                    InicioCliente.planActivo = body.getString("tipoPlan");
-                }
-            }catch(JSONException ex){
-                ex.printStackTrace();
-            }
-        }, APIEndPoints.VALIDAR_PLAN + idCliente + "/" + SharedPreferencesManager.getInstance(contexto).getTokenCliente(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
-    }
-
     public static String obtenerHorario(int tiempo){
-        String horas = String.valueOf(tiempo/60) + " HRS ";
-        String minutos = String.valueOf(tiempo%60) + " min";
+        String horas = (tiempo/60) + " HRS ";
+        String minutos = (tiempo%60) + " min";
 
         return horas + minutos;
     }
