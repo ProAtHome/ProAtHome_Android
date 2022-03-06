@@ -19,6 +19,8 @@ import com.proathome.Interfaces.profesional.Registrarse.RegistrarseProfesionalVi
 import com.proathome.Presenters.profesional.RegistrarseProfesionalPresenterImpl;
 import com.proathome.R;
 import com.proathome.Utils.SweetAlert;
+import com.proathome.Views.cliente.RegistrarseCliente;
+
 import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -134,20 +136,23 @@ public class RegistrarseProfesional extends AppCompatActivity implements Registr
                 && !fechaET.getText().toString().trim().equalsIgnoreCase("") && !celularET.getText().toString().trim().equalsIgnoreCase("") && !telefonoET.getText().toString().trim().equalsIgnoreCase("")
                 && !direccionET.getText().toString().trim().equalsIgnoreCase("") && !correoET.getText().toString().trim().equalsIgnoreCase("")
                 && !contrasenaET.getText().toString().trim().equalsIgnoreCase("") && !contrasena2ET.getText().toString().trim().equalsIgnoreCase("")){
-
-            //Validamos numero, minuscula, mayuscula,
-            if(contrasenaET.getText().toString().trim().matches(".*\\d.*") && contrasenaET.getText().toString().trim().matches(".*[a-z].*") && contrasenaET.getText().toString().trim().matches(".*[A-Z].*") && contrasenaET.getText().toString().trim().length() >= 8){
-                //Verificar que las contraseñas sean iguales
-                if(contrasenaET.getText().toString().trim().equals(contrasena2ET.getText().toString())) {
-                    if(checkBox.isChecked()){
-                        registrarseProfesionalPresenter.registrar(nombreET.getText().toString(), paternoET.getText().toString(), maternoET.getText().toString(), fechaET.getText().toString(), celularET.getText().toString(),
-                                telefonoET.getText().toString(), direccionET.getText().toString(), correoET.getText().toString().trim(), contrasenaET.getText().toString().trim(), genero.getSelectedItem().toString());
+            //Numero de 10 digiitos
+            if(celularET.getText().toString().trim().length() == 10 && telefonoET.getText().toString().trim().length() == 10){
+                //Validamos numero, minuscula, mayuscula,
+                if(contrasenaET.getText().toString().trim().matches(".*\\d.*") && contrasenaET.getText().toString().trim().matches(".*[a-z].*") && contrasenaET.getText().toString().trim().matches(".*[A-Z].*") && contrasenaET.getText().toString().trim().length() >= 8){
+                    //Verificar que las contraseñas sean iguales
+                    if(contrasenaET.getText().toString().trim().equals(contrasena2ET.getText().toString())) {
+                        if(checkBox.isChecked()){
+                            registrarseProfesionalPresenter.registrar(nombreET.getText().toString(), paternoET.getText().toString(), maternoET.getText().toString(), fechaET.getText().toString(), celularET.getText().toString(),
+                                    telefonoET.getText().toString(), direccionET.getText().toString(), correoET.getText().toString().trim(), contrasenaET.getText().toString().trim(), genero.getSelectedItem().toString());
+                        }else
+                            SweetAlert.showMsg(RegistrarseProfesional.this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Debes aceptar los Términos y Condiciones.", true, "OK", ()->{});
                     }else
-                        SweetAlert.showMsg(RegistrarseProfesional.this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Debes aceptar los Términos y Condiciones.", true, "OK", ()->{});
+                        SweetAlert.showMsg(RegistrarseProfesional.this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Las contraseñas no coinciden.", true, "OK", ()->{});
                 }else
-                    SweetAlert.showMsg(RegistrarseProfesional.this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Las contraseñas no coinciden.", true, "OK", ()->{});
+                    SweetAlert.showMsg(RegistrarseProfesional.this, SweetAlert.WARNING_TYPE, "¡ESPERA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.", true, "OK", ()->{});
             }else
-                SweetAlert.showMsg(RegistrarseProfesional.this, SweetAlert.WARNING_TYPE, "¡ESPERA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.", true, "OK", ()->{});
+                SweetAlert.showMsg(RegistrarseProfesional.this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Los numeros telefónicos deben ser de 10 dígitos.", true, "OK", ()->{});
         }else
             SweetAlert.showMsg(RegistrarseProfesional.this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos correctamente.", true, "OK", ()->{});
     }//Fin método registrar.

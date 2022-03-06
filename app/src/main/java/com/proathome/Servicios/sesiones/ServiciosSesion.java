@@ -144,7 +144,7 @@ public class ServiciosSesion {
                             //guardarPago(bundle, jsonObject.getString("mensaje"), idCliente, context, cobro, 0.0);
                         else{
                             progressDialog.dismiss();
-                            SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡ERROR!", response, false, null, null);
+                            SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
                         }
                     }catch(JSONException ex){
                         ex.printStackTrace();

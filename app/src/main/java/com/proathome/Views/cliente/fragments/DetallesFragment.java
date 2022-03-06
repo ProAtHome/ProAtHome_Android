@@ -96,7 +96,6 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback {
                                          int tiempo, String observaciones, double latitud, double longitud, int idSeccion,
                                          int idNivel, int idBloque, String fecha, String fotoProfesional, String descripcionProfesional,
                                          String correoProfesional, boolean sumar, String tipoPlan, int idProfesional) {
-
         mInstance = new Component();
         mInstance.setIdServicio(idServicio);
         mInstance.setProfesional(profesional);

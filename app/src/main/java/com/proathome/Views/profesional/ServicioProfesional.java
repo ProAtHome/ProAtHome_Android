@@ -5,22 +5,25 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.proathome.Interfaces.profesional.ServicioProfesional.ServicioProfesionalPresenter;
+import com.proathome.Interfaces.profesional.ServicioProfesional.ServicioProfesionalView;
+import com.proathome.Presenters.profesional.ServicioProfesionalPresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.sesiones.ServiciosSesion;
+import com.proathome.Utils.SweetAlert;
 import com.proathome.Views.profesional.fragments.DetallesSesionProfesionalFragment;
-import com.proathome.Servicios.sesiones.ServicioSesionDisponible;
 import com.proathome.Views.fragments_compartidos.MaterialFragment;
 import com.proathome.Utils.pojos.Component;
 import com.proathome.Utils.Constants;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
-public class ServicioProfesional extends AppCompatActivity {
+public class ServicioProfesional extends AppCompatActivity implements ServicioProfesionalView {
 
     private int idSesion = 0, idProfesional = 0;
     public static CountDownTimer countDownTimer, countDownTimerTE;
@@ -30,18 +33,22 @@ public class ServicioProfesional extends AppCompatActivity {
     public static TextView temporizador;
     public static Timer timer, timer2, timerSchedule;
     public static MaterialButton pausa_start, terminar;
-    private FloatingActionButton material;
     public static TimerTask taskSchedule;
     public static int idSeccion, idNivel, idBloque;
     public TextView seccionTV, nivelTV, bloqueTV;
+    private Unbinder mUnbinder;
+    private ServicioProfesionalPresenter servicioProfesionalPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_servicio_profesional);
+        mUnbinder = ButterKnife.bind(this);
+
+        servicioProfesionalPresenter = new ServicioProfesionalPresenterImpl(this);
+
         temporizador = findViewById(R.id.temporizador);
         pausa_start = findViewById(R.id.pausar);
-        material = findViewById(R.id.material);
         terminar = findViewById(R.id.terminar);
         seccionTV = findViewById(R.id.seccion);
         nivelTV = findViewById(R.id.nivel);
@@ -58,30 +65,20 @@ public class ServicioProfesional extends AppCompatActivity {
         bloqueTV.setText(Component.getBloque(idBloque));
 
         terminar.setOnClickListener(v -> {
-            ServiciosSesion.validarServicioFinalizadoEnClase(idSesion, idProfesional, this);
+            servicioProfesionalPresenter.validarServicioFinalizadoEnClase(idSesion, idProfesional, this);
         });
 
-        material.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            String idPDF = idSeccion + "_" + idNivel + "_" + idBloque + ".pdf";
-            bundle.putString("idPDF", idPDF);
-            MaterialFragment nueva = new MaterialFragment();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            nueva.setArguments(bundle);
-            nueva.show(transaction, "Material Didáctico");
-        });
-
-        ServiciosSesion.cambiarEstatusServicio(Constants.ESTATUS_ENCURSO, this.idSesion, this.idProfesional);
+        servicioProfesionalPresenter.cambiarEstatusServicio(Constants.ESTATUS_ENCURSO, this.idSesion, this.idProfesional);
 
         pausa_start.setOnClickListener(v -> {
             if (mTimerRunning) {
-                ServiciosSesion.cambiarEstatusServicio(Constants.ESTATUS_ENPAUSA, this.idSesion, this.idProfesional);
+                servicioProfesionalPresenter.cambiarEstatusServicio(Constants.ESTATUS_ENPAUSA, this.idSesion, this.idProfesional);
                 pauseTimer();
                 mTimerRunning = false;
                 pausa_start.setText("Start");
                 pausa_start.setIcon(this.getDrawable(R.drawable.play));
             } else {
-                ServiciosSesion.cambiarEstatusServicio(Constants.ESTATUS_ENCURSO, this.idSesion, this.idProfesional);
+                servicioProfesionalPresenter.cambiarEstatusServicio(Constants.ESTATUS_ENCURSO, this.idSesion, this.idProfesional);
                 startTimer();
                 pausa_start.setText("Pausar");
                 pausa_start.setIcon(this.getDrawable(R.drawable.pause));
@@ -99,12 +96,8 @@ public class ServicioProfesional extends AppCompatActivity {
             @Override
             public void run() {
                 handler3.post(() -> {
-                    try {
-                        ServiciosSesion.guardarProgreso(idSesion, idProfesional, (int) (ServicioProfesional.mTimeLeftMillis / 1000 / 60),
+                    servicioProfesionalPresenter.guardarProgreso(idSesion, idProfesional, (int) (ServicioProfesional.mTimeLeftMillis / 1000 / 60),
                                 (int) (ServicioProfesional.mTimeLeftMillis / 1000 % 60), 2);
-                    } catch (Exception e) {
-                        Log.e("error", e.getMessage());
-                    }
                 });
             }
         };
@@ -113,12 +106,8 @@ public class ServicioProfesional extends AppCompatActivity {
             @Override
             public void run() {
                 handler.post(() -> {
-                    try {
-                        ServiciosSesion.guardarProgreso(idSesion, idProfesional, (int) (ServicioProfesional.mTimeLeftMillis / 1000 / 60),
+                    servicioProfesionalPresenter.guardarProgreso(idSesion, idProfesional, (int) (ServicioProfesional.mTimeLeftMillis / 1000 / 60),
                                 (int) (ServicioProfesional.mTimeLeftMillis / 1000 % 60), 1);
-                    } catch (Exception e) {
-                        Log.e("error", e.getMessage());
-                    }
                 });
             }
         };
@@ -127,14 +116,7 @@ public class ServicioProfesional extends AppCompatActivity {
             @Override
             public void run() {
                 handler2.post(() -> {
-                    try {
-                        ServicioSesionDisponible servicioSesionDisponible =
-                                new ServicioSesionDisponible(getApplicationContext(), idSesion, idProfesional,
-                                        DetallesSesionProfesionalFragment.PROFESIONAL, ServicioProfesional.this);
-                        servicioSesionDisponible.execute();
-                    } catch (Exception e) {
-                        Log.e("error", e.getMessage());
-                    }
+                    servicioProfesionalPresenter.validarSesionDisponible(getApplicationContext(), idSesion, idProfesional, DetallesSesionProfesionalFragment.PROFESIONAL, ServicioProfesional.this);
                 });
             }
         };
@@ -147,6 +129,17 @@ public class ServicioProfesional extends AppCompatActivity {
         updateCountDownText();
         primeraVez = true;
 
+    }
+
+    @OnClick(R.id.material)
+    public void onClick(){
+        Bundle bundle = new Bundle();
+        String idPDF = idSeccion + "_" + idNivel + "_" + idBloque + ".pdf";
+        bundle.putString("idPDF", idPDF);
+        MaterialFragment nueva = new MaterialFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        nueva.setArguments(bundle);
+        nueva.show(transaction, "Material Didáctico");
     }
 
     public static void startSchedule(){
@@ -192,16 +185,21 @@ public class ServicioProfesional extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void showError(String mensaje) {
+        SweetAlert.showMsg(ServicioProfesional.this, SweetAlert.WARNING_TYPE, "¡ESPERA!", mensaje, false, null, null);
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mUnbinder.unbind();
         if(countDownTimer != null)
             countDownTimer.cancel();
         timer.cancel();
         timer2.cancel();
         timerSchedule.cancel();
-        ServiciosSesion.cambiarDisponibilidadProfesional(idSesion, idProfesional, false);
+        servicioProfesionalPresenter.cambiarDisponibilidadProfesional(idSesion, idProfesional, false);
     }
 
 }

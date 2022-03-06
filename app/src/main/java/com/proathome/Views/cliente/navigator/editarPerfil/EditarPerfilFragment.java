@@ -175,7 +175,6 @@ public class EditarPerfilFragment extends Fragment {
         });
 
         return root;
-
     }
 
     public boolean camposValidosBanco(){

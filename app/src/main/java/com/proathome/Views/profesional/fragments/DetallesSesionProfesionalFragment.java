@@ -122,7 +122,6 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_detalles_sesion_profesional, container, false);
         mUnbinder = ButterKnife.bind(this, view);
         Bundle bun = getArguments();

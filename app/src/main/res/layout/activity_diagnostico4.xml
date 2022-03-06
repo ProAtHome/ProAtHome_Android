@@ -304,7 +304,6 @@
                             android:id="@+id/r5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:maxLength="1"
                             android:textColor="@color/colorRosa"
                             android:fontFamily="@font/din"/>
 

@@ -3,15 +3,15 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     useLibrary 'org.apache.http.legacy'
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.proathome"
         minSdkVersion 22
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 8
-        versionName "0.8.1"
+        versionName "0.8.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     lintOptions {
@@ -53,7 +53,7 @@ dependencies {
     implementation "com.airbnb.android:lottie:3.4.0"
     implementation 'com.github.dmytrodanylyk.shadow-layout:library:1.0.1'
     implementation project(":openpay-v2.0.3")
-    implementation 'com.android.support:support-v13:29.0.0'
+    implementation 'com.android.support:support-v13:30.0.0'
     implementation 'com.google.http-client:google-http-client:1.28.0'
     implementation 'com.google.http-client:google-http-client-android:1.28.0'
     implementation 'com.google.http-client:google-http-client-jackson2:1.28.0'

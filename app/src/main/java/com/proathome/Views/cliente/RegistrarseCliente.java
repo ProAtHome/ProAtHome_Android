@@ -128,19 +128,23 @@ public class RegistrarseCliente extends AppCompatActivity implements Registrarse
                 && !fechaET.getText().toString().trim().equalsIgnoreCase("") && !celularET.getText().toString().trim().equalsIgnoreCase("") && !telefonoET.getText().toString().trim().equalsIgnoreCase("")
                 && !direccionET.getText().toString().trim().equalsIgnoreCase("") && !correoET.getText().toString().trim().equalsIgnoreCase("")
                 && !contrasenaET.getText().toString().trim().equalsIgnoreCase("") && !contrasena2ET.getText().toString().trim().equalsIgnoreCase("")){
-            //Validamos numero, minuscula, mayuscula,
-            if(contrasenaET.getText().toString().trim().matches(".*\\d.*") && contrasenaET.getText().toString().trim().matches(".*[a-z].*") && contrasenaET.getText().toString().trim().matches(".*[A-Z].*") && contrasenaET.getText().toString().trim().length() >= 8){
-                //Verificar que las contraseñas sean iguales
-                if(contrasenaET.getText().toString().trim().equals(contrasena2ET.getText().toString())){
-                    if(checkBox.isChecked()){
-                        registrarsePresenter.registrar(nombreET.getText().toString(), paternoET.getText().toString(), maternoET.getText().toString(), correoET.getText().toString().trim(), celularET.getText().toString(),
-                                telefonoET.getText().toString(), direccionET.getText().toString(), fechaET.getText().toString(), genero.getSelectedItem().toString(), contrasenaET.getText().toString());
+            //Numero de 10 digiitos
+            if(celularET.getText().toString().trim().length() == 10 && telefonoET.getText().toString().trim().length() == 10){
+                //Validamos numero, minuscula, mayuscula,
+                if(contrasenaET.getText().toString().trim().matches(".*\\d.*") && contrasenaET.getText().toString().trim().matches(".*[a-z].*") && contrasenaET.getText().toString().trim().matches(".*[A-Z].*") && contrasenaET.getText().toString().trim().length() >= 8){
+                    //Verificar que las contraseñas sean iguales
+                    if(contrasenaET.getText().toString().trim().equals(contrasena2ET.getText().toString())){
+                        if(checkBox.isChecked()){
+                            registrarsePresenter.registrar(nombreET.getText().toString(), paternoET.getText().toString(), maternoET.getText().toString(), correoET.getText().toString().trim(), celularET.getText().toString(),
+                                    telefonoET.getText().toString(), direccionET.getText().toString(), fechaET.getText().toString(), genero.getSelectedItem().toString(), contrasenaET.getText().toString());
+                        }else
+                            SweetAlert.showMsg(RegistrarseCliente.this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Debes aceptar los Términos y Condiciones.", true, "OK", ()->{});
                     }else
-                        SweetAlert.showMsg(RegistrarseCliente.this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Debes aceptar los Términos y Condiciones.", true, "OK", ()->{});
+                        SweetAlert.showMsg(RegistrarseCliente.this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Las contraseñas no coinciden.", true, "OK", ()->{});
                 }else
-                    SweetAlert.showMsg(RegistrarseCliente.this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Las contraseñas no coinciden.", true, "OK", ()->{});
+                    SweetAlert.showMsg(RegistrarseCliente.this, SweetAlert.WARNING_TYPE, "¡ESPERA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.", true, "OK", ()->{});
             }else
-                SweetAlert.showMsg(RegistrarseCliente.this, SweetAlert.WARNING_TYPE, "¡ESPERA!", "La contraseña debe contener mínimo 8 caracteres, 1 letra minúscula, 1 letra mayúscula y 1 número.", true, "OK", ()->{});
+                SweetAlert.showMsg(RegistrarseCliente.this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Los numeros telefónicos deben ser de 10 dígitos.", true, "OK", ()->{});
         }else
             SweetAlert.showMsg(RegistrarseCliente.this, SweetAlert.ERROR_TYPE, "¡ESPERA!", "Llena todos los campos correctamente.", true, "OK", ()->{});
 
