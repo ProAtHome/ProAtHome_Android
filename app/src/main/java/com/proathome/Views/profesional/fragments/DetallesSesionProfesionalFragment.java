@@ -3,6 +3,7 @@ package com.proathome.Views.profesional.fragments;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -23,13 +25,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.proathome.Interfaces.profesional.DetallesSesionProfesional.DetallesSesionProfesionalPresenter;
+import com.proathome.Interfaces.profesional.DetallesSesionProfesional.DetallesSesionProfesionalView;
+import com.proathome.Presenters.profesional.DetallesSesionProfesionalPresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.api.APIEndPoints;
-import com.proathome.Servicios.api.WebServicesAPI;
-import com.proathome.Servicios.api.assets.WebServiceAPIAssets;
-import com.proathome.Servicios.sesiones.ServiciosSesion;
 import com.proathome.Views.activitys_compartidos.SincronizarServicio;
-import com.proathome.Views.fragments_compartidos.EvaluarFragment;
 import com.proathome.Views.fragments_compartidos.NuevoTicketFragment;
 import com.proathome.Views.fragments_compartidos.PerfilFragment;
 import com.proathome.Utils.SharedPreferencesManager;
@@ -37,14 +37,12 @@ import com.proathome.Utils.WorkaroundMapFragment;
 import com.proathome.Utils.pojos.ComponentSesionesProfesional;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.SweetAlert;
-import org.json.JSONException;
-import org.json.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class DetallesSesionProfesionalFragment extends Fragment implements OnMapReadyCallback {
+public class DetallesSesionProfesionalFragment extends Fragment implements OnMapReadyCallback, DetallesSesionProfesionalView {
 
     private static ComponentSesionesProfesional mInstance;
     public static final String TAG = "Detalles del Servicio";
@@ -58,6 +56,10 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
     public static ImageView fotoPerfil;
     public static String fotoNombre;
     public static boolean procedenciaFin = false;
+    public static MaterialButton iniciar;
+    public static Fragment fragmentDetallesProf;
+    private DetallesSesionProfesionalPresenter detallesSesionProfesionalPresenter;
+
     @BindView(R.id.nombreTV)
     TextView nombreTV;
     @BindView(R.id.descripcionTV)
@@ -76,14 +78,15 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
     TextView horarioTV;
     @BindView(R.id.observacionesTV)
     TextView observacionesTV;
-    public static MaterialButton iniciar;
-    public static Fragment fragmentDetallesProf;
 
     public DetallesSesionProfesionalFragment() {
 
     }
 
-    public static ComponentSesionesProfesional getmInstance(int idServicio, String nombreCliente, String descripcion, String correo, String foto, String tipoServicio, String horario, String profesional, String lugar, int tiempo, String observaciones, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, int idCliente) {
+    public static ComponentSesionesProfesional getmInstance(int idServicio, String nombreCliente, String descripcion, String correo,
+                                                            String foto, String tipoServicio, String horario, String profesional,
+                                                            String lugar, int tiempo, String observaciones, double latitud, double longitud,
+                                                            int idSeccion, int idNivel, int idBloque, int idCliente, boolean finalizado) {
 
         mInstance = new ComponentSesionesProfesional();
         mInstance.setIdServicio(idServicio);
@@ -105,6 +108,7 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
         mInstance.setIdCliente(idCliente);
         mInstance.setPhotoRes(R.drawable.img_button);
         mInstance.setType(Constants.STATIC);
+        mInstance.setFinalizado(finalizado);
         return mInstance;
 
     }
@@ -112,10 +116,10 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
     @Override
     public void onResume() {
         super.onResume();
-        ServiciosSesion.cambiarDisponibilidadProfesional(idSesion, idProfesional, false);
-        ServiciosSesion.validarServicioFinalizadoProfesional(idSesion, idProfesional, getContext());
+        detallesSesionProfesionalPresenter.cambiarDisponibilidadProfesional(idSesion, idProfesional, false);
+        detallesSesionProfesionalPresenter.validarServicioFinalizadoProfesional(idSesion, idProfesional, getContext());
         if (procedenciaFin) {
-            validarValoracionCliente();
+            detallesSesionProfesionalPresenter.validarvaloracionCliente(idSesion, idCliente);
             procedenciaFin = false;
         }
     }
@@ -124,6 +128,9 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detalles_sesion_profesional, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+
+        detallesSesionProfesionalPresenter = new DetallesSesionProfesionalPresenterImpl(this);
+
         Bundle bun = getArguments();
         ComponentSesionesProfesional componentSesionesProfesional = new ComponentSesionesProfesional();
         fotoPerfil = view.findViewById(R.id.foto);
@@ -149,7 +156,7 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
         idProfesional = SharedPreferencesManager.getInstance(getContext()).getIDProfesional();
 
         iniciar.setOnClickListener(v -> {
-            ServiciosSesion.cambiarDisponibilidadProfesional(idSesion, idProfesional, true);
+            detallesSesionProfesionalPresenter.cambiarDisponibilidadProfesional(idSesion, idProfesional, true);
 
             Intent intent = new Intent(getContext(), SincronizarServicio.class);
             intent.putExtra("perfil", PROFESIONAL);
@@ -168,7 +175,6 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
         super.onViewCreated(view, savedInstanceState);
         if (mMap == null) {
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -179,34 +185,7 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
             }
         }
 
-        setImageBitmap(fotoNombre);
-    }
-
-    private void setImageBitmap(String foto){
-        WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
-            fotoPerfil.setImageBitmap(response);
-        }, APIEndPoints.FOTO_PERFIL, foto);
-        webServiceAPIAssets.execute();
-    }
-
-    private void validarValoracionCliente(){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                JSONObject jsonObject = new JSONObject(response);
-                if(!jsonObject.getBoolean("valorado")){
-                    FragmentTransaction fragmentTransaction = DetallesSesionProfesionalFragment
-                            .fragmentDetallesProf.getFragmentManager().beginTransaction();
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("procedencia", EvaluarFragment.PROCEDENCIA_PROFESIONAL);
-                    EvaluarFragment evaluarFragment = new EvaluarFragment();
-                    evaluarFragment.setArguments(bundle);
-                    evaluarFragment.show(fragmentTransaction, "Evaluación");
-                }
-            }catch(JSONException ex){
-                ex.printStackTrace();
-            }
-        }, APIEndPoints.VALIDAR_VALORACION_CLIENTE + idSesion + "/" + idCliente, WebServicesAPI.GET, null);
-        webServicesAPI.execute();
+        detallesSesionProfesionalPresenter.getFotoPerfil(fotoNombre);
     }
 
     @OnClick(R.id.perfilClienteCard)
@@ -266,20 +245,30 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
             return;
         }
         mMap.setMyLocationEnabled(true);
-        agregarMarca(googleMap, latitud, longitud);
+        agregarMarca(latitud, longitud);
     }
 
-    public void agregarMarca(GoogleMap googleMap, double lat, double longi){
+    public void agregarMarca(double lat, double longi){
         LatLng ubicacion = new LatLng(lat, longi);
         mMap.addMarker(new MarkerOptions().position(ubicacion).title("Aquí será tu servicio."));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion,15));
     }
 
     public String obtenerHorario(int tiempo){
-        String horas = String.valueOf(tiempo/60) + " HRS ";
-        String minutos = String.valueOf(tiempo%60) + " min";
+        String horas = (tiempo/60) + " HRS ";
+        String minutos = (tiempo%60) + " min";
 
         return horas + minutos;
+    }
+
+    @Override
+    public void setFotoBitmap(Bitmap bitmap) {
+        fotoPerfil.setImageBitmap(bitmap);
+    }
+
+    @Override
+    public void showError(String mensaje) {
+        Toast.makeText(getContext(), mensaje, Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -11,8 +11,17 @@ public class ComponentSesionesProfesional {
     private int photoRes, idServicio, tiempo, idSeccion, idNivel, idBloque, idCliente;
     private double latitud, longitud;
     private int type;
+    private boolean finalizado;
 
     public ComponentSesionesProfesional(){
+    }
+
+    public boolean isFinalizado() {
+        return finalizado;
+    }
+
+    public void setFinalizado(boolean finalizado) {
+        this.finalizado = finalizado;
     }
 
     public int getIdCliente() {

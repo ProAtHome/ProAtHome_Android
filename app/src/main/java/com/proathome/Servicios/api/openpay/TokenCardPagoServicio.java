@@ -4,9 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import com.proathome.Servicios.sesiones.ServiciosSesion;
-import com.proathome.Views.cliente.fragments.DetallesFragment;
 import com.proathome.Views.cliente.fragments.NuevaSesionFragment;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.SweetAlert;

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +39,7 @@ public class PlanesFragment extends DialogFragment implements PlanesView {
     public static DialogFragment planesFragment;
     private PlanesPresenter planesPresenter;
     private ProgressDialog progressDialog;
+    private Bundle datosBanco;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -71,6 +74,7 @@ public class PlanesFragment extends DialogFragment implements PlanesView {
         planesFragment = PlanesFragment.this;
         toolbar.setTitle("Promociones Disponibles");
         toolbar.setTitleTextColor(Color.WHITE);
+        datosBanco = getArguments();
 
         OrdenCompraPlanFragment.idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
 
@@ -142,6 +146,7 @@ public class PlanesFragment extends DialogFragment implements PlanesView {
                     //TODO FLUJO_EJECUTAR_PLAN: Pasar por Bundle el tipo de PLAN en nuevaSesionFragment.
                     NuevaSesionFragment nueva = new NuevaSesionFragment();
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    nueva.setArguments(datosBanco);
                     nueva.show(transaction, NuevaSesionFragment.TAG);
                 });
     }

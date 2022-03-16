@@ -19,11 +19,14 @@ public class InicioInteractorImpl implements InicioInteractor {
     @Override
     public void validarTokenSesion(int idProfesional, String token) {
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            JSONObject data = new JSONObject(response);
-            if(data.getBoolean("respuesta"))
-                cargarPerfil(idProfesional, token);
-            else
-                inicioPresenter.sesionExpirada();
+            if(response != null){
+                JSONObject data = new JSONObject(response);
+                if(data.getBoolean("respuesta"))
+                    cargarPerfil(idProfesional, token);
+                else
+                    inicioPresenter.sesionExpirada();
+            }else
+                inicioPresenter.showError("Ocurrio un error, intenta de nuevo mas tarde.");
         }, APIEndPoints.VALIDAR_TOKEN_SESION_PROFESIONAL + idProfesional + "/" + token, WebServicesAPI.GET, null);
         webServicesAPI.execute();
     }

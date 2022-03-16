@@ -488,7 +488,9 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
             agregarMarca(location.getLatitude(), location.getLongitude());
         else{
             location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            agregarMarca(location.getLatitude(), location.getLongitude());
+            if(location != null)
+                agregarMarca(location.getLatitude(), location.getLongitude());
+            else agregarMarca(19.432608, -99.133208);
         }
     }
 

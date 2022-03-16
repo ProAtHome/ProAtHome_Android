@@ -1,8 +1,10 @@
 package com.proathome.Views.profesional.fragments;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,24 +25,22 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.proathome.Interfaces.profesional.DetallesGestionar.DetallesGestionarPresenter;
+import com.proathome.Interfaces.profesional.DetallesGestionar.DetallesGestionarView;
+import com.proathome.Presenters.profesional.DetallesGestionarPresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.api.APIEndPoints;
-import com.proathome.Servicios.api.WebServicesAPI;
-import com.proathome.Servicios.api.assets.WebServiceAPIAssets;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.WorkaroundMapFragment;
 import com.proathome.Utils.pojos.ComponentProfesional;
 import com.proathome.Utils.pojos.ComponentSesionesProfesional;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.SweetAlert;
-import org.json.JSONException;
-import org.json.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class DetallesGestionarProfesionalFragment extends Fragment implements OnMapReadyCallback {
+public class DetallesGestionarProfesionalFragment extends Fragment implements OnMapReadyCallback, DetallesGestionarView {
 
     public static final String TAG = "Gestión del Servicio";
     public static final int GESTION_PROFESIONAL = 5;
@@ -52,6 +52,9 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
     private GoogleMap mMap;
     public static String fotoNombre;
     private double longitud = -99.13320799999, latitud = 19.4326077;
+    private DetallesGestionarPresenter detallesGestionarPresenter;
+    private ProgressDialog progressDialog;
+
     @BindView(R.id.cliente)
     TextView tvCliente;
     @BindView(R.id.descripcionTV)
@@ -76,7 +79,6 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
     MaterialButton cancelar;
 
     public DetallesGestionarProfesionalFragment() {
-
     }
 
     @Override
@@ -89,6 +91,7 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
         View view = inflater.inflate(R.layout.fragment_detalles_gestionar_profesional, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
+        detallesGestionarPresenter = new DetallesGestionarPresenterImpl(this);
         this.idProfesional = SharedPreferencesManager.getInstance(getContext()).getIDProfesional();
 
         ComponentSesionesProfesional componentSesionesProfesional = new ComponentSesionesProfesional();
@@ -114,7 +117,7 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
         return view;
     }
 
-    public void errorMsg(){
+    public void errorMsgGps(){
         SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡OH NO!", "No podemos continuar sin el permiso de ubicación.",
                 true, "OK", ()->{
                     getFragmentManager().beginTransaction().detach(this).commit();
@@ -133,14 +136,7 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
             }
         }
 
-        setImageBitmap(fotoNombre);
-    }
-
-    private void setImageBitmap(String foto){
-        WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
-            fotoPerfil.setImageBitmap(response);
-        }, APIEndPoints.FOTO_PERFIL, foto);
-        webServiceAPIAssets.execute();
+        detallesGestionarPresenter.getFotoPerfil(fotoNombre);
     }
 
     private void showAlert() {
@@ -152,10 +148,10 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
                     startActivity(myIntent);
                 })
                 .setNegativeButton("Cancelar", (dialog, which) -> {
-                    errorMsg();
+                    errorMsgGps();
                 })
                 .setOnCancelListener(dialog -> {
-                    errorMsg();
+                    errorMsgGps();
                 })
                 .show();
     }
@@ -191,75 +187,24 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
     }
 
     public String obtenerHorario(int tiempo){
-        String horas = String.valueOf(tiempo/60) + " HRS ";
-        String minutos = String.valueOf(tiempo%60) + " min";
+        String horas = (tiempo/60) + " HRS ";
+        String minutos = (tiempo%60) + " min";
 
         return horas + minutos;
     }
 
     @OnClick(R.id.cancelar)
     public void onClick(){
-        solicitudEliminarSesion();
+        detallesGestionarPresenter.solicitudEliminarSesion(this.idProfesional, this.idSesion, SharedPreferencesManager.getInstance(getContext()).getTokenProfesional());
     }
 
-    private void cancelarSesion(){
-        JSONObject parametrosPUT = new JSONObject();
-        try {
-            parametrosPUT.put("idProfesional", this.idProfesional);
-            parametrosPUT.put("idServicio", this.idSesion);
-
-            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-                try{
-                    JSONObject jsonObject = new JSONObject(response);
-                    if(jsonObject.getBoolean("respuesta")){
-                        SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", jsonObject.getString("mensaje"),
-                                true, "OK", ()->{
-                                    getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-                                    getActivity().finish();
-                                });
-                    }else
-                        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
-                }catch(JSONException ex){
-                    ex.printStackTrace();
-                }
-            }, APIEndPoints.CANCELAR_SERVICIO, WebServicesAPI.PUT, parametrosPUT);
-            webServicesAPI.execute();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void solicitudEliminarSesion(){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                JSONObject jsonObject = new JSONObject(response);
-                if(jsonObject.getBoolean("respuesta")){
-                    JSONObject mensaje = jsonObject.getJSONObject("mensaje");
-                    if(mensaje.getBoolean("eliminar") && mensaje.getBoolean("multa")){
-                        //Mostrar que se puede eliminar pero con multa.
-                        showAlert("Si cancelas esta servicio serás acreedor de una multa, ya que para cancelar libremente deberá ser 3 HRS antes.");
-                    }else if(mensaje.getBoolean("eliminar") && !mensaje.getBoolean("multa")){
-                        //Eliminar sin multa.
-                        showAlert("¿Deseas cancelar el servicio?");
-                    }else if(!mensaje.getBoolean("eliminar")){
-                        //No se puede eliminar
-                        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "No se puede cancelar el servicio a menos de 24 HRS de esta.", false, null, null);
-                    }
-                }else
-                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
-            }catch(JSONException ex){
-                ex.printStackTrace();
-            }
-        }, APIEndPoints.SOLICITUD_ELIMINAR_SESION_PROFESIONAL  + this.idSesion + "/" + this.idProfesional + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenProfesional(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
-    }
-
-    private void showAlert(String mensaje) {
+    @Override
+    public void showAlertCancel(String mensaje) {
         new MaterialAlertDialogBuilder(getContext(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
                 .setTitle("Cancelar Servicio")
                 .setMessage(mensaje)
                 .setPositiveButton("Cancelar Servicio", (dialog, which) -> {
-                    cancelarSesion();
+                    detallesGestionarPresenter.cancelarSesion(this.idProfesional, this.idSesion);
                 })
                 .setNegativeButton("Cerrar", (dialog, which) -> {
                 })
@@ -267,9 +212,18 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mUnbinder.unbind();
+    public void setFotoBitmap(Bitmap bitmap) {
+        fotoPerfil.setImageBitmap(bitmap);
+    }
+
+    @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere...");
+    }
+
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
     }
 
     @Override
@@ -284,13 +238,37 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
             return;
         }
         mMap.setMyLocationEnabled(true);
-        agregarMarca(googleMap, latitud, longitud);
+        agregarMarca(latitud, longitud);
     }
 
-    public void agregarMarca(GoogleMap googleMap, double lat, double longi){
+    public void agregarMarca(double lat, double longi){
         LatLng ubicacion = new LatLng(lat, longi);
         mMap.addMarker(new MarkerOptions().position(ubicacion).title("Aquí será tu servicio."));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion,15));
+    }
+
+    @Override
+    public void showError(String mensaje) {
+        SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", mensaje, false, null, null);
+    }
+
+    @Override
+    public void successCancel(String mensaje) {
+        SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", mensaje,
+                true, "OK", ()->{
+                    getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+                    getActivity().finish();
+                });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
+        if(progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
     }
 
 }

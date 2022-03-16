@@ -125,7 +125,9 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
             ubicacion = new LatLng(location.getLatitude(), location.getLongitude());
         else{
             location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            ubicacion = new LatLng(location.getLatitude(), location.getLongitude());
+            if(location != null)
+                ubicacion = new LatLng(location.getLatitude(), location.getLongitude());
+            else ubicacion = new LatLng(19.432608, -99.133208);
         }
         profesionalPerth = mMap.addMarker(new MarkerOptions().position(ubicacion)
                 .title("Mueve el marcador para elegir el radio a buscar.").snippet("profesional").draggable(true));
@@ -142,7 +144,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
             public void onMarkerDrag(Marker marker) {
                 latitud = profesionalPerth.getPosition().latitude;
                 longitud = profesionalPerth.getPosition().longitude;
-                LatLng ubicacion = new LatLng(latitud, longitud);
+                ubicacion = new LatLng(latitud, longitud);
                 circle.setCenter(ubicacion);
                 for(Marker marcador: perth){
                     LatLng latLng = marcador.getPosition();
@@ -159,7 +161,7 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
             public void onMarkerDragEnd(Marker marker) {
                 latitud = profesionalPerth.getPosition().latitude;
                 longitud = profesionalPerth.getPosition().longitude;
-                LatLng ubicacion = new LatLng(latitud, longitud);
+                ubicacion = new LatLng(latitud, longitud);
                 circle.setCenter(ubicacion);
                 for(Marker marcador: perth){
                     LatLng latLng = marcador.getPosition();

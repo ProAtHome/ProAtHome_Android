@@ -95,7 +95,7 @@ public class InicioFragment extends Fragment implements InicioFragmentView {
                     object.getString("profesional"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
                     object.getDouble("longitud"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getString("fecha"),
                     object.getString("fotoProfesional"), object.getString("descripcionProfesional"), object.getString("correoProfesional"), object.getBoolean("sumar"),
-                    object.getString("tipoPlan"), object.getInt("profesionales_idprofesionales")));
+                    object.getString("tipoPlan"), object.getInt("profesionales_idprofesionales"), object.getBoolean("finalizado")));
         } catch (JSONException e) {
             e.printStackTrace();
         }

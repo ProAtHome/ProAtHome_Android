@@ -112,7 +112,7 @@ public class SesionesProfesionalFragment extends Fragment implements SesionesVie
 
     @Override
     public void setVisibilityLottie(int visibilityLottie) {
-        lottieAnimationView.setVisibility(View.VISIBLE);
+        lottieAnimationView.setVisibility(visibilityLottie);
     }
 
     @Override

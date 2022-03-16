@@ -11,10 +11,18 @@ public class Component {
     private int photoRes, idServicio, idSeccion, idNivel, idBloque, tiempo, idProfesional;
     private double latitud, longitud;
     private int type;
-    private boolean sumar;
+    private boolean sumar, finalizado;
 
     public Component(){
 
+    }
+
+    public boolean isFinalizado() {
+        return finalizado;
+    }
+
+    public void setFinalizado(boolean finalizado) {
+        this.finalizado = finalizado;
     }
 
     public int getIdProfesional() {

@@ -2,6 +2,7 @@ package com.proathome.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.airbnb.lottie.LottieAnimationView;
 import com.proathome.R;
 import com.proathome.Views.cliente.ScrollActivity;
 import com.proathome.Utils.pojos.Component;
@@ -44,6 +47,9 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
         holder.tvTipo.setText("Tipo de Servicio: " + component.getTipoServicio());
         holder.tvHorario.setText("Horario: " + component.getHorario());
         holder.imgPhoto.setImageResource(component.getPhotoRes());
+        Log.d("TAGCOMPONENT", String.valueOf(component.isFinalizado()));
+        if(component.isFinalizado())
+            holder.lottieAnimationView.setAnimation(R.raw.finish);
         holder.setOnClickListeners(component.getIdServicio(), component.getProfesional(), component.getLugar(),
                 component.getTiempo(), component.getObservaciones(), component.getTipoServicio(),
                 component.getHorario(), component.getLatitud(),
@@ -73,6 +79,8 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
         TextView tvTipo;
         @BindView(R.id.tvHorario)
         TextView tvHorario;
+        @BindView(R.id.animation_view)
+        LottieAnimationView lottieAnimationView;
         Context context;
 
         String tipoPlan ="", profesional = "", lugar = "", observaciones = "", tipoServicio = "", horario = "",

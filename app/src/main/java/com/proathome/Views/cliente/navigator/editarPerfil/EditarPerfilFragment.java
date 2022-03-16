@@ -3,53 +3,39 @@ package com.proathome.Views.cliente.navigator.editarPerfil;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.proathome.Interfaces.cliente.EditarPerfil.EditarPerfilPresenter;
+import com.proathome.Interfaces.cliente.EditarPerfil.EditarPerfilView;
+import com.proathome.Presenters.cliente.EditarPerfilPresenterImpl;
 import com.proathome.R;
-import com.proathome.Servicios.api.assets.WebServiceAPIAssets;
 import com.proathome.Views.fragments_compartidos.DatosFiscalesFragment;
-import com.proathome.Servicios.api.APIEndPoints;
-import com.proathome.Servicios.api.WebServicesAPI;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.SweetAlert;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Hashtable;
-import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import mx.openpay.android.validation.CardValidator;
 
-public class EditarPerfilFragment extends Fragment {
+public class EditarPerfilFragment extends Fragment implements EditarPerfilView {
 
-    private String linkFoto = Constants.IP_80 + "/assets/lib/ActualizarFotoAndroid.php";
     private Unbinder mUnbinder;
     public static TextView tvNombre;
     public static TextView tvCorreo;
@@ -68,13 +54,10 @@ public class EditarPerfilFragment extends Fragment {
     public static final int RESULT_OK = -1;
     public int idCliente;
     private String correo;
-    private Bitmap bitmap;
     private int PICK_IMAGE_REQUEST = 1;
-    private String KEY_IMAGEN = "foto";
-    private String KEY_NOMBRE = "nombre";
-    private String ID_CLIENTE = "";
-    private WebServicesAPI webServicesAPI;
     private ProgressDialog progressDialog;
+    private EditarPerfilPresenter editarPerfilPresenter;
+
     @BindView(R.id.bottomNavigationPerfil)
     BottomNavigationView bottomNavigationPerfil;
     @BindView(R.id.btnFoto)
@@ -110,8 +93,9 @@ public class EditarPerfilFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_editar_perfil, container, false);
         mUnbinder = ButterKnife.bind(this, root);
 
+        editarPerfilPresenter = new EditarPerfilPresenterImpl(this);
+
         this.idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
-        this.ID_CLIENTE = String.valueOf(SharedPreferencesManager.getInstance(getContext()).getIDCliente());
         this.correo = SharedPreferencesManager.getInstance(getContext()).getCorreoCliente();
 
         bottomNavigationPerfil.setOnNavigationItemSelectedListener(item -> {
@@ -206,94 +190,9 @@ public class EditarPerfilFragment extends Fragment {
         imgAviso = getView().findViewById(R.id.imgAviso);
         cardValoracion = getView().findViewById(R.id.cardValoracion);
 
-        this.idCliente = SharedPreferencesManager.getInstance(getContext()).getIDCliente();
-        getReportes();
-        getDatosPerfil();
-        getDatosBanco();
-    }
-
-    private void getDatosBanco(){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try {
-                JSONObject jsonObject = new JSONObject(response);
-                if(jsonObject.getBoolean("respuesta")){
-                    JSONObject mensaje = jsonObject.getJSONObject("mensaje");
-                    if(mensaje.getBoolean("existe")){
-                        etNombreTitular.setText(mensaje.getString("nombreTitular"));
-                        etTarjeta.setText(mensaje.getString("tarjeta"));
-                        etMes.setText(mensaje.getString("mes"));
-                        etAño.setText(mensaje.getString("ano"));
-                    }else
-                        SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡AVISO!", "No tienes datos bancarios registrados", false, null, null);
-                }else
-                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.get("mensaje").toString(), false, null, null);
-            } catch (JSONException ex) {
-                ex.printStackTrace();
-            }
-        }, APIEndPoints.GET_DATOS_BANCO_CLIENTE + this.idCliente + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
-    }
-
-    private void getReportes(){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                JSONObject jsonObject = new JSONObject(response);
-                if(jsonObject.getBoolean("respuesta")){
-                    JSONObject mensaje = jsonObject.getJSONObject("mensaje");
-                    if(mensaje.getInt("reportes") == 0){
-                        //ocultamos avisos
-                        tvAviso.setVisibility(View.INVISIBLE);
-                        imgAviso.setVisibility(View.INVISIBLE);
-                        cardValoracion.setVisibility(View.INVISIBLE);
-                    }else if(mensaje.getInt("reportes") > 0){
-                        int numReportes = mensaje.getInt("reportes");
-                        String descripcion = mensaje.getString("aviso");
-                        //mostramos aviso
-                        tvAviso.setVisibility(View.VISIBLE);
-                        imgAviso.setVisibility(View.VISIBLE);
-                        cardValoracion.setVisibility(View.VISIBLE);
-                        tvAviso.setText("Aviso No. " + numReportes + ": " + descripcion);
-                    }
-                }else
-                    Toast.makeText(getContext(), "Error al obtener reportes.", Toast.LENGTH_SHORT).show();
-            }catch(JSONException ex){
-                ex.printStackTrace();
-            }
-        }, APIEndPoints.GET_REPORTES_CLIENTE + this.idCliente + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
-    }
-
-    private void setImageBitmap(String foto){
-        WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
-            ivFoto.setImageBitmap(response);
-            progressDialog.dismiss();
-        }, APIEndPoints.FOTO_PERFIL, foto);
-        webServiceAPIAssets.execute();
-    }
-
-    private void getDatosPerfil(){
-        progressDialog = ProgressDialog.show(getContext(), "Cargando Perfil", "Espere, por favor...");
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            if(response != null){
-                if(!response.equals("null")){
-                    try{
-                        JSONObject jsonObject = new JSONObject(response);
-                        tvNombre.setText("Nombre: " + jsonObject.getString("nombre"));
-                        tvCorreo.setText("Correo: " + jsonObject.getString("correo"));
-                        etCelular.setText(jsonObject.getString("celular"));
-                        etTelefono.setText(jsonObject.getString("telefonoLocal"));
-                        etDireccion.setText(jsonObject.getString("direccion"));
-                        etDesc.setText(jsonObject.getString("descripcion"));
-                        setImageBitmap(jsonObject.getString("foto"));
-                    }catch(JSONException ex){
-                        ex.printStackTrace();
-                    }
-                }else
-                    SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error en el perfil, intente ingresar más tarde.", false, null, null);
-            }else
-                SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Error del servidor, intente ingresar más tarde.", false, null, null);
-        }, APIEndPoints.GET_PERFIL_CLIENTE + this.idCliente + "/" + SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
+        editarPerfilPresenter.getReportes(this.idCliente, SharedPreferencesManager.getInstance(getContext()).getTokenCliente());
+        editarPerfilPresenter.getDatosPerfil(this.idCliente, SharedPreferencesManager.getInstance(getContext()).getTokenCliente());
+        editarPerfilPresenter.getDatosBanco(this.idCliente, SharedPreferencesManager.getInstance(getContext()).getTokenCliente());
     }
 
     public void actualizarDatosBancarios(){
@@ -314,7 +213,6 @@ public class EditarPerfilFragment extends Fragment {
     }
 
     private void upCuentaCliente(){
-        progressDialog = ProgressDialog.show(getContext(), "Validando", "Espere, por favor...");
         JSONObject parametrosPUT = new JSONObject();
         try {
             parametrosPUT.put("idCliente", this.idCliente);
@@ -322,15 +220,7 @@ public class EditarPerfilFragment extends Fragment {
             parametrosPUT.put("tarjeta", etTarjeta.getText().toString());
             parametrosPUT.put("mes", etMes.getText().toString());
             parametrosPUT.put("ano", etAño.getText().toString());
-            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-                progressDialog.dismiss();
-                JSONObject jsonObject = new JSONObject(response);
-                if(jsonObject.getBoolean("respuesta"))
-                    SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Datos actualizados correctamente.", false, null, null);
-                else
-                    SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡OH NO!", jsonObject.getString("mensaje"), false, null, null);
-            }, APIEndPoints.UPDATE_CUENTA_CLIENTE, WebServicesAPI.PUT, parametrosPUT);
-            webServicesAPI.execute();
+            editarPerfilPresenter.updateCuentaCliente(parametrosPUT);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -354,25 +244,10 @@ public class EditarPerfilFragment extends Fragment {
             parametros.put("telefonoLocal", etTelefono.getText().toString().trim());
             parametros.put("direccion", etDireccion.getText().toString());
             parametros.put("descripcion", etDesc.getText().toString());
+            editarPerfilPresenter.updatePerfil(parametros, getContext(), this.idCliente);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere, por favor...");
-        webServicesAPI = new WebServicesAPI(response -> {
-            progressDialog.dismiss();
-            try{
-                JSONObject jsonObject = new JSONObject(response);
-                if(jsonObject.getBoolean("respuesta"))
-                    SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", jsonObject.getString("mensaje"), false, null, null);
-                else
-                    SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
-            }catch(JSONException ex){
-                ex.printStackTrace();
-            }
-        }, APIEndPoints.ACTUALIZAR_PERFIL, WebServicesAPI.PUT, parametros);
-        webServicesAPI.execute();
-        uploadImage();
     }
 
     @OnClick({R.id.btnFoto, R.id.btnActualizarFiscales, R.id.btnActualizarInfoBancaria, R.id.btnActualizarInfo})
@@ -393,42 +268,6 @@ public class EditarPerfilFragment extends Fragment {
         }
     }
 
-    public String getStringImagen(Bitmap bmp){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        return encodedImage;
-    }
-
-    private void uploadImage(){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, linkFoto,
-                response -> {
-                },
-                error -> {
-                }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                //Convertir bits a cadena
-                String imagen = getStringImagen(bitmap);
-                //Obtener el nombre de la imagen
-                String nombre = ID_CLIENTE + "_perfil";
-                //Creación de parámetros
-                Map<String,String> params = new Hashtable<>();
-                //Agregando de parámetros
-                params.put(KEY_IMAGEN, imagen);
-                params.put(KEY_NOMBRE, nombre);
-                params.put("idCliente", ID_CLIENTE);
-                //Parámetros de retorno
-                return params;
-            }
-        };
-        //Creación de una cola de solicitudes
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        //Agregar solicitud a la cola
-        requestQueue.add(stringRequest);
-    }
-
     private void showFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -439,17 +278,79 @@ public class EditarPerfilFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                //Cómo obtener el mapa de bits de la Galería
-                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
-                //Configuración del mapa de bits en ImageView
-                ivFoto.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null)
+            editarPerfilPresenter.getBitmapMedia(data, getContext().getContentResolver());
+    }
+
+    @Override
+    public void showError(String mensaje) {
+        SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ERROR!", mensaje, false, null, null);
+    }
+
+    @Override
+    public void setVisibilityReportes(boolean visibilityReportes, String mensaje) {
+        if(visibilityReportes){
+            tvAviso.setVisibility(View.VISIBLE);
+            imgAviso.setVisibility(View.VISIBLE);
+            cardValoracion.setVisibility(View.VISIBLE);
+            tvAviso.setText(mensaje);
+        }else{
+            tvAviso.setVisibility(View.INVISIBLE);
+            imgAviso.setVisibility(View.INVISIBLE);
+            cardValoracion.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere, por favor...");
+    }
+
+    @Override
+    public void hideProgress() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void setDatosPerfil(JSONObject jsonObject) {
+        try {
+            tvNombre.setText("Nombre: " + jsonObject.getString("nombre"));
+            tvCorreo.setText("Correo: " + jsonObject.getString("correo"));
+            etCelular.setText(jsonObject.getString("celular"));
+            etTelefono.setText(jsonObject.getString("telefonoLocal"));
+            etDireccion.setText(jsonObject.getString("direccion"));
+            etDesc.setText(jsonObject.getString("descripcion"));
+            editarPerfilPresenter.getFotoPerfil(jsonObject.getString("foto"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setDatosBanco(JSONObject mensaje) {
+        try {
+            etNombreTitular.setText(mensaje.getString("nombreTitular"));
+            etTarjeta.setText(mensaje.getString("tarjeta"));
+            etMes.setText(mensaje.getString("mes"));
+            etAño.setText(mensaje.getString("ano"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void showErrorBanco(String mensaje) {
+        SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡AVISO!", mensaje, false, null, null);
+    }
+
+    @Override
+    public void successUpdate(String mensaje) {
+        SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", mensaje, false, null, null);
+    }
+
+    @Override
+    public void setFotoBitmap(Bitmap bitmap) {
+        ivFoto.setImageBitmap(bitmap);
     }
 
     @Override

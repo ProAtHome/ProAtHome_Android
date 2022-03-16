@@ -57,31 +57,6 @@ public class ServiciosSesion {
         webServicesAPI.execute();
     }
 
-    public static void validarServicioFinalizadoCliente(int idSesion, int idPerfil, Context context){
-        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            if(response != null){
-                try{
-                    JSONObject data = new JSONObject(response);
-                    if(data.getBoolean("respuesta")){
-                        JSONObject jsonObject = data.getJSONObject("mensaje");
-                        boolean finalizado = jsonObject.getBoolean("finalizado");
-
-                        if(finalizado){
-                            DetallesFragment.iniciar.setEnabled(false);
-                            DetallesFragment.iniciar.setText("Servicio finalizado");
-                        }
-                    }else
-                        Toast.makeText(context, data.getString("mensaje"), Toast.LENGTH_LONG).show();
-                }catch (JSONException ex){
-                    ex.printStackTrace();
-                    Toast.makeText(context, "Ocurrio un error, intente de nuevo mas tarde.", Toast.LENGTH_LONG).show();
-                }
-            }else
-                Toast.makeText(context, "Ocurrio un error, intente de nuevo mas tarde.", Toast.LENGTH_LONG).show();
-        }, APIEndPoints.VALIDAR_SERVICIO_FINALIZADO_CLIENTE + idSesion + "/" + idPerfil + "/" + SharedPreferencesManager.getInstance(context).getTokenCliente(), WebServicesAPI.GET, null);
-        webServicesAPI.execute();
-    }
-
     public static void cambiarDisponibilidadProfesional(int idSesion, int idPerfil, boolean disponible){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
         }, APIEndPoints.CAMBIAR_DISPONIBILIDAD_PROFESIONAL + idSesion + "/" + idPerfil + "/" + disponible, WebServicesAPI.PUT, null);

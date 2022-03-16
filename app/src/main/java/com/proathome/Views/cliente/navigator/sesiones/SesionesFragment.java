@@ -142,8 +142,23 @@ public class SesionesFragment extends Fragment implements SesionesView {
                         //TODO FLUJO_EJECUTAR_PLAN: Pasar por Bundle el tipo de PLAN en nuevaSesionFragment.
                         toNuevaSesion();
                     }else{
+                        Bundle bundle = new Bundle();
+                        //TODO PASAR INFO BANCO
+                        bundle.putString("nombreTitular", nombreTitular);
+                        bundle.putString("tarjeta", tarjeta);
+                        bundle.putString("mes", mes);
+                        bundle.putString("ano", ano);
+                        bundle.putBoolean("banco", banco);
+                        //TODO PASAR INFO RUTA ACTUAL
+                        bundle.putInt("idSeccion", seccion);
+                        bundle.putInt("idNivel", nivel);
+                        bundle.putInt("idBloque", bloque);
+                        bundle.putInt("horas", minutos_horas);
+                        bundle.putBoolean("rutaFinalizada", rutaFinalizada);
+
                         PlanesFragment planesFragment = new PlanesFragment();
                         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        planesFragment.setArguments(bundle);
                         planesFragment.show(transaction, "Planes Disponibles");
                     }
                 }else
@@ -163,8 +178,23 @@ public class SesionesFragment extends Fragment implements SesionesView {
                         //TODO FLUJO_EJECUTAR_PLAN: Pasar por Bundle el tipo de PLAN en nuevaSesionFragment.
                         toNuevaSesion();
                     }else{
+                        Bundle bundle = new Bundle();
+                        //TODO PASAR INFO BANCO
+                        bundle.putString("nombreTitular", nombreTitular);
+                        bundle.putString("tarjeta", tarjeta);
+                        bundle.putString("mes", mes);
+                        bundle.putString("ano", ano);
+                        bundle.putBoolean("banco", banco);
+                        //TODO PASAR INFO RUTA ACTUAL
+                        bundle.putInt("idSeccion", seccion);
+                        bundle.putInt("idNivel", nivel);
+                        bundle.putInt("idBloque", bloque);
+                        bundle.putInt("horas", minutos_horas);
+                        bundle.putBoolean("rutaFinalizada", rutaFinalizada);
+
                         PlanesFragment planesFragment = new PlanesFragment();
                         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        planesFragment.setArguments(bundle);
                         planesFragment.show(transaction, "Planes Disponibles");
                     }
                 }else
