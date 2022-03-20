@@ -65,7 +65,8 @@ public class PerfilInteractorImpl implements PerfilInteractor {
     @Override
     public void getFotoPerfil(int tipoPerfil) {
         WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
-            perfilPresenter.setFoto(response);
+            if(response != null)
+                perfilPresenter.setFoto(response);
         }, APIEndPoints.FOTO_PERFIL, tipoPerfil == PerfilFragment.PERFIL_CLIENTE ? DetallesSesionProfesionalFragment.fotoNombre : DetallesFragment.fotoNombre);
         webServiceAPIAssets.execute();
     }

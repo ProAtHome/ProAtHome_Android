@@ -24,18 +24,20 @@ public class TicketAyudaInteractorImpl implements TicketAyudaInteractor {
     @Override
     public void obtenerMsgTicket(int tipoUsuario, int idUsuario, int idTicket) {
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            try{
-                JSONArray jsonArray = new JSONArray(response);
-                JSONObject mensajes = jsonArray.getJSONObject(1);
-                JSONArray jsonArrayMensajes = mensajes.getJSONArray("mensajes");
+            if(response != null){
+                try{
+                    JSONArray jsonArray = new JSONArray(response);
+                    JSONObject mensajes = jsonArray.getJSONObject(1);
+                    JSONArray jsonArrayMensajes = mensajes.getJSONArray("mensajes");
 
-                ticketAyudaPresenter.setAdapterMsg(jsonArrayMensajes);
+                    ticketAyudaPresenter.setAdapterMsg(jsonArrayMensajes);
 
-                jsonArray = null;
-                mensajes = null;
-                jsonArrayMensajes =  null;
-            }catch(JSONException ex){
-                ex.printStackTrace();
+                    jsonArray = null;
+                    mensajes = null;
+                    jsonArrayMensajes =  null;
+                }catch(JSONException ex){
+                    ex.printStackTrace();
+                }
             }
         }, validacionURL_API(tipoUsuario, idUsuario, idTicket), WebServicesAPI.GET, null);
         webServicesAPI.execute();
