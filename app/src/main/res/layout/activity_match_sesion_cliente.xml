@@ -102,16 +102,26 @@
                         tools:context=".Views.fragments_compartidos.MapsFragment" />
 
                     <TextView
-                        android:id="@+id/direccionTV"
+                        android:id="@+id/fechaTV"
+                        style="@style/Textos"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/common_padding_min"
+                        android:text="Fecha: Fecha de la Sesión"
                         android:textStyle="bold"
-                        android:layout_marginBottom="@dimen/common_padding_min"
-                        android:text="Dirección: Dirección de la Sesión"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/mapsDetallesMatch"
-                        style="@style/Textos"/>
+                        app:layout_constraintTop_toBottomOf="@+id/mapsDetallesMatch" />
+
+                    <TextView
+                        android:id="@+id/direccionTV"
+                        style="@style/Textos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        android:text="Dirección: Dirección de la Sesión"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/fechaTV"
+                        app:layout_constraintTop_toBottomOf="@+id/fechaTV" />
 
                     <View
                         android:id="@+id/divider"

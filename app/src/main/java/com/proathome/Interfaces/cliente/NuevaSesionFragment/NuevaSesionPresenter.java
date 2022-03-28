@@ -29,4 +29,8 @@ public interface NuevaSesionPresenter {
 
     void finishFragment();
 
+    void validarEmpalme(int idCliente, String fecha, String horario);
+
+    void validacionPlanes_Ruta();
+
 }

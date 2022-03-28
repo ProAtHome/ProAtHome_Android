@@ -46,5 +46,4 @@
         android:name="com.proathome.Views.cliente.navigator.privacidad.PrivacidadFragment"
         android:label="@string/menu_privacidad"
         tools:layout="@layout/fragment_privacidad"/>
-
 </navigation>

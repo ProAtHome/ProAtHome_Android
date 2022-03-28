@@ -18,4 +18,6 @@ public interface NuevaSesionView {
 
     void finishFragment();
 
+    void validacionPlanes_Ruta();
+
 }

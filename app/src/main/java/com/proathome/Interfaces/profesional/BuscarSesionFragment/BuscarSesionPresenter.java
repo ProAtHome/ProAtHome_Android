@@ -7,6 +7,10 @@ import org.json.JSONObject;
 
 public interface BuscarSesionPresenter {
 
+    void setInfoServiciosDisponibles(JSONObject servicios, String fechaActual);
+
+    void setInfoServiciosPendientes(JSONObject serviciosPendientes);
+
     void getSesiones(Context context);
 
     void addMarker(JSONObject jsonObject, LatLng ubicacion);

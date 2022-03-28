@@ -8,6 +8,7 @@ public class APIEndPoints {
     public static final String LATIDO_SQL = Constants.IP + "/ProAtHome/api/admin/latidoSQL";
 
     //CLIENTES
+    public static final String VALIDAR_EMPALMES = Constants.IP + "/ProAtHome/api/cliente/validarEmpalme";
     public static final String VALIDAR_TOKEN_SESION = Constants.IP + "/ProAtHome/api/cliente/validarTokenSesion/";
     public static final String INICIAR_SESION_CLIENTE = Constants.IP + "/ProAtHome/api/cliente/sesionCliente";
     public static final String REGISTRAR_CLIENTE = Constants.IP + "/ProAtHome/api/cliente/agregarCliente";
@@ -73,7 +74,8 @@ public class APIEndPoints {
     public static final String REGISTRAR_PROFESIONAL = Constants.IP + "/ProAtHome/api/profesional/agregarProfesional";
     public static final String GET_DATOS_FISCALES_PROFESIONAL = Constants.IP + "/ProAtHome/api/profesional/getDatosFiscales/";
     public static final String UPDATE_DATOS_FISCALES_PROFESIONAL = Constants.IP + "/ProAtHome/api/profesional/guardarDatosFiscales";
-    public static final String BUSCAR_SESIONES = Constants.IP + "/ProAtHome/api/profesional/obtenerSesionesMovil/";
+    //public static final String BUSCAR_SESIONES = Constants.IP + "/ProAtHome/api/profesional/obtenerSesionesMovil/";
+    public static final String BUSCAR_SESIONES = Constants.IP + "/ProAtHome/api/profesional/getServicios/";
     public static final String GET_VALORACION_CLIENTE = Constants.IP + "/ProAtHome/api/profesional/obtenerValoracion/";
     public static final String VALORAR_CLIENTE = Constants.IP + "/ProAtHome/api/profesional/valorarCliente";
     public static final String VALIDAR_VALORACION_CLIENTE = Constants.IP + "/ProAtHome/api/profesional/validarValoracion/";

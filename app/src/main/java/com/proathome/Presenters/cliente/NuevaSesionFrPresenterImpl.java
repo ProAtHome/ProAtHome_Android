@@ -87,4 +87,15 @@ public class NuevaSesionFrPresenterImpl implements NuevaSesionPresenter {
             nuevaSesionView.finishFragment();
     }
 
+    @Override
+    public void validarEmpalme(int idCliente, String fecha, String horario) {
+        nuevaSesionInteractor.validarEmpalme(idCliente, fecha, horario);
+    }
+
+    @Override
+    public void validacionPlanes_Ruta() {
+        if(nuevaSesionView != null)
+            nuevaSesionView.validacionPlanes_Ruta();
+    }
+
 }

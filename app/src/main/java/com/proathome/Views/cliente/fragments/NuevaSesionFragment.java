@@ -196,6 +196,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         fechaET.setText("");
     }
 
+    @Override
     public void validacionPlanes_Ruta(){
         String direccion = direccionET.getText().toString();
         String extras = observacionesET.getText().toString();
@@ -397,8 +398,8 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                 !observacionesET.getText().toString().trim().equalsIgnoreCase("") &&
                 !fechaET.getText().toString().trim().equalsIgnoreCase("")) {
             if (obtenerMinutosHorario() != 0) {
-                if(banco)
-                    validacionPlanes_Ruta();
+                if(banco)//VALIDAR HORA Y FECHA DEL SERVICIO
+                    nuevaSesionPresenter.validarEmpalme(SharedPreferencesManager.getInstance(getContext()).getIDCliente(), fechaET.getText().toString(), horarioET.getText().toString());
                 else
                     SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡AVISO!","Sin datos bancarios.", false, null, null);
             } else

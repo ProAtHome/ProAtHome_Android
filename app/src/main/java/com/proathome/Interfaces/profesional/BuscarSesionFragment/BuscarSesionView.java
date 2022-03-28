@@ -6,6 +6,10 @@ import org.json.JSONObject;
 
 public interface BuscarSesionView {
 
+    void setInfoServiciosDisponibles(JSONObject servicios, String fechaActual);
+
+    void setInfoServiciosPendientes(JSONObject serviciosPendientes);
+
     void addMarker(JSONObject jsonObject, LatLng ubicacion);
 
     void mostrarMarcadores(LatLng latLng, Marker marker);

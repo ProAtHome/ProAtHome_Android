@@ -15,4 +15,6 @@ public interface NuevaSesionInteractor {
 
     void registrarServicio(int idCliente, String token, Bundle bundle, boolean rutaFinalizada, int nuevoMonedero, Context context);
 
+    void validarEmpalme(int idCliente, String fecha, String horario);
+
 }

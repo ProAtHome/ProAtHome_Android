@@ -11,7 +11,9 @@ public interface MatchSesionPresenter {
 
     void setInfoSesion(JSONObject jsonObject);
 
-    void matchSesion(int idProfesional, int idSesion);
+    void matchSesion(int idProfesional, int idSesion, JSONObject serviciosDisponibles,
+                     JSONObject serviciosPendientes, String fechaActual, String fechaServicio,
+                        String horario, int rango);
 
     void successMatch(String mensaje);
 

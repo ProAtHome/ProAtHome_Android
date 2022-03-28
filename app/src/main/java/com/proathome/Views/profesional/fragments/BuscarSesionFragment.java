@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -60,6 +62,8 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
     private Location location;
     private LatLng ubicacion;
     private Unbinder mUnbinder;
+    private String fechaActual;
+    private JSONObject servicios, serviciosPendientes;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -182,6 +186,8 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
                         }))
                         .show();
             }else {
+                Toast.makeText(getContext(), "Validar fecha contra agenda", Toast.LENGTH_LONG).show();
+
                 new MaterialAlertDialogBuilder(getContext(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
                         .setTitle("SESIÓN DE CLIENTE")
                         .setMessage(marker.getTitle())
@@ -196,6 +202,9 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
                                 intent.putExtra("idSesion", marker.getSnippet());
                                 intent.putExtra("latitud", marker.getPosition().latitude);
                                 intent.putExtra("longitud", marker.getPosition().longitude);
+                                intent.putExtra("serviciosPendientes", serviciosPendientes.toString());
+                                intent.putExtra("serviciosDisponibles", servicios.toString());
+                                intent.putExtra("fechaActual", fechaActual);
                                 startActivity(intent);
                             }
                         }))
@@ -256,10 +265,22 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
     }
 
     @Override
+    public void setInfoServiciosDisponibles(JSONObject servicios, String fechaActual) {
+        this.servicios = servicios;
+        this.fechaActual = fechaActual;
+    }
+
+    @Override
+    public void setInfoServiciosPendientes(JSONObject serviciosPendientes) {
+        this.serviciosPendientes = serviciosPendientes;
+    }
+
+    @Override
     public void addMarker(JSONObject object, LatLng ubicacion) {
         try{
             Marker marker = mMap.addMarker(new MarkerOptions()
                     .position(ubicacion).title("Sesion de: " + object.getString("nombre") +
+                            "\n" + "Fecha: " + object.getString("fecha") +
                             "\n" + "Nivel: " + Component.getSeccion(object.getInt("idSeccion")) +
                             "/" + Component.getNivel(object.getInt("idSeccion"),
                             object.getInt("idNivel")) + "\n" + "TIPO DE PLAN: " + object.getString("tipoPlan")).snippet(String.valueOf(

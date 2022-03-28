@@ -170,7 +170,7 @@ public class RegistrarseProfesional extends AppCompatActivity implements Registr
     }
 
     private void btnTerminos(){
-        Uri uri = Uri.parse("https://proathome.com.mx/T&C/doc");
+        Uri uri = Uri.parse("https://proathome.com.mx/T&C/T&C-Profesional.pdf");
         startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 

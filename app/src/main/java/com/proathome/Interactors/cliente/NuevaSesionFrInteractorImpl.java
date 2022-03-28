@@ -203,6 +203,29 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
         }
     }
 
+    @Override
+    public void validarEmpalme(int idCliente, String fecha, String horario) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("idCliente", idCliente);
+            data.put("fecha", fecha);
+            data.put("horario", horario);
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                if(response != null){
+                    JSONObject dataResponse = new JSONObject(response);
+                    if(dataResponse.getBoolean("respuesta"))
+                        nuevaSesionPresenter.validacionPlanes_Ruta();
+                    else
+                        nuevaSesionPresenter.showError(dataResponse.getString("mensaje"));
+                }else
+                    nuevaSesionPresenter.showError("Ocurrio un error al validar el servicio, comunica este error al soporte Tecnico.");
+            }, APIEndPoints.VALIDAR_EMPALMES, WebServicesAPI.POST, data);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     /*
     private void registrarSesion(Bundle bundle, String token, int idCliente, boolean rutaFinalizada, Context context){
         JSONObject parametrosPOST = new JSONObject();

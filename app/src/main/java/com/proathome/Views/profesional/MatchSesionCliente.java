@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -44,6 +45,8 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
     public int idProfesional, idSesion;
     private ProgressDialog progressDialog;
     private MatchSesionPresenter matchSesionPresenter;
+    private JSONObject servicios, serviciosPendientes;
+    private String fechaActual, fechaServicio, horarioServicio;
 
     @BindView(R.id.seguirBuscandoBTN)
     MaterialButton seguirBuscandoBTN;
@@ -69,6 +72,8 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
     TextView horarioTV;
     @BindView(R.id.fotoCliente)
     AppCompatImageView imageView;
+    @BindView(R.id.fechaTV)
+    TextView fechaTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +87,16 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
         idSesion = Integer.parseInt(getIntent().getStringExtra("idSesion"));
         latitud = getIntent().getDoubleExtra("latitud", 19.4326077);
         longitud = getIntent().getDoubleExtra("longitud", -99.13320799999);
+        fechaActual = getIntent().getStringExtra("fechaActual");
+        try {
+            servicios = new JSONObject(getIntent().getStringExtra("serviciosDisponibles"));
+            serviciosPendientes = new JSONObject(getIntent().getStringExtra("serviciosPendientes"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("TAGS", servicios.toString());
+        Log.d("TAGS", serviciosPendientes.toString());
 
         matchSesionPresenter.getInfoSesion(idSesion);
     }
@@ -98,7 +113,8 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
                     true, "OK", ()->{
                     });
         }else
-            matchSesionPresenter.matchSesion(idProfesional, idSesion);
+            matchSesionPresenter.matchSesion(idProfesional, idSesion, servicios, serviciosPendientes,
+                    fechaActual, fechaServicio, horarioServicio, SharedPreferencesManager.getInstance(MatchSesionCliente.this).getRangoServicioProfeisonal());
     }
 
     @Override
@@ -182,6 +198,9 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
             else
                 matchBTN.setVisibility(View.VISIBLE);
 
+            fechaServicio = jsonObject.getString("fecha");
+            horarioServicio = jsonObject.getString("horario");
+            fechaTV.setText("Fecha: " + jsonObject.getString("fecha"));
             nombreTV.setText(jsonObject.getString("nombre"));
             correoTV.setText(jsonObject.getString("correo"));
             descripcionTV.setText(jsonObject.getString("descripcion"));

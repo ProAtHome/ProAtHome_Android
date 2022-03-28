@@ -35,8 +35,11 @@ public class MatchSesionPresenterImpl implements MatchSesionPresenter {
     }
 
     @Override
-    public void matchSesion(int idProfesional, int idSesion) {
-        matchSesionInteractor.matchSesion(idProfesional, idSesion);
+    public void matchSesion(int idProfesional, int idSesion, JSONObject serviciosDisponibles,
+                            JSONObject serviciosPendientes, String fechaActual, String fechaServicio,
+                                String horario, int rango) {
+        matchSesionInteractor.matchSesion(idProfesional, idSesion, serviciosDisponibles, serviciosPendientes,
+                fechaActual, fechaServicio, horario, rango);
     }
 
     @Override

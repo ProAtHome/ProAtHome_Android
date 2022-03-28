@@ -21,6 +21,18 @@ public class BuscarSesionPresenterImpl implements BuscarSesionPresenter {
     }
 
     @Override
+    public void setInfoServiciosDisponibles(JSONObject servicios, String fechaActual) {
+        if(buscarSesionView != null)
+            buscarSesionView.setInfoServiciosDisponibles(servicios, fechaActual);
+    }
+
+    @Override
+    public void setInfoServiciosPendientes(JSONObject serviciosPendientes) {
+        if(buscarSesionView != null)
+            buscarSesionView.setInfoServiciosPendientes(serviciosPendientes);
+    }
+
+    @Override
     public void getSesiones(Context context) {
         buscarSesionInteractor.getSesiones(context);
     }

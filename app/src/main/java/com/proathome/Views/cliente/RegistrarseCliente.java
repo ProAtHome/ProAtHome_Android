@@ -151,7 +151,7 @@ public class RegistrarseCliente extends AppCompatActivity implements Registrarse
     }//Fin método registrar.
 
     public void btnTerminos(){
-        Uri uri = Uri.parse("https://www.proathome.com.mx/T&C/doc");
+        Uri uri = Uri.parse("https://www.proathome.com.mx/T&C/T&C-Cliente.pdf");
         startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 
