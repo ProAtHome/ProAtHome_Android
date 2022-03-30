@@ -40,15 +40,15 @@ public class BuscarSesionInteractorImpl implements BuscarSesionInteractor {
                 String fechaActual = mensajeData.getString("fechaActual");
                 JSONObject servicios = mensajeData.getJSONObject("servicios");
                 JSONObject serviciosPendientes = mensajeData.getJSONObject("serviciosPendientes");
+                Log.d("TAGS", serviciosPendientes.toString());
                 buscarSesionPresenter.setInfoServiciosDisponibles(servicios, fechaActual);
                 buscarSesionPresenter.setInfoServiciosPendientes(serviciosPendientes);
 
-                //AGENDA HOY
-                JSONArray hoy = servicios.getJSONArray("HOY");
-                addMarkers(hoy);
-
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     DateTimeFormatter fechaFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    //AGENDA HOY
+                    JSONArray hoy = servicios.getJSONArray(fechaFormat.format(LocalDateTime.now()));
+                    addMarkers(hoy);
                     //AGENDA DIA 1
                     JSONArray dia1 = servicios.getJSONArray(fechaFormat.format(LocalDateTime.now().plusDays(1)));
                     addMarkers(dia1);
