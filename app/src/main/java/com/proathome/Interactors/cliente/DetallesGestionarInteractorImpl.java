@@ -1,6 +1,8 @@
 package com.proathome.Interactors.cliente;
 
 import android.content.Context;
+import android.util.Log;
+
 import com.proathome.Interfaces.cliente.DetallesGestionar.DetallesGestionarInteractor;
 import com.proathome.Interfaces.cliente.DetallesGestionar.DetallesGestionarPresenter;
 import com.proathome.Servicios.api.APIEndPoints;
@@ -40,9 +42,14 @@ public class DetallesGestionarInteractorImpl implements DetallesGestionarInterac
     @Override
     public void actualizarSesion(JSONObject jsonObject) {
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-            if(response != null)
-                SweetAlert.showMsg(SesionesFragment.contexto, SweetAlert.SUCCESS_TYPE, "¡GENIAL!", response, false, null, null);
-            else
+            if(response != null){
+                JSONObject dataResponse = new JSONObject(response);
+                Log.d("TAG1", dataResponse.toString());
+                if(dataResponse.getBoolean("respuesta"))
+                    detallesGestionarPresenter.successUpdate(dataResponse.getString("mensaje"));
+                else
+                    detallesGestionarPresenter.showMsg(SweetAlert.ERROR_TYPE, "¡ERROR!", dataResponse.getString("mensaje"));
+            }else
                 SweetAlert.showMsg(SesionesFragment.contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", "Error al actualizar el servicio.", false, null, null);
         }, APIEndPoints.ACTUALIZAR_SESION, WebServicesAPI.PUT, jsonObject);
         webServicesAPI.execute();
@@ -54,12 +61,20 @@ public class DetallesGestionarInteractorImpl implements DetallesGestionarInterac
             if (response != null) {
                 JSONObject jsonObject = new JSONObject(response);
                 if(jsonObject.getBoolean("respuesta"))
-                    detallesGestionarPresenter.showMsg(SweetAlert.WARNING_TYPE, "¡AVISO!", jsonObject.getString("mensaje"));
+                    detallesGestionarPresenter.successDelete(jsonObject.getString("mensaje"));
                 else
                     detallesGestionarPresenter.showMsg(SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"));
             }else
                 detallesGestionarPresenter.showMsg(SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrio un error, intente de nuevo mas tarde.");
         }, APIEndPoints.ELIMINAR_SESION, WebServicesAPI.POST, jsonData);
+        webServicesAPI.execute();
+    }
+
+    @Override
+    public void notificarProfesional(JSONObject jsonObject) {
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            detallesGestionarPresenter.closeFragment();
+        }, APIEndPoints.NOTIFICACION_PROFESIONAL, WebServicesAPI.POST, jsonObject);
         webServicesAPI.execute();
     }
 

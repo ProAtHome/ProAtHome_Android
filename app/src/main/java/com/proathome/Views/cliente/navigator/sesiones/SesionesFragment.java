@@ -251,7 +251,7 @@ public class SesionesFragment extends Fragment implements SesionesView {
     public void setMyAdapter(JSONObject object) {
         try {
             myAdapter.add(DetallesGestionarFragment.getmInstance(object.getInt("idsesiones"), object.getString("tipoServicio"), object.getString("horario"),
-                    object.getString("profesional"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
+                    object.getString("profesional"), object.getString("correoProfesional"), object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
                     object.getDouble("longitud"), object.getString("actualizado"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"),
                     object.getString("fecha"), object.getString("tipoPlan")));
         } catch (JSONException e) {

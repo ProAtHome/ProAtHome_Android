@@ -11,4 +11,6 @@ public interface DetallesGestionarInteractor {
 
     void eliminarSesion(JSONObject jsonObject);
 
+    void notificarProfesional(JSONObject jsonObject);
+
 }

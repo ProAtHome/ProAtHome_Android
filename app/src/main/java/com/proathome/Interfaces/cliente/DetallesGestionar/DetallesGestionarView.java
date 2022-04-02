@@ -6,4 +6,10 @@ public interface DetallesGestionarView {
 
     void showMsg(int tipo, String titulo, String mensaje);
 
+    void successDelete(String mensaje);
+
+    void successUpdate(String mensaje);
+
+    void closeFragment();
+
 }

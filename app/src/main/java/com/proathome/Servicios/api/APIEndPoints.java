@@ -8,6 +8,7 @@ public class APIEndPoints {
     public static final String LATIDO_SQL = Constants.IP + "/ProAtHome/api/admin/latidoSQL";
 
     //CLIENTES
+    public static final String NOTIFICACION_PROFESIONAL = Constants.IP_80 + "/assets/lib/NotificacionProfesional.php";
     public static final String VALIDAR_EMPALMES = Constants.IP + "/ProAtHome/api/cliente/validarEmpalme";
     public static final String VALIDAR_TOKEN_SESION = Constants.IP + "/ProAtHome/api/cliente/validarTokenSesion/";
     public static final String INICIAR_SESION_CLIENTE = Constants.IP + "/ProAtHome/api/cliente/sesionCliente";

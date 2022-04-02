@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="@dimen/common_padding_min"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/common_padding_default"
-    tools:context=".Views.cliente.fragments.DetallesGestionarFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:padding="@dimen/common_padding_min"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/common_padding_middle">
+        android:layout_marginBottom="@dimen/common_padding_default"
+        tools:context=".Views.cliente.fragments.DetallesGestionarFragment">
 
         <fragment
             xmlns:map="http://schemas.android.com/apk/res-auto"
@@ -480,4 +476,4 @@
         </com.google.android.material.button.MaterialButton>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+

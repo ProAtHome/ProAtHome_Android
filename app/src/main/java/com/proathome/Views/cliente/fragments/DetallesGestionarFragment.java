@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -57,7 +58,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     private static Component mInstance;
     public static boolean basicoVisto, intermedioVisto, avanzadoVisto;
     public static ControladorTomarSesion tomarSesion;
-    private boolean cambioFecha;
+    private boolean cambioFecha, cambioHorario;
     private GoogleMap mMap;
     private Marker perth;
     public static final String TAG = "Detalles de la Sesión";
@@ -70,6 +71,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     private String fechaSesion = null;
     public static String fechaServidor = null;
     private DetallesGestionarPresenter detallesGestionarPresenter;
+    private Bundle bun;
 
     @BindView(R.id.tietProfesional)
     TextInputEditText profesionalET;
@@ -142,7 +144,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         horarioET.setText("13:00 HRS");
         fechaET.setKeyListener(null);
 
-        Bundle bun = getArguments();
+        bun = getArguments();
         idServicio = bun.getInt("idServicio");
         latitud = bun.getDouble("latitud");
         longitud = bun.getDouble("longitud");
@@ -215,7 +217,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                 });
     }
 
-    public static Component getmInstance(int idServicio, String tipoServicio, String horario, String profesional,
+    public static Component getmInstance(int idServicio, String tipoServicio, String horario, String profesional, String correoProfesional,
                                          String lugar, int tiempo, String observaciones, double latitud,
                                          double longitud, String actualizado, int idSeccion, int idNivel,
                                          int idBloque, String fecha, String tipoPlan) {
@@ -223,6 +225,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         mInstance = new Component();
         mInstance.setIdServicio(idServicio);
         mInstance.setProfesional(profesional);
+        mInstance.setCorreoProfesional(correoProfesional);
         mInstance.setLugar(lugar);
         mInstance.setTiempo(tiempo);
         mInstance.setObservaciones(observaciones);
@@ -344,6 +347,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                 .setTitle("Elige el horario de tu preferencia para comenzar.")
                 .setAdapter(adapter, (dialog, which) ->{
                     horarioET.setText(adapter.getItem(which));
+                    cambioHorario = true;
                 })
                 .show();
     }
@@ -377,9 +381,6 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                     actualizarSesion(true);
                 else
                     actualizarSesion(false);
-
-                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-                getActivity().finish();
                 break;
             case R.id.btnEliminarSesion:
                 //Verificar que sea 24 hrs antes
@@ -398,11 +399,15 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                                     "día anterior al servicio.", false, null, null);
                         }else if(fechaActual.before(fechaSesionFin)){
                             eliminarSesion();
-                            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-                            getActivity().finish();
+                        }else{
+                            if(!bun.getString("profesional").equals("Sin profesional asignado.")){
+                                SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ERROR!",
+                                        "Tienes un profesional asignado, no puedes eliminar el servicio, contacta a soporte.", false, null, null);
+                            }else
+                                eliminarSesion();
                         }
                     }else
-                        SweetAlert.showMsg(SesionesFragment.contexto, SweetAlert.WARNING_TYPE, "¡ERROR!", "Fecha del dispositivo erronea.", false, null, null);
+                        SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ERROR!", "Fecha del dispositivo erronea.", false, null, null);
                 }catch(ParseException | JSONException ex){
                     ex.printStackTrace();
                 }
@@ -412,12 +417,37 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     }
 
     private void actualizarSesion(boolean cambioFecha) {
+        //VALIDAR SI HAY PROFESIONAL
+        if((!bun.getString("profesional").equals("Sin profesional asignado.") && cambioFecha) || (!bun.getString("profesional").equals("Sin profesional asignado.") && cambioHorario)){
+            new MaterialAlertDialogBuilder(getActivity(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
+                    .setTitle("REAGENDAR SERVICIO")
+                    .setMessage("Tienes un profesional asignado, al reagendar la fecha y/o horario se liberará el servicio.")
+                    .setPositiveButton("Continuar", (dialog, which) -> {
+                        update(cambioFecha);
+                    })
+                    .setNegativeButton("Cancelar", (dialog, which) -> {
+
+                    })
+                    .setOnCancelListener(dialog -> {
+
+                    })
+                    .show();
+        }else
+            update(cambioFecha);
+
+    }
+
+    private void update(boolean cambioFecha){
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
         String strDate =  mdformat.format(calendar.getTime());
 
         JSONObject jsonDatos = new JSONObject();
         try {
+            if(!bun.getString("profesional").equals("Sin profesional asignado."))
+                jsonDatos.put("existeProfesional", true);
+            else
+                jsonDatos.put("existeProfesional", false);
             jsonDatos.put("idSesion", this.idServicio);
             jsonDatos.put("horario", horarioET.getText().toString());
             jsonDatos.put("lugar", lugarET.getText().toString());
@@ -429,6 +459,7 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
             jsonDatos.put("actualizado", strDate);
             jsonDatos.put("fecha", fechaET.getText().toString());
             jsonDatos.put("cambioFecha", cambioFecha);
+            jsonDatos.put("cambioHorario", cambioHorario);
             jsonDatos.put("idSeccion", this.idSeccion);
             jsonDatos.put("idNivel", this.idNivel);
             jsonDatos.put("idBloque", this.idBloque);
@@ -454,7 +485,55 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
 
     @Override
     public void showMsg(int tipo, String titulo, String mensaje) {
-        SweetAlert.showMsg(SesionesFragment.contexto, tipo, titulo, mensaje, false, null, null);
+        SweetAlert.showMsg(getContext(), tipo, titulo, mensaje, false, null, null);
+    }
+
+    @Override
+    public void successDelete(String mensaje) {
+        SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", mensaje, true, "OK", ()->{
+            JSONObject dataNoti = new JSONObject();
+            try {
+                //ENVIAR CORREO A PROFESIONAL
+                if((!bun.getString("profesional").equals("Sin profesional asignado."))){
+                    dataNoti.put("tipo", "LIBERACION");
+                    dataNoti.put("correoProfesional", bun.getString("correoProfesional"));
+                    dataNoti.put("correoCliente", SharedPreferencesManager.getInstance(getContext()).getCorreoCliente());
+                    dataNoti.put("fechaServicio", bun.getString("fecha"));
+                    dataNoti.put("horaServicio", bun.getString("horario"));
+                    detallesGestionarPresenter.notificarProfesional(dataNoti);
+                }else
+                    closeFragment();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void successUpdate(String mensaje) {
+        SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", mensaje, true, "OK", ()->{
+            JSONObject dataNoti = new JSONObject();
+            try {
+                //ENVIAR CORREO A PROFESIONAL
+                if((!bun.getString("profesional").equals("Sin profesional asignado."))){
+                    dataNoti.put("tipo", (cambioFecha || cambioHorario) ? "LIBERACION" : "ACTUALIZACION");
+                    dataNoti.put("correoProfesional", bun.getString("correoProfesional"));
+                    dataNoti.put("correoCliente", SharedPreferencesManager.getInstance(getContext()).getCorreoCliente());
+                    dataNoti.put("fechaServicio", bun.getString("fecha"));
+                    dataNoti.put("horaServicio", bun.getString("horario"));
+                    detallesGestionarPresenter.notificarProfesional(dataNoti);
+                }else
+                    closeFragment();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void closeFragment() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        getActivity().finish();
     }
 
     @Override

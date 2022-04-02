@@ -44,4 +44,27 @@ public class DetallesGestionarPresenterImpl implements DetallesGestionarPresente
             detallesGestionarView.showMsg(tipo, titulo, mensaje);
     }
 
+    @Override
+    public void successDelete(String mensaje) {
+        if(detallesGestionarView != null)
+            detallesGestionarView.successDelete(mensaje);
+    }
+
+    @Override
+    public void successUpdate(String mensaje) {
+        if(detallesGestionarView != null)
+            detallesGestionarView.successUpdate(mensaje);
+    }
+
+    @Override
+    public void notificarProfesional(JSONObject jsonObject) {
+        detallesGestionarInteractor.notificarProfesional(jsonObject);
+    }
+
+    @Override
+    public void closeFragment() {
+        if(detallesGestionarView != null)
+            detallesGestionarView.closeFragment();
+    }
+
 }

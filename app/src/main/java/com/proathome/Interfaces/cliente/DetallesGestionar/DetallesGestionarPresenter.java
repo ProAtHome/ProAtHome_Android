@@ -15,4 +15,12 @@ public interface DetallesGestionarPresenter {
 
     void showMsg(int tipo, String titulo, String mensaje);
 
+    void successDelete(String mensaje);
+
+    void successUpdate(String mensaje);
+
+    void notificarProfesional(JSONObject jsonObject);
+
+    void closeFragment();
+
 }

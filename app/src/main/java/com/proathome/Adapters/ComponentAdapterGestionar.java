@@ -43,7 +43,7 @@ public class ComponentAdapterGestionar extends RecyclerView.Adapter<ComponentAda
         holder.tvHorario.setText("Horario: " + component.getHorario());
         holder.tvProfesional.setText("Profesional: " + component.getProfesional());
         holder.tvActualizado.setText("Actualización: " + component.getActualizado());
-        holder.setOnClickListeners(component.getIdServicio(), component.getProfesional(), component.getLugar(),
+        holder.setOnClickListeners(component.getIdServicio(), component.getProfesional(), component.getCorreoProfesional(), component.getLugar(),
                 component.getTiempo(), component.getObservaciones(), component.getTipoServicio(), component.getHorario(), component.getLatitud(),
                 component.getLongitud(), component.getActualizado(), component.getIdSeccion(), component.getIdNivel(), component.getIdBloque(), component.getFecha(), component.getTipoPlan());
     }
@@ -72,7 +72,7 @@ public class ComponentAdapterGestionar extends RecyclerView.Adapter<ComponentAda
         TextView tvActualizado;
         Context context;
 
-        String tipoPlan = "", profesional = "", lugar = "", observaciones = "", tipoServicio = "", horario = "", actualizado = "", fecha = "";
+        String tipoPlan = "", profesional = "", correoProfesional = "", lugar = "", observaciones = "", tipoServicio = "", horario = "", actualizado = "", fecha = "";
         int idServicio, idSeccion, idNivel, idBloque, tiempo;
         double latitud, longitud;
 
@@ -85,10 +85,11 @@ public class ComponentAdapterGestionar extends RecyclerView.Adapter<ComponentAda
             ButterKnife.bind(this, itemView);
         }
 
-        void setOnClickListeners(int idServicio, String profesional, String lugar, int tiempo, String observaciones,
+        void setOnClickListeners(int idServicio, String profesional, String correoProfesional, String lugar, int tiempo, String observaciones,
                                  String tipoServicio, String horario, double latitud, double longitud, String actualizado, int idSeccion, int idNivel, int idBloque, String fecha, String tipoPlan){
             this.idServicio = idServicio;
             this.profesional = profesional;
+            this.correoProfesional = correoProfesional;
             this.lugar = lugar;
             this.tiempo = tiempo;
             this.observaciones = observaciones;
@@ -115,6 +116,7 @@ public class ComponentAdapterGestionar extends RecyclerView.Adapter<ComponentAda
             intent.putExtra(Constants.ARG_NAME, "Detalles de la Sesión");
             intent.putExtra("idServicio", this.idServicio);
             intent.putExtra("profesional", this.profesional);
+            intent.putExtra("correoProfesional", this.correoProfesional);
             intent.putExtra("lugar", this.lugar);
             intent.putExtra("tiempo", this.tiempo);
             intent.putExtra("observaciones", this.observaciones);
