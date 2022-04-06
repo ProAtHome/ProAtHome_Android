@@ -73,6 +73,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     private String nombreTitular = null, tarjeta = null, mes = null, ano = null;
     private NuevaSesionPresenter nuevaSesionPresenter;
     private Unbinder mUnbinder;
+    private SupportMapFragment mapFragment;
 
     @BindView(R.id.text_direccionET)
     TextInputEditText direccionET;
@@ -118,7 +119,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (mMap == null) {
-            SupportMapFragment mapFragment = (WorkaroundMapFragment) getActivity()
+             mapFragment = (WorkaroundMapFragment) getActivity()
                     .getSupportFragmentManager().findFragmentById(R.id.mapNueva);
             mapFragment.getMapAsync(this);
         }
@@ -796,6 +797,8 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         avanzadoVisto = false;
         intermedioVisto = false;
         basicoVisto = false;
+        if(mapFragment != null)
+            mapFragment = null;
         if(secciones != null){
             secciones.setOnItemSelectedListener(null);
             secciones.setAdapter(null);

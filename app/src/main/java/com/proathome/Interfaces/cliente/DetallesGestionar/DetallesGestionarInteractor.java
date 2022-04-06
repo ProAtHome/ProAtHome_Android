@@ -13,4 +13,6 @@ public interface DetallesGestionarInteractor {
 
     void notificarProfesional(JSONObject jsonObject);
 
+    void validarEmpalme(int idCliente, String fecha, String horario, boolean cambioFecha, int idSesion);
+
 }

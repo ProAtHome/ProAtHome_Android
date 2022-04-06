@@ -94,26 +94,26 @@ public class SweetAlert extends Dialog implements View.OnClickListener {
     ;
 
     public static void showMsg(Context context, int tipo, String titulo, String mensaje, boolean boton, String tituloBoton, ConfirmButton confirmButton){
-        if(boton){
-            new SweetAlert(context, tipo, SweetAlert.CLIENTE)
-                    .setTitleText(titulo)
-                    .setConfirmButton(tituloBoton, sweetAlertDialog -> {
-                        sweetAlertDialog.dismissWithAnimation();
-                        confirmButton.content();
-                    })
-                    .setContentText(mensaje)
-                    .show();
-        }else{
-            new SweetAlert(context, tipo, SweetAlert.CLIENTE)
-                    .setTitleText(titulo)
-                    .setContentText(mensaje)
-                    .setConfirmButton("OK", sweetAlertDialog -> {
-                        sweetAlertDialog.dismissWithAnimation();
-                    })
-                    .show();
+        if(context != null){
+            if(boton){
+                new SweetAlert(context, tipo, SweetAlert.CLIENTE)
+                        .setTitleText(titulo)
+                        .setConfirmButton(tituloBoton, sweetAlertDialog -> {
+                            sweetAlertDialog.dismissWithAnimation();
+                            confirmButton.content();
+                        })
+                        .setContentText(mensaje)
+                        .show();
+            }else{
+                new SweetAlert(context, tipo, SweetAlert.CLIENTE)
+                        .setTitleText(titulo)
+                        .setContentText(mensaje)
+                        .setConfirmButton("OK", sweetAlertDialog -> {
+                            sweetAlertDialog.dismissWithAnimation();
+                        })
+                        .show();
+            }
         }
-
-
     }
 
     public SweetAlert hideConfirmButton() {

@@ -67,4 +67,15 @@ public class DetallesGestionarPresenterImpl implements DetallesGestionarPresente
             detallesGestionarView.closeFragment();
     }
 
+    @Override
+    public void validarEmpalme(int idCliente, String fecha, String horario, boolean cambioFecha, int idSesion) {
+        detallesGestionarInteractor.validarEmpalme(idCliente, fecha, horario, cambioFecha, idSesion);
+    }
+
+    @Override
+    public void update(boolean cambioFecha) {
+        if(detallesGestionarView != null)
+            detallesGestionarView.update(cambioFecha);
+    }
+
 }

@@ -68,8 +68,8 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     private Unbinder mUnbinder;
     private int idServicio = 0;
     private double longitud = -99.13320799999, latitud = 19.4326077;
-    private String fechaSesion = null;
-    public static String fechaServidor = null;
+    private String fechaSesion = "";
+    public static String fechaServidor = "";
     private DetallesGestionarPresenter detallesGestionarPresenter;
     private Bundle bun;
 
@@ -339,9 +339,6 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
         adapter.add("17:00 HRS");
         adapter.add("18:00 HRS");
         adapter.add("19:00 HRS");
-        adapter.add("20:00 HRS");
-        adapter.add("21:00 HRS");
-        adapter.add("22:00 HRS");
 
         new MaterialAlertDialogBuilder(getActivity())
                 .setTitle("Elige el horario de tu preferencia para comenzar.")
@@ -395,10 +392,13 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
                     Date fechaServidor = sdf.parse(DetallesGestionarFragment.fechaServidor);
                     if(fechaActual.equals(fechaServidor)){
                         if(fechaActual.equals(fechaSesionFin)){
-                            SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ERROR!", "La sesión sólo podía ser eliminada el " +
-                                    "día anterior al servicio.", false, null, null);
+                            if(!bun.getString("profesional").equals("Sin profesional asignado.")){
+                                SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ERROR!", "La sesión sólo podía ser eliminada el " +
+                                        "día anterior al servicio.", false, null, null);
+                            }else
+                                eliminarSesion();
                         }else if(fechaActual.before(fechaSesionFin)){
-                            eliminarSesion();
+                            eliminarSesion();//notificar si hay profesional
                         }else{
                             if(!bun.getString("profesional").equals("Sin profesional asignado.")){
                                 SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ERROR!",
@@ -417,27 +417,63 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
     }
 
     private void actualizarSesion(boolean cambioFecha) {
-        //VALIDAR SI HAY PROFESIONAL
-        if((!bun.getString("profesional").equals("Sin profesional asignado.") && cambioFecha) || (!bun.getString("profesional").equals("Sin profesional asignado.") && cambioHorario)){
-            new MaterialAlertDialogBuilder(getActivity(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
-                    .setTitle("REAGENDAR SERVICIO")
-                    .setMessage("Tienes un profesional asignado, al reagendar la fecha y/o horario se liberará el servicio.")
-                    .setPositiveButton("Continuar", (dialog, which) -> {
-                        update(cambioFecha);
-                    })
-                    .setNegativeButton("Cancelar", (dialog, which) -> {
+        try{
+            Calendar calendarHoy = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String fechaHoy = sdf.format(calendarHoy.getTime());
 
-                    })
-                    .setOnCancelListener(dialog -> {
+            Date fechaActual = sdf.parse(fechaHoy);
+            Date fechaSesionFin = sdf.parse(fechaSesion);
+            Date fechaServidor = sdf.parse(DetallesGestionarFragment.fechaServidor);
 
-                    })
-                    .show();
-        }else
-            update(cambioFecha);
+            //VALIDAR SI HAY PROFESIONAL
+            if((!bun.getString("profesional").equals("Sin profesional asignado.") && cambioFecha) || (!bun.getString("profesional").equals("Sin profesional asignado.") && cambioHorario)){
+                //SI HAY PROFESIONAL REAGENDAR 24 HRS ANTES
+                if(fechaActual.equals(fechaServidor)){
+                    if(fechaActual.equals(fechaSesionFin)){
+                        SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ERROR!", "No puedes reagendar a menos de 24 HRS del servicio.", false, null, null);
+                    }else{
+                        new MaterialAlertDialogBuilder(getActivity(), R.style.MaterialAlertDialog_MaterialComponents_Title_Icon)
+                                .setTitle("REAGENDAR SERVICIO")
+                                .setMessage("Tienes un profesional asignado, al reagendar la fecha y/o horario se liberará el servicio.")
+                                .setPositiveButton("Continuar", (dialog, which) -> {
+                                    //VALIDAR CONTRA AGENDA
+                                    detallesGestionarPresenter.validarEmpalme(SharedPreferencesManager.getInstance(getContext()).getIDCliente(),
+                                            fechaET.getText().toString(), horarioET.getText().toString(), cambioFecha, this.idServicio);
+                                })
+                                .setNegativeButton("Cancelar", (dialog, which) -> {
 
+                                })
+                                .setOnCancelListener(dialog -> {
+
+                                })
+                                .show();
+                    }
+                }else
+                    SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ERROR!", "Fecha del dispositivo erronea.", false, null, null);
+            }else{
+                if(!bun.getString("profesional").equals("Sin profesional asignado.")){//SI HAY PROFESIONAL VALIDAR IGUAL 24 HRS ANTES
+                    //SI HAY PROFESIONAL REAGENDAR 24 HRS ANTES
+                    if(fechaActual.equals(fechaServidor)){
+                        if(fechaActual.equals(fechaSesionFin)){
+                            SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ERROR!", "No puedes reagendar a menos de 24 HRS del servicio.", false, null, null);
+                        }else{
+                            detallesGestionarPresenter.validarEmpalme(SharedPreferencesManager.getInstance(getContext()).getIDCliente(),
+                                    fechaET.getText().toString(), horarioET.getText().toString(), cambioFecha, this.idServicio);
+                        }
+                    }
+                }else{//ERES LIBRE DE REAGENDAR
+                    detallesGestionarPresenter.validarEmpalme(SharedPreferencesManager.getInstance(getContext()).getIDCliente(),
+                            fechaET.getText().toString(), horarioET.getText().toString(), cambioFecha, this.idServicio);
+                }
+            }
+        }catch(ParseException ex){
+            ex.printStackTrace();
+        }
     }
 
-    private void update(boolean cambioFecha){
+    @Override
+    public void update(boolean cambioFecha){
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
         String strDate =  mdformat.format(calendar.getTime());
@@ -480,7 +516,8 @@ public class DetallesGestionarFragment extends Fragment implements OnMapReadyCal
 
     @Override
     public void setFechaServidor(String fecha) {
-        fechaServidor = fecha;
+        if(fecha != null)
+            fechaServidor = fecha;
     }
 
     @Override

@@ -12,4 +12,6 @@ public interface DetallesGestionarView {
 
     void closeFragment();
 
+    void update(boolean cambioFecha);
+
 }

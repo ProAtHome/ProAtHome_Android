@@ -78,4 +78,29 @@ public class DetallesGestionarInteractorImpl implements DetallesGestionarInterac
         webServicesAPI.execute();
     }
 
+    @Override
+    public void validarEmpalme(int idCliente, String fecha, String horario, boolean cambioFecha, int idSesion) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("idCliente", idCliente);
+            data.put("fecha", fecha);
+            data.put("horario", horario);
+            data.put("reagendar", true);
+            data.put("idSesion", idSesion);
+            WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                if(response != null){
+                    JSONObject dataResponse = new JSONObject(response);
+                    if(dataResponse.getBoolean("respuesta"))
+                        detallesGestionarPresenter.update(cambioFecha);
+                    else
+                        detallesGestionarPresenter.showMsg(SweetAlert.ERROR_TYPE, "¡ERROR!", dataResponse.getString("mensaje"));
+                }else
+                    detallesGestionarPresenter.showMsg(SweetAlert.ERROR_TYPE, "¡ERROR!","Ocurrio un error al validar el servicio, comunica este error al soporte Tecnico.");
+            }, APIEndPoints.VALIDAR_EMPALMES, WebServicesAPI.POST, data);
+            webServicesAPI.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

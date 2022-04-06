@@ -143,7 +143,8 @@ public class ServicioProfesional extends AppCompatActivity implements ServicioPr
     }
 
     public static void startSchedule(){
-        timerSchedule.schedule(taskSchedule, 0, 3000);
+        if(timerSchedule != null)
+            timerSchedule.schedule(taskSchedule, 0, 3000);
     }
 
     public static void startTimer(){

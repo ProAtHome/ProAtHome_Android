@@ -210,6 +210,8 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
             data.put("idCliente", idCliente);
             data.put("fecha", fecha);
             data.put("horario", horario);
+            data.put("reagendar", false);
+            data.put("idSesion", 0);
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
                 if(response != null){
                     JSONObject dataResponse = new JSONObject(response);
