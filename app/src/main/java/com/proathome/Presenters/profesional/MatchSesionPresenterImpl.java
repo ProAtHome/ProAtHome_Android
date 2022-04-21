@@ -71,4 +71,15 @@ public class MatchSesionPresenterImpl implements MatchSesionPresenter {
             matchSesionView.hideProgress();
     }
 
+    @Override
+    public void notificarCliente(JSONObject jsonObject) {
+        matchSesionInteractor.notificarCliente(jsonObject);
+    }
+
+    @Override
+    public void closeActivity() {
+        if(matchSesionView != null)
+            matchSesionView.closeActivity();
+    }
+
 }

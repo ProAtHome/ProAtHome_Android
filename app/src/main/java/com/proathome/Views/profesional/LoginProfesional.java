@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.Interfaces.profesional.Login.LoginProfesionalPresenter;
 import com.proathome.Interfaces.profesional.Login.LoginProfesionalView;
@@ -12,6 +14,7 @@ import com.proathome.Presenters.profesional.LoginProfesionalPresenterImpl;
 import com.proathome.R;
 import com.proathome.Servicios.api.APIEndPoints;
 import com.proathome.Servicios.api.WebServicesAPI;
+import com.proathome.Utils.NetworkValidate;
 import com.proathome.Views.activitys_compartidos.PerfilBloqueado;
 import com.proathome.Views.cliente.MainActivity;
 import com.proathome.Views.activitys_compartidos.password.EmailPassword;
@@ -68,13 +71,16 @@ public class LoginProfesional extends AppCompatActivity implements LoginProfesio
 
     @OnClick(R.id.entrarBTNP)
     public void entrar(){
-        if(!correoET.getText().toString().trim().equalsIgnoreCase("") &&
-                !contrasenaET.getText().toString().trim().equalsIgnoreCase("")){
-            String correo = String.valueOf(correoET.getText()).trim();
-            String contrasena = String.valueOf(contrasenaET.getText()).trim();
-            loginProfesionalPresenter.login(correo, contrasena);
+        if(NetworkValidate.validate(LoginProfesional.this)){
+            if(!correoET.getText().toString().trim().equalsIgnoreCase("") &&
+                    !contrasenaET.getText().toString().trim().equalsIgnoreCase("")){
+                String correo = String.valueOf(correoET.getText()).trim();
+                String contrasena = String.valueOf(contrasenaET.getText()).trim();
+                loginProfesionalPresenter.login(correo, contrasena);
+            }else
+                SweetAlert.showMsg(LoginProfesional.this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos.", true, "OK", ()->{});
         }else
-            SweetAlert.showMsg(LoginProfesional.this, SweetAlert.ERROR_TYPE, "¡ERROR!", "Llena todos los campos.", true, "OK", ()->{});
+            Toast.makeText(LoginProfesional.this, "No tienes conexión a Intenet o es muy inestable", Toast.LENGTH_LONG).show();
     }
 
     @Override

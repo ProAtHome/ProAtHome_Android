@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +16,8 @@ import com.proathome.Interfaces.profesional.Inicio.InicioFragmentView;
 import com.proathome.Presenters.profesional.inicio.InicioFragmentPresenterImpl;
 import com.proathome.R;
 import com.proathome.Adapters.ComponentAdapterSesionesProfesional;
+import com.proathome.Utils.NetworkValidate;
+import com.proathome.Views.cliente.ServicioCliente;
 import com.proathome.Views.profesional.fragments.DetallesSesionProfesionalFragment;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.SweetAlert;
@@ -41,7 +45,11 @@ public class InicioProfesionalFragment extends Fragment implements InicioFragmen
         lottieAnimationView = root.findViewById(R.id.animation_view);
 
         inicioFragmentPresenter = new InicioFragmentPresenterImpl(this);
-        inicioFragmentPresenter.getSesiones(SharedPreferencesManager.getInstance(getContext()).getIDProfesional(), SharedPreferencesManager.getInstance(getContext()).getTokenProfesional());
+
+        if(NetworkValidate.validate(getContext()))
+            inicioFragmentPresenter.getSesiones(SharedPreferencesManager.getInstance(getContext()).getIDProfesional(), SharedPreferencesManager.getInstance(getContext()).getTokenProfesional());
+        else
+            Toast.makeText(getContext(), "No tienes conexión a Intenet o es muy inestable", Toast.LENGTH_LONG).show();
 
         configAdapter();
         configRecyclerView();
@@ -80,7 +88,7 @@ public class InicioProfesionalFragment extends Fragment implements InicioFragmen
     @Override
     public void setAdapterSesiones(JSONObject object) {
         try {
-            myAdapter.add(DetallesSesionProfesionalFragment.getmInstance(object.getInt("idsesiones"), object.getString("nombreCliente"), object.getString("descripcion"), object.getString("correo"), object.getString("foto"),  object.getString("tipoServicio"), object.getString("horario"),
+            myAdapter.add(DetallesSesionProfesionalFragment.getmInstance(object.getInt("idsesiones"), object.getString("fecha"), object.getString("nombreCliente"), object.getString("descripcion"), object.getString("correo"), object.getString("foto"),  object.getString("tipoServicio"), object.getString("horario"),
                     "Soy yo", object.getString("lugar"), object.getInt("tiempo"), object.getString("extras"), object.getDouble("latitud"),
                     object.getDouble("longitud"), object.getInt("idSeccion"), object.getInt("idNivel"), object.getInt("idBloque"), object.getInt("idCliente"), object.getBoolean("finalizado")));
         } catch (JSONException e) {

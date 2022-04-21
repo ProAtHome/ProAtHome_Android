@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,8 +16,10 @@ import com.proathome.Interfaces.cliente.Inicio.InicioFragmentView;
 import com.proathome.Presenters.cliente.inicio.InicioFragmentPresenterImpl;
 import com.proathome.R;
 import com.proathome.Adapters.ComponentAdapter;
+import com.proathome.Utils.NetworkValidate;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.SweetAlert;
+import com.proathome.Views.cliente.ServicioCliente;
 import com.proathome.Views.cliente.fragments.DetallesFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,7 +46,11 @@ public class InicioFragment extends Fragment implements InicioFragmentView {
 
         inicioFragmentPresenter = new InicioFragmentPresenterImpl(this);
 
-        inicioFragmentPresenter.getSesiones(SharedPreferencesManager.getInstance(getContext()).getIDCliente(), getContext());
+        if(NetworkValidate.validate(getContext()))
+            inicioFragmentPresenter.getSesiones(SharedPreferencesManager.getInstance(getContext()).getIDCliente(), getContext());
+        else
+            Toast.makeText(getContext(), "No tienes conexión a Intenet o es muy inestable", Toast.LENGTH_LONG).show();
+
         configAdapter();
         configRecyclerView();
 

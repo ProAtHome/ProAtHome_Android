@@ -25,4 +25,8 @@ public interface MatchSesionPresenter {
 
     void hideProgress();
 
+    void notificarCliente(JSONObject jsonObject);
+
+    void closeActivity();
+
 }

@@ -46,7 +46,7 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
     private ProgressDialog progressDialog;
     private MatchSesionPresenter matchSesionPresenter;
     private JSONObject servicios, serviciosPendientes;
-    private String fechaActual, fechaServicio, horarioServicio;
+    private String fechaActual, fechaServicio, horarioServicio, correoCliente;
 
     @BindView(R.id.seguirBuscandoBTN)
     MaterialButton seguirBuscandoBTN;
@@ -142,6 +142,11 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
     }
 
     @Override
+    public void closeActivity() {
+        finish();
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -200,6 +205,7 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
 
             fechaServicio = jsonObject.getString("fecha");
             horarioServicio = jsonObject.getString("horario");
+            correoCliente = jsonObject.getString("correo");
             fechaTV.setText("Fecha: " + jsonObject.getString("fecha"));
             nombreTV.setText(jsonObject.getString("nombre"));
             correoTV.setText(jsonObject.getString("correo"));
@@ -222,7 +228,17 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
     public void successMatch(String mensaje) {
         SweetAlert.showMsg(MatchSesionCliente.this, SweetAlert.SUCCESS_TYPE, "¡GENIAL", mensaje,
                 true, "OK", ()->{
-                    finish();
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("tipo", "MATCH");
+                        jsonObject.put("correoProfesional", SharedPreferencesManager.getInstance(MatchSesionCliente.this).getCorreoProfesional());
+                        jsonObject.put("correoCliente", correoCliente);
+                        jsonObject.put("fechaServicio", fechaServicio);
+                        jsonObject.put("horaServicio", horarioServicio);
+                        matchSesionPresenter.notificarCliente(jsonObject);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 });
     }
 

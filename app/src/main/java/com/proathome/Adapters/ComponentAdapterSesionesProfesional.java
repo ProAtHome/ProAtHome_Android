@@ -45,7 +45,7 @@ public class ComponentAdapterSesionesProfesional extends RecyclerView.Adapter<Co
         holder.tvHorario.setText(component.getHorario());
         if(component.isFinalizado())
             holder.lottieAnimationView.setAnimation(R.raw.finish);
-        holder.setOnClickListeners(component.getIdServicio(), component.getNombreCliente(), component.getDescripcion(), component.getCorreo(), component.getFoto(), component.getProfesional(), component.getLugar(),
+        holder.setOnClickListeners(component.getIdServicio(), component.getFecha(), component.getNombreCliente(), component.getDescripcion(), component.getCorreo(), component.getFoto(), component.getProfesional(), component.getLugar(),
                 component.getTiempo(), component.getObservaciones(), component.getTipoServicio(), component.getHorario(), component.getLatitud(),
                 component.getLongitud(), component.getIdSeccion(), component.getIdNivel(), component.getIdBloque(), component.getIdCliente());
     }
@@ -73,7 +73,7 @@ public class ComponentAdapterSesionesProfesional extends RecyclerView.Adapter<Co
         Context context;
         View view;
 
-        String nombreCliente = "", descripcion = "", correo = "", foto = "", nivel = "", profesional = "", lugar = "", observaciones = "", tipoServicio = "", horario = "";
+        String nombreCliente = "", fecha = "", descripcion = "", correo = "", foto = "", nivel = "", profesional = "", lugar = "", observaciones = "", tipoServicio = "", horario = "";
         int idSeccion, idNivel, idBloque, idServicio, tiempo, idCliente;
         double latitud, longitud;
 
@@ -84,9 +84,10 @@ public class ComponentAdapterSesionesProfesional extends RecyclerView.Adapter<Co
             ButterKnife.bind(this, itemView);
         }
 
-        void setOnClickListeners(int idServicio, String nombreCliente, String descripcion, String correo, String foto, String profesional, String lugar, int tiempo, String observaciones,
+        void setOnClickListeners(int idServicio, String fecha, String nombreCliente, String descripcion, String correo, String foto, String profesional, String lugar, int tiempo, String observaciones,
                                  String tipoServicio, String horario, double latitud, double longitud, int idSeccion, int idNivel, int idBloque, int idCliente){
             this.idServicio = idServicio;
+            this.fecha = fecha;
             this.nombreCliente = nombreCliente;
             this.descripcion = descripcion;
             this.correo = correo;
@@ -115,6 +116,7 @@ public class ComponentAdapterSesionesProfesional extends RecyclerView.Adapter<Co
             Intent intent = new Intent(context, StaticActivity.class);
             intent.putExtra(Constants.ARG_NAME, "Detalles del Servicio");
             intent.putExtra("idServicio", this.idServicio);
+            intent.putExtra("fecha", this.fecha);
             intent.putExtra("cliente", this.nombreCliente);
             intent.putExtra("descripcion", this.descripcion);
             intent.putExtra("correo", this.correo);

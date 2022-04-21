@@ -2,6 +2,8 @@ package com.proathome.Interfaces.profesional.DetallesGestionar;
 
 import android.graphics.Bitmap;
 
+import org.json.JSONObject;
+
 public interface DetallesGestionarPresenter {
 
     void cancelarSesion(int idProfesional, int idSesion);
@@ -21,5 +23,9 @@ public interface DetallesGestionarPresenter {
     void showProgress();
 
     void hideProgress();
+
+    void notificarCliente(JSONObject jsonObject);
+
+    void closeFragment();
 
 }

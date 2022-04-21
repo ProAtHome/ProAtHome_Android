@@ -12,4 +12,6 @@ public interface MatchSesionInteractor {
 
     void setImage(String foto);
 
+    void notificarCliente(JSONObject jsonObject);
+
 }

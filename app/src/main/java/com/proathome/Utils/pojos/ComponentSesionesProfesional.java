@@ -7,13 +7,21 @@ import java.util.Objects;
 public class ComponentSesionesProfesional {
 
     private String nombreCliente, descripcion, correo, foto, tipoServicio, horario, profesional, lugar,
-            observaciones, actualizado;
+            observaciones, actualizado, fecha;
     private int photoRes, idServicio, tiempo, idSeccion, idNivel, idBloque, idCliente;
     private double latitud, longitud;
     private int type;
     private boolean finalizado;
 
     public ComponentSesionesProfesional(){
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
     public boolean isFinalizado() {

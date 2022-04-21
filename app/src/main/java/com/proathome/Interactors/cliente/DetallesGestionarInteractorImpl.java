@@ -72,6 +72,7 @@ public class DetallesGestionarInteractorImpl implements DetallesGestionarInterac
 
     @Override
     public void notificarProfesional(JSONObject jsonObject) {
+            Log.d("TAGNOTI", jsonObject.toString());
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             detallesGestionarPresenter.closeFragment();
         }, APIEndPoints.NOTIFICACION_PROFESIONAL, WebServicesAPI.POST, jsonObject);

@@ -4,7 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Toast;
+
 import com.proathome.Servicios.sesiones.ServiciosSesion;
+import com.proathome.Utils.NetworkValidate;
 import com.proathome.Views.cliente.fragments.NuevaSesionFragment;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.SweetAlert;
@@ -64,11 +67,16 @@ public class TokenCardPagoServicio extends AsyncTask<Void, Void, String> {
 
             @Override
             public void onSuccess(OperationResult<Token> operationResult) {
-                String idCard = operationResult.getResult().getId();
-                //Cobro de Servicio
-                ServiciosSesion.cobroServicio(idCard, nombreTitular, NuevaSesionFragment.correoCliente,
-                        bundle.getDouble("costoTotal"), "Cargo ProAtHome - " + bundle.getString("sesion"),
-                        bundle.getString("deviceID"), idCliente, bundle, contexto);
+                if(NetworkValidate.validate(contexto)){
+                    String idCard = operationResult.getResult().getId();
+                    //Cobro de Servicio
+                    ServiciosSesion.cobroServicio(idCard, nombreTitular, NuevaSesionFragment.correoCliente,
+                            bundle.getDouble("costoTotal"), "Cargo ProAtHome - " + bundle.getString("sesion"),
+                            bundle.getString("deviceID"), idCliente, bundle, contexto);
+
+                }else
+                    Toast.makeText(contexto, "No tienes conexión a Intenet o es muy inestable", Toast.LENGTH_LONG).show();
+
                 progressDialog.dismiss();
             }
         });

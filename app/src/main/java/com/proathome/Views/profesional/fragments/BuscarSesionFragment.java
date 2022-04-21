@@ -278,16 +278,18 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
     @Override
     public void addMarker(JSONObject object, LatLng ubicacion) {
         try{
-            Marker marker = mMap.addMarker(new MarkerOptions()
-                    .position(ubicacion).title("Sesion de: " + object.getString("nombre") +
-                            "\n" + "Fecha: " + object.getString("fecha") +
-                            "\n" + "Nivel: " + Component.getSeccion(object.getInt("idSeccion")) +
-                            "/" + Component.getNivel(object.getInt("idSeccion"),
-                            object.getInt("idNivel")) + "\n" + "TIPO DE PLAN: " + object.getString("tipoPlan")).snippet(String.valueOf(
-                            object.getInt("idSesion"))));
-            if(!object.getString("tipoPlan").equalsIgnoreCase("PARTICULAR") && !object.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN"))
-                marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.profplan));
-            perth.add(marker);
+            if(object != null && mMap != null){
+                Marker marker = mMap.addMarker(new MarkerOptions()
+                        .position(ubicacion).title("Sesion de: " + object.getString("nombre") +
+                                "\n" + "Fecha: " + object.getString("fecha") +
+                                "\n" + "Nivel: " + Component.getSeccion(object.getInt("idSeccion")) +
+                                "/" + Component.getNivel(object.getInt("idSeccion"),
+                                object.getInt("idNivel")) + "\n" + "TIPO DE PLAN: " + object.getString("tipoPlan")).snippet(String.valueOf(
+                                object.getInt("idSesion"))));
+                if(!object.getString("tipoPlan").equalsIgnoreCase("PARTICULAR") && !object.getString("tipoPlan").equalsIgnoreCase("PARTICULAR_PLAN"))
+                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.profplan));
+                perth.add(marker);
+            }
         }catch (JSONException e){
             e.printStackTrace();
         }

@@ -89,9 +89,10 @@ public class MatchSesionInteractorImpl implements MatchSesionInteractor {
                 matchSesionPresenter.hideProgress();
                 if(response != null){
                     JSONObject data = new JSONObject(response);
-                    if(data.getBoolean("respuesta"))
+                    if(data.getBoolean("respuesta")){
+                        //NOTIFICAMOS A CLIENTE
                         matchSesionPresenter.successMatch(data.getString("mensaje"));
-                    else
+                    }else
                         matchSesionPresenter.showError(data.getString("mensaje"));
                 }else
                     matchSesionPresenter.showError("Ocurrió un error inesperado");
@@ -100,6 +101,16 @@ public class MatchSesionInteractorImpl implements MatchSesionInteractor {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void notificarCliente(JSONObject jsonObject) {
+        matchSesionPresenter.showProgress();
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            matchSesionPresenter.hideProgress();
+            matchSesionPresenter.closeActivity();
+        }, APIEndPoints.NOTIFICACION_CLIENTE, WebServicesAPI.POST, jsonObject);
+        webServicesAPI.execute();
     }
 
     public int getHorarioNumber(String horario){

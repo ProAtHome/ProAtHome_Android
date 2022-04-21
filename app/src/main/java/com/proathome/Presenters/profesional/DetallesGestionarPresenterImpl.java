@@ -6,6 +6,8 @@ import com.proathome.Interfaces.profesional.DetallesGestionar.DetallesGestionarI
 import com.proathome.Interfaces.profesional.DetallesGestionar.DetallesGestionarPresenter;
 import com.proathome.Interfaces.profesional.DetallesGestionar.DetallesGestionarView;
 
+import org.json.JSONObject;
+
 public class DetallesGestionarPresenterImpl implements DetallesGestionarPresenter {
 
     private DetallesGestionarView detallesGestionarView;
@@ -65,6 +67,17 @@ public class DetallesGestionarPresenterImpl implements DetallesGestionarPresente
     public void hideProgress() {
         if(detallesGestionarView != null)
             detallesGestionarView.hideProgress();
+    }
+
+    @Override
+    public void notificarCliente(JSONObject jsonObject) {
+        detallesGestionarInteractor.notificarCliente(jsonObject);
+    }
+
+    @Override
+    public void closeFragment() {
+        if(detallesGestionarView != null)
+            detallesGestionarView.closeFragment();
     }
 
 }

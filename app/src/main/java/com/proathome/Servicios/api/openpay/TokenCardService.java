@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 import com.proathome.Servicios.api.APIEndPoints;
 import com.proathome.Servicios.api.WebServicesAPI;
+import com.proathome.Utils.NetworkValidate;
 import com.proathome.Views.cliente.ServicioCliente;
 import com.proathome.Views.cliente.fragments.CobroFinalFragment;
 import com.proathome.Views.cliente.fragments.DatosBancoPlanFragment;
@@ -71,49 +72,53 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
             @Override
             public void onSuccess(OperationResult<Token> operationResult) {
                 progressDialog.dismiss();
-                DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
-                separadoresPersonalizados.setDecimalSeparator('.');
-                DecimalFormat formato1 = new DecimalFormat("#.00", separadoresPersonalizados);
-                JSONObject parametrosPost= new JSONObject();
 
-                try{
-                    parametrosPost.put("idCard", operationResult.getResult().getId());
-                    parametrosPost.put("nombreCliente", CobroFinalFragment.nombreCliente);
-                    parametrosPost.put("correo", CobroFinalFragment.correo);
-                    parametrosPost.put("cobro", formato1.format(DatosBancoPlanFragment.costoTotal));
-                    parametrosPost.put("descripcion", "Cargo ProAtHome - " + CobroFinalFragment.sesion);
-                    parametrosPost.put("deviceId", DatosBancoPlanFragment.deviceIdString);
-                    ProgressDialog progressDialog = ProgressDialog.show(contexto, "Generando Cobro", "Por favor, espere...");
-                    WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
-                        if(response != null){
-                            progressDialog.dismiss();
-                            JSONObject jsonObject = new JSONObject(response);
-                            if(jsonObject.getBoolean("respuesta")){
-                                //Actualizar la orden de pago con el costo del TE
-                                actualizarPagoTE();
-                                //generarOrdenPago();
+                if(NetworkValidate.validate(contexto)){
+                    DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
+                    separadoresPersonalizados.setDecimalSeparator('.');
+                    DecimalFormat formato1 = new DecimalFormat("#.00", separadoresPersonalizados);
+                    JSONObject parametrosPost= new JSONObject();
 
-                                //Generamos el tiempo extra y la vida sigue.
-                                activarTiempoExtra();
-                            }else {//Mostramos el error.
-                                SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), true, "OK", ()->{
-                                    //Preguntamos si desea más tiempo Extra.
-                                    MasTiempo masTiempo = new MasTiempo();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putInt("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
-                                    bundle.putInt("idCliente", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
-                                    masTiempo.setArguments(bundle);
-                                    masTiempo.show(ServicioCliente.obtenerFargment(Constants.fragmentActivity), "Tiempo Extra");
-                                });
-                            }
-                        }else
-                            SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrio un error, intente de nuevo mas tarde.", false, null, null);
-                    }, APIEndPoints.COBROS, WebServicesAPI.POST, parametrosPost);
-                    webServicesAPI.execute();
-                }catch (JSONException ex){
-                    ex.printStackTrace();
-                    SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrio un error, intente de nuevo mas tarde.", false, null, null);
-                }
+                    try{
+                        parametrosPost.put("idCard", operationResult.getResult().getId());
+                        parametrosPost.put("nombreCliente", CobroFinalFragment.nombreCliente);
+                        parametrosPost.put("correo", CobroFinalFragment.correo);
+                        parametrosPost.put("cobro", formato1.format(DatosBancoPlanFragment.costoTotal));
+                        parametrosPost.put("descripcion", "Cargo ProAtHome - " + CobroFinalFragment.sesion);
+                        parametrosPost.put("deviceId", DatosBancoPlanFragment.deviceIdString);
+                        ProgressDialog progressDialog = ProgressDialog.show(contexto, "Generando Cobro", "Por favor, espere...");
+                        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                            if(response != null){
+                                progressDialog.dismiss();
+                                JSONObject jsonObject = new JSONObject(response);
+                                if(jsonObject.getBoolean("respuesta")){
+                                    //Actualizar la orden de pago con el costo del TE
+                                    actualizarPagoTE();
+                                    //generarOrdenPago();
+
+                                    //Generamos el tiempo extra y la vida sigue.
+                                    activarTiempoExtra();
+                                }else {//Mostramos el error.
+                                    SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), true, "OK", ()->{
+                                        //Preguntamos si desea más tiempo Extra.
+                                        MasTiempo masTiempo = new MasTiempo();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putInt("idSesion", Constants.idSesion_DISPONIBILIDAD_PROGRESO);
+                                        bundle.putInt("idCliente", Constants.idPerfil_DISPONIBILIDAD_PROGRESO);
+                                        masTiempo.setArguments(bundle);
+                                        masTiempo.show(ServicioCliente.obtenerFargment(Constants.fragmentActivity), "Tiempo Extra");
+                                    });
+                                }
+                            }else
+                                SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrio un error, intente de nuevo mas tarde.", false, null, null);
+                        }, APIEndPoints.COBROS, WebServicesAPI.POST, parametrosPost);
+                        webServicesAPI.execute();
+                    }catch (JSONException ex){
+                        ex.printStackTrace();
+                        SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrio un error, intente de nuevo mas tarde.", false, null, null);
+                    }
+                }else
+                    Toast.makeText(contexto, "No tienes conexión a Intenet o es muy inestable", Toast.LENGTH_LONG).show();
             }
         });
 

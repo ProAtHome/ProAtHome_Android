@@ -6,14 +6,18 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.material.button.MaterialButton;
 import com.proathome.Interfaces.cliente.ServicioCliente.ServicioClientePresenter;
 import com.proathome.Interfaces.cliente.ServicioCliente.ServicioClienteView;
 import com.proathome.Presenters.cliente.ServicioClientePresenterImpl;
 import com.proathome.R;
 import com.proathome.Servicios.sesiones.ServiciosSesion;
+import com.proathome.Utils.NetworkValidate;
 import com.proathome.Views.cliente.fragments.DetallesFragment;
 import com.proathome.Views.fragments_compartidos.MaterialFragment;
 import com.proathome.Utils.pojos.Component;
@@ -76,7 +80,12 @@ public class ServicioCliente extends AppCompatActivity implements ServicioClient
             @Override
             public void run() {
                 handler.post(() -> {
-                    servicioClientePresenter.servicioDisponible(getApplicationContext(), idSesion, idCliente, DetallesFragment.CLIENTE, ServicioCliente.this);
+                    if(NetworkValidate.validate(ServicioCliente.this))
+                        servicioClientePresenter.servicioDisponible(getApplicationContext(), idSesion, idCliente, DetallesFragment.CLIENTE, ServicioCliente.this);
+                    else{
+                        Toast.makeText(ServicioCliente.this, "No tienes conexión a Intenet o es muy inestable", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
                 });
             }
         };
@@ -140,6 +149,7 @@ public class ServicioCliente extends AppCompatActivity implements ServicioClient
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d("TAGDESTROY", "OnDestroy");
         if(countDownTimer != null)
             countDownTimer.cancel();
         timer.cancel();

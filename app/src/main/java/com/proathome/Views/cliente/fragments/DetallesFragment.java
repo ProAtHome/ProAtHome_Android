@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,6 +33,7 @@ import com.proathome.Interfaces.cliente.Detalles.DetallesPresenter;
 import com.proathome.Interfaces.cliente.Detalles.DetallesView;
 import com.proathome.Presenters.cliente.DetallesPresenterImpl;
 import com.proathome.R;
+import com.proathome.Utils.NetworkValidate;
 import com.proathome.Views.activitys_compartidos.SincronizarServicio;
 import com.proathome.Views.fragments_compartidos.NuevoTicketFragment;
 import com.proathome.Views.fragments_compartidos.PerfilFragment;
@@ -88,6 +91,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback, De
     TextView tipoPlan;
     @BindView(R.id.perfilClienteCard)
     MaterialCardView perfilClienteCard;
+    @BindView(R.id.fecha)
+    TextView fecha;
 
     public DetallesFragment() {
 
@@ -174,6 +179,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback, De
         latitud = bun.getDouble("latitud");
         longitud = bun.getDouble("longitud");
         profesional.setText(bun.getString("profesional"));
+        fecha.setText("Fecha: " + bun.getString("fecha"));
         lugar.setText("Dirección: " + bun.getString("lugar"));
         tiempo.setText("Tiempo: " + obtenerHorario(bun.getInt("tiempo")));
         tiempoPasar = bun.getInt("tiempo");
@@ -197,18 +203,21 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback, De
 
 
         iniciar.setOnClickListener(v -> {
-            detallesPresenter.cambiarDisponibilidadCliente(idSesion, idCliente, true);
+            if(NetworkValidate.validate(getContext())){
+                detallesPresenter.cambiarDisponibilidadCliente(idSesion, idCliente, true);
 
-            Intent intent = new Intent(getContext(), SincronizarServicio.class);
-            intent.putExtra("perfil", CLIENTE);
-            intent.putExtra("idSesion", idSesion);
-            intent.putExtra("idPerfil", idCliente);
-            intent.putExtra("tiempo", tiempoPasar);
-            intent.putExtra("idSeccion", bun.getInt("idSeccion"));
-            intent.putExtra("idNivel", bun.getInt("idNivel"));
-            intent.putExtra("idBloque", bun.getInt("idBloque"));
-            intent.putExtra("sumar", sumar);
-            startActivity(intent);
+                Intent intent = new Intent(getContext(), SincronizarServicio.class);
+                intent.putExtra("perfil", CLIENTE);
+                intent.putExtra("idSesion", idSesion);
+                intent.putExtra("idPerfil", idCliente);
+                intent.putExtra("tiempo", tiempoPasar);
+                intent.putExtra("idSeccion", bun.getInt("idSeccion"));
+                intent.putExtra("idNivel", bun.getInt("idNivel"));
+                intent.putExtra("idBloque", bun.getInt("idBloque"));
+                intent.putExtra("sumar", sumar);
+                startActivity(intent);
+            }else
+                Toast.makeText(getContext(), "No tienes conexión a Intenet o es muy inestable", Toast.LENGTH_LONG).show();
         });
 
         return view;

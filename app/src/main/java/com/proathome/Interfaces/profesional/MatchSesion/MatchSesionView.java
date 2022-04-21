@@ -17,4 +17,6 @@ public interface MatchSesionView {
 
     void hideProgress();
 
+    void closeActivity();
+
 }

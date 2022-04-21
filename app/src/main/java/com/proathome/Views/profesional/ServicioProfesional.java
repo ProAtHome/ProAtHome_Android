@@ -6,12 +6,16 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.material.button.MaterialButton;
 import com.proathome.Interfaces.profesional.ServicioProfesional.ServicioProfesionalPresenter;
 import com.proathome.Interfaces.profesional.ServicioProfesional.ServicioProfesionalView;
 import com.proathome.Presenters.profesional.ServicioProfesionalPresenterImpl;
 import com.proathome.R;
+import com.proathome.Utils.NetworkValidate;
 import com.proathome.Utils.SweetAlert;
+import com.proathome.Views.cliente.ServicioCliente;
 import com.proathome.Views.profesional.fragments.DetallesSesionProfesionalFragment;
 import com.proathome.Views.fragments_compartidos.MaterialFragment;
 import com.proathome.Utils.pojos.Component;
@@ -116,7 +120,13 @@ public class ServicioProfesional extends AppCompatActivity implements ServicioPr
             @Override
             public void run() {
                 handler2.post(() -> {
-                    servicioProfesionalPresenter.validarSesionDisponible(getApplicationContext(), idSesion, idProfesional, DetallesSesionProfesionalFragment.PROFESIONAL, ServicioProfesional.this);
+                    //TODO  VALIDAR CONEXION A INTERNET
+                    if(NetworkValidate.validate(ServicioProfesional.this))
+                        servicioProfesionalPresenter.validarSesionDisponible(getApplicationContext(), idSesion, idProfesional, DetallesSesionProfesionalFragment.PROFESIONAL, ServicioProfesional.this);
+                    else{
+                        Toast.makeText(ServicioProfesional.this, "No tienes conexión a Intenet o es muy inestable", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
                 });
             }
         };

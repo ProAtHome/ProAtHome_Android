@@ -35,7 +35,7 @@ public class WebServiceAPIAssets extends AsyncTask<Void, Void, Bitmap> {
         URL imageUrl = null;
         try {
             imageUrl = new URL(this.urlApiAsset + this.nombre);
-            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
+            HttpsURLConnection conn = (HttpsURLConnection) imageUrl.openConnection();
             conn.connect();
             loadedImage = BitmapFactory.decodeStream(conn.getInputStream());
 

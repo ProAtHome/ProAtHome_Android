@@ -65,6 +65,7 @@ public class APIEndPoints {
     public static final String GET_INFO_INICIO_SESIONES = Constants.IP + "/ProAtHome/api/cliente/getInicioSesion/";
 
     //PROFESIONALES
+    public static final String NOTIFICACION_CLIENTE = Constants.IP_80 + "/assets/lib/NotificacionCliente.php";
     public static final String VALIDAR_TOKEN_SESION_PROFESIONAL = Constants.IP + "/ProAtHome/api/profesional/validarTokenSesion/";
     public static final String DATOS_BANCARIOS_PROFESIONAL = Constants.IP + "/ProAtHome/api/profesional/obtenerDatosBancarios/";
     public static final String MATCH_SESION = Constants.IP + "/ProAtHome/api/profesional/matchSesion";

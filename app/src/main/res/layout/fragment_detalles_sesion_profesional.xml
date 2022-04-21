@@ -129,10 +129,27 @@
                         style="@style/Titulos"/>
 
                     <TextView
-                        android:id="@+id/direccionTV"
+                        android:id="@+id/fechaTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/common_padding_default"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="@dimen/common_padding_min"
+                        android:text="Fecha: Fecha de la Sesión"
+                        android:gravity="center_vertical|center"
+                        android:drawablePadding="@dimen/common_padding_min"
+                        android:textColor="@color/colorRosa"
+                        android:fontFamily="@font/din"
+                        android:drawableTint="@android:color/black"
+                        android:drawableLeft="@drawable/ic_date"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/infoTV"/>
+
+                    <TextView
+                        android:id="@+id/direccionTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_padding_min"
                         android:textStyle="bold"
                         android:layout_marginBottom="@dimen/common_padding_min"
                         android:text="Dirección: Dirección de la Sesión"
@@ -143,7 +160,7 @@
                         android:drawableTint="@android:color/black"
                         android:drawableLeft="@drawable/ic_direccion"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/infoTV"/>
+                        app:layout_constraintTop_toBottomOf="@+id/fechaTV"/>
 
                     <TextView
                         android:id="@+id/tiempoTV"

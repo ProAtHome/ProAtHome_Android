@@ -85,4 +85,14 @@ public class DetallesGestionarInteractorImpl implements DetallesGestionarInterac
         webServiceAPIAssets.execute();
     }
 
+    @Override
+    public void notificarCliente(JSONObject jsonObject) {
+        detallesGestionarPresenter.showProgress();
+        WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            detallesGestionarPresenter.hideProgress();
+            detallesGestionarPresenter.closeFragment();
+        }, APIEndPoints.NOTIFICACION_CLIENTE, WebServicesAPI.POST, jsonObject);
+        webServicesAPI.execute();
+    }
+
 }

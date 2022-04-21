@@ -29,6 +29,7 @@ import com.proathome.Interfaces.profesional.DetallesSesionProfesional.DetallesSe
 import com.proathome.Interfaces.profesional.DetallesSesionProfesional.DetallesSesionProfesionalView;
 import com.proathome.Presenters.profesional.DetallesSesionProfesionalPresenterImpl;
 import com.proathome.R;
+import com.proathome.Utils.NetworkValidate;
 import com.proathome.Views.activitys_compartidos.SincronizarServicio;
 import com.proathome.Views.fragments_compartidos.NuevoTicketFragment;
 import com.proathome.Views.fragments_compartidos.PerfilFragment;
@@ -78,18 +79,21 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
     TextView horarioTV;
     @BindView(R.id.observacionesTV)
     TextView observacionesTV;
+    @BindView(R.id.fechaTV)
+    TextView fechaTV;
 
     public DetallesSesionProfesionalFragment() {
 
     }
 
-    public static ComponentSesionesProfesional getmInstance(int idServicio, String nombreCliente, String descripcion, String correo,
+    public static ComponentSesionesProfesional getmInstance(int idServicio, String fecha, String nombreCliente, String descripcion, String correo,
                                                             String foto, String tipoServicio, String horario, String profesional,
                                                             String lugar, int tiempo, String observaciones, double latitud, double longitud,
                                                             int idSeccion, int idNivel, int idBloque, int idCliente, boolean finalizado) {
 
         mInstance = new ComponentSesionesProfesional();
         mInstance.setIdServicio(idServicio);
+        mInstance.setFecha(fecha);
         mInstance.setNombreCliente(nombreCliente);
         mInstance.setDescripcion(descripcion);
         mInstance.setCorreo(correo);
@@ -143,6 +147,7 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
         latitud = bun.getDouble("latitud");
         longitud = bun.getDouble("longitud");
         nombreTV.setText(bun.getString("cliente"));
+        fechaTV.setText(bun.getString("fecha"));
         descripcionTV.setText(bun.getString("descripcion"));
         correoTV.setText(bun.getString("correo"));
         direccionTV.setText(bun.getString("lugar"));
@@ -156,17 +161,20 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
         idProfesional = SharedPreferencesManager.getInstance(getContext()).getIDProfesional();
 
         iniciar.setOnClickListener(v -> {
-            detallesSesionProfesionalPresenter.cambiarDisponibilidadProfesional(idSesion, idProfesional, true);
+            if(NetworkValidate.validate(getContext())){
+                detallesSesionProfesionalPresenter.cambiarDisponibilidadProfesional(idSesion, idProfesional, true);
 
-            Intent intent = new Intent(getContext(), SincronizarServicio.class);
-            intent.putExtra("perfil", PROFESIONAL);
-            intent.putExtra("idSesion", idSesion);
-            intent.putExtra("idPerfil", idProfesional);
-            intent.putExtra("tiempo", tiempoPasar);
-            intent.putExtra("idSeccion", bun.getInt("idSeccion"));
-            intent.putExtra("idNivel", bun.getInt("idNivel"));
-            intent.putExtra("idBloque", bun.getInt("idBloque"));
-            startActivity(intent);
+                Intent intent = new Intent(getContext(), SincronizarServicio.class);
+                intent.putExtra("perfil", PROFESIONAL);
+                intent.putExtra("idSesion", idSesion);
+                intent.putExtra("idPerfil", idProfesional);
+                intent.putExtra("tiempo", tiempoPasar);
+                intent.putExtra("idSeccion", bun.getInt("idSeccion"));
+                intent.putExtra("idNivel", bun.getInt("idNivel"));
+                intent.putExtra("idBloque", bun.getInt("idBloque"));
+                startActivity(intent);
+            }else
+                Toast.makeText(getContext(), "No tienes conexión a Intenet o es muy inestable", Toast.LENGTH_LONG).show();
         });
 
         return view;

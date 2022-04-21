@@ -73,6 +73,7 @@ public class CommonUtilsSesionesProfesional {
                 bun.putInt("idSeccion", idSeccionS);
                 bun.putInt("idNivel", idNivelS);
                 bun.putInt("idBloque", idBloqueS);
+                bun.putString("fecha", fechaS);
                 bun.putInt("idCliente", idClienteS);
                 fragment.setArguments(bun);
                 fragmentBool = true;

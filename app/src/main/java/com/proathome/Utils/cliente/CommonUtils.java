@@ -95,6 +95,7 @@ public class CommonUtils {
                 bunG.putDouble("latitud", latitudS);
                 bunG.putDouble("longitud", longitudS);
                 bunG.putInt("idSeccion", idSeccionS);
+                bunG.putString("correoProfesional", correoProfesionalS);
                 bunG.putInt("idNivel", idNivelS);
                 bunG.putInt("idBloque", idBloqueS);
                 bunG.putString("fecha", fechaS);

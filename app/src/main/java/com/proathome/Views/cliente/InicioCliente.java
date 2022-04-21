@@ -12,6 +12,7 @@ import com.proathome.Interfaces.cliente.Inicio.InicioPresenter;
 import com.proathome.Interfaces.cliente.Inicio.InicioView;
 import com.proathome.Presenters.cliente.inicio.InicioPresenterImpl;
 import com.proathome.R;
+import com.proathome.Utils.NetworkValidate;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.SweetAlert;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -20,6 +21,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -136,7 +139,11 @@ public class InicioCliente extends AppCompatActivity implements InicioView {
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        inicioPresenter.cargarPerfil(SharedPreferencesManager.getInstance(this).getIDCliente(), InicioCliente.this);
+        if(NetworkValidate.validate(InicioCliente.this))
+            inicioPresenter.cargarPerfil(SharedPreferencesManager.getInstance(this).getIDCliente(), InicioCliente.this);
+        else
+            Toast.makeText(InicioCliente.this, "No tienes conexión a Intenet o es muy inestable", Toast.LENGTH_LONG).show();
+
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
 

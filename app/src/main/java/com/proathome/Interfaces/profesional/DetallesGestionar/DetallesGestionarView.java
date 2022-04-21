@@ -16,4 +16,6 @@ public interface DetallesGestionarView {
 
     void hideProgress();
 
+    void closeFragment();
+
 }

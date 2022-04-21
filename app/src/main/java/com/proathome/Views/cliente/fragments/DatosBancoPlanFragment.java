@@ -7,10 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.Interfaces.cliente.DatosBancoPlan.DatosBancoPlanPresenter;
 import com.proathome.Interfaces.cliente.DatosBancoPlan.DatosBancoPlanView;
 import com.proathome.Presenters.cliente.DatosBancoPlanPresenterImpl;
+import com.proathome.Utils.NetworkValidate;
 import com.proathome.Views.cliente.ServicioCliente;
 import com.proathome.R;
 import com.proathome.Utils.Constants;
@@ -117,9 +120,12 @@ public class DatosBancoPlanFragment extends DialogFragment implements DatosBanco
             parametrosPost.put("cobro", formato1.format(deuda));
             parametrosPost.put("descripcion", descripcion);
             parametrosPost.put("deviceId", deviceId);
-            datosBancoPlanPresenter.validarDatos(etNombreTitular.getText().toString(), etTarjeta.getText().toString(),
-                    etMes.getText().toString(), etAno.getText().toString(), etCVV.getText().toString(), procedencia, getContext(),
-                    parametrosPost, idSesion);
+            if(NetworkValidate.validate(getContext())){
+                datosBancoPlanPresenter.validarDatos(etNombreTitular.getText().toString(), etTarjeta.getText().toString(),
+                        etMes.getText().toString(), etAno.getText().toString(), etCVV.getText().toString(), procedencia, getContext(),
+                        parametrosPost, idSesion);
+            }else
+                Toast.makeText(getContext(), "No tienes conexión a Intenet o es muy inestable", Toast.LENGTH_LONG).show();
         }catch (JSONException e){
             e.printStackTrace();
         }

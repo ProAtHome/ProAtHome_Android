@@ -35,6 +35,10 @@ import com.proathome.Utils.pojos.ComponentProfesional;
 import com.proathome.Utils.pojos.ComponentSesionesProfesional;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.SweetAlert;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -54,6 +58,7 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
     private double longitud = -99.13320799999, latitud = 19.4326077;
     private DetallesGestionarPresenter detallesGestionarPresenter;
     private ProgressDialog progressDialog;
+    private Bundle bun;
 
     @BindView(R.id.cliente)
     TextView tvCliente;
@@ -95,7 +100,7 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
         this.idProfesional = SharedPreferencesManager.getInstance(getContext()).getIDProfesional();
 
         ComponentSesionesProfesional componentSesionesProfesional = new ComponentSesionesProfesional();
-        Bundle bun = getArguments();
+        bun = getArguments();
         fotoPerfil = view.findViewById(R.id.foto);
         idSesion = bun.getInt("idServicio");
         this.fotoNombre = bun.getString("foto");
@@ -227,6 +232,12 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
     }
 
     @Override
+    public void closeFragment() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        getActivity().finish();
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -256,8 +267,18 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
     public void successCancel(String mensaje) {
         SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", mensaje,
                 true, "OK", ()->{
-                    getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-                    getActivity().finish();
+                    //NOTIFICAR CLIENTE
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("tipo", "LIBERACION");
+                        jsonObject.put("correoProfesional", SharedPreferencesManager.getInstance(getContext()).getCorreoProfesional());
+                        jsonObject.put("correoCliente", bun.getString("correo"));
+                        jsonObject.put("fechaServicio", bun.getString("fecha"));
+                        jsonObject.put("horaServicio", bun.getString("horario"));
+                        detallesGestionarPresenter.notificarCliente(jsonObject);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 });
     }
 
