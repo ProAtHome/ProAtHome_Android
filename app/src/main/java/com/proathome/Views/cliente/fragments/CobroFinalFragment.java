@@ -175,7 +175,8 @@ public class CobroFinalFragment extends DialogFragment implements CobroFinalView
 
     @Override
     public void hideProgress() {
-        progressDialog.dismiss();
+        if(progressDialog != null)
+            progressDialog.dismiss();
     }
 
     @Override

@@ -150,6 +150,7 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
 
     @Override
     public void registrarServicio(int idCliente, String token, Bundle bundle, boolean rutaFinalizada, int nuevoMonedero, Context context) {
+        nuevaSesionPresenter.showProgress();
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("token", token);
@@ -174,6 +175,7 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
             jsonObject.put("personas", bundle.getInt("personas"));
             jsonObject.put("nuevoMonedero", nuevoMonedero);
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                nuevaSesionPresenter.hideProgress();
                 if(response != null){
                     JSONObject respuesta = new JSONObject(response);
                     if(respuesta.getBoolean("respuesta")){
@@ -205,6 +207,7 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
 
     @Override
     public void validarEmpalme(int idCliente, String fecha, String horario) {
+        nuevaSesionPresenter.showProgress();
         JSONObject data = new JSONObject();
         try {
             data.put("idCliente", idCliente);
@@ -213,6 +216,7 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
             data.put("reagendar", false);
             data.put("idSesion", 0);
             WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+                nuevaSesionPresenter.hideProgress();
                 if(response != null){
                     JSONObject dataResponse = new JSONObject(response);
                     if(dataResponse.getBoolean("respuesta"))

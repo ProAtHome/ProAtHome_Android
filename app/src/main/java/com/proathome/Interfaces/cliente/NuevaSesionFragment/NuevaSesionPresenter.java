@@ -33,4 +33,8 @@ public interface NuevaSesionPresenter {
 
     void validacionPlanes_Ruta();
 
+    void showProgress();
+
+    void hideProgress();
+
 }

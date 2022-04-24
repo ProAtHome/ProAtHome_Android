@@ -98,4 +98,16 @@ public class NuevaSesionFrPresenterImpl implements NuevaSesionPresenter {
             nuevaSesionView.validacionPlanes_Ruta();
     }
 
+    @Override
+    public void showProgress() {
+        if(nuevaSesionView != null)
+            nuevaSesionView.showProgress();
+    }
+
+    @Override
+    public void hideProgress() {
+        if(nuevaSesionView != null)
+            nuevaSesionView.hideProgress();
+    }
+
 }

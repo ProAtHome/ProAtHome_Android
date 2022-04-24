@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -54,6 +56,7 @@ public class SesionesFragment extends Fragment implements SesionesView {
     public static Fragment fragment;
     private int seccion, nivel, bloque, minutos_horas;
     private ProgressDialog progressDialog;
+    public static boolean click = false;
 
     @BindView(R.id.recyclerGestionar)
     RecyclerView recyclerView;
@@ -105,19 +108,26 @@ public class SesionesFragment extends Fragment implements SesionesView {
     public void onClicked(View view){
         switch (view.getId()){
             case R.id.fabNuevaSesion:
-                //Validar si puedes crear otra sesion dependiendo las horas del bloque.
-                if(disponibilidad){
-                    NuevaSesionFragment.disponibilidad = true;
-                    NuevaSesionFragment.horasDisponibles = SesionesFragment.horasDisponibles;
-                    if((horasDisponibles / 60) == 1){
-                        SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡AVISO!", "Sólo puedes crear una servicio con la hora faltante del bloque de la ruta de Aprendizaje Actual.", true, "OK", ()->{
+                if(!click){
+                    click = true;
+                    showProgress();
+                    //Validar si puedes crear otra sesion dependiendo las horas del bloque.
+                    if(disponibilidad){
+                        //showProgress();
+                        NuevaSesionFragment.disponibilidad = true;
+                        NuevaSesionFragment.horasDisponibles = SesionesFragment.horasDisponibles;
+                        if((horasDisponibles / 60) == 1){
+                            SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡AVISO!", "Sólo puedes crear una servicio con la hora faltante del bloque de la ruta de Aprendizaje Actual.", true, "OK", ()->{
+                                validarPlan_Monedero();
+                            });
+                        }else
                             validarPlan_Monedero();
-                        });
-                    }else
-                        validarPlan_Monedero();
-                }else{
-                    NuevaSesionFragment.disponibilidad = false;
-                    SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ESPERA!", "El bloque actual tiene todas las horas ocupadas por servicios, termina tus servicios actuales y regresa por más.", false, null, null);
+                    }else{
+                        click = false;
+                        hideProgress();
+                        NuevaSesionFragment.disponibilidad = false;
+                        SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ESPERA!", "El bloque actual tiene todas las horas ocupadas por servicios, termina tus servicios actuales y regresa por más.", false, null, null);
+                    }
                 }
                 break;
             case R.id.fabActualizar:
@@ -136,6 +146,8 @@ public class SesionesFragment extends Fragment implements SesionesView {
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
                     Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 showAlert();
+                hideProgress();
+                click = false;
             } else {
                 if(SesionesFragment.SESIONES_PAGADAS_FINALIZADAS){
                     if(SesionesFragment.PLAN_ACTIVO){
@@ -160,11 +172,15 @@ public class SesionesFragment extends Fragment implements SesionesView {
                         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                         planesFragment.setArguments(bundle);
                         planesFragment.show(transaction, "Planes Disponibles");
+                        hideProgress();
+                        click = false;
                     }
                 }else
                     toNuevaSesion();
             }
         }else if(SesionesFragment.PLAN_ACTIVO && SesionesFragment.MONEDERO == 0){
+            hideProgress();
+            click = false;
             SweetAlert.showMsg(getContext(), SweetAlert.WARNING_TYPE, "¡ESPERA!", "Tienes un plan activo pero ya no tienes tiempo disponible, o solicitaste un servicio con saldo de tu monedero previamente," +
                     " elimina una sesión o espera a que finalicen los servicios que creaste.", false, null, null);
         }else{
@@ -172,6 +188,8 @@ public class SesionesFragment extends Fragment implements SesionesView {
                     PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
                     Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 showAlert();
+                hideProgress();
+                click = false;
             } else {
                 if(SesionesFragment.SESIONES_PAGADAS_FINALIZADAS){
                     if(SesionesFragment.PLAN_ACTIVO){
@@ -196,6 +214,8 @@ public class SesionesFragment extends Fragment implements SesionesView {
                         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                         planesFragment.setArguments(bundle);
                         planesFragment.show(transaction, "Planes Disponibles");
+                        hideProgress();
+                        click = false;
                     }
                 }else
                     toNuevaSesion();
@@ -224,6 +244,7 @@ public class SesionesFragment extends Fragment implements SesionesView {
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         nueva.setArguments(bundle);
         nueva.show(transaction, NuevaSesionFragment.TAG);
+        hideProgress();
     }
 
     @Override
@@ -234,12 +255,17 @@ public class SesionesFragment extends Fragment implements SesionesView {
 
     @Override
     public void showProgress() {
+        fabNuevaSesion.setVisibility(View.INVISIBLE);
+        fabNuevaSesion.setEnabled(false);
         progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere por favor...");
     }
 
     @Override
     public void hideProgress() {
-        progressDialog.dismiss();
+        fabNuevaSesion.setVisibility(View.VISIBLE);
+        fabNuevaSesion.setEnabled(true);
+        if(progressDialog != null)
+            progressDialog.dismiss();
     }
 
     @Override

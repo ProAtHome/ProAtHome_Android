@@ -4,6 +4,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +73,8 @@ public class PreOrdenServicio extends DialogFragment implements PreOrdenServicio
         mUnbinder = ButterKnife.bind(this, view);
         bundle = getArguments();
 
+        Log.d("TAG12", "ENTRO");
+
         /*Mostramos los datos de la PreOrden*/
         etNombreTitular.setText(nombreTitular);
         etTarjeta.setText(tarjeta);
@@ -115,6 +119,7 @@ public class PreOrdenServicio extends DialogFragment implements PreOrdenServicio
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
+        NuevaSesionFragment.clickSolicitar = false;
     }
 
 }

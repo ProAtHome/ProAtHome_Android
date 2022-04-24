@@ -20,4 +20,8 @@ public interface NuevaSesionView {
 
     void validacionPlanes_Ruta();
 
+    void showProgress();
+
+    void hideProgress();
+
 }

@@ -3,6 +3,7 @@ package com.proathome.Views.cliente.fragments;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -14,6 +15,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +32,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.proathome.Interfaces.cliente.NuevaSesionFragment.NuevaSesionPresenter;
@@ -74,6 +78,8 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     private NuevaSesionPresenter nuevaSesionPresenter;
     private Unbinder mUnbinder;
     private SupportMapFragment mapFragment;
+    private ProgressDialog progressDialog;
+    public static boolean clickSolicitar = false;
 
     @BindView(R.id.text_direccionET)
     TextInputEditText direccionET;
@@ -99,6 +105,8 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     Spinner bloques;
     @BindView(R.id.horasDisponibles)
     TextView horasDisponiblesTV;
+    @BindView(R.id.btnSolicitar)
+    MaterialButton btnSolicitar;
 
     public static int minutosAnteriores = 0;
     public static int minutosEstablecidos = 0;
@@ -113,13 +121,14 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialog);
         nuevaSesionPresenter = new NuevaSesionFrPresenterImpl(this);
+        showProgress();
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (mMap == null) {
-             mapFragment = (WorkaroundMapFragment) getActivity()
+             mapFragment = (SupportMapFragment) getActivity()
                     .getSupportFragmentManager().findFragmentById(R.id.mapNueva);
             mapFragment.getMapAsync(this);
         }
@@ -127,6 +136,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d("TAG11", "Entro");
         View view = inflater.inflate(R.layout.fragment_nueva_sesion, container, false);
         mUnbinder = ButterKnife.bind(this, view);
         dialogFragment = this;
@@ -173,6 +183,12 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        hideProgress();
     }
 
     public void setAdaptersInfoGeneral(){
@@ -265,6 +281,18 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
         }
     }
 
+    @Override
+    public void showProgress() {
+        if(getContext() != null)
+            progressDialog = ProgressDialog.show(getContext(), "Cargando", "Espere...");
+    }
+
+    @Override
+    public void hideProgress() {
+        if(progressDialog != null)
+            progressDialog.dismiss();
+    }
+
     public void registroDeServicio(int idCliente, String horario, String lugar,
                                 int tiempo, int idSeccion, int idNivel, int idBloque, String extras, String tipoServicio,
                                 double latitud, double longitud, String actualizado, String fecha, boolean sumar, String tipoPlan, int personas){
@@ -277,6 +305,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                     fecha, sumar, tipoPlan, personas);
             guardarPago(bundle, "PLAN - " + SesionesFragment.PLAN);
         }else{
+            btnSolicitar.setEnabled(false);
             PreOrdenServicio.sesion = "Sesión: " + Component.getSeccion(secciones.getSelectedItemPosition() + 1) + " / "
                     + Component.getNivel(secciones.getSelectedItemPosition() + 1, niveles.getSelectedItemPosition() + 1) + " / "
                     + Component.getBloque(bloques.getSelectedItemPosition() + 1);
@@ -290,6 +319,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
             preOrdenServicio.setArguments(bundle);
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             preOrdenServicio.show(fragmentTransaction, "PreOrden");
+            btnSolicitar.setEnabled(true);
         }
     }
 
@@ -399,9 +429,13 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                 !observacionesET.getText().toString().trim().equalsIgnoreCase("") &&
                 !fechaET.getText().toString().trim().equalsIgnoreCase("")) {
             if (obtenerMinutosHorario() != 0) {
-                if(banco)//VALIDAR HORA Y FECHA DEL SERVICIO
-                    nuevaSesionPresenter.validarEmpalme(SharedPreferencesManager.getInstance(getContext()).getIDCliente(), fechaET.getText().toString(), horarioET.getText().toString());
-                else
+                if(banco){
+                    //VALIDAR HORA Y FECHA DEL SERVICIO
+                    if(!clickSolicitar){
+                        nuevaSesionPresenter.validarEmpalme(SharedPreferencesManager.getInstance(getContext()).getIDCliente(), fechaET.getText().toString(), horarioET.getText().toString());
+                        clickSolicitar = true;
+                    }
+                } else
                     SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡AVISO!","Sin datos bancarios.", false, null, null);
             } else
                 SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Elige el tiempo de duración de el servicio.", false, null, null);
@@ -811,6 +845,13 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
             bloques.setOnItemSelectedListener(null);
             bloques.setAdapter(null);
         }
+
+        if(progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
+
+        SesionesFragment.click = false;
 
         Fragment fragment = (getFragmentManager().findFragmentById(R.id.mapNueva));
         if (fragment != null){
