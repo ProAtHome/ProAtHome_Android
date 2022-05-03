@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -35,6 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyCallback, MatchSesionView {
 
@@ -71,7 +73,7 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
     @BindView(R.id.horarioTV)
     TextView horarioTV;
     @BindView(R.id.fotoCliente)
-    AppCompatImageView imageView;
+    CircleImageView imageView;
     @BindView(R.id.fechaTV)
     TextView fechaTV;
 
@@ -128,7 +130,8 @@ public class MatchSesionCliente extends AppCompatActivity implements OnMapReadyC
 
     @Override
     public void setImageBitmap(Bitmap bitmap){
-        imageView.setImageBitmap(bitmap);
+        if(bitmap != null && imageView != null)
+            imageView.setImageBitmap(bitmap);
     }
 
     @Override

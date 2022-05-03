@@ -4,6 +4,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
+
 import com.proathome.Interactors.cliente.EditarPerfilInteractorImpl;
 import com.proathome.Interfaces.cliente.EditarPerfil.EditarPerfilInteractor;
 import com.proathome.Interfaces.cliente.EditarPerfil.EditarPerfilPresenter;
@@ -99,9 +101,9 @@ public class EditarPerfilPresenterImpl implements EditarPerfilPresenter {
     }
 
     @Override
-    public void setFotoBitmap(Bitmap bitmap) {
+    public void setFotoMedia(Bitmap bitmap) {
         if(editarPerfilView != null)
-            editarPerfilView.setFotoBitmap(bitmap);
+            editarPerfilView.setFotoMedia(bitmap);
     }
 
     @Override

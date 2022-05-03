@@ -74,6 +74,7 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
                 progressDialog.dismiss();
 
                 if(NetworkValidate.validate(contexto)){
+                    ServicioCliente.enCompra = true;
                     DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
                     separadoresPersonalizados.setDecimalSeparator('.');
                     DecimalFormat formato1 = new DecimalFormat("#.00", separadoresPersonalizados);
@@ -95,10 +96,8 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
                                     //Actualizar la orden de pago con el costo del TE
                                     actualizarPagoTE();
                                     //generarOrdenPago();
-
-                                    //Generamos el tiempo extra y la vida sigue.
-                                    activarTiempoExtra();
                                 }else {//Mostramos el error.
+                                    ServicioCliente.enCompra = false;
                                     SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), true, "OK", ()->{
                                         //Preguntamos si desea más tiempo Extra.
                                         MasTiempo masTiempo = new MasTiempo();
@@ -109,12 +108,15 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
                                         masTiempo.show(ServicioCliente.obtenerFargment(Constants.fragmentActivity), "Tiempo Extra");
                                     });
                                 }
-                            }else
+                            }else{
+                                ServicioCliente.enCompra = true;
                                 SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrio un error, intente de nuevo mas tarde.", false, null, null);
+                            }
                         }, APIEndPoints.COBROS, WebServicesAPI.POST, parametrosPost);
                         webServicesAPI.execute();
                     }catch (JSONException ex){
                         ex.printStackTrace();
+                        ServicioCliente.enCompra = false;
                         SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrio un error, intente de nuevo mas tarde.", false, null, null);
                     }
                 }else
@@ -127,6 +129,7 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
 
     private void activarTiempoExtra(){
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            ServicioCliente.enCompra = false;
             Toast.makeText(contexto, "Tiempo Extra en Curso.", Toast.LENGTH_SHORT).show();
         }, APIEndPoints.ACTIVAR_TIEMPO_EXTRA + DatosBancoPlanFragment.idSesion + "/" + DatosBancoPlanFragment.idCliente + "/" + CobroFinalFragment.progresoTotal, WebServicesAPI.PUT, new JSONObject());
         webServicesAPI.execute();
@@ -157,6 +160,8 @@ public class TokenCardService extends AsyncTask<Void, Void, String> {
 
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             Toast.makeText(this.contexto, "Pago de Tiempo Extra actualizado.", Toast.LENGTH_SHORT).show();
+            //Generamos el tiempo extra y la vida sigue.
+            activarTiempoExtra();
         }, APIEndPoints.ACTUALIZAR_PAGO_TE, WebServicesAPI.PUT, parametrosPost);
         webServicesAPI.execute();
     }

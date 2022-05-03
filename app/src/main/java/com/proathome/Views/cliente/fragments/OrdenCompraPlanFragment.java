@@ -39,6 +39,7 @@ public class OrdenCompraPlanFragment extends DialogFragment implements OrdenComp
     private double cobro;
     private ProgressDialog progressDialog;
     private OrdenCompraPlanPresenter ordenCompraPlanPresenter;
+    public static boolean clickComprar = false;
 
     @BindView(R.id.etTitular)
     TextInputEditText etNombreTitular;
@@ -91,11 +92,11 @@ public class OrdenCompraPlanFragment extends DialogFragment implements OrdenComp
                 parametrosPost.put("cobro", cobro);
                 parametrosPost.put("descripcion", descripcion);
                 parametrosPost.put("deviceId", OrdenCompraPlanFragment.deviceIdString);
+                ordenCompraPlanPresenter.comprar(etNombreTitular.getText().toString().trim(), etTarjeta.getText().toString().trim(), etMes.getText().toString().trim(),
+                        etAno.getText().toString().trim(), etCVV.getText().toString().trim(), idCliente, SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), parametrosPost);
             }catch (JSONException ex){
                 ex.printStackTrace();
             }
-            ordenCompraPlanPresenter.comprar(etNombreTitular.getText().toString().trim(), etTarjeta.getText().toString().trim(), etMes.getText().toString().trim(),
-                    etAno.getText().toString().trim(), etCVV.getText().toString().trim(), idCliente, SharedPreferencesManager.getInstance(getContext()).getTokenCliente(), parametrosPost);
         });
 
         Bundle bundle = getArguments();
@@ -211,7 +212,7 @@ public class OrdenCompraPlanFragment extends DialogFragment implements OrdenComp
 
     @Override
     public void successPlan() {
-        SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Pago correcto de PLAN.",
+        SweetAlert.showMsg(getContext(), SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Disfruta de tu PLAN!.",
                 true, "OK", ()->{
                                 /*TODO FLUJO_COBRO_PLAN: Activamos el PLAN correspondiente en el perfil y generamos las horas en monedero.
                                             Guardamos el PLAN  en el historial.

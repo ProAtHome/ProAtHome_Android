@@ -2,6 +2,7 @@ package com.proathome.Views.profesional;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import androidx.navigation.NavController;
@@ -17,24 +18,24 @@ import com.proathome.Utils.NetworkValidate;
 import com.proathome.Utils.SharedPreferencesManager;
 import com.proathome.Utils.SweetAlert;
 import com.proathome.Views.cliente.MainActivity;
-import com.proathome.Views.cliente.ServicioCliente;
-
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class InicioProfesional extends AppCompatActivity implements InicioView {
 
     private AppBarConfiguration mAppBarConfiguration;
     private Intent intent;
-    public static TextView correoTV, nombreTV;
-    public ImageView fotoPerfil;
+    public static TextView correoTV, nombreTV, tvCerrarSesion,
+            tvTerminosCondiciones, tvContacto;
+    public CircleImageView fotoPerfil;
     private InicioPresenter inicioPresenter;
 
     @Override
@@ -52,6 +53,9 @@ public class InicioProfesional extends AppCompatActivity implements InicioView {
         correoTV = view.findViewById(R.id.correoProfesionalTV);
         nombreTV = view.findViewById(R.id.nombreProfesionalTV);
         fotoPerfil = view.findViewById(R.id.fotoProfesionalIV);
+        tvCerrarSesion = navigationView.findViewById(R.id.tv_cerrar_sesion);
+        tvTerminosCondiciones = navigationView.findViewById(R.id.tv_tyc);
+        tvContacto = navigationView.findViewById(R.id.tv_contactanos);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_inicio_profesional, R.id.nav_editarPerfil_profesional, R.id.nav_sesiones_profesional,
                 R.id.nav_material_profesional, R.id.nav_cerrarSesion_Profesional, R.id.nav_ayudaProfesional,
@@ -62,14 +66,24 @@ public class InicioProfesional extends AppCompatActivity implements InicioView {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        inicioPresenter.validarTokenSesion(SharedPreferencesManager.getInstance(InicioProfesional.this).getIDProfesional(), SharedPreferencesManager.getInstance(InicioProfesional.this).getTokenProfesional());
-    }
+        tvCerrarSesion.setOnClickListener(view1 -> {
+            SharedPreferencesManager.getInstance(this).logout();
+            intent = new Intent(this, LoginProfesional.class);
+            startActivity(intent);
+            finish();
+        });
 
-    public void cerrarSesion(View view){
-        SharedPreferencesManager.getInstance(this).logout();
-        intent = new Intent(this, LoginProfesional.class);
-        startActivity(intent);
-        finish();
+        tvContacto.setOnClickListener(view1 -> {
+            Uri uri = Uri.parse("https://www.proathome.com.mx/ayuda/contacto");
+            startActivity(new Intent(Intent.ACTION_VIEW, uri));
+        });
+
+        tvTerminosCondiciones.setOnClickListener(view1 -> {
+            Uri uri = Uri.parse("https://www.proathome.com.mx/T&C/T&C-Profesional.pdf");
+            startActivity(new Intent(Intent.ACTION_VIEW, uri));
+        });
+
+        inicioPresenter.validarTokenSesion(SharedPreferencesManager.getInstance(InicioProfesional.this).getIDProfesional(), SharedPreferencesManager.getInstance(InicioProfesional.this).getTokenProfesional());
     }
 
     @Override
@@ -90,7 +104,8 @@ public class InicioProfesional extends AppCompatActivity implements InicioView {
 
     @Override
     public void setFoto(Bitmap bitmap) {
-        fotoPerfil.setImageBitmap(bitmap);
+        if(bitmap != null && fotoPerfil != null)
+            fotoPerfil.setImageBitmap(bitmap);
     }
 
     @Override

@@ -42,6 +42,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DetallesSesionProfesionalFragment extends Fragment implements OnMapReadyCallback, DetallesSesionProfesionalView {
 
@@ -54,7 +55,7 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
     private NestedScrollView mScrollView;
     private Unbinder mUnbinder;
     private double longitud = -99.13320799999, latitud = 19.4326077;
-    public static ImageView fotoPerfil;
+    public static CircleImageView fotoPerfil;
     public static String fotoNombre;
     public static boolean procedenciaFin = false;
     public static MaterialButton iniciar;
@@ -271,7 +272,8 @@ public class DetallesSesionProfesionalFragment extends Fragment implements OnMap
 
     @Override
     public void setFotoBitmap(Bitmap bitmap) {
-        fotoPerfil.setImageBitmap(bitmap);
+        if(bitmap != null && fotoPerfil != null)
+            fotoPerfil.setImageBitmap(bitmap);
     }
 
     @Override

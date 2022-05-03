@@ -55,7 +55,7 @@
                     android:layout_height="match_parent"
                     android:padding="@dimen/common_padding_min">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/foto"
                         android:layout_width="80dp"
                         android:layout_height="80dp"

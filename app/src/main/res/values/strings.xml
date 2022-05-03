@@ -270,5 +270,6 @@
     <string name="texto3">This approach proposes the use of biological microorganisms, like the bacterium Escherichia coli. Thus the model uses a flagellum for propulsion purposes. Electromagnetic fields normally control the motion of this kind of biological integrated device.</string>
     <string name="aviso_edad">AL REGISTRATE RECONOCES QUE CUENTAS CON LA MAYORIA DE EDAD EN EL PAIS DONDE REALIZAS TU REGISTO EN PRO AT HOME, RECUERDA QUE DEBES DE SER MAYOR DE EDAD PARA REGISTARTE EN PRO AT HOME</string>
     <string name="menu_terminos">Términos y Condiciones</string>
+    <string name="cancelar">Cancelar</string>
 
 </resources>

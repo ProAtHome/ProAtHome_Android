@@ -15,9 +15,9 @@
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_diagnostico6.xml" value="0.21574074074074073" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_diagnostico7.xml" value="0.21574074074074073" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_email_password.xml" value="0.21574074074074073" />
-        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_inicio_cliente.xml" value="0.4" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_inicio_cliente.xml" value="0.2523148148148148" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_inicio_profesional.xml" value="0.275" />
-        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_login_profesional.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_login_profesional.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_main.xml" value="0.2490740740740741" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_match_sesion_cliente.xml" value="0.275" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/activity_pasos_activar_cuenta.xml" value="0.24166666666666667" />
@@ -65,7 +65,7 @@
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_material_profesional.xml" value="0.275" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_nueva_sesion.xml" value="0.2324074074074074" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_nuevo_ticket.xml" value="0.275" />
-        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_orden_compra_plan.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_orden_compra_plan.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_pago_pendiente.xml" value="0.275" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_perfil.xml" value="0.275" />
         <entry key="..\:/AndroidStudioProjects/ProAtHome/app/src/main/res/layout/fragment_planes.xml" value="0.275" />

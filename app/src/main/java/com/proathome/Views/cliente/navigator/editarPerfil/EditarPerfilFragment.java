@@ -32,6 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
 import mx.openpay.android.validation.CardValidator;
 
 public class EditarPerfilFragment extends Fragment implements EditarPerfilView {
@@ -49,7 +50,7 @@ public class EditarPerfilFragment extends Fragment implements EditarPerfilView {
     public static TextInputEditText etAño;
     public static TextView tvAviso;
     public static ImageView imgAviso;
-    public static ImageView ivFoto;
+    public static CircleImageView ivFoto;
     public static MaterialCardView cardValoracion;
     public static final int RESULT_OK = -1;
     public int idCliente;
@@ -349,8 +350,9 @@ public class EditarPerfilFragment extends Fragment implements EditarPerfilView {
     }
 
     @Override
-    public void setFotoBitmap(Bitmap bitmap) {
-        ivFoto.setImageBitmap(bitmap);
+    public void setFotoMedia(Bitmap bitmap) {
+        if(bitmap != null && ivFoto != null)
+            ivFoto.setImageBitmap(bitmap);
     }
 
     @Override

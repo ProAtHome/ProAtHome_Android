@@ -19,7 +19,7 @@
             android:background="#D9ECECEC"
             android:padding="10dp">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ivFoto"
                 android:layout_marginTop="60dp"
                 android:gravity="center"
@@ -29,7 +29,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-            </ImageView>
+            </de.hdodenhof.circleimageview.CircleImageView>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFoto"

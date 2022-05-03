@@ -22,6 +22,51 @@
         android:fitsSystemWindows="true"
         app:itemTextAppearance="@style/Titulos"
         app:headerLayout="@layout/nav_header_inicio_cliente"
-        app:menu="@menu/activity_inicio_cliente_drawer" />
+        app:menu="@menu/activity_inicio_cliente_drawer">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/common_padding_default"
+            android:layout_marginBottom="@dimen/common_padding_default"
+            android:layout_marginStart="@dimen/common_padding_min"
+            android:orientation="vertical"
+            android:layout_gravity="bottom">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPersonal"/>
+
+            <TextView
+                android:id="@+id/tv_tyc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="@dimen/common_padding_default"
+                android:text="Terminos y Condiciones"
+                style="@style/Titulos"/>
+
+            <TextView
+                android:id="@+id/tv_contactanos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Contactanos"
+                android:textSize="14sp"
+                style="@style/Titulos"/>
+
+            <TextView
+                android:id="@+id/tv_cerrar_sesion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textSize="14sp"
+                android:text="Cerrar Sesion"
+                style="@style/Titulos"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

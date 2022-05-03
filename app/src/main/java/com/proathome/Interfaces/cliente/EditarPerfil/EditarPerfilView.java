@@ -1,6 +1,8 @@
 package com.proathome.Interfaces.cliente.EditarPerfil;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
+
 import org.json.JSONObject;
 
 public interface EditarPerfilView {
@@ -21,6 +23,6 @@ public interface EditarPerfilView {
 
     void successUpdate(String mensaje);
 
-    void setFotoBitmap(Bitmap bitmap);
+    void setFotoMedia(Bitmap bitmap);
 
 }

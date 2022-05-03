@@ -4,6 +4,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
+
 import org.json.JSONObject;
 
 public interface EditarPerfilPresenter {
@@ -36,7 +38,7 @@ public interface EditarPerfilPresenter {
 
     void getBitmapMedia(Intent data, ContentResolver contentResolver);
 
-    void setFotoBitmap(Bitmap bitmap);
+    void setFotoMedia(Bitmap bitmap);
 
     void getFotoPerfil(String foto);
 

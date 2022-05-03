@@ -41,13 +41,16 @@ public class OrdenCompraPlanInteractorImpl implements OrdenCompraPlanInteractor 
                             ordenCompraPlanPresenter.showProgress();
                             ordenCompraPlanPresenter.btnComprarEnabled(false);
                             /*Vamos a crear un perro y poderoso token de tarjeta*/
-                            Card card = new Card();
-                            card.holderName(nombreTitular);
-                            card.cardNumber(tarjeta);
-                            card.expirationMonth(Integer.parseInt(mes));
-                            card.expirationYear(Integer.parseInt(ano));
-                            card.cvv2(cvv);
-                            pagar(card, idCliente, token, jsonDatosPago);
+                            if(!OrdenCompraPlanFragment.clickComprar){
+                                OrdenCompraPlanFragment.clickComprar = true;
+                                Card card = new Card();
+                                card.holderName(nombreTitular);
+                                card.cardNumber(tarjeta);
+                                card.expirationMonth(Integer.parseInt(mes));
+                                card.expirationYear(Integer.parseInt(ano));
+                                card.cvv2(cvv);
+                                pagar(card, idCliente, token, jsonDatosPago);
+                            }
                         }else
                             ordenCompraPlanPresenter.showError("CVV no válido.");
                     }else
@@ -66,12 +69,16 @@ public class OrdenCompraPlanInteractorImpl implements OrdenCompraPlanInteractor 
             public void onError(OpenpayServiceException e) {
                 ordenCompraPlanPresenter.hideProgress();
                 ordenCompraPlanPresenter.showError(e.toString());
+                OrdenCompraPlanFragment.clickComprar = false;
+                ordenCompraPlanPresenter.btnComprarEnabled(false);
             }
 
             @Override
             public void onCommunicationError(ServiceUnavailableException e) {
                 ordenCompraPlanPresenter.hideProgress();
                 ordenCompraPlanPresenter.showError(e.toString());
+                OrdenCompraPlanFragment.clickComprar = false;
+                ordenCompraPlanPresenter.btnComprarEnabled(false);
             }
 
             @Override
@@ -81,20 +88,27 @@ public class OrdenCompraPlanInteractorImpl implements OrdenCompraPlanInteractor 
                     WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
                         ordenCompraPlanPresenter.hideProgress();
                         if(response != null){
-
-                                Log.d("TAGORDEN", response);
-                                JSONObject jsonObject = new JSONObject(response);
-                                if(jsonObject.getBoolean("respuesta")){
-                                    generarPlan(idCliente, token);
-                                    ordenCompraPlanPresenter.successPlan();
-                                }else
-                                    ordenCompraPlanPresenter.errorPlan(jsonObject.getString("mensaje"));
-                        }else
+                            Log.d("TAGORDEN", response);
+                            JSONObject jsonObject = new JSONObject(response);
+                            if(jsonObject.getBoolean("respuesta")){
+                                generarPlan(idCliente, token);
+                                ordenCompraPlanPresenter.successPlan();
+                            }else{
+                                OrdenCompraPlanFragment.clickComprar = false;
+                                ordenCompraPlanPresenter.btnComprarEnabled(false);
+                                ordenCompraPlanPresenter.errorPlan(jsonObject.getString("mensaje"));
+                            }
+                        }else{
+                            OrdenCompraPlanFragment.clickComprar = false;
+                            ordenCompraPlanPresenter.btnComprarEnabled(false);
                             ordenCompraPlanPresenter.showError("Ocurrio un error, intente de nuevo mas tarde.");
+                        }
                     }, APIEndPoints.COBROS, WebServicesAPI.POST, jsonDatosPago);
                     webServicesAPI.execute();
                 }catch(JSONException ex){
                     ex.printStackTrace();
+                    OrdenCompraPlanFragment.clickComprar = false;
+                    ordenCompraPlanPresenter.btnComprarEnabled(false);
                     ordenCompraPlanPresenter.showError("Ocurrio un error, intente de nuevo mas tarde.");
                 }
             }
@@ -111,6 +125,8 @@ public class OrdenCompraPlanInteractorImpl implements OrdenCompraPlanInteractor 
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
             sesionesPagadas(idCliente, token);
             validarPlan(idCliente, token);
+            OrdenCompraPlanFragment.clickComprar = false;
+            ordenCompraPlanPresenter.btnComprarEnabled(false);
         }, APIEndPoints.GENERAR_PLAN, WebServicesAPI.POST, parametrosPost);
         webServicesAPI.execute();
     }

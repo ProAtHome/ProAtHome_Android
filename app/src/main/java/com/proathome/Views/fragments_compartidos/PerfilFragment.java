@@ -137,7 +137,8 @@ public class PerfilFragment extends DialogFragment implements PerfilView {
 
     @Override
     public void setFoto(Bitmap bitmap) {
-        fotoPerfil.setImageBitmap(bitmap);
+        if(bitmap != null && fotoPerfil != null)
+            fotoPerfil.setImageBitmap(bitmap);
     }
 
     @Override

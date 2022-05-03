@@ -99,18 +99,23 @@ public class ServiciosSesion {
                             registrarServicio(bundle, jsonObject.getString("mensaje"), idCliente, context, cobro, 0.0);
                             //guardarPago(bundle, jsonObject.getString("mensaje"), idCliente, context, cobro, 0.0);
                         else{
+                            PreOrdenServicio.clickComprar = false;
                             progressDialog.dismiss();
                             SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
                         }
                     }catch(JSONException ex){
                         ex.printStackTrace();
+                        PreOrdenServicio.clickComprar = false;
                     }
-                }else
+                }else{
+                    PreOrdenServicio.clickComprar = false;
                     SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrio un error, intente de nuevo mas tarde.", false, null, null);
+                }
             }, APIEndPoints.COBROS, WebServicesAPI.POST, parametrosPost);
             webServicesAPI.execute();
         } catch (JSONException e) {
             e.printStackTrace();
+            PreOrdenServicio.clickComprar = false;
         }
     }
 
@@ -161,19 +166,25 @@ public class ServiciosSesion {
                         NuevaSesionFragment.nuevoMonedero = 0;
 
                         SweetAlert.showMsg(context, SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Servicio registrado exitosamente", true, "¡VAMOS!", ()->{
+                            PreOrdenServicio.clickComprar = false;
                             PreOrdenServicio.dialogFragment.dismiss();
                             NuevaSesionFragment.dialogFragment.dismiss();
                         });
 
                         //actualizarMonedero(data, idCliente, context);
-                    }else
+                    }else{
+                        PreOrdenServicio.clickComprar = false;
                         SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡ERROR!", jsonObject.getString("mensaje"), false, null, null);
-                }else
+                    }
+                }else{
+                    PreOrdenServicio.clickComprar = false;
                     SweetAlert.showMsg(context, SweetAlert.ERROR_TYPE, "¡ERROR!", "Ocurrio un error, intente de nuevo mas tarde.", false, null, null);
+                }
             }, APIEndPoints.REGISTRAR_SERVICIO, WebServicesAPI.POST, jsonObject);
             webServicesAPI.execute();
         } catch (JSONException e) {
             e.printStackTrace();
+            PreOrdenServicio.clickComprar = false;
             Toast.makeText(context, "Ocurrio un error, intenta de nuevo mas tarde", Toast.LENGTH_LONG).show();
         }
     }

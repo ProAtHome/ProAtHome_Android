@@ -87,7 +87,8 @@ public class BuscarSesionFragment extends DialogFragment implements OnMapReadyCa
         if (mMap == null) {
             SupportMapFragment mapFragment = (WorkaroundMapFragment) getActivity()
                     .getSupportFragmentManager().findFragmentById(R.id.map);
-            mapFragment.getMapAsync(this);
+            if(mapFragment != null)
+                mapFragment.getMapAsync(this);
         }
     }
 

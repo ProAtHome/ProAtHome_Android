@@ -6,6 +6,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -94,6 +95,25 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
     @Override
     public void finishActivity() {
         finish();
+    }
+
+    @OnClick({R.id.tv_contactanos, R.id.tv_tyc, R.id.tv_privacidad})
+    public void onClickMenu(View view){
+        Uri uri;
+        switch (view.getId()){
+            case R.id.tv_contactanos:
+                uri = Uri.parse("https://www.proathome.com.mx/ayuda/contacto");
+                startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                break;
+            case R.id.tv_privacidad:
+                uri = Uri.parse("https://www.proathome.com.mx/avisoprivacidad/cliente");
+                startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                break;
+            case R.id.tv_tyc:
+                uri = Uri.parse("https://www.proathome.com.mx/T&C/T&C-Cliente.pdf");
+                startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                break;
+        }
     }
 
     public void tvOlvidePass(){

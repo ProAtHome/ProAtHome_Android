@@ -194,14 +194,19 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
                                 true, "¡VAMOS!", ()->{
                                     nuevaSesionPresenter.finishFragment();
                                 });
-                    }else
+                    }else{
+                        NuevaSesionFragment.clickSolicitar = false;
                         nuevaSesionPresenter.showError(respuesta.getString("mensaje"));
-                }else
+                    }
+                }else{
+                    NuevaSesionFragment.clickSolicitar = false;
                     nuevaSesionPresenter.showError("Ocurrio un error al guardar el servicio, comunica este error al soporte Tecnico.");
+                }
             }, APIEndPoints.REGISTRAR_SERVICIO, WebServicesAPI.POST, jsonObject);
             webServicesAPI.execute();
         } catch (JSONException e) {
             e.printStackTrace();
+            NuevaSesionFragment.clickSolicitar = false;
         }
     }
 
@@ -221,14 +226,19 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
                     JSONObject dataResponse = new JSONObject(response);
                     if(dataResponse.getBoolean("respuesta"))
                         nuevaSesionPresenter.validacionPlanes_Ruta();
-                    else
+                    else{
+                        NuevaSesionFragment.clickSolicitar = false;
                         nuevaSesionPresenter.showError(dataResponse.getString("mensaje"));
-                }else
+                    }
+                }else{
+                    NuevaSesionFragment.clickSolicitar = false;
                     nuevaSesionPresenter.showError("Ocurrio un error al validar el servicio, comunica este error al soporte Tecnico.");
+                }
             }, APIEndPoints.VALIDAR_EMPALMES, WebServicesAPI.POST, data);
             webServicesAPI.execute();
         } catch (JSONException e) {
             e.printStackTrace();
+            NuevaSesionFragment.clickSolicitar = false;
         }
     }
 

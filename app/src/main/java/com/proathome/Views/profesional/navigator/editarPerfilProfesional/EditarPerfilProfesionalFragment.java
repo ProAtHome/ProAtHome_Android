@@ -32,6 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditarPerfilProfesionalFragment extends Fragment implements EditarPerfilView {
 
@@ -47,7 +48,7 @@ public class EditarPerfilProfesionalFragment extends Fragment implements EditarP
     public static TextInputEditText etTitular;
     public static TextView tvAviso;
     public static ImageView imgAviso;
-    public static ImageView ivFoto;
+    public static CircleImageView ivFoto;
     public static MaterialCardView cardValoracion;
     private static final int PICK_IMAGE = 100;
     public static final int RESULT_OK = -1;
@@ -308,7 +309,8 @@ public class EditarPerfilProfesionalFragment extends Fragment implements EditarP
 
     @Override
     public void setFotoBitmap(Bitmap bitmap) {
-        ivFoto.setImageBitmap(bitmap);
+        if(bitmap != null && ivFoto != null)
+            ivFoto.setImageBitmap(bitmap);
     }
 
     @Override

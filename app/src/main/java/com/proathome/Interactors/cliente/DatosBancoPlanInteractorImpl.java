@@ -37,6 +37,7 @@ public class DatosBancoPlanInteractorImpl implements DatosBancoPlanInteractor {
                 if(CardValidator.validateNumber(tarjeta)){
                     if(CardValidator.validateExpiryDate(Integer.parseInt(mes), Integer.parseInt(ano))){
                         if(CardValidator.validateCVV(cvv,tarjeta)){
+                            DatosBancoPlanFragment.clickComprar = true;
                             /*Vamos a crear un perro y poderoso token de tarjeta*/
                             if(procedencia == DatosBancoPlanFragment.PROCEDENCIA_PAGO_PENDIENTE){
                                 datosBancoPlanPresenter.setEstatusButtonValidarDatos(false);
@@ -54,22 +55,27 @@ public class DatosBancoPlanInteractorImpl implements DatosBancoPlanInteractor {
                                 datosBancoPlanPresenter.cerrarFragment();
                             }
                         }else{
+                            DatosBancoPlanFragment.clickComprar = false;
                             datosBancoPlanPresenter.showError("CVV no válido.");
                             datosBancoPlanPresenter.setEstatusButtonValidarDatos(true);
                         }
                     }else{
+                        DatosBancoPlanFragment.clickComprar = false;
                         datosBancoPlanPresenter.showError("Fecha de expiración no válida.");
                         datosBancoPlanPresenter.setEstatusButtonValidarDatos(true);
                     }
                 }else{
+                    DatosBancoPlanFragment.clickComprar = false;
                     datosBancoPlanPresenter.showError("Tarjeta no válida.");
                     datosBancoPlanPresenter.setEstatusButtonValidarDatos(true);
                 }
             }else{
+                DatosBancoPlanFragment.clickComprar = false;
                 datosBancoPlanPresenter.showError("Nombre del titular no válido.");
                 datosBancoPlanPresenter.setEstatusButtonValidarDatos(true);
             }
         }else {
+            DatosBancoPlanFragment.clickComprar = false;
             datosBancoPlanPresenter.showError("Llena todos los campos correctamente.");
             datosBancoPlanPresenter.setEstatusButtonValidarDatos(true);
         }

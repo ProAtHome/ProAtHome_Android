@@ -36,6 +36,118 @@
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
                         style="@style/Titulos"/>
 
+                    <LinearLayout
+                        android:id="@+id/linearIconosCredito"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/common_padding_default"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvAyuda"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tarjetas de crédito:"
+                            style="@style/Textos"/>
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="@dimen/common_padding_min"
+                            android:src="@drawable/mastercard"/>
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="@dimen/common_padding_min"
+                            android:src="@drawable/visa"/>
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="@dimen/common_padding_min"
+                            android:src="@drawable/americanexpress"/>
+
+                        <ImageView
+                            android:layout_width="70dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/carnet"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearIconosDebito"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/common_padding_min"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/linearIconosCredito"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tarjetas de débito:"
+                            style="@style/Textos"/>
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="@dimen/common_padding_min"
+                            android:src="@drawable/hsbc"/>
+
+                        <ImageView
+                            android:layout_width="45dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/scotiabank"/>
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/citibanamex"/>
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/bancoazteca"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearIconosDebito2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/linearIconosDebito">
+
+                        <ImageView
+                            android:layout_width="45dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/inbursa"/>
+
+                        <ImageView
+                            android:layout_width="45dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="@dimen/common_padding_min"
+                            android:src="@drawable/ixe"/>
+
+                        <ImageView
+                            android:layout_width="55dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/santander"/>
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/bbva"/>
+
+                    </LinearLayout>
+
                     <TextView
                         android:id="@+id/tvMetodoRegistrado"
                         android:layout_width="match_parent"
@@ -43,7 +155,7 @@
                         android:layout_marginTop="20dp"
                         android:text="Método registrado:"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvAyuda"
+                        app:layout_constraintTop_toBottomOf="@id/linearIconosDebito2"
                         style="@style/Textos"/>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -168,7 +280,6 @@
                         android:backgroundTint="@color/colorAzul"
                         android:text="VALIDAR"
                         android:fontFamily="@font/din"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tilCvv" />
 
@@ -183,6 +294,29 @@
                         android:fontFamily="@font/din"
                         app:layout_constraintStart_toEndOf="@id/validarDatos"
                         app:layout_constraintTop_toBottomOf="@id/tilCvv"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/validarDatos">
+
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/darker_gray"
+                            android:text="Todas las transacciones serán efectuadas por Openpay:"
+                            style="@style/Textos"/>
+
+                        <ImageView
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_marginStart="@dimen/common_padding_min"
+                            android:src="@drawable/openpay_color"/>
+
+                    </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

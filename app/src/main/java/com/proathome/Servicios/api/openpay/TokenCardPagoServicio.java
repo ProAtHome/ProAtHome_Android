@@ -11,6 +11,8 @@ import com.proathome.Utils.NetworkValidate;
 import com.proathome.Views.cliente.fragments.NuevaSesionFragment;
 import com.proathome.Utils.Constants;
 import com.proathome.Utils.SweetAlert;
+import com.proathome.Views.cliente.fragments.PreOrdenServicio;
+
 import mx.openpay.android.OperationCallBack;
 import mx.openpay.android.OperationResult;
 import mx.openpay.android.exceptions.OpenpayServiceException;
@@ -57,12 +59,14 @@ public class TokenCardPagoServicio extends AsyncTask<Void, Void, String> {
             public void onError(OpenpayServiceException e) {
                 SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", e.getMessage(), false, null, null);
                 progressDialog.dismiss();
+                PreOrdenServicio.clickComprar = false;
             }
 
             @Override
             public void onCommunicationError(ServiceUnavailableException e) {
                 SweetAlert.showMsg(contexto, SweetAlert.ERROR_TYPE, "¡ERROR!", e.getMessage(), false, null, null);
                 progressDialog.dismiss();
+                PreOrdenServicio.clickComprar = false;
             }
 
             @Override
@@ -74,8 +78,10 @@ public class TokenCardPagoServicio extends AsyncTask<Void, Void, String> {
                             bundle.getDouble("costoTotal"), "Cargo ProAtHome - " + bundle.getString("sesion"),
                             bundle.getString("deviceID"), idCliente, bundle, contexto);
 
-                }else
+                }else{
+                    PreOrdenServicio.clickComprar = false;
                     Toast.makeText(contexto, "No tienes conexión a Intenet o es muy inestable", Toast.LENGTH_LONG).show();
+                }
 
                 progressDialog.dismiss();
             }

@@ -32,6 +32,7 @@ public class PreOrdenServicio extends DialogFragment implements PreOrdenServicio
     public static DialogFragment dialogFragment;
     private PreOrdenServicioPresenter preOrdenServicioPresenter;
     private Unbinder mUnbinder;
+    public static boolean clickComprar = false;
 
     @BindView(R.id.etTitular)
     TextInputEditText etNombreTitular;
@@ -56,6 +57,7 @@ public class PreOrdenServicio extends DialogFragment implements PreOrdenServicio
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_AppCompat_DayNight_Dialog_Alert);
         deviceID = Constants.openpay.getDeviceCollectorDefaultImpl().setup(getActivity());
         dialogFragment = this;
         preOrdenServicioPresenter = new PreOrdenServicioPresenterImpl(this);
@@ -86,6 +88,12 @@ public class PreOrdenServicio extends DialogFragment implements PreOrdenServicio
         return view;
     }
 
+    @OnClick(R.id.btnCancelar)
+    public void onClickCancelar(){
+        NuevaSesionFragment.clickSolicitar = false;
+        dismiss();
+    }
+
     @OnClick(R.id.validar)
     public void onClick(){
         /*Checamos los campos de la perra tarjeta*/
@@ -96,12 +104,15 @@ public class PreOrdenServicio extends DialogFragment implements PreOrdenServicio
                     if(CardValidator.validateExpiryDate(Integer.parseInt(etMes.getText().toString()), Integer.parseInt(etAno.getText().toString()))){
                         if(CardValidator.validateCVV(etCVV.getText().toString(), etTarjeta.getText().toString())){
                             /*Vamos a crear un perro y poderoso token de tarjeta*/
-                            bundle.putDouble("costoTotal", TabuladorCosto.getCosto(this.idSeccion, this.tiempoPasar, TabuladorCosto.PARTICULAR));
-                            bundle.putString("deviceID", deviceID);
-                            bundle.putString("sesion", sesion);
-                            preOrdenServicioPresenter.pagar(getContext(), etNombreTitular.getText().toString(),
-                                    etTarjeta.getText().toString(), Integer.parseInt(etMes.getText().toString()), Integer.parseInt(etAno.getText().toString()),
-                                    etCVV.getText().toString(), NuevaSesionFragment.idCliente, bundle);
+                            if(!PreOrdenServicio.clickComprar){
+                                PreOrdenServicio.clickComprar = true;
+                                bundle.putDouble("costoTotal", TabuladorCosto.getCosto(this.idSeccion, this.tiempoPasar, TabuladorCosto.PARTICULAR));
+                                bundle.putString("deviceID", deviceID);
+                                bundle.putString("sesion", sesion);
+                                preOrdenServicioPresenter.pagar(getContext(), etNombreTitular.getText().toString(),
+                                        etTarjeta.getText().toString(), Integer.parseInt(etMes.getText().toString()), Integer.parseInt(etAno.getText().toString()),
+                                        etCVV.getText().toString(), NuevaSesionFragment.idCliente, bundle);
+                            }
                         }else
                             SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "CVV no válido.", false, null, null);
                     }else

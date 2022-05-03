@@ -133,4 +133,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvOlvideContraPro"/>
 
+    <TextView
+        android:id="@+id/tv_contactanos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contactanos"
+        android:textSize="14sp"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="@dimen/common_padding_default"
+        android:layout_marginStart="@dimen/common_padding_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/Titulos"/>
+
+    <TextView
+        android:id="@+id/tv_tyc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="@dimen/common_padding_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Terminos y Condiciones"
+        style="@style/Titulos"/>
+
+    <TextView
+        android:id="@+id/tv_privacidad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="@dimen/common_padding_default"
+        android:layout_marginEnd="@dimen/common_padding_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Privacidad"
+        style="@style/Titulos"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

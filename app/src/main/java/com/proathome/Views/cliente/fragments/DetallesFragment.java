@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -46,6 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DetallesFragment extends Fragment implements OnMapReadyCallback, DetallesView {
 
@@ -59,7 +59,7 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback, De
             idNivel = 0, idBloque = 0;
     /*VARIABLE DE EXISTENCIA DE DATOS - BANCO*/
     public static boolean banco, procedenciaFin = false;
-    public static ImageView fotoPerfil;
+    public static CircleImageView fotoPerfil;
     public static Context contexto;
     public static Fragment detallesFragment;
     public static MaterialButton iniciar;
@@ -331,7 +331,8 @@ public class DetallesFragment extends Fragment implements OnMapReadyCallback, De
 
     @Override
     public void setFotoBitmap(Bitmap bitmap) {
-        fotoPerfil.setImageBitmap(bitmap);
+        if(bitmap != null && fotoPerfil != null)
+            fotoPerfil.setImageBitmap(bitmap);
     }
 
     @Override

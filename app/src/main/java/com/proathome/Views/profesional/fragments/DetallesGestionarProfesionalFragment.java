@@ -43,6 +43,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DetallesGestionarProfesionalFragment extends Fragment implements OnMapReadyCallback, DetallesGestionarView {
 
@@ -50,7 +51,7 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
     public static final int GESTION_PROFESIONAL = 5;
     private Unbinder mUnbinder;
     private static ComponentProfesional mInstance;
-    public static ImageView fotoPerfil;
+    public static CircleImageView fotoPerfil;
     private int idSesion, tiempoPasar = 0, idCliente, idProfesional;
     private NestedScrollView mScrollView;
     private GoogleMap mMap;
@@ -218,7 +219,8 @@ public class DetallesGestionarProfesionalFragment extends Fragment implements On
 
     @Override
     public void setFotoBitmap(Bitmap bitmap) {
-        fotoPerfil.setImageBitmap(bitmap);
+        if(bitmap != null && fotoPerfil != null)
+            fotoPerfil.setImageBitmap(bitmap);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.proathome.Views.cliente;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -19,18 +20,18 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class InicioCliente extends AppCompatActivity implements InicioView {
 
     private AppBarConfiguration mAppBarConfiguration;
-    public static TextView correoTV, nombreTV, tipoPlan, monedero;
-    private ImageView fotoPerfil;
+    public static TextView correoTV, nombreTV, tipoPlan, monedero, tvCerrarSesion,
+                            tvTerminosCondiciones, tvContacto;
+    private CircleImageView fotoPerfil;
     public static String planActivo;
     public static AppCompatActivity appCompatActivity;
     private InicioPresenter inicioPresenter;
@@ -54,14 +55,33 @@ public class InicioCliente extends AppCompatActivity implements InicioView {
         tipoPlan = view.findViewById(R.id.tipoPlan);
         monedero = view.findViewById(R.id.monedero);
         fotoPerfil = view.findViewById(R.id.fotoIV);
+        tvCerrarSesion = navigationView.findViewById(R.id.tv_cerrar_sesion);
+        tvTerminosCondiciones = navigationView.findViewById(R.id.tv_tyc);
+        tvContacto = navigationView.findViewById(R.id.tv_contactanos);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_inicio, R.id.nav_editarPerfil, R.id.nav_sesiones,
-                R.id.nav_ruta, R.id.nav_cerrarSesion, R.id.nav_ayuda, R.id.nav_privacidad)
+                R.id.nav_ruta, R.id.nav_ayuda, R.id.nav_privacidad)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        tvCerrarSesion.setOnClickListener(view1 -> {
+            SharedPreferencesManager.getInstance(this).logout();
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        });
+
+        tvContacto.setOnClickListener(view1 -> {
+            Uri uri = Uri.parse("https://www.proathome.com.mx/ayuda/contacto");
+            startActivity(new Intent(Intent.ACTION_VIEW, uri));
+        });
+
+        tvTerminosCondiciones.setOnClickListener(view1 -> {
+            Uri uri = Uri.parse("https://www.proathome.com.mx/T&C/T&C-Cliente.pdf");
+            startActivity(new Intent(Intent.ACTION_VIEW, uri));
+        });
 
         /*TODO FLUJO_PLANES: Verificar si el perfil debe ser Bloqueado o no.
             ->Si no está bloqueado entonces obtenemos el PLAN ACTUAL y el Monedero.
@@ -147,15 +167,10 @@ public class InicioCliente extends AppCompatActivity implements InicioView {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
 
-    public void cerrarSesion(View view){
-        SharedPreferencesManager.getInstance(this).logout();
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
-    }
-
     @Override
     public void setFoto(Bitmap bitmap) {
-        fotoPerfil.setImageBitmap(bitmap);
+        if(bitmap != null && fotoPerfil != null)
+            fotoPerfil.setImageBitmap(bitmap);
     }
 
     @Override

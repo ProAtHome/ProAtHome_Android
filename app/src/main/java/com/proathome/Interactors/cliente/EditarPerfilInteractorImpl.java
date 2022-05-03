@@ -70,6 +70,7 @@ public class EditarPerfilInteractorImpl implements EditarPerfilInteractor {
     public void getDatosPerfil(int idCliente, String token) {
         editarPerfilPresenter.showProgress();
         WebServicesAPI webServicesAPI = new WebServicesAPI(response -> {
+            editarPerfilPresenter.hideProgress();
             if(response != null){
                 if(!response.equals("null")){
                     JSONObject jsonObject = new JSONObject(response);
@@ -147,6 +148,7 @@ public class EditarPerfilInteractorImpl implements EditarPerfilInteractor {
         uploadImage(context, idCliente);
     }
 
+
     @Override
     public void getBitmapMedia(Intent data, ContentResolver contentResolver) {
         Uri filePath = data.getData();
@@ -154,7 +156,7 @@ public class EditarPerfilInteractorImpl implements EditarPerfilInteractor {
             //Cómo obtener el mapa de bits de la Galería
             bitmap = MediaStore.Images.Media.getBitmap(contentResolver, filePath);
             //Configuración del mapa de bits en ImageView
-            editarPerfilPresenter.setFotoBitmap(bitmap);
+            editarPerfilPresenter.setFotoMedia(bitmap);
         } catch (IOException e) {
             e.printStackTrace();
             editarPerfilPresenter.showError("Error del servidor, intente ingresar más tarde.");
@@ -166,7 +168,7 @@ public class EditarPerfilInteractorImpl implements EditarPerfilInteractor {
         WebServiceAPIAssets webServiceAPIAssets = new WebServiceAPIAssets(response ->{
             editarPerfilPresenter.hideProgress();
             if(response != null)
-                editarPerfilPresenter.setFotoBitmap(response);
+                editarPerfilPresenter.setFotoMedia(response);
             else
                 editarPerfilPresenter.showError("Error del servidor, intente ingresar más tarde.");
         }, APIEndPoints.FOTO_PERFIL, foto);

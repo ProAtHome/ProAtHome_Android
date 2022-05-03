@@ -34,7 +34,7 @@ public class ServicioCliente extends AppCompatActivity implements ServicioClient
     private int idSesion = 0, idCliente = 0;
     public static CountDownTimer countDownTimer;
     public static boolean mTimerRunning, sumar, encurso = true, enpausa = true, inicio = true,
-            terminado = true, encurso_TE = true, enpausa_TE = true, inicio_TE = true, terminado_TE = true;
+            terminado = true, encurso_TE = true, enpausa_TE = true, inicio_TE = true, terminado_TE = true, enCompra = false;
     public static long mTimeLeftMillis = 0;
     public static TextView temporizador;
     public static Timer timer;

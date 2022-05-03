@@ -202,7 +202,8 @@ public class ServicioSesionDisponible extends AsyncTask<Void, Void, String> {
                                     }
                                 }
                             }else{
-                                Constants.fragmentActivity.finish();
+                                if(!ServicioCliente.enCompra)
+                                    Constants.fragmentActivity.finish();
                             }
                         }
 

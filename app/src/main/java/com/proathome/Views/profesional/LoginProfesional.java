@@ -3,6 +3,7 @@ package com.proathome.Views.profesional;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -48,6 +49,25 @@ public class LoginProfesional extends AppCompatActivity implements LoginProfesio
         mUnbinder = ButterKnife.bind(this);
 
         loginProfesionalPresenter = new LoginProfesionalPresenterImpl(this);
+    }
+
+    @OnClick({R.id.tv_contactanos, R.id.tv_tyc, R.id.tv_privacidad})
+    public void onClickMenu(View view){
+        Uri uri;
+        switch (view.getId()){
+            case R.id.tv_contactanos:
+                uri = Uri.parse("https://www.proathome.com.mx/ayuda/contacto");
+                startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                break;
+            case R.id.tv_privacidad:
+                uri = Uri.parse("https://www.proathome.com.mx/avisoprivacidad/profesional");
+                startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                break;
+            case R.id.tv_tyc:
+                uri = Uri.parse("https://www.proathome.com.mx/T&C/T&C-Profesional.pdf");
+                startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                break;
+        }
     }
 
     @OnClick(R.id.tvOlvideContraPro)

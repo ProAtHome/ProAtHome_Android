@@ -53,6 +53,7 @@ public class DatosBancoPlanFragment extends DialogFragment implements DatosBanco
     public static double costoTotal, deuda;
     public static final int PROCEDENCIA_PAGO_PLAN = 1, PROCEDENCIA_PAGO_PENDIENTE = 2;
     public String deviceId;
+    public static boolean clickComprar = false;
 
     public DatosBancoPlanFragment() {
     }
@@ -108,7 +109,7 @@ public class DatosBancoPlanFragment extends DialogFragment implements DatosBanco
 
     @OnClick(R.id.validarDatos)
     public void onClick(){
-        validarDatos.setEnabled(false);
+        //validarDatos.setEnabled(false);
         /*Checamos los campos de la perra tarjeta*/
         try {
             DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
@@ -121,9 +122,11 @@ public class DatosBancoPlanFragment extends DialogFragment implements DatosBanco
             parametrosPost.put("descripcion", descripcion);
             parametrosPost.put("deviceId", deviceId);
             if(NetworkValidate.validate(getContext())){
-                datosBancoPlanPresenter.validarDatos(etNombreTitular.getText().toString(), etTarjeta.getText().toString(),
-                        etMes.getText().toString(), etAno.getText().toString(), etCVV.getText().toString(), procedencia, getContext(),
-                        parametrosPost, idSesion);
+                if(!DatosBancoPlanFragment.clickComprar){
+                    datosBancoPlanPresenter.validarDatos(etNombreTitular.getText().toString(), etTarjeta.getText().toString(),
+                            etMes.getText().toString(), etAno.getText().toString(), etCVV.getText().toString(), procedencia, getContext(),
+                            parametrosPost, idSesion);
+                }
             }else
                 Toast.makeText(getContext(), "No tienes conexión a Intenet o es muy inestable", Toast.LENGTH_LONG).show();
         }catch (JSONException e){
@@ -148,7 +151,7 @@ public class DatosBancoPlanFragment extends DialogFragment implements DatosBanco
 
     @Override
     public void setEstatusButtonValidarDatos(boolean estatus) {
-        validarDatos.setEnabled(false);
+        validarDatos.setEnabled(estatus);
     }
 
     @Override
@@ -171,6 +174,7 @@ public class DatosBancoPlanFragment extends DialogFragment implements DatosBanco
             progressDialog.dismiss();
             progressDialog = null;
         }
+        DatosBancoPlanFragment.clickComprar = false;
         mUnbinder.unbind();
     }
 

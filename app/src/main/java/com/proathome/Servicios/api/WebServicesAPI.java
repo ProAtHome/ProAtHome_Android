@@ -43,7 +43,7 @@ public class WebServicesAPI extends AsyncTask<Void, Void, String> {
         try {
             System.out.println(this.urlApi);
             URL url = new URL(this.urlApi);
-            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             //DEFINIR PARAMETROS DE CONEXION
             urlConnection.setReadTimeout(15000);

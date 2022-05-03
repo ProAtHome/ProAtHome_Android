@@ -128,9 +128,10 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (mMap == null) {
-             mapFragment = (SupportMapFragment) getActivity()
+                mapFragment = (WorkaroundMapFragment) getActivity()
                     .getSupportFragmentManager().findFragmentById(R.id.mapNueva);
-            mapFragment.getMapAsync(this);
+             if(mapFragment != null)
+                mapFragment.getMapAsync(this);
         }
     }
 
