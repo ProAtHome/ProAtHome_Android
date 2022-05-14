@@ -223,13 +223,128 @@
 
             </TextView>
 
+            <LinearLayout
+                android:id="@+id/linearIconosCredito"
+                android:visibility="invisible"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_padding_min"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvInfoBancaria">
+
+                <TextView
+                    style="@style/Textos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Tarjetas de crédito:" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="@dimen/common_padding_min"
+                    android:src="@drawable/mastercard" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="@dimen/common_padding_min"
+                    android:src="@drawable/visa" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="@dimen/common_padding_min"
+                    android:src="@drawable/americanexpress" />
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/carnet" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearIconosDebito"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_marginTop="@dimen/common_padding_min"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linearIconosCredito">
+
+                <TextView
+                    style="@style/Textos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Tarjetas de débito:" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="@dimen/common_padding_min"
+                    android:src="@drawable/hsbc" />
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/scotiabank" />
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/citibanamex" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/bancoazteca" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearIconosDebito2"
+                android:visibility="invisible"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linearIconosDebito">
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/inbursa" />
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="@dimen/common_padding_min"
+                    android:src="@drawable/ixe" />
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/santander" />
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/bbva" />
+
+            </LinearLayout>
+
             <TextView
                 android:visibility="invisible"
                 android:id="@+id/tvNombreTitular"
                 android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintTop_toBottomOf="@id/tvInfoBancaria"
+                app:layout_constraintTop_toBottomOf="@id/linearIconosDebito2"
                 android:text="Nombre del titular:"
                 style="@style/Textos">
 

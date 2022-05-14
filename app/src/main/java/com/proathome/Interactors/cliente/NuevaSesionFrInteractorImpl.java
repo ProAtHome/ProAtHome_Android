@@ -179,6 +179,7 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
                 if(response != null){
                     JSONObject respuesta = new JSONObject(response);
                     if(respuesta.getBoolean("respuesta")){
+
                         JSONObject responseOneProvisional = respuesta.getJSONObject("mensaje");
                         JSONObject body = responseOneProvisional.getJSONObject("mensaje");
                         SesionesFragment.PLAN =  body.getString("tipoPlan");
@@ -193,6 +194,7 @@ public class NuevaSesionFrInteractorImpl implements NuevaSesionInteractor {
                         SweetAlert.showMsg(context, SweetAlert.SUCCESS_TYPE, "¡GENIAL!", "Servicio registrado exitosamente",
                                 true, "¡VAMOS!", ()->{
                                     nuevaSesionPresenter.finishFragment();
+                                    NuevaSesionFragment.clickSolicitar = false;
                                 });
                     }else{
                         NuevaSesionFragment.clickSolicitar = false;

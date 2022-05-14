@@ -240,6 +240,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                                 extras, tipo.getSelectedItem().toString(), latitud, longitud, strDate, fechaET.getText().toString(), true,
                                 SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
                     } else {
+                        NuevaSesionFragment.clickSolicitar = false;
                         String mensaje = null;
                         if(SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR_PLAN"))
                             mensaje = "Elige un tiempo de servicio a corde a tus horas disponibles agregadas a tu perfil.";
@@ -250,8 +251,10 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                     }
                 }
 
-            } else
+            } else{
+                NuevaSesionFragment.clickSolicitar = false;
                 SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡ERROR!", "Elige un tiempo de servicio a corde a el tiempo faltante del bloque en curso.", false, null, null);
+            }
         } else {
             /*TODO FLUJO_EJECUTAR_PLAN: Validaciones correspondientes en el FragmentNuevaSesion
                 (Verificar que el tiempo sea acorde a las horas diponibles si hay PLAN activo)
@@ -270,6 +273,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                             niveles.getSelectedItemPosition() + 1, bloques.getSelectedItemPosition() + 1, extras, tipo.getSelectedItem().toString(),
                             latitud, longitud, strDate, fechaET.getText().toString(), false, SesionesFragment.PLAN, Integer.parseInt(personas.getSelectedItem().toString()));
                 } else {
+                    NuevaSesionFragment.clickSolicitar = false;
                     String mensaje = null;
                     if(SesionesFragment.PLAN.equalsIgnoreCase("PARTICULAR_PLAN"))
                         mensaje = "Finaliza los servicios que compraste con tu monedero para seguir comprando.";
@@ -433,8 +437,8 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
                 if(banco){
                     //VALIDAR HORA Y FECHA DEL SERVICIO
                     if(!clickSolicitar){
-                        nuevaSesionPresenter.validarEmpalme(SharedPreferencesManager.getInstance(getContext()).getIDCliente(), fechaET.getText().toString(), horarioET.getText().toString());
                         clickSolicitar = true;
+                        nuevaSesionPresenter.validarEmpalme(SharedPreferencesManager.getInstance(getContext()).getIDCliente(), fechaET.getText().toString(), horarioET.getText().toString());
                     }
                 } else
                     SweetAlert.showMsg(getContext(), SweetAlert.ERROR_TYPE, "¡AVISO!","Sin datos bancarios.", false, null, null);
@@ -852,6 +856,7 @@ public class NuevaSesionFragment extends DialogFragment implements OnMapReadyCal
             progressDialog = null;
         }
 
+        NuevaSesionFragment.clickSolicitar = false;
         SesionesFragment.click = false;
 
         Fragment fragment = (getFragmentManager().findFragmentById(R.id.mapNueva));

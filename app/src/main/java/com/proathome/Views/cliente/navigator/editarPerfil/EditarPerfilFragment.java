@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -89,6 +90,12 @@ public class EditarPerfilFragment extends Fragment implements EditarPerfilView {
     Button btnActualizarInfoBancaria;
     @BindView(R.id.btnActualizarFiscales)
     MaterialButton btnActualizarFiscales;
+    @BindView(R.id.linearIconosCredito)
+    LinearLayout linearIconosCredito;
+    @BindView(R.id.linearIconosDebito)
+    LinearLayout linearIconosDebito;
+    @BindView(R.id.linearIconosDebito2)
+    LinearLayout linearIconosDebito2;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_editar_perfil, container, false);
@@ -115,6 +122,9 @@ public class EditarPerfilFragment extends Fragment implements EditarPerfilView {
                     tvDesc.setVisibility(View.VISIBLE);
                     etDesc.setVisibility(View.VISIBLE);
                     btnActualizarInfo.setVisibility(View.VISIBLE);
+                    linearIconosCredito.setVisibility(View.INVISIBLE);
+                    linearIconosDebito.setVisibility(View.INVISIBLE);
+                    linearIconosDebito2.setVisibility(View.INVISIBLE);
                     tvNombreTitular.setVisibility(View.INVISIBLE);
                     tvTarjeta.setVisibility(View.INVISIBLE);
                     etAño.setVisibility(View.INVISIBLE);
@@ -142,6 +152,9 @@ public class EditarPerfilFragment extends Fragment implements EditarPerfilView {
                     tvDesc.setVisibility(View.INVISIBLE);
                     etDesc.setVisibility(View.INVISIBLE);
                     btnActualizarInfo.setVisibility(View.INVISIBLE);
+                    linearIconosCredito.setVisibility(View.VISIBLE);
+                    linearIconosDebito.setVisibility(View.VISIBLE);
+                    linearIconosDebito2.setVisibility(View.VISIBLE);
                     tvNombreTitular.setVisibility(View.VISIBLE);
                     tvTarjeta.setVisibility(View.VISIBLE);
                     etAño.setVisibility(View.VISIBLE);

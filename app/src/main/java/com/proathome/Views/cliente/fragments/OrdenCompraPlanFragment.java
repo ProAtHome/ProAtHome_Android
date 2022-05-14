@@ -245,6 +245,7 @@ public class OrdenCompraPlanFragment extends DialogFragment implements OrdenComp
             progressDialog.dismiss();
             progressDialog = null;
         }
+        OrdenCompraPlanFragment.clickComprar = false;
         mUnbinder.unbind();
     }
 

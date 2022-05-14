@@ -15,7 +15,6 @@
             <option value="$PROJECT_DIR$/openpay-v2.0.3" />
           </set>
         </option>
-        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
